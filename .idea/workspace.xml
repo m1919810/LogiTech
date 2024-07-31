@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="feat: huge progress" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="WARN_ABOUT_CRLF" value="false" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2ibqG9JCaey2DPG6IZvIt6SNdo4" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven.SlimefunAddon [install].executor": "Run",
+    "Maven.TestAddon [install].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Shell Script.Unnamed.executor": "Run",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Intellij_Idea/workspace/LogiTech-master",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "project.propVCSSupport.CommitDialog",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="me.matl114.slimefunaddon.Utils" />
+      <recent name="me.matl114.slimefunaddon.Utils.UtilClass" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="SlimefunAddonTemplate" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="SlimefunAddonTemplate" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Unnamed" type="ShConfigurationType" nameIsGenerated="true">
+      <option name="SCRIPT_TEXT" value=".\startServer.bat" />
+      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
+      <option name="SCRIPT_PATH" value="" />
+      <option name="SCRIPT_OPTIONS" value="" />
+      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
+      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+      <option name="INTERPRETER_PATH" value="powershell.exe" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="EXECUTE_IN_TERMINAL" value="true" />
+      <option name="EXECUTE_SCRIPT_FILE" value="false" />
+      <envs />
+      <method v="2">
+        <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="install" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="" />
+      <created>1719769525187</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1719769525187</updated>
+      <workItem from="1719769526296" duration="10046000" />
+      <workItem from="1719838662059" duration="26866000" />
+      <workItem from="1719867025266" duration="55000" />
+      <workItem from="1719922217499" duration="18530000" />
+      <workItem from="1719941626167" duration="3153000" />
+      <workItem from="1720010454255" duration="17485000" />
+      <workItem from="1720097073049" duration="22516000" />
+      <workItem from="1720181947586" duration="47284000" />
+      <workItem from="1720530628594" duration="14606000" />
+      <workItem from="1720596598629" duration="1408000" />
+      <workItem from="1720624260999" duration="110000" />
+      <workItem from="1720751033700" duration="595000" />
+      <workItem from="1720796721561" duration="87642000" />
+      <workItem from="1720982881074" duration="470000" />
+      <workItem from="1720983450551" duration="8869000" />
+      <workItem from="1721045495608" duration="63203000" />
+      <workItem from="1721242877627" duration="1166000" />
+      <workItem from="1721244052582" duration="9306000" />
+      <workItem from="1721306952939" duration="29558000" />
+      <workItem from="1721378308140" duration="93320000" />
+      <workItem from="1721639280004" duration="2883000" />
+      <workItem from="1722021005305" duration="14540000" />
+      <workItem from="1722087793850" duration="82990000" />
+      <workItem from="1722354990879" duration="5703000" />
+      <workItem from="1722449857257" duration="50000" />
+      <workItem from="1722449916270" duration="136000" />
+    </task>
+    <task id="LOCAL-00001" summary="init">
+      <option name="closed" value="true" />
+      <created>1719797339682</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1719797339682</updated>
+    </task>
+    <task id="LOCAL-00002" summary="init2">
+      <option name="closed" value="true" />
+      <created>1719838887730</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1719838887730</updated>
+    </task>
+    <task id="LOCAL-00003" summary="init3">
+      <option name="closed" value="true" />
+      <created>1719839082342</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1719839082342</updated>
+    </task>
+    <task id="LOCAL-00004" summary="init3">
+      <option name="closed" value="true" />
+      <created>1719839225695</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1719839225695</updated>
+    </task>
+    <task id="LOCAL-00005" summary="init3">
+      <option name="closed" value="true" />
+      <created>1719866401220</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1719866401220</updated>
+    </task>
+    <task id="LOCAL-00006" summary="init4">
+      <option name="closed" value="true" />
+      <created>1719866413403</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1719866413403</updated>
+    </task>
+    <task id="LOCAL-00007" summary="init5 complete basic electric machine using sf templates">
+      <option name="closed" value="true" />
+      <created>1719941913546</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1719941913546</updated>
+    </task>
+    <task id="LOCAL-00008" summary="init6 refactor utils">
+      <option name="closed" value="true" />
+      <created>1719943334411</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1719943334411</updated>
+    </task>
+    <task id="LOCAL-00009" summary="init6 refactor utils">
+      <option name="closed" value="true" />
+      <created>1719945281503</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1719945281503</updated>
+    </task>
+    <task id="LOCAL-00010" summary="init7 rebuild code of SMG&#10;making huge work(nop">
+      <option name="closed" value="true" />
+      <created>1720126074082</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1720126074082</updated>
+    </task>
+    <task id="LOCAL-00011" summary="bugfix: SMG,better performance">
+      <option name="closed" value="true" />
+      <created>1720185370503</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1720185370503</updated>
+    </task>
+    <task id="LOCAL-00012" summary="feat: huge rebuild of AbstractMachines ,Crafting method and a framework to adapt later crafting method. better performances">
+      <option name="closed" value="true" />
+      <created>1720884527489</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1720884527489</updated>
+    </task>
+    <task id="LOCAL-00013" summary="feat: huge progress in manualCrafter,AbstractAdvanceProcessor and so on, rebuild some method in CraftUtils rebuild ItemCounter system">
+      <option name="closed" value="true" />
+      <created>1721065516650</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1721065516650</updated>
+    </task>
+    <task id="LOCAL-00014" summary="feat: huge progress in AdvanceCrafter AdvancedRecipeCrafter,rebuild something, rebuild some method in CraftUtils rebuild ItemCounter system">
+      <option name="closed" value="true" />
+      <created>1721183582804</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1721183582804</updated>
+    </task>
+    <task id="LOCAL-00015" summary="feat: huge progress">
+      <option name="closed" value="true" />
+      <created>1721538231073</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1721538231073</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="0f3b2fcf-898b-470c-af6c-29549467769e" value="TOOL_WINDOW" />
+        <entry key="2e1aba4f-e880-4a45-8722-ac3f2c86651a" value="TOOL_WINDOW" />
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="0f3b2fcf-898b-470c-af6c-29549467769e">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+            </State>
+          </value>
+        </entry>
+        <entry key="2e1aba4f-e880-4a45-8722-ac3f2c86651a">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+            </State>
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init" />
+    <MESSAGE value="init2" />
+    <MESSAGE value="init3" />
+    <MESSAGE value="init4" />
+    <MESSAGE value="init5" />
+    <MESSAGE value="init5 complete basic electric machine using sf templates" />
+    <MESSAGE value="init6 refactor utils" />
+    <MESSAGE value="init7 rebuild code of SMG&#10;making huge work(nop" />
+    <MESSAGE value="bugfix: SMG,better performance" />
+    <MESSAGE value="feat: huge rebuild of AbstractMachines ,Crafting method and a framework to adapt later crafting method. better performances" />
+    <MESSAGE value="feat: huge progress in manualCrafter,AbstractAdvanceProcessor and so on, rebuild some method in CraftUtils rebuild ItemCounter system" />
+    <MESSAGE value="feat: huge progress in AdvanceCrafter AdvancedRecipeCrafter,rebuild something, rebuild some method in CraftUtils rebuild ItemCounter system" />
+    <MESSAGE value="feat: huge progress" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: huge progress" />
+  </component>
+</project>
