@@ -1,0 +1,311 @@
+zh_CN:
+  Groups:
+    ROOT:
+      Name: '&7&ka&x&5&5&f&f&7&7逻&x&5&5&f&f&9&9辑&x&5&5&f&f&b&b工&x&5&5&f&f&d&d艺&6(测试版)&7&ka&r'
+      Lore:
+        - '&7芜湖起飞'
+        - '&7⇨ &a单击启动LogiTech'
+    INFO:
+      Name: '&d逻辑工艺 &6版本与说明'
+    MATERIAL:
+      Name: '&d逻辑工艺 &6基础材料'
+    ALLMACHINE:
+      Name: '&d逻辑工艺 &6通用机器类型大全'
+    ALLRECIPE:
+      Name: '&d逻辑工艺 &6合成配方类型大全'
+    URL:
+      Name: "&e点击获取附属Github链接"
+      Lore:
+        - ""
+        - "&7⇨ &a点击获取链接"
+    INFO1:
+      Name: "&c&l版本号"
+      Lore:
+        - "&7当前逻辑工艺版本："
+        - "&b&mv1.0.0 &6&r测试版"
+        - "&7更多版本,敬请期待!"
+    INFO2:
+      Name: "&e&l联系我们"
+      Lore:
+        - "&7如果您想要汇报bug"
+        - "&7或者提出一些有趣的点子"
+        - "&7请找作者 qq:2169419217"
+        - "&7作者目前活跃于各个粘液群,"
+        - "&7也可以直接通过群聊找到我们"
+    INFO3:
+      Name: "&a&l附属介绍"
+      Lore:
+        - "&7我们的附属立志于开发新功能"
+        - "&7以及有趣的机制,"
+        - "&7虽然传统的堆机器或许不可避免"
+        - "&7但是我们希望能为玩家带来别样的体验"
+    INFO4:
+      Name: "&c&l一些声明"
+      Lore:
+        - "&7本附属可能在创作上会借鉴一些附属"
+        - "&7你也可能找到相似的特性"
+        - "&7但是本附属特性实现均为作者手写"
+        - "&7若出现问题/BUG请找作者matl114"
+    INFO5:
+      Name: "&c&l更多的声明"
+      Lore:
+        - "&7本附属(LogiTech)与作者创建的同名"
+        - "&7SC附属逻辑工艺(LogicTech)无联系"
+        - "&7两者共用同样的主体和名字,"
+        - "&7但是内容和玩法毫无关联"
+        - "&7并且作者已不再维护SC版附属"
+    INFO6:
+      Name: "&6&l附属特性"
+      Lore:
+        - "&7本附属拥有一些和其他附属不同的特性"
+        - "&7在此会在下方指出"
+    BASIC:
+      Name: '&d逻辑工艺 &6基础机器'
+    DEPENDS:
+      Name: '&d逻辑工艺 &6附属一体化发展'
+    CARGO:
+      Name: '&d逻辑工艺 &6货运机器'
+    SINGULARITY:
+      Name: '&d逻辑工艺 &6概念奇点工艺'
+    ADVANCED:
+      Name: '&d逻辑工艺 &6进阶机器'
+    BEYOND:
+      Name: '&d终章 &6超越领域'
+      Lore:
+        - '&7Beyond Tech'
+    VANILLA:
+      Name: '&d逻辑工艺 &6赤石科技'
+      Lore:
+        - '&e哦不...应该是红石科技辣'
+    MANUAL:
+      Name: '&d逻辑工艺 &6快捷机器'
+      Lore:
+        - '&7懒人福音,好耶'
+    SPECIAL:
+      Name: '&d逻辑工艺 &6谜之领域'
+      Lore:
+        - '&7这些机器怎么看起来功能怪怪的...'
+    TOBECONTINUE:
+      Name: '&6未完待续...'
+    WEAPON:
+      Name: '&d逻辑工艺 &6特殊道具与装备'
+    GENERATORS:
+      Name: '&d逻辑工艺 &6材料生成与转化'
+    ENERGY:
+      Name: '&d逻辑工艺 &6电力与能源拓展'
+
+  Items:
+    BUG:
+      Name: 'BUG'
+      Lore:
+        - '经常出现在意想不到的地方...'
+    MATL114:
+      Name: 'MATL114'
+      Lore:
+        - '没错,我是作者...'
+    CHIP_INGOT:
+      Name: '薯片合金'
+      Lore:
+        - '真是亿个冷笑话..'
+    LOGIC:
+      Name: '逻辑'
+      Lore:
+        - '剪不断,理还乱..'
+    TRUE_:
+      Name: 'True '
+    FALSE_:
+      Name: 'False '
+    LOGIGATE:
+      Name: '逻辑门'
+      Lore:
+        - '虽然它看起来很可怕与难懂...'
+        - '但这只是个材料,并不能帮你炸服'
+    EXISTE:
+      Name: '存在性'
+    UNIQUE:
+      Name: '唯一性'
+    PARADOX:
+      Name: '悖论'
+    NOLOGIC:
+      Name: '反逻辑'
+      Lore:
+        - '什么,这不科学'
+    LENGINE:
+      Name: '逻辑引擎'
+    LFIELD:
+      Name: '逻辑引擎力场'
+    LSCHEDULER:
+      Name: '逻辑调度器'
+      Lore:
+        - '机器枢纽'
+    LCRAFT:
+      Name: '逻辑合成单元'
+      Lore:
+        - '负责复杂的合成任务'
+    LDIGITIZER:
+      Name: '数字化核心'
+    LBOOLIZER:
+      Name: '布尔化核心'
+      Lore:
+        - '0与1的世界...'
+    LIOPORT:
+      Name: 'IO组件'
+      Lore:
+        - '负责执行高速物流任务'
+    PALLADIUM_INGOT:
+      Name: '钯 (pd)'
+    PLATINUM_INGOT:
+      Name: '铂 (pt)'
+    MOLYBDENUM:
+      Name: '钼 (mo)'
+    CERIUM:
+      Name: '铈 (ce)'
+    CADMIUM_INGOT:
+      Name: '镉 (cd)'
+    MENDELEVIUM:
+      Name: '钔 (md)'
+    DYSPROSIUM:
+      Name: '镝 (dy)'
+    BISMUTH_INGOT:
+      Name: '铋 (bi)'
+    ANTIMONY_INGOT:
+      Name: '锑 (sb)'
+    BORON:
+      Name: '硼 (B)'
+      Lore:
+        - '用于芯片制造'
+    DIMENSIONAL_SHARD:
+      Name: '维度碎片'
+      Lore:
+        - '蕴含着跨越维度的力量'
+    STAR_GOLD:
+      Name: '星辰金砂'
+      Lore:
+        - '随星系爆发而生...'
+        - '其结构坚固到足以承载空间力量'
+    VIRTUAL_SPACE:
+      Name: '虚拟空间'
+      Lore:
+        - '存在于虚无中的空间'
+    WORLD_FEAT:
+      Name: '世界特征 - 主世界'
+      Lore:
+        - '代表着主世界特征的世界碎片'
+    NETHER_FEAT:
+      Name: '世界特征 - 下界'
+      Lore:
+        - '代表着下界特征的世界碎片'
+    END_FEAT:
+      Name: '世界特征 - 末地'
+      Lore:
+        - '代表着末地特征的世界碎片'
+    ABSTRACT_INGOT:
+      Name: '抽象锭'
+      Lore:
+        - '仅仅是个开始...'
+    PDCECDMD:
+      Name: '钚铈镉钔合金'
+      Lore:
+        - '布什,戈门,这也太抽象了吧'
+    REINFORCED_CHIP_INGOT:
+      Name: '强化薯片合金'
+      Lore:
+        - '更符合逻辑的芯片制造原料'
+    ATOM_INGOT:
+      Name: '充能原子合金'
+  Machines:
+    LOGIC_REACTOR:
+      Name: '逻辑反应堆'
+      Lore:
+        - '一切复杂逻辑的起源...'
+        - '始于True和False'
+    BOOL_GENERATOR:
+      Name: '布尔生成器'
+    BUG_CRAFTER:
+      Name: 'BUG工作台'
+      Lore:
+        - '虽然他是由bug制成'
+        - '但他不仅仅能制造bug...'
+    HEAD_ANALYZER:
+      Name: '头颅解析仪'
+      Lore:
+        - '支持解码头颅hash'
+        - '支持通过hash获取头颅纹理'
+        - '支持修改头颅物品的纹理'
+  Manuals:
+    MANUAL_CORE:
+      Name: '乱序核心'
+      Lore:
+        - '经典永流传...'
+    ENHANCED_CRAFT_MANUAL:
+      Name: '快捷强化工作台'
+    GRIND_MANUAL:
+      Name: '快捷磨石'
+    ARMOR_FORGE_MANUAL:
+      Name: '快捷盔甲锻造台'
+    ORE_CRUSHER_MANUAL:
+      Name: '快捷矿石粉碎机'
+    COMPRESSOR_MANUAL:
+      Name: '快捷压缩机'
+    PRESSURE_MANUAL:
+      Name: '快捷压力机'
+    MAGIC_WORKBENCH_MANUAL:
+      Name: '快捷魔法工作台'
+    ORE_WASHER_MANUAL:
+      Name: '快捷洗矿机'
+    GOLD_PAN_MANUAL:
+      Name: '快捷淘金机'
+    ANCIENT_ALTAR_MANUAL:
+      Name: '快捷远古祭坛'
+    SMELTERY_MANUAL:
+      Name: '快捷冶炼炉'
+    CRUCIBLE_MANUAL:
+      Name: '快捷坩锅'
+    PULVERIZER_MANUAL:
+      Name: '快捷打粉机'
+    MULTICRAFTTABLE_MANUAL:
+      Name: '快捷综合工作台'
+      Lore:
+        - '合并工作台，魔法工作台和远古祭坛'
+    TABLESAW_MANUAL:
+      Name: '快捷台锯'
+    COMPOSTER:
+      Name: '快捷搅拌机'
+    MULTIMACHINE_MANUAL:
+      Name: '快捷综合机器'
+      Lore:
+        - '合并加热压力仓和其他没用的机器'
+  Generators:
+
+    MAGIC_STONE:
+      Name: '魔法刷石机'
+      Lore:
+        - '空岛般的体验!'
+        - '这里面是装了个黑奴吗'
+    BOOL_MG:
+      Name: '布尔一体机'
+      Lore:
+        - '终于有个像样的自动化了..'
+  Theme:
+    ITEM1:
+      Name: "&3物品"
+    MACHINE1:
+      Name: '&3机器'
+    MACHINE2:
+      Name: "&3生成器"
+    MANUAL1:
+      Name: "&3快捷机器"
+    ADVANCED1:
+      Name: "&3高级机器"
+    CARGO1:
+      Name: "&3货运机器"
+    BENCH1:
+      Name: "&3工作站"
+    CATEGORY:
+      Name: "&3分类"
+    CATEGORY2:
+      Name: '&7⇨ &a单击打开'
+    INFO1:
+      Name: '&7⇨ &a单击打开'
+    MENU1:
+      Name: '&7⇨ &a单击打开'

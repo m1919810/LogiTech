@@ -171,6 +171,28 @@ public class CustomMenu {
         }
         return null;
     }
+    public ItemStack getItem(int slot,int page){
+        if(overrideItem.containsKey(slot)){
+            return overrideItem.get(slot);
+        }else if(slot==nextSlot||slot==prevSlot){
+            return generatePageSlot(slot,page);
+        }
+        else {
+            if(slot<prefixs.length){
+                return prefixs[slot];
+            }else if (slot>=size-suffixs.length){
+                return suffixs[slot];
+            }else {
+                return inventory[slot-prefixs.length+(page-1)*pageContent];
+            }
+        }
+    }
+    public ItemStack getInventory(int index){
+        if(index<inventory.length)
+            return inventory[index];
+        else
+            return null;
+    }
 
     /**
      * use for backSlot

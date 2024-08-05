@@ -5,6 +5,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,8 @@ public abstract class MenuFactory {
     List<ChestMenu.MenuClickHandler> handlers;
     ItemStack[] finalInventory;
     ChestMenu.MenuClickHandler[] finalHandlers;
+    HashMap<Integer, ItemStack> overrideItem=new HashMap<>();
+    HashMap<Integer, ChestMenu.MenuClickHandler> overrideHandler=new HashMap<>();
     boolean isFinal;
     public MenuFactory(MenuPreset preset,String title,int pages) {
         this.isFinal=false;
@@ -37,6 +40,10 @@ public abstract class MenuFactory {
         for(int i=0;i<preset.getSuflen();i++) {
             suffixs[i]= ChestMenuUtils.getBackground();
         }
+        this.overrideHandler=new HashMap<>();
+        this.overrideItem=new HashMap<>();
+        this.overrideHandler.putAll(preset.getPrehandlers());
+        this.overrideItem.putAll(preset.getPreitems());
         this.inventory = new ArrayList<>();
         this.handlers=new ArrayList<>();
         int preSize=pages*(this.size-preset.getPrelen()-preset.getSuflen());
@@ -63,6 +70,21 @@ public abstract class MenuFactory {
         if(isFinal)return this;
         this.setNext(size-2).setPrev(size-8);
         return this;
+    }
+    public MenuFactory addOverrides( int slot,ItemStack item) {
+        if(isFinal)return this;
+        overrideItem.put(slot, item);
+        return this;
+    }
+    public MenuFactory addOverrides(int slot,ChestMenu.MenuClickHandler handler) {
+        if(isFinal)return this;
+        overrideHandler.put(slot, handler);
+        return this;
+    }
+    public MenuFactory addOverrides(int slot,ItemStack item, ChestMenu.MenuClickHandler handler) {
+        if(isFinal)return this;
+        overrideHandler.put(slot, handler);
+        return addOverrides(slot,item);
     }
     public MenuFactory addInventory(int pos,ItemStack item){
         if(isFinal)return this;
@@ -146,10 +168,10 @@ public abstract class MenuFactory {
         if(prev>=0&&prev<size){
             a.setPrevPageButtom(prev);
         }
-        for(Map.Entry<Integer,ItemStack> par:preset.getPreitems().entrySet()){
+        for(Map.Entry<Integer,ItemStack> par:this.overrideItem.entrySet()){
             a.overrideItem(par.getKey(),par.getValue());
         }
-        for(Map.Entry<Integer,ChestMenu.MenuClickHandler> par:preset.getPrehandlers().entrySet()){
+        for(Map.Entry<Integer,ChestMenu.MenuClickHandler> par:this.overrideHandler.entrySet()){
             a.overrideHandler(par.getKey(),par.getValue());
         }
         return a;

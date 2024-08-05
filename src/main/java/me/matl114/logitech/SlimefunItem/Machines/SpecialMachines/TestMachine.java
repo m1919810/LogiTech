@@ -1,4 +1,4 @@
-package me.matl114.logitech.SlimefunItem.Machines.OtherMachines;
+package me.matl114.logitech.SlimefunItem.Machines.SpecialMachines;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -20,7 +20,7 @@ public class TestMachine extends SlimefunItem implements EnergyNetProvider {
     public static int BUFFER=11451419;
 
     public TestMachine(){
-        super(AddGroups.author,new SlimefunItemStack("TESTER_CLASS",new CustomItemStack(Material.BEDROCK,"泌阳得测试类"),"BYD测试类","BYD测试IDEA"), RecipeType.NULL, AddUtils.NULL_RECIPE);
+        super(AddGroups.MATERIAL,new SlimefunItemStack("TESTER_CLASS",new CustomItemStack(Material.BEDROCK,"泌阳得测试类"),"BYD测试类","BYD测试IDEA"), RecipeType.NULL, AddUtils.NULL_RECIPE);
 
     }
     public EnergyNetComponentType getEnergyComponentType(){

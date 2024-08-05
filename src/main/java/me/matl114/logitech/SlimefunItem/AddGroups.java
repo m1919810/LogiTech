@@ -5,7 +5,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.Language;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.MenuUtils;
 import me.matl114.logitech.Utils.RecipeSupporter;
@@ -13,66 +14,141 @@ import me.matl114.logitech.Utils.UtilClass.CustomItemGroup;
 import me.matl114.logitech.Utils.UtilClass.CustomMenu;
 import me.matl114.logitech.Utils.UtilClass.DummyItemGroup;
 import me.matl114.logitech.Utils.UtilClass.MenuFactory;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class AddGroups {
     public static void registerGroups(SlimefunAddon plugin){
         ROOT.register(plugin);
-        author.register(plugin);
+        MATERIAL.register(plugin);
     }
     // 给你的分类提供一个独一无二的ID
     protected static  final NamespacedKey itemGroupId = AddUtils.getNameKey("addon_category");
 
-    protected static  final NamespacedKey itemGroupId2 = AddUtils.getNameKey("addon_category2");
+    public static final ItemGroup MATERIAL =new DummyItemGroup(AddUtils.getNameKey("material" ), AddItem.MATERIAL);
 
-    public static final ItemGroup author=new DummyItemGroup(AddUtils.getNameKey("author" ), AddUtils.themed(Material.BOOK,AddUtils.Theme.CATEGORY,"版本与说明"));
-    public static final ItemGroup ROOT=new CustomItemGroup(itemGroupId,AddUtils.colorful(AddUtils.ADDON_NAME),new CustomItemStack(Material.COMMAND_BLOCK,"&4MATL114的附属测试模板"),54,108,
-                new ArrayList<>(){{
-                    add(author);
-                    add(author);
-                    add(author);
+    public static final ItemGroup BASIC =new DummyItemGroup(AddUtils.getNameKey("basic" ), AddItem.BASIC);
+
+    public static final ItemGroup DEPENDS= new DummyItemGroup(AddUtils.getNameKey("depends" ), AddItem.DEPENDS);
+
+    public static final ItemGroup CARGO = new DummyItemGroup(AddUtils.getNameKey("cargo" ), AddItem.CARGO);
+
+    public static final ItemGroup SINGULARITY= new DummyItemGroup(AddUtils.getNameKey("singularity"),AddItem.SINGULARITY);
+
+    public static final ItemGroup ADVANCED= new DummyItemGroup(AddUtils.getNameKey("advanced" ), AddItem.ADVANCED);
+
+    public static final ItemGroup BEYOND= new DummyItemGroup(AddUtils.getNameKey("beyond" ), AddItem.BEYOND);
+
+    public static final ItemGroup VANILLA= new DummyItemGroup(AddUtils.getNameKey("vanilla" ), AddItem.VANILLA);
+
+    public static final ItemGroup MANUAL = new DummyItemGroup(AddUtils.getNameKey("manual" ), AddItem.MANUAL);
+
+    public static final ItemGroup SPECIAL = new DummyItemGroup(AddUtils.getNameKey("special" ), AddItem.SPECIAL);
+
+    public static final ItemGroup WEAPON = new DummyItemGroup(AddUtils.getNameKey("weapon"),AddItem.WEAPON);
+
+    public static final ItemGroup GENERATORS = new DummyItemGroup(AddUtils.getNameKey("generators"),AddItem.GENERATORS);
+
+    public static final ItemGroup ENERGY= new DummyItemGroup(AddUtils.getNameKey("energy"),AddItem.ENERGY);
+
+    public static final ItemGroup INFO =new CustomItemGroup(AddUtils.getNameKey("info"),null, AddItem.INFO,54,36,new LinkedHashMap<>()) {
+        @Override
+        protected void init(MenuFactory factory) {
+            factory.addInventory(1,AddItem.INFO1);
+            factory.addInventory(11,AddItem.INFO2);
+            factory.addInventory(21,AddItem.INFO3);
+            factory.addInventory(7,AddItem.INFO4);
+            factory.addInventory(15,AddItem.INFO5);
+            factory.addInventory(23,AddItem.INFO6);
+            factory.addInventory(13,AddItem.URL,(Player player1, int i1, ItemStack itemstack1, ClickAction clickAction) -> {
+                final TextComponent link = new TextComponent("单击此处访问Github");
+                link.setColor(ChatColor.YELLOW);
+                link.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/m1919810/LogiTech"));
+                player1.spigot().sendMessage(link);
+                return false;
+            });
+            factory.addOverrides(4,AddItem.MATL114);
+        }
+        public void addGuideRelated(CustomMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int page){
+
+        }
+        @Override
+        protected void addMenuRelated(ChestMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int pages) {
+            if(AddUtils.standardRandom()<0.666){
+                int rand=AddUtils.random(36);
+                if(menu.getItemInSlot(rand+9)==null){
+                    menu.replaceExistingItem(rand+9,AddItem.BUG);
+                    menu.addMenuClickHandler(rand+9,((player, i, itemStack, clickAction) -> {
+                        AddUtils.forceGive(player,AddItem.BUG,1);
+                        menu.replaceExistingItem(rand+9,null);
+                        menu.addMenuClickHandler(rand+9,ChestMenuUtils.getEmptyClickHandler());
+                        return false;
+                    }));
+                }
+            }
+        }
+    };
+    //
+    public static final ItemGroup ROOT=new CustomItemGroup(itemGroupId,AddUtils.colorful(AddUtils.ADDON_NAME), AddItem.ROOT,54,108,
+                new LinkedHashMap<>(){{
+                    put(6,MATERIAL);
+                    put(0,INFO);
+                    put(8,DEPENDS);
+                    put(10,BASIC);
+                    put(12,MANUAL);
+                    put(14,ENERGY);
+                    put(16,GENERATORS);
+                    put(18,WEAPON);
+                    put(20,VANILLA);
+                    put(22,SPECIAL);
+                    put(24,CARGO);
+                    put(26,ADVANCED);
+                    put(28,SINGULARITY);
+                    put(31,BEYOND);
                 }}
             ){
         //used to set common handlers and common params
         public void init(MenuFactory factory){
-            factory.addInventory(0,new CustomItemStack(Material.BOOK,AddUtils.colorful("点击获取github链接")),(Player player1, int i1, ItemStack itemstack1, ClickAction clickAction) -> {
+            //对模板进行最高级别的覆写
+            factory.addOverrides(4,AddItem.URL,(Player player1, int i1, ItemStack itemstack1, ClickAction clickAction) -> {
                 final TextComponent link = new TextComponent("单击此处访问Github");
                 link.setColor(ChatColor.YELLOW);
-                link.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/m1919810/SlimefunAddonTemplate"));
+                link.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/m1919810/LogiTech"));
                 player1.spigot().sendMessage(link);
                 return false;
             });
-            factory.addInventory(1,AddUtils.themed(Material.BOOK,AddUtils.Theme.CATEGORY,"配方类型大赏"));
-            factory.addInventory(2,AddUtils.themed(Material.BOOK,AddUtils.Theme.CATEGORY,"机器类型大赏"));
-            factory.addInventory(70,new ItemStack(Material.COMMAND_BLOCK));
-            //this is dangerous,not suggested
-            int [] slots=previewGroupSlot();
-            slots[1]=77;
+            //对模板内的填充物进行修改
+            factory.addInventory(2,AddItem.ALLMACHINE);
+            factory.addInventory(4,AddItem.ALLRECIPE);
 
+            factory.addInventory(70,new ItemStack(Material.COMMAND_BLOCK));
+            factory.addInventory(34,AddItem.TOBECONTINUE);
+            //对自动生成的物品组位置进行修改(如果使用hashmap指定物品组则不用修改
         }
         //used to set GUIDE based handlers,an interface to adapt CustomMenu menus
-        public void addGuideHandler(CustomMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int page){
-            profile.getGuideHistory().add(this, page);
-            menu.setHandler(1 ,((Player player1, int i1, ItemStack itemstack1, ClickAction clickAction) -> {
+        public void addGuideRelated(CustomMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int page){
+            //加入实例化之后的handler和item,同打开玩家等数据有关的handler
+            menu.setHandler(4 ,((Player player1, int i1, ItemStack itemstack1, ClickAction clickAction) -> {
                 MenuUtils.createRecipeTypeDisplay(RecipeSupporter.RECIPE_TYPES.stream().toList(),((player, i, itemStack, clickAction1) -> {
-                    profile.getGuideHistory().openLastEntry(Slimefun.getRegistry().getSlimefunGuide(mode));
+                    this.openPage(player1,profile,mode,page);
                     return false;
                 })).open(player1);
                 return false;
             }));
             menu.setHandler(2,((Player player1, int i1, ItemStack itemstack1, ClickAction clickAction) -> {
-                profile.getGuideHistory().add(this, page);
                 MenuUtils.createMachineListDisplay(RecipeSupporter.MACHINE_RECIPELIST.keySet().stream().toList(),((player, i, itemStack, clickAction1) -> {
-                    profile.getGuideHistory().openLastEntry(Slimefun.getRegistry().getSlimefunGuide(mode));
+                    this.openPage(player1,profile,mode,page);
                     return false;
                 })).open(player1);
                 return false;

@@ -19,7 +19,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
-public abstract class AbstractAdvancedProcessor extends AbstractMachines implements MachineProcessHolder<MultiCraftingOperation> {
+public abstract class AbstractAdvancedProcessor extends AbstractMachine implements MachineProcessHolder<MultiCraftingOperation> {
     protected static final int[] BORDER={
             3,4,5,12,13,14,21,22,23,30,31,32,39,40,41,48,49,50
     };

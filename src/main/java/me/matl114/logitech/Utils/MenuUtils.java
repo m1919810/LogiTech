@@ -38,6 +38,7 @@ public class MenuUtils {
     public static final ChestMenu.MenuClickHandler CLOSE_HANDLER=((player, i, itemStack, clickAction) -> {
         player.closeInventory();
         return false;
+
     });
     /**
      * change the object in the slot to a different object ,in order to trigger save at this slot when server down ,
@@ -106,7 +107,13 @@ public class MenuUtils {
     public static final int[] RECIPEOUT_3X3=new int[]{7,16,25};
     public static final int[] RECIPESLOT_6x6=new int[]{1,2,3,4,5,6,10,11,12,13,14,15,19,20,21,22,23,24,28,29,30,31,32,33,37,38,39,40,41,42,46,47,48,49,50,51};
     public static final int[] RECIPEOUTPUT_6X6=new int[]{35,44,53};
+    public interface RecipeMenuConstructor{
+        public CustomMenu construct(ItemStack icon,MachineRecipe recipe ,ChestMenu.MenuClickHandler backhandler);
+    }
     public static CustomMenu createMRecipeListDisplay(ItemStack machine, List<MachineRecipe> machineRecipes, @Nullable ChestMenu.MenuClickHandler backHandler){
+        return createMRecipeListDisplay(machine,machineRecipes,backHandler,MenuUtils::createMRecipeDisplay);
+    }
+    public static CustomMenu createMRecipeListDisplay(ItemStack machine, List<MachineRecipe> machineRecipes, @Nullable ChestMenu.MenuClickHandler backHandler,RecipeMenuConstructor constructor){
         int RecipeSize = machineRecipes.size();
         int pageContent=36;
         int pageNum=(1+(RecipeSize-1)/pageContent);
@@ -136,7 +143,7 @@ public class MenuUtils {
                 a.setInventory(i,NO_ITEM);
             }
             a.setHandler(i,(player, i1, itemStack, clickAction) -> {
-                createMRecipeDisplay(machine,recipe,a.getOpenHandler(pageNow)).open(player);
+                constructor.construct(machine,recipe,a.getOpenHandler(pageNow)).open(player);
                 return false;
             });
         }

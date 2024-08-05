@@ -20,7 +20,9 @@ import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class CustomItemGroup extends FlexItemGroup {
     protected static final ItemStack INVOKE_ERROR=new CustomItemStack(Material.BARRIER,"&c","","&c获取物品组物品展示失败");
@@ -30,6 +32,20 @@ public abstract class CustomItemGroup extends FlexItemGroup {
     List<ItemGroup> subGroups;
     int[] subGroupIndex;
     boolean isVisible;
+    @Override
+    public ItemStack getItem(Player p){
+        return this.item;
+    }
+
+    /**
+     * construct normal ItemGroup
+     * @param key
+     * @param title
+     * @param item
+     * @param size
+     * @param inventorylen
+     * @param subGroup
+     */
     public CustomItemGroup(NamespacedKey key, String title, ItemStack item, int size,int inventorylen, List<ItemGroup> subGroup){
         super(key,item);
 
@@ -37,6 +53,9 @@ public abstract class CustomItemGroup extends FlexItemGroup {
         this.subGroups=subGroup;
         this.pages=1+(inventorylen-1)/(size-18);
         this.isVisible=true;
+        if(title==null){
+            title=item.getItemMeta().getDisplayName();
+        }
         this.menuFactory=new MenuFactory(MenuUtils.SIMPLE_MENU.setSize(size),title,this.pages) {
             @Override
             public void init() {
@@ -47,8 +66,55 @@ public abstract class CustomItemGroup extends FlexItemGroup {
         addItemGroups();
         menuFactory.makeFinal();
         this.size=size;
+
     }
 
+    /**
+     * this type of ItemGroup has custom ItemGroup Position
+     * @param key
+     * @param title
+     * @param item
+     * @param size
+     * @param inventorylen
+     * @param subGroup
+     */
+    public CustomItemGroup(NamespacedKey key, String title, ItemStack item, int size,int inventorylen, HashMap<Integer,ItemGroup> subGroup){
+        super(key,item);
+
+        assert size>=27&&size%9==0;
+        this.subGroups=subGroup.values().stream().toList();
+        this.pages=1+(inventorylen-1)/(size-18);
+        this.isVisible=true;
+        if(title==null){
+            title=item.getItemMeta().getDisplayName();
+        }
+        this.menuFactory=new MenuFactory(MenuUtils.SIMPLE_MENU.setSize(size),title,this.pages) {
+            @Override
+            public void init() {
+                setDefaultNPSlots();
+            }
+        };
+        init(menuFactory);
+        this.subGroupIndex=new int[subGroup.size()];
+        int cnt=0;
+        for (Map.Entry<Integer,ItemGroup> entry : subGroup.entrySet()){
+            int i=entry.getKey();
+            subGroupIndex[cnt]=i;
+            ++cnt;
+            ItemGroup itg=entry.getValue();
+            try{
+                Class clazz= Class.forName("io.github.thebusybiscuit.slimefun4.api.items.ItemGroup");
+                Field _hasType=clazz.getDeclaredField("item");
+                _hasType.setAccessible(true);
+                ItemStack it=(ItemStack)_hasType.get((ItemGroup)itg);
+                menuFactory.addInventory(i,it);
+            }catch (Throwable e){
+                menuFactory.addInventory(i,AddUtils.renameItem(INVOKE_ERROR,itg.getUnlocalizedName()));
+            }
+        }
+        menuFactory.makeFinal();
+        this.size=size;
+    }
     /**
      * used to init menuFactory ,set common Inventory and handlers ,used to set common params
      * @param menuFactory
@@ -56,14 +122,15 @@ public abstract class CustomItemGroup extends FlexItemGroup {
     protected abstract void init(MenuFactory menuFactory);
 
     /**
-     * used to set menu parts related to SFguide,set sf-guide based handlers like menu-back-redirect-to-guidePage handlers,
+     * used to set menuFactory parts related to SFguide,set sf-guide based handlers like menu-back-redirect-to-guidePage handlers,
+     * called before menu construct
      * @param menu
      * @param p
      * @param profile
      * @param mode
      * @param pages
      */
-    protected abstract void addGuideHandler(CustomMenu menu,Player p,PlayerProfile profile,SlimefunGuideMode mode,int pages);
+    protected abstract void addGuideRelated(CustomMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int pages);
     protected int[] getSubGroupIndex(){
         return subGroupIndex;
     }
@@ -72,6 +139,19 @@ public abstract class CustomItemGroup extends FlexItemGroup {
     }
     protected void isVisble(boolean visble){
         this.isVisible=visble;
+    }
+
+    /**
+     * used to set menu parts related to menu,
+     * called after menu construct
+     * default doing nothing,
+     * @param menu
+     * @param p
+     * @param profile
+     * @param mode
+     * @param pages
+     */
+    protected void addMenuRelated(ChestMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int pages){
     }
     /**
      * get a preview slotPlan of ItemGroups, will init subGroupIndex, can modify slot to custom subGroup position
@@ -118,17 +198,17 @@ public abstract class CustomItemGroup extends FlexItemGroup {
     }
     public void open(Player var1, PlayerProfile var2, SlimefunGuideMode var3){
         int page=getLastPage(var1,var2,var3);
-        if(!(page>=1&&page<=this.pages)){
+        if(page<=0||page>this.pages){
             page=1;
         }
+
         openPage(var1,var2,var3,page);
     }
 
     public void openPage(Player var1, PlayerProfile var2, SlimefunGuideMode var3,int page){
         assert page>=1&&page<=pages;
-
+        var2.getGuideHistory().add(this,page);
         CustomMenu menu=menuFactory.build();
-        addGuideHandler(menu,var1,var2,var3,page);
         //prev键
         menu.overrideHandler(this.size-8,((player, i, itemStack, clickAction) -> {
             if(page>1){
@@ -155,6 +235,7 @@ public abstract class CustomItemGroup extends FlexItemGroup {
         });
         //返回键
         menu.overrideHandler(1,((player, i, itemStack, clickAction) -> {
+            //var2.getGuideHistory().openLastEntry(Slimefun.getRegistry().getSlimefunGuide(var3));
             var2.getGuideHistory().goBack(Slimefun.getRegistry().getSlimefunGuide(var3));
             return false;
         }));
@@ -164,13 +245,13 @@ public abstract class CustomItemGroup extends FlexItemGroup {
             ItemGroup itg=subGroups.get(j);
             int index=subGroupIndex[j];
             menu.setHandler(index,((player, i, itemStack, clickAction) -> {
-
-                var2.getGuideHistory().add(this, page);
                 SlimefunGuide.openItemGroup(var2, itg, var3, 1);
                 return false;
             }));
         }
+        addGuideRelated(menu,var1,var2,var3,page);
         ChestMenu chestMenu = menu.constructPage(page);
+        addMenuRelated(chestMenu,var1,var2,var3,page);
         chestMenu.open(var1);
     }
     //modified from guizhan Infinity Expansion 2

@@ -18,7 +18,9 @@ public enum Settings {
     PREFIX(),
     SUFFIX(),
     OUTPUT(),
-    INPUT();
+    INPUT(),
+    METHOD(),
+    FIELD();
 
     private static int cnt=0;
     private static int get(){

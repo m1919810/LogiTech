@@ -19,12 +19,13 @@ public class TestWorkBench extends AbstractWorkBench {
     protected static final  int[] OUTPUT_SLOT=new int[]{ 15,24,33};
     protected static final  int CRAFT_SLOT=23;
     protected static final  ItemStack CRAFT_ITEM=new CustomItemStack(Material.BEDROCK,"&e点我进行合成");
+    protected static final int MENU_SLOT=14;
     protected static final int[] BORDER=new int[]{
-            0,1,2,3,4,5,6,7,8,9,10,14,16,17,18,19,25,26,27,28,32,34,35,36,37,38,39,40,41,42,43,44
+            0,1,2,3,4,5,6,7,8,9,10,16,17,18,19,25,26,27,28,32,34,35,36,37,38,39,40,41,42,43,44
     };
     public TestWorkBench(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                          int energybuffer, int energyConsumption, LinkedHashMap<Object,Integer> shapedRecipes) {
-        super(category, item, recipeType, recipe, energybuffer, energyConsumption, shapedRecipes);
+        super(category, item, recipeType, recipe, energybuffer, energyConsumption,9, shapedRecipes);
     }
     public void constructMenu(BlockMenuPreset preset){
         preset.setSize(45);
@@ -34,15 +35,20 @@ public class TestWorkBench extends AbstractWorkBench {
             preset.addItem(border[var4], ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
         preset.addItem(CRAFT_SLOT,CRAFT_ITEM);
+        preset.addItem(getRecipeMenuSlot(),AbstractWorkBench.RECIPEBOOK_SHOW_ITEM);
     }
     public void newMenuInstance(BlockMenu menu, Block block){
         menu.addMenuClickHandler(CRAFT_SLOT,
                 (player, i, itemStack, clickAction)->{
 
-                    craft(menu,8);
+                    craft(block,menu);
                     return false;
                 }
         );
+        menu.addMenuClickHandler(getRecipeMenuSlot(),((player, i, itemStack, clickAction) -> {
+            getRecipeMenu(block,menu).open(player);
+            return false;
+        }));
     }
     public int[] getInputSlots(){
         return INPUT_SLOT;
@@ -53,5 +59,5 @@ public class TestWorkBench extends AbstractWorkBench {
     public int[] getRecipeSlots(){
         return INPUT_SLOT;
     }
-
+    public int getRecipeMenuSlot(){return MENU_SLOT; }
 }

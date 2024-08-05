@@ -13,4 +13,11 @@ public class Debug {
     public static  void logger(int message) {
         logger(Integer.toString(message));
     }
+    public static void logger(Object ... msgs){
+        String msg=msgs[0].toString();
+        for(Object m : msgs){
+            msg+=" "+m.toString();
+        }
+        logger(msg);
+    }
 }

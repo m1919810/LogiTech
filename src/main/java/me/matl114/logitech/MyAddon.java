@@ -1,12 +1,14 @@
 package me.matl114.logitech;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import me.matl114.logitech.Items.AddItems;
 import me.matl114.logitech.Listeners.ListenerManager;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.AddGroups;
-import me.matl114.logitech.SlimefunItem.AddSlimefunItemStack;
+import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
+import me.matl114.logitech.SlimefunItem.Storage.StorageType;
+import me.matl114.logitech.SlimefunItem.Storage.Storages;
+import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.Debug;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,13 +35,14 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         if (cfg.getBoolean("options.auto-update")) {
             // 你可以在这里添加自动更新功能
         }
+        ConfigLoader.load(this);
+        Language.loadConfig(ConfigLoader.LANGUAGE);
         Dependency.init();
         Debug.logger("依赖检测完毕");
         AddGroups.registerGroups(this);
         Debug.logger("物品组加载完毕");
-        AddItems.registerItems();
         Debug.logger("自定义物品加载完毕");
-        AddSlimefunItemStack.registerItemStack();
+        AddItem.registerItemStack();
         Debug.logger("物品模板加载完毕");
         AddSlimefunItems.registerSlimefunItems();
         Debug.logger("粘液物品注册完毕");
@@ -50,6 +53,11 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         Debug.logger("计划线程设立完毕");
         ListenerManager.registerListeners(getInstance(),getManager());
         Debug.logger("监听器注册完毕");
+        //注册存储类型
+        Storages.setup();
+        CraftUtils.setup();
+        //注册
+        Debug.logger("附属特性注册完毕");
     }
 
     @Override

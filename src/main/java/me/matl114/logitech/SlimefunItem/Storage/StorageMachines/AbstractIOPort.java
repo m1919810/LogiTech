@@ -6,12 +6,13 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import me.matl114.logitech.SlimefunItem.Machines.AbstractMachines;
+import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.SlimefunItem.Storage.ItemStorageCache;
 import me.matl114.logitech.SlimefunItem.Storage.Storages;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.CraftUtils;
 
+import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.UtilClass.ItemPusher;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -24,7 +25,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public abstract class AbstractIOPort extends AbstractMachines {
+public abstract class AbstractIOPort extends AbstractMachine {
     public AbstractIOPort(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                             int energybuffer, int energyConsumption){
         super(category, item, recipeType, recipe, energybuffer, energyConsumption);
@@ -43,6 +44,7 @@ public abstract class AbstractIOPort extends AbstractMachines {
     public abstract int getDisplaySlot();
     public void process(Block b, BlockMenu menu){
         //先确认存储cache
+        long a=System.nanoTime();
         ItemStack stack=menu.getItemInSlot(getStorageSlot());
         Location loc = b.getLocation();
         //如果没有放奇点 则立刻就要清除当前cache
@@ -55,11 +57,9 @@ public abstract class AbstractIOPort extends AbstractMachines {
         }
         //现在是有奇点在的 尝试
         ItemStorageCache cache= ItemStorageCache.getCache(loc);
-
-        boolean isNew=false;
         //cache不存在或者cache和现在的奇点记录的不同
         if(cache == null||!cache.keepRelated(stack)){
-
+            //Debug.logger("[AbstractIOPort] create new cache");
             SlimefunItem type=SlimefunItem.getByItem(stack);
             cache=ItemStorageCache.getOrCreate(stack,stack.getItemMeta(),getStorageSlot(), Storages.SINGULARITY);
             if(cache==null){
@@ -70,7 +70,8 @@ public abstract class AbstractIOPort extends AbstractMachines {
                 //设置为长期存在的 不会实时clone保存
                 cache.updateMenu(menu);
                 cache.setPersistent(true);
-                isNew=true;
+                ItemStorageCache.setCache(loc, cache);
+
             }
         }
         //更新
@@ -80,6 +81,8 @@ public abstract class AbstractIOPort extends AbstractMachines {
             menu.replaceExistingItem(getDisplaySlot(),tmp );
             }
         }
+        long e=System.nanoTime();
+        //Debug.logger("sync success! time cost"+(e-a));
         //现在是100%同步的了,但是可能是null
         int[] slots=getInputSlots();
         int len=slots.length;
@@ -96,7 +99,7 @@ public abstract class AbstractIOPort extends AbstractMachines {
                     cache.updateMenu(menu);
                     tarCounter.updateMenu(menu);
                 }
-                else if(CraftUtils.matchItemCounter(tarCounter,cache,false)){
+                else if(CraftUtils.matchItemCounter(tarCounter,cache,true)){
                     cache.grab(tarCounter);
                     tarCounter.updateMenu(menu);
                 }
@@ -113,17 +116,16 @@ public abstract class AbstractIOPort extends AbstractMachines {
                 tarCounter2.updateMenu(menu);
             }
             else if(tarCounter2.getAmount()==tarCounter2.getMaxStackCnt())continue;
-            else if(CraftUtils.matchItemCounter(tarCounter2,cache,false)){
+            else if(CraftUtils.matchItemCounter(tarCounter2,cache,true)){
                 tarCounter2.grab(cache);
                 tarCounter2.updateMenu(menu);
             }
         }
-
+        long r=System.nanoTime();
+        //Debug.logger("push and grab success time cost "+(r-e));
         cache.updateMenu(menu);
-
-        if(isNew){
-            ItemStorageCache.setCache(loc, cache);
-        }
+        long w=System.nanoTime();
+        //Debug.logger("update cache success, time cost"+(w-r));
 
     }
     public void onBreak(BlockBreakEvent e, BlockMenu menu) {

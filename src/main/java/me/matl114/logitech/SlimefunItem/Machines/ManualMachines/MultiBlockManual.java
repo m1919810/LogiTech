@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.SlimefunItem.Machines.*;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.DisplayItemStack;
@@ -25,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MultiBlockManual extends AbstractManual implements MultiCraftType {
-    public List<ItemStack> displayedMemory;
+
     protected final int[] INPUT_SLOT=new int[]{4,5,6,7,8,13,14,15,16,17,22,23,24,25,26,31,32,33,34,35,40,41,42,43,44,49,50,51,52,53};
     protected final int[] OUTPUT_SLOT=new int[]{31,32,33,34,35,40,41,42,43,44,49,50,51,52,53,4,5,6,7,8,13,14,15,16,17,22,23,24,25,26};
     protected final int[] BORDER=new int[]{3,12,21,30,39,48,46};
@@ -49,10 +50,14 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType {
     protected static final int RECIPE_ITEM_SLOT=37;
     protected static final int RECIPEBOOK_SHOW_SLOT=29;
     protected static final ItemStack RECIPEBOOK_SHOW_ITEM=new CustomItemStack(Material.BOOK,"&6点击查看配方","","&6但是并没有一键放置配方的功能");
+
     public MultiBlockManual(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                          int energybuffer, int energyConsumption,
                          RecipeType... craftType){
         super(category,item,recipeType,recipe,energybuffer,energyConsumption,null);
+        SchedulePostRegister.addPostRegisterTask(()->{
+            getDisplayRecipes();
+        });
     }
     public MultiBlockMachine[] getCraftTypes(){
         if(craftType==null||craftType.length<=0){
@@ -281,15 +286,12 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType {
     public int[] getOutputSlots(){
         return OUTPUT_SLOT;
     }
-    public List<ItemStack> getDisplayRecipes(){
-        if(displayedMemory==null||displayedMemory.isEmpty()) {
-            displayedMemory=new ArrayList<>(){{
-                for(SlimefunItem item : RecipeSupporter.MULTIBLOCK_RECIPES.keySet()){
-                    add(new DisplayItemStack(new CustomItemStack(Material.BOOK,"&f支持的多方块机器","&8将机器配方置于指定槽位以进行合成")));
-                    add(new DisplayItemStack(item.getItem()));
-                }
-            }};
-        }
-        return displayedMemory;
+    public List<ItemStack> _getDisplayRecipes(){
+        return new ArrayList<>(){{
+            for(SlimefunItem item : RecipeSupporter.MULTIBLOCK_RECIPES.keySet()){
+                add(AddUtils.getInfoShow("&f支持的多方块机器","&7将机器配方置于指定槽位以进行合成"));
+                add(new DisplayItemStack(item.getItem()));
+            }
+        }};
     }
 }

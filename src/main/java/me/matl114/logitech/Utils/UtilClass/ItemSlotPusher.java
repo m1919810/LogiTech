@@ -27,6 +27,9 @@ public class ItemSlotPusher extends ItemPusher{
         this.wasNull=false;
         this.slot=slot;
     }
+    public boolean isNull(){
+        return wasNull;
+    }
     public int getMaxStackCnt() {
         return maxStackCnt;
     }
@@ -46,14 +49,16 @@ public class ItemSlotPusher extends ItemPusher{
     //sync data need blockmenu
     public void updateMenu(@Nonnull BlockMenu menu){
         if(dirty&&getItem()!=null&&!getItem().getType().isAir()){
-            if(wasNull){
+            if(wasNull){//空
                 //从数据源clone一个 正式转变为有实体的ItemStack 因为consumer那边可能是sfItem MultiItem
-                item=item.clone();
-                super.updateMenu(menu);
-                menu.replaceExistingItem(slot,getItem());
-                wasNull=false;
+                if(getAmount()>0){//非0
+                    item=item.clone();
+                    super.updateMenu(menu);
+                    menu.replaceExistingItem(slot,getItem());
+                    wasNull=false;
+                }//若空且是0，寄.直接退出
             }
-            else{
+            else{//不为空，同正常一样
                 //已经是之前有了的 可以直接修改
                 super.updateMenu(menu);
             }
@@ -85,10 +90,12 @@ public class ItemSlotPusher extends ItemPusher{
         super.grab(source);
     }
     public void setFrom(ItemCounter source){
-        item=source.getItem();
-        maxStackCnt=item!=null?item.getMaxStackSize():0;
-        cnt=0;
-        meta=null;
+        if(wasNull||(source!=null&&source.getItem()!=null)){
+            item=source.getItem();
+            maxStackCnt=item!=null?item.getMaxStackSize():0;
+            cnt=0;
+            meta=null;
+        }
     }
 
 }

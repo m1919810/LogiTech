@@ -35,6 +35,10 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
         this.matchAmount += matchAmount;
         dirty=true;
     }
+    public void setMatchAmount(int matchAmount) {
+        this.matchAmount = matchAmount;
+        dirty=true;
+    }
 
     /**
      * get pieces of stack matched in total amount
@@ -58,8 +62,7 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
 
     public void consume(ItemPusher other){
         matchAmount += other.getAmount();
-        other.dirty=true;
-        targetConsumers.add(other);
+        addRelate(other);
     }
 
     public void clearRelated(){
@@ -68,7 +71,6 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
 
     public void syncData(){
         matchAmount = 0;
-        targetConsumers.clear();
         super.syncData();
     }
 
@@ -79,8 +81,11 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
 
 
     public void updateItems(BlockMenu inv , Settings mod){
+        //preserver
+        int s=cnt;
         cnt=matchAmount;
         int len=targetConsumers.size();
+        link:
         switch (mod){
             case GRAB :
                 for(int i=0;i<len;i++){
@@ -89,9 +94,9 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
 
                     target.updateMenu(inv);
 
-                    if(cnt<=0)return ;
+                    if(cnt<=0)break link;
                 }
-                return;
+                break link;
             case PUSH:
                 for(int i=0;i<len;i++){
                     ItemPusher target = targetConsumers.get(i);
@@ -99,11 +104,12 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
                     target.grab(this);
                     target.updateMenu(inv);
 
-                    if(cnt<=0)return ;
+                    if(cnt<=0)break link ;
                 }
-                return;
+                break link;
 
         }
+        cnt=s;
     }
 
 }

@@ -3,6 +3,7 @@ package me.matl114.logitech.SlimefunItem.Machines.ManualMachines;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractManual;
 
 import me.matl114.logitech.Utils.RecipeSupporter;
@@ -20,6 +21,9 @@ public class ManualCrafter extends AbstractManual {
                           RecipeType... craftType) {
         super(category,item,recipeType,recipe,energybuffer,energyConsumption,null);
         this.craftType = craftType;
+        SchedulePostRegister.addPostRegisterTask(()->{
+            getDisplayRecipes();
+        });
     }
     public List<MachineRecipe> getMachineRecipes() {
         //this should not be null ,unless you are sb
@@ -42,11 +46,5 @@ public class ManualCrafter extends AbstractManual {
             }
         }
         return this.machineRecipes;
-    }
-    public List<ItemStack> getDisplayRecipes(){
-        if(displayedMemory==null||displayedMemory.isEmpty()) {
-            displayedMemory=_getDisplayRecipes();
-        }
-        return displayedMemory;
     }
 }

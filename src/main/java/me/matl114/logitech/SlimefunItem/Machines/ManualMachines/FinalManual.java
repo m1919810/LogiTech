@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
+import me.matl114.logitech.Schedule.Task;
 import me.matl114.logitech.SlimefunItem.Machines.*;
 import me.matl114.logitech.SlimefunItem.Storage.ItemStorageCache;
 import me.matl114.logitech.Utils.*;
@@ -15,17 +16,20 @@ import me.matl114.logitech.Utils.UtilClass.ItemGreedyConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemPusher;
 import me.matl114.logitech.Utils.UtilClass.ItemPusherProvider;
 import me.matl114.logitech.Utils.UtilClass.ItemSlotPusher;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class FinalManual extends AbstractManual implements MultiCraftType {
     protected final int[] INPUT_SLOT = new int[]{3,4,5,6,7,8,12,13,14,15,16,17,21,22,23,24,25,26,30,31,32,33,34,35,39,40,41,42,43,44,48,49,50,51,52,53};
@@ -45,7 +49,9 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
     protected static final ItemStack CRAFT_MUL=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,
             "&3批量合成","&6左键&b合成 &d3456次 &b当前物品","&6右键&b合成 &d9,999,999次 &b当前物品");
     protected static final int MUL_SLOT=20;
-    protected static final ItemStack INFO2_ITEM=new CustomItemStack(Material.BEACON,"&6合成机制: "+ AddUtils.colorful("概念合成"),"","&b该快捷机器支持从非空的存储类物品中抽取材料","&b进行合成,并自动送入非空的存储类物品中","&c警告:请保证配方总输出数量小于2147483647","","","&b目前支持:","&7测试工艺: 奇点存储");
+    protected static final ItemStack INFO2_ITEM=new CustomItemStack(Material.BEACON,"&6合成机制: "+ AddUtils.colorful("概念合成"),
+            "","&b该快捷机器支持从非空的存储类物品中抽取材料","&b进行合成,并自动送入非空的存储类物品中","&c警告:请保证配方总输出数量小于2147483647",
+            "","","&b目前支持:","&7逻辑工艺: 奇点存储","&7网络(网络拓展): 量子存储");
     protected static final int INFO2_SLOT=19;
     protected static final ItemStack DISPLAY_BKGROUND=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE," ");
     protected static final ItemStack DISPLAY_DEFAULT_BKGROUND=new CustomItemStack(Material.RED_STAINED_GLASS_PANE," ");
@@ -83,7 +89,6 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
         if(tar==null){
             if(mod==Settings.INPUT){
                 tar= new ItemPusher(item);
-
             }else{
                 //keep an eye on it
                 tar= new ItemPusher(item,item.getMaxStackSize());
@@ -183,24 +188,33 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
         );
         menu.addMenuClickHandler(ONE_SLOT,
                 (player, i, itemStack, clickAction)->{
-                    int limit=1;
-                    if(clickAction.isRightClicked()){
-                        limit=64;
+                    if(SecurityUtils.lock(player,SecurityUtils.Lock.MenuClickLock)){
+                        int limit=1;
+                        if(clickAction.isRightClicked()){
+                            limit=64;
+                        }
+                        craft(menu,limit);
+                        FinalManual.this.tick(block,menu,1);
+                        SecurityUtils.unlock(player,SecurityUtils.Lock.MenuClickLock);
+                    }else {
+                        player.sendMessage(ChatColors.color("&e您点的太快了,请您消停会"));
                     }
-                    craft(menu,limit);
-                    FinalManual.this.tick(block,menu,1);
                     return false;
                 }
         );
         menu.addMenuClickHandler(MUL_SLOT,
                 (player, i, itemStack, clickAction)->{
-                    int limit=3456;
-                    if(clickAction.isRightClicked()){
-                        limit=9_999_999;
+                    if(SecurityUtils.lock(player,SecurityUtils.Lock.MenuClickLock)){
+                        int limit=3456;
+                        if(clickAction.isRightClicked()){
+                            limit=9_999_999;
+                        }
+                        craft(menu,limit);
+                        FinalManual.this.tick(block,menu,1);
+                        SecurityUtils.unlock(player,SecurityUtils.Lock.MenuClickLock);
+                    }else {
+                        player.sendMessage(ChatColors.color("&e您点的太快了,请您消停会"));
                     }
-
-                    craft(menu,limit);
-                    FinalManual.this.tick(block,menu,1);
                     return false;
                 }
         );
@@ -216,7 +230,7 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
                                 })
                         ).open(player);
                     }else{
-                        player.sendMessage(ChatColors.color("&e您所摆放的方式并不构成多方块机器"));
+                        player.sendMessage(ChatColors.color("&e配方类型获取错误"));
                         // player.sendMessage();
                     }
                     return false;

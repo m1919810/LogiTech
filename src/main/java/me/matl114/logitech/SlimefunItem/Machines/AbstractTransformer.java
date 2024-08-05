@@ -19,7 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 import java.util.List;
 
-public abstract  class AbstractTransformer extends AbstractMachines implements PublicTicking {
+public abstract  class AbstractTransformer extends AbstractMachine implements PublicTicking {
     //我们的目标是 最广的需求 最好的性能 最大的答辩(bushi
     /**
      * public tick stuff
@@ -66,15 +66,13 @@ public abstract  class AbstractTransformer extends AbstractMachines implements P
 
 
 
-    public EnergyNetComponentType getEnergyComponentType() {
-        return EnergyNetComponentType.NONE;
-    }
 
     public void tick(Block b, BlockMenu menu,int ticker) {
        if(conditionHandle(b,menu)){
+           processorCost(b,menu);
            if(ticker%this.time==this.diffTick){
             process(b,menu);
-       }
+         }
     }}
     public void process(Block block, BlockMenu inv){
         MachineRecipe nextP = CraftUtils.matchNextRecipe(inv, getInputSlots(),getMachineRecipes(),true, Settings.SEQUNTIAL);

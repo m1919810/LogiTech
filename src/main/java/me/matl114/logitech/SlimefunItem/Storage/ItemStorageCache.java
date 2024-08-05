@@ -3,6 +3,7 @@ package me.matl114.logitech.SlimefunItem.Storage;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.Schedule.ScheduleSave;
+import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.MenuUtils;
 import me.matl114.logitech.Utils.UtilClass.ItemCounter;
 import me.matl114.logitech.Utils.UtilClass.ItemSlotPusher;
@@ -39,16 +40,19 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
         return cacheMap.remove(loc);
     }
     static {
-        ScheduleSave.addPeriodicTask(
+        ScheduleSave.addFinalTask(
                 ()->{
                     for(Map.Entry<Location, ItemStorageCache> a:cacheMap.entrySet()){
                         BlockMenu menu= StorageCacheUtils.getMenu(a.getKey());
-                        a.getValue().setPersistent(false);
-                        a.getValue().updateMenu(menu);
-                        a.getValue().setPersistent(true);
+                        if (!menu.hasViewer()){
+                            a.getValue().setPersistent(false);
+                            a.getValue().updateMenu(menu);
+                            a.getValue().setPersistent(true);
+                        }
                     }
                 }
         );
+        Storages.setup();
     }
 
     /**
@@ -95,6 +99,7 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
     public static ItemStorageCache get(ItemStack source, ItemMeta sourceMeta, int saveSlot,StorageType type) {
         if(type==null){
             type=StorageType.getStorageType(sourceMeta);
+            //Debug.logger("check type "+type);
         }
         else if(!type.isStorage(sourceMeta)){
             return null;
@@ -175,40 +180,41 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
 
     protected void updateItemStack(){
         if(wasNull==true) {
+            Debug.logger("was null");
             if(getItem()!=null){
+                item=item.clone();
+                //样板保证是一个，用storageAmount mook掉真实itemAmount
+                item.setAmount(1);
+                storageAmount=getAmount();
+                storageType.setStorage(sourceMeta,this.getItem());
 
-            storageType.setStorage(sourceMeta,this.getItem());
-            storageAmount=getAmount();
-
-            wasNull=false;
+                wasNull=false;
             }
-        }else{
-            storageAmount=getAmount();
-            storageType.setStorageAmount(sourceMeta,storageAmount);
         }
+        storageAmount=getAmount();
+
     }
 
     public void updateMenu(@Nonnull BlockMenu menu){
-
+        long a=System.nanoTime();
         if (dirty&&getItem()!=null&&!getItem().getType().isAir()){
 
-            if(wasNull){//clone from source
-                item=item.clone();
-            }
             updateItemStack();
-
-        if(menu.hasViewer()||!persistent){
-
-            storageType.updateStorageAmountDisplay(sourceMeta,this.getAmount());
-        }
-            source.setItemMeta(sourceMeta);
+            //make sync to source when needed, do not do when not needed
+            if(menu.hasViewer()||!persistent){
+                storageType.setStorageAmount(sourceMeta,storageAmount);
+                storageType.updateStorageAmountDisplay(sourceMeta,this.getAmount());
+                source.setItemMeta(sourceMeta);
+            }
 
         //不是persistent 将物品的clone进行替换// 和保存有关
         }
+        long b=System.nanoTime();
         if(!persistent&&slot>=0){
             //not work?
             source= MenuUtils.syncSlot(menu,slot,source);
         }
+        long e=System.nanoTime();
     }
     public void syncData(){
         if(!wasNull){

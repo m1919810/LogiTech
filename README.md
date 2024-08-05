@@ -10,7 +10,7 @@ this is matl114's first Slimefun addon project
 
 this addon has soft depends ,I recommend installing them to enable related feature
 
-### Soft Depends (附属软前置)
+### Soft Depends (附属软依赖)
 ```
   - InfinityExpansion
   - Networks (Networks vExpansion)

@@ -28,15 +28,15 @@ public class AddDepends {
         }
     }
     public static SlimefunItem MANUAL_INF=
-            new ManualCrafter(AddGroups.author,AddSlimefunItemStack.MANUAL_INF, RecipeType.NULL, AddUtils.NULL_RECIPE.clone(),
+            new ManualCrafter(AddGroups.MATERIAL, AddItem.MANUAL_INF, RecipeType.NULL, AddUtils.NULL_RECIPE.clone(),
             1919,810, InfinityWorkbench.TYPE);
     public static SlimefunItem MANUAL_MOB=
-            new ManualCrafter(AddGroups.author,AddSlimefunItemStack.MANUAL_MOB, RecipeType.NULL, AddUtils.NULL_RECIPE.clone(),
+            new ManualCrafter(AddGroups.MATERIAL, AddItem.MANUAL_MOB, RecipeType.NULL, AddUtils.NULL_RECIPE.clone(),
                     1919,810, MobDataInfuser.TYPE);
     public static SlimefunItem MANUAL_NTWBENCH=
-            new ManualCrafter(AddGroups.author,AddSlimefunItemStack.MANUAL_NTWBENCH, RecipeType.NULL, AddUtils.NULL_RECIPE.clone(),
+            new ManualCrafter(AddGroups.MATERIAL, AddItem.MANUAL_NTWBENCH, RecipeType.NULL, AddUtils.NULL_RECIPE.clone(),
             1919,810, NetworkQuantumWorkbench.TYPE,Dependency.hasNetworkExpansion? ExpansionWorkbench.TYPE:null);
     public static SlimefunItem AUTO_INF=
-            new AdvanceRecipeCrafter(AddGroups.author,AddSlimefunItemStack.AUTO_INF, RecipeType.NULL, AddUtils.NULL_RECIPE.clone()
+            new AdvanceRecipeCrafter(AddGroups.MATERIAL, AddItem.AUTO_INF, RecipeType.NULL, AddUtils.NULL_RECIPE.clone()
                     , Material.RESPAWN_ANCHOR,1919,810,8, InfinityWorkbench.TYPE);
 }

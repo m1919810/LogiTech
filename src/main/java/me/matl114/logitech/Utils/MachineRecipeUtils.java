@@ -134,9 +134,31 @@ public class MachineRecipeUtils {
         }
         return false;
     }
+    /**
+     * build shaped recipe,keep nulls ,don't stack ,make machinerecipe
+     * @param
+     * @param
+     * @return
+     */
+    public static MachineRecipe shapeFrom(int ticks,ItemStack[] input,ItemStack[] output){
+        return new ShapedMachineRecipe(ticks,input,output);
+    }
+    /**
+     * build shaped recipe,keep nulls ,don't stack ,add returned bottles,make machinerecipe
+     * @param
+     * @param
+     * @return
+     */
     public static MachineRecipe shapeFromRecipe(SlimefunItem item){
         return shapeFromRecipe(item,-1);
     }
+
+    /**
+     * build shaped recipe,keep nulls ,don't stack ,add returned bottles,make machinerecipe
+     * @param item
+     * @param time
+     * @return
+     */
     public static MachineRecipe shapeFromRecipe(SlimefunItem item,int time){
         ItemStack[] input=item.getRecipe();
         List<ItemStack> outputs=new ArrayList<ItemStack>(){{
@@ -152,10 +174,22 @@ public class MachineRecipeUtils {
         }
         return new ShapedMachineRecipe(time,item.getRecipe(),stackIn(outputs.toArray(ItemStack[]::new)));
     }
-
+    /**
+     * chear nulls in recipe,add bucket and bottles in output, make machinerecipe
+     * @param item
+     * @param time
+     * @return
+     */
     public static MachineRecipe FromRecipe(SlimefunItem item){
         return FromRecipe(item,-1);
     }
+
+    /**
+     * chear nulls in recipe,add bucket and bottles in output, make machinerecipe
+     * @param item
+     * @param time
+     * @return
+     */
     public static MachineRecipe FromRecipe(SlimefunItem item,int time){
         ItemStack[] input=item.getRecipe();
         List<ItemStack> outputs=new ArrayList<ItemStack>(){{
@@ -171,9 +205,28 @@ public class MachineRecipeUtils {
         }
         return new MachineRecipe(time,in(item.getRecipe()),stackIn(outputs.toArray(ItemStack[]::new)));
     }
+
+    /**
+     * clear nulls in recipe,why there are nulls
+     * @param recipe
+     * @return
+     */
     public static MachineRecipe FromMachine(MachineRecipe recipe){
         MachineRecipe rep=new MachineRecipe(-1,in(recipe.getInput()),in(recipe.getOutput()));
         rep.setTicks(recipe.getTicks());
+        return rep;
+    }
+
+    /**
+     * clear nulls in input and output, make recipe
+     * @param ticks
+     * @param input
+     * @param output
+     * @return
+     */
+    public static MachineRecipe From(int ticks,ItemStack[] input,ItemStack[] output){
+        MachineRecipe rep=new MachineRecipe(0,in(input),in(output));
+        rep.setTicks(ticks);
         return rep;
     }
 }

@@ -7,6 +7,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import me.matl114.logitech.Schedule.PersistentEffects.CustomEffects;
 import me.matl114.logitech.Schedule.PersistentEffects.PlayerEffects;
+import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
 import org.bukkit.inventory.ItemStack;
 
 public class AntiGravityBar extends CustomSlimefunItem {

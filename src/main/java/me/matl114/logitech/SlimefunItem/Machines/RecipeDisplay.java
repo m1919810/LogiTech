@@ -48,7 +48,10 @@ public interface RecipeDisplay extends RecipeDisplayItem {
             if(stack.getAmount()>64){
                 lore.add("&c输出数量: "+stack.getAmount());
             }
-            lore.add("&e进程耗时: "+(int)(time/2)+"s ("+time+"tick)");
+            if(time>=0)
+                lore.add("&e进程耗时: "+(int)(time/2)+"s ("+time+"tick)");
+            else
+                lore.add("&e非进度配方");
             stack=AddUtils.addLore(stack, lore.toArray(new String[0]));
             break;
         }

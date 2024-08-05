@@ -21,7 +21,18 @@ public class ItemConsumer extends ItemCounter {
         targetConsumers.add(target);
         target.dirty=true;
     }
+    public void consume(ItemPusher other){
+        super.consume(other);
+        addRelate(other);
+    }
 
+    /**
+     * clear all modifi
+     */
+    public void syncData(){
+        targetConsumers.clear();
+        super.syncData();
+    }
     public List<ItemPusher> getRelate(){
         return targetConsumers;
     }
@@ -38,6 +49,7 @@ public class ItemConsumer extends ItemCounter {
                 }
 
         }
+
 
     //used as consume
 }

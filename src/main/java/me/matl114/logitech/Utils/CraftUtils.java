@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.*;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.lang.reflect.Field;
 import java.util.*;
 
 public class CraftUtils {
@@ -45,6 +46,30 @@ public class CraftUtils {
         add(Material.SHULKER_BOX);
         add(Material.BUNDLE);
     }};
+    public static final ItemMeta NULL_META=(new ItemStack(Material.STONE).getItemMeta());
+    public static final Class CRAFTMETAITEMCLASS=NULL_META.getClass();
+    public static Field CRAFTLORE;
+    public static Field CRAFTDISPLAYNAME;
+    public static boolean INVOKE_SUCCESS;
+    static{
+        try{
+            CRAFTLORE=CRAFTMETAITEMCLASS.getDeclaredField("lore");
+            CRAFTDISPLAYNAME=CRAFTMETAITEMCLASS.getDeclaredField("displayName");
+            CRAFTLORE.setAccessible(true);
+            CRAFTDISPLAYNAME.setAccessible(true);
+            INVOKE_SUCCESS=true;
+            Debug.logger("INVOKE META SUCCESS");
+        }catch (Throwable e){
+            Debug.logger("INVOKE META FAILED");
+            INVOKE_SUCCESS=false;
+            e.printStackTrace();
+            Debug.logger("DISABLING RELEVENT FEATURE");
+
+        }
+    }
+    public static void setup(){
+
+    }
     @Nullable
     public static String parseSfId(ItemStack item) {
         Optional<String> itemID = Slimefun.getItemDataService().getItemData(item);
@@ -60,6 +85,7 @@ public class CraftUtils {
      * @return
      */
     public static ItemConsumer getConsumer(ItemStack a){
+        if(a==null)return null;
         if (a instanceof RandomItemStack){
             return new ItemConsumer(a.clone());
         }
@@ -72,6 +98,7 @@ public class CraftUtils {
      * @return
      */
     public static ItemGreedyConsumer getGreedyConsumer(ItemStack a){
+        if(a==null)return null;
         if (a instanceof RandomItemStack){
             return new ItemGreedyConsumer(a.clone());
         }
@@ -103,10 +130,20 @@ public class CraftUtils {
         return getpusher.get(Settings.OUTPUT,inv,slot);
     }
     public static ItemPusher getPusher(ItemStack it){
-        return new ItemPusher(it);
+        if(it!=null)
+            return new ItemPusher(it);
+        else
+            return null;
     }
     public static ItemPusher getPusher(BlockMenu inv,int slot){
         return getpusher.get(Settings.INPUT,inv,slot);
+    }
+    public static void clearAmount(ItemPusher ... counters){
+        for (int i =0;i<counters.length;++i){
+            counters[i].setAmount(0);
+            //this is safe,I said it
+            counters[i].updateMenu(null);
+        }
     }
     /**
      * builtin Method for developments
@@ -126,7 +163,6 @@ public class CraftUtils {
                 }
                 if(CraftUtils.matchItemCounter(result[i],itemCounter2,false)){
                     result[i].consume(itemCounter2);
-                    result[i].addRelate(itemCounter2);
                     if(result[i].getAmount()<=0)break;
                 }
             }
@@ -1101,9 +1137,9 @@ public class CraftUtils {
         ItemStack[] recipeInput=recipe.getInput();
         int len=input.length;
         int len2=recipeInput.length;
-        if(len!=len2) return 0;
+        if(len<len2) return 0;
         int max=limit;
-        for(int i=0;i<len;++i){
+        for(int i=0;i<len2;++i){
             if(input[i]==null){
                 if(recipeInput[i]==null){
                     continue;
@@ -1154,10 +1190,13 @@ public class CraftUtils {
             ItemGreedyConsumer[] outputCounters=null;
             if(outputs.length!=0){
                 outputCounters=countMultiOutput(new ItemGreedyConsumer[]{},inv,outputs,checkRecipe,craftAmount);
-                finalAmount=outputCounters[0].getStackNum();
+                if(outputCounters!=null)
+                    finalAmount=outputCounters[0].getStackNum();
+                else return null;
             }
             ItemStack[] recipeInput=checkRecipe.getInput();
-            for(int i=0;i<len;++i){
+            int len2=recipeInput.length;
+            for(int i=0;i<len2;++i){
                 if(inputItem[i]!=null)
                 inputItem[i].setAmount(inputItem[i].getAmount()-finalAmount*recipeInput[i].getAmount());
             }
@@ -1175,11 +1214,15 @@ public class CraftUtils {
                 ItemGreedyConsumer[] outputCounters=null;
                 if(outputs.length!=0){
                     outputCounters=countMultiOutput(new ItemGreedyConsumer[]{},inv,outputs,checkRecipe,craftAmount);
-                    finalAmount=outputCounters[0].getStackNum();
+                    if(outputCounters!=null)
+                        finalAmount=outputCounters[0].getStackNum();
+                    else return null;
                 }
-                ItemStack[] recipeOutput=checkRecipe.getOutput();
-                for(int i=0;i<len;++i){
-                    inputItem[i].setAmount(inputItem[i].getAmount()-finalAmount*recipeOutput[i].getAmount());
+                ItemStack[] recipeInput=checkRecipe.getInput();
+                int len2=recipeInput.length;
+                for(int i=0;i<len2;++i){
+                    if(inputItem[i]!=null)
+                        inputItem[i].setAmount(inputItem[i].getAmount()-finalAmount*recipeInput[i].getAmount());
                 }
                 if(useHistory) {
                     RecipeCache.setLastRecipe(inv.getLocation(),__iter);
@@ -1200,11 +1243,15 @@ public class CraftUtils {
                 ItemGreedyConsumer[] outputCounters=null;
                 if(outputs.length!=0){
                     outputCounters=countMultiOutput(new ItemGreedyConsumer[]{},inv,outputs,checkRecipe,craftAmount);
-                    finalAmount=outputCounters[0].getStackNum();
+                    if(outputCounters!=null)
+                        finalAmount=outputCounters[0].getStackNum();
+                    else return null;
                 }
-                ItemStack[] recipeOutput=checkRecipe.getOutput();
-                for(int i=0;i<len;++i){
-                    inputItem[i].setAmount(inputItem[i].getAmount()-finalAmount*recipeOutput[i].getAmount());
+                ItemStack[] recipeInput=checkRecipe.getInput();
+                int len2=recipeInput.length;
+                for(int i=0;i<len2;++i){
+                    if(inputItem[i]!=null)
+                        inputItem[i].setAmount(inputItem[i].getAmount()-finalAmount*recipeInput[i].getAmount());
                 }
                 if(useHistory) {
                     RecipeCache.setLastRecipe(inv.getLocation(),__iter);
@@ -1246,8 +1293,12 @@ public class CraftUtils {
         if(INDISTINGUISHABLE_MATERIALS.contains(stack1.getType())){
             return false;
         }
-        //match display name
-        if(!(!meta1.hasDisplayName() || (meta1.getDisplayName().equals(meta2.getDisplayName())))) {
+//        //match display name
+//        if(!(!meta1.hasDisplayName() || (meta1.getDisplayName().equals(meta2.getDisplayName())))) {
+//            return false;
+//        }
+                //match display name
+        if(!(!meta1.hasDisplayName() || matchDisplayNameOnInvoke(meta1,meta2))) {
             return false;
         }
         //check important metas
@@ -1261,6 +1312,15 @@ public class CraftUtils {
         //stop check if not strict like itemmatch in recipeFinder and consumer
         if(!strictCheck)return true;
         //check special meta
+//        if(INVOKE_SUCCESS)
+//        return meta1.equals(meta2);
+        if(!meta1.hasLore()||!meta2.hasLore()){
+            return meta1.hasLore()==meta2.hasLore();
+        }
+        if ( !matchLoreOnInvoke(meta1, meta2)) {
+            return false;
+        }
+
         if(COMPLEX_MATERIALS.contains(stack1.getType())){
             if(canQuickEscapeMaterialVariant(meta1,meta2)){
                 return false;
@@ -1280,13 +1340,31 @@ public class CraftUtils {
         } else if (hasCustomTwo) {
             return false;
         }
-        if(!meta1.hasLore()||!meta2.hasLore()){
-            return meta1.hasLore()==meta2.hasLore();
-        }
-        if ( !matchLore(meta1.getLore(), meta2.getLore())) {
-            return false;
-        }
+
         return true;
+
+    }
+    public static boolean matchLoreOnInvoke(ItemMeta meta1,ItemMeta meta2){
+        try{
+            Object lore1= (CRAFTLORE.get(meta1));
+            Object  lore2= (CRAFTLORE.get(meta2));
+            //Debug.logger("invoke time cost "+(System.nanoTime()-a));
+
+            return  Objects.equals(lore1,lore2);
+            //Debug.logger("compare time cost "+(c-b));
+        }catch (Throwable e){
+            //Debug.logger("FAILED TO INVOKE ITEMMETA");r
+            return matchLore(meta1.getLore(),meta2.getLore(),false);
+        }
+    }
+    public static boolean matchDisplayNameOnInvoke(ItemMeta meta1,ItemMeta meta2){
+        try{
+            Object name1=(CRAFTDISPLAYNAME.get(meta1));
+            Object name2=(CRAFTDISPLAYNAME.get(meta2));
+            return name1.equals(name2);
+        }catch (Throwable e){
+            return meta1.getDisplayName().equals(meta2.getDisplayName());
+        }
     }
     public static boolean matchItemStack(ItemStack stack1, ItemStack stack2,boolean strictCheck){
         if(stack1==null || stack2==null){
@@ -1302,27 +1380,52 @@ public class CraftUtils {
             return matchItemCounter(getConsumer(counter1),counter2,strictCheck);
         }
     }
-    public static boolean matchLore(List<String> lore1,List<String> lore2){
-        if(lore1==null || lore2==null){
-            return lore1 == lore2;
-        }
-        if(lore1.size()!=lore2.size()){
-            return false;
-        }
-        int len=lore1.size();
-        String l1;
-        String l2;
-        for(int i=0;i<len;++i){
-            l1=lore1.get(i);
-            l2=lore2.get(i);
-            if(l1.length()!=l2.length()){
+    public static boolean matchLore(List<String> lore1,List<String> lore2,boolean strictMod){
+        if(strictMod){
+            if(lore1==null || lore2==null){
+                return lore1 == lore2;
+            }
+            if(lore1.size()!=lore2.size()){
                 return false;
             }
-            if(!l1.equals(l2)){
+            int len=lore1.size();
+            String l1;
+            String l2;
+            for(int i=0;i<len;++i){
+                l1=lore1.get(i);
+                l2=lore2.get(i);
+                if(l1.length()!=l2.length()){
+                    return false;
+                }
+                if(!l1.equals(l2)){
+                    return false;
+                }
+            }
+            return true;
+        }else{
+            if(lore1==null || lore2==null){
+                return lore1 == lore2;
+            }
+            if(lore1.size()!=lore2.size()){
                 return false;
             }
+            return lore1.hashCode()==lore2.hashCode();
+            /**
+            int len=lore1.size();
+            String l1;
+            String l2;
+            for(int i=0;i<len;++i){
+                l1=lore1.get(i);
+                l2=lore2.get(i);
+                if(l1.length()!=l2.length()){
+                    return false;
+                }
+                if(l1.hashCode()!=l2.hashCode()){
+                    return false;
+                }
+            }
+            return true;**/
         }
-        return true;
     }
 
     /**

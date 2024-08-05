@@ -46,6 +46,7 @@ public class SMGenerator extends AbstractTransformer {
     }
     public void addInfo(ItemStack stack){
         stack.setItemMeta( AddUtils.smgInfoAdd(stack,time).getItemMeta() );
+        super.addInfo(stack);
     }
     public void constructMenu(BlockMenuPreset preset){
         preset.addItem(INFO_SLOT,this.INFO_WORKING.clone(), ChestMenuUtils.getEmptyClickHandler());
@@ -57,7 +58,6 @@ public class SMGenerator extends AbstractTransformer {
         return OUTPUT_SLOTS;
     }
 
-    public boolean conditionHandle(Block b,BlockMenu menu){return true;}
     public boolean isSync(){
         return false;
     }

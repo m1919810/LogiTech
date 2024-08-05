@@ -1,6 +1,7 @@
 package me.matl114.logitech.SlimefunItem.Storage;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import me.matl114.logitech.Utils.Debug;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -17,7 +18,6 @@ public abstract class StorageType {
     protected static void unregister(StorageType storage){
         storageTypes.remove(storage);
     }
-
     /**
      * used when identifing now storage type
      * @param meta

@@ -51,10 +51,4 @@ public class AdvanceCrafter extends AbstractAdvancedProcessor {
         }
         return this.machineRecipes;
     }
-    public List<ItemStack> getDisplayRecipes(){
-        if(displayedMemory==null||displayedMemory.isEmpty()) {
-            displayedMemory=_getDisplayRecipes();
-        }
-        return displayedMemory;
-    }
 }

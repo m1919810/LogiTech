@@ -15,9 +15,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Composter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Crucible;
 import me.matl114.logitech.Dependency;
+import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Field;
@@ -92,16 +94,41 @@ public class RecipeSupporter {
                 new ItemStack[] {SlimefunItems.SALT}
                 ));
     }};
+    public static final ArrayList<MachineRecipe> TABLE_SAW_RECIPE=new ArrayList<>(){{
+        for (Material log : Tag.LOGS.getValues()) {
+            Optional<Material> planks = AddUtils.getPlanks(log);
+
+            if (planks.isPresent()) {
+
+                add(MachineRecipeUtils.stackFrom(-1,Utils.array(new ItemStack(log)),Utils.array(new ItemStack(planks.get(),8))));
+            }
+        }
+
+        for (Material plank : Tag.PLANKS.getValues()) {
+            add(MachineRecipeUtils.stackFrom(-1,Utils.array(new ItemStack(plank)),Utils.array(new ItemStack(Material.STICK,4))));
+        }
+    }};
+
+    /**
+     * stored shaped machine recipe pieces
+     * be careful ,ticks of these MachineRecipe are -1 ! not able to use directly in machine
+     */
+    public static final HashMap<RecipeType,List<MachineRecipe>> PROVIDED_SHAPED_RECIPES = new LinkedHashMap<>();
     /**
      * stored Unshaped machine recipe pieces
+     * be careful ,ticks of these MachineRecipe are -1 ! not able to use directly in machine
      */
     public static final HashMap<RecipeType, List<MachineRecipe>> PROVIDED_UNSHAPED_RECIPES = new LinkedHashMap<>(){{
-        put(RecipeType.GOLD_PAN,GOLDPAN_RECIPE);
-        put(RecipeType.ORE_WASHER,ORE_WASHER_RECIPE);
+
 
     }};
     //总统计表
     public static final HashSet<RecipeType> RECIPE_TYPES = new LinkedHashSet<>();
+    //是和多方块绑定的配方
+    public static final HashMap<RecipeType,MultiBlockMachine> MULTIBLOCK_RECIPETYPES=new LinkedHashMap<>();
+    //检测存在TYPE成员的SlimefunItem，，或者也可以手动添加
+    public static final HashMap<SlimefunItem,RecipeType> CUSTOM_RECIPETYPES = new LinkedHashMap<>(){{
+    }};
     //废弃的表
     public static final HashSet<RecipeType> SUPPORTED_UNSHAPED_RECIPETYPE =new LinkedHashSet<>()    {{
         add(RecipeType.ENHANCED_CRAFTING_TABLE);
@@ -123,17 +150,19 @@ public class RecipeSupporter {
             add(ExpansionWorkbench.TYPE);
         }
     }};
-    //禁用某些读取 并换上自己的 比如某些傻逼多方块机器
-    public static final HashSet<RecipeType> RECIPETYPE_BLACKLISTED = new HashSet<>(){{
-        add(RecipeType.GOLD_PAN);
-        add(RecipeType.ORE_WASHER);
+    //废弃的表
+    public static final HashSet<RecipeType> SUPPORTED_SHAPED_RECIPETYPE= new HashSet<>(){{
+        add(RecipeType.MULTIBLOCK);
+    }};
+    //被禁用的配方
+    public static final HashSet<RecipeType> BLACKLIST_RECIPETYPES = new HashSet<>(){{
         if(Dependency.hasInfiniteExpansion){
             add(VoidHarvester.TYPE);
         }
 
     }};
     //一般来说不能让玩家合成的
-    public static final HashSet<RecipeType> RECIPETYPE_ILLEGAL=new HashSet<>(){{
+    public static final HashSet<RecipeType> ILLEGAL_RECIPETYPES =new HashSet<>(){{
         if(Dependency.hasInfiniteExpansion){
             add(VoidHarvester.TYPE);
         }
@@ -143,24 +172,24 @@ public class RecipeSupporter {
         add(RecipeType.INTERACT);
         add(RecipeType.GEO_MINER);
     }};
-    //禁用某些读取 并换上自己的 比如某些傻逼多方块机器
-    public static final HashSet<MultiBlockMachine> MULTIBLOCK_BLACKLISTED = new HashSet<>(){{
+
+
+    //被禁用的多方块
+    public static final HashSet<MultiBlockMachine> BLACKLIST_MULTIBLOCK = new HashSet<>(){{
     }};
     //检测全部为MultiBlockMachine的机器 并抓取配方
     public static final HashMap<MultiBlockMachine,List<MachineRecipe>> MULTIBLOCK_RECIPES = new LinkedHashMap<>();
-    //检测存在TYPE成员的SlimefunItem，，或者也可以手动添加
-    public static final HashMap<SlimefunItem,RecipeType> CUSTOM_RECIPETYPES = new LinkedHashMap<>(){{
-    }};
-    /**
-     * stored shaped machine recipe pieces
-     */
-    public static final HashMap<RecipeType,List<MachineRecipe>> PROVIDED_SHAPED_RECIPES = new LinkedHashMap<>();
-    //废弃的表
-    public static final HashSet<RecipeType> SUPPORTED_SHAPED_RECIPETYPE= new HashSet<>(){{
-        add(RecipeType.MULTIBLOCK);
-    }};
+
+
     //注册为可识别icon的
     public static final HashMap<RecipeType,ItemStack> RECIPETYPE_ICON=new LinkedHashMap<>();
+    //堆叠机器黑名单
+    public static final HashSet<SlimefunItem> BLACKLIST_STACKMACHINE=new LinkedHashSet<>();
+    //读取机器类黑名单 防止循环读取
+    public static final HashSet<Class> BLACKLIST_MACHINECLASS=new HashSet<>(){{
+       add(AbstractMachine.class);
+    }};
+    //读取的全部机器配方
     public static final HashMap<SlimefunItem ,List<MachineRecipe>> MACHINE_RECIPELIST=new LinkedHashMap<>();
     public static List<MachineRecipe> getStackedRecipes(RecipeType type) {
         if(SUPPORTED_UNSHAPED_RECIPETYPE.contains(type)) {
@@ -171,66 +200,141 @@ public class RecipeSupporter {
         }
         return  null;
     }
+
+    /**
+     * invoke recursively
+     * @param target
+     * @param mod
+     * @return
+     */
+    public static  Object invokeRecursively(Object target,Settings mod,String declared){
+        return invokeRecursively(target,target.getClass(),mod,declared);
+    }
+    public static  Object invokeRecursively(Object target,Class clazz,Settings mod,String decleared){
+        try{
+            switch (mod){
+                case FIELD:
+                    Field _hasType=clazz.getDeclaredField(decleared);
+                    _hasType.setAccessible(true);
+                    return  _hasType.get(target);
+                case METHOD:
+                    Method _hasMethod=clazz.getDeclaredMethod(decleared);
+
+                    _hasMethod.setAccessible(true);
+                    return _hasMethod.invoke(target);
+            }
+        }catch (Throwable e){
+        }
+        clazz=clazz.getSuperclass();
+        if(clazz==null){
+            return null;
+        }else {
+            return invokeRecursively(target,clazz,mod,decleared);
+        }
+    }
+    public static Object invokeMethodRecursively(Object target,Class clazz,Settings mod,String declared,Object ... args){
+        return null;
+    }
     static{
         long a=System.nanoTime();
         Debug.logger("配方供应器开始进行数据采集,预计耗时2秒");
         Debug.logger("期间tps可能会下降,请不要在供应器工作时进入服务器");
         Debug.logger("期间的报错信息均可忽略");
-        MULTIBLOCK_BLACKLISTED.add((MultiBlockMachine) SlimefunItem.getById("ORE_WASHER"));
-        MULTIBLOCK_RECIPES.put((MultiBlockMachine) SlimefunItem.getById("ORE_WASHER"),ORE_WASHER_RECIPE);
-        MULTIBLOCK_BLACKLISTED.add((MultiBlockMachine) SlimefunItem.getById("AUTOMATED_PANNING_MACHINE"));
-        MULTIBLOCK_RECIPES.put((MultiBlockMachine) SlimefunItem.getById("AUTOMATED_PANNING_MACHINE"),GOLDPAN_RECIPE);
+        //this should be recipes with problems ,but we eventually replace them after search
+//        HashSet<RecipeType> recipeBlackList=new HashSet<>(){{
+//            add(RecipeType.GOLD_PAN);
+//            add(RecipeType.ORE_WASHER);}
+//        };
+//
+//        HashSet<MultiBlockMachine> multiblockBlackList=new HashSet<>(){{
+//            add((MultiBlockMachine) SlimefunItems.ORE_WASHER.getItem());
+//            add((MultiBlockMachine) SlimefunItems.AUTOMATED_PANNING_MACHINE.getItem());
+//            add((MultiBlockMachine) SlimefunItems.TABLE_SAW.getItem());
+//        }
+//        };
+
+
         Debug.logger("读取全部配方中...");
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
             RecipeType recipeType = item.getRecipeType();
-           // Debug.logger("RECIPE INFO :  "+item.toString()+"  "+item.getRecipe().length);
-            if(!RECIPETYPE_BLACKLISTED.contains(recipeType)){
-                if(RECIPE_TYPES.contains(recipeType)) {
-                    PROVIDED_SHAPED_RECIPES.get(recipeType).add(MachineRecipeUtils.shapeFromRecipe(item));
-                    PROVIDED_UNSHAPED_RECIPES.get(recipeType).add(MachineRecipeUtils.stackFromRecipe(item)) ;
-                }else{
-                    RECIPE_TYPES.add(recipeType);
-                    PROVIDED_SHAPED_RECIPES.put(recipeType,new ArrayList<>(){{
-                        add(MachineRecipeUtils.shapeFromRecipe(item));
-                    }});
-                    PROVIDED_UNSHAPED_RECIPES.put(recipeType,new ArrayList<>(){{
-                        add(MachineRecipeUtils.stackFromRecipe(item));
-                    }});
+            //过会解析
+            if(!RECIPE_TYPES.contains(recipeType)){
+                RECIPE_TYPES.add(recipeType);
+                PROVIDED_SHAPED_RECIPES.put(recipeType,new ArrayList<>());
+                PROVIDED_UNSHAPED_RECIPES.put(recipeType,new ArrayList<>());
+            }
+        }
+        //先解析当前的
+        for(RecipeType recipeType :RECIPE_TYPES){
+            if(!BLACKLIST_RECIPETYPES.contains(recipeType)) {//not in black list
+                SlimefunItem sfitem=recipeType.getMachine();
+                if (sfitem instanceof MultiBlockMachine) {
+                    List<ItemStack[]>  recipeInputs= RecipeType.getRecipeInputList((MultiBlockMachine) sfitem);
+                    List<MachineRecipe> recipes=new ArrayList<>();
+                    List<MachineRecipe> shapedrecipes=new ArrayList<>();
+                    for(ItemStack[] recipeInput: recipeInputs) {
+                        ItemStack recipeOutput=RecipeType.getRecipeOutputList((MultiBlockMachine) sfitem,recipeInput);
+                        SlimefunItem resultSfitem=SlimefunItem.getByItem(recipeOutput);
+                        if(resultSfitem !=null) {//如果是由物品注册来的
+                            recipes.add(MachineRecipeUtils.stackFromRecipe(resultSfitem));
+                            shapedrecipes.add(MachineRecipeUtils.shapeFromRecipe(resultSfitem));
+                        }else{
+                            recipes.add(MachineRecipeUtils.stackFrom(0,recipeInput,new ItemStack[] {RecipeType.getRecipeOutputList((MultiBlockMachine) sfitem,recipeInput)}));
+                            shapedrecipes.add(MachineRecipeUtils.shapeFrom(0,recipeInput,new ItemStack[] {RecipeType.getRecipeOutputList((MultiBlockMachine) sfitem,recipeInput)}));
+                        }
+                    }
+                    //记录
+                    MULTIBLOCK_RECIPETYPES.put(recipeType,(MultiBlockMachine) sfitem);
+                    //将多方块的配方注册为
+                    PROVIDED_SHAPED_RECIPES.put(recipeType,shapedrecipes);
+                    PROVIDED_UNSHAPED_RECIPES.put(recipeType,recipes);
+                    //顺便注册了多方块
+                    MULTIBLOCK_RECIPES.put((MultiBlockMachine) sfitem,recipes);
                 }
+            }
+        }
+        //非多方块的类型,基本上就是普通物品的配方注册，读取一遍
+        for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()){
+            RecipeType recipeType = item.getRecipeType();
+            if((!BLACKLIST_RECIPETYPES.contains(recipeType))&&(!MULTIBLOCK_RECIPETYPES.containsKey(recipeType))){
+                PROVIDED_SHAPED_RECIPES.get(recipeType).add(MachineRecipeUtils.shapeFromRecipe(item));
+                PROVIDED_UNSHAPED_RECIPES.get(recipeType).add(MachineRecipeUtils.stackFromRecipe(item)) ;
             }
             //解析多方块机器
             if(recipeType==RecipeType.MULTIBLOCK) {
-
                 if(item instanceof MultiBlockMachine ) {
-                    if(!MULTIBLOCK_BLACKLISTED.contains(item)){
-                    List<ItemStack[]>  recipeInputs= RecipeType.getRecipeInputList((MultiBlockMachine) item);
-                    List<MachineRecipe> recipes=new ArrayList<>();
-                    for(ItemStack[] recipeInput: recipeInputs) {
-                        recipes.add(MachineRecipeUtils.stackFrom(0,recipeInput,new ItemStack[] {RecipeType.getRecipeOutputList((MultiBlockMachine) item,recipeInput)}));
-                    }
-                    MULTIBLOCK_RECIPES.put((MultiBlockMachine) item,recipes);
+                    if(!BLACKLIST_MULTIBLOCK.contains(item)&&(!MULTIBLOCK_RECIPES.containsKey(item))){
+                        List<ItemStack[]>  recipeInputs= RecipeType.getRecipeInputList((MultiBlockMachine) item);
+                        List<MachineRecipe> recipes=new ArrayList<>();
+                        for(ItemStack[] recipeInput: recipeInputs) {
+                            recipes.add(MachineRecipeUtils.stackFrom(0,recipeInput,new ItemStack[] {RecipeType.getRecipeOutputList((MultiBlockMachine) item,recipeInput)}));
+                        }
+                        MULTIBLOCK_RECIPES.put((MultiBlockMachine) item,recipes);
                     }
                 }
             }
             //解析指定类型特殊机器配方类型
             try{
-                Class<?> clazz=item.getClass();
-                boolean hasRecipeType=true;
-                try{
-                    Field _hasType=clazz.getDeclaredField("TYPE");
-                    _hasType.setAccessible(true);
-                    Object _Type=_hasType.get(item);
-                    if(_Type instanceof RecipeType&&!RECIPETYPE_BLACKLISTED.contains((RecipeType) _Type)){
-                        CUSTOM_RECIPETYPES.put(item,(RecipeType) _Type);
-                        //Debug.logger("detect certain field TYPE: "+item);
-                    }
-                }catch (Throwable e){
-                    hasRecipeType=false;
+                Object _Type=invokeRecursively(item,Settings.FIELD,"TYPE");
+                if(_Type instanceof RecipeType&&!BLACKLIST_RECIPETYPES.contains((RecipeType) _Type)){
+                    CUSTOM_RECIPETYPES.put(item,(RecipeType) _Type);
+                    //Debug.logger("detect certain field TYPE: "+item);
                 }
+
             }catch (Throwable e){
-                Debug.logger("generate an exception while registering recipes! :"+e.getMessage());
+                //Debug.logger("generate an exception while registering recipes! :"+e.getMessage());
             }
         }
+        //强制替换有问题的配方
+        PROVIDED_UNSHAPED_RECIPES.put(RecipeType.GOLD_PAN,GOLDPAN_RECIPE);
+        PROVIDED_UNSHAPED_RECIPES.put(RecipeType.ORE_WASHER,ORE_WASHER_RECIPE);
+        PROVIDED_SHAPED_RECIPES.put(RecipeType.GOLD_PAN,GOLDPAN_RECIPE);
+        PROVIDED_SHAPED_RECIPES.put(RecipeType.ORE_WASHER,ORE_WASHER_RECIPE);
+
+        MULTIBLOCK_RECIPES.put((MultiBlockMachine)SlimefunItems.ORE_WASHER.getItem(),ORE_WASHER_RECIPE);
+        MULTIBLOCK_RECIPES.put((MultiBlockMachine) SlimefunItems.AUTOMATED_PANNING_MACHINE.getItem(),GOLDPAN_RECIPE);
+        MULTIBLOCK_RECIPES.put((MultiBlockMachine) SlimefunItems.TABLE_SAW.getItem(),TABLE_SAW_RECIPE);
+        Debug.logger("全部配方读取完成");
         Debug.logger("初始化配方类型显示界面...");
         //初始化对应物品
         for (RecipeType type:RECIPE_TYPES){
@@ -242,13 +346,15 @@ public class RecipeSupporter {
                 SlimefunItemStack sfit=new SlimefunItemStack(id+"_ICON",AddUtils.addLore(it,"","&7配方类型:"+ns+":"+id));
                 RECIPETYPE_ICON.put(type, sfit  );
             }else{
-                RECIPETYPE_ILLEGAL.add(type);
+                ILLEGAL_RECIPETYPES.add(type);
             }
             }catch (Throwable e){
-                RECIPETYPE_ILLEGAL.add(type);
+                ILLEGAL_RECIPETYPES.add(type);
             }
         }
         Debug.logger("初始化机器类型显示界面...");
+        Debug.logger("警告: 如果你发现有机器没有检测到,说明他们使用了不支持的配方类型");
+
         //解析含有recipe的机器类型
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
             try{
@@ -256,7 +362,17 @@ public class RecipeSupporter {
                 if (item instanceof AContainer){
                     recipes=((AContainer)item).getMachineRecipes();
 
-                }else{
+                }
+                else{
+                    boolean blst=false;
+                    //if in class blacklist
+                    for (Class classt:BLACKLIST_MACHINECLASS){
+                        if(classt.isInstance(item)){
+                            blst=true;
+                            break;
+                        }
+                    }
+                    if(!blst){
                     Class<?> clazz=item.getClass();
                     switch (1){
                         case 1:
@@ -265,23 +381,15 @@ public class RecipeSupporter {
                             String infinityMachineBlockRecipe="io.github.mooy1.infinityexpansion.infinitylib.machines.MachineBlockRecipe";
                             try{
                                 if(methodName==null){
-                                    try{
-                                        Method getMR=clazz.getDeclaredMethod("getMachineRecipes");
-                                        getMR.setAccessible(true);
-                                        machineRecipes=getMR.invoke(item);
+                                    machineRecipes=invokeRecursively(item,Settings.METHOD,"getMachineRecipes");
+                                    if(machineRecipes!=null){
                                         methodName="getMachineRecipes() method";
-                                    }catch (Throwable e){
-                                        machineRecipes=null;
                                     }
                                 }
                                 if(methodName==null){
-                                    try{
-                                        Field getMR=clazz.getDeclaredField("recipes");
-                                        getMR.setAccessible(true);
-                                        machineRecipes=getMR.get(item);
-                                        methodName="recipes field";
-                                    }catch (Throwable e1){
-                                        machineRecipes=null;
+                                    machineRecipes=invokeRecursively(item,Settings.FIELD,"recipes");
+                                    if(machineRecipes!=null){
+                                        methodName="getMachineRecipes() method";
                                     }
                                 }
                                 if(machineRecipes!=null) {
@@ -316,7 +424,7 @@ public class RecipeSupporter {
                                     }
                                 }
                             }catch (ClassCastException e){
-                                Debug.logger("an Error occurs while invoking "+item.toString()+" : "+e.getMessage());
+                               // Debug.logger("an Error occurs while invoking "+item.toString()+" : "+e.getMessage());
 
                             }
                             catch (Throwable e){
@@ -324,6 +432,7 @@ public class RecipeSupporter {
                             }
                         default:
 
+                        }
                     }
 
                 }
@@ -340,6 +449,18 @@ public class RecipeSupporter {
                 e.printStackTrace();
             }
         }
+        //invok 进机器配方 测试
+//        SlimefunItem compressor= SlimefunItem.getById("ELECTRIC_PRESS");
+//        try{
+//            Class clazz= AContainer.class;
+//            Field getMR=clazz.getDeclaredField("recipes");
+//            getMR.setAccessible(true);
+//            List<MachineRecipe> machineRecipes=(List<MachineRecipe>) getMR.get(compressor);
+//            machineRecipes.addAll(PROVIDED_UNSHAPED_RECIPES.get(RecipeType.COMPRESSOR));
+//        }catch (Throwable e){
+//            Debug.logger("generate unexpected exception while invoking compressor! :"+e.getMessage());
+//            e.printStackTrace();
+//        }
         Debug.logger("配方供应器工作完成, 耗时 "+(System.nanoTime()-a)+ " 纳秒");
 
     }

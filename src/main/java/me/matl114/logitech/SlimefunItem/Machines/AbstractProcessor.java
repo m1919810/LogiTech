@@ -28,7 +28,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractProcessor extends AbstractMachines implements MachineProcessHolder<SimpleCraftingOperation> {
+public abstract class AbstractProcessor extends AbstractMachine implements MachineProcessHolder<SimpleCraftingOperation> {
     protected static final int[] BORDER = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44};
     protected static final int[] BORDER_IN = new int[]{9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
     protected static final int[] BORDER_OUT = new int[]{14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
@@ -57,7 +57,6 @@ public abstract class AbstractProcessor extends AbstractMachines implements Mach
         }else
         {
             this.machineRecipes=new ArrayList<>();
-
         }
 
     }
@@ -70,14 +69,14 @@ public abstract class AbstractProcessor extends AbstractMachines implements Mach
         return this.processor;
     }
 
-    public void addInfo(ItemStack stack){
-       stack.setItemMeta(AddUtils.machineInfoAdd(stack,this.energybuffer,this.energyConsumption).getItemMeta());
-    }
+
     /**
      * need implement,  method from MachineProcessorHolder
      * @return
      */
-    public abstract ItemStack getProgressBar();
+    public ItemStack getProgressBar(){
+        return this.progressbar;
+    }
 
 
     /**
@@ -142,9 +141,6 @@ public abstract class AbstractProcessor extends AbstractMachines implements Mach
 
     public List<MachineRecipe> getMachineRecipes(){
         return this.machineRecipes;
-    }
-    protected void processorCost(Block b,BlockMenu menu) {
-        return ;
     }
     public void process(Block b, BlockMenu inv){
         SimpleCraftingOperation currentOperation = (SimpleCraftingOperation)this.processor.getOperation(b);

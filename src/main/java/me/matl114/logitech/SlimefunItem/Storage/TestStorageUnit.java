@@ -4,7 +4,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import me.matl114.logitech.MyAddon;
-import me.matl114.logitech.SlimefunItem.Machines.AbstractMachines;
+import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.MenuUtils;
@@ -19,12 +19,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class TestStorageUnit extends AbstractMachines {
+public class TestStorageUnit extends AbstractMachine {
     private static final int[] INPUT_SLOT = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
     private static final int[] OUTPUT_SLOT = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
 
@@ -84,20 +85,31 @@ public class TestStorageUnit extends AbstractMachines {
     public void process(Block b, BlockMenu preset){
         ItemStack it=preset.getItemInSlot(0);
         if(it!=null){
-            it.setAmount(it.getAmount()+1);
+            it.setAmount(114514);
         }
-        ItemStack it2=preset.getItemInSlot(1);
-        if(it!=null){
-            ItemMeta im=it.getItemMeta();
-            im.setLore(new ArrayList<>(){{
-                SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-                Date date = new Date(System.currentTimeMillis());
-                add("savetimestrap: "+formatter.format(date));
-            }});
-           // it2.setItemMeta(im);
-        }
+        ItemStack stack=new ItemStack(Material.COMMAND_BLOCK);
+        stack.setAmount(-128);
+        preset.replaceExistingItem(2,stack);
         preset.replaceExistingItem(3,rand);
         ItemStack a=preset.getItemInSlot(4);
+        if(a!=null){
+            //Debug.logger("a="+a.getItemMeta().toString());
+            ItemMeta as=a.getItemMeta();
+            //Debug.logger("stack="+as.getClass());
+            Class clazz=as.getClass();
+            try{
+                Field getlore=clazz.getDeclaredField("lore");
+                getlore.setAccessible(true);
+                Object o=getlore.get(as);
+                Debug.logger("o="+o.toString());
+            }
+            catch(Throwable e){
+                Debug.logger("invoke failed ");
+                e.printStackTrace();
+
+            }
+
+        }
         Location loc=preset.getLocation();
 
         new BukkitRunnable(){

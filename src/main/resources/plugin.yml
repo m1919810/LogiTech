@@ -1,17 +1,17 @@
 ## CHANGE 更改此处为你的附属名称
-name: TestAddon
+name: LogiTech
 
 ## CHANGE 更改此处为你的名称
 author: matl114
 
 ## CHANGE 这是对你插件的介绍
-description: A Test Slimefun4-Addon
+description: Logical Slimefun4-Addon To Make A Better World
 
 ## CHANGE 指向你的 JavaPlugin 主类
-main: me.matl114.slimefunaddon.MyAddon
+main: me.matl114.logitech.MyAddon
 
 ## 你可以更改为你的项目仓库地址，或者你的个人网站。你也可以移除此项目。
-website: https://github.com/m1919810/SlimefunAddonTemplate
+website: https://github.com/m1919810/LogiTech
 
 ## 该值将在构建时被自动替换为pom.xml中定义的版本。
 ## 不要更改此项目。

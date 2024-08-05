@@ -10,7 +10,6 @@ public class ListenerManager {
     public static void registerListeners(Plugin plugin,PluginManager manager){
         ListenerManager.plugin=plugin;
         ListenerManager.manager=manager;
-        //register(testBlockBreakListener);
         register(EFFECT_CLEAR_MILK_LISTENER);
     }
     public static Plugin plugin;

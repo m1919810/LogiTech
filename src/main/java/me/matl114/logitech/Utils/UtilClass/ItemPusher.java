@@ -1,5 +1,6 @@
 package me.matl114.logitech.Utils.UtilClass;
 
+import me.matl114.logitech.Utils.Debug;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.inventory.ItemStack;
 
@@ -24,6 +25,19 @@ public class ItemPusher extends ItemCounter {
         this.maxStackCnt = maxcnt;
 
     }
+    public boolean safeAddAmount(int amount){
+        int result=amount+cnt;
+        if(result>maxStackCnt){
+            return false;
+        }else {
+            setAmount(result);
+            return true;
+        }
+    }
+    /**
+     * this arguments has no meaning ,just a formated argument
+     * @param menu
+     */
     public void updateMenu( BlockMenu menu){
         if(dirty){
             updateItemStack();
@@ -49,11 +63,11 @@ public class ItemPusher extends ItemCounter {
      * @param source
      */
     public void setFrom(ItemCounter source){
-        if(item==null||(source!=null&&source.getItem()!=null)){
-        item=source.getItem();
-        maxStackCnt=item!=null?item.getMaxStackSize():0;
-        cnt=0;
-        meta=null;
+        if(item==null&&(source!=null&&source.getItem()!=null)){
+            item=source.getItem();
+            maxStackCnt=item.getMaxStackSize();
+            cnt=0;
+            meta=null;
         }
     }
 }

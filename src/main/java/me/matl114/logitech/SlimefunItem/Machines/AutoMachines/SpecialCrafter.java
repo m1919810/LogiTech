@@ -11,10 +11,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
 import me.matl114.logitech.SlimefunItem.Machines.RecipeDisplay;
 import me.matl114.logitech.SlimefunItem.Machines.RecipeLock;
-import me.matl114.logitech.Utils.CraftUtils;
-import me.matl114.logitech.Utils.MenuUtils;
-import me.matl114.logitech.Utils.RecipeSupporter;
-import me.matl114.logitech.Utils.Settings;
+import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.*;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -320,16 +317,13 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock {
         }
         return inputSlots;
     }
-    public List<ItemStack> getDisplayRecipes(){
-        if(displayedMemory==null||displayedMemory.isEmpty()) {
-            displayedMemory=new ArrayList<>(){{
-                for(SlimefunItem item : RecipeSupporter.CUSTOM_RECIPETYPES.keySet()){
-                    add(new DisplayItemStack(new CustomItemStack(Material.BOOK,"&f支持的机器","&8将机器插入指定槽位以进行合成")));
-                    add(new DisplayItemStack(item.getItem()));
-                }
-            }};
-        }
-        return displayedMemory;
+    public List<ItemStack> _getDisplayRecipes(){
+        return new ArrayList<>(){{
+            for(SlimefunItem item : RecipeSupporter.CUSTOM_RECIPETYPES.keySet()){
+                add(AddUtils.getInfoShow("&f支持的机器","&7将机器插入指定槽位以进行合成"));
+                add(new DisplayItemStack(item.getItem()));
+            }
+        }};
     }
 
 
