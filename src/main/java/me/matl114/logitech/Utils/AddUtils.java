@@ -411,16 +411,10 @@ public class AddUtils {
 
                 Arrays.stream(input).forEach(
                         (obj)->{
-
-
                                 ItemStack a__=resolveItem(obj);
-
                                 this.add(a__);
                             }
-
                 );
-
-
         }};
         a=a_.toArray(new ItemStack[a_.size()]);
         ItemStack[] b;
@@ -444,6 +438,7 @@ public class AddUtils {
         return new MachineRecipe(time,b.getFirstValue(),b.getSecondValue());
     }
     public static <T extends Object> LinkedHashMap<Pair<ItemStack[],ItemStack[]>,Integer> buildRecipeMap(LinkedHashMap<T,Integer> rawDataMap){
+        if(rawDataMap==null)return new LinkedHashMap<>();
         LinkedHashMap<Pair<ItemStack[],ItemStack[]>,Integer> map = new LinkedHashMap<>();
         rawDataMap.forEach((k,v)->{
             if(k instanceof Object[]){
@@ -455,7 +450,13 @@ public class AddUtils {
                 try{
 
                 Object[] input=(Object[])((Pair)k).getFirstValue();
+                if(input==null){
+                    input=new Object[]{};
+                }
                 Object[] output=(Object[])((Pair)k).getSecondValue();
+                if(output==null){
+                    output=new Object[]{};
+                }
                 map.put(AddUtils.buildRecipes(input,output),v);
                 }catch (Exception a){
                     throw new IllegalArgumentException("illegalArguments in recipe Pair, Pair val must be <T extends Object>T[]");

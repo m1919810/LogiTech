@@ -35,10 +35,7 @@ public class AdvanceCrafter extends AbstractAdvancedProcessor {
             if(this.craftType.length<=0){
                 return new ArrayList<>();
             }
-            else if(this.craftType.length==1){
-                this.machineRecipes = RecipeSupporter.getStackedRecipes(this.craftType[0]);
-
-            }else{
+            else {
                 this.machineRecipes=new ArrayList<>();
                 for(RecipeType rt : this.craftType){
                     if(rt!=null)

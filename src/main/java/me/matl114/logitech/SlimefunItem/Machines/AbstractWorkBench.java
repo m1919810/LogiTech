@@ -193,7 +193,6 @@ public abstract class AbstractWorkBench extends AbstractMachine {
                     continue;
                 }
                 // 重置consumer计数器
-
                 itcs[slot].syncAmount();
                 int recipeCount=itcs[slot].getAmount();
                 if(i==0){

@@ -34,11 +34,9 @@ public class ManualMachine extends AbstractManual {
     public List<MachineRecipe> getMachineRecipes() {
         //this should not be null ,unless you are sb
         if(this.machineRecipes == null||this.machineRecipes.isEmpty()||this.machineRecipeSupplier!=null) {
-            this.machineRecipes =this. machineRecipeSupplier.get();
+            this.machineRecipes=new ArrayList<>();
+            this.machineRecipes.addAll(this. machineRecipeSupplier.get());
 
-        }
-        if(this.machineRecipes==null) {
-            this.machineRecipes = new ArrayList<>();
         }
         return this.machineRecipes;
     }

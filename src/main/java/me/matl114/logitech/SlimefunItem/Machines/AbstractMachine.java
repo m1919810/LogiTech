@@ -221,7 +221,7 @@ public abstract  class AbstractMachine extends CustomSlimefunItem implements Tic
 
     public void disable() {
         super.disable();
-        this.getMachineRecipes().clear();
+        //this.getMachineRecipes().clear();
     }
     public void postRegister() {
         super.postRegister();

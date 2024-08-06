@@ -37,7 +37,7 @@ public class SMGenerator extends AbstractTransformer {
                                 Material.KNOWLEDGE_BOOK,
                                 "&7速度",
                                 "&7每 " + Integer.toString(time) + " 粘液刻生成一次"
-                        ))}, Arrays.stream(outputs_w).toArray()
+                        ))}, outputs_w
                     ),time) ;
                 }}
         );

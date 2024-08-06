@@ -49,7 +49,7 @@ public abstract  class AbstractTransformer extends AbstractMachine implements Pu
                 //no need to stack and can not stack(maybe some shitmachine will stack
                 //but we stack it in order to format up
                 this.machineRecipes.add(MachineRecipeUtils.stackFromMachine(
-                        new MachineRecipe(recipePiece.getValue(), recipePiece.getKey().getFirstValue(), recipePiece.getKey().getSecondValue())
+                        MachineRecipeUtils.stackFrom(recipePiece.getValue(), recipePiece.getKey().getFirstValue(), recipePiece.getKey().getSecondValue())
                 ));
             }
         }
@@ -68,19 +68,25 @@ public abstract  class AbstractTransformer extends AbstractMachine implements Pu
 
 
     public void tick(Block b, BlockMenu menu,int ticker) {
+        //long f=System.nanoTime();
        if(conditionHandle(b,menu)){
+          // long a=System.nanoTime();
+
            processorCost(b,menu);
+           //long s=System.nanoTime();
            if(ticker%this.time==this.diffTick){
             process(b,menu);
-         }
+            }
+           //long t=System.nanoTime();
+           //Debug.logger("get time : handle ",(a-f)," cost ",(s-a)," process ",(t-s));
     }}
     public void process(Block block, BlockMenu inv){
+
         MachineRecipe nextP = CraftUtils.matchNextRecipe(inv, getInputSlots(),getMachineRecipes(),true, Settings.SEQUNTIAL);
         if (nextP != null) {
             if(inv.hasViewer()){
                 inv.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_WORKING);
             }
-            processorCost(block,inv);
             CraftUtils.pushItems(nextP.getOutput(),inv,getOutputSlots());
         }else if (inv.hasViewer()){
             inv.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_NULL);

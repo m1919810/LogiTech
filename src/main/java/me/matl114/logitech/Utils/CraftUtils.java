@@ -666,43 +666,17 @@ public class CraftUtils {
      * remake version of pushItems
      * @return
      */
-    public static boolean pushItems(ItemStack[] items,BlockMenu inv,int[] slots){
-        return pushItems(items,inv,slots,getpusher);
+    public static void pushItems(ItemStack[] items,BlockMenu inv,int[] slots){
+        pushItems(items,inv,slots,getpusher);
     }
-    public static boolean pushItems(ItemStack[] items,BlockMenu inv,int[] slots,ItemPusherProvider pusher){
-        ItemPusher[] slotCounters2=new ItemPusher[slots.length];
-        int slotpointer=0;
+    public static void  pushItems(ItemStack[] items,BlockMenu inv,int[] slots,ItemPusherProvider pusher){
+        ItemConsumer[] consumers=new ItemConsumer[items.length];
         for(int i=0;i<items.length;++i) {
-            ItemConsumer outputItem=getConsumer(items[i]);
-            //consume mode
-            for(int j=0;j<slotpointer;++j) {
-                if(!slotCounters2[j].isDirty()){
-                    if(matchItemCounter(outputItem,slotCounters2[j],false)){
-                        slotCounters2[j].grab(outputItem);
-                        if(outputItem.getAmount()<=0)break;
-                    }
-                }
-            }
-            if(outputItem.getAmount()<=0)continue;
-            for(;slotpointer<slots.length;++slotpointer) {
-                //to correctly calculate slotpointer check before forLoop
-                if(outputItem.getAmount()<=0)break;
-                slotCounters2[slotpointer]=pusher.get(Settings.OUTPUT,inv,slots[slotpointer]);
-                if(slotCounters2[slotpointer].getItem()==null){
-                    slotCounters2[slotpointer].grab(outputItem);
-                }else if(slotCounters2[slotpointer].getAmount()==slotCounters2[slotpointer].getMaxStackCnt()){
-                    continue;
-                }
-                else if(matchItemCounter(outputItem,slotCounters2[slotpointer],false)){
-                    slotCounters2[slotpointer].grab(outputItem);
-                }
-            }
+            consumers[i]=CraftUtils.getConsumer(items[i]);
         }
-        for(int i=0;i<slotpointer;++i) {
-            slotCounters2[i].updateMenu(inv);
-        }
-        return true;
+        forcePush(consumers,inv,slots,pusher);
     }
+
     public static void multiForcePush(ItemGreedyConsumer[] slotCounters, BlockMenu inv,int[] slots){
         multiForcePush(slotCounters,inv,slots,getpusher);
     }

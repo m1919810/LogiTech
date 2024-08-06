@@ -39,10 +39,8 @@ public class BugCrafter extends AbstractWorkBench {
     }
     public List<MachineRecipe> getMachineRecipes() {
         if(this.machineRecipes==null||this.machineRecipes.isEmpty()){
-            this.machineRecipes= RecipeSupporter.PROVIDED_SHAPED_RECIPES.get(TYPE);
-            if(this.machineRecipes==null){
-                this.machineRecipes=new ArrayList<>();
-            }
+            this.machineRecipes=new ArrayList<>();
+            this.machineRecipes.addAll( RecipeSupporter.PROVIDED_SHAPED_RECIPES.get(TYPE));
         }
         return this.machineRecipes;
     }

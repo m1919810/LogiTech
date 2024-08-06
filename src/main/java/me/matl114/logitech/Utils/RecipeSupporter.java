@@ -5,6 +5,7 @@ import io.github.mooy1.infinityexpansion.items.blocks.InfinityWorkbench;
 import io.github.mooy1.infinityexpansion.items.machines.VoidHarvester;
 import io.github.mooy1.infinityexpansion.items.mobdata.MobDataInfuser;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumWorkbench;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -14,13 +15,15 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Composter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Crucible;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Dependency;
+import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.Material;
 import org.bukkit.Tag;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -30,7 +33,10 @@ public class RecipeSupporter {
     public static void init(){
         Debug.logger("配方供应器开始注册配方......");
     }
-    public static final ArrayList<MachineRecipe> GOLDPAN_RECIPE = new ArrayList<>(){{
+    public static final SlimefunAddon PLUGIN= MyAddon.getInstance();
+//    public static final RecipeType VANILLA_MERCHANT=new RecipeType(AddUtils.getNameKey("vanilla_merchant"),
+//            new CustomItemStack(Material.PLAYER_HEAD,"交易内容","","村民交易项目"));
+    private static final ArrayList<MachineRecipe> GOLDPAN_RECIPE = new ArrayList<>(){{
         add(MachineRecipeUtils.stackFrom(-1,
                 new ItemStack[] {new ItemStack(Material.GRAVEL)},
                 new ItemStack[] {
@@ -65,7 +71,7 @@ public class RecipeSupporter {
                 }
         ));
     }};
-    public static final ArrayList<MachineRecipe> ORE_WASHER_RECIPE=new ArrayList<>(){{
+    private static final ArrayList<MachineRecipe> ORE_WASHER_RECIPE=new ArrayList<>(){{
         add(MachineRecipeUtils.stackFrom(-1,
                 new ItemStack[]{SlimefunItems.SIFTED_ORE},
                 new ItemStack[] {
@@ -94,7 +100,7 @@ public class RecipeSupporter {
                 new ItemStack[] {SlimefunItems.SALT}
                 ));
     }};
-    public static final ArrayList<MachineRecipe> TABLE_SAW_RECIPE=new ArrayList<>(){{
+    private static final ArrayList<MachineRecipe> TABLE_SAW_RECIPE=new ArrayList<>(){{
         for (Material log : Tag.LOGS.getValues()) {
             Optional<Material> planks = AddUtils.getPlanks(log);
 
@@ -255,6 +261,42 @@ public class RecipeSupporter {
 
 
         Debug.logger("读取全部配方中...");
+        RECIPE_TYPES.add(BukkitUtils.VANILLA_CRAFTTABLE);
+        PROVIDED_SHAPED_RECIPES.put(BukkitUtils.VANILLA_CRAFTTABLE,new ArrayList<>());
+        PROVIDED_UNSHAPED_RECIPES.put(BukkitUtils.VANILLA_CRAFTTABLE,new ArrayList<>());
+        RECIPE_TYPES.add(BukkitUtils.VANILLA_FURNACE);
+        PROVIDED_UNSHAPED_RECIPES.put(BukkitUtils.VANILLA_FURNACE,new ArrayList<>());
+        PROVIDED_SHAPED_RECIPES.put(BukkitUtils.VANILLA_FURNACE,new ArrayList<>());
+//        RECIPE_TYPES.add(VANILLA_MERCHANT);
+//        PROVIDED_UNSHAPED_RECIPES.put(VANILLA_MERCHANT,new ArrayList<>());
+//        PROVIDED_SHAPED_RECIPES.put(VANILLA_MERCHANT,new ArrayList<>());
+        Iterator<Recipe> recipeIterator = PLUGIN.getJavaPlugin().getServer().recipeIterator();
+        while (recipeIterator.hasNext()) {
+            Recipe next = recipeIterator.next();
+            if (next instanceof ShapedRecipe) {
+                Set<Map.Entry<Character, ItemStack>> entries = ((ShapedRecipe) next).getIngredientMap().entrySet();
+                List<ItemStack> input = new ArrayList<>(entries.size());
+                for (Map.Entry<Character, ItemStack> entry : entries) {
+                    input.add(entry.getValue());
+                }
+                PROVIDED_SHAPED_RECIPES.get(BukkitUtils.VANILLA_CRAFTTABLE).add(MachineRecipeUtils.shapeFrom(-1,input.toArray(new ItemStack[0]),Utils.array(next.getResult())));
+                PROVIDED_UNSHAPED_RECIPES.get(BukkitUtils.VANILLA_CRAFTTABLE).add(MachineRecipeUtils.stackFrom(-1,input.toArray(new ItemStack[0]),Utils.array(next.getResult())));
+
+            } else if (next instanceof ShapelessRecipe) {
+                List<ItemStack> input = ((ShapelessRecipe) next).getIngredientList();
+                PROVIDED_SHAPED_RECIPES.get(BukkitUtils.VANILLA_CRAFTTABLE).add(MachineRecipeUtils.shapeFrom(-1,input.toArray(new ItemStack[input.size()]),Utils.array(next.getResult())));
+                PROVIDED_UNSHAPED_RECIPES.get(BukkitUtils.VANILLA_CRAFTTABLE).add(MachineRecipeUtils.stackFrom(-1,input.toArray(new ItemStack[input.size()]),Utils.array(next.getResult())));
+            }else if(next instanceof FurnaceRecipe) {
+                ItemStack input = ((FurnaceRecipe) next).getInput();
+                PROVIDED_SHAPED_RECIPES.get(BukkitUtils.VANILLA_FURNACE).add(MachineRecipeUtils.shapeFrom(-1,Utils.array(input),Utils.array(next.getResult())));
+                PROVIDED_UNSHAPED_RECIPES.get(BukkitUtils.VANILLA_FURNACE).add(MachineRecipeUtils.stackFrom(-1,Utils.array(input),Utils.array(next.getResult())));
+            }
+//            else if(next instanceof MerchantRecipe){
+//                List<ItemStack> input=((MerchantRecipe)next).getIngredients();
+//                PROVIDED_SHAPED_RECIPES.get(VANILLA_MERCHANT).add(MachineRecipeUtils.shapeFrom(-1,input.toArray(new ItemStack[input.size()]),Utils.array(next.getResult())));
+//                PROVIDED_UNSHAPED_RECIPES.get(VANILLA_MERCHANT).add(MachineRecipeUtils.stackFrom(-1,input.toArray(new ItemStack[input.size()]),Utils.array(next.getResult())));
+//            }
+        }
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
             RecipeType recipeType = item.getRecipeType();
             //过会解析

@@ -78,6 +78,15 @@ public class AddGroups {
                 player1.spigot().sendMessage(link);
                 return false;
             });
+            factory.addInventory(27,AddItem.FEAT1);
+            factory.addInventory(28,AddItem.FEAT2);
+            factory.addInventory(29,AddItem.FEAT3);
+            factory.addInventory(30,AddItem.FEAT4);
+            factory.addInventory(31,AddItem.FEAT5);
+            factory.addInventory(32,AddItem.FEAT6);
+            factory.addInventory(33,AddItem.FEAT7);
+            factory.addInventory(34,AddItem.FEAT8);
+            factory.addInventory(35,AddItem.FEAT9);
             factory.addOverrides(4,AddItem.MATL114);
         }
         public void addGuideRelated(CustomMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int page){
