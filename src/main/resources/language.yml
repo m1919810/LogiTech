@@ -309,6 +309,8 @@ zh_CN:
       Name: '逻辑核心'
       Lore:
         - '终极'
+    REDSTONE_ENGINE:
+      Name: '赤石源力引擎'
 
   Machines:
     LOGIC_REACTOR:
@@ -330,10 +332,19 @@ zh_CN:
         - '支持通过hash获取头颅纹理'
         - '支持修改头颅物品的纹理'
     RECIPE_LOGGER:
-      Name: '配方代码化仪器'
+      Name: '注册代码生成器'
       Lore:
         - '支持将槽位中的配方转为本附属支持的代码格式'
+        - '支持生成本附属的物品注册格式代码'
+        - '支持生成本附属的粘液物品注册格式代码'
         - '仅对开发者有用'
+    ENDFRAME_MACHINE:
+      Name: '末地门框架构建机'
+    LVOID_GENERATOR:
+      Name: '虚空量子发电机'
+      Lore:
+        - '尝试在虚拟的虚空中捕捉量子能量'
+        - '似乎还捕捉到了奇怪的东西..'
   Manuals:
     MANUAL_CORE:
       Name: '乱序核心'

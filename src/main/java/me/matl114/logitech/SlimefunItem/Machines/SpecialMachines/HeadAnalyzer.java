@@ -117,11 +117,7 @@ public class HeadAnalyzer extends AbstractMachine{
                 String res="&3hash: &f"+st;
                 ItemStack it=blockMenu.getItemInSlot(DECODE_SLOT);
                 AddUtils.setLore(it,1,res);
-                final TextComponent link = new TextComponent("单击此处拷贝hash码");
-                link.setColor(ChatColor.YELLOW);
-                link.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("点击复制到剪贴板")));
-                link.setClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD,st));
-                player.spigot().sendMessage(link);
+                AddUtils.displayCopyString(player,"单击此处拷贝hash码","点击复制到剪贴板",st);
 
             }else{
                 blockMenu.replaceExistingItem(DECODE_SLOT,DECODE_ITEM);

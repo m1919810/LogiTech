@@ -192,6 +192,9 @@ public class AddItem {
             Language.get("Items.SPACE_PLATE.Name"),Language.getList("Items.SPACE_PLATE.Lore"));
     public static final SlimefunItemStack LOGIC_CORE=AddUtils.themed("LOGIC_CORE",Material.NETHER_STAR,AddUtils.Theme.ITEM1,
             Language.get("Items.LOGIC_CORE.Name"),Language.getList("Items.LOGIC_CORE.Lore"));
+    public static final SlimefunItemStack REDSTONE_ENGINE=AddUtils.themed("REDSTONE_ENGINE",Material.SLIME_BLOCK,AddUtils.Theme.ITEM1,
+            Language.get("Items.REDSTONE_ENGINE.Name"),Language.getList("Items.REDSTONE_ENGINE.Lore"));
+
 
     //nachines
     public static final SlimefunItemStack HEAD_ANALYZER=AddUtils.themed("HEAD_ANALYZER",Material.SOUL_CAMPFIRE, AddUtils.Theme.MACHINE1,
@@ -204,7 +207,10 @@ public class AddItem {
             Language.get("Machines.LOGIC_REACTOR.Name"),Language.getList("Machines.LOGIC_REACTOR.Lore"));
     public static final SlimefunItemStack BUG_CRAFTER=AddUtils.themed("BUG_CRAFTER",CustomHead.BUG_CRATFER.getItem(),AddUtils.Theme.MACHINE1,
             Language.get("Machines.BUG_CRAFTER.Name"),Language.getList("Machines.BUG_CRAFTER.Lore"));
-
+    public static final SlimefunItemStack ENDFRAME_MACHINE=AddUtils.themed("ENDFRAME_MACHINE",Material.END_PORTAL_FRAME,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.ENDFRAME_MACHINE.Name"),Language.getList("Machines.ENDFRAME_MACHINE.Lore"));
+    public static final SlimefunItemStack LVOID_GENERATOR=AddUtils.themed("LVOID_GENERATOR",Material.SOUL_LANTERN,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.LVOID_GENERATOR.Name"),Language.getList("Machines.LVOID_GENERATOR.Lore"));
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Manuals.MANUAL_CORE.Name"),Language.getList("Manuals.MANUAL_CORE.Lore"));

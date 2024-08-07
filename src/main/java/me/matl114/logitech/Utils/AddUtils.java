@@ -4,10 +4,12 @@ import com.google.common.base.Preconditions;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.chat.ChatInput;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
+import me.matl114.logitech.Items.CustomHead;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Utils.UtilClass.DisplayItemStack;
@@ -15,6 +17,11 @@ import me.matl114.logitech.Utils.UtilClass.EqProRandomStack;
 import me.matl114.logitech.Utils.UtilClass.EquivalItemStack;
 import me.matl114.logitech.Utils.UtilClass.RandomItemStack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -28,6 +35,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,6 +45,9 @@ public class AddUtils {
     public static boolean USE_IDDECORATOR=true;
     private static final double SF_TPS = 20.0 / (double) Slimefun.getTickerTask().getTickRate();
     private static final DecimalFormat FORMAT = new DecimalFormat("###,###,###,###,###,###.#");
+    public static String formatDouble(double s){
+        return FORMAT.format(s);
+    }
     public static String idDecorator(String b){
         if(USE_IDDECORATOR){
             return ADDON_ID+"_"+b;
@@ -711,6 +722,30 @@ public class AddUtils {
         } else {
             // Fixed #3651 - Do not panic because of one weird wood type.
             return Optional.empty();
+        }
+    }
+    public static void displayCopyString(Player player,String display,String hover,String copy){
+        final TextComponent link = new TextComponent(display);
+        link.setColor(ChatColor.YELLOW);
+        link.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(hover)));
+        link.setClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD,copy));
+        player.spigot().sendMessage(link);
+    }
+    public static void asyncWaitPlayerInput(Player player, Consumer<String> consumer){
+        ChatInput.waitForPlayer(
+                Slimefun.instance(),
+                player,
+                msg ->{
+                    consumer.accept(msg);
+                } );
+    }
+    public static ItemStack getGeneratorDisplay(boolean working,String type,int charge,int buffer){
+        if(working){
+            return new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&a发电中",
+                    "&7类型:&6 %s".formatted(type),"&7&7电量: &6%s/%sJ".formatted(FORMAT.format((double)charge),FORMAT.format((double)buffer)));
+        }else {
+            return new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&a未发电",
+                    "&7类型:&6 %s".formatted(type),"&7&7电量: &6%s/%sJ".formatted(FORMAT.format((double)charge),FORMAT.format((double)buffer)));
         }
     }
 }

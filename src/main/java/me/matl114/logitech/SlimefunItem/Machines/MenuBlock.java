@@ -67,6 +67,9 @@ public interface MenuBlock extends InventoryBlock {
                 });
 
     }
+    default void registerBlockMenu(){
+
+    }
     default void createPreset(final SlimefunItem item, String title, final Consumer<BlockMenuPreset> setup) {
         BlockMenuPreset var10001 = new BlockMenuPreset(item.getId(), title) {
             public void init() {

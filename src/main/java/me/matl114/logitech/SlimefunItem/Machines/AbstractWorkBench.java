@@ -2,6 +2,7 @@ package me.matl114.logitech.SlimefunItem.Machines;
 
 import io.github.mooy1.infinityexpansion.items.blocks.InfinityWorkbench;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
@@ -106,6 +107,9 @@ public abstract class AbstractWorkBench extends AbstractMachine {
     public abstract int[] getRecipeSlots();
     public List<MachineRecipe> getMachineRecipes(){
         return machineRecipes;
+    }
+    public void registerTick(SlimefunItem item){
+        //no ticker
     }
     public boolean conditionHandle(Block b,BlockMenu menu){
         //do nothing

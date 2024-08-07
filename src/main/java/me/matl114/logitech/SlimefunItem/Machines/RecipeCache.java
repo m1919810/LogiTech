@@ -14,7 +14,7 @@ public interface RecipeCache {
             String a= StorageCacheUtils.getData(loc,"recipe");
             return Integer.parseInt(a);
 
-        }   catch (NumberFormatException a){
+        }   catch (Throwable a){
             setLastRecipe(loc,-1);
             return -1;
         }
