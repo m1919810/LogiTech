@@ -34,7 +34,7 @@ public abstract class AbstractIOPort extends AbstractMachine {
     public static final ItemStack ITEM_DISPLAY_NULL=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&c未检测到物品存储!");
     protected static final ItemStack INFO_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6将奇点置于下方","&a机器将自动检测奇点内容并运行");
     public abstract void addInfo(ItemStack item);
-    protected abstract void constructMenu(BlockMenuPreset preset);
+    public abstract void constructMenu(BlockMenuPreset preset);
     public abstract int[] getInputSlots();
     public abstract int[] getOutputSlots();
     public List<MachineRecipe> getMachineRecipes(){

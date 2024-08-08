@@ -4,9 +4,7 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.Language;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.MenuUtils;
 import me.matl114.logitech.Utils.RecipeSupporter;
@@ -21,11 +19,9 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class AddGroups {
@@ -56,7 +52,7 @@ public class AddGroups {
 
     public static final ItemGroup SPECIAL = new DummyItemGroup(AddUtils.getNameKey("special" ), AddItem.SPECIAL);
 
-    public static final ItemGroup WEAPON = new DummyItemGroup(AddUtils.getNameKey("weapon"),AddItem.WEAPON);
+    public static final ItemGroup WEAPON = new DummyItemGroup(AddUtils.getNameKey("weapon"),AddItem.SPACE);
 
     public static final ItemGroup GENERATORS = new DummyItemGroup(AddUtils.getNameKey("generators"),AddItem.GENERATORS);
 

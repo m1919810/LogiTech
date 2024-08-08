@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomSlimefunItem extends SlimefunItem implements RecipeDisplay {
+public abstract class CustomSlimefunItem extends SlimefunItem implements RecipeDisplay {
     public List<ItemStack> displayedMemory;
     public CustomSlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         this(itemGroup, item, recipeType, recipe,new ArrayList<>());
@@ -28,6 +28,7 @@ public class CustomSlimefunItem extends SlimefunItem implements RecipeDisplay {
             this.displayedMemory = new ArrayList<>();
         }
     }
+    public abstract void addInfo(ItemStack stack);
     public List<MachineRecipe> provideDisplayRecipe(){
         return new ArrayList<>();
     }
@@ -57,6 +58,13 @@ public class CustomSlimefunItem extends SlimefunItem implements RecipeDisplay {
         }
         return this;
     }
+    public void preRegister(){
+        super.preRegister();
+        addInfo(this.getItem());
 
+    }
+    public void postRegister(){
+        super.postRegister();
+    }
 
 }

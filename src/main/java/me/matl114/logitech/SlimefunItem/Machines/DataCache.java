@@ -3,7 +3,7 @@ package me.matl114.logitech.SlimefunItem.Machines;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import org.bukkit.Location;
 
-public interface RecipeCache {
+public interface DataCache {
     /**
      * about recipe history get
      * @param loc

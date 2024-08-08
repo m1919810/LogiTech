@@ -64,8 +64,8 @@ public class AddItem {
     //public static final ItemStack TEMPLATE=AddUtils.themed()
     public static final ItemStack TOBECONTINUE=AddUtils.themed(Material.STRUCTURE_VOID,AddUtils.Theme.CATEGORY2,
             Language.get("Groups.TOBECONTINUE.Name"),Language.getList("Groups.TOBECONTINUE.Lore"));
-    public static final ItemStack WEAPON=AddUtils.themed(Material.TOTEM_OF_UNDYING, AddUtils.Theme.CATEGORY2,
-            Language.get("Groups.WEAPON.Name"),Language.getList("Groups.WEAPON.Lore"));
+    public static final ItemStack SPACE =AddUtils.themed(Material.TOTEM_OF_UNDYING, AddUtils.Theme.CATEGORY2,
+            Language.get("Groups.SPACE.Name"),Language.getList("Groups.SPACE.Lore"));
     public static final ItemStack GENERATORS=AddUtils.themed(Material.LAVA_BUCKET, AddUtils.Theme.CATEGORY2,
             Language.get("Groups.GENERATORS.Name"),Language.getList("Groups.GENERATORS.Lore"));
     public static final ItemStack ENERGY=AddUtils.themed(Material.LIGHTNING_ROD, AddUtils.Theme.CATEGORY2,
@@ -166,7 +166,8 @@ public class AddItem {
     public static final SlimefunItemStack END_FEAT=AddUtils.themed("END_FEAT",Material.CHORUS_PLANT,AddUtils.Theme.ITEM1,
             Language.get("Items.END_FEAT.Name"),Language.getList("Items.END_FEAT.Lore"));
 
-
+    public static final SlimefunItemStack STAR_GOLD_INGOT=AddUtils.themed("STAR_GOLD_INGOT",Material.GOLD_INGOT,AddUtils.Theme.ITEM1,
+            Language.get("Items.STAR_GOLD_INGOT.Name"),Language.getList("Items.STAR_GOLD_INGOT.Lore"));
     public static final SlimefunItemStack ABSTRACT_INGOT=AddUtils.themed("ABSTRACT_INGOT",Material.IRON_INGOT,AddUtils.Theme.ITEM1,
             Language.get("Items.ABSTRACT_INGOT.Name"),Language.getList("Items.ABSTRACT_INGOT.Lore"));
     public static final SlimefunItemStack PDCECDMD=AddUtils.themed("PDCECDMD",Material.PLAYER_HEAD,AddUtils.Theme.ITEM1,
@@ -211,6 +212,10 @@ public class AddItem {
             Language.get("Machines.ENDFRAME_MACHINE.Name"),Language.getList("Machines.ENDFRAME_MACHINE.Lore"));
     public static final SlimefunItemStack LVOID_GENERATOR=AddUtils.themed("LVOID_GENERATOR",Material.SOUL_LANTERN,AddUtils.Theme.MACHINE1,
             Language.get("Machines.LVOID_GENERATOR.Name"),Language.getList("Machines.LVOID_GENERATOR.Lore"));
+    public static final SlimefunItemStack SPECIAL_CRAFTER=AddUtils.themed("SPECIAL_CRAFTER",Material.LOOM,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.SPECIAL_CRAFTER.Name"),Language.getList("Machines.SPECIAL_CRAFTER.Lore"));
+    public static final SlimefunItemStack STAR_SMELTERY=AddUtils.themed("STAR_SMELTERY",Material.BLAST_FURNACE,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.STAR_SMELTERY.Name"),Language.getList("Machines.STAR_SMELTERY.Lore"));
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Manuals.MANUAL_CORE.Name"),Language.getList("Manuals.MANUAL_CORE.Lore"));
@@ -311,8 +316,8 @@ public class AddItem {
             Language.get("Generators.OVERWORLD_MINER.Name"),Language.getList("Generators.OVERWORLD_MINER.Lore"));
     public static final SlimefunItemStack NETHER_MINER=AddUtils.themed("NETHER_MINER",Material.CRIMSON_NYLIUM,AddUtils.Theme.MACHINE2,
             Language.get("Generators.NETHER_MINER.Name"),Language.getList("Generators.NETHER_MINER.Lore"));
-    public static final SlimefunItemStack END_STONE_BRICKS=AddUtils.themed("END_STONE_BRICKS",Material.END_STONE_BRICKS,AddUtils.Theme.MACHINE2,
-            Language.get("Generators.END_STONE_BRICKS.Name"),Language.getList("Generators.END_STONE_BRICKS.Lore"));
+    public static final SlimefunItemStack END_MINER =AddUtils.themed("END_MINER",Material.END_STONE_BRICKS,AddUtils.Theme.MACHINE2,
+            Language.get("Generators.END_MINER.Name"),Language.getList("Generators.END_MINER.Lore"));
     public static final SlimefunItemStack DIMENSION_MINER=AddUtils.themed("DIMENSION_MINER",Material.CRYING_OBSIDIAN,AddUtils.Theme.MACHINE2,
             Language.get("Generators.DIMENSION_MINER.Name"),Language.getList("Generators.DIMENSION_MINER.Lore"));
     public static final SlimefunItemStack REDSTONE_MG=AddUtils.themed("REDSTONE_MG",Material.OBSERVER,AddUtils.Theme.MACHINE2,
@@ -337,5 +342,10 @@ public class AddItem {
         add(END_FEAT);
         add(REINFORCED_CHIP_INGOT);
         add(ABSTRACT_INGOT);
+        add(STAR_GOLD_INGOT);
+        add(METAL_CORE);
+        add(TECH_CORE);
+        add(SMELERY_CORE);
+        add(MASS_CORE);
     }};
 }

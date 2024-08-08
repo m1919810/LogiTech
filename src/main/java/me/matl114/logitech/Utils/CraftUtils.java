@@ -2,7 +2,7 @@ package me.matl114.logitech.Utils;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
-import me.matl114.logitech.SlimefunItem.Machines.RecipeCache;
+import me.matl114.logitech.SlimefunItem.Machines.DataCache;
 import me.matl114.logitech.Utils.UtilClass.*;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -801,7 +801,7 @@ public class CraftUtils {
         int __index=0;
         //if usehistory ,will suggest a better place to start
         if(useHistory) {
-            __index= RecipeCache.getLastRecipe(inv.getLocation());
+            __index= DataCache.getLastRecipe(inv.getLocation());
             __index=(__index<0)?0:__index;
             __index=(__index>=recipeAmount)?(recipeAmount-1):__index;
         }
@@ -810,7 +810,7 @@ public class CraftUtils {
         ItemConsumer[] inputInfo=matchRecipe(slotCounter,checkRecipe);
         if(inputInfo!=null) {
             if(useHistory) {
-                RecipeCache.setLastRecipe(inv.getLocation(),__iter);
+                DataCache.setLastRecipe(inv.getLocation(),__iter);
             }
             ItemConsumer[] outputInfo= countOneOutput(inv,outs,checkRecipe,getpusher);
             if(outputInfo!=null){
@@ -824,7 +824,7 @@ public class CraftUtils {
             inputInfo=matchRecipe(slotCounter,checkRecipe);
             if(inputInfo!=null) {
                 if(useHistory) {
-                    RecipeCache.setLastRecipe(inv.getLocation(),__iter);
+                    DataCache.setLastRecipe(inv.getLocation(),__iter);
                 }
                 ItemConsumer[] outputInfo= countOneOutput(inv,outs,checkRecipe,getpusher);
                 if(outputInfo!=null){
@@ -843,7 +843,7 @@ public class CraftUtils {
             inputInfo=matchRecipe(slotCounter,checkRecipe);
             if(inputInfo!=null) {
                 if(useHistory) {
-                    RecipeCache.setLastRecipe(inv.getLocation(),__iter);
+                    DataCache.setLastRecipe(inv.getLocation(),__iter);
                 }
                 ItemConsumer[] outputInfo= countOneOutput(inv,outs,checkRecipe,getpusher);
                 if(outputInfo!=null){
@@ -891,7 +891,7 @@ public class CraftUtils {
         int __index=0;
         //if usehistory ,will suggest a better place to start
         if(useHistory) {
-            __index= RecipeCache.getLastRecipe(inv.getLocation());
+            __index= DataCache.getLastRecipe(inv.getLocation());
             __index=(__index<0)?0:__index;
             __index=(__index>=recipeAmount)?(recipeAmount-1):__index;
         }
@@ -899,7 +899,7 @@ public class CraftUtils {
         MachineRecipe checkRecipe=recipes.get(__iter);
         if(matchRecipe(slotCounter,checkRecipe)!=null) {
             if(useHistory) {
-                RecipeCache.setLastRecipe(inv.getLocation(),__iter);
+                DataCache.setLastRecipe(inv.getLocation(),__iter);
             }
             return checkRecipe;
 
@@ -909,7 +909,7 @@ public class CraftUtils {
             checkRecipe=recipes.get(__iter);
             if(matchRecipe(slotCounter,checkRecipe)!=null) {
                 if(useHistory) {
-                    RecipeCache.setLastRecipe(inv.getLocation(),__iter);
+                    DataCache.setLastRecipe(inv.getLocation(),__iter);
                 }
                     return checkRecipe;
             }
@@ -923,7 +923,7 @@ public class CraftUtils {
             checkRecipe=recipes.get(__iter);
             if(matchRecipe(slotCounter,checkRecipe)!=null) {
                 if(useHistory) {
-                    RecipeCache.setLastRecipe(inv.getLocation(),__iter);
+                    DataCache.setLastRecipe(inv.getLocation(),__iter);
                 }
                 return checkRecipe;
             }
@@ -965,7 +965,7 @@ public class CraftUtils {
         int __index=0;
         //if usehistory ,will suggest a better place to start
         if(useHistory) {
-            __index= RecipeCache.getLastRecipe(inv.getLocation());
+            __index= DataCache.getLastRecipe(inv.getLocation());
             __index=(__index<0)?0:__index;
             __index=(__index>=recipeAmount)?(recipeAmount-1):__index;
         }
@@ -974,7 +974,7 @@ public class CraftUtils {
         ItemGreedyConsumer[] result=matchMultiRecipe(slotCounter,checkRecipe);
         if(result!=null) {
             if(useHistory) {
-                RecipeCache.setLastRecipe(inv.getLocation(),__iter);
+                DataCache.setLastRecipe(inv.getLocation(),__iter);
             }
             return new Pair<>(checkRecipe,result);
 
@@ -985,7 +985,7 @@ public class CraftUtils {
             result=matchMultiRecipe(slotCounter,checkRecipe);
             if(result!=null) {
                 if(useHistory) {
-                    RecipeCache.setLastRecipe(inv.getLocation(),__iter);
+                    DataCache.setLastRecipe(inv.getLocation(),__iter);
                 }
                 return new Pair<>(checkRecipe,result);
 
@@ -1001,7 +1001,7 @@ public class CraftUtils {
             result=matchMultiRecipe(slotCounter,checkRecipe);
             if(result!=null) {
                 if(useHistory) {
-                    RecipeCache.setLastRecipe(inv.getLocation(),__iter);
+                    DataCache.setLastRecipe(inv.getLocation(),__iter);
                 }
                 return new Pair<>(checkRecipe,result);
 
@@ -1151,7 +1151,7 @@ public class CraftUtils {
         int __index=0;
         //if usehistory ,will suggest a better place to start
         if(useHistory) {
-            __index= RecipeCache.getLastRecipe(inv.getLocation());
+            __index= DataCache.getLastRecipe(inv.getLocation());
             __index=(__index<0)?0:__index;
             __index=(__index>=recipeAmount)?(recipeAmount-1):__index;
         }
@@ -1175,7 +1175,7 @@ public class CraftUtils {
                 inputItem[i].setAmount(inputItem[i].getAmount()-finalAmount*recipeInput[i].getAmount());
             }
             if(useHistory) {
-                RecipeCache.setLastRecipe(inv.getLocation(),__iter);
+                DataCache.setLastRecipe(inv.getLocation(),__iter);
             }
             return new Pair<>(checkRecipe,outputCounters);
         }
@@ -1199,7 +1199,7 @@ public class CraftUtils {
                         inputItem[i].setAmount(inputItem[i].getAmount()-finalAmount*recipeInput[i].getAmount());
                 }
                 if(useHistory) {
-                    RecipeCache.setLastRecipe(inv.getLocation(),__iter);
+                    DataCache.setLastRecipe(inv.getLocation(),__iter);
                 }
                 return new Pair<>(checkRecipe,outputCounters);
             }
@@ -1228,7 +1228,7 @@ public class CraftUtils {
                         inputItem[i].setAmount(inputItem[i].getAmount()-finalAmount*recipeInput[i].getAmount());
                 }
                 if(useHistory) {
-                    RecipeCache.setLastRecipe(inv.getLocation(),__iter);
+                    DataCache.setLastRecipe(inv.getLocation(),__iter);
                 }
                 return new Pair<>(checkRecipe,outputCounters);
             }

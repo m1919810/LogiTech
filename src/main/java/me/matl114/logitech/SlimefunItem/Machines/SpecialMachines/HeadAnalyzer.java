@@ -75,7 +75,7 @@ public class HeadAnalyzer extends AbstractMachine{
     public void addInfo(ItemStack item){
 
     }
-    protected  void constructMenu(BlockMenuPreset preset){
+    public  void constructMenu(BlockMenuPreset preset){
         int[] border = BORDER;
         int len=border.length;
         for(int var4 = 0; var4 < len; ++var4) {

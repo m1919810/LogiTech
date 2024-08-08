@@ -8,7 +8,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
-import me.matl114.logitech.Schedule.Task;
 import me.matl114.logitech.SlimefunItem.Machines.*;
 import me.matl114.logitech.SlimefunItem.Storage.ItemStorageCache;
 import me.matl114.logitech.Utils.*;
@@ -16,16 +15,12 @@ import me.matl114.logitech.Utils.UtilClass.ItemGreedyConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemPusher;
 import me.matl114.logitech.Utils.UtilClass.ItemPusherProvider;
 import me.matl114.logitech.Utils.UtilClass.ItemSlotPusher;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -249,7 +244,7 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
             List<MachineRecipe> mRecipe=RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(rp);
             inv.replaceExistingItem(RECIPE_ITEM_SLOT,AddUtils.addLore(RecipeSupporter.RECIPETYPE_ICON.get(rp),"&8点击切换配方类型"));
 
-            int index= RecipeCache.getLastRecipe(loc);
+            int index= DataCache.getLastRecipe(loc);
             int indexRecord=getNowRecordRecipe(loc);
             if(index!=-1){
                 MachineRecipe getRecipe=mRecipe.get(index);
@@ -300,7 +295,7 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
             }
 
             Location  loc=inv.getLocation();
-            int index=RecipeCache.getLastRecipe(loc);
+            int index= DataCache.getLastRecipe(loc);
             if(index<0){
                 return;
             }
@@ -313,9 +308,9 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
             else if(index>=mRecipe.size()){
                 index=0;
             }
-            RecipeCache.setLastRecipe(loc,index);
+            DataCache.setLastRecipe(loc,index);
             if(CraftUtils.matchNextRecipe(inv,getInputSlots(),mRecipe,true,order,SINGULARITY_PROVIDER)==null){
-                RecipeCache.setLastRecipe(loc,-1);
+                DataCache.setLastRecipe(loc,-1);
             }
         }
     }
@@ -343,7 +338,7 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
             Location  loc=inv.getLocation();
             MachineRecipe getRecipe=CraftUtils.matchNextRecipe(inv,getInputSlots(),getMachineRecipes(b,inv),true,Settings.SEQUNTIAL,SINGULARITY_PROVIDER);
             if(getRecipe==null){
-                RecipeCache.setLastRecipe(loc,-1);
+                DataCache.setLastRecipe(loc,-1);
             }
             updateMenu(inv ,b,Settings.RUN);
         }

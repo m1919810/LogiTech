@@ -194,7 +194,7 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType {
             List<MachineRecipe> mRecipe=RecipeSupporter.MULTIBLOCK_RECIPES.get(nowMachine);
             inv.replaceExistingItem(DISPLAYEITEM_SLOT,AddUtils.addLore(nowMachine.getItem(),"&8检测出的多方块机器"));
 
-        int index= RecipeCache.getLastRecipe(loc);
+        int index= DataCache.getLastRecipe(loc);
         int indexRecord=getNowRecordRecipe(loc);
         if(index!=-1){
             MachineRecipe getRecipe=mRecipe.get(index);
@@ -274,7 +274,7 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType {
             MachineRecipe getRecipe=CraftUtils.matchNextRecipe(inv,getInputSlots(),getMachineRecipes(b,inv),true,Settings.SEQUNTIAL);
 
             if(getRecipe==null){
-                RecipeCache.setLastRecipe(loc,-1);
+                DataCache.setLastRecipe(loc,-1);
             }
             }
             updateMenu(inv ,b,Settings.RUN);

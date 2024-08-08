@@ -6,29 +6,19 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.chat.ChatInput;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.Items.CustomHead;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
-import me.matl114.logitech.SlimefunItem.Machines.RecipeCache;
+import me.matl114.logitech.SlimefunItem.Machines.DataCache;
 import me.matl114.logitech.Utils.AddUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.checkerframework.checker.units.qual.C;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -112,7 +102,7 @@ public class RegisteryLogger extends AbstractMachine {
     public void addInfo(ItemStack item){
 
     }
-    protected  void constructMenu(BlockMenuPreset preset){
+    public  void constructMenu(BlockMenuPreset preset){
         int[] border = BORDER;
         int len=border.length;
         for(int var4 = 0; var4 < len; ++var4) {
@@ -182,7 +172,9 @@ public class RegisteryLogger extends AbstractMachine {
         return result;
     }
     public void newMenuInstance(@Nonnull BlockMenu blockMenu, @Nonnull Block block){
-        RecipeCache.setLastRecipe(blockMenu.getLocation(),0);
+        if(DataCache.getLastRecipe(blockMenu.getLocation())<0||DataCache.getLastRecipe(blockMenu.getLocation())>CHOOSE_ITEM.length){
+            DataCache.setLastRecipe(blockMenu.getLocation(),0);
+        }
         blockMenu.addMenuClickHandler(LOGGER_SLOT,((player, i, itemStack, clickAction) -> {
             String recipeString=getRecipeString(blockMenu,READING_SLOT);
             AddUtils.displayCopyString(player,"单击此处拷贝recipe字符串","点击复制到剪贴板",recipeString);
@@ -193,14 +185,14 @@ public class RegisteryLogger extends AbstractMachine {
         }
         blockMenu.addMenuClickHandler(CHOOSE_SLOT,((player, i, itemStack, clickAction) -> {
             Location loc=blockMenu.getLocation();
-            int t=RecipeCache.getLastRecipe(loc);
+            int t= DataCache.getLastRecipe(loc);
             if(t>=CHOOSE_ITEM.length-1){
                 t=0;
             }else {
                 ++t;
             }
             blockMenu.replaceExistingItem(CHOOSE_SLOT,CHOOSE_ITEM[t]);
-            RecipeCache.setLastRecipe(loc,t);
+            DataCache.setLastRecipe(loc,t);
             return false;
         }));
         if(blockMenu.getItemInSlot(TOGGLE_RECIPE)==null){
@@ -230,10 +222,10 @@ public class RegisteryLogger extends AbstractMachine {
             return false;
         }));
         blockMenu.addMenuClickHandler(ADDITEM_SLOT,((player, i, itemStack, clickAction) -> {
-            int index=RecipeCache.getLastRecipe(blockMenu.getLocation());
+            int index= DataCache.getLastRecipe(blockMenu.getLocation());
             if(index<0||index>=CHOOSE_ITEM.length){
                 index=0;
-                RecipeCache.setLastRecipe(blockMenu.getLocation(),index);
+                DataCache.setLastRecipe(blockMenu.getLocation(),index);
             }
             String id=getRecordId(blockMenu.getLocation());
             ItemStack it=blockMenu.getItemInSlot(RESULT_SLOT);
@@ -247,10 +239,10 @@ public class RegisteryLogger extends AbstractMachine {
             return false;
         }));
         blockMenu.addMenuClickHandler(ADDSFITEM_SLOT,((player, i, itemStack, clickAction) -> {
-            int index=RecipeCache.getLastRecipe(blockMenu.getLocation());
+            int index= DataCache.getLastRecipe(blockMenu.getLocation());
             if(index<0||index>=CHOOSE_ITEM.length){
                 index=0;
-                RecipeCache.setLastRecipe(blockMenu.getLocation(),index);
+                DataCache.setLastRecipe(blockMenu.getLocation(),index);
             }
             String id=getRecordId(blockMenu.getLocation());
             String recipe;

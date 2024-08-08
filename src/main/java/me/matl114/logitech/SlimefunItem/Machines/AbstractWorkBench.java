@@ -77,7 +77,7 @@ public abstract class AbstractWorkBench extends AbstractMachine {
      * construct your menu here.called in constructor
      * @param preset
      */
-    protected abstract void constructMenu(BlockMenuPreset preset);
+    public abstract void constructMenu(BlockMenuPreset preset);
     public CustomMenu getRecipeMenu(Block b,BlockMenu inv){
         return MenuUtils.createMRecipeListDisplay(getItem(),getMachineRecipes(),((player, i, itemStack, clickAction) -> {
             inv.open(player);

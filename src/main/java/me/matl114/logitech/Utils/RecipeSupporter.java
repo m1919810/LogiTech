@@ -403,7 +403,6 @@ public class RecipeSupporter {
                 List<MachineRecipe> recipes=new ArrayList<>();
                 if (item instanceof AContainer){
                     recipes=((AContainer)item).getMachineRecipes();
-
                 }
                 else{
                     boolean blst=false;
@@ -465,9 +464,6 @@ public class RecipeSupporter {
                                         break;
                                     }
                                 }
-                            }catch (ClassCastException e){
-                               // Debug.logger("an Error occurs while invoking "+item.toString()+" : "+e.getMessage());
-
                             }
                             catch (Throwable e){
                                 e.getMessage();

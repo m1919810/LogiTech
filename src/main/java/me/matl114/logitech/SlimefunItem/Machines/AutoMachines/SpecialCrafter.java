@@ -89,7 +89,7 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock {
     public int[] getOutputSlots(){
         return OUTPUT_SLOT;
     }
-    protected void constructMenu(BlockMenuPreset preset) {
+    public void constructMenu(BlockMenuPreset preset) {
         //空白背景 禁止点击
 
         //输入槽边框

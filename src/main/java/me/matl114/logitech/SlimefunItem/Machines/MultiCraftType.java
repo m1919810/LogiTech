@@ -44,6 +44,6 @@ public interface MultiCraftType extends RecipeLock{
      */
     static void forceSetRecipeTypeIndex(Location loc, int val){
         StorageCacheUtils.setData(loc, "craftType", String.valueOf(val));
-        RecipeCache.setLastRecipe(loc,-1);
+        DataCache.setLastRecipe(loc,-1);
     }
 }

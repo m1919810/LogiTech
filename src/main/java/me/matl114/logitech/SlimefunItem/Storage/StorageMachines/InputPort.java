@@ -46,7 +46,7 @@ public class InputPort extends AbstractIOPort {
     public  void addInfo(ItemStack item){
 
     }
-    protected  void constructMenu(BlockMenuPreset preset){
+    public  void constructMenu(BlockMenuPreset preset){
         //空白背景 禁止点击
         int[] border = BORDER;
         int len=border.length;

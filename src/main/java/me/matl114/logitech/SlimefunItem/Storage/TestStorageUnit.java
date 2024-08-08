@@ -39,7 +39,7 @@ public class TestStorageUnit extends AbstractMachine {
     public void addInfo(ItemStack item){
 
     }
-    protected void constructMenu(BlockMenuPreset preset){
+    public void constructMenu(BlockMenuPreset preset){
         preset.setSize(54);
         preset.addMenuClickHandler(18,(player, i, itemStack, clickAction)->{
 

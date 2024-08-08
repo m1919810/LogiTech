@@ -96,7 +96,7 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
             orderSearchRecipe(inv,Settings.SEQUNTIAL);
         }
         Location  loc=inv.getLocation();
-        int index=RecipeCache.getLastRecipe(loc);
+        int index= DataCache.getLastRecipe(loc);
         int indexRecord=getNowRecordRecipe(loc);
         if(index!=-1){
             MachineRecipe getRecipe=getMachineRecipes(block,inv).get(index);
@@ -173,7 +173,7 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
             }
 
             Location  loc=inv.getLocation();
-            int index=RecipeCache.getLastRecipe(loc);
+            int index= DataCache.getLastRecipe(loc);
             if(index<0){
                 return;
             }
@@ -186,9 +186,9 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
             else if(index>=mRecipe.size()){
                 index=0;
             }
-            RecipeCache.setLastRecipe(loc,index);
+            DataCache.setLastRecipe(loc,index);
             if(CraftUtils.matchNextRecipe(inv,getInputSlots(),mRecipe,true,order)==null){
-                RecipeCache.setLastRecipe(loc,-1);
+                DataCache.setLastRecipe(loc,-1);
             }
         }
     }
@@ -222,7 +222,7 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
             Location  loc=inv.getLocation();
             MachineRecipe getRecipe=CraftUtils.matchNextRecipe(inv,getInputSlots(),getMachineRecipes(b,inv),true,Settings.SEQUNTIAL);
             if(getRecipe==null){
-                RecipeCache.setLastRecipe(loc,-1);
+                DataCache.setLastRecipe(loc,-1);
             }
             updateMenu(inv ,b,Settings.RUN);
         }

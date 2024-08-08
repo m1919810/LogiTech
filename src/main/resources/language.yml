@@ -151,8 +151,8 @@ zh_CN:
         - '&7这些机器怎么看起来功能怪怪的...'
     TOBECONTINUE:
       Name: '&6未完待续...'
-    WEAPON:
-      Name: '&d逻辑工艺 &6特殊道具与装备'
+    SPACE:
+      Name: '&d逻辑工艺 &6空间技艺'
     GENERATORS:
       Name: '&d逻辑工艺 &6材料生成与转化'
     ENERGY:
@@ -311,7 +311,10 @@ zh_CN:
         - '终极'
     REDSTONE_ENGINE:
       Name: '赤石源力引擎'
-
+    STAR_GOLD_INGOT:
+      Name: '星辰金'
+      Lore:
+        - '制造空间机器必不可少的材料'
   Machines:
     LOGIC_REACTOR:
       Name: '逻辑反应堆'
@@ -339,12 +342,21 @@ zh_CN:
         - '支持生成本附属的粘液物品注册格式代码'
         - '仅对开发者有用'
     ENDFRAME_MACHINE:
-      Name: '末地门框架构建机'
+      Name: '传送门框架构建机'
     LVOID_GENERATOR:
       Name: '虚空量子发电机'
       Lore:
-        - '尝试在虚拟的虚空中捕捉量子能量'
+        - '尝试在虚拟虚空中捕捉量子能量'
         - '似乎还捕捉到了奇怪的东西..'
+    SPECIAL_CRAFTER:
+      Name: '逻辑模拟合成站'
+      Lore:
+        - '通过逻辑空间模拟任意特殊工作台/工作站'
+        - '进行无序合成.每次耗时6秒'
+    STAR_SMELTERY:
+      Name: '星辰金锻铸炉'
+      Lore:
+        - '铸造稀有的合金'
   Manuals:
     MANUAL_CORE:
       Name: '乱序核心'
@@ -412,7 +424,7 @@ zh_CN:
       Name: '下界魔法刷石机'
       Lore:
         - '可以生产蓝冰魔法刷石机的产出'
-    END_STONE_BRICKS:
+    END_MINER:
       Name: '末地魔法刷石机'
       Lore:
         - '似乎还有额外产出?'
@@ -437,7 +449,7 @@ zh_CN:
     MANUAL1:
       Name: "&3快捷机器"
     ADVANCED1:
-      Name: "&3高级机器"
+      Name: "&3进阶领域"
     CARGO1:
       Name: "&3货运机器"
     BENCH1:

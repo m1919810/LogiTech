@@ -29,6 +29,7 @@ import me.matl114.logitech.Utils.RecipeSupporter;
 import me.matl114.logitech.Utils.UtilClass.EqProRandomStack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -89,7 +90,7 @@ public class AddSlimefunItems {
     }
     //items
 
-    public static final SlimefunItem MATL114=new CustomSlimefunItem(AddGroups.MATERIAL, AddItem.MATL114, RecipeType.NULL,
+    public static final SlimefunItem MATL114=new MaterialItem(AddGroups.MATERIAL, AddItem.MATL114, RecipeType.NULL,
             recipe(AddItem.BUG,null,AddItem.BUG,null,null,null,AddItem.BUG,null,AddItem.BUG)
             ).register();
     public static final SlimefunItem BUG= new MaterialItem(AddGroups.MATERIAL,AddItem.BUG,RecipeType.NULL,
@@ -250,23 +251,51 @@ public class AddSlimefunItems {
             AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),null)
             .register();
 
-    public static final SlimefunItem DIMENSIONAL_SHARD=new MaterialItem(AddGroups.MATERIAL,AddItem.DIMENSIONAL_SHARD,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),null)
-            .register();
-    public static final SlimefunItem STAR_GOLD=new MaterialItem(AddGroups.MATERIAL,AddItem.STAR_GOLD,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),null)
+    public static final SlimefunItem DIMENSIONAL_SHARD=new AbstractGeoResource(AddGroups.MATERIAL, AddItem.DIMENSIONAL_SHARD,
+            recipe(null,AddUtils.getInfoShow("&f获取方式","&7在末地大部分群系","或风袭沙丘或蘑菇岛开采","&7或者在本附属的矿机中获取"),null,null,AddItem.END_MINER),
+            1, new HashMap<>(){{
+                put(Biome.END_BARRENS,1);
+                put(Biome.END_HIGHLANDS,1);
+                put(Biome.THE_END,1);
+                put(Biome.SMALL_END_ISLANDS,1);
+                put(Biome.WINDSWEPT_GRAVELLY_HILLS,1);
+                put(Biome.MUSHROOM_FIELDS,1);
+            }}) .registerGeo();
+
+    public static final SlimefunItem STAR_GOLD=new AbstractGeoResource(AddGroups.MATERIAL,AddItem.STAR_GOLD,
+            recipe(null,AddUtils.getInfoShow("&f获取方式","&7在末地部分群系开采","&7或者在本附属的矿机中获取"),null,null,AddItem.END_MINER),0,
+            new HashMap<>(){{
+                put(Biome.END_BARRENS,1);
+            }}).registerGeo();
+    public static final SlimefunItem STAR_GOLD_INGOT=new MaterialItem(AddGroups.MATERIAL,AddItem.STAR_GOLD_INGOT,RecipeType.SMELTERY,
+            recipe(setC(AddItem.STAR_GOLD,11),setC(AddItem.DIMENSIONAL_SHARD,2)),null)
             .register();
     public static final SlimefunItem VIRTUAL_SPACE=new MaterialItem(AddGroups.MATERIAL,AddItem.VIRTUAL_SPACE,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),null)
             .register();
-    public static final SlimefunItem WORLD_FEAT=new MaterialItem(AddGroups.MATERIAL,AddItem.WORLD_FEAT,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),null)
+    public static final SlimefunItem WORLD_FEAT=new MaterialItem(AddGroups.MATERIAL,AddItem.WORLD_FEAT,BugCrafter.TYPE,
+            recipe(null,"GRASS_BLOCK","CLAY","SAND","STONE",null,
+                    "GRASS_BLOCK","PODZOL","GRASS_BLOCK","STONE","PODZOL","STONE",
+                    "OAK_LOG","GRASS_BLOCK","STONE","GRASS_BLOCK","STONE","ICE",
+                    "OAK_LEAVES","STONE","GRASS_BLOCK","STONE","GRASS_BLOCK","ANDESITE",
+                    "STONE","PODZOL","STONE","GRASS_BLOCK","PODZOL","GRASS_BLOCK",
+                    null,"STONE","GRANITE","DIORITE","GRASS_BLOCK",null),null)
             .register();
-    public static final SlimefunItem NETHER_FEAT=new MaterialItem(AddGroups.MATERIAL,AddItem.NETHER_FEAT,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),null)
+    public static final SlimefunItem NETHER_FEAT=new MaterialItem(AddGroups.MATERIAL,AddItem.NETHER_FEAT,BugCrafter.TYPE,
+            recipe(null,"NETHERITE_INGOT","NETHER_WART","BASALT","OBSIDIAN",null,
+                    "NETHERITE_INGOT","MAGMA_BLOCK","NETHERITE_INGOT","OBSIDIAN","MAGMA_BLOCK","OBSIDIAN",
+                    "SHROOMLIGHT","NETHERITE_INGOT","OBSIDIAN","NETHERITE_INGOT","OBSIDIAN","NETHERRACK",
+                    "STRANGE_NETHER_GOO","OBSIDIAN","NETHERITE_INGOT","OBSIDIAN","NETHERITE_INGOT","CRIMSON_NYLIUM",
+                    "OBSIDIAN","MAGMA_BLOCK","OBSIDIAN","NETHERITE_INGOT","MAGMA_BLOCK","NETHERITE_INGOT",
+                    null,"OBSIDIAN","BLACKSTONE","WARPED_NYLIUM","NETHERITE_INGOT",null),null)
             .register();
-    public static final SlimefunItem END_FEAT=new MaterialItem(AddGroups.MATERIAL,AddItem.END_FEAT,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),null)
+    public static final SlimefunItem END_FEAT=new MaterialItem(AddGroups.MATERIAL,AddItem.END_FEAT,BugCrafter.TYPE,
+            recipe(null,"CHORUS_FLOWER","4CHORUS_FRUIT","4CHORUS_FRUIT","END_CRYSTAL",null,
+                    "CHORUS_FLOWER","ENDER_EYE","CHORUS_FLOWER","END_CRYSTAL","ENDER_EYE","END_CRYSTAL",
+                    "4END_ROD","CHORUS_FLOWER","END_CRYSTAL","CHORUS_FLOWER","END_CRYSTAL","4END_ROD",
+                    "4END_ROD","END_CRYSTAL","CHORUS_FLOWER","END_CRYSTAL","CHORUS_FLOWER","4END_ROD",
+                    "END_CRYSTAL","ENDER_EYE","END_CRYSTAL","CHORUS_FLOWER","ENDER_EYE","CHORUS_FLOWER",
+                    null,"END_CRYSTAL","4CHORUS_FRUIT","4CHORUS_FRUIT","CHORUS_FLOWER",null),null)
             .register();
 
 
@@ -314,7 +343,7 @@ public class AddSlimefunItems {
                     AddItem.CHIP_INGOT,AddItem.BUG,AddItem.CHIP_INGOT,
                     AddItem.ABSTRACT_INGOT,"ENERGIZED_CAPACITOR",AddItem.ABSTRACT_INGOT),10_000,1_000,7)
             .register();
-    public static final  SlimefunItem ENDFRAME_MACHINE=new EMachine(AddGroups.BASIC, AddItem.ENDFRAME_MACHINE,RecipeType.ENHANCED_CRAFTING_TABLE,
+    public static final  SlimefunItem ENDFRAME_MACHINE=new EMachine(AddGroups.VANILLA, AddItem.ENDFRAME_MACHINE,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.PARADOX,AddItem.LENGINE,AddItem.PARADOX,
                     AddItem.END_FEAT,AddItem.DIMENSIONAL_SHARD,AddItem.END_FEAT,
                     AddItem.ABSTRACT_INGOT,AddItem.LENGINE,AddItem.ABSTRACT_INGOT), Material.STONE,0,0,
@@ -326,11 +355,25 @@ public class AddSlimefunItems {
                     AddItem.ABSTRACT_INGOT,null,AddItem.LENGINE,AddItem.LENGINE,null,AddItem.ABSTRACT_INGOT,
                     AddItem.ABSTRACT_INGOT,null,AddItem.LENGINE,AddItem.LENGINE,null,AddItem.ABSTRACT_INGOT,
                     AddItem.LPLATE,null,null,null,null,AddItem.LPLATE,
-                    AddItem.LFIELD,AddItem.LPLATE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LPLATE,AddItem.LFIELD),2333,200,
+                    AddItem.LFIELD,AddItem.LPLATE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LPLATE,AddItem.LFIELD),2333,180,
             1000,1145)
             .register();
-
-
+    public static final  SlimefunItem SPECIAL_CRAFTER=new SpecialCrafter(AddGroups.BASIC, AddItem.SPECIAL_CRAFTER,RecipeType.NULL,
+            recipe(AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,AddItem.LOGIC,AddItem.LOGIC,AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,
+                    AddItem.LFIELD,AddItem.LDIGITIZER,setC(AddItem.LPLATE,2),setC(AddItem.LPLATE,2),AddItem.LMOTOR,AddItem.LFIELD,
+                    AddItem.LOGIC,setC(AddItem.LPLATE,2),setC(AddItem.LCRAFT,2),AddItem.LIOPORT,setC(AddItem.LPLATE,2),AddItem.LOGIC,
+                    AddItem.LOGIC,setC(AddItem.LPLATE,2),AddItem.LSCHEDULER,setC(AddItem.LCRAFT,2),setC(AddItem.LPLATE,2),AddItem.LOGIC,
+                    AddItem.LFIELD,AddItem.LMOTOR,setC(AddItem.LPLATE,2),setC(AddItem.LPLATE,2),AddItem.LDIGITIZER,AddItem.LFIELD,
+                    AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,AddItem.LOGIC,AddItem.LOGIC,AddItem.LFIELD,AddItem.STAR_GOLD_INGOT), Material.STONE,12,2500,25_000)
+            .register();
+    public static final  SlimefunItem STAR_SMELTERY=new EMachine(AddGroups.BASIC, AddItem.STAR_SMELTERY,BugCrafter.TYPE,
+            recipe(AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,
+                    AddItem.STAR_GOLD_INGOT,setC(AddItem.LPLATE,2),"ELECTRIC_INGOT_FACTORY_3","ELECTRIC_INGOT_FACTORY_3",setC(AddItem.LPLATE,2),AddItem.STAR_GOLD_INGOT,
+                    AddItem.STAR_GOLD_INGOT,AddItem.LMOTOR,"CARBONADO_EDGED_FURNACE","CARBONADO_EDGED_FURNACE",AddItem.LMOTOR,AddItem.STAR_GOLD_INGOT,
+                    AddItem.STAR_GOLD_INGOT,AddItem.LMOTOR,"CARBONADO_EDGED_FURNACE","CARBONADO_EDGED_FURNACE",AddItem.LMOTOR,AddItem.STAR_GOLD_INGOT,
+                    AddItem.STAR_GOLD_INGOT,setC(AddItem.LPLATE,2),"2ELECTRIC_SMELTERY_2","2ELECTRIC_SMELTERY_2",setC(AddItem.LPLATE,2),AddItem.STAR_GOLD_INGOT,
+                    AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.LFIELD), Material.STONE,0,0,null)
+            .register();
     public static final SlimefunItem HEAD_ANALYZER= new HeadAnalyzer(AddGroups.SPECIAL,AddItem.HEAD_ANALYZER,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(null,null,null,"PLAYER_HEAD",BUG,"PLAYER_HEAD",null,null,null)
             ).register();
@@ -380,7 +423,7 @@ public class AddSlimefunItems {
             AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),1,0,0,
             null)
             .register();
-    public static final SlimefunItem END_STONE_BRICKS=new SMGenerator(AddGroups.GENERATORS, AddItem.END_STONE_BRICKS,RecipeType.ENHANCED_CRAFTING_TABLE,
+    public static final SlimefunItem END_STONE_BRICKS=new SMGenerator(AddGroups.GENERATORS, AddItem.END_MINER,RecipeType.ENHANCED_CRAFTING_TABLE,
             AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),1,0,0,
             null)
             .register();

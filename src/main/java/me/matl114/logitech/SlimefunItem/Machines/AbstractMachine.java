@@ -9,7 +9,6 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 
-import me.matl114.logitech.Schedule.Task;
 import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Settings;
@@ -17,17 +16,15 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
-import java.awt.*;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public abstract  class AbstractMachine extends CustomSlimefunItem implements Ticking, MenuBlock,  EnergyNetComponent, NotHopperable ,RecipeCache{
+public abstract  class AbstractMachine extends CustomSlimefunItem implements Ticking, MenuBlock,  EnergyNetComponent, NotHopperable , DataCache {
     //我们的目标是 最广的需求 最好的性能 最大的答辩(bushi
     public  List<MachineRecipe> machineRecipes ;
     private final String id;
@@ -109,7 +106,7 @@ public abstract  class AbstractMachine extends CustomSlimefunItem implements Tic
      * construct your menu here.called in constructor
      * @param preset
      */
-    protected abstract void constructMenu(BlockMenuPreset preset);
+    public abstract void constructMenu(BlockMenuPreset preset);
 
     /**
      * cargo and IO
@@ -232,12 +229,10 @@ public abstract  class AbstractMachine extends CustomSlimefunItem implements Tic
     }
     public void preRegister(){
         super.preRegister();
-        addInfo(this.getItem());
+        //
         registerTick(this);
         //为menublock提供 需要
-        this.createPreset(this, this.getInventoryTitle(), this::constructMenu);
-        //注册MenuBlock接口
-        handleMenu(this);
+        registerBlockMenu(this);
     }
     protected void registerDefaultRecipes() {
     }
