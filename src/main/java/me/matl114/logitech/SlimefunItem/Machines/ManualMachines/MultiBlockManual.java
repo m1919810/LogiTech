@@ -11,7 +11,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.SlimefunItem.Machines.*;
 import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.DisplayItemStack;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;

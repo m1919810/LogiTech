@@ -14,6 +14,7 @@ public class FIrstCustomItem extends CustomSlimefunItem {
     public FIrstCustomItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
+
     @Override
     public void preRegister(){
         super.preRegister();

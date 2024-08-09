@@ -195,7 +195,8 @@ public class AddItem {
             Language.get("Items.LOGIC_CORE.Name"),Language.getList("Items.LOGIC_CORE.Lore"));
     public static final SlimefunItemStack REDSTONE_ENGINE=AddUtils.themed("REDSTONE_ENGINE",Material.SLIME_BLOCK,AddUtils.Theme.ITEM1,
             Language.get("Items.REDSTONE_ENGINE.Name"),Language.getList("Items.REDSTONE_ENGINE.Lore"));
-
+    public static final SlimefunItemStack HYPER_LINK=AddUtils.themed("HYPER_LINK",Material.NETHER_STAR,AddUtils.Theme.ITEM1,
+            Language.get("Items.HYPER_LINK.Name"),Language.getList("Items.HYPER_LINK.Lore"));
 
     //nachines
     public static final SlimefunItemStack HEAD_ANALYZER=AddUtils.themed("HEAD_ANALYZER",Material.SOUL_CAMPFIRE, AddUtils.Theme.MACHINE1,

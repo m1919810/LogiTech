@@ -1,26 +1,34 @@
 package me.matl114.logitech.SlimefunItem.Storage;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import me.matl114.logitech.MyAddon;
+import me.matl114.logitech.Schedule.ScheduleAsync;
+import me.matl114.logitech.Schedule.ScheduleSave;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.MenuUtils;
-import me.matl114.logitech.Utils.UtilClass.MenuFactory;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.lang.reflect.Field;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -62,6 +70,31 @@ public class TestStorageUnit extends AbstractMachine {
             return false;
         });
     }
+    public void newMenuInstance(BlockMenu inv,Block bLock){
+//        DataCache.setLastRecipe(inv.getLocation(),-1);
+//        DataCache.setLastLocation(inv.getLocation(),inv.getLocation());\\
+        var controller = Slimefun.getDatabaseManager().getBlockDataController();
+        SlimefunBlockData data=controller.getBlockData(inv.getLocation());
+        data.setData("check","0");
+        data.setData("tick","0");
+        inv.addMenuClickHandler(20,((player, i, itemStack, clickAction) -> {
+//            if(data.isDataLoaded()){
+//                Debug.logger("load");
+//            }else {
+//                Debug.logger("not load");
+//            }
+//            data.setData("location","test");
+            Location loc =DataCache.getLastLocation(inv.getLocation());
+            loc=loc.add(0,1.0,0);
+            DataCache.setLastLocation(inv.getLocation(),loc);
+            return false;
+        }));
+        Schedules.launchSchedules( new BukkitRunnable() {
+            @Override
+            public void run() {
+                StorageCacheUtils.setData(inv.getLocation(),"check",String.valueOf(1+Integer.parseInt(StorageCacheUtils.getData(inv.getLocation(),"check"))));
+            }},100,false,600);
+    }
     public  int[] getInputSlots(){
         return INPUT_SLOT;
     }
@@ -83,41 +116,42 @@ public class TestStorageUnit extends AbstractMachine {
         return new ArrayList<MachineRecipe>();
     }
     public void process(Block b, BlockMenu preset){
-        ItemStack it=preset.getItemInSlot(0);
-        if(it!=null){
-            it.setAmount(114514);
-        }
-        ItemStack stack=new ItemStack(Material.COMMAND_BLOCK);
-        stack.setAmount(-128);
-        preset.replaceExistingItem(2,stack);
-        preset.replaceExistingItem(3,rand);
-        ItemStack a=preset.getItemInSlot(4);
-        if(a!=null){
-            //Debug.logger("a="+a.getItemMeta().toString());
-            ItemMeta as=a.getItemMeta();
-            //Debug.logger("stack="+as.getClass());
-            Class clazz=as.getClass();
-            try{
-                Field getlore=clazz.getDeclaredField("lore");
-                getlore.setAccessible(true);
-                Object o=getlore.get(as);
-                Debug.logger("o="+o.toString());
-            }
-            catch(Throwable e){
-                Debug.logger("invoke failed ");
-                e.printStackTrace();
-
-            }
-
-        }
-        Location loc=preset.getLocation();
-
-        new BukkitRunnable(){
-            public void run(){
-                preset.dropItems(loc,IntStream.range(27,54).toArray());
-            }
-        }.runTask(MyAddon.getInstance());
-
+        StorageCacheUtils.setData(preset.getLocation(),"tick",String.valueOf(1+Integer.parseInt(StorageCacheUtils.getData(preset.getLocation(),"tick"))));
+//        ItemStack it=preset.getItemInSlot(0);
+//        if(it!=null){
+//            it.setAmount(114514);
+//        }
+//        ItemStack stack=new ItemStack(Material.COMMAND_BLOCK);
+//        stack.setAmount(-128);
+//        preset.replaceExistingItem(2,stack);
+//        preset.replaceExistingItem(3,rand);
+//        ItemStack a=preset.getItemInSlot(4);
+//        if(a!=null){
+//            //Debug.logger("a="+a.getItemMeta().toString());
+//            ItemMeta as=a.getItemMeta();
+//            //Debug.logger("stack="+as.getClass());
+//            Class clazz=as.getClass();
+//            try{
+//                Field getlore=clazz.getDeclaredField("lore");
+//                getlore.setAccessible(true);
+//                Object o=getlore.get(as);
+//                Debug.logger("o="+o.toString());
+//            }
+//            catch(Throwable e){
+//                Debug.logger("invoke failed ");
+//                e.printStackTrace();
+//
+//            }
+//
+//        }
+//        Location loc=preset.getLocation();
+//
+//        new BukkitRunnable(){
+//            public void run(){
+//                preset.dropItems(loc,IntStream.range(27,54).toArray());
+//            }
+//        }.runTask(MyAddon.getInstance());
+//
 
 
     }

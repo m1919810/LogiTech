@@ -28,7 +28,9 @@ public abstract class CustomSlimefunItem extends SlimefunItem implements RecipeD
             this.displayedMemory = new ArrayList<>();
         }
     }
-    public abstract void addInfo(ItemStack stack);
+    public void addInfo(ItemStack stack){
+
+    }
     public List<MachineRecipe> provideDisplayRecipe(){
         return new ArrayList<>();
     }

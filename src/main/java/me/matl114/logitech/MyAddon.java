@@ -6,7 +6,6 @@ import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.AddGroups;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
-import me.matl114.logitech.SlimefunItem.Storage.StorageType;
 import me.matl114.logitech.SlimefunItem.Storage.Storages;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.Debug;

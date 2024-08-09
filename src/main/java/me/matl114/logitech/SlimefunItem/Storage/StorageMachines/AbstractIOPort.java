@@ -7,13 +7,12 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
-import me.matl114.logitech.SlimefunItem.Storage.ItemStorageCache;
+import me.matl114.logitech.Utils.UtilClass.StorageClass.ItemStorageCache;
 import me.matl114.logitech.SlimefunItem.Storage.Storages;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.CraftUtils;
 
-import me.matl114.logitech.Utils.Debug;
-import me.matl114.logitech.Utils.UtilClass.ItemPusher;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;

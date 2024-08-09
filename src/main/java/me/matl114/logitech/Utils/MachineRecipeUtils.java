@@ -2,7 +2,10 @@ package me.matl114.logitech.Utils;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
-import me.matl114.logitech.Utils.UtilClass.*;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.MultiItemStack;
+import me.matl114.logitech.Utils.UtilClass.RecipeClass.ShapedMachineRecipe;
+import me.matl114.logitech.Utils.UtilClass.RecipeClass.StackMachineRecipe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

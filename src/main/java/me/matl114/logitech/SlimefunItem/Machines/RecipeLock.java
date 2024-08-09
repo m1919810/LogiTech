@@ -1,6 +1,7 @@
 package me.matl114.logitech.SlimefunItem.Machines;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import me.matl114.logitech.Utils.DataCache;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.Location;
 

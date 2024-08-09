@@ -7,7 +7,11 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.Utils.UtilClass.*;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.EquivalItemStack;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.RandomItemStack;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomMenu;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuPreset;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -108,7 +112,7 @@ public class MenuUtils {
     public static final int[] RECIPESLOT_6x6=new int[]{1,2,3,4,5,6,10,11,12,13,14,15,19,20,21,22,23,24,28,29,30,31,32,33,37,38,39,40,41,42,46,47,48,49,50,51};
     public static final int[] RECIPEOUTPUT_6X6=new int[]{35,44,53};
     public interface RecipeMenuConstructor{
-        public CustomMenu construct(ItemStack icon,MachineRecipe recipe ,ChestMenu.MenuClickHandler backhandler);
+        public CustomMenu construct(ItemStack icon, MachineRecipe recipe , ChestMenu.MenuClickHandler backhandler);
     }
     public static CustomMenu createMRecipeListDisplay(ItemStack machine, List<MachineRecipe> machineRecipes, @Nullable ChestMenu.MenuClickHandler backHandler){
         return createMRecipeListDisplay(machine,machineRecipes,backHandler,MenuUtils::createMRecipeDisplay);

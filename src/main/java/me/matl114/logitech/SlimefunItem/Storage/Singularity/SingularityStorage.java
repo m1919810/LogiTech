@@ -2,7 +2,9 @@ package me.matl114.logitech.SlimefunItem.Storage.Singularity;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.SlimefunItem.Storage.StorageMachines.Singularity;
-import me.matl114.logitech.SlimefunItem.Storage.StorageType;
+import me.matl114.logitech.Utils.UtilClass.PdcClass.AbstractAmount;
+import me.matl114.logitech.Utils.UtilClass.PdcClass.AbstractStorageType;
+import me.matl114.logitech.Utils.UtilClass.StorageClass.StorageType;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.CraftUtils;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
@@ -35,25 +37,14 @@ public class SingularityStorage extends StorageType {
         return MAX_AMOUNT;
     }
     public void setStorage(ItemMeta meta, ItemStack item ) {
-
-        clearStorage(meta);
-
-        if(item!=null|| isStorage(meta)) {
-            meta.getPersistentDataContainer().set(KEY_AMOUNT, AbstractStorageAmount.TYPE,0);
+        if(item!=null) {
+            clearStorage(meta);
+            meta.getPersistentDataContainer().set(KEY_AMOUNT, AbstractAmount.TYPE,0);
             ItemStack tmp=item.clone();
             tmp.setAmount(1);
             meta.getPersistentDataContainer().set(KEY_ITEM, AbstractStorageType.TYPE,tmp);
             if(meta.hasLore()){
                 List<String> lore = meta.getLore();
-                for(int i=0;i<lore.size();){
-                    if(lore.get(i).startsWith(ITEM_DISPLAY_PREFIX)){
-                        lore.remove(i);
-                    }else if(lore.get(i).startsWith(AMOUNT_DISPLAY_PREFIX)){
-                        lore.remove(i);
-                    }else{
-                        i++;
-                    }
-                }
                 lore.add(ITEM_DISPLAY_PREFIX+ ItemStackHelper.getDisplayName(item));
                 lore.add(AMOUNT_DISPLAY_PREFIX+item.getAmount());
                 meta.setLore(lore);
@@ -87,22 +78,22 @@ public class SingularityStorage extends StorageType {
         return  meta.getPersistentDataContainer().get(KEY_ITEM,AbstractStorageType.TYPE);
     }
     public int getStorageAmount(ItemMeta meta) {
-        return meta.getPersistentDataContainer().get(KEY_AMOUNT,AbstractStorageAmount.TYPE);
+        return meta.getPersistentDataContainer().get(KEY_AMOUNT, AbstractAmount.TYPE);
     }
     public void setStorageAmount(ItemMeta meta, int amount) {
-        meta.getPersistentDataContainer().set(KEY_AMOUNT,AbstractStorageAmount.TYPE,amount);
+        meta.getPersistentDataContainer().set(KEY_AMOUNT, AbstractAmount.TYPE,amount);
     }
     public void updateStorageAmountDisplay(ItemMeta meta, int amount) {
-        if(meta.hasLore()){
-            List<String> lore =meta.hasLore()? meta.getLore():new ArrayList<>();
-            if(lore.size()>0){
-                lore.set(lore.size()-1,AMOUNT_DISPLAY_PREFIX+amount);
-            }
-            else {
-                lore.add(AMOUNT_DISPLAY_PREFIX+amount);
-            }
-            meta.setLore(lore);
+
+        List<String> lore =meta.hasLore()? meta.getLore():new ArrayList<>();
+        if(lore.size()>0){
+            lore.set(lore.size()-1,AMOUNT_DISPLAY_PREFIX+amount);
         }
+        else {
+            lore.add(AMOUNT_DISPLAY_PREFIX+amount);
+        }
+        meta.setLore(lore);
+
     }
     public void updateStorageDisplay(ItemMeta meta,ItemStack item, int amount){
 

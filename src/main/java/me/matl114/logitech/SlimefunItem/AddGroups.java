@@ -8,10 +8,10 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.MenuUtils;
 import me.matl114.logitech.Utils.RecipeSupporter;
-import me.matl114.logitech.Utils.UtilClass.CustomItemGroup;
-import me.matl114.logitech.Utils.UtilClass.CustomMenu;
-import me.matl114.logitech.Utils.UtilClass.DummyItemGroup;
-import me.matl114.logitech.Utils.UtilClass.MenuFactory;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomItemGroup;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomMenu;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.DummyItemGroup;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import net.md_5.bungee.api.ChatColor;
@@ -52,7 +52,7 @@ public class AddGroups {
 
     public static final ItemGroup SPECIAL = new DummyItemGroup(AddUtils.getNameKey("special" ), AddItem.SPECIAL);
 
-    public static final ItemGroup WEAPON = new DummyItemGroup(AddUtils.getNameKey("weapon"),AddItem.SPACE);
+    public static final ItemGroup SPACE = new DummyItemGroup(AddUtils.getNameKey("space"),AddItem.SPACE);
 
     public static final ItemGroup GENERATORS = new DummyItemGroup(AddUtils.getNameKey("generators"),AddItem.GENERATORS);
 
@@ -114,7 +114,7 @@ public class AddGroups {
                     put(12,MANUAL);
                     put(14,ENERGY);
                     put(16,GENERATORS);
-                    put(18,WEAPON);
+                    put(18, SPACE);
                     put(20,VANILLA);
                     put(22,SPECIAL);
                     put(24,CARGO);

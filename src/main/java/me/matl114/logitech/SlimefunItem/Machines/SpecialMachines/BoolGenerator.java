@@ -9,9 +9,9 @@ import me.matl114.logitech.Language;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
 import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.ItemConsumer;
-import me.matl114.logitech.Utils.UtilClass.ItemPusher;
-import me.matl114.logitech.Utils.UtilClass.SimpleCraftingOperation;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
+import me.matl114.logitech.Utils.UtilClass.RecipeClass.SimpleCraftingOperation;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -20,7 +20,6 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class BoolGenerator extends AbstractProcessor {
     protected final int[] BORDER=new int[]{0,  2, 3, 5, 6,  8,9, 17, 18, 20, 21,  23, 24,26};

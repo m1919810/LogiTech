@@ -17,6 +17,9 @@ public class MaterialItem extends CustomSlimefunItem {
     public MaterialItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, List<ItemStack> recipeDisplay) {
         super(itemGroup, item, recipeType, recipe,recipeDisplay);
     }
+    public void addInfo(ItemStack stack){
+
+    }
     @Override
     public  void preRegister(){
         super.preRegister();

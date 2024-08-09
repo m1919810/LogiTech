@@ -9,13 +9,14 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
-import me.matl114.logitech.Items.CustomHead;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.MyAddon;
-import me.matl114.logitech.Utils.UtilClass.DisplayItemStack;
-import me.matl114.logitech.Utils.UtilClass.EqProRandomStack;
-import me.matl114.logitech.Utils.UtilClass.EquivalItemStack;
-import me.matl114.logitech.Utils.UtilClass.RandomItemStack;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.EqProRandomStack;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.EquivalItemStack;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.RandomItemStack;
+import me.matl114.logitech.Utils.UtilInterface.LoreDecorator;
+import me.matl114.logitech.Utils.UtilInterface.StringDecorator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -747,5 +748,8 @@ public class AddUtils {
             return new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&a未发电",
                     "&7类型:&6 %s".formatted(type),"&7&7电量: &6%s/%sJ".formatted(FORMAT.format((double)charge),FORMAT.format((double)buffer)));
         }
+    }
+    public static String getUUID(){
+        return UUID.randomUUID().toString();
     }
 }

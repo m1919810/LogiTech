@@ -7,11 +7,8 @@ import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponen
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.CraftUtils;
-import me.matl114.logitech.Utils.MachineRecipeUtils;
-import me.matl114.logitech.Utils.Settings;
-import me.matl114.logitech.Utils.UtilClass.*;
+import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;

@@ -315,6 +315,12 @@ zh_CN:
       Name: '星辰金'
       Lore:
         - '制造空间机器必不可少的材料'
+    HYPER_LINK:
+      Name: '超链接'
+      Lore:
+        - '和目标方块建立逻辑链接'
+        - '右键打开目标方块'
+        - 'shift+右键绑定目标方块'
   Machines:
     LOGIC_REACTOR:
       Name: '逻辑反应堆'

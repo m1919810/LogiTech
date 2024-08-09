@@ -2,6 +2,7 @@ package me.matl114.logitech.SlimefunItem.Storage;
 
 import me.matl114.logitech.SlimefunItem.Storage.NetworkAdapts.QuantumStorage;
 import me.matl114.logitech.SlimefunItem.Storage.Singularity.SingularityStorage;
+import me.matl114.logitech.Utils.UtilClass.StorageClass.StorageType;
 
 public class Storages {
     public static void setup(){

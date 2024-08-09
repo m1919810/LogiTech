@@ -2,8 +2,7 @@ package me.matl114.logitech.Utils;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
-import me.matl114.logitech.SlimefunItem.Machines.DataCache;
-import me.matl114.logitech.Utils.UtilClass.*;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.*;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
@@ -798,6 +797,9 @@ public class CraftUtils {
             }
         }
         int recipeAmount=recipes.size();
+        if(recipeAmount<=0){
+            return null;
+        }
         int __index=0;
         //if usehistory ,will suggest a better place to start
         if(useHistory) {
@@ -1243,7 +1245,7 @@ public class CraftUtils {
      * @param strictCheck
      * @return
      */
-    public static boolean matchItemCounter(ItemCounter counter1,ItemCounter counter2,boolean strictCheck) {
+    public static boolean matchItemCounter(ItemCounter counter1, ItemCounter counter2, boolean strictCheck) {
         ItemStack stack1=counter1.getItem();
         ItemStack stack2=counter2.getItem();
         if (stack1 == null || stack2 == null) {

@@ -7,7 +7,7 @@ import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;
 import io.github.sefiraat.networks.utils.datatypes.PersistentQuantumStorageType;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedException;
-import me.matl114.logitech.SlimefunItem.Storage.StorageType;
+import me.matl114.logitech.Utils.UtilClass.StorageClass.StorageType;
 import me.matl114.logitech.Utils.CraftUtils;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

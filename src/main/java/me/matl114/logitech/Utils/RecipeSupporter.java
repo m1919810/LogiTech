@@ -31,7 +31,7 @@ import java.util.*;
 
 public class RecipeSupporter {
     public static void init(){
-        Debug.logger("配方供应器开始注册配方......");
+
     }
     public static final SlimefunAddon PLUGIN= MyAddon.getInstance();
 //    public static final RecipeType VANILLA_MERCHANT=new RecipeType(AddUtils.getNameKey("vanilla_merchant"),

@@ -1,17 +1,16 @@
 package me.matl114.logitech.SlimefunItem.Machines;
 
-import io.github.mooy1.infinityexpansion.items.blocks.InfinityWorkbench;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.items.ItemUtils;
-import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.*;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomMenu;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -78,7 +77,7 @@ public abstract class AbstractWorkBench extends AbstractMachine {
      * @param preset
      */
     public abstract void constructMenu(BlockMenuPreset preset);
-    public CustomMenu getRecipeMenu(Block b,BlockMenu inv){
+    public CustomMenu getRecipeMenu(Block b, BlockMenu inv){
         return MenuUtils.createMRecipeListDisplay(getItem(),getMachineRecipes(),((player, i, itemStack, clickAction) -> {
             inv.open(player);
             return false;
@@ -130,7 +129,7 @@ public abstract class AbstractWorkBench extends AbstractMachine {
         if(limit == 0){
             return;
         }
-        Pair<MachineRecipe,ItemGreedyConsumer[]> outputResult=
+        Pair<MachineRecipe, ItemGreedyConsumer[]> outputResult=
                 CraftUtils.findNextShapedRecipe(inv,getInputSlots(),getOutputSlots(),getMachineRecipes(),limit,true);
         if(outputResult != null){
             if(this.energyConsumption > 0){

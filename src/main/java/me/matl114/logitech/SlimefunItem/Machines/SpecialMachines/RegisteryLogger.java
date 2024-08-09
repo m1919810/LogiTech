@@ -10,7 +10,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
-import me.matl114.logitech.SlimefunItem.Machines.DataCache;
+import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.AddUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;

@@ -26,7 +26,7 @@ import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.BukkitUtils;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.RecipeSupporter;
-import me.matl114.logitech.Utils.UtilClass.EqProRandomStack;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.EqProRandomStack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -297,7 +297,11 @@ public class AddSlimefunItems {
                     "END_CRYSTAL","ENDER_EYE","END_CRYSTAL","CHORUS_FLOWER","ENDER_EYE","CHORUS_FLOWER",
                     null,"END_CRYSTAL","4CHORUS_FRUIT","4CHORUS_FRUIT","CHORUS_FLOWER",null),null)
             .register();
-
+    public static final SlimefunItem HYPER_LINK=new HypLink(AddGroups.SPACE,AddItem.HYPER_LINK,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(AddItem.ABSTRACT_INGOT,AddItem.PARADOX,AddItem.ABSTRACT_INGOT,
+                    AddItem.PARADOX,AddItem.DIMENSIONAL_SHARD,AddItem.PARADOX,
+                    AddItem.ABSTRACT_INGOT,AddItem.BUG,AddItem.ABSTRACT_INGOT))
+            .register();
 
 
     public static final SlimefunItem METAL_CORE=new MaterialItem(AddGroups.MATERIAL,AddItem.METAL_CORE,RecipeType.NULL,
@@ -326,6 +330,7 @@ public class AddSlimefunItems {
                     "OBSERVER","STICKY_PISTON","STICKY_PISTON","STICKY_PISTON","STICKY_PISTON","OBSERVER",
                     "TNT","SLIME_BLOCK","ANVIL","ANVIL","SLIME_BLOCK","TNT"),null)
             .register();
+
     //machines
     public static final SlimefunItem BOOL_GENERATOR=new BoolGenerator(AddGroups.BASIC,AddItem.BOOL_GENERATOR,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("OBSERVER","REDSTONE","OBSERVER",

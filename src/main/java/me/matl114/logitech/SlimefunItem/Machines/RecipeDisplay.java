@@ -3,8 +3,8 @@ package me.matl114.logitech.SlimefunItem.Machines;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Settings;
-import me.matl114.logitech.Utils.UtilClass.DisplayItemStack;
-import me.matl114.logitech.Utils.UtilClass.MultiItemStack;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.MultiItemStack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.inventory.ItemStack;
 
