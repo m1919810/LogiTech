@@ -259,6 +259,41 @@ public class AddItem {
     public static final SlimefunItemStack MULTIMACHINE_MANUAL=AddUtils.themed("MULTIMACHINE_MANUAL",Material.GRAY_STAINED_GLASS,AddUtils.Theme.MANUAL1,
             Language.get("Manuals.MULTIMACHINE_MANUAL.Name"),Language.getList("Manuals.MULTIMACHINE_MANUAL.Lore"));
 
+    //generators
+    public static final SlimefunItemStack MAGIC_STONE=AddUtils.themed("MAGIC_STONE",Material.COBBLESTONE,AddUtils.Theme.MACHINE2,
+            Language.get("Generators.MAGIC_STONE.Name"),Language.getList("Generators.MAGIC_STONE.Lore"));
+    public static final SlimefunItemStack BOOL_MG=AddUtils.themed("BOOL_MG",Material.REDSTONE_TORCH,AddUtils.Theme.MACHINE2,
+            Language.get("Generators.BOOL_MG.Name"),Language.getList("Generators.BOOL_MG.Lore"));
+    public static final SlimefunItemStack OVERWORLD_MINER=AddUtils.themed("OVERWORLD_MINER",Material.SMOOTH_STONE,AddUtils.Theme.MACHINE2,
+            Language.get("Generators.OVERWORLD_MINER.Name"),Language.getList("Generators.OVERWORLD_MINER.Lore"));
+    public static final SlimefunItemStack NETHER_MINER=AddUtils.themed("NETHER_MINER",Material.CRIMSON_NYLIUM,AddUtils.Theme.MACHINE2,
+            Language.get("Generators.NETHER_MINER.Name"),Language.getList("Generators.NETHER_MINER.Lore"));
+    public static final SlimefunItemStack END_MINER =AddUtils.themed("END_MINER",Material.END_STONE_BRICKS,AddUtils.Theme.MACHINE2,
+            Language.get("Generators.END_MINER.Name"),Language.getList("Generators.END_MINER.Lore"));
+    public static final SlimefunItemStack DIMENSION_MINER=AddUtils.themed("DIMENSION_MINER",Material.CRYING_OBSIDIAN,AddUtils.Theme.MACHINE2,
+            Language.get("Generators.DIMENSION_MINER.Name"),Language.getList("Generators.DIMENSION_MINER.Lore"));
+    public static final SlimefunItemStack REDSTONE_MG=AddUtils.themed("REDSTONE_MG",Material.OBSERVER,AddUtils.Theme.MACHINE2,
+            Language.get("Generators.REDSTONE_MG.Name"),Language.getList("Generators.REDSTONE_MG.Lore"));
+    public static final SlimefunItemStack DUPE_MG=AddUtils.themed("DUPE_MG",Material.STICKY_PISTON,AddUtils.Theme.MACHINE2,
+            Language.get("Generators.DUPE_MG.Name"),Language.getList("Generators.DUPE_MG.Lore"));
+    public static final SlimefunItemStack ENDDUPE_MG=AddUtils.themed("ENDDUPE_MG",Material.END_PORTAL_FRAME,AddUtils.Theme.MACHINE2,
+            Language.get("Generators.ENDDUPE_MG.Name"),Language.getList("Generators.ENDDUPE_MG.Lore"));
+
+
+
+    //multiblock
+    public static final SlimefunItemStack PORTAL_CORE=AddUtils.themed("PORTAL_CORE",Material.CRYING_OBSIDIAN,AddUtils.Theme.MULTIBLOCK1,
+            Language.get("MultiBlock.PORTAL_CORE.Name"),Language.getList("MultiBlock.PORTAL_CORE.Lore"));
+    public static final SlimefunItemStack PORTAL_FRAME=AddUtils.themed("PORTAL_FRAME",Material.IRON_BLOCK,AddUtils.Theme.MULTIBLOCK2,
+            Language.get("MultiBlock.PORTAL_FRAME.Name"),Language.getList("MultiBlock.PORTAL_FRAME.Lore"));
+    public static final SlimefunItemStack SOLAR_REACTOR=AddUtils.themed("SOLAR_REACTOR",Material.LODESTONE,AddUtils.Theme.MULTIBLOCK1,
+            Language.get("MultiBlock.SOLAR_REACTOR.Name"),Language.getList("MultiBlock.SOLAR_REACTOR.Lore"));
+    public static final SlimefunItemStack SOLAR_REACTOR_FRAME=AddUtils.themed("SOLAR_REACTOR_FRAME",Material.CHISELED_QUARTZ_BLOCK,AddUtils.Theme.MULTIBLOCK2,
+            Language.get("MultiBlock.SOLAR_REACTOR_FRAME.Name"),Language.getList("MultiBlock.SOLAR_REACTOR_FRAME.Lore"));
+    public static final SlimefunItemStack SOLAR_REACTOR_GLASS=AddUtils.themed("SOLAR_REACTOR_GLASS",Material.TINTED_GLASS,AddUtils.Theme.MULTIBLOCK2,
+            Language.get("MultiBlock.SOLAR_REACTOR_GLASS.Name"),Language.getList("MultiBlock.SOLAR_REACTOR_GLASS.Lore"));
+
+    //feat
     public static final SlimefunItemStack CUSTOM1=
             AddUtils.themed("CUSTOM1",new ItemStack(Material.COMMAND_BLOCK),AddUtils.Theme.ITEM1,"测试物件1","只是一个简单的测试");
     public static final SlimefunItemStack MACHINE1=
@@ -308,25 +343,10 @@ public class AddItem {
     public static final SlimefunItemStack FINAL_MANUAL=
             AddUtils.themed("FINAL_MANUAL",new ItemStack(Material.REINFORCED_DEEPSLATE),AddUtils.Theme.MANUAL1,"测试终极快捷","测试测试");
 
-    //generators
-    public static final SlimefunItemStack MAGIC_STONE=AddUtils.themed("MAGIC_STONE",Material.COBBLESTONE,AddUtils.Theme.MACHINE2,
-            Language.get("Generators.MAGIC_STONE.Name"),Language.getList("Generators.MAGIC_STONE.Lore"));
-    public static final SlimefunItemStack BOOL_MG=AddUtils.themed("BOOL_MG",Material.REDSTONE_TORCH,AddUtils.Theme.MACHINE2,
-            Language.get("Generators.BOOL_MG.Name"),Language.getList("Generators.BOOL_MG.Lore"));
-    public static final SlimefunItemStack OVERWORLD_MINER=AddUtils.themed("OVERWORLD_MINER",Material.SMOOTH_STONE,AddUtils.Theme.MACHINE2,
-            Language.get("Generators.OVERWORLD_MINER.Name"),Language.getList("Generators.OVERWORLD_MINER.Lore"));
-    public static final SlimefunItemStack NETHER_MINER=AddUtils.themed("NETHER_MINER",Material.CRIMSON_NYLIUM,AddUtils.Theme.MACHINE2,
-            Language.get("Generators.NETHER_MINER.Name"),Language.getList("Generators.NETHER_MINER.Lore"));
-    public static final SlimefunItemStack END_MINER =AddUtils.themed("END_MINER",Material.END_STONE_BRICKS,AddUtils.Theme.MACHINE2,
-            Language.get("Generators.END_MINER.Name"),Language.getList("Generators.END_MINER.Lore"));
-    public static final SlimefunItemStack DIMENSION_MINER=AddUtils.themed("DIMENSION_MINER",Material.CRYING_OBSIDIAN,AddUtils.Theme.MACHINE2,
-            Language.get("Generators.DIMENSION_MINER.Name"),Language.getList("Generators.DIMENSION_MINER.Lore"));
-    public static final SlimefunItemStack REDSTONE_MG=AddUtils.themed("REDSTONE_MG",Material.OBSERVER,AddUtils.Theme.MACHINE2,
-            Language.get("Generators.REDSTONE_MG.Name"),Language.getList("Generators.REDSTONE_MG.Lore"));
-    public static final SlimefunItemStack DUPE_MG=AddUtils.themed("DUPE_MG",Material.STICKY_PISTON,AddUtils.Theme.MACHINE2,
-            Language.get("Generators.DUPE_MG.Name"),Language.getList("Generators.DUPE_MG.Lore"));
-    public static final SlimefunItemStack ENDDUPE_MG=AddUtils.themed("ENDDUPE_MG",Material.END_PORTAL_FRAME,AddUtils.Theme.MACHINE2,
-            Language.get("Generators.ENDDUPE_MG.Name"),Language.getList("Generators.ENDDUPE_MG.Lore"));
+
+
+    public static final SlimefunItemStack TESTPART=AddUtils.themed("TEST_MPART",Material.OBSIDIAN,AddUtils.Theme.MACHINE1,"测试多方块部件","测试测试");
+    public static final SlimefunItemStack TESTCORE=AddUtils.themed("TEST_MCORE",Material.IRON_BLOCK,AddUtils.Theme.MACHINE1,"测试多方块核心","测试测试");
     //tmp占位符
     public static final SlimefunItemStack TMP1= new SlimefunItemStack("TMP1",Material.STONE,"TMP1","暂未开发");
     public static final HashSet<ItemStack> ADDGLOW=new HashSet<>(){{
@@ -348,5 +368,6 @@ public class AddItem {
         add(TECH_CORE);
         add(SMELERY_CORE);
         add(MASS_CORE);
+        add(PORTAL_FRAME);
     }};
 }

@@ -7,6 +7,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.block.Block;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public interface Ticking {
@@ -25,9 +26,9 @@ public interface Ticking {
                     public void tick(Block b, SlimefunItem item, SlimefunBlockData data) {
                         BlockMenu menu = StorageCacheUtils.getMenu(b.getLocation());
                         //BlockMenu menu = BlockStorage.getInventory(b);
-                        if (menu != null) {
-                            Ticking.this.tick(b, menu,0);
-                        }
+
+                        Ticking.this.tick(b, menu,0);
+
 
                     }
                 }
@@ -40,9 +41,11 @@ public interface Ticking {
     }
     /**
      * imple blockTicking in this method
+     * menu could be null, unless you guarantee you imple MenuBlock
      * @param b
      * @param menu
      * @param tickCount
      */
-    void tick(Block b, BlockMenu menu,int tickCount);
+    void tick(Block b, @Nullable BlockMenu menu, int tickCount);
+
 }

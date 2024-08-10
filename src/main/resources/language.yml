@@ -445,6 +445,29 @@ zh_CN:
       Name: '特性复制机'
     ENDDUPE_MG:
       Name: '末地门特性复制机'
+  MultiBlock:
+    PORTAL_CORE:
+      Name: '维度传送门核心'
+      Lore:
+        - '蕴含着高维度的力量'
+        - '维持稳定的超链接并允许任何实体传送'
+    PORTAL_FRAME:
+      Name: '维度传送门框架'
+    SOLAR_REACTOR:
+      Name: '超新星模拟器'
+      Lore:
+        - '在虚拟空间中模拟超新星爆发'
+        - '威力很大,记得带好防护镜!'
+        - '警告:你最好别在它运行的时候打它什么主意'
+    SOLAR_REACTOR_FRAME:
+      Name: '超新星模拟器框架'
+      Lore:
+        - '可以被模拟器货运接口代替'
+    SOLAR_REACTOR_GLASS:
+      Name: '超新星模拟器防护罩'
+      Lore:
+        - '"身临其境"'
+        - '不可疑被其他组件替代'
   Theme:
     ITEM1:
       Name: "&3物品"
@@ -452,6 +475,10 @@ zh_CN:
       Name: '&3机器'
     MACHINE2:
       Name: "&3生成器"
+    MULTIBLOCK1:
+      Name: "&3多方块核心"
+    MULTIBLOCK2:
+      Name: "&3多方块部件"
     MANUAL1:
       Name: "&3快捷机器"
     ADVANCED1:

@@ -7,8 +7,5 @@ public abstract class CustomListener implements Listener {
     public CustomListener() {
 
     }
-    public CustomListener register() {
-        ListenerManager.register(this);
-        return this;
-    }
+
 }

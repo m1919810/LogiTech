@@ -196,6 +196,32 @@ public class AddUtils {
                 }
                 })
         ),
+        MULTIBLOCK1(
+                AddUtils::colorful,
+                ((List<String> a)->{{
+                    List<String> finallist=new ArrayList<>() ;
+                    for(String i:a){
+                        finallist.add(desc(i));
+                    }
+                    finallist.add("");
+                    finallist.add(addonTag(Language.get("Theme.MULTIBLOCK1.Name")));
+                    return finallist;
+                }
+                })
+        ),
+        MULTIBLOCK2(
+                AddUtils::colorful,
+                ((List<String> a)->{{
+                    List<String> finallist=new ArrayList<>() ;
+                    for(String i:a){
+                        finallist.add(desc(i));
+                    }
+                    finallist.add("");
+                    finallist.add(addonTag(Language.get("Theme.MULTIBLOCK2.Name")));
+                    return finallist;
+                }
+                })
+        ),
         MANUAL1(
                 AddUtils::colorful,
                 ((List<String> a)->{{
@@ -372,7 +398,7 @@ public class AddUtils {
         }else if(a instanceof  Material){
             return  new ItemStack((Material) a);
         }else if(a instanceof String){
-            Pattern re=Pattern.compile("^([0-9]*)([A-Z,_]*)$");
+            Pattern re=Pattern.compile("^([0-9]*)(.*)$");
             Matcher info= re.matcher((String)a);
             int cnt=-1;
             String id;
@@ -404,7 +430,7 @@ public class AddUtils {
                     }
                     return b;
                 }catch (Exception e2){
-                    Debug.logger("[resolveItem] Generate an exception while dealing with Object "+a.toString());
+                    Debug.logger("[resolveItem] Generate an exception while dealing with Object ",a.toString(),"class type ",a.getClass());
                     return  null;
                 }
             }

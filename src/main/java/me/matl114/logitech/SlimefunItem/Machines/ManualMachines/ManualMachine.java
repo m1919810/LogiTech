@@ -29,7 +29,6 @@ public class ManualMachine extends AbstractManual {
         });
     }
     public void registerDefaultRecipes(){
-        Debug.logger("register default recipes");
     }
     public List<MachineRecipe> getMachineRecipes() {
         //this should not be null ,unless you are sb

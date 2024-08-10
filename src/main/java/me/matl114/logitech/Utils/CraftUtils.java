@@ -57,9 +57,9 @@ public class CraftUtils {
             CRAFTLORE.setAccessible(true);
             CRAFTDISPLAYNAME.setAccessible(true);
             INVOKE_SUCCESS=true;
-            Debug.logger("INVOKE META SUCCESS");
+            //Debug.logger("INVOKE META SUCCESS");
         }catch (Throwable e){
-            Debug.logger("INVOKE META FAILED");
+            Debug.logger("INVOKE META FAILED,PLEASE CHECK LOGGER!!!!!!");
             INVOKE_SUCCESS=false;
             e.printStackTrace();
             Debug.logger("DISABLING RELEVENT FEATURE");

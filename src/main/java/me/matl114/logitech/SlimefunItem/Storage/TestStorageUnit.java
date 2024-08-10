@@ -22,8 +22,12 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.PortalType;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.Orientable;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -73,27 +77,11 @@ public class TestStorageUnit extends AbstractMachine {
     public void newMenuInstance(BlockMenu inv,Block bLock){
 //        DataCache.setLastRecipe(inv.getLocation(),-1);
 //        DataCache.setLastLocation(inv.getLocation(),inv.getLocation());\\
-        var controller = Slimefun.getDatabaseManager().getBlockDataController();
-        SlimefunBlockData data=controller.getBlockData(inv.getLocation());
-        data.setData("check","0");
-        data.setData("tick","0");
+
         inv.addMenuClickHandler(20,((player, i, itemStack, clickAction) -> {
-//            if(data.isDataLoaded()){
-//                Debug.logger("load");
-//            }else {
-//                Debug.logger("not load");
-//            }
-//            data.setData("location","test");
-            Location loc =DataCache.getLastLocation(inv.getLocation());
-            loc=loc.add(0,1.0,0);
-            DataCache.setLastLocation(inv.getLocation(),loc);
+            Debug.logger("check blockstatemeta", ((Orientable)bLock.getRelative(BlockFace.UP).getBlockData()).getAxis());
             return false;
         }));
-        Schedules.launchSchedules( new BukkitRunnable() {
-            @Override
-            public void run() {
-                StorageCacheUtils.setData(inv.getLocation(),"check",String.valueOf(1+Integer.parseInt(StorageCacheUtils.getData(inv.getLocation(),"check"))));
-            }},100,false,600);
     }
     public  int[] getInputSlots(){
         return INPUT_SLOT;
@@ -116,9 +104,7 @@ public class TestStorageUnit extends AbstractMachine {
         return new ArrayList<MachineRecipe>();
     }
     public void process(Block b, BlockMenu preset){
-        StorageCacheUtils.setData(preset.getLocation(),"tick",String.valueOf(1+Integer.parseInt(StorageCacheUtils.getData(preset.getLocation(),"tick"))));
-//        ItemStack it=preset.getItemInSlot(0);
-//        if(it!=null){
+
 //            it.setAmount(114514);
 //        }
 //        ItemStack stack=new ItemStack(Material.COMMAND_BLOCK);

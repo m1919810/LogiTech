@@ -6,9 +6,11 @@ import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.AddGroups;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
+import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockTypes;
 import me.matl114.logitech.SlimefunItem.Storage.Storages;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockType;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -54,7 +56,11 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         Debug.logger("监听器注册完毕");
         //注册存储类型
         Storages.setup();
+        //注册多方块类型
+        MultiBlockTypes.setup();
+        //加载配方工具
         CraftUtils.setup();
+
         //注册
         Debug.logger("附属特性注册完毕");
     }
