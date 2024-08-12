@@ -1,6 +1,7 @@
 package me.matl114.logitech.Utils;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.BlockDataController;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -20,6 +21,7 @@ import java.util.Set;
 
 public class WorldUtils {
     public static SlimefunAddon INSTANCE= MyAddon.getInstance();
+    public static final BlockDataController CONTROLLER=Slimefun.getDatabaseManager().getBlockDataController();
     public static void setBlock(Location loc, Material material) {
         loc.getBlock().setType(material);
 
@@ -31,17 +33,18 @@ public class WorldUtils {
 
     }
     public static void removeSlimefunBlock(Location loc, boolean force) {
-        var controller=Slimefun.getDatabaseManager().getBlockDataController();
-
-       controller.getBlockDataAsync(loc, new IAsyncReadCallback<SlimefunBlockData>() {
-           public boolean runOnMainThread() {
-               return false;
-           }
-           public void onResult(SlimefunBlockData blockData) {
-               //非强制移除,掉落物品
-               blockData.setPendingRemove(true);
-               if(!force){
-                   StorageCacheUtils.executeAfterLoad(blockData,()->{
+       if(force){
+           CONTROLLER.removeBlock(loc);
+           return;
+       }else {
+           CONTROLLER.getBlockDataAsync(loc, new IAsyncReadCallback<SlimefunBlockData>() {
+               public boolean runOnMainThread() {
+                   return false;
+               }
+               public void onResult(SlimefunBlockData blockData) {
+                   //非强制移除,掉落物品
+                   blockData.setPendingRemove(true);
+                   if(!force){
                        if (blockData != null && blockData.isPendingRemove()) {
                            return;
                        }
@@ -54,14 +57,19 @@ public class WorldUtils {
                            }
 
                        }),1,true,0);
-                       controller.removeBlock(loc);
-                   },false);
-                   return;
+                       CONTROLLER.removeBlock(loc);
+                       return;
+                   }
+                   CONTROLLER.removeBlock(loc);
                }
-               controller.removeBlock(loc);
-           }
+             }
+           );
+           return;
+       }
+    }
 
-       });
+    public static void moveSlimefunBlock(Location loc, boolean force) {
+
     }
 
 

@@ -154,18 +154,18 @@ public abstract class AbstractProcessor extends AbstractMachine implements Machi
         if(currentOperation==null){
             Pair<MachineRecipe, ItemConsumer[]> nextP = CraftUtils.findNextRecipe(inv,getInputSlots(),getOutputSlots(),getMachineRecipes(),true);
             if (nextP != null) {
-
                 MachineRecipe next =nextP.getFirstValue();
                 ItemConsumer[] outputInfo=nextP.getSecondValue();
                 if(next.getTicks()>0){
-                currentOperation = new SimpleCraftingOperation(outputInfo,next.getTicks());
-                this.processor.startOperation(b, currentOperation);
+                    currentOperation = new SimpleCraftingOperation(outputInfo,next.getTicks());
+                    this.processor.startOperation(b, currentOperation);
                 }
                 else if(next.getTicks()<=0){
                     fastCraft = nextP.getSecondValue();
                 }
             }else{//if currentOperation ==null return  , cant find nextRecipe
-                if(inv.hasViewer()){inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
+                if(inv.hasViewer()){
+                    inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
                 }
                 return ;
             }
@@ -174,7 +174,9 @@ public abstract class AbstractProcessor extends AbstractMachine implements Machi
             processorCost(b,inv);
             if (fastCraft!=null) {
                 CraftUtils.updateOutputMenu(fastCraft,inv);
-            }else if(currentOperation.isFinished()){
+                return;
+            }
+            if(currentOperation.isFinished()){
                 ItemConsumer[] var4=currentOperation.getResults();
                 CraftUtils.forcePush(var4,inv,getOutputSlots());
                 if(inv.hasViewer()){

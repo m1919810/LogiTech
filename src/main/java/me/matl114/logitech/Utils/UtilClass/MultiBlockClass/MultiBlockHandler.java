@@ -50,7 +50,7 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
         //on enable
         SlimefunItem it=StorageCacheUtils.getSfItem(core);
         if(it instanceof MultiBlockCore){
-            ((MultiBlockCore) it).onMultiBlockEnable(core);
+            ((MultiBlockCore) it).onMultiBlockEnable(core,multiBlockHandler);
         }
         return multiBlockHandler;
     }
@@ -163,7 +163,7 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
             MultiBlockService.setStatus(CORE,0);
             SlimefunItem it=DataCache.getData(CORE);
             if(it instanceof MultiBlockCore){
-                ((MultiBlockCore) it).onMultiBlockDisable(CORE);
+                ((MultiBlockCore) it).onMultiBlockDisable(CORE,this);
             }
         }
         for(int i=0;i<this.RESPOND.length;i++){

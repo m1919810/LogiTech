@@ -12,6 +12,7 @@ import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiCore;
 import me.matl114.logitech.SlimefunItem.Storage.Links.HyperLink;
 import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.AbstractMultiBlockHandler;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockHandler;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockType;
@@ -131,16 +132,16 @@ public class PortalCore extends MultiCore {
             block3.setType(Material.AIR);
         }
     }
-    public void onMultiBlockDisable(Location loc){
-        super.onMultiBlockDisable(loc);
+    public void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler){
+        super.onMultiBlockDisable(loc,handler);
         deletePortal(loc.getBlock());
         BlockMenu inv= StorageCacheUtils.getMenu(loc);
         if(inv!=null){
             inv.replaceExistingItem(TOGGLE_SLOT,TOGGLE_ITEM_OFF);
         }
     }
-    public void onMultiBlockEnable(Location loc){
-        super.onMultiBlockEnable(loc);
+    public void onMultiBlockEnable(Location loc,AbstractMultiBlockHandler handler){
+        super.onMultiBlockEnable(loc,handler);
         setupPortal(loc.getBlock());
     }
     public void updateMenu(BlockMenu inv, Block block, Settings mod){

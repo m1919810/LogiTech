@@ -42,6 +42,7 @@ public abstract class MultiCore extends MultiPart implements MultiBlockCore {
     public void preRegister(){
         this.registerTick(this);
         this.registerBlockMenu(this);
+        this.handleMultiBlockPart(this);
         super.preRegister();
     }
 }

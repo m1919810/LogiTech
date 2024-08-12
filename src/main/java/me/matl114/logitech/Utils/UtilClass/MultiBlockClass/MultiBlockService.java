@@ -37,7 +37,9 @@ public class MultiBlockService {
     public static final String MBID_COMMONSFBLOCK="sf";
     public static final HashMap<String,AbstractMultiBlockHandler> MULTIBLOCK_CACHE = new LinkedHashMap<>();
     public static final HashMap<Location, DisplayGroup> HOLOGRAM_CACHE=new HashMap<>();
-
+    public static boolean validHandler(String uid){
+        return MULTIBLOCK_CACHE.containsKey(uid);
+    }
     public static void deleteMultiBlock(String uid){
         AbstractMultiBlockHandler handler = MULTIBLOCK_CACHE.remove(uid);
         if(handler != null){
@@ -239,7 +241,7 @@ public class MultiBlockService {
 
     public static void createHologram(Location loc, AbstractMultiBlockType type, Direction direction, HashMap<String, ItemStack> itemmap){
         Location tar=loc.clone().add(0.5,0.5,0.5);
-        final DisplayGroup displayGroup = new DisplayGroup(tar);
+        final DisplayGroup displayGroup = new DisplayGroup(tar,0.1f,0.1f);
         int len=type.getSchemaSize();
         if(type.isSymmetric()){
             direction=Direction.NORTH;
@@ -268,9 +270,19 @@ public class MultiBlockService {
 
     /**
      * get status code ,0为暂停 1为正常运行 -3到-1为预备暂停
-     * @param loc
      * @return
      */
+    public static int getStatus(SlimefunBlockData data){
+        try{
+            String __= data.getData("mb-sta");
+            if(__!=null){
+                return Integer.parseInt(__);
+            }
+        }catch(Throwable e){
+        }
+        data.setData("mb-sta","0");
+        return 0;
+    }
     public static  int getStatus(Location loc){
         try{
             String __= StorageCacheUtils.getData(loc,"mb-sta");

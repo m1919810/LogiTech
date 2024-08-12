@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.MultiItemStack;
+import me.matl114.logitech.Utils.UtilClass.RecipeClass.SequenceMachineRecipe;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.ShapedMachineRecipe;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.StackMachineRecipe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -231,5 +232,38 @@ public class MachineRecipeUtils {
         MachineRecipe rep=new MachineRecipe(0,in(input),in(output));
         rep.setTicks(ticks);
         return rep;
+    }
+
+
+    public static MachineRecipe sequenceFrom(int ticks,ItemStack[] input,ItemStack[] output){
+        List<ItemStack> inputSequence=new ArrayList<ItemStack>();
+        for(int i = 0; i < input.length; i++){
+            if(input[i]==null)continue;
+            int amount=input[i].getAmount();
+
+            if(amount==0)continue;
+            //int maxSize=input[i].getMaxStackSize();
+//            if(amount>maxSize){
+//                while(amount>maxSize){
+//                    ItemStack it=input[i].clone();
+//                    it.setAmount(maxSize);
+//                    inputSequence.add(it);
+//                    amount-=maxSize;
+//                }
+//                ItemStack it=input[i].clone();
+//                it.setAmount(amount);
+//                inputSequence.add(it);
+//            }else {
+                inputSequence.add(input[i]);
+//            }
+        }
+        return new SequenceMachineRecipe(ticks,inputSequence.toArray(ItemStack[]::new),output);
+    }
+    public static MachineRecipe sequenceFromRecipe(SlimefunItem item){
+        //not implemented yet
+        return null;
+    }
+    public static MachineRecipe sequenceFromMachine(MachineRecipe recipe){
+        return sequenceFrom(recipe.getTicks(),recipe.getInput(),recipe.getOutput());
     }
 }

@@ -1,5 +1,6 @@
 package me.matl114.logitech.Utils;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.BlockDataController;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -14,6 +15,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public interface DataCache {
+    public static final BlockDataController CONTROLLER=Slimefun.getDatabaseManager().getBlockDataController();
+
     public static boolean hasData(Location loc){
         return StorageCacheUtils.hasBlock(loc);
     }
@@ -26,7 +29,7 @@ public interface DataCache {
      * @return
      */
     public static int getLastRecipe(Location loc){
-        SlimefunBlockData data=Slimefun.getDatabaseManager().getBlockDataController().getBlockDataFromCache(loc);
+        SlimefunBlockData data=CONTROLLER.getBlockDataFromCache(loc);
         try{
             String a= data.getData("recipe");
             return Integer.parseInt(a);
@@ -49,7 +52,7 @@ public interface DataCache {
     static final Pattern LOCATION_DE_PATTERN=Pattern.compile("(.*?),(.*?),(.*?),(.*?)");
     static final String LOCATION_CODE_PATTERN="%s,%.1f,%.1f,%.1f";
     public static Location getLastLocation(Location loc){
-        SlimefunBlockData data=Slimefun.getDatabaseManager().getBlockDataController().getBlockDataFromCache(loc);
+        SlimefunBlockData data=CONTROLLER.getBlockDataFromCache(loc);
         try{
             String location=data.getData("location");
             if("null".equals(location)){
@@ -79,7 +82,7 @@ public interface DataCache {
         }
     }
     public static String getLastUUID(Location loc){
-        SlimefunBlockData data=Slimefun.getDatabaseManager().getBlockDataController().getBlockDataFromCache(loc);
+        SlimefunBlockData data=CONTROLLER.getBlockDataFromCache(loc);
         try{
             String uuid= data.getData("uuid");
             if(uuid!=null)
@@ -93,23 +96,23 @@ public interface DataCache {
         StorageCacheUtils.setData(loc,"uuid",uuid);
     }
     public static SlimefunBlockData safeLoadBlock(Location loc){
-        var controller=Slimefun.getDatabaseManager().getBlockDataController();
+
         SlimefunBlockData data;
         try{
-            data= controller.getBlockDataFromCache(loc);
+            data= CONTROLLER.getBlockDataFromCache(loc);
         }catch (Throwable a){
-            data=controller.getBlockData(loc);
+            data=CONTROLLER.getBlockData(loc);
         }
         if(data==null){
             return null;
         }
         if(!data.isDataLoaded()){
-            controller.loadBlockData(data);
+            CONTROLLER.loadBlockData(data);
         }
         return data;
     }
     public static int getCustomData(Location loc,String key,int defaultValue){
-        SlimefunBlockData data=Slimefun.getDatabaseManager().getBlockDataController().getBlockDataFromCache(loc);
+        SlimefunBlockData data=CONTROLLER.getBlockDataFromCache(loc);
         return getCustomData(data,key,defaultValue);
     }
     public static void setCustomData(Location loc ,String key,int value){

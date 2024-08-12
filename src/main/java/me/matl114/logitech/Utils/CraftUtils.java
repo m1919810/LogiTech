@@ -621,10 +621,10 @@ public class CraftUtils {
      * @param
      * @param
      */
-    public static void forcePush( ItemConsumer[] slotCounters, BlockMenu inv,int[] slots){
-        forcePush(slotCounters,inv,slots,getpusher);
+    public static boolean forcePush( ItemConsumer[] slotCounters, BlockMenu inv,int[] slots){
+        return forcePush(slotCounters,inv,slots,getpusher);
     }
-    public static void forcePush( ItemConsumer[] slotCounters, BlockMenu inv,int[] slots,ItemPusherProvider pusher){
+    public static boolean forcePush( ItemConsumer[] slotCounters, BlockMenu inv,int[] slots,ItemPusherProvider pusher){
         ItemPusher[] slotCounters2=new ItemPusher[slots.length];
         int slotpointer=0;
         for(int i=0;i<slotCounters.length;++i) {
@@ -656,31 +656,36 @@ public class CraftUtils {
                 }
             }
         }
-
+        boolean hasChanged=false;
         for(int i=0;i<slotpointer;++i) {
-            slotCounters2[i].updateMenu(inv);
+            if(slotCounters2[i].isDirty()){
+                hasChanged=true;
+                slotCounters2[i].updateMenu(inv);
+            }
         }
+        return hasChanged;
     }
+
 
     /**
      * remake version of pushItems
      * @return
      */
-    public static void pushItems(ItemStack[] items,BlockMenu inv,int[] slots){
-        pushItems(items,inv,slots,getpusher);
+    public static boolean pushItems(ItemStack[] items,BlockMenu inv,int[] slots){
+        return pushItems(items,inv,slots,getpusher);
     }
-    public static void  pushItems(ItemStack[] items,BlockMenu inv,int[] slots,ItemPusherProvider pusher){
+    public static boolean  pushItems(ItemStack[] items,BlockMenu inv,int[] slots,ItemPusherProvider pusher){
         ItemConsumer[] consumers=new ItemConsumer[items.length];
         for(int i=0;i<items.length;++i) {
             consumers[i]=CraftUtils.getConsumer(items[i]);
         }
-        forcePush(consumers,inv,slots,pusher);
+        return forcePush(consumers,inv,slots,pusher);
     }
 
-    public static void multiForcePush(ItemGreedyConsumer[] slotCounters, BlockMenu inv,int[] slots){
-        multiForcePush(slotCounters,inv,slots,getpusher);
+    public static boolean multiForcePush(ItemGreedyConsumer[] slotCounters, BlockMenu inv,int[] slots){
+        return multiForcePush(slotCounters,inv,slots,getpusher);
     }
-    public static void multiForcePush(ItemGreedyConsumer[] slotCounters, BlockMenu inv,int[] slots,ItemPusherProvider pusher){
+    public static boolean multiForcePush(ItemGreedyConsumer[] slotCounters, BlockMenu inv,int[] slots,ItemPusherProvider pusher){
         ItemPusher[] slotCounters2=new ItemPusher[slots.length];
         int slotpointer=0;
         for(int i=0;i<slotCounters.length;++i) {
@@ -708,10 +713,14 @@ public class CraftUtils {
                 }
             }
         }
-
+        boolean hasChanged=false;
         for(int i=0;i<slotpointer;++i) {
-            slotCounters2[i].updateMenu(inv);
+            if(slotCounters2[i].isDirty()){
+                hasChanged=true;
+                slotCounters2[i].updateMenu(inv);
+            }
         }
+        return hasChanged;
     }
     /**
      * simply update consumes
@@ -1238,6 +1247,85 @@ public class CraftUtils {
         }
         return null;
 
+    }
+
+    public static boolean matchSequenceRecipeTarget(ItemPusher[] inPushers,ItemConsumer target){
+        boolean hasChange=false;
+        int len=inPushers.length;
+        if(target.getAmount()<=0)return false;
+        for(int i=0;i<len;++i){
+            if(inPushers[i]==null||inPushers[i].getAmount()==0){
+                continue;
+            }else if(matchItemCounter(target,inPushers[i],false)){
+                hasChange=true;
+                target.consume(inPushers[i]);
+                if(target.getAmount()<=0){
+                    break;
+                }
+            }
+        }
+        return hasChange;
+    }
+    /**
+     * sequence CRAFT, match itemstack with the first
+     */
+    public static Pair<MachineRecipe,ItemConsumer> findNextSequenceRecipe(BlockMenu inv,int[] inputs,List<MachineRecipe> recipes,boolean useHistory,ItemPusherProvider pusher,Settings order){
+        int delta;
+        switch(order){
+            case REVERSE:delta=-1;break;
+            case SEQUNTIAL:
+            default: delta=1;break;
+        }
+        int len=inputs.length;
+        ItemPusher[] inputCounters=new ItemPusher[len];
+        for(int i=0;i<len;++i){
+            inputCounters[i]=pusher.get(Settings.INPUT,inv,inputs[i]);
+        }
+        if(len==0)return null;
+        int recipeAmount=recipes.size();
+        int __index=0;
+        //if usehistory ,will suggest a better place to start
+        if(useHistory) {
+            __index= DataCache.getLastRecipe(inv.getLocation());
+            __index=(__index<0)?0:__index;
+            __index=(__index>=recipeAmount)?(recipeAmount-1):__index;
+        }
+        int __iter=__index;
+        MachineRecipe checkRecipe=recipes.get(__iter);
+        ItemConsumer result=CraftUtils.getConsumer(checkRecipe.getInput()[0]);
+        if(matchSequenceRecipeTarget(inputCounters,result)) {
+            if(useHistory) {
+                DataCache.setLastRecipe(inv.getLocation(),__iter);
+            }
+            return new Pair<>(checkRecipe,result);
+        }
+        __iter+=delta;
+        for(;__iter<recipeAmount&&__iter>=0;__iter+=delta){
+            checkRecipe=recipes.get(__iter);
+            result=CraftUtils.getConsumer(checkRecipe.getInput()[0]);
+            if(matchSequenceRecipeTarget(inputCounters,result)) {
+                if(useHistory) {
+                    DataCache.setLastRecipe(inv.getLocation(),__iter);
+                }
+                return new Pair<>(checkRecipe,result);
+            }
+        }
+        if(__iter<0){
+            __iter=recipeAmount-1;
+        }else{
+            __iter=0;
+        }
+        for(;__iter!=__index;__iter+=delta) {
+            checkRecipe=recipes.get(__iter);
+            result=CraftUtils.getConsumer(checkRecipe.getInput()[0]);
+            if(matchSequenceRecipeTarget(inputCounters,result)) {
+                if(useHistory) {
+                    DataCache.setLastRecipe(inv.getLocation(),__iter);
+                }
+                return new Pair<>(checkRecipe,result);
+            }
+        }
+        return null;
     }
     /**
      *

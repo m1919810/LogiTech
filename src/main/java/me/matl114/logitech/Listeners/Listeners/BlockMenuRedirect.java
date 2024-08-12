@@ -29,7 +29,9 @@ public class BlockMenuRedirect implements Listener {
     @EventHandler
     public void onRightClick(PlayerRightClickEvent event){
         boolean itemUsed = event.getHand() == EquipmentSlot.OFF_HAND;
-
+        if(event.getPlayer().isSneaking()){
+            return ;
+        }
 
         if (!itemUsed && event.useBlock() != Event.Result.DENY && !rightClickBlock(event)) {
             return;
@@ -37,6 +39,7 @@ public class BlockMenuRedirect implements Listener {
     }
     @ParametersAreNonnullByDefault
     public static boolean rightClickBlock(PlayerRightClickEvent event) {
+
         Optional<SlimefunItem> optional = event.getSlimefunBlock();
 
         if (optional.isPresent()) {
@@ -49,6 +52,8 @@ public class BlockMenuRedirect implements Listener {
             if(sfItem instanceof MultiBlockPart){
                 MultiBlockPart multiBlockPart = (MultiBlockPart) sfItem;
                 if(multiBlockPart.redirectMenu()){
+                    //如果是重定向菜单的方块 则阻拦掉event
+                    event.getInteractEvent().setCancelled(true);
                     Optional<Block> block=event.getClickedBlock();
                     if(block.isPresent()){
                         Location location=event.getClickedBlock().get().getLocation();

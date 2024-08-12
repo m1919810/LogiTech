@@ -24,14 +24,7 @@ public class MultiPart extends AbstractBlock implements MultiBlockPart{
     public boolean redirectMenu(){
         return true;
     }
-//    public void tick(Block b, BlockMenu menu, int tickCount){
-//        //in this case .blockMenu is null
-//        Location core=MultiBlockService.acceptPartRequest(b.getLocation());
-//        if(core!=null){
-//            processPart(b,menu,core);
-//        }
-//        process(b,menu);
-//    }
+
     public void tick(Block b,BlockMenu menu,int tickCount) {
         //donig nothing
     }
@@ -45,7 +38,7 @@ public class MultiPart extends AbstractBlock implements MultiBlockPart{
 //        if(redirectMenu()){
 //            this.addHandler((BlockUseHandler)this::onMenuRedirect);
 //        }
-        handleMenu(this);
+        handleMultiBlockPart(this);
         super.preRegister();
     }
 }

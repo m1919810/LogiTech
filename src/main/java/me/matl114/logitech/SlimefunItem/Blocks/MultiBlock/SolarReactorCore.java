@@ -14,7 +14,10 @@ import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Schedule.ScheduleSave;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.AddItem;
+import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
+import me.matl114.logitech.SlimefunItem.Machines.MenuBlock;
 import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.AbstractMultiBlockHandler;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockType;
 import me.matl114.logitech.Utils.UtilClass.PdcClass.AbstractLocation;
@@ -32,8 +35,10 @@ import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.util.BlockVector;
 
 import java.util.*;
 
@@ -72,7 +77,6 @@ public class SolarReactorCore extends MultiBlockProcessor {
     protected final double ENTITY_KILL_OFFSET=2.5;
     protected final int[] BORDER_IN = new int[]{9, 10, 11, 12, 18,  27, 36,45,46,47,48};
     protected final int[] BORDER_OUT = new int[]{14, 15, 16, 17, 26,35,44,50,51,52,53};
-    protected int PROCESSOR_SLOT=31;
     public SolarReactorCore(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType,
                       ItemStack[] recipe, String blockId, MultiBlockType type, int energyConsumption, int energyBuffer,
                             LinkedHashMap<Object, Integer> customRecipes){
@@ -89,19 +93,21 @@ public class SolarReactorCore extends MultiBlockProcessor {
                 removeEffect(loc);
             }
         });
-
+        this.PROCESSOR_SLOT=31;
     }
 
-    public void onMultiBlockDisable(Location loc){
+    public void onMultiBlockDisable(Location loc,AbstractMultiBlockHandler handler){
         removeEffect(loc);
         SimpleCraftingOperation op=SolarReactorCore.this.processor.getOperation(loc);
+
         if(op!=null&&(!op.isFinished())){//如果还在进行中就暂停
-            onDestroyEffect(loc);
+
+            onDestroyEffect(loc,handler);
         }
-        super.onMultiBlockDisable(loc);
+        super.onMultiBlockDisable(loc,handler);
     }
-    public void onMultiBlockEnable(Location loc){
-        super.onMultiBlockEnable(loc);
+    public void onMultiBlockEnable(Location loc,AbstractMultiBlockHandler handler){
+        super.onMultiBlockEnable(loc,handler);
         removeEffect(loc);
         createEffect(loc);
     }
@@ -122,21 +128,25 @@ public class SolarReactorCore extends MultiBlockProcessor {
         }
     }
     public void createEffect(Location loc){
-        Location loc2=loc.clone().add(0.5,1,0.5);
-        EnderCrystal entity=(EnderCrystal) loc.getWorld().spawnEntity(loc2, EntityType.ENDER_CRYSTAL);
-        getAsEffect(entity,loc);
+        Schedules.launchSchedules(Schedules.getRunnable(()->{
+            Location loc2=loc.clone().add(0.5,1,0.5);
+            EnderCrystal entity=(EnderCrystal) loc.getWorld().spawnEntity(loc2, EntityType.ENDER_CRYSTAL);
+            getAsEffect(entity,loc);
+        }),0,true,0);
     }
     public void removeEffect(Location loc){
         EnderCrystal cry= EFFECT_CACHE.remove(loc);
-        if(cry!=null)
-            cry.remove();
         Location loc2=loc.clone().add(0.5,1,0.5);
-        Collection<Entity> allCrystal=loc2.getWorld().getNearbyEntities(loc2, REMOVE_EFFECT_OFFSET, REMOVE_EFFECT_OFFSET, REMOVE_EFFECT_OFFSET,(entity -> {
-            return entity.getType()==EntityType.ENDER_CRYSTAL&&checkBind(entity,loc);
-        }));
-        for (Entity entity:allCrystal){
-            entity.remove();
-        }
+        Schedules.launchSchedules(Schedules.getRunnable(()->{
+            if(cry!=null)
+                cry.remove();
+            Collection<Entity> allCrystal=loc2.getWorld().getNearbyEntities(loc2, REMOVE_EFFECT_OFFSET, REMOVE_EFFECT_OFFSET, REMOVE_EFFECT_OFFSET,(entity -> {
+                return entity.getType()==EntityType.ENDER_CRYSTAL&&checkBind(entity,loc);
+            }));
+            for (Entity entity:allCrystal){
+                entity.remove();
+            }
+        }),0,true,0);
     }
     public boolean checkBind(Entity entity,Location loc){
         if(entity instanceof EnderCrystal) {
@@ -180,10 +190,21 @@ public class SolarReactorCore extends MultiBlockProcessor {
 //        }
 //    }
 //    public SolarDamage DAMAGETYPE=new SolarDamage();
+    public BlockVector[] checkedLocation=new ArrayList<BlockVector>(){{
+    for(int i=-1;i<=1;++i){
+        for(int j=-1;j<=1;++j){
+            for(int k=-1;k<=1;++k){
+                if(i!=0||j!=0||k!=0){
+                    add(new BlockVector(i,j,k));
+                }
+            }
+        }
+    }
+    }}.toArray(BlockVector[]::new);
     public boolean checkCondition(Location loc){
         //no endcrystal
         EnderCrystal cry= EFFECT_CACHE.get(loc);
-        if(cry!=null){
+        if(cry!=null&&cry.isValid()){
             Location loc2=cry.getLocation();
             Location loc1=loc.clone().add(0.5,1,0.5);
             if(loc2.distance(loc1)>EFFECT_OFFSET){
@@ -194,55 +215,82 @@ public class SolarReactorCore extends MultiBlockProcessor {
         }
         // has block
         boolean hasblock=false;
-        for(int i=-1;i<=1;++i){
-            for(int j=-1;j<=1;++j){
-                for(int k=-1;k<=1;++k){
-                    if(i!=0||j!=0||k!=0){
-                        Location loc1=loc.clone().add(i,j,k);
-                        Block block=loc1.getBlock();
-                        if(!block.getType().isAir()){
-                            hasblock=true;
-                            WorldUtils.removeSlimefunBlock(loc1,true);
-                            block.setType(Material.AIR);
-                        }
-                    }
+        int len=checkedLocation.length;
+        for(int i=0;i<4;++i){//26中选3个
+            int locIndex=AddUtils.random(len);
+            Location loc1=loc.clone().add(checkedLocation[locIndex]);
+            Block block=loc1.getBlock();
+            if(!block.getType().isAir()){
+                hasblock=true;
+                for(int s=0;s<len;++s){
+                    loc1=loc.clone().add(checkedLocation[s]);
+                    block=loc1.getBlock();
+                    WorldUtils.removeSlimefunBlock(loc1,true);
+                    block.setType(Material.AIR);
                 }
+                break;
             }
         }
+
         if (hasblock){
             return false;
         }
         //kill all nearby entity
-        Location loc1=loc.clone().add(0.5,1,0.5);
-        Collection<Entity> allEntities=loc1.getWorld().getNearbyEntities(loc1,ENTITY_KILL_OFFSET,ENTITY_KILL_OFFSET,ENTITY_KILL_OFFSET);
-        for(Entity entity:allEntities){
-            if(entity instanceof EnderCrystal){
+        Schedules.launchSchedules(Schedules.getRunnable(()->{
+            Location loc1=loc.clone().add(0.5,1,0.5);
+            Collection<Entity> allEntities=loc1.getWorld().getNearbyEntities(loc1,ENTITY_KILL_OFFSET,ENTITY_KILL_OFFSET,ENTITY_KILL_OFFSET);
+            for(Entity entity:allEntities){
+                if(entity instanceof EnderCrystal){
 
-            }else if(entity instanceof Player){
-                ((Player) entity).damage(100);// DamageSource.builder(DAMAGETYPE).build());
-            }else{
-                entity.remove();
+                }else if(entity instanceof Player){
+                    ((Player) entity).damage(100);// DamageSource.builder(DAMAGETYPE).build());
+                }else{
+                    entity.remove();
+                }
+
             }
-
-        }
+        }),0,true,0);
         return true;
     }
-    public void onDestroyEffect(Location loc){
+    public void onDestroyEffect(Location loc,AbstractMultiBlockHandler handler){
         removeEffect(loc);
 
-        AddUtils.broadCast("&e位于[%s,%.1f,%.1f,%.1f]的超新星模拟器即将爆炸,快跑!".formatted(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ()));
+        AddUtils.broadCast("&e位于[%s,%.0f,%.0f,%.0f]的超新星模拟器即将爆炸,快跑!".formatted(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ()));
         BlockMenu inv=StorageCacheUtils.getMenu(loc);
         if(inv!=null){
             inv.close();
         }
+        loc.getWorld().createExplosion(loc,32,true,true);
+        Location center=loc.clone();
         Schedules.launchSchedules(Schedules.getRunnable(()->{
             //延后特效
-            WorldUtils.removeSlimefunBlock(loc,true);
-            loc.getBlock().setType(Material.CRYING_OBSIDIAN);
-            loc.getWorld().createExplosion(loc,88,true,true,null);
-
+            //防止重新构建
+            MultiBlockService.deleteMultiBlock(center);
+            //清除方块
+            WorldUtils.removeSlimefunBlock(center,true);
+            center.getBlock().setType(Material.CRYING_OBSIDIAN);
+            int len=handler.getSize();
+            for (int i=0;i<len;++i){
+                int chance=AddUtils.random(3);
+                if(chance==(i%3)){
+                    Location loc2=handler.getBlockLoc(i);
+                    loc2.getBlock().setType(Material.CRYING_OBSIDIAN);
+                    WorldUtils.removeSlimefunBlock(loc2,true);
+                }
+            }
+            len=checkedLocation.length;
+            for(int i=0;i<len;++i){
+                Location loc2=center.clone().add(checkedLocation[i]);
+                loc2.getBlock().setType(Material.CRYING_OBSIDIAN);
+                WorldUtils.removeSlimefunBlock(loc2,true);
+            }
+            //防止重新发起
+            this.processor.endOperation(loc);
+            loc.getWorld().createExplosion(center.clone().add(6,1,0),90,true,true);
+            loc.getWorld().createExplosion(center.clone().add(0,1,6),90,true,true);
+            loc.getWorld().createExplosion(center.clone().add(-6,1,0),90,true,true);
+            loc.getWorld().createExplosion(center.clone().add(0,1,-6),90,true,true);
         }),100,true,0);
-
     }
     public HashMap<String,ItemStack> MBID_TO_ITEM=new HashMap<>(){{
         put("solar.frame", AddUtils.addGlow(AddItem.SOLAR_REACTOR_FRAME.clone()));
@@ -307,13 +355,20 @@ public class SolarReactorCore extends MultiBlockProcessor {
             int autoCode=DataCache.getCustomData(loc,"auto",0)==0?0:1;
             if(clickAction.isShiftClicked()){
                 DataCache.setCustomData(loc,"auto",1-autoCode);
-            }else if(autoCode==0){
+            }
+            else if(autoCode==0){
                 if(statusCode==0){
-                if(MultiBlockService.createNewHandler(loc,getBuilder(),getMultiBlockType())){
-                    AddUtils.sendMessage(player,"&a成功激活多方块结构!");
-                }else {
-                    AddUtils.sendMessage(player,"&c多方块结构不全或者结构冲突!");
-                }
+                    if(this.getCharge(loc)<energyConsumption){
+                        //没电,
+                        AddUtils.sendMessage(player,"&c电力不足,无法构建多方块结构!");
+                    }
+                    else {
+                        if(MultiBlockService.createNewHandler(loc,getBuilder(),getMultiBlockType())){
+                            AddUtils.sendMessage(player,"&a成功激活多方块结构!");
+                        }else {
+                            AddUtils.sendMessage(player,"&c多方块结构不全或者结构冲突!");
+                        }
+                    }
                 }else {
                     MultiBlockService.deleteMultiBlock(DataCache.getLastUUID(loc));
                     AddUtils.sendMessage(player,"&a成功关闭多方块结构!");
@@ -343,54 +398,70 @@ public class SolarReactorCore extends MultiBlockProcessor {
     }
     public void tick(Block b, BlockMenu inv, SlimefunBlockData data, int tickCount){
         //in this case .blockMenu is null
-        int statusCode=MultiBlockService.getStatus(b.getLocation());
+        int statusCode=MultiBlockService.getStatus(data);
         Location loc=b.getLocation();
+        int charge=this.getCharge(loc);
         if(statusCode==0){
-            int autoCode=DataCache.getCustomData(data,"auto",0);
+            String code=data.getData("auto");
+
+            int autoCode=code==null?0:Integer.parseInt(code);
             if(autoCode!=0){
-                if(autoCode==3){//3tick重连一次
-                    MultiBlockService.createNewHandler(loc,getBuilder(),getMultiBlockType());
+                if(autoCode==3&&charge>energyConsumption){//3tick重连一次
+                    Schedules.launchSchedules(Schedules.getRunnable(()->{
+                        Location tarloc=loc.clone();
+                        if(SecurityUtils.lock(SecurityUtils.Lock.MultiBlockBuildLock,tarloc)){
+                            try{
+                            MultiBlockService.createNewHandler(loc,getBuilder(),getMultiBlockType());
+                            SecurityUtils.unlock(SecurityUtils.Lock.MultiBlockBuildLock,tarloc);
+                            }finally{//
+                                //secure lockers
+                                SecurityUtils.unlock(SecurityUtils.Lock.MultiBlockBuildLock,tarloc);
+                            }
+                        }
+                    }),0,false,0);
+
                     autoCode=1;
                 }else {
                     autoCode+=1;
                 }
-                DataCache.setCustomData(data,"auto",autoCode);
+                data.setData("auto",String.valueOf(autoCode));
             }
         }else if(MultiBlockService.acceptCoreRequest(b.getLocation(),getBuilder(),getMultiBlockType())){
-
-
-            if(!checkCondition(loc)&&statusCode>0){//避免重连的时候出现问题,重连的时候statusCode为-3到-1
+            //直接开销电量
+            super.processorCost(b,inv);
+            if((!checkCondition(loc)&&statusCode>0)||charge<energyConsumption){
+                //避免重连的时候出现问题,重连的时候statusCode为-3到-1,但是如果没有电 直接寄
                 MultiBlockService.deleteMultiBlock(DataCache.getLastUUID(loc));
                 return;
             }
-
-            SimpleCraftingOperation currentOperation = (SimpleCraftingOperation)this.processor.getOperation(b);
-            int charge=this.getCharge(loc);
             if(inv.hasViewer()){
                 updateMenu(inv,b,Settings.RUN);
                 ItemStack it=inv.getItemInSlot(INFO_SLOT);
-                if(it!=null)
-                    AddUtils.setLore(it,"&7当前机器状态: %s".formatted((currentOperation==null)?"&7待机中":"&a进程中",
-                            "&7当前电量: %dJ/%dJ".formatted(charge,energybuffer),"&7当前用电量: %dJ/t".formatted(charge,energyConsumption)));
+                if(it!=null){
+                    SimpleCraftingOperation currentOperation = (SimpleCraftingOperation)this.processor.getOperation(b);
+                    AddUtils.setLore(it,"&7当前机器状态: %s".formatted((currentOperation==null)?"&7待机中":"&a进程中"),
+                            "&7当前电量: %dJ/%dJ".formatted(charge,energybuffer),"&7当前耗电: %dJ/t".formatted(energyConsumption));
+                }
                 else
                     inv.replaceExistingItem(INFO_SLOT,INFO_ITEM);
 
             }
-            if(charge<energyConsumption){
-                if(currentOperation==null){
-                    return;
-                }else {//在进程中没电了,会爆炸
-                    MultiBlockService.deleteMultiBlock(loc);
-                    return;
-                }
-            }
-
             super.process(b,inv,data);
         }
     }
 
-    public void process(Block b, BlockMenu inv,SlimefunBlockData data) {
-
+    public void processorCost(Block b,BlockMenu inv){
+        //覆盖父类 让process中不扣电
+        //转到我的ticker里扣
+    }
+    public void onBreak(BlockBreakEvent e,BlockMenu menu){
+        if(menu!=null){
+            Location l = menu.getLocation();
+            menu.dropItems(l, this.getInputSlots());
+            menu.dropItems(l, this.getOutputSlots());
+        }
+        //禁止了父类的关闭processor的操作，改为在MultiBlockBreak中关闭
+        //合理性:只有多方块完整的时候才能进行processor,在破坏多方块的时候会取消processor
     }
     public void preRegister(){
 

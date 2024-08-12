@@ -12,6 +12,7 @@ import me.matl114.logitech.SlimefunItem.Blocks.MultiCore;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.MachineRecipeUtils;
+import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.AbstractMultiBlockHandler;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockHandler;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockType;
@@ -20,6 +21,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -55,9 +57,9 @@ public abstract class MultiBlockProcessor extends AbstractProcessor implements M
     public MultiBlockType getMultiBlockType(){
         return MBTYPE;
     }
-    public void onMultiBlockDisable(Location loc){
+    public void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler){
         processor.endOperation(loc);
-        MultiBlockCore.super.onMultiBlockDisable(loc);
+        MultiBlockCore.super.onMultiBlockDisable(loc,handler);
     }
     public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int tickCount){
         //in this case .blockMenu is null
@@ -67,6 +69,11 @@ public abstract class MultiBlockProcessor extends AbstractProcessor implements M
     }
     public boolean isSync(){
         return true;
+    }
+
+    public void preRegister(){
+        super.preRegister();
+        handleMultiBlockPart(this);
     }
 
 }

@@ -736,8 +736,9 @@ public class AddUtils {
     public static ItemStack setLore(ItemStack stack,String... str){
         ItemMeta meta=stack.getItemMeta();
         List<String> lore=new ArrayList<>();
-        for (String s : str) {
-            lore.add(resolveColor(s));
+        int len=str.length;
+        for (int i=0;i<len;++i) {
+            lore.add(resolveColor(str[i]));
         }
         meta.setLore(lore);
         stack.setItemMeta(meta);

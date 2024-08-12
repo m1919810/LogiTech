@@ -99,9 +99,9 @@ public abstract class MultiBlockType implements AbstractMultiBlockType {
                     //Debug.logger("wrong at ",delta.toString());
                     return null;
                     //no record but target block has been occupied by sth
-                }else if((!hasPrevRecord)&&(MultiBlockService.safeGetStatus(partloc)!=0)){
+                }else if(!hasPrevRecord&&MultiBlockService.validHandler(MultiBlockService.safeGetUUID(partloc))){//如果是当前已经注册的别的机器的
                     //Debug.logger("wrong at ",delta.toString());
-                    return null;
+                        return null;
                 }
             }
         }
