@@ -24,10 +24,10 @@ public interface Ticking {
 
                     @ParametersAreNonnullByDefault
                     public void tick(Block b, SlimefunItem item, SlimefunBlockData data) {
-                        BlockMenu menu = StorageCacheUtils.getMenu(b.getLocation());
+                        BlockMenu menu = data.getBlockMenu();
                         //BlockMenu menu = BlockStorage.getInventory(b);
 
-                        Ticking.this.tick(b, menu,0);
+                        Ticking.this.tick(b, menu,data,0);
 
 
                     }
@@ -46,6 +46,11 @@ public interface Ticking {
      * @param menu
      * @param tickCount
      */
-    void tick(Block b, @Nullable BlockMenu menu, int tickCount);
+    default void tick(Block b, @Nullable BlockMenu menu, SlimefunBlockData data,int tickCount){
+        tick(b,menu,tickCount);
+    }
+    default void tick(Block b, @Nullable BlockMenu menu, int tickCount){
+
+    }
 
 }

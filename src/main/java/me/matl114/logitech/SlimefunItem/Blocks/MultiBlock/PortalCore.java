@@ -8,35 +8,37 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore;
+import me.matl114.logitech.SlimefunItem.AddItem;
+import me.matl114.logitech.SlimefunItem.Blocks.MultiCore;
 import me.matl114.logitech.SlimefunItem.Storage.Links.HyperLink;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockHandler;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockType;
-import me.matl114.logitech.Utils.WorldUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Orientable;
-import org.bukkit.block.structure.Mirror;
-import org.bukkit.block.structure.StructureRotation;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BlockStateMeta;
 
-public class PortalCore extends MultiBlockCore {
-    protected final int[] BORDER=new int[]{0,1,2,3,5,6,7,8,9,10,11,12,14,15,16,17};
+import java.util.HashMap;
+
+public class PortalCore extends MultiCore {
+    protected final int[] BORDER=new int[]{0,1,2,3,5,6,7,9,10,11,12,14,15,16,17};
     protected final int TOGGLE_SLOT=4;
     protected final int LINK_SLOT=13;
+    protected final int HOLOGRAM_SLOT=8;
     protected final ItemStack TOGGLE_ITEM_ON=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换传送门状态","&7当前状态: &a开启","&7若需要更改目标坐标需要重新构建传送门");
     protected final ItemStack TOGGLE_ITEM_OFF=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&6点击切换传送门状态","&7当前状态: &c关闭");
+    protected final ItemStack HOLOGRAM_ITEM_ON=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&7当前状态: &a南北向");
+    protected final ItemStack HOLOGRAM_ITEM_ON_2=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&7当前状态: &a东西向");
+    protected final ItemStack HOLOGRAM_ITEM_OFF=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&6点击切换全息投影","&7当前状态: &c关闭");
     protected final MultiBlockType MBTYPE;
+    public HashMap<String,ItemStack> MBID_TO_ITEM=new HashMap<>(){{
+        put("portal.part", AddItem.PORTAL_FRAME.clone());
+    }};
     public int[] getInputSlots(){
         return new int[0];
     }
@@ -130,6 +132,7 @@ public class PortalCore extends MultiBlockCore {
         }
     }
     public void onMultiBlockDisable(Location loc){
+        super.onMultiBlockDisable(loc);
         deletePortal(loc.getBlock());
         BlockMenu inv= StorageCacheUtils.getMenu(loc);
         if(inv!=null){
@@ -137,9 +140,21 @@ public class PortalCore extends MultiBlockCore {
         }
     }
     public void onMultiBlockEnable(Location loc){
+        super.onMultiBlockEnable(loc);
         setupPortal(loc.getBlock());
     }
+    public void updateMenu(BlockMenu inv, Block block, Settings mod){
+        int holoStatus=DataCache.getCustomData(inv.getLocation(),"holo",0);
+        if(holoStatus==0){
+            inv.replaceExistingItem(HOLOGRAM_SLOT,HOLOGRAM_ITEM_OFF);
 
+        }else if(holoStatus==1){
+            inv.replaceExistingItem(HOLOGRAM_SLOT,HOLOGRAM_ITEM_ON);
+
+        }else{
+            inv.replaceExistingItem(HOLOGRAM_SLOT,HOLOGRAM_ITEM_ON_2);
+        }
+    }
     public void newMenuInstance(BlockMenu inv, Block block){
         Location loc2=block.getLocation();
         if (MultiBlockService.getStatus(loc2)!=0){
@@ -170,14 +185,35 @@ public class PortalCore extends MultiBlockCore {
             }
             return false;
         }));
+        DataCache.setCustomData(inv.getLocation(),"holo",0);
+        inv.addMenuClickHandler(HOLOGRAM_SLOT,((player, i, itemStack, clickAction) -> {
+            Location loc=inv.getLocation();
+            int holoStatus=DataCache.getCustomData(inv.getLocation(),"holo",0);
+            int statusCode=MultiBlockService.getStatus(loc);
+            MultiBlockService.removeHologram(loc);
+            if(statusCode==0){
+                if(holoStatus==0){
+                    AddUtils.sendMessage(player,"&a全息投影已切换至南北向!");
+                    MultiBlockService.createHologram(loc,MBTYPE, MultiBlockService.Direction.NORTH, MBID_TO_ITEM);
+                    DataCache.setCustomData(loc,"holo",1);
+                }else if(holoStatus==1){
+                    AddUtils.sendMessage(player,"&a全息投影已切换至东西向!");
+                    MultiBlockService.createHologram(loc,MBTYPE, MultiBlockService.Direction.WEST, MBID_TO_ITEM);
+                    DataCache.setCustomData(loc,"holo",2);
+                }
+            }
+            updateMenu(inv,block,Settings.RUN);
+            return false;
+        }));
+        updateMenu(inv,block,Settings.RUN);
     }
-    public void tick(Block b, BlockMenu menu, int tickCount){
+    public void tick(Block b, BlockMenu menu,SlimefunBlockData data, int tickCount){
         //in this case .blockMenu is null
 
         if(MultiBlockService.acceptCoreRequest(b.getLocation(),getBuilder(),getMultiBlockType())){
             processCore(b,menu);
         }
-        process(b,menu);
+        process(b,menu,data);
 
     }
 

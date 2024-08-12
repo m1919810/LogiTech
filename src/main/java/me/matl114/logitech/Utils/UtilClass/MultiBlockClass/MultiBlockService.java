@@ -2,13 +2,18 @@ package me.matl114.logitech.Utils.UtilClass.MultiBlockClass;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import dev.sefiraat.sefilib.entity.display.DisplayGroup;
+import dev.sefiraat.sefilib.entity.display.builders.ItemDisplayBuilder;
+import dev.sefiraat.sefilib.misc.TransformationBuilder;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import me.matl114.logitech.Schedule.ScheduleSave;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockPart;
+import me.matl114.logitech.SlimefunItem.Blocks.MultiPart;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Debug;
 import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 
@@ -16,12 +21,23 @@ import java.util.*;
 
 public class MultiBlockService {
     //?
+    public static void setup(){
+        ScheduleSave.addFinalTask(()->{
+            Set<Location> locs=HOLOGRAM_CACHE.keySet();
+            for(Location loc:locs){
+                removeHologram(loc);
+            }
+        });
+    }
+
     /**
      * returned mbid when no sf block and not multipart
      */
     public static final String MBID_NOSFBLOCK="nu";
     public static final String MBID_COMMONSFBLOCK="sf";
     public static final HashMap<String,AbstractMultiBlockHandler> MULTIBLOCK_CACHE = new LinkedHashMap<>();
+    public static final HashMap<Location, DisplayGroup> HOLOGRAM_CACHE=new HashMap<>();
+
     public static void deleteMultiBlock(String uid){
         AbstractMultiBlockHandler handler = MULTIBLOCK_CACHE.remove(uid);
         if(handler != null){
@@ -125,8 +141,7 @@ public class MultiBlockService {
             if(block!=null){
                 Direction.setDirection(loc,block.getDirection());
                 String uid=AddUtils.getUUID();
-                Debug.logger("check build uid ",uid);
-                Debug.logger("start build, direction",block.getDirection());
+
 
                 AbstractMultiBlockHandler handler=builder.build(loc,block,uid);
                 MULTIBLOCK_CACHE.put(uid,handler);
@@ -139,39 +154,45 @@ public class MultiBlockService {
         }
     }
 
+        //called in tickers
+    public static Location acceptPartRequest(Location loc){
+        int statusCode=getStatus(loc);
+        if(statusCode==0){
+            return null;
+        }
+        String uid=DataCache.getLastUUID(loc);
+        AbstractMultiBlockHandler handler=MULTIBLOCK_CACHE.get(uid);
+        if(statusCode==1){
+            if(handler==null){
+                setStatus(loc,-3);
+                return null;
+            }else {
+                handler.acceptPartRequest(loc);
+                return handler.getCore();
+            }
+        }else {
+            if(handler!=null){
+                //reconnect success ,set status to 1
+                handler.acceptPartRequest(loc);
+                setStatus(loc,1);
+                return handler.getCore();
+            }//quit
+            //no reconnect ,statusCode == -1 means 3tick reconnect time is end,toggleOff
+            if(statusCode==-1){
+                DataCache.setLastUUID(loc,"null");
+            }
+            setStatus(loc,statusCode+1);
+            return null;
+        }
+    }
 
-//    //called in tickers
-//    public static Location acceptPartRequest(Location loc){
-//        int statusCode=getStatus(loc);
-//        if(statusCode==0){
-//            return null;
-//        }
-//        String uid=DataCache.getLastUUID(loc);
-//        AbstractMultiBlockHandler handler=MULTIBLOCK_CACHE.get(uid);
-//        if(statusCode==1){
-//            if(handler==null){
-//                setStatus(loc,-3);
-//                return null;
-//            }else {
-//                handler.acceptPartRequest(loc);
-//                return handler.getCore();
-//            }
-//        }else {
-//            if(handler!=null){
-//                //reconnect success ,set status to 1
-//                handler.acceptPartRequest(loc);
-//                setStatus(loc,1);
-//                return handler.getCore();
-//            }//quit
-//            //no reconnect ,statusCode == -1 means 3tick reconnect time is end,toggleOff
-//            if(statusCode==-1){
-//                DataCache.setLastUUID(loc,"null");
-//            }
-//            setStatus(loc,statusCode+1);
-//            return null;
-//        }
-//
-//    }
+    /**
+     * run on loaded ticker
+     * @param loc
+     * @param reconnect
+     * @param type
+     * @return
+     */
     public static boolean acceptCoreRequest(Location loc,MultiBlockBuilder reconnect,AbstractMultiBlockType type){
         int statusCode=getStatus(loc);
         if(statusCode==0){
@@ -192,13 +213,14 @@ public class MultiBlockService {
                     return true;
                 }else{
                     if(statusCode>0){//之前还在运行
-                        statusCode=-3;//自动重连三次
+                        statusCode=-2;//自动重连三次
                     }
                     setStatus(loc,statusCode+1);
                     if(statusCode==-1){
                         DataCache.setLastUUID(loc,"null");
+                        return false;
                     }
-                    return false;
+                    return true;
                 }
             }else {
                 if( handler.acceptCoreRequest()){
@@ -212,6 +234,36 @@ public class MultiBlockService {
                 }
             }
         }
+    }
+
+
+    public static void createHologram(Location loc, AbstractMultiBlockType type, Direction direction, HashMap<String, ItemStack> itemmap){
+        Location tar=loc.clone().add(0.5,0.5,0.5);
+        final DisplayGroup displayGroup = new DisplayGroup(tar);
+        int len=type.getSchemaSize();
+        if(type.isSymmetric()){
+            direction=Direction.NORTH;
+        }
+        for(int i=0;i<len;i++){
+            displayGroup.addDisplay(
+                    "solar.display.%d".formatted(i),
+                    new ItemDisplayBuilder()
+                            .setGroupParentOffset(direction.rotate(type.getSchemaPart(i)))
+                            .setItemStack(itemmap.get(type.getSchemaPartId(i)))
+                            .setTransformation(new TransformationBuilder().scale(0.5f,0.5f,0.5f).build())
+                            .build(displayGroup)
+            );
+        }
+        HOLOGRAM_CACHE.put(loc,displayGroup);
+    }
+
+    public static void removeHologram(Location loc){
+
+        DisplayGroup displayGroup=HOLOGRAM_CACHE.remove(loc);
+        if(displayGroup!=null){
+            displayGroup.remove();
+        }
+        DataCache.setCustomData(loc,"holo",0);
     }
 
     /**
@@ -237,7 +289,7 @@ public class MultiBlockService {
      * @return
      */
     public static  int safeGetStatus(Location loc){
-        SlimefunBlockData data=Slimefun.getDatabaseManager().getBlockDataController().getBlockData(loc);
+        SlimefunBlockData data=DataCache.safeLoadBlock(loc);
         if(data!=null){
             try{
                 String __=  data.getData("mb-sta");
@@ -255,6 +307,19 @@ public class MultiBlockService {
     public static void setStatus(Location loc, int status){
         StorageCacheUtils.setData(loc,"mb-sta",String.valueOf(status));
     }
+    public static String safeGetUUID(Location loc){
+        String uuid;
+        SlimefunBlockData data=DataCache.safeLoadBlock(loc);
+        try{
+            uuid= data.getData("uuid");
+            if(uuid!=null)
+                return uuid;
+        }catch (Throwable a){
+
+        }
+        data.setData("uuid","null");
+        return "null";
+    }
 
     /**
      *
@@ -270,7 +335,7 @@ public class MultiBlockService {
         }else return MBID_NOSFBLOCK;
     }
     public static String safeGetPartId(Location location){
-        SlimefunBlockData blockdata= Slimefun.getDatabaseManager().getBlockDataController().getBlockData(location);
+        SlimefunBlockData blockdata= DataCache.safeLoadBlock(location);
         if(blockdata!=null){
             String blocks=blockdata.getSfId();
             SlimefunItem block=blocks == null ? null : SlimefunItem.getById(blocks);

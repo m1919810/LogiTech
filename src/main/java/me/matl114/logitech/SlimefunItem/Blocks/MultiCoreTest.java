@@ -15,7 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-public class MultiCoreTest extends MultiBlockCore  {
+public class MultiCoreTest extends MultiCore {
     protected final int[] BORDER=new int[]{0,1,2,3,5,6,7,8};
     protected final int TOGGLE_SLOT=4;
     protected final ItemStack TOGGLE_ITEM=new CustomItemStack(Material.BEDROCK,"&6点击进行多方块机器构建测试");

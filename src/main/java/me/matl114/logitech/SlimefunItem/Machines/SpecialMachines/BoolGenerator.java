@@ -1,5 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Machines.SpecialMachines;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -126,7 +127,7 @@ public class BoolGenerator extends AbstractProcessor {
         }
     }
     @Override
-    public void process(Block b, BlockMenu inv){
+    public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         SimpleCraftingOperation currentOperation = (SimpleCraftingOperation)this.processor.getOperation(b);
         ItemConsumer[] fastCraft=null;
         if(currentOperation==null){

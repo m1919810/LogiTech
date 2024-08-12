@@ -69,4 +69,22 @@ public class ItemPusher extends ItemCounter {
             meta=null;
         }
     }
+
+    /**
+     * transport item From target till limit count,return limit left
+     * @param tar
+     * @param limit
+     * @return
+     */
+    public int transportFrom(ItemCounter counter,int limit){
+        int left=Math.min( maxStackCnt-cnt,limit);
+        if(left>counter.getAmount()){
+            addAmount(counter.getAmount());
+            counter.setAmount(0);
+        }else{
+            setAmount(maxStackCnt);
+            counter.addAmount(-left);
+        }
+        return limit-left;
+    }
 }

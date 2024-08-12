@@ -11,7 +11,7 @@ public interface AbstractMultiBlockHandler {
     public Location getCore() ;
     public boolean isActive();
     //响应部件信号
-    //public void acceptPartRequest(Location loc);
+    public void acceptPartRequest(Location loc);
     //响应主核信号 返回是否还正常
     public boolean acceptCoreRequest();
     public int getSize();

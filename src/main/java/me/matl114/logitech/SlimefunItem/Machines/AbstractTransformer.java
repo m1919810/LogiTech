@@ -1,5 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Machines;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -67,7 +68,7 @@ public abstract  class AbstractTransformer extends AbstractMachine implements Pu
 
 
 
-    public void tick(Block b, BlockMenu menu,int ticker) {
+    public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int ticker) {
         //long f=System.nanoTime();
        if(conditionHandle(b,menu)){
           // long a=System.nanoTime();
@@ -75,12 +76,12 @@ public abstract  class AbstractTransformer extends AbstractMachine implements Pu
            processorCost(b,menu);
            //long s=System.nanoTime();
            if(ticker%this.time==this.diffTick){
-            process(b,menu);
+            process(b,menu,data);
             }
            //long t=System.nanoTime();
            //Debug.logger("get time : handle ",(a-f)," cost ",(s-a)," process ",(t-s));
     }}
-    public void process(Block block, BlockMenu inv){
+    public void process(Block block, BlockMenu inv, SlimefunBlockData data){
 
         MachineRecipe nextP = CraftUtils.matchNextRecipe(inv, getInputSlots(),getMachineRecipes(),true, Settings.SEQUNTIAL);
         if (nextP != null) {

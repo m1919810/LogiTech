@@ -30,9 +30,11 @@ public interface MenuBlock extends InventoryBlock {
      * @param menu
      */
     default void onBreak(BlockBreakEvent e, BlockMenu menu) {
-        Location l = menu.getLocation();
-        menu.dropItems(l, this.getInputSlots());
-        menu.dropItems(l, this.getOutputSlots());
+        if(menu!=null){
+            Location l = menu.getLocation();
+            menu.dropItems(l, this.getInputSlots());
+            menu.dropItems(l, this.getOutputSlots());
+        }
     }
 
     /**
@@ -54,10 +56,7 @@ public interface MenuBlock extends InventoryBlock {
                     @ParametersAreNonnullByDefault
                     public void onPlayerBreak(BlockBreakEvent e, ItemStack itemStack, List<ItemStack> list) {
                         BlockMenu menu = BlockStorage.getInventory(e.getBlock());
-                        if (menu != null) {
-                            MenuBlock.this.onBreak(e, menu);
-                        }
-
+                        MenuBlock.this.onBreak(e, menu);
                     }
                 }, new BlockPlaceHandler(false) {
                     @ParametersAreNonnullByDefault

@@ -1,5 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Machines.ManualMachines;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -117,7 +118,7 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType {
     }
     public void newMenuInstance(BlockMenu menu, Block block){
         menu.addMenuOpeningHandler((player -> {
-            MultiBlockManual.this.process(block,menu);
+            MultiBlockManual.this.updateMenu(menu,block,Settings.RUN);
         }));
         menu.addMenuClickHandler(PREV_SLOT,
                 (player, i, itemStack, clickAction)->{
@@ -266,7 +267,7 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType {
         //清空当前搜索缓存
         return false;
     }
-    public void process(Block b, BlockMenu inv){
+    public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         //only works when has viewer.
         if(inv!=null&&inv.hasViewer()){
             if(parseRecipe(inv)){

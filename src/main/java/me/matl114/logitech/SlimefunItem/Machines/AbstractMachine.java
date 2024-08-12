@@ -1,5 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Machines;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -148,7 +149,7 @@ public abstract  class AbstractMachine extends CustomSlimefunItem implements Tic
      * @param b
      * @param preset
      */
-    public abstract void process(Block b,BlockMenu preset);
+    public abstract void process(Block b, BlockMenu preset,SlimefunBlockData data);
 
     /**
      * make cost for process
@@ -208,10 +209,13 @@ public abstract  class AbstractMachine extends CustomSlimefunItem implements Tic
     public List<MachineRecipe> provideDisplayRecipe(){
         return getMachineRecipes();
     }
-    public void tick(Block b, BlockMenu menu, int ticker) {
+    public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int ticker) {
         if(conditionHandle(b,menu)){
-            process(b,menu);
+            process(b,menu,data);
         }}
+    public final void tick(Block b, BlockMenu menu, int ticker) {
+
+    }
     public void enable() {
         super.enable();
         this.registerDefaultRecipes();

@@ -237,6 +237,7 @@ public class CraftUtils {
             for(;slotpusherPointer<len2;++slotpusherPointer) {
                 if(result[i].getAmount()<=0)break;
                 ItemPusher itemCounter2=pusher.get(Settings.OUTPUT,inv,output[slotpusherPointer]);
+                slotCounters[slotpusherPointer]=itemCounter2;
                 if(itemCounter2.getItem()==null){
                     itemCounter2.setFrom(result[i]);
                     itemCounter2.grab(result[i]);

@@ -9,9 +9,10 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.MyAddon;
+import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.MultiIOPort;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.PortalCore;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.SolarReactorCore;
-import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockPart;
+import me.matl114.logitech.SlimefunItem.Blocks.MultiPart;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockTypes;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiCoreTest;
 import me.matl114.logitech.SlimefunItem.Items.*;
@@ -533,18 +534,28 @@ public class AddSlimefunItems {
                     AddItem.LFIELD,AddItem.LFIELD,AddItem.DIMENSIONAL_SHARD,AddItem.DIMENSIONAL_SHARD,AddItem.LFIELD,AddItem.LFIELD),"portal.core",
             MultiBlockTypes.PORTAL_TYPE)
             .register();
-    public static final SlimefunItem PORTAL_FRAME=new MultiBlockPart(AddGroups.SPACE,AddItem.PORTAL_FRAME,RecipeType.NULL,
+    public static final SlimefunItem PORTAL_FRAME=new MultiPart(AddGroups.SPACE,AddItem.PORTAL_FRAME,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),"portal.part")
             .register();
     public static final SlimefunItem SOLAR_REACTOR=new SolarReactorCore(AddGroups.SPACE,AddItem.SOLAR_REACTOR,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),"solar.core",MultiBlockTypes.SOLAR_TYPE)
+            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),"solar.core",MultiBlockTypes.SOLAR_TYPE,100_000,2_000_000,
+            mkMp(
+                    mkP(mkl(AddItem.METAL_CORE,AddItem.TECH_CORE),mkl(AddItem.SINGULARITY,setC(AddItem.STAR_GOLD_INGOT,44))),180
+            ))
             .register();
-    public static final SlimefunItem SOLAR_REACTOR_FRAME=new MultiBlockPart(AddGroups.SPACE,AddItem.SOLAR_REACTOR_FRAME,RecipeType.NULL,
+    public static final SlimefunItem SOLAR_REACTOR_FRAME=new MultiPart(AddGroups.SPACE,AddItem.SOLAR_REACTOR_FRAME,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),"solar.frame")
             .register();
-    public static final SlimefunItem SOLAR_REACTOR_GLASS=new MultiBlockPart(AddGroups.SPACE,AddItem.SOLAR_REACTOR_GLASS,RecipeType.NULL,
+    public static final SlimefunItem SOLAR_REACTOR_GLASS=new MultiPart(AddGroups.SPACE,AddItem.SOLAR_REACTOR_GLASS,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),"solar.glass")
             .register();
+    public static final SlimefunItem SOLAR_INPUT=new MultiIOPort(AddGroups.SPACE,AddItem.SOLAR_INPUT,RecipeType.NULL,
+            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),"solar.frame",true,true)
+            .register();
+    public static final SlimefunItem SOLAR_OUTPUT=new MultiIOPort(AddGroups.SPACE,AddItem.SOLAR_OUTPUT,RecipeType.NULL,
+            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),"solar.frame",false,false)
+            .register() ;
+
     //
     //manuals
     public static final SlimefunItem MANUAL_CORE=new MaterialItem(AddGroups.MANUAL,AddItem.MANUAL_CORE,RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -791,7 +802,7 @@ public class AddSlimefunItems {
             1919,810,RecipeType.MOB_DROP));
     public static final  SlimefunItem AUTOSMELTING1=register(new AdvanceCrafter(AddGroups.MATERIAL, AddItem.AUTOSMELTING1,RecipeType.NULL,AddUtils.NULL_RECIPE.clone(),
             Material.FLINT_AND_STEEL,1919,810,RecipeType.SMELTERY));
-    public static final SlimefunItem SINGULARITY=register(new Singularity(AddGroups.MATERIAL, AddItem.STORAGE_SINGULARITY,RecipeType.NULL,AddUtils.NULL_RECIPE));
+    public static final SlimefunItem STORAGE_SINGULARITY=register(new Singularity(AddGroups.MATERIAL, AddItem.STORAGE_SINGULARITY,RecipeType.NULL,AddUtils.NULL_RECIPE));
 
     public static final SlimefunItem INPORT=register(new InputPort(AddGroups.MATERIAL, AddItem.INPORT,RecipeType.NULL,AddUtils.NULL_RECIPE,0,0));
 
@@ -816,7 +827,7 @@ public class AddSlimefunItems {
             ));
     public static final SlimefunItem FINAL_MANUAL=register(new FinalManual(AddGroups.MATERIAL, AddItem.FINAL_MANUAL,RecipeType.NULL,AddUtils.NULL_RECIPE.clone(),
             1919,810));
-    public static final SlimefunItem TEST_MPART=new MultiBlockPart(AddGroups.MATERIAL,AddItem.TESTPART,RecipeType.NULL,AddUtils.NULL_RECIPE.clone(),
+    public static final SlimefunItem TEST_MPART=new MultiPart(AddGroups.MATERIAL,AddItem.TESTPART,RecipeType.NULL,AddUtils.NULL_RECIPE.clone(),
             "test.part").register();
     public static final SlimefunItem TEST_MCORE=new MultiCoreTest(AddGroups.MATERIAL,AddItem.TESTCORE,RecipeType.NULL,AddUtils.NULL_RECIPE.clone(),
             "test.part", MultiBlockTypes.TEST_TYPE).register();

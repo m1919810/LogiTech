@@ -1,5 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Machines.ManualMachines;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -21,6 +22,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Slime;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -148,7 +150,7 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
     }
     public void newMenuInstance(BlockMenu menu, Block block){
         menu.addMenuOpeningHandler((player -> {
-            FinalManual.this.process(block,menu);
+            FinalManual.this.updateMenu(menu,block,Settings.RUN);
         }));
         menu.addMenuClickHandler(RECIPE_ITEM_SLOT,
                 ((player, i, itemStack, clickAction) -> {
@@ -332,7 +334,7 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
         CraftUtils.multiUpdateInputMenu(results.getFirstValue(),inv);
         CraftUtils.multiUpdateOutputMenu(results.getSecondValue(),inv);
     }
-    public void process(Block b, BlockMenu inv){
+    public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         //only works when has viewer.
         if(inv!=null&&inv.hasViewer()){
             Location  loc=inv.getLocation();

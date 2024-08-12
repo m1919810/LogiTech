@@ -3,19 +3,19 @@ package me.matl114.logitech.Schedule;
 import java.util.HashSet;
 
 public class ScheduleSave {
-    public static HashSet<Task> FINAL_SAVES = new HashSet<>();
-    public static HashSet<Task> PERIODIC_SAVES = new HashSet<>();
+    public static HashSet<Runnable> FINAL_SAVES = new HashSet<>();
+    public static HashSet<Runnable> PERIODIC_SAVES = new HashSet<>();
     public static void onFinalSave(){
-        for (Task task : PERIODIC_SAVES) {
+        for (Runnable task : PERIODIC_SAVES) {
             task.run();
         }
-        for (Task task : FINAL_SAVES) {
+        for (Runnable task : FINAL_SAVES) {
             task.run();
         }
         return;
     }
     public static void onPeriodicSave(){
-        for (Task task : PERIODIC_SAVES) {
+        for (Runnable task : PERIODIC_SAVES) {
             task.run();
         }
         return;
@@ -25,7 +25,7 @@ public class ScheduleSave {
      * will periodically save every 5 miniuates and when server off
      * @param task
      */
-    public static void addPeriodicTask(Task task){
+    public static void addPeriodicTask(Runnable task){
         PERIODIC_SAVES.add(task);
     }
 
@@ -33,7 +33,7 @@ public class ScheduleSave {
      * will save when server off
      * @param task
      */
-    public static void addFinalTask(Task task){
+    public static void addFinalTask(Runnable task){
         FINAL_SAVES.add(task);
     }
 }

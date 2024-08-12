@@ -292,7 +292,10 @@ public class AddItem {
             Language.get("MultiBlock.SOLAR_REACTOR_FRAME.Name"),Language.getList("MultiBlock.SOLAR_REACTOR_FRAME.Lore"));
     public static final SlimefunItemStack SOLAR_REACTOR_GLASS=AddUtils.themed("SOLAR_REACTOR_GLASS",Material.TINTED_GLASS,AddUtils.Theme.MULTIBLOCK2,
             Language.get("MultiBlock.SOLAR_REACTOR_GLASS.Name"),Language.getList("MultiBlock.SOLAR_REACTOR_GLASS.Lore"));
-
+    public static final SlimefunItemStack SOLAR_INPUT=AddUtils.themed("SOLAR_INPUT",Material.WAXED_OXIDIZED_COPPER,AddUtils.Theme.ITEM1,
+            Language.get("MultiBlock.SOLAR_INPUT.Name"),Language.getList("MultiBlock.SOLAR_INPUT.Lore"));
+    public static final SlimefunItemStack SOLAR_OUTPUT=AddUtils.themed("SOLAR_OUTPUT",Material.WAXED_COPPER_BLOCK,AddUtils.Theme.ITEM1,
+            Language.get("MultiBlock.SOLAR_OUTPUT.Name"),Language.getList("MultiBlock.SOLAR_OUTPUT.Lore"));
     //feat
     public static final SlimefunItemStack CUSTOM1=
             AddUtils.themed("CUSTOM1",new ItemStack(Material.COMMAND_BLOCK),AddUtils.Theme.ITEM1,"测试物件1","只是一个简单的测试");
@@ -325,7 +328,7 @@ public class AddItem {
     public static final SlimefunItemStack AUTO_INF=
             AddUtils.themed("AUTOCRAFT_INF",new ItemStack(Material.RESPAWN_ANCHOR),AddUtils.Theme.MANUAL1,"测试定向合成机","无尽工作台");
     public static final SlimefunItemStack STORAGE_SINGULARITY=
-            AddUtils.themed("SINGULARITY",new ItemStack(Material.NETHER_STAR),AddUtils.Theme.CARGO1,"存储奇点","将物品压缩成奇点...");
+            AddUtils.themed("STORAGE_SINGULARITY",new ItemStack(Material.NETHER_STAR),AddUtils.Theme.CARGO1,"存储奇点","将物品压缩成奇点...");
     public static final SlimefunItemStack INPORT=
             AddUtils.themed("INPORT",new ItemStack(Material.END_STONE),AddUtils.Theme.CARGO1,"存入接口","较快的将物品存入奇点...");
     public static final SlimefunItemStack OUTPORT=

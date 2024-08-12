@@ -26,12 +26,13 @@ public interface DataCache {
      * @return
      */
     public static int getLastRecipe(Location loc){
+        SlimefunBlockData data=Slimefun.getDatabaseManager().getBlockDataController().getBlockDataFromCache(loc);
         try{
-            String a= StorageCacheUtils.getData(loc,"recipe");
+            String a= data.getData("recipe");
             return Integer.parseInt(a);
 
         }   catch (Throwable a){
-            setLastRecipe(loc,-1);
+            data.setData("recipe", "-1");
             return -1;
         }
     }
@@ -48,8 +49,9 @@ public interface DataCache {
     static final Pattern LOCATION_DE_PATTERN=Pattern.compile("(.*?),(.*?),(.*?),(.*?)");
     static final String LOCATION_CODE_PATTERN="%s,%.1f,%.1f,%.1f";
     public static Location getLastLocation(Location loc){
+        SlimefunBlockData data=Slimefun.getDatabaseManager().getBlockDataController().getBlockDataFromCache(loc);
         try{
-            String location= StorageCacheUtils.getData(loc,"location");
+            String location=data.getData("location");
             if("null".equals(location)){
                 return null;
             }
@@ -65,7 +67,7 @@ public interface DataCache {
         }catch (Throwable a){
 
         }
-        setLastLocation(loc,null);
+        data.setData("location","null");
         //important to clone ,dont change origin
         return null;
     }
@@ -77,10 +79,9 @@ public interface DataCache {
         }
     }
     public static String getLastUUID(Location loc){
-        String uuid;
         SlimefunBlockData data=Slimefun.getDatabaseManager().getBlockDataController().getBlockDataFromCache(loc);
         try{
-            uuid= data.getData("uuid");
+            String uuid= data.getData("uuid");
             if(uuid!=null)
                 return uuid;
         }catch (Throwable a){
@@ -91,12 +92,40 @@ public interface DataCache {
     public static void setLastUUID(Location loc ,String uuid){
         StorageCacheUtils.setData(loc,"uuid",uuid);
     }
-    public static void safeGetLastUUID(Location loc){
-
-    }
     public static SlimefunBlockData safeLoadBlock(Location loc){
-        return Slimefun.getDatabaseManager().getBlockDataController().getBlockData(loc);
+        var controller=Slimefun.getDatabaseManager().getBlockDataController();
+        SlimefunBlockData data;
+        try{
+            data= controller.getBlockDataFromCache(loc);
+        }catch (Throwable a){
+            data=controller.getBlockData(loc);
+        }
+        if(data==null){
+            return null;
+        }
+        if(!data.isDataLoaded()){
+            controller.loadBlockData(data);
+        }
+        return data;
     }
-
-
+    public static int getCustomData(Location loc,String key,int defaultValue){
+        SlimefunBlockData data=Slimefun.getDatabaseManager().getBlockDataController().getBlockDataFromCache(loc);
+        return getCustomData(data,key,defaultValue);
+    }
+    public static void setCustomData(Location loc ,String key,int value){
+        StorageCacheUtils.setData(loc,key,String.valueOf(value));
+    }
+    public static int getCustomData(SlimefunBlockData data,String key,int defaultValue){
+        try{
+            String csd= data.getData(key);
+            if(csd!=null)
+                return Integer.parseInt(csd);
+        }catch (Throwable a){
+        }
+        data.setData(key,String.valueOf(defaultValue));
+        return defaultValue;
+    }
+    public static void setCustomData(SlimefunBlockData data,String key,int value){
+        data.setData(key,String.valueOf(value));
+    }
 }

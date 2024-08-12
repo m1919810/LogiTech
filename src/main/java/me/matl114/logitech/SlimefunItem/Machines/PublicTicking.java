@@ -1,5 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Machines;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -27,10 +28,10 @@ public interface PublicTicking extends Ticking{
                     }
 
                     @ParametersAreNonnullByDefault
-                    public void tick(Block b, SlimefunItem item, Config data) {
-                        BlockMenu menu = BlockStorage.getInventory(b);
+                    public void tick(Block b, SlimefunItem item, SlimefunBlockData data) {
+                        BlockMenu menu = data.getBlockMenu();
                         if (menu != null) {
-                            PublicTicking.this.tick(b, menu,getPublicTick());
+                            PublicTicking.this.tick(b, menu,data,getPublicTick());
                         }
 
                     }
@@ -52,5 +53,4 @@ public interface PublicTicking extends Ticking{
      * @param menu
      * @param tickCount
      */
-    void tick(Block b, BlockMenu menu,int tickCount);
 }

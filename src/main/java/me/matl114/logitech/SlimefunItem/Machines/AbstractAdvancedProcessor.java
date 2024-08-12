@@ -1,5 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Machines;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -129,7 +130,7 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
     public int getCraftLimit(Block b,BlockMenu inv){
         return 64;
     }
-    public void process(Block b, BlockMenu inv){
+    public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         MultiCraftingOperation currentOperation = this.processor.getOperation(b);
         ItemGreedyConsumer[] fastCraft=null;
         if(currentOperation==null){

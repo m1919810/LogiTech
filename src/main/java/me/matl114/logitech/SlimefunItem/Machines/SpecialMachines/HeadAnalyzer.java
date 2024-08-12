@@ -1,5 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Machines.SpecialMachines;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -90,7 +91,7 @@ public class HeadAnalyzer extends AbstractMachine{
     public List<MachineRecipe> getMachineRecipes(){
         return new ArrayList<MachineRecipe>();
     }
-    public void process(Block b, BlockMenu preset){
+    public void process(Block b, BlockMenu preset, SlimefunBlockData data){
 
     }
     public void registerTick(SlimefunItem item){

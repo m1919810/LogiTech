@@ -1,5 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Machines.AutoMachines;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -213,7 +214,7 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock {
                 menu.replaceExistingItem(RECIPE_DISPLAY[var4],DISPLAY_BKGROUND);
             } }
     }
-    public void process(Block b, BlockMenu inv){
+    public void process(Block b, BlockMenu inv, SlimefunBlockData data){
 
         SimpleCraftingOperation currentOperation = this.processor.getOperation(b);
         ItemConsumer[] fastCraft=null;

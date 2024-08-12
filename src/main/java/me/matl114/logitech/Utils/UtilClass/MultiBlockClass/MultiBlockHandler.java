@@ -3,12 +3,10 @@ package me.matl114.logitech.Utils.UtilClass.MultiBlockClass;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore;
+import me.matl114.logitech.SlimefunItem.Blocks.MultiCore;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Debug;
-import org.bukkit.Keyed;
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
-import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
 
 public class MultiBlockHandler  implements AbstractMultiBlockHandler {
@@ -81,7 +79,7 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
             Location partloc=CORE.clone().add(delta);
             //如果当前匹配 且响应当前uid才允许过，否则任意一条均为false
             if((!STRUCTURE_TYPE.getStructurePartId(i).equals(MultiBlockService.safeGetPartId(partloc)))
-                    ||(!this.uid.equals(DataCache.getLastUUID(partloc)))){
+                    ||(!this.uid.equals(MultiBlockService.safeGetUUID(partloc)))){
                 complete=false;
                 break;
             }

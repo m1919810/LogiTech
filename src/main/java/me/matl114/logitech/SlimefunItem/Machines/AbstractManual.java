@@ -1,5 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Machines;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -7,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponen
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.FinalManual;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -114,7 +116,7 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
     }
     public void newMenuInstance(BlockMenu menu,Block block){
         menu.addMenuOpeningHandler((player -> {
-            AbstractManual.this.process(block,menu);
+            AbstractManual.this.updateMenu(menu,block,Settings.RUN);
         }));
         menu.addMenuClickHandler(PREV_SLOT,
                 (player, i, itemStack, clickAction)->{
@@ -213,7 +215,7 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
      * @param b
      * @param inv
      */
-    public void process(Block b, BlockMenu inv){
+    public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         //only works when has viewer.
         if(inv!=null&&inv.hasViewer()){
             Location  loc=inv.getLocation();

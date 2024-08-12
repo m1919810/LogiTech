@@ -84,7 +84,7 @@ public abstract class MultiBlockType implements AbstractMultiBlockType {
     }
     public AbstractMultiBlock genMultiBlockFrom(Location loc, MultiBlockService.Direction dir,boolean hasPrevRecord){
         int len=this.getSchemaSize();
-        String id= DataCache.getLastUUID(loc);
+        String id= MultiBlockService.safeGetUUID(loc);
         for(int i=0;i<len;i++){
             Vector delta= dir.rotate(this.getSchemaPart(i));
             Location partloc=loc.clone().add(delta);
@@ -95,11 +95,11 @@ public abstract class MultiBlockType implements AbstractMultiBlockType {
                 return null;
             }else{
                 //use record but target block uuid not match core uuid
-                if(hasPrevRecord&&(!(id.equals(DataCache.getLastUUID(partloc))))){
+                if(hasPrevRecord&&(!(id.equals( MultiBlockService.safeGetUUID(partloc))))){
                     //Debug.logger("wrong at ",delta.toString());
                     return null;
                     //no record but target block has been occupied by sth
-                }else if((!hasPrevRecord)&&(MultiBlockService.getStatus(partloc)!=0)){
+                }else if((!hasPrevRecord)&&(MultiBlockService.safeGetStatus(partloc)!=0)){
                     //Debug.logger("wrong at ",delta.toString());
                     return null;
                 }

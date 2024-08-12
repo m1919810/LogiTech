@@ -45,7 +45,7 @@ public class Schedules {
         launchSchedules(thread,delay,isSync,-1);
     }
     public static void launchSchedules(BukkitRunnable thread ,int delay,boolean isSync,int period){
-        if(period==-1){
+        if(period<=0){
             if(isSync){
                 thread.runTaskLater(plugin, delay);
             }else{
@@ -58,6 +58,12 @@ public class Schedules {
                 thread.runTaskTimerAsynchronously(plugin, delay,period);
             }
         }
-
+    }
+    public static BukkitRunnable getRunnable(Runnable runnable){
+        return new BukkitRunnable() {
+            public void  run(){
+                runnable.run();
+            }
+        };
     }
 }

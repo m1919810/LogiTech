@@ -1,6 +1,7 @@
 package me.matl114.logitech.Utils;
 
 import com.google.common.base.Preconditions;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -43,6 +44,7 @@ import java.util.regex.Pattern;
 public class AddUtils {
     public static final String ADDON_NAME="逻辑工艺";
     public static final String ADDON_ID="LOGITECH";
+    public static final SlimefunAddon ADDON_INSTANCE=MyAddon.getInstance();
     public static boolean USE_IDDECORATOR=true;
     private static final double SF_TPS = 20.0 / (double) Slimefun.getTickerTask().getTickRate();
     private static final DecimalFormat FORMAT = new DecimalFormat("###,###,###,###,###,###.#");
@@ -685,14 +687,16 @@ public class AddUtils {
 
     /**
      * add glowing effect to itemstack
+     * no clone in this method
      * @param stack
      */
-    public static void addGlow(ItemStack stack){
+    public static ItemStack addGlow(ItemStack stack){
         //stack.addEnchantment(Enchantment.ARROW_INFINITE, 1);
         ItemMeta meta=stack.getItemMeta();
         meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         stack.setItemMeta(meta);
+        return stack;
     }
 
     /**
@@ -719,6 +723,22 @@ public class AddUtils {
             lore.add("");
         }
         lore.set(index,resolveColor(str));
+        meta.setLore(lore);
+        stack.setItemMeta(meta);
+        return stack;
+    }
+    /**
+     * set the total lore line in stack ,will not clone
+     * @param stack
+     * @param str
+     * @return
+     */
+    public static ItemStack setLore(ItemStack stack,String... str){
+        ItemMeta meta=stack.getItemMeta();
+        List<String> lore=new ArrayList<>();
+        for (String s : str) {
+            lore.add(resolveColor(s));
+        }
         meta.setLore(lore);
         stack.setItemMeta(meta);
         return stack;
@@ -777,5 +797,8 @@ public class AddUtils {
     }
     public static String getUUID(){
         return UUID.randomUUID().toString();
+    }
+    public static void broadCast(String string){
+        ADDON_INSTANCE.getJavaPlugin().getServer().broadcastMessage(resolveColor(string));
     }
 }

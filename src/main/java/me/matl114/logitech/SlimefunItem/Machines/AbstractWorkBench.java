@@ -1,5 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Machines;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -142,7 +143,7 @@ public abstract class AbstractWorkBench extends AbstractMachine {
         }
     }
 
-    public void process(Block b, BlockMenu preset){
+    public void process(Block b, BlockMenu preset, SlimefunBlockData data){
 
     }
     public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow){

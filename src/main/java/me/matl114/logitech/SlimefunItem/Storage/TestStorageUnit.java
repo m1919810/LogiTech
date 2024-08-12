@@ -3,6 +3,11 @@ package me.matl114.logitech.SlimefunItem.Storage;
 import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networks.expansion.setup.ExpansionItemStacks;
+import com.ytdd9527.networks.expansion.util.Transformations;
+import dev.sefiraat.sefilib.entity.display.DisplayGroup;
+import dev.sefiraat.sefilib.entity.display.builders.ItemDisplayBuilder;
+import dev.sefiraat.sefilib.misc.TransformationBuilder;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -11,15 +16,14 @@ import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Schedule.ScheduleAsync;
 import me.matl114.logitech.Schedule.ScheduleSave;
 import me.matl114.logitech.Schedule.Schedules;
+import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.Debug;
-import me.matl114.logitech.Utils.MenuUtils;
+import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.PortalType;
@@ -31,6 +35,7 @@ import org.bukkit.block.data.Orientable;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -38,8 +43,12 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class TestStorageUnit extends AbstractMachine {
-    private static final int[] INPUT_SLOT = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
-    private static final int[] OUTPUT_SLOT = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
+    private static final int[] INPUT_SLOT = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+            16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+            41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
+    private static final int[] OUTPUT_SLOT = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+            16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+            41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
 
     public TestStorageUnit(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                             int energybuffer, int energyConsumption){
@@ -82,6 +91,23 @@ public class TestStorageUnit extends AbstractMachine {
             Debug.logger("check blockstatemeta", ((Orientable)bLock.getRelative(BlockFace.UP).getBlockData()).getAxis());
             return false;
         }));
+        inv.addMenuClickHandler(20,((player, i, itemStack, clickAction) -> {
+            Location tar=inv.getLocation().clone().add(0.5,1.0,0.5);
+            final DisplayGroup displayGroup = new DisplayGroup(tar);
+            displayGroup.addDisplay(
+                    "StorageUnit_12",
+                    new ItemDisplayBuilder()
+                            .setGroupParentOffset(new Vector(0, 1, 0))
+                            .setItemStack(AddItem.TESTCORE.clone())
+                            .setTransformation(new TransformationBuilder().scale(0.3f,0.3f,0.3f).build())
+                            .build(displayGroup)
+            );
+            Schedules.launchSchedules(Schedules.getRunnable(()->{
+                displayGroup.remove();
+            }),200,true,0);
+            return false;
+        }));
+
     }
     public  int[] getInputSlots(){
         return INPUT_SLOT;
@@ -103,42 +129,19 @@ public class TestStorageUnit extends AbstractMachine {
     public List<MachineRecipe> getMachineRecipes(){
         return new ArrayList<MachineRecipe>();
     }
-    public void process(Block b, BlockMenu preset){
+    public void process(Block b, BlockMenu menu,SlimefunBlockData data){
+        Location loc=b.getLocation().clone().add(0,2,0);
+        BlockMenu inv=StorageCacheUtils.getMenu(loc);
 
-//            it.setAmount(114514);
-//        }
-//        ItemStack stack=new ItemStack(Material.COMMAND_BLOCK);
-//        stack.setAmount(-128);
-//        preset.replaceExistingItem(2,stack);
-//        preset.replaceExistingItem(3,rand);
-//        ItemStack a=preset.getItemInSlot(4);
-//        if(a!=null){
-//            //Debug.logger("a="+a.getItemMeta().toString());
-//            ItemMeta as=a.getItemMeta();
-//            //Debug.logger("stack="+as.getClass());
-//            Class clazz=as.getClass();
-//            try{
-//                Field getlore=clazz.getDeclaredField("lore");
-//                getlore.setAccessible(true);
-//                Object o=getlore.get(as);
-//                Debug.logger("o="+o.toString());
-//            }
-//            catch(Throwable e){
-//                Debug.logger("invoke failed ");
-//                e.printStackTrace();
-//
-//            }
-//
-//        }
-//        Location loc=preset.getLocation();
-//
-//        new BukkitRunnable(){
-//            public void run(){
-//                preset.dropItems(loc,IntStream.range(27,54).toArray());
-//            }
-//        }.runTask(MyAddon.getInstance());
-//
+        if(inv!=null){
+            TransportUtils.transportItemSymm(menu,getOutputSlots(),inv,TransportUtils.getInvInputSlot(inv),
+                    ItemTransportFlow.INSERT,null,3567,CraftUtils.getpusher);
+        }
 
 
     }
+    public boolean isSync(){
+        return true;
+    }
+
 }

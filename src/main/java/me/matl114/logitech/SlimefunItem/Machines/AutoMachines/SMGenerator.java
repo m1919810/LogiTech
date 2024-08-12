@@ -1,6 +1,7 @@
 package me.matl114.logitech.SlimefunItem.Machines.AutoMachines;
 
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -61,7 +62,7 @@ public class SMGenerator extends AbstractTransformer {
     public boolean isSync(){
         return false;
     }
-    public void process(Block block, BlockMenu inv){
+    public void process(Block block, BlockMenu inv, SlimefunBlockData data){
         MachineRecipe nextP =getMachineRecipes().get(0);
         processorCost(block,inv);
         CraftUtils.pushItems(nextP.getOutput(),inv,getOutputSlots());
