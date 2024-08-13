@@ -3,6 +3,7 @@ package me.matl114.logitech.Schedule.PersistentEffects;
 import me.matl114.logitech.Schedule.ScheduleEffects;
 import me.matl114.logitech.Utils.AddUtils;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.PlayerDeathEvent;
 
 public abstract class AbstractEffect {
     String id;
@@ -25,6 +26,13 @@ public abstract class AbstractEffect {
     }
     public AbstractEffect reigster(){
         return ScheduleEffects.registerEffect(this);
+    }
+
+    public boolean onDeathClear(){
+        return true;
+    }
+    public void onDeathEvent(PlayerDeathEvent e) {
+
     }
 
 }

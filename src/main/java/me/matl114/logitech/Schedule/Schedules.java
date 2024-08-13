@@ -26,7 +26,7 @@ public class Schedules {
             }
         };
         int periodEffect=20;
-        effectThread.runTaskTimerAsynchronously(plugin, 200, periodEffect);
+        effectThread.runTaskTimer(plugin, 200, periodEffect);
 
         BukkitRunnable postRegisterTask = new BukkitRunnable() {
             public void run() {
@@ -58,6 +58,9 @@ public class Schedules {
                 thread.runTaskTimerAsynchronously(plugin, delay,period);
             }
         }
+    }
+    public static void launchSchedules(Runnable thread ,int delay,boolean isSync,int period){
+        launchSchedules(getRunnable(thread),delay,isSync,period);
     }
     public static BukkitRunnable getRunnable(Runnable runnable){
         return new BukkitRunnable() {

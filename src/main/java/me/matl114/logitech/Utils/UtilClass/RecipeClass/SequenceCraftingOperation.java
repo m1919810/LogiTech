@@ -84,9 +84,9 @@ public class SequenceCraftingOperation implements MachineOperation {
                 lines.add(seqRecipe.displayedNames[i].formatted("&c",0,"&c"));
             }
             lines.add("&7当前物品处理时间: %dt/%dt".formatted(this.currentSeqTicks,this.tickPerSeq));
-            ItemStack it=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&a有序输入进程",lines);
+            ItemStack it=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&a阶段输入进程",lines);
             return it;
         }else
-            return new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&a有序输入进程","&7当前进程信息","&c错误!使用的不是有序输入配方");
+            return new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&a阶段输入进程","&7当前进程信息","&c错误!使用的不是有序输入配方");
     }
 }

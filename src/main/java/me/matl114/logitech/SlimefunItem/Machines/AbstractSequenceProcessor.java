@@ -58,11 +58,13 @@ public abstract class AbstractSequenceProcessor extends AbstractMachine implemen
     protected final ItemStack progressbar;
     protected final MachineProcessor<SequenceCraftingOperation> processor;
     protected int PROCESSOR_SLOT=22;
-    protected int CLEAN_SLOT=13;
+    protected int INFO_SLOT=13;
+    protected int CLEAN_SLOT=31;
     protected ItemStack[] CLEAN_ITEM=new CustomItemStack[]{
             new CustomItemStack(SlimefunItems.TRASH_CAN,"&3开启输入槽清空模式","&7当输入槽物品无法匹配有序输入配方时,会清空输入槽","&7当前状态: &c关闭"),
             new CustomItemStack(SlimefunItems.TRASH_CAN,"&3关闭输入槽清空模式","&7当输入槽物品无法匹配有序输入配方时,会清空输入槽","&7当前状态: &a开启")
     };
+    protected ItemStack INFO_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6机制","&b该机器类型用于合成阶段输入配方","&b放入配方序列的第一个物品开启配方","&b按顺序满足配方每阶段输入需求才会进入下一阶段","&b完成全部阶段机器会尝试输出结果");
     public AbstractSequenceProcessor(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                                      ItemStack progressItem, int energyConsumption, int energyBuffer,
                                      LinkedHashMap<Object, Integer> customRecipes) {
@@ -118,7 +120,7 @@ public abstract class AbstractSequenceProcessor extends AbstractMachine implemen
         }
         //空白边框
         preset.addItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL, ChestMenuUtils.getEmptyClickHandler());
-
+        preset.addItem(INFO_SLOT,INFO_ITEM,ChestMenuUtils.getEmptyClickHandler());
     }
     public void newMenuInstance(BlockMenu inv,Block b){
         int clean=DataCache.getCustomData(inv.getLocation(),"clean",0);

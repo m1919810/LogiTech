@@ -134,7 +134,7 @@ public class TestStorageUnit extends AbstractMachine {
         BlockMenu inv=StorageCacheUtils.getMenu(loc);
 
         if(inv!=null){
-            TransportUtils.transportItemSymm(menu,getOutputSlots(),inv,TransportUtils.getInvInputSlot(inv),
+            TransportUtils.transportItemGreedy(menu,getOutputSlots(),inv,TransportUtils.getInvInputSlot(inv),
                     ItemTransportFlow.INSERT,null,3567,CraftUtils.getpusher);
         }
 

@@ -155,7 +155,21 @@ public class MultiBlockService {
             return true;
         }
     }
-
+    public static boolean checkIfAbsentRuntime(SlimefunBlockData data){
+        String uid=DataCache.getLastUUID(data);
+        AbstractMultiBlockHandler handler=MULTIBLOCK_CACHE.get(uid);
+        if(handler==null){
+            return false;
+        }else {
+            if( handler.checkIfCompleteRandom()){
+                return true;
+            }else {
+                //发出关闭信号,等待下一次coreRequest响应
+                handler.setActive(false);
+                return false;
+            }
+        }
+    }
         //called in tickers
     public static Location acceptPartRequest(Location loc){
         int statusCode=getStatus(loc);
@@ -318,6 +332,9 @@ public class MultiBlockService {
     }
     public static void setStatus(Location loc, int status){
         StorageCacheUtils.setData(loc,"mb-sta",String.valueOf(status));
+    }
+    public static void setStatus(SlimefunBlockData data, int status){
+        data.setData("mb-sta",String.valueOf(status));
     }
     public static String safeGetUUID(Location loc){
         String uuid;

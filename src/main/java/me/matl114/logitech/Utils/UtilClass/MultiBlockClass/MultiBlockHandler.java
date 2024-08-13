@@ -4,6 +4,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiCore;
+import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Debug;
 import org.bukkit.Location;
@@ -66,6 +67,9 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
     public boolean isActive(){
         return active;
     }
+    public void setActive(boolean active){
+        this.active=active;
+    }
     /**
      * try match given place as core with multiblock schema
      * used when autoreconnnected after server restart
@@ -82,6 +86,25 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
                     ||(!this.uid.equals(MultiBlockService.safeGetUUID(partloc)))){
                 complete=false;
                 break;
+            }
+        }
+        return complete;
+    }
+    public boolean checkIfCompleteRandom(){
+        int len=this.RESPOND.length;
+        boolean complete=true;
+        int checkChance=10;//随机选取1/10的方块检测
+        for(int s=0;s<len;s++){
+            int i= AddUtils.random(checkChance);
+            if(i==0){
+                Vector delta= STRUCTURE_TYPE.getStructurePart(s);
+                Location partloc=CORE.clone().add(delta);
+                //如果当前匹配 且响应当前uid才允许过，否则任意一条均为false
+                if((!STRUCTURE_TYPE.getStructurePartId(s).equals(MultiBlockService.safeGetPartId(partloc)))
+                        ||(!this.uid.equals(MultiBlockService.safeGetUUID(partloc)))){
+                    complete=false;
+                    break;
+                }
             }
         }
         return complete;
@@ -104,8 +127,6 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
             //I don't know what to said
             return true;
         }else{
-            Debug.logger("accept core failed");
-
             //销毁multiblock的全部内容
             destroy();
             return false;
@@ -149,7 +170,7 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
 //                }
 //            }
 //        }
-        return true;
+        return this.active;
     }
 
     public Location getBlockLoc(int index){

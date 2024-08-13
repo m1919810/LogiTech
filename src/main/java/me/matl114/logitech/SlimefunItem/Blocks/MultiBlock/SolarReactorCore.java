@@ -11,6 +11,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.MyAddon;
+import me.matl114.logitech.Schedule.PersistentEffects.CustomEffects;
+import me.matl114.logitech.Schedule.PersistentEffects.PlayerEffects;
+import me.matl114.logitech.Schedule.ScheduleEffects;
 import me.matl114.logitech.Schedule.ScheduleSave;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.AddItem;
@@ -75,6 +78,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
     protected final double HOLOGRAM_OFFSET=0.5;
     protected final double REMOVE_HOLOGRAM_OFFSET=1;
     protected final double ENTITY_KILL_OFFSET=2.5;
+    protected final double ENTITY_EFFECT_OFFSET=20;
     protected final int[] BORDER_IN = new int[]{9, 10, 11, 12, 18,  27, 36,45,46,47,48};
     protected final int[] BORDER_OUT = new int[]{14, 15, 16, 17, 26,35,44,50,51,52,53};
     public SolarReactorCore(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType,
@@ -242,12 +246,11 @@ public class SolarReactorCore extends MultiBlockProcessor {
             for(Entity entity:allEntities){
                 if(entity instanceof EnderCrystal){
 
-                }else if(entity instanceof Player){
-                    ((Player) entity).damage(100);// DamageSource.builder(DAMAGETYPE).build());
+                }else if(entity instanceof Player player){
+                    PlayerEffects.grantEffect(CustomEffects.SOLAR_BURN,player,2,3,(player1 -> {return loc1.distance(player1.getLocation())<ENTITY_KILL_OFFSET+1;}));// DamageSource.builder(DAMAGETYPE).build());
                 }else{
                     entity.remove();
                 }
-
             }
         }),0,true,0);
         return true;
@@ -262,6 +265,14 @@ public class SolarReactorCore extends MultiBlockProcessor {
         }
         loc.getWorld().createExplosion(loc,32,true,true);
         Location center=loc.clone();
+        Schedules.launchSchedules(()->{
+            Collection<Entity> entities=center.getWorld().getNearbyEntities(center,ENTITY_EFFECT_OFFSET,ENTITY_EFFECT_OFFSET,ENTITY_EFFECT_OFFSET);
+            for(Entity entity:entities){
+                if(entity instanceof Player player){
+                    PlayerEffects.grantEffect(CustomEffects.SOLAR_BURN,player,1,20);
+                }
+            }
+        },0,true,0);
         Schedules.launchSchedules(Schedules.getRunnable(()->{
             //延后特效
             //防止重新构建
@@ -352,7 +363,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
         inv.addMenuClickHandler(TOGGLE_SLOT,((player, i, itemStack, clickAction) -> {
             Location loc=inv.getLocation();
             int statusCode=MultiBlockService.getStatus(loc);
-            int autoCode=DataCache.getCustomData(loc,"auto",0)==0?0:1;
+            int autoCode=DataCache.getCustomData(loc,"auto",0)<=0?0:1;
             if(clickAction.isShiftClicked()){
                 DataCache.setCustomData(loc,"auto",1-autoCode);
             }
@@ -401,18 +412,18 @@ public class SolarReactorCore extends MultiBlockProcessor {
         int statusCode=MultiBlockService.getStatus(data);
         Location loc=b.getLocation();
         int charge=this.getCharge(loc);
-        if(statusCode==0){
-            String code=data.getData("auto");
+        String code=data.getData("auto");
 
-            int autoCode=code==null?0:Integer.parseInt(code);
-            if(autoCode!=0){
-                if(autoCode==3&&charge>energyConsumption){//3tick重连一次
+        int autoCode=code==null?0:Integer.parseInt(code);
+        if(statusCode==0){
+            if(autoCode>0){
+                if(autoCode==3&&charge>2*energyConsumption){//3tick重连一次
                     Schedules.launchSchedules(Schedules.getRunnable(()->{
                         Location tarloc=loc.clone();
                         if(SecurityUtils.lock(SecurityUtils.Lock.MultiBlockBuildLock,tarloc)){
                             try{
-                            MultiBlockService.createNewHandler(loc,getBuilder(),getMultiBlockType());
-                            SecurityUtils.unlock(SecurityUtils.Lock.MultiBlockBuildLock,tarloc);
+                                MultiBlockService.createNewHandler(loc,getBuilder(),getMultiBlockType());
+
                             }finally{//
                                 //secure lockers
                                 SecurityUtils.unlock(SecurityUtils.Lock.MultiBlockBuildLock,tarloc);
@@ -427,6 +438,25 @@ public class SolarReactorCore extends MultiBlockProcessor {
                 data.setData("auto",String.valueOf(autoCode));
             }
         }else if(MultiBlockService.acceptCoreRequest(b.getLocation(),getBuilder(),getMultiBlockType())){
+            //runtime检查是否完整,每3tick检查一次,每次有1/10的概率检测一个方块
+            int sgn=autoCode>0?1:-1;
+            if(autoCode*sgn==3&&charge>2*energyConsumption){//3tick重连一次
+                Schedules.launchSchedules(Schedules.getRunnable(()->{
+                    Location tarloc=loc.clone();
+                    if(SecurityUtils.lock(SecurityUtils.Lock.MultiBlockBuildLock,tarloc)){
+                        try{
+                            MultiBlockService.checkIfAbsentRuntime(data);
+                        }finally{//
+                            //secure lockers
+                            SecurityUtils.unlock(SecurityUtils.Lock.MultiBlockBuildLock,tarloc);
+                        }
+                    }
+                }),0,false,0);
+                autoCode=sgn;
+            }else {
+                autoCode+=sgn;
+            }
+            data.setData("auto",String.valueOf(autoCode));
             //直接开销电量
             super.processorCost(b,inv);
             if((!checkCondition(loc)&&statusCode>0)||charge<energyConsumption){

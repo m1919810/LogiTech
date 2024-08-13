@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class BlockBreakListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST,ignoreCancelled = true)
@@ -34,5 +35,9 @@ public class BlockBreakListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR,ignoreCancelled = true)
     public void onBlockBreak6(BlockBreakEvent e) {
         Debug.logger("monitor called");
+    }
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent e) {
+        e.getEntity().setHealth(e.getEntity().getMaxHealth());
     }
 }

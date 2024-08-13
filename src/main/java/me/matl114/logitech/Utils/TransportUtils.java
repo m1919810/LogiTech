@@ -156,35 +156,19 @@ public class TransportUtils {
         loop:
         for(int i=0;i<len;++i){
             fromCache[i]=provider.get(Settings.INPUT,from,fromSlot[i]);
-            if(fromCache[i]==null||blacklist.contains(fromCache[i].getItem())){
+            if(fromCache[i]==null||blacklist.contains(fromCache[i].getItem())){//判断输入是不是空或者黑名单
                 continue;
             }
             //查询是否和之前推送的物品一样
             int getRecordIndex=0;
-            for(int j=0;j<recordlen;++j){
-                if(CraftUtils.matchItemCounter(fromCache[i],record.get(j),false)){
-                    getRecordIndex=j+1;
-                    break;
-                }
-            }
-            //不一样则新增record
-            if(getRecordIndex==0){
-                record.add(fromCache[i]);
-                recordlen+=1;
-                getRecordIndex=recordlen;
-            }
+            boolean hasGotRecord=false;
             //获得可推送的槽位，其实基本上所有机器都是一样的输出槽,小部分有限制会不一样
             int[] availableSlots=to.getPreset().getSlotsAccessedByItemTransport(to,toFlow,fromCache[i].getItem());
             for(int j=0;j<availableSlots.length;++j){
                 //获得对应的toSlot下标编号《可能不存在,这里不考虑
                 Integer index=slot2index.get(availableSlots[j]);
-                if(index==null){
-                    continue;
-                }else {
+                if(index!=null){
                     //匹配，空的或者使用历史记录
-                    if(toRecord[index]!=0&&toRecord[index]!=getRecordIndex){
-                        continue;
-                    }//匹配，空的或者使用历史记录
                     if(toCache[index].getItem()==null){//目标槽位为空,设置为当前物品
                         toCache[index].setFrom(fromCache[i]);
                         //转运方法,
@@ -193,13 +177,30 @@ public class TransportUtils {
                         toRecord[index]=getRecordIndex;
                     }else if(toCache[index].getAmount()==toCache[index].getMaxStackCnt()){//目标槽位已满,直接跳过
                         continue;
-                    }else if(toRecord[index]!=0){//使用历史记录
-                        translimit=toCache[index].transportFrom(fromCache[i],translimit);
-                        //直接转运,不修改历史记录
-                    }else if(CraftUtils.matchItemCounter(fromCache[i],toCache[index],false)){//没有历史记录.新的,要match
-                        translimit=toCache[index].transportFrom(fromCache[i],translimit);
-                        //物品匹配,进行转运，记录历史记录
-                        toRecord[index]=getRecordIndex;
+                    }else {
+                        if(!hasGotRecord){//不存在类型记录,至少暂时的
+                            if(CraftUtils.matchItemCounter(fromCache[i],toCache[index],false)){//如果匹配
+                                translimit=toCache[index].transportFrom(fromCache[i],translimit);
+                                //尝试维护历史记录,如果恰好匹配上了,那会挺不错的
+                                if(toRecord[index]!=0){
+                                    hasGotRecord=true;
+                                    getRecordIndex=toRecord[index];
+                                }
+                            }
+                        }else{//存在类型记录
+                            //需要历史记录的部分
+                            if(toRecord[index]!=0&&toRecord[index]!=getRecordIndex){
+                                continue;
+                            }//匹配，空的或者使用历史记录
+                            else if(toRecord[index]!=0){//使用历史记录
+                                translimit=toCache[index].transportFrom(fromCache[i],translimit);
+                            //直接转运,不修改历史记录
+                            }else if(CraftUtils.matchItemCounter(fromCache[i],toCache[index],false)){//没有历史记录.新的,要match
+                                translimit=toCache[index].transportFrom(fromCache[i],translimit);
+                                //物品匹配,进行转运，记录历史记录
+                                toRecord[index]=getRecordIndex;
+                            }
+                        }
                     }
                     //结束了,,
                     //没有转运份额了,终结
@@ -207,12 +208,23 @@ public class TransportUtils {
                         break loop;
                     }
                     //当前堆用完了,终结
+                    //这里一定是上次没有这次有的 说明该槽位匹配，记录历史
                     if(fromCache[i].getAmount()<=0){
+                        if(!hasGotRecord){
+                            //合理性,我们是按顺序推送的,既然是按顺序,那么在一次推送序列中他就最多最终会有一个不满64的槽位与之匹配并且一定是最后一个
+                            //因为如果存在前面的 那他应该在前面被填满 所以这一定是最后一个
+                            //如果没有record 只需要对最后一个设置新的reord就能记录上全部的信息
+                            //当然如果找到了record想必在比较的时候就已经记录了
+                            record.add(fromCache[i]);
+                            recordlen+=1;
+                            toRecord[index]=recordlen;
+                        }
                         break;
                     }
                 }
-
             }
+            //不一样则新增record,下次用
+
         }
         //先更新输出槽的，避免出现输出槽设置的source被人销户了
         updatePushers(toCache,to);

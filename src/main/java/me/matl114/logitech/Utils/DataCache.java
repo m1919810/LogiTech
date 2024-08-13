@@ -81,8 +81,8 @@ public interface DataCache {
             StorageCacheUtils.setData(loc,"location",LOCATION_CODE_PATTERN.formatted(loc2.getWorld().getName(), loc2.getX(), loc2.getY(), loc2.getZ()));
         }
     }
-    public static String getLastUUID(Location loc){
-        SlimefunBlockData data=CONTROLLER.getBlockDataFromCache(loc);
+    public static String getLastUUID(SlimefunBlockData data){
+
         try{
             String uuid= data.getData("uuid");
             if(uuid!=null)
@@ -91,6 +91,9 @@ public interface DataCache {
         }
         data.setData("uuid","null");
         return "null";
+    }
+    public static String getLastUUID(Location loc){
+        return getLastUUID(CONTROLLER.getBlockDataFromCache(loc));
     }
     public static void setLastUUID(Location loc ,String uuid){
         StorageCacheUtils.setData(loc,"uuid",uuid);
