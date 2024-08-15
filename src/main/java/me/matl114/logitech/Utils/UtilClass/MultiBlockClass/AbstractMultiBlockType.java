@@ -67,4 +67,5 @@ public interface AbstractMultiBlockType {
      * @return
      */
     public AbstractMultiBlock genMultiBlockFrom(Location loc, MultiBlockService.Direction dir,boolean hasPrevRecord);
+
 }

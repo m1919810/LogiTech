@@ -39,6 +39,16 @@ public interface DataCache {
             return -1;
         }
     }
+    public static int getLastRecipe(SlimefunBlockData data){
+        try{
+            String a= data.getData("recipe");
+            return Integer.parseInt(a);
+
+        }   catch (Throwable a){
+            data.setData("recipe", "-1");
+            return -1;
+        }
+    }
 
     /**
      * about recipe history set (if you dont call this method ,data will not appear in storage)
@@ -48,6 +58,10 @@ public interface DataCache {
     public static void setLastRecipe(Location loc ,int val){
 
         StorageCacheUtils.setData(loc, "recipe", String.valueOf(val));
+    }
+    public static void setLastRecipe(SlimefunBlockData data ,int val){
+
+        data.setData("recipe", String.valueOf(val));
     }
     static final Pattern LOCATION_DE_PATTERN=Pattern.compile("(.*?),(.*?),(.*?),(.*?)");
     static final String LOCATION_CODE_PATTERN="%s,%.1f,%.1f,%.1f";

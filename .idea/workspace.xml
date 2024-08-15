@@ -5,7 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="feat: init">
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Tests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Listeners/Listeners/PortalTeleport.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Listeners/Listeners/PortalTeleport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Listeners/Listeners/PotionClearOnDeath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Listeners/Listeners/PotionClearOnDeath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Schedule/PersistentEffects/CustomEffects.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Schedule/PersistentEffects/CustomEffects.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Schedule/PersistentEffects/Effects/AntiGravity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlock/SolarReactorCore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlock/SolarReactorCore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MultiBlockClass/MultiBlockService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MultiBlockClass/MultiBlockService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MultiBlockClass/MultiBlockType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MultiBlockClass/MultiBlockType.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +40,9 @@
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -44,14 +56,20 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Application.Run Test.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.LogiTech [-Dtest=Tests#main,test,-e].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.LogiTech [-Dtest=Tests#main,test].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.LogiTech [-Dtest=Tests,test].executor&quot;: &quot;Run&quot;,
     &quot;Maven.LogiTech [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.LogiTech [package].executor&quot;: &quot;Run&quot;,
     &quot;Maven.SlimefunAddon [install].executor&quot;: &quot;Run&quot;,
     &quot;Maven.TestAddon [install].executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Shell Script.Build and Start Server.executor&quot;: &quot;Run&quot;,
     &quot;Shell Script.Unnamed.executor&quot;: &quot;Run&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/worksx/home/release&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Intellij_Idea/workspace/LogiTech-master&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -70,7 +88,16 @@
       <recent name="me.matl114.slimefunaddon.Utils.UtilClass" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Maven.LogiTech [-Dtest=Tests#main,test,-e]">
+    <configuration name="Run Test" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="me.matl114.logitech.Tests" />
+      <module name="LogiTech" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="SlimefunAddonTemplate" />
       <method v="2">
@@ -84,7 +111,39 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Unnamed" type="ShConfigurationType" nameIsGenerated="true">
+    <configuration name="LogiTech [-Dtest=Tests#main,test,-e]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="-Dtest=Tests#main" />
+                <option value="test" />
+                <option value="-e" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="Build and Start Server" type="ShConfigurationType">
       <option name="SCRIPT_TEXT" value=".\startServer.bat" />
       <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
       <option name="SCRIPT_PATH" value="" />
@@ -101,6 +160,11 @@
         <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="install" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.Run Test" />
+      <item itemvalue="Maven.LogiTech [-Dtest=Tests#main,test,-e]" />
+      <item itemvalue="Shell Script.Build and Start Server" />
+    </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -148,6 +212,10 @@
       <workItem from="1722823723994" duration="1204000" />
       <workItem from="1722842792943" duration="49873000" />
       <workItem from="1723011347495" duration="2292000" />
+      <workItem from="1723183443987" duration="196767000" />
+      <workItem from="1723615936994" duration="1519000" />
+      <workItem from="1723617467358" duration="445000" />
+      <workItem from="1723617958001" duration="306000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -317,7 +385,39 @@
       <option name="project" value="LOCAL" />
       <updated>1723015370796</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="feat: init">
+      <option name="closed" value="true" />
+      <created>1723311579585</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1723311579585</updated>
+    </task>
+    <task id="LOCAL-00023" summary="feat: init">
+      <option name="closed" value="true" />
+      <created>1723457854705</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1723457854705</updated>
+    </task>
+    <task id="LOCAL-00024" summary="feat: init">
+      <option name="closed" value="true" />
+      <created>1723492507385</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1723492507385</updated>
+    </task>
+    <task id="LOCAL-00025" summary="feat: init">
+      <option name="closed" value="true" />
+      <created>1723576530781</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1723576530781</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

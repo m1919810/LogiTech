@@ -12,12 +12,9 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.MyAddon;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.EqProRandomStack;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.EquivalItemStack;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.RandomItemStack;
-import me.matl114.logitech.Utils.UtilInterface.LoreDecorator;
-import me.matl114.logitech.Utils.UtilInterface.StringDecorator;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.*;
+import me.matl114.logitech.Utils.UtilClass.FunctionalClass.LoreDecorator;
+import me.matl114.logitech.Utils.UtilClass.FunctionalClass.StringDecorator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -801,5 +798,15 @@ public class AddUtils {
     }
     public static void broadCast(String string){
         ADDON_INSTANCE.getJavaPlugin().getServer().broadcastMessage(resolveColor(string));
+    }
+    public static ItemStack randAmountItemFactory(ItemStack it,int min,int max){
+        if(min<max){
+            return new RandAmountStack(it,min,max);
+        }
+        else if(min==max){
+            return it;
+        }else {
+            throw new IllegalArgumentException("randomAmountStack expects min<max, got %d and %d".formatted(min,max));
+        }
     }
 }

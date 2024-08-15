@@ -10,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
+import me.matl114.logitech.SlimefunItem.Machines.MultiCraftType;
 import me.matl114.logitech.SlimefunItem.Machines.RecipeDisplay;
 import me.matl114.logitech.SlimefunItem.Machines.RecipeLock;
 import me.matl114.logitech.Utils.*;
@@ -132,30 +133,29 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock {
         }));
         updateMenu(menu,block,Settings.INIT);
     }
-    private static int getRecipeTypeIndex(Location loc){
-        try{
-            String a= StorageCacheUtils.getData(loc,"craftType");
-            return Integer.parseInt(a);
 
-        }   catch (NumberFormatException a){
-            setRecipeTypeIndex(loc,-1);
-            return -1;
-        }
-    }
     public void onBreak(BlockBreakEvent e, BlockMenu menu){
         super.onBreak(e, menu);
         Location loc=menu.getLocation();
         menu.dropItems(loc,RECIPEITEM_SLOT);
         menu.dropItems(loc,MACHINEITEM_SLOT);
     }
-    public static void setRecipeTypeIndex(Location loc ,int val){
 
-        StorageCacheUtils.setData(loc, "craftType", String.valueOf(val));
-    }
     public MachineRecipe getRecordRecipe(Location loc){
-        int index=getRecipeTypeIndex(loc);
+        int index= MultiCraftType.getRecipeTypeIndex(loc);
         if(index>=0){
             int index2=getNowRecordRecipe(loc);
+            if(index2>=0){
+                return RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(getCraftTypes()[index]).get(index2);
+            }
+
+        }
+        return null;
+    }
+    public MachineRecipe getRecordRecipe(SlimefunBlockData data){
+        int index=MultiCraftType.getRecipeTypeIndex(data);
+        if(index>=0){
+            int index2=getNowRecordRecipe(data);
             if(index2>=0){
                 return RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(getCraftTypes()[index]).get(index2);
             }
@@ -169,14 +169,14 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock {
         Location loc=menu.getLocation();
         if(machineType==null||!RecipeSupporter.CUSTOM_RECIPETYPES.containsKey(machineType)){
             setNowRecordRecipe(loc,-1);
-            setRecipeTypeIndex(loc,-1);
+           MultiCraftType.  setRecipeTypeIndex(loc,-1);
             return false;
         }
         RecipeType type=RecipeSupporter.CUSTOM_RECIPETYPES.get(machineType);
         RecipeType[] ctype=getCraftTypes();
         for (int i=0;i<ctype.length;++i){
             if(type==ctype[i]){
-                setRecipeTypeIndex(loc,i);
+                MultiCraftType.  setRecipeTypeIndex(loc,i);
             }
         }
         ItemStack target=menu.getItemInSlot(RECIPEITEM_SLOT);
@@ -227,7 +227,7 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock {
                 updateMenu(inv,b,Settings.RUN);
             }
             else if(tmp2==null||tmp2.getType()==Material.AIR){
-                setRecipeTypeIndex(inv.getLocation(),-1);
+                MultiCraftType.  setRecipeTypeIndex(data,-1);
                 updateMenu(inv,b,Settings.RUN);
             }
             MachineRecipe next=getRecordRecipe(b.getLocation());

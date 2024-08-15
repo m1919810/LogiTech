@@ -1,8 +1,6 @@
 package me.matl114.logitech.Schedule.PersistentEffects;
 
-import me.matl114.logitech.Schedule.PersistentEffects.Effects.AntiGravity;
 import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.Debug;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.potion.PotionEffect;
@@ -35,7 +33,7 @@ public class CustomEffects {
         public void aquireEffect(Player p,int level) {
         }
         public void onDeathEvent(PlayerDeathEvent e) {
-            e.setDeathMessage(AddUtils.resolveColor( "%s &b在超新星的烈焰中化为灰烬".formatted(e.getEntity().getName())));
+            e.setDeathMessage(AddUtils.resolveColor( "%s &6在超新星的烈焰中化为灰烬".formatted(e.getEntity().getName())));
         }
     };
 }

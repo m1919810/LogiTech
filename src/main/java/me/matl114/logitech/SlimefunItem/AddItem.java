@@ -352,6 +352,8 @@ public class AddItem {
     public static final SlimefunItemStack TESTCORE=AddUtils.themed("TEST_MCORE",Material.IRON_BLOCK,AddUtils.Theme.MACHINE1,"测试多方块核心","测试测试");
     public static final SlimefunItemStack TEST_SEQ=AddUtils.themed("TEST_SEQ",Material.LOOM,AddUtils.Theme.MACHINE1,
             Language.get("Items.TEST_SEQ.Name"),Language.getList("Items.TEST_SEQ.Lore"));
+    public static final SlimefunItemStack TEST_STACKMACHINE=AddUtils.themed("TEST_STACKMACHINE",Material.FURNACE,AddUtils.Theme.MANUAL1,
+            Language.get("Manuals.TEST_STACKMACHINE.Name"),Language.getList("Manuals.TEST_STACKMACHINE.Lore"));
     //tmp占位符
     public static final SlimefunItemStack TMP1= new SlimefunItemStack("TMP1",Material.STONE,"TMP1","暂未开发");
     public static final HashSet<ItemStack> ADDGLOW=new HashSet<>(){{

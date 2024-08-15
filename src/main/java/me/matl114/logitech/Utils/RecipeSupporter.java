@@ -18,7 +18,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Crucible;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Dependency;
 import me.matl114.logitech.MyAddon;
+import me.matl114.logitech.SlimefunItem.Machines.AbstractAdvancedProcessor;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
+import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.Material;
@@ -197,6 +199,8 @@ public class RecipeSupporter {
     }};
     //读取的全部机器配方
     public static final HashMap<SlimefunItem ,List<MachineRecipe>> MACHINE_RECIPELIST=new LinkedHashMap<>();
+    //记录机器类型和机器耗电
+    public static final HashMap<SlimefunItem,Integer> STACKMACHINE_LIST=new LinkedHashMap<>();
     public static List<MachineRecipe> getStackedRecipes(RecipeType type) {
         if(SUPPORTED_UNSHAPED_RECIPETYPE.contains(type)) {
             if(PROVIDED_UNSHAPED_RECIPES.get(type) == null|| PROVIDED_UNSHAPED_RECIPES.get(type).size() == 0) {
@@ -499,6 +503,54 @@ public class RecipeSupporter {
 //            Debug.logger("generate unexpected exception while invoking compressor! :"+e.getMessage());
 //            e.printStackTrace();
 //        }
+        //解析机器用电,并提供给StackMachine
+        //到时候还需要解析生成器配方和用电
+        for(SlimefunItem item:MACHINE_RECIPELIST.keySet()){
+            //黑名单 本附属非processor的machine 和 高级processor
+            if(!(item instanceof AbstractMachine&&(!(item instanceof AbstractProcessor)))){
+                int energyComsumption=0;
+                if(item instanceof AContainer container){
+                    energyComsumption=container.getEnergyConsumption();
+                }else{
+                    Class<?> clazz=item.getClass();
+                    Object energy=null;
+                    String methodName=null;
+                    try{
+                        if(methodName==null){
+                            energy=invokeRecursively(item,clazz,Settings.METHOD,"getEnergyConsumption");
+                            if(energy!=null){
+                                methodName="getEnergyConsumption() method";
+                            }
+                        }
+                        if(methodName==null){
+                            energy=invokeRecursively(item,Settings.FIELD,"EnergyConsumption");
+                            if(energy!=null){
+                                methodName="EnergyConsumption field";
+                            }
+                        }
+                        if(methodName!=null){
+                            energy=invokeRecursively(item,Settings.FIELD,"energyConsumedPerTick");
+                            if(energy!=null){
+                                methodName="energyConsumedPerTick field";
+                            }
+                        }
+                        if(methodName!=null){
+                            energy=invokeRecursively(item,Settings.FIELD,"energyPerTick");
+                            if(energy!=null){
+                                methodName="energyPerTick field";
+                            }
+                        }
+                        if (methodName!=null) {
+                            if(energy instanceof Integer e)
+                                energyComsumption=e;
+                        }
+                    }catch (Throwable e){
+
+                    }
+                }
+                STACKMACHINE_LIST.put(item,energyComsumption);
+            }
+        }
         Debug.logger("配方供应器工作完成, 耗时 "+(System.nanoTime()-a)+ " 纳秒");
 
     }

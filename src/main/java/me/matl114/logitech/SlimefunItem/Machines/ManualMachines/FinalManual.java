@@ -121,15 +121,15 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
     public RecipeType[] getCraftTypes(){
         return craftType;
     }
-    public MachineRecipe getRecordRecipe(Location loc){
-        int index=MultiCraftType.getRecipeTypeIndex(loc);
+    public MachineRecipe getRecordRecipe(SlimefunBlockData data){
+        int index=MultiCraftType.getRecipeTypeIndex(data);
         if(index>=0&&index<getCraftTypes().length){
-            int index2= getNowRecordRecipe(loc);
+            int index2= getNowRecordRecipe(data);
             if(index2>=0){//I think that's safe
                 return RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(getCraftTypes()[index]).get(index2);
             }
         }else {
-            MultiCraftType.forceSetRecipeTypeIndex(loc,0);
+            MultiCraftType.forceSetRecipeTypeIndex(data,0);
         }return null;
     }
     public void constructMenu(BlockMenuPreset preset) {
@@ -149,6 +149,11 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
         }
     }
     public void newMenuInstance(BlockMenu menu, Block block){
+        int ind=MultiCraftType.getRecipeTypeIndex(menu.getLocation());
+        //清除非法记录
+        if(!(ind>=0&&ind<getCraftTypes().length)){
+            MultiCraftType.setRecipeTypeIndex(menu.getLocation(),0);
+        }
         menu.addMenuOpeningHandler((player -> {
             FinalManual.this.updateMenu(menu,block,Settings.RUN);
         }));

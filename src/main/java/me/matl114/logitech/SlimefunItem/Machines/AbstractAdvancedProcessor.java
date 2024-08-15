@@ -134,23 +134,38 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
         MultiCraftingOperation currentOperation = this.processor.getOperation(b);
         ItemGreedyConsumer[] fastCraft=null;
         if(currentOperation==null){
-            Pair<MachineRecipe,ItemGreedyConsumer[]> nextQ=CraftUtils.matchNextMultiRecipe(inv,getInputSlots(),getMachineRecipes(),true, Settings.SEQUNTIAL);
+            Pair<MachineRecipe,ItemGreedyConsumer[]> nextQ=CraftUtils.matchNextMultiRecipe(inv,getInputSlots(),getMachineRecipes(data),true, Settings.SEQUNTIAL);
             if(nextQ==null){
                 if(inv.hasViewer()){inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
                 }
                 return;
             }
             MachineRecipe next=nextQ.getFirstValue();
-            int craftlimit=CraftUtils.calMaxCraftTime(nextQ.getSecondValue(),getCraftLimit(b,inv));
+            int time=next.getTicks();
+            int maxCraftlimit=getCraftLimit(b,inv);
+            if(time!=0){//超频机制
+                //尝试让time归1
+                //按比例减少maxlimit ,按最小值取craftlimit
+                if(maxCraftlimit<=time){
+                    time=( (time+1)/maxCraftlimit)-1;
+                    maxCraftlimit=1;
+                }else {
+                    maxCraftlimit=(maxCraftlimit/(time+1));
+                    time=0;
+                }
+            }
+            //最小能减到的刻数
+            int craftlimit=CraftUtils.calMaxCraftTime(nextQ.getSecondValue(),maxCraftlimit);
+            //要末time=0 要末craftlimit=1 两者在这里都一样,不需要再修改time
+            //如果底下这玩意还能给你减,那就craftlimit=0需要考虑,craftlimit=0直接堵上了 否则都一样time=0无区别
             ItemGreedyConsumer[] nextP = CraftUtils.countMultiOutput( nextQ.getSecondValue(),  inv,getOutputSlots(),next,craftlimit);
             if (nextP != null) {
-
                 CraftUtils.multiUpdateInputMenu(nextQ.getSecondValue(),inv);
-                if(next.getTicks()>0){
-                    currentOperation = new MultiCraftingOperation(nextP,next.getTicks());
+                if(time>0){
+                    currentOperation = new MultiCraftingOperation(nextP,time);
                     this.processor.startOperation(b, currentOperation);
                 }
-                else if(next.getTicks()<=0){
+                else if(time<=0){
                     fastCraft = nextP;
                 }
             }else{//if currentOperation ==null return  , cant find nextRecipe

@@ -1,6 +1,8 @@
 package me.matl114.logitech.Utils.UtilClass.ItemClass;
 
+import me.matl114.logitech.Utils.Debug;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -9,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 public class ItemPusher extends ItemCounter {
 
     protected int maxStackCnt;
+    private static ItemPusher INSTANCE=new ItemPusher(new ItemStack(Material.STONE));
     public ItemPusher(){
         super();
     }
@@ -18,11 +21,25 @@ public class ItemPusher extends ItemCounter {
         this.maxStackCnt = item.getMaxStackSize();
 
     }
+    public static ItemPusher get(ItemStack item) {
+        if(item==null) return null;
+        ItemPusher itp=INSTANCE.clone();
+        itp.init(item);
+        return itp;
+    }
+    protected void init(ItemStack item){
+        super.init( item);
+        this.maxStackCnt = item.getMaxStackSize();
+    }
+    protected void init( ){
+        super.init();
+        this.maxStackCnt=0;
+    }
+
     public ItemPusher(ItemStack item,int maxcnt) {
         //can use as storage unit
         super(item);
         this.maxStackCnt = maxcnt;
-
     }
     public boolean safeAddAmount(int amount){
         int result=amount+cnt;
@@ -86,5 +103,8 @@ public class ItemPusher extends ItemCounter {
             counter.addAmount(-left);
         }
         return limit-left;
+    }
+    protected ItemPusher clone(){
+        return (ItemPusher)super.clone();
     }
 }

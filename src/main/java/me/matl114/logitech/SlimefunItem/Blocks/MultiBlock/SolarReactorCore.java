@@ -30,10 +30,10 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.World;
+
 import org.bukkit.block.Block;
 
-import org.bukkit.damage.*;
+
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -413,50 +413,14 @@ public class SolarReactorCore extends MultiBlockProcessor {
         Location loc=b.getLocation();
         int charge=this.getCharge(loc);
         String code=data.getData("auto");
-
         int autoCode=code==null?0:Integer.parseInt(code);
         if(statusCode==0){
-            if(autoCode>0){
-                if(autoCode==3&&charge>2*energyConsumption){//3tick重连一次
-                    Schedules.launchSchedules(Schedules.getRunnable(()->{
-                        Location tarloc=loc.clone();
-                        if(SecurityUtils.lock(SecurityUtils.Lock.MultiBlockBuildLock,tarloc)){
-                            try{
-                                MultiBlockService.createNewHandler(loc,getBuilder(),getMultiBlockType());
-
-                            }finally{//
-                                //secure lockers
-                                SecurityUtils.unlock(SecurityUtils.Lock.MultiBlockBuildLock,tarloc);
-                            }
-                        }
-                    }),0,false,0);
-
-                    autoCode=1;
-                }else {
-                    autoCode+=1;
-                }
-                data.setData("auto",String.valueOf(autoCode));
+            if(autoCode>0&&charge>2*energyConsumption){//自动构建开启 且有能量
+                autoBuild(loc,data,autoCode);
             }
         }else if(MultiBlockService.acceptCoreRequest(b.getLocation(),getBuilder(),getMultiBlockType())){
             //runtime检查是否完整,每3tick检查一次,每次有1/10的概率检测一个方块
-            int sgn=autoCode>0?1:-1;
-            if(autoCode*sgn==3&&charge>2*energyConsumption){//3tick重连一次
-                Schedules.launchSchedules(Schedules.getRunnable(()->{
-                    Location tarloc=loc.clone();
-                    if(SecurityUtils.lock(SecurityUtils.Lock.MultiBlockBuildLock,tarloc)){
-                        try{
-                            MultiBlockService.checkIfAbsentRuntime(data);
-                        }finally{//
-                            //secure lockers
-                            SecurityUtils.unlock(SecurityUtils.Lock.MultiBlockBuildLock,tarloc);
-                        }
-                    }
-                }),0,false,0);
-                autoCode=sgn;
-            }else {
-                autoCode+=sgn;
-            }
-            data.setData("auto",String.valueOf(autoCode));
+            runtimeCheck(loc,data,autoCode);
             //直接开销电量
             super.processorCost(b,inv);
             if((!checkCondition(loc)&&statusCode>0)||charge<energyConsumption){

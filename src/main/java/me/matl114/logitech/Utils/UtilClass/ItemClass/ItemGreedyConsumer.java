@@ -2,6 +2,7 @@ package me.matl114.logitech.Utils.UtilClass.ItemClass;
 
 import me.matl114.logitech.Utils.Settings;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -13,12 +14,26 @@ import java.util.List;
 public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGreedyConsumer> {
     private int matchAmount;
     private List<ItemPusher> targetConsumers;
+    private static ItemGreedyConsumer INSTANCE=new ItemGreedyConsumer(new ItemStack(Material.STONE));
     public ItemGreedyConsumer(ItemStack itemStack) {
         super(itemStack);
         matchAmount = 0;
-        targetConsumers = new ArrayList<>(4);
     }
-
+    public static ItemGreedyConsumer get(ItemStack itemStack) {
+        ItemGreedyConsumer consumer =  INSTANCE.clone();
+        consumer.init(itemStack);
+        return consumer;
+    }
+    private List<ItemPusher> getTargetConsumers(){
+        if(targetConsumers==null){
+            targetConsumers=new ArrayList<>(4);
+        }
+        return targetConsumers;
+    }
+    public void init(ItemStack itemStack) {
+        super.init( itemStack);
+        this.matchAmount = 0;
+    }
     /**
      * get total amount of matching items
      * @return
@@ -52,13 +67,10 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
         matchAmount = stackNum*cnt  ;
     }
     public void addRelate(ItemPusher target){
-        targetConsumers.add(target);
+        getTargetConsumers().add(target);
         target.dirty=true;
     }
 
-    public List<ItemPusher> getRelate(){
-        return targetConsumers;
-    }
 
     public void consume(ItemPusher other){
         matchAmount += other.getAmount();
@@ -66,7 +78,8 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
     }
 
     public void clearRelated(){
-        targetConsumers.clear();
+        if(targetConsumers!=null)
+            targetConsumers.clear();
     }
 
     public void syncData(){
@@ -82,6 +95,9 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
 
     public void updateItems(BlockMenu inv , Settings mod){
         //preserver
+        if(targetConsumers==null){
+            return;
+        }
         int s=cnt;
         cnt=matchAmount;
         int len=targetConsumers.size();
@@ -110,6 +126,9 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
 
         }
         cnt=s;
+    }
+    protected ItemGreedyConsumer clone(){
+        return (ItemGreedyConsumer) super.clone();
     }
 
 }

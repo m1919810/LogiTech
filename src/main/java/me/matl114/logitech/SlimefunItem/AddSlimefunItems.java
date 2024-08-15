@@ -837,4 +837,7 @@ public class AddSlimefunItems {
                     mkP(mkl("128DIAMOND","128GOLD_INGOT","128IRON_INGOT","128COAL"),mkl(AddItem.METAL_CORE)),3
             ))
             .register();
+    public static final  SlimefunItem TEST_STACKMACHINE=new StackMachine(AddGroups.BASIC, AddItem.TEST_STACKMACHINE,RecipeType.NULL,
+            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")), Material.IRON_PICKAXE,2_000,20_000_000,1.0)
+            .register();
 }

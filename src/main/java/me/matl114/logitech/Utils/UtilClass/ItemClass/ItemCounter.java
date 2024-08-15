@@ -1,17 +1,31 @@
 package me.matl114.logitech.Utils.UtilClass.ItemClass;
 
+import me.matl114.logitech.Utils.Debug;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public abstract class ItemCounter {
+public abstract class ItemCounter implements Cloneable{
     protected int cnt;
     protected boolean dirty;
     protected ItemStack item;
     protected ItemMeta meta=null;
-    public ItemCounter(ItemStack item) {
+    protected ItemCounter(ItemStack item) {
         dirty=false;
         this.cnt = item.getAmount();
         this.item=item;
+    }
+    public ItemCounter() {
+        dirty=false;
+    }
+    protected void init(ItemStack item) {
+        this.dirty=false;
+        this.item=item;
+        this.cnt=item.getAmount();
+    }
+    protected void init() {
+        this.dirty=false;
+        this.cnt=0;
+        this.item=null;
 
     }
     public boolean isNull() {
@@ -50,9 +64,7 @@ public abstract class ItemCounter {
     /**
      * void constructor
      */
-    public ItemCounter() {
-        dirty=false;
-    }
+
 
     /**
      * get item,should be read-only! and will not represent real amount
@@ -143,6 +155,16 @@ public abstract class ItemCounter {
      */
     public void push(ItemCounter other){
         other.grab(this);
+    }
+
+    protected ItemCounter clone(){
+        ItemCounter clone=null;
+        try {
+            clone=(ItemCounter) super.clone();
+        }catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return clone;
     }
 
 }

@@ -5,6 +5,7 @@ import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Settings;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.MultiItemStack;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.RandAmountStack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.inventory.ItemStack;
 
@@ -37,23 +38,26 @@ public interface RecipeDisplay extends RecipeDisplayItem {
             case OUTPUT:
             default:
                 if (pro >= 0.0) {
-                lore.add("");
-                lore.add( "&a产物 " + (index+1));
+                    lore.add("");
+                    lore.add( "&a产物 " + (index+1));
 
-                if(pro<1.0){
-                    lore.add("&e随机物品输出");
-                    lore.add("&e概率: " + AddUtils.getPercentFormat(pro));
+                    if(pro<1.0){
+                        lore.add("&e随机物品输出");
+                        lore.add("&e概率: " + AddUtils.getPercentFormat(pro));
+                    }
                 }
-            }
-            if(stack.getAmount()>64){
-                lore.add("&c输出数量: "+stack.getAmount());
-            }
-            if(time>=0)
-                lore.add("&e进程耗时: "+(int)(time/2)+"s ("+time+"tick)");
-            else
-                lore.add("&e非进度配方");
-            stack=AddUtils.addLore(stack, lore.toArray(new String[0]));
-            break;
+                if(stack instanceof RandAmountStack rand){
+                    lore.add("&c随机输出数量: %d~%d".formatted(rand.getMin(),rand.getMax()));
+                }
+                else if(stack.getAmount()>64){
+                    lore.add("&c输出数量: "+stack.getAmount());
+                }
+                if(time>=0)
+                    lore.add("&e进程耗时: "+(int)(time/2)+"s ("+time+"tick)");
+                else
+                    lore.add("&e非进度配方");
+                stack=AddUtils.addLore(stack, lore.toArray(new String[0]));
+                break;
         }
         return stack;
     }

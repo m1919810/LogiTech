@@ -1,10 +1,12 @@
 package me.matl114.logitech.Listeners;
 
 import me.matl114.logitech.Utils.Debug;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityPortalEnterEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class BlockBreakListener implements Listener {
@@ -39,5 +41,16 @@ public class BlockBreakListener implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e) {
         e.getEntity().setHealth(e.getEntity().getMaxHealth());
+    }
+    @EventHandler
+    public  void onPlayerPortal(EntityPortalEnterEvent e){
+        if(e.getEntity() instanceof Player){
+            Debug.logger("loc at ",e.getLocation());
+        }
+    }
+    @EventHandler
+    public void onPlayerDeath2(PlayerDeathEvent e){
+        e.getEntity().getLastDamageCause().getDamageSource();
+
     }
 }

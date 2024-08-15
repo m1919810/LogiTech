@@ -133,6 +133,9 @@ public abstract  class AbstractMachine extends CustomSlimefunItem implements Tic
     public List<MachineRecipe> getMachineRecipes(Block b,BlockMenu inv){
         return getMachineRecipes();
     }
+    public List<MachineRecipe> getMachineRecipes(SlimefunBlockData data){
+        return getMachineRecipes();
+    }
     /**
      * handle all conditions and make response like electricity, and so on,
      * if condition pass, run process()

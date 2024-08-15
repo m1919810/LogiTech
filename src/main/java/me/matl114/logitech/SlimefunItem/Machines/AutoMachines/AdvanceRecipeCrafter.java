@@ -91,8 +91,8 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
     public ItemStack getProgressBar(){
         return this.progressItem;
     }
-    public MachineRecipe getRecordRecipe(Location loc){
-        int index=getNowRecordRecipe(loc);
+    public MachineRecipe getRecordRecipe(SlimefunBlockData data){
+        int index=getNowRecordRecipe(data);
         if(index<0)return null;
        else return getMachineRecipes().get(index);
 
@@ -189,7 +189,7 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
                 setNowRecordRecipe(inv.getLocation(),-1);
                 updateMenu(inv,b,Settings.RUN);
             }
-            MachineRecipe next=getRecordRecipe(b.getLocation());
+            MachineRecipe next=getRecordRecipe(data);
             if(next==null){
 
                 if(inv.hasViewer()){inv.replaceExistingItem(22, MenuUtils.PROCESSOR_NULL);

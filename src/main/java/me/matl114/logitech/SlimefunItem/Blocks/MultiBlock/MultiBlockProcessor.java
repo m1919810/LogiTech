@@ -7,11 +7,13 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiCore;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.MachineRecipeUtils;
+import me.matl114.logitech.Utils.SecurityUtils;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.AbstractMultiBlockHandler;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockHandler;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
@@ -69,6 +71,57 @@ public abstract class MultiBlockProcessor extends AbstractProcessor implements M
     }
     public boolean isSync(){
         return true;
+    }
+
+    /**
+     * only called when in tickers if status down*****
+     * @param loc
+     * @param data
+     * @param autoCode
+     */
+    public void autoBuild(Location loc,SlimefunBlockData data,int autoCode){
+        if(autoCode==3){//3tick重连一次
+            Schedules.launchSchedules(Schedules.getRunnable(()->{
+                Location tarloc=loc.clone();
+                if(SecurityUtils.lock(SecurityUtils.Lock.MultiBlockBuildLock,tarloc)){
+                    try{
+                        MultiBlockService.createNewHandler(loc,getBuilder(),getMultiBlockType());
+                    }finally{//
+                        //secure lockers
+                        SecurityUtils.unlock(SecurityUtils.Lock.MultiBlockBuildLock,tarloc);
+                    }
+                }
+            }),0,false,0);
+            autoCode=1;
+        }else {
+            autoCode+=1;
+        }
+        data.setData("auto",String.valueOf(autoCode));
+    }
+
+    /**
+     * only called when in tickers to randomly check completeness when status on.if down,send to handler and set Active to false,
+     * machine will shut down at next tick
+     */
+    public void runtimeCheck(Location loc,SlimefunBlockData data,int autoCode){
+        int sgn=autoCode>0?1:-1;
+        if(autoCode*sgn==3){//3tick检测一次
+            Schedules.launchSchedules(Schedules.getRunnable(()->{
+                Location tarloc=loc.clone();
+                if(SecurityUtils.lock(SecurityUtils.Lock.MultiBlockBuildLock,tarloc)){
+                    try{
+                        MultiBlockService.checkIfAbsentRuntime(data);
+                    }finally{//
+                        //secure lockers
+                        SecurityUtils.unlock(SecurityUtils.Lock.MultiBlockBuildLock,tarloc);
+                    }
+                }
+            }),0,false,0);
+            autoCode=sgn;
+        }else {
+            autoCode+=sgn;
+        }
+        data.setData("auto",String.valueOf(autoCode));
     }
 
     public void preRegister(){

@@ -12,11 +12,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public abstract class MultiBlockType implements AbstractMultiBlockType {
-    private final HashMap<BlockVector,String> STRUCTURE_MAP;
-    private final HashMap<BlockVector,String> REQUIREMENT_MAP;
+    private HashMap<BlockVector,String> STRUCTURE_MAP;
+    private HashMap<BlockVector,String> REQUIREMENT_MAP;
     private BlockVector[] STRUCTURE_LOC;
     private String[] STRUCTURE_IDS;
+    private BlockVector[] REQUIREMENT_LOC;
+    private String[] REQUIREMENT_IDS;
     private int size;
+    private int sizeR;
     boolean isFinal=false;
     protected boolean isSymmetric=false;
 
@@ -35,6 +38,10 @@ public abstract class MultiBlockType implements AbstractMultiBlockType {
     public int getSchemaSize() {
         return size;
     }
+    public int getRequirementSize() {return sizeR;}
+    public String getRequirementPartId(int index) {return REQUIREMENT_IDS[index];}
+    public BlockVector getRequirementPart(int index) {return REQUIREMENT_LOC[index].clone();}
+
     public String[] getStructureIds() {
         return STRUCTURE_IDS;
     }
@@ -48,6 +55,7 @@ public abstract class MultiBlockType implements AbstractMultiBlockType {
         init();
         isFinal=true;
         this.size=STRUCTURE_MAP.size();
+        this.sizeR=REQUIREMENT_MAP.size();
         this.STRUCTURE_LOC=new BlockVector[STRUCTURE_MAP.size()];
         this.STRUCTURE_IDS=new String[STRUCTURE_MAP.size()];
         int i=0;
@@ -56,6 +64,18 @@ public abstract class MultiBlockType implements AbstractMultiBlockType {
             this.STRUCTURE_LOC[i]=entry.getKey();
             ++i;
         }
+        this.REQUIREMENT_LOC=new BlockVector[REQUIREMENT_MAP.size()];
+        this.REQUIREMENT_IDS=new String[REQUIREMENT_MAP.size()];
+        int i1=0;
+        for(Map.Entry<BlockVector,String> entry : REQUIREMENT_MAP.entrySet()){
+            this.REQUIREMENT_IDS[i1]=entry.getValue();
+            this.REQUIREMENT_LOC[i1]=entry.getKey();
+            ++i1;
+        }
+        this.REQUIREMENT_MAP.clear();
+        this.STRUCTURE_MAP.clear();
+        this.REQUIREMENT_MAP=null;
+        this.STRUCTURE_MAP=null;
         return this;
     }
     public MultiBlockType addBlock(int x, int y, int z,String id) {
@@ -91,30 +111,31 @@ public abstract class MultiBlockType implements AbstractMultiBlockType {
             //Debug.logger("check blockid ",i,this.getSchemaPartId(i),"check target id ",MultiBlockService.safeGetPartId(partloc));
             //如果当前匹配 且并未在响应任意其他的多方块才能通过，否则任意一条均为false
             if(!this.getSchemaPartId(i).equals(MultiBlockService.safeGetPartId(partloc))){
-                //Debug.logger("wrong at ",delta.toString());
+              //  Debug.logger("wrong at ",delta.toString());
                 return null;
             }else{
                 //use record but target block uuid not match core uuid
                 if(hasPrevRecord&&(!(id.equals( MultiBlockService.safeGetUUID(partloc))))){
-                    //Debug.logger("wrong at ",delta.toString());
+                //    Debug.logger("wrong at ",delta.toString());
                     return null;
                     //no record but target block has been occupied by sth
                 }else if(!hasPrevRecord&&MultiBlockService.validHandler(MultiBlockService.safeGetUUID(partloc))){//如果是当前已经注册的别的机器的
-                    //Debug.logger("wrong at ",delta.toString());
+                   // Debug.logger("wrong at ",delta.toString());
                         return null;
                 }
             }
         }
         if(!hasPrevRecord){
-            for(Map.Entry<BlockVector,String> entry : REQUIREMENT_MAP.entrySet()){
-                Location reqLoc=loc.clone().add(entry.getKey());
-                if(!entry.getValue().equals(MultiBlockService.safeGetPartId(reqLoc))){
+            int len2=REQUIREMENT_LOC.length;
+            for(int i=0;i<len2;i++){
+                Location reqLoc=loc.clone().add(REQUIREMENT_LOC[i]);
+                if(!REQUIREMENT_IDS[i].equals(MultiBlockService.safeGetPartId(reqLoc))){
                     //Debug.logger("wrong at ",entry.getKey().toString());
                     return null;
                 }
             }
         }
-        //Debug.logger("check finished ,return value ",this.getSchemaSize(),"and req ",REQUIREMENT_MAP.size());
+      //  Debug.logger("check finished ,return value ",this.getSchemaSize(),"and req ",REQUIREMENT_MAP.size());
         return new MultiBlock(this,dir);
     }
 }

@@ -143,8 +143,6 @@ public class MultiBlockService {
             if(block!=null){
                 Direction.setDirection(loc,block.getDirection());
                 String uid=AddUtils.getUUID();
-
-
                 AbstractMultiBlockHandler handler=builder.build(loc,block,uid);
                 MULTIBLOCK_CACHE.put(uid,handler);
                 return true;

@@ -1,5 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Machines;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import me.matl114.logitech.Utils.DataCache;
 import org.bukkit.Location;
@@ -11,8 +12,18 @@ public interface MultiCraftType extends RecipeLock{
             return Integer.parseInt(a);
 
         }   catch (NumberFormatException a){
-            setRecipeTypeIndex(loc,0);
-            return 0;
+            setRecipeTypeIndex(loc,-1);
+            return -1;
+        }
+    }
+    static int getRecipeTypeIndex(SlimefunBlockData data){
+        try{
+            String a= data.getData("craftType");
+            return Integer.parseInt(a);
+
+        }   catch (NumberFormatException a){
+            data.setData("craftType","-1");
+            return -1;
         }
     }
 
@@ -24,6 +35,9 @@ public interface MultiCraftType extends RecipeLock{
     static void setRecipeTypeIndex(Location loc ,int val){
 
         StorageCacheUtils.setData(loc, "craftType", String.valueOf(val));
+    }
+    static void setRecipeTypeIndex(SlimefunBlockData data ,int val){
+        data.setData("craftType", String.valueOf(val));
     }
 
     /**
@@ -37,6 +51,12 @@ public interface MultiCraftType extends RecipeLock{
             forceSetRecipeTypeIndex(loc,val );
         }
     }
+    static void safeSetRecipeTypeIndex(SlimefunBlockData data, int val){
+        int index=getRecipeTypeIndex(data);
+        if(index!=val){
+            forceSetRecipeTypeIndex(data,val );
+        }
+    }
 
     /**
      * force clean RecipeLock data and save val
@@ -46,5 +66,9 @@ public interface MultiCraftType extends RecipeLock{
     static void forceSetRecipeTypeIndex(Location loc, int val){
         StorageCacheUtils.setData(loc, "craftType", String.valueOf(val));
         DataCache.setLastRecipe(loc,-1);
+    }
+    static void forceSetRecipeTypeIndex(SlimefunBlockData data, int val){
+        data.setData("craftType", String.valueOf(val));
+        DataCache.setLastRecipe(data,-1);
     }
 }

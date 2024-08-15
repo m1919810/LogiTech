@@ -1,6 +1,9 @@
 package me.matl114.logitech.Utils.UtilClass.ItemClass;
 
+import me.matl114.logitech.Utils.DataCache;
+import me.matl114.logitech.Utils.Debug;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -14,7 +17,7 @@ public class ItemSlotPusher extends ItemPusher {
     //mark if it is null before last sync
     protected boolean wasNull;
     protected int slot;
-
+    private static ItemSlotPusher INSTANCE=new ItemSlotPusher(new ItemStack(Material.STONE),-1);
     protected ItemSlotPusher(int slot){
         super();
         this.cnt=0;
@@ -27,18 +30,31 @@ public class ItemSlotPusher extends ItemPusher {
         this.wasNull=false;
         this.slot=slot;
     }
+    public static ItemSlotPusher get(ItemStack item,int slot){
+//        if(item==null){
+//            return new ItemSlotPusher(slot);
+//        }else {
+//            return new ItemSlotPusher(item,slot);
+//        }
+        ItemSlotPusher itp=INSTANCE.clone();
+        itp.init(item,slot);
+        return itp;
+    }
+    protected void init(ItemStack item,int slot){
+        if(item!=null){
+            super.init(item);
+            this.wasNull=false;
+        }else {
+            super.init();
+            this.wasNull=true;
+        }
+        this.slot=slot;
+    }
     public boolean isNull(){
         return wasNull;
     }
     public int getMaxStackCnt() {
         return maxStackCnt;
-    }
-    public static ItemSlotPusher get(ItemStack item,int slot){
-        if(item==null){
-            return new ItemSlotPusher(slot);
-        }else {
-            return new ItemSlotPusher(item,slot);
-        }
     }
     public ItemMeta getItemMeta(){
         if(item==null){
@@ -104,6 +120,9 @@ public class ItemSlotPusher extends ItemPusher {
             cnt=0;
             meta=null;
         }
+    }
+    protected ItemSlotPusher clone(){
+        return (ItemSlotPusher) super.clone();
     }
 
 }

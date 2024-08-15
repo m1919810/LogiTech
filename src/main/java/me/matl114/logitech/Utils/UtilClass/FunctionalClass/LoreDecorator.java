@@ -1,4 +1,4 @@
-package me.matl114.logitech.Utils.UtilInterface;
+package me.matl114.logitech.Utils.UtilClass.FunctionalClass;
 
 import java.util.List;
 

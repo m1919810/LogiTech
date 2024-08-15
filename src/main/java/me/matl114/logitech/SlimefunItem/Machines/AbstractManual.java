@@ -17,6 +17,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Slime;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -78,7 +79,7 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
     public MachineRecipe getRecordRecipe(Location loc){
         return getMachineRecipes().get(getNowRecordRecipe(loc));
     }
-
+    public MachineRecipe getRecordRecipe(SlimefunBlockData data){return getMachineRecipes().get(getNowRecordRecipe(data));}
     public void constructMenu(BlockMenuPreset preset){
         preset.addItem(30,PREV);
         preset.addItem(32,NEXT);
