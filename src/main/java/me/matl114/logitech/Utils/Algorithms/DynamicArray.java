@@ -9,14 +9,12 @@ import java.util.function.Supplier;
 
 public class DynamicArray<T> extends AbstractList<T> implements List<T> {
     private T[] array;
-    private boolean[] hasGot;
     private int size;
     private IntFunction<T> func;
     public DynamicArray(IntFunction<T[]> generator , int size,IntFunction<T> indexer) {
         this.array=generator.apply(size);
         this.size=size;
         this.func=indexer;
-        this.hasGot=new boolean[size];
     }
     public int size(){
         return size;
@@ -28,11 +26,14 @@ public class DynamicArray<T> extends AbstractList<T> implements List<T> {
         if(index<0 || index>=size){
             throw new IndexOutOfBoundsException();
         }
-        if(!hasGot[index]){
-            hasGot[index]=true;
-            array[index]=func.apply(index);
+        T a=array[index];
+        if(a!=null){
+            return a;
         }
-        return array[index];
+        else {
+            array[index]=func.apply(index);
+            return array[index];
+        }
     }
     public T[] getResult(){
         return array;
