@@ -408,6 +408,60 @@ public class RecipeSupporter {
                 List<MachineRecipe> recipes=new ArrayList<>();
                 if (item instanceof AContainer){
                     recipes=((AContainer)item).getMachineRecipes();
+                }else if(item instanceof AbstractTransformer){//自己实现的生成器 但是用的普通机器的格式 需要转掉
+                    List<MachineRecipe> recipeslst=(((AbstractTransformer)item).getMachineRecipes());
+                    if(recipeslst!=null){
+                        int i=recipeslst.size();
+                        recipes=new ArrayList<>();
+                        for(int j=0;j<i;j++){
+                            recipes.add(MachineRecipeUtils.mgFromMachine(recipeslst.get(j)));
+                        }
+                    }
+                }
+                else if (//item instanceof org.lins.mmmjjkx.rykenslimefuncustomizer.objects.customs.machine.CustomMaterialGenerator ||
+                        item.getClass().getName().endsWith("CustomMaterialGenerator")){
+                    //item instanceof CustomMaterialGenerator){//org.lins.mmmjjkx.rykenslimefuncustomizer.objects.customs.machine.CustomMaterialGenerator){
+                    String methodName=null;
+                    if(methodName==null){
+                        try{
+                            Object stack=invokeRecursively(item,Settings.FIELD,"output");
+                            Object tick=invokeRecursively(item,Settings.FIELD,"tickRate");
+                            if(stack instanceof List<?> stacklist){
+                                recipes=new ArrayList<>(){{
+                                    int size=stacklist.size();
+                                    for(int i=0;i<size;i++){
+                                        var stack1=stacklist.get(i);
+                                        add(MachineRecipeUtils.mgFrom((Integer) tick,new ItemStack[0],new ItemStack[]{(ItemStack) stack1}));
+                                    }
+                                }};
+                            }else {
+                                recipes=new ArrayList<>(){{
+                                    add(MachineRecipeUtils.mgFrom((Integer) tick,new ItemStack[0],new ItemStack[]{(ItemStack) stack}));
+                                }};
+                            }
+                            methodName="output";
+                        }catch (Throwable e){ }
+                    }
+                    if(methodName==null){
+                        try{
+                            Object stack=invokeRecursively(item,Settings.FIELD,"generation");
+                            Object tick=invokeRecursively(item,Settings.FIELD,"tickRate");
+                            if(stack instanceof List<?> stacklist){
+                                recipes=new ArrayList<>(){{
+                                    int size=stacklist.size();
+                                    for(int i=0;i<size;i++){
+                                        var stack1=stacklist.get(i);
+                                        add(MachineRecipeUtils.mgFrom((Integer) tick,new ItemStack[0],new ItemStack[]{(ItemStack) stack1}));
+                                    }
+                                }};
+                            }else {
+                                recipes=new ArrayList<>(){{
+                                    add(MachineRecipeUtils.mgFrom((Integer) tick,new ItemStack[0],new ItemStack[]{(ItemStack) stack}));
+                                }};
+                            }
+                            methodName="generation";
+                        }catch (Throwable e){ }
+                    }
                 }
                 else{
                     boolean blst=false;
