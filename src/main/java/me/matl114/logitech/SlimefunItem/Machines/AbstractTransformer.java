@@ -20,7 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 import java.util.List;
 
-public abstract  class AbstractTransformer extends AbstractMachine implements PublicTicking {
+public abstract  class AbstractTransformer extends AbstractMachine {
     //我们的目标是 最广的需求 最好的性能 最大的答辩(bushi
     /**
      * public tick stuff
@@ -31,9 +31,9 @@ public abstract  class AbstractTransformer extends AbstractMachine implements Pu
     private int diffTick;
 
     protected int PROCESSOR_SLOT=22;
-    public static final ItemStack INFO_WORKING= new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,
+    public final ItemStack INFO_WORKING= new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,
             "&a工作中");
-    public static final ItemStack INFO_NULL= new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,
+    public final ItemStack INFO_NULL= new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,
             "&6空闲中");
     public AbstractTransformer(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                              int time,  int energybuffer,int energyConsumption,
@@ -50,7 +50,7 @@ public abstract  class AbstractTransformer extends AbstractMachine implements Pu
                 //no need to stack and can not stack(maybe some shitmachine will stack
                 //but we stack it in order to format up
                 this.machineRecipes.add(MachineRecipeUtils.stackFromMachine(
-                        MachineRecipeUtils.stackFrom(recipePiece.getValue(), recipePiece.getKey().getFirstValue(), recipePiece.getKey().getSecondValue())
+                        MachineRecipeUtils.mgFrom(recipePiece.getValue(), recipePiece.getKey().getFirstValue(), recipePiece.getKey().getSecondValue())
                 ));
             }
         }
@@ -63,32 +63,46 @@ public abstract  class AbstractTransformer extends AbstractMachine implements Pu
         return machineRecipes;
     }
 
-
-
-
-
-
     public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int ticker) {
         //long f=System.nanoTime();
        if(conditionHandle(b,menu)){
           // long a=System.nanoTime();
-
-           processorCost(b,menu);
            //long s=System.nanoTime();
-           if(ticker%this.time==this.diffTick){
-            process(b,menu,data);
-            }
+           int tick=DataCache.getCustomData(data,"tick",-1);
+           if(tick<=0){
+                process(b,menu,data);
+           }else{
+               DataCache.setCustomData(data,"tick",tick-1);
+           }
+
            //long t=System.nanoTime();
            //Debug.logger("get time : handle ",(a-f)," cost ",(s-a)," process ",(t-s));
     }}
+    public int getCraftLimit(Block b, BlockMenu inv){
+        return 1;
+    }
+    public int getCraftLimit(SlimefunBlockData data){
+        return 1;
+    }
     public void process(Block block, BlockMenu inv, SlimefunBlockData data){
 
-        MachineRecipe nextP = CraftUtils.matchNextRecipe(inv, getInputSlots(),getMachineRecipes(),true, Settings.SEQUNTIAL);
+        MachineRecipe nextP = CraftUtils.matchNextRecipe(inv, getInputSlots(),getMachineRecipes(data),true, Settings.SEQUNTIAL);
         if (nextP != null) {
+            processorCost(block,inv);
             if(inv.hasViewer()){
-                inv.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_WORKING);
+                    inv.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_WORKING);
             }
-            CraftUtils.pushItems(nextP.getOutput(),inv,getOutputSlots());
+            int tickers=DataCache.getCustomData(data,"tick",0);
+            if(tickers>=0){
+                int maxMultiple=getCraftLimit(data);
+                if(maxMultiple==1){
+                    CraftUtils.pushItems(nextP.getOutput(),inv,getOutputSlots());
+                }else {
+
+                    CraftUtils.multiPushItems(nextP.getOutput(),inv,getOutputSlots(),maxMultiple);
+                }
+            }
+            DataCache.setCustomData(data,"tick",nextP.getTicks());
         }else if (inv.hasViewer()){
             inv.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_NULL);
         }

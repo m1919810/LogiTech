@@ -2,6 +2,7 @@ package me.matl114.logitech.Utils;
 
 import com.ytdd9527.networks.expansion.core.item.machine.manual.ExpansionWorkbench;
 import io.github.mooy1.infinityexpansion.items.blocks.InfinityWorkbench;
+import io.github.mooy1.infinityexpansion.items.machines.GrowingMachine;
 import io.github.mooy1.infinityexpansion.items.machines.VoidHarvester;
 import io.github.mooy1.infinityexpansion.items.mobdata.MobDataInfuser;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumWorkbench;
@@ -200,7 +201,9 @@ public class RecipeSupporter {
     //读取的全部机器配方
     public static final HashMap<SlimefunItem ,List<MachineRecipe>> MACHINE_RECIPELIST=new LinkedHashMap<>();
     //记录机器类型和机器耗电
+    public static final HashSet<SlimefunItem> MGENERATOR_FORCELIST=new LinkedHashSet<>();
     public static final HashMap<SlimefunItem,Integer> STACKMACHINE_LIST=new LinkedHashMap<>();
+    public static final HashMap<SlimefunItem,Integer> STACKMGENERATOR_LIST=new LinkedHashMap<>();
     public static List<MachineRecipe> getStackedRecipes(RecipeType type) {
         if(SUPPORTED_UNSHAPED_RECIPETYPE.contains(type)) {
             if(PROVIDED_UNSHAPED_RECIPES.get(type) == null|| PROVIDED_UNSHAPED_RECIPES.get(type).size() == 0) {
@@ -549,9 +552,14 @@ public class RecipeSupporter {
                         // continue;
                         //}
                         else {
-                            res=MachineRecipeUtils.stackFromMachine(machineRecipe);
+                            res=machineRecipe;
                         }
-
+                        MGeneratorRecipe validGenerator=MachineRecipeUtils.tryGenerateMGFromMachine(res);
+                        if(validGenerator!=null){
+                            res=validGenerator;
+                        }else {
+                            res=MachineRecipeUtils.stackFromMachine(res);
+                        }
                         result.add(res);
 
                     }
@@ -577,54 +585,66 @@ public class RecipeSupporter {
 //        }
         //解析机器用电,并提供给StackMachine
         //到时候还需要解析生成器配方和用电
-        for(SlimefunItem item:MACHINE_RECIPELIST.keySet()){
+        for(Map.Entry<SlimefunItem,List<MachineRecipe>> e:MACHINE_RECIPELIST.entrySet()){
+            SlimefunItem item=e.getKey();
             //黑名单 本附属非processor的machine 和 高级processor
-            if(!(item instanceof AbstractMachine&&(!(item instanceof AbstractProcessor)))){
-                int energyComsumption=0;
-                if(item instanceof AContainer container){
-                    energyComsumption=container.getEnergyConsumption();
-                }else{
-                    Class<?> clazz=item.getClass();
-                    Object energy=null;
-                    String methodName=null;
-                    try{
-                        if(methodName==null){
-                            energy=invokeRecursively(item,clazz,Settings.METHOD,"getEnergyConsumption");
-                            if(energy!=null){
-                                methodName="getEnergyConsumption() method";
-                            }
+            int energyComsumption=0;
+            if(item instanceof AContainer container){
+                energyComsumption=container.getEnergyConsumption();
+            }else{
+                Class<?> clazz=item.getClass();
+                Object energy=null;
+                String methodName=null;
+                try{
+                    if(methodName==null){
+                        energy=invokeRecursively(item,clazz,Settings.METHOD,"getEnergyConsumption");
+                        if(energy!=null){
+                            methodName="getEnergyConsumption() method";
                         }
-                        if(methodName==null){
-                            energy=invokeRecursively(item,Settings.FIELD,"EnergyConsumption");
-                            if(energy!=null){
-                                methodName="EnergyConsumption field";
-                            }
-                        }
-                        if(methodName!=null){
-                            energy=invokeRecursively(item,Settings.FIELD,"energyConsumedPerTick");
-                            if(energy!=null){
-                                methodName="energyConsumedPerTick field";
-                            }
-                        }
-                        if(methodName!=null){
-                            energy=invokeRecursively(item,Settings.FIELD,"energyPerTick");
-                            if(energy!=null){
-                                methodName="energyPerTick field";
-                            }
-                        }
-                        if (methodName!=null) {
-                            if(energy instanceof Integer e)
-                                energyComsumption=e;
-                        }
-                    }catch (Throwable e){
-
                     }
+                    if(methodName==null){
+                        energy=invokeRecursively(item,Settings.FIELD,"EnergyConsumption");
+                        if(energy!=null){
+                            methodName="EnergyConsumption field";
+                        }
+                    }
+                    if(methodName!=null){
+                        energy=invokeRecursively(item,Settings.FIELD,"energyConsumedPerTick");
+                        if(energy!=null){
+                            methodName="energyConsumedPerTick field";
+                        }
+                    }
+                    if(methodName!=null){
+                        energy=invokeRecursively(item,Settings.FIELD,"energyPerTick");
+                        if(energy!=null){
+                            methodName="energyPerTick field";
+                        }
+                    }
+                    if(methodName!=null){
+                        energy=invokeRecursively(item,Settings.FIELD,"per");
+                        if(energy!=null){
+                            methodName="per";
+                        }
+                    }
+                    if (methodName!=null) {
+                        if(energy instanceof Integer en)
+                            energyComsumption=en;
+                    }
+                }catch (Throwable exp){}
+            }
+            List<MachineRecipe> result=e.getValue();
+            if(MachineRecipeUtils.isGeneratorRecipe(result)){
+                if(!(item instanceof AbstractMachine&&(!(item instanceof AbstractProcessor)))){
+                    STACKMGENERATOR_LIST.put(item,energyComsumption);
                 }
-                STACKMACHINE_LIST.put(item,energyComsumption);
+            }
+            else if(MachineRecipeUtils.isMachineRecipe(result)){
+                if(!(item instanceof AbstractMachine&&(!(item instanceof AbstractProcessor)))){
+                    STACKMACHINE_LIST.put(item,energyComsumption);
+                }
             }
         }
         Debug.logger("配方供应器工作完成, 耗时 "+(System.nanoTime()-a)+ " 纳秒");
-
     }
     public static MachineRecipe resolveInfinityMachineBlockRecipe(Object recipe, SlimefunItem machine){
         int ticks=0;
@@ -632,7 +652,7 @@ public class RecipeSupporter {
         try{
             Integer a=(Integer) invokeRecursively(machine,Settings.FIELD,"ticksPerOutput");
             if(a!=null){
-                ticks=a;
+                ticks=a-1;
             }
         }catch (Throwable a){}
         // }
@@ -640,6 +660,15 @@ public class RecipeSupporter {
             String[] item=(String[]) invokeRecursively(recipe,Settings.FIELD,"strings");
             int[] counts=(int[]) invokeRecursively(recipe,Settings.FIELD,"amounts");
             ItemStack stack=(ItemStack) invokeRecursively(recipe,Settings.FIELD,"output");
+            try{
+                //尝试判断是不是randomizedItemStack
+                Object itemlist=invokeRecursively(stack,Settings.FIELD,"items");
+                if(itemlist!=null){
+                    ItemStack[] list1=(ItemStack[])itemlist;
+                    stack=AddUtils.eqRandItemStackFactory(Arrays.stream(list1).toList());
+
+                }
+            }catch (Throwable a){}
             int len=item.length;
             ItemStack[] input=new ItemStack[len];
             for (int i=0;i<len;i++){
@@ -655,13 +684,28 @@ public class RecipeSupporter {
                 input[i]= AddUtils.setCount(input[i],counts[i]);
             }
            // Debug.logger("return notnull recipe");
-            return MachineRecipeUtils.stackFrom(ticks,input,new ItemStack[]{stack.clone()});
-        }catch (Throwable e){
-            return null;
-        }
+            return MachineRecipeUtils.stackFrom(ticks,input,new ItemStack[]{stack});
+        }catch (Throwable e){return null;}
     }
     public static boolean resolveSpecialGenerators(SlimefunItem item,List<MachineRecipe> recipes){
 
+        if(item instanceof GrowingMachine gm){
+            int ticks=0;
+            //if(machine instanceof MachineBlock block){
+            try{
+                Integer a=(Integer) invokeRecursively(item,Settings.FIELD,"ticksPerOutput");
+                if(a!=null){
+                    ticks=a-1;
+                }
+            }catch (Throwable a){}
+            try{
+                EnumMap<Material,ItemStack[]> map=(EnumMap<Material, ItemStack[]>) invokeRecursively(gm,Settings.FIELD,"recipes");
+                for(Map.Entry<Material,ItemStack[]> entry:map.entrySet()){
+                    recipes.add(MachineRecipeUtils.mgFrom(ticks,Utils.array(new ItemStack(entry.getKey())),entry.getValue()));
+                }
+            }catch (Throwable e){}
+            return true;
+        }
         return false;
     }
     public static MGeneratorRecipe resolveGrowingMachineRecipe(Object recipe, SlimefunItem machine){

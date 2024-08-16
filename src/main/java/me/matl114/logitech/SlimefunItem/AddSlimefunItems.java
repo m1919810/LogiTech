@@ -840,4 +840,8 @@ public class AddSlimefunItems {
     public static final  SlimefunItem TEST_STACKMACHINE=new StackMachine(AddGroups.BASIC, AddItem.TEST_STACKMACHINE,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")), Material.IRON_PICKAXE,2_000,20_000_000,1.0)
             .register();
+    public static final SlimefunItem TEST_STACKGENERATOR=new StackMGenerator(AddGroups.GENERATORS, AddItem.TEST_STACKGENERATOR,RecipeType.NULL,
+            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),1,20_000_000,2_000
+            )
+            .register();
 }

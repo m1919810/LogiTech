@@ -2,6 +2,7 @@ package me.matl114.logitech.Utils;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.AbstractItemStack;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.MultiItemStack;
@@ -55,7 +56,7 @@ public class MachineRecipeUtils {
         ItemStack[] result = new ItemStack[stacks.size()];
         int cnt=0;
         for(ItemConsumer stack : stacks){
-            if(stack.getItem() instanceof MultiItemStack){
+            if(stack.getItem() instanceof AbstractItemStack){
                 result[cnt] = stack.getItem();
             }
             else {
@@ -303,14 +304,42 @@ public class MachineRecipeUtils {
         //会删除某些元素为空，所以需要重新stack
         ItemStack[] input=stackIn(makeValidMGInput(recipe1.getInput()));
         ItemStack[] output=recipe1.getOutput();
-        if(input.length==0){
-            return mgFrom(recipe1.getTicks(),input,output);
-        }else if(output.length!=0){
-            if(CraftUtils.matchItemStack(output[0],input[0],false)){
+//        if(input.length==0){
+//            return mgFrom(recipe1.getTicks(),input,output);
+//        }else
+        if(input.length!=0&& output.length!=0){
+            if(input.length==1&&output.length==1&&CraftUtils.matchItemStack(output[0],input[0],false)&&input[0].getAmount()>=output[0].getAmount()){
                 return mgFrom(recipe1.getTicks(),input,output);
             }
+//            if(input[0] instanceof DisplayItemStack){
+//                return mgFrom(recipe1.getTicks(),new ItemStack[0],output);
+//            }
         }
         return null;
+    }
+
+    /**
+     * check if valid recipe, don't put sth like item recipe in this
+     * @param recipes
+     * @return
+     */
+    public static boolean isMachineRecipe(List<MachineRecipe> recipes){
+        int i=recipes.size();
+        for(int j=0;j<i;j++){
+            if(! (recipes.get(j).getTicks()>=0)){
+                return false;
+            }
+        }
+        return true;
+    }
+    public static boolean isGeneratorRecipe(List<MachineRecipe> recipes){
+        int i=recipes.size();
+        for(int j=0;j<i;j++){
+            if(!((recipes.get(j) instanceof MGeneratorRecipe)&&recipes.get(j).getTicks()>=0)){
+                return false;
+            }
+        }
+        return true;
     }
 
 }

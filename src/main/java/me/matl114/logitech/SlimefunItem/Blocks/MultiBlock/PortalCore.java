@@ -22,6 +22,7 @@ import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Orientable;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -217,5 +218,12 @@ public class PortalCore extends MultiCore {
         process(b,menu,data);
 
     }
+    public void onBreak(BlockBreakEvent e, BlockMenu inv){
+        if(inv!=null){
+            Location loc=inv.getLocation();
+            inv.dropItems(loc,LINK_SLOT);
+        }
+        super.onBreak(e,inv);
 
+    }
 }

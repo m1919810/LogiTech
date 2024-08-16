@@ -7,7 +7,9 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.AbstractItemStack;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.EquivalItemStack;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.MultiItemStack;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.RandomItemStack;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomMenu;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
@@ -60,7 +62,11 @@ public class MenuUtils {
      * @return
      */
     public static ItemStack syncSlot(BlockMenu inv ,int slot, ItemStack item){
-        inv.replaceExistingItem(slot, item);
+        if(item instanceof AbstractItemStack){
+            Debug.logger("multiItemStack called");
+            item=item.clone();
+        }
+        inv.replaceExistingItem(slot, item,false);
         return inv.getItemInSlot(slot);
     }
 

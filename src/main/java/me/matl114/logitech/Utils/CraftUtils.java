@@ -146,20 +146,23 @@ public class CraftUtils {
         int cnt = recipeInput.length;
         if(cnt>len2)return null;
         ItemConsumer[] result=new ItemConsumer[cnt];
+        ItemConsumer results;
+        ItemPusher itemCounter2;
         for(int i=0;i<cnt;++i) {
             result[i]=getConsumer(recipeInput[i]);
+            results=result[i];
             for(int j=0;j<len2;++j) {
-                ItemPusher itemCounter2=slotCounters.get(j);
+                itemCounter2=slotCounters.get(j);
                 if(itemCounter2==null)continue;
                 if(i==0){
                     itemCounter2.syncData();
                 }
-                if(CraftUtils.matchItemCounter(result[i],itemCounter2,false)){
-                    result[i].consume(itemCounter2);
-                    if(result[i].getAmount()<=0)break;
+                if(CraftUtils.matchItemCounter(results,itemCounter2,false)){
+                    results.consume(itemCounter2);
+                    if(results.getAmount()<=0)break;
                 }
             }
-            if(result[i].getAmount()>0){
+            if(results.getAmount()>0){
                 return null;
             }
         }
@@ -617,18 +620,35 @@ public class CraftUtils {
         }
         return forcePush(consumers,inv,slots,pusher);
     }
+    public static boolean multiPushItems(ItemStack[] items,BlockMenu inv,int[] slots,int multiple){
+        return multiPushItems(items,inv,slots,multiple,getpusher);
+    }
+    public static boolean multiPushItems(ItemStack[] items,BlockMenu inv,int[] slots,int multiple,ItemPusherProvider pusher){
+        if(multiple==1){
+            return pushItems(items,inv,slots,pusher);
+        }
+        ItemGreedyConsumer[] slotCounters=new ItemGreedyConsumer[items.length];
+        for(int i=0;i<items.length;++i) {
+            slotCounters[i]=CraftUtils.getGreedyConsumer(items[i]);
+            slotCounters[i].setMatchAmount(slotCounters[i].getAmount()*multiple);
+        }
+        return multiForcePush(slotCounters,inv,slots,pusher);
+
+
+    }
 
     public static boolean multiForcePush(ItemGreedyConsumer[] slotCounters, BlockMenu inv,int[] slots){
         return multiForcePush(slotCounters,inv,slots,getpusher);
     }
     public static boolean multiForcePush(ItemGreedyConsumer[] slotCounters, BlockMenu inv,int[] slots,ItemPusherProvider pusher){
         DynamicArray<ItemPusher> slotCounters2=new DynamicArray<>(ItemPusher[]::new,slots.length,(i)->(pusher.get(Settings.OUTPUT,inv,slots[i])));
-        int slotpointer=0;
-        for(int i=0;i<slotCounters.length;++i) {
-            ItemGreedyConsumer outputItem=slotCounters[i];
+        int len= slotCounters.length;
+        ItemPusher itp=null;
+        ItemGreedyConsumer outputItem;
+        for(int i=0;i<len;++i) {
+            outputItem=slotCounters[i];
             //consume mode
             outputItem.setAmount(outputItem.getMatchAmount());
-            ItemPusher itp;
             for(int j=0;j<slots.length;++j) {
                 itp=slotCounters2.get(j);
                 if(!itp.isDirty()){
@@ -639,18 +659,15 @@ public class CraftUtils {
                     }
                     else if(matchItemCounter(outputItem,itp,false)){
                         itp.grab(outputItem);
-                        if(outputItem.getAmount()<=0)break;
                     }
+                    if(outputItem.getAmount()<=0)break;
                 }
             }
         }
         boolean hasChanged=false;
-        for(int i=0;i<slots.length;++i) {
-            ItemPusher itp=slotCounters2.get(i);
-            if(itp.isDirty()){
-                hasChanged=true;
-                itp.updateMenu(inv);
-            }
+        for(int i=0;i<len;++i) {
+            outputItem=slotCounters[i];
+            outputItem.updateItems(inv,Settings.PUSH);
         }
         return hasChanged;
     }

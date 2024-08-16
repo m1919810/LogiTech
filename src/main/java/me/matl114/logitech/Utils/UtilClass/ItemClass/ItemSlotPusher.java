@@ -2,6 +2,7 @@ package me.matl114.logitech.Utils.UtilClass.ItemClass;
 
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.Utils.MenuUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -68,8 +69,7 @@ public class ItemSlotPusher extends ItemPusher {
             if(wasNull){//空
                 //从数据源clone一个 正式转变为有实体的ItemStack 因为consumer那边可能是sfItem MultiItem
                 if(getAmount()>0){//非0
-                    menu.replaceExistingItem(slot,getItem(),false);
-                    item=menu.getItemInSlot(slot);
+                    item= MenuUtils.syncSlot(menu,slot,item);
                     wasNull=false;
                     super.updateMenu(menu);
                 }//若空且是0，寄.直接退出
@@ -99,8 +99,8 @@ public class ItemSlotPusher extends ItemPusher {
 
     public void grab(ItemCounter source){
         if(this.item==null){
-            if(source!=null&&source.getItem()!=null)
-            setFrom(source);
+            if(source!=null&&source.getItem()!=null&&source.getAmount()>0)
+                setFrom(source);
             else return;
         }
         super.grab(source);

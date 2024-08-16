@@ -33,7 +33,7 @@ public class Schedules {
                 SchedulePostRegister.schedulePostRegister();
             }
         };
-        int delayPostRegister=4;
+        int delayPostRegister=1;
         postRegisterTask.runTaskLaterAsynchronously(plugin, delayPostRegister);
     }
     public static void onDisableSchedules(Plugin plugin){

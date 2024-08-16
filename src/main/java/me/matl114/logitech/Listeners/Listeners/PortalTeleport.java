@@ -33,7 +33,7 @@ public class PortalTeleport implements Listener {
         for(int i=0;i<5;++i) {
             loc=loco.clone().add(dx[i],0,dz[i]);
             if(loc.getBlock().getType()!= Material.CRYING_OBSIDIAN){
-                return;
+                continue;
             }
             SlimefunItem it = StorageCacheUtils.getSfItem(loc);
             if (it instanceof PortalCore) {

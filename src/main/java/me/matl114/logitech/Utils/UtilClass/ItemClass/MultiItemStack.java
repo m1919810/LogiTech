@@ -5,7 +5,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public interface MultiItemStack {
+public interface MultiItemStack extends AbstractItemStack {
     public List<ItemStack> getItemStacks();
     default ItemStack clone()  {
         throw new NotImplementedException(".clone() method not implemented");

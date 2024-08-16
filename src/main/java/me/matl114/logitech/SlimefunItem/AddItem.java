@@ -354,6 +354,8 @@ public class AddItem {
             Language.get("Items.TEST_SEQ.Name"),Language.getList("Items.TEST_SEQ.Lore"));
     public static final SlimefunItemStack TEST_STACKMACHINE=AddUtils.themed("TEST_STACKMACHINE",Material.FURNACE,AddUtils.Theme.MANUAL1,
             Language.get("Manuals.TEST_STACKMACHINE.Name"),Language.getList("Manuals.TEST_STACKMACHINE.Lore"));
+    public static final SlimefunItemStack TEST_STACKGENERATOR=AddUtils.themed("TEST_STACKGENERATOR",Material.SMOOTH_STONE,AddUtils.Theme.MACHINE2,
+            Language.get("Generators.TEST_STACKGENERATOR.Name"),Language.getList("Generators.TEST_STACKGENERATOR.Lore"));
     //tmp占位符
     public static final SlimefunItemStack TMP1= new SlimefunItemStack("TMP1",Material.STONE,"TMP1","暂未开发");
     public static final HashSet<ItemStack> ADDGLOW=new HashSet<>(){{

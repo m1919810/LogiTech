@@ -619,6 +619,14 @@ public class AddUtils {
             return 0;
         }
     }
+    public static ItemStack eqRandItemStackFactory(List<ItemStack> list){
+        LinkedHashMap<Object,Integer> map=new LinkedHashMap<>();
+        int i=list.size();
+        for(int j=0;j<i;j++){
+            map.put(list.get(j),1);
+        }
+        return randItemStackFactory(map);
+    }
     public static ItemStack randItemStackFactory(LinkedHashMap<Object,Integer> list){
 
 
@@ -646,7 +654,7 @@ public class AddUtils {
             }
             return (ItemStack)new RandomItemStack(c);
         }
-    public static ItemStack equalItemStackFactory(List<Object> list){
+    public static <T extends Object> ItemStack equalItemStackFactory(List<T> list){
             LinkedHashMap<ItemStack,Integer> c=new LinkedHashMap<>();
 
             for(Object o:list){
