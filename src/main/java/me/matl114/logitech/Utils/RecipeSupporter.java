@@ -93,7 +93,7 @@ public class RecipeSupporter {
                         ),
                         SlimefunItems.STONE_CHUNK
                 }
-                ));
+        ));
         add(MachineRecipeUtils.stackFrom(-1,
                 new ItemStack[]{SlimefunItems.PULVERIZED_ORE},
                 new ItemStack[] {SlimefunItems.PURE_ORE_CLUSTER}
@@ -101,7 +101,7 @@ public class RecipeSupporter {
         add(MachineRecipeUtils.stackFrom(-1,
                 new ItemStack[]{new ItemStack(Material.SAND,2)},
                 new ItemStack[] {SlimefunItems.SALT}
-                ));
+        ));
     }};
     private static final ArrayList<MachineRecipe> TABLE_SAW_RECIPE=new ArrayList<>(){{
         for (Material log : Tag.LOGS.getValues()) {
@@ -196,7 +196,7 @@ public class RecipeSupporter {
     public static final HashSet<SlimefunItem> BLACKLIST_STACKMACHINE=new LinkedHashSet<>();
     //读取机器类黑名单 防止循环读取
     public static final HashSet<Class> BLACKLIST_MACHINECLASS=new HashSet<>(){{
-       add(AbstractMachine.class);
+       // add(AbstractMachine.class);
     }};
     //读取的全部机器配方
     public static final HashMap<SlimefunItem ,List<MachineRecipe>> MACHINE_RECIPELIST=new LinkedHashMap<>();
