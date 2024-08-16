@@ -21,6 +21,7 @@ import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractAdvancedProcessor;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
+import me.matl114.logitech.Utils.UtilClass.RecipeClass.MGeneratorRecipe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.Material;
@@ -461,10 +462,10 @@ public class RecipeSupporter {
                                                     recipes.add(rp);
                                                 } else if (machineRecipe.getClass().getName().endsWith(infinityMachineBlockRecipe)&&
                                                         machineRecipe.getClass().getName().contains(infinitylib)){
-                                                    MachineRecipe ip=resolveInfinityRecipe(machineRecipe,item);
-                                                    if(ip!=null){
-                                                        recipes.add(ip);
-                                                    }
+//                                                    MachineRecipe ip=resolveInfinityRecipe(machineRecipe,item);
+//                                                    if(ip!=null){
+//                                                        recipes.add(ip);
+//                                                    }
                                                 }
                                                 else{
                                                     throw new ClassCastException("wrong "+methodName+ " return type , " +
