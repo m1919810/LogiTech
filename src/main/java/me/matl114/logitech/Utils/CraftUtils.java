@@ -3,14 +3,14 @@ package me.matl114.logitech.Utils;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import me.matl114.logitech.Utils.Algorithms.DynamicArray;
-import me.matl114.logitech.Utils.Algorithms.DynamicMapper;
+
 import me.matl114.logitech.Utils.UtilClass.ItemClass.*;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
-import org.checkerframework.checker.units.qual.A;
+
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -89,7 +89,7 @@ public class CraftUtils {
     public static ItemConsumer getConsumer(ItemStack a){
         if(a==null)return null;
         if (a instanceof RandomItemStack){
-           // return new ItemConsumer(a.clone());
+            // return new ItemConsumer(a.clone());
             return ItemConsumer.get(a.clone());
         }
         return ItemConsumer.get(a);
@@ -173,7 +173,7 @@ public class CraftUtils {
      * @param recipe
      * @return
      */
-    public static ItemGreedyConsumer[] matchMultiRecipe(List<ItemPusher> slotCounters, MachineRecipe recipe){
+    public static ItemGreedyConsumer[] matchMultiRecipe(List<ItemPusher> slotCounters, MachineRecipe recipe,int maxMatchCount){
         int len2=slotCounters.size();
         ItemStack[] recipeInput = recipe.getInput();
         int cnt = recipeInput.length;
@@ -189,6 +189,7 @@ public class CraftUtils {
                 }
                 if(CraftUtils.matchItemCounter(itemCounter,itemCounter2,false)){
                     itemCounter.consume(itemCounter2);
+                    if(itemCounter.getStackNum()>=maxMatchCount)break;
                 }
             }
             //不够一份的量
@@ -293,7 +294,7 @@ public class CraftUtils {
                 if(i==0){
                     itemCounter2.syncData();
                 }
-                else if(itemCounter2.isDirty()){
+                if(itemCounter2.isDirty()){
                     //如果该counter已经被人绑定了 就跳过
                     continue;
                 }
@@ -522,41 +523,41 @@ public class CraftUtils {
     }
 
     /**
-    public static Pair<ItemGreedyConsumer[],ItemGreedyConsumer[]> countMultiRecipe(List<ItemPusher> inputCounters, ItemSlotPusher[] outputCounters, MachineRecipe recipe, int limit){
-        int len=inputCounters.size();
-        ItemStack[] recipeInput = recipe.getInput();
-        int cnt = recipeInput.length;
-        ItemGreedyConsumer[] recipeCounter=new ItemGreedyConsumer[cnt];
-        int maxAmount=limit;
-        for(int i=0;i<cnt;++i) {
-            recipeCounter[i]=getGreedyConsumer(recipeInput[i]);
-            for(int j=0;j<len;++j) {
-                ItemPusher  itemCounter2=inputCounters.get(j);
-                if(i==0){
-                    itemCounter2.syncData();
-                }
-                if(itemCounter2.isDirty()){
-                    //如果该counter已经被人绑定了 就跳过
-                    continue;
-                }
-                if(CraftUtils.matchItemCounter(itemCounter2,recipeCounter[i],false)){
-                    //如果匹配 将其加入...list,并算入matchCnt
-                    recipeCounter[i].addRelate(itemCounter2);
-                    recipeCounter[i].addMatchAmount(itemCounter2.getAmount());
+     public static Pair<ItemGreedyConsumer[],ItemGreedyConsumer[]> countMultiRecipe(List<ItemPusher> inputCounters, ItemSlotPusher[] outputCounters, MachineRecipe recipe, int limit){
+     int len=inputCounters.size();
+     ItemStack[] recipeInput = recipe.getInput();
+     int cnt = recipeInput.length;
+     ItemGreedyConsumer[] recipeCounter=new ItemGreedyConsumer[cnt];
+     int maxAmount=limit;
+     for(int i=0;i<cnt;++i) {
+     recipeCounter[i]=getGreedyConsumer(recipeInput[i]);
+     for(int j=0;j<len;++j) {
+     ItemPusher  itemCounter2=inputCounters.get(j);
+     if(i==0){
+     itemCounter2.syncData();
+     }
+     if(itemCounter2.isDirty()){
+     //如果该counter已经被人绑定了 就跳过
+     continue;
+     }
+     if(CraftUtils.matchItemCounter(itemCounter2,recipeCounter[i],false)){
+     //如果匹配 将其加入...list,并算入matchCnt
+     recipeCounter[i].addRelate(itemCounter2);
+     recipeCounter[i].addMatchAmount(itemCounter2.getAmount());
 
-                    if(recipeCounter[i].getStackNum()>=limit)break;
-                }
-            }
-            maxAmount=Math.min(maxAmount,recipeCounter[i].getStackNum());
-        }
-        if (maxAmount==0)return null;
-        int len2=outputCounters.length;
-        ItemStack[] recipeOutput = recipe.getOutput();
-        int cnt2=recipeOutput.length;
-        ItemGreedyConsumer[] recipeCounter2= countMultiOutput(recipeCounter,outputCounters,recipe,maxAmount);
-        return recipeCounter2!=null?new Pair<>(recipeCounter,recipeCounter2):null;
-    }
-    **/
+     if(recipeCounter[i].getStackNum()>=limit)break;
+     }
+     }
+     maxAmount=Math.min(maxAmount,recipeCounter[i].getStackNum());
+     }
+     if (maxAmount==0)return null;
+     int len2=outputCounters.length;
+     ItemStack[] recipeOutput = recipe.getOutput();
+     int cnt2=recipeOutput.length;
+     ItemGreedyConsumer[] recipeCounter2= countMultiOutput(recipeCounter,outputCounters,recipe,maxAmount);
+     return recipeCounter2!=null?new Pair<>(recipeCounter,recipeCounter2):null;
+     }
+     **/
 
     /**
      * force push recipe outputs to outputslot
@@ -846,7 +847,7 @@ public class CraftUtils {
                 if(useHistory) {
                     DataCache.setLastRecipe(inv.getLocation(),__iter);
                 }
-                    return checkRecipe;
+                return checkRecipe;
             }
         }
         if(__iter<0){
@@ -875,10 +876,10 @@ public class CraftUtils {
      * @param order
      * @return
      */
-    public static Pair<MachineRecipe,ItemGreedyConsumer[]> matchNextMultiRecipe(BlockMenu inv ,int[] slots,List<MachineRecipe> recipes,boolean useHistory,Settings order){
-        return matchNextMultiRecipe(inv,slots,recipes,useHistory,order,getpusher);
+    public static Pair<MachineRecipe,ItemGreedyConsumer[]> matchNextMultiRecipe(BlockMenu inv ,int[] slots,List<MachineRecipe> recipes,boolean useHistory,int limit,Settings order){
+        return matchNextMultiRecipe(inv,slots,recipes,useHistory,limit,order,getpusher);
     }
-    public static Pair<MachineRecipe,ItemGreedyConsumer[]> matchNextMultiRecipe(BlockMenu inv ,int[] slots,List<MachineRecipe> recipes,boolean useHistory,Settings order,ItemPusherProvider pusher){
+    public static Pair<MachineRecipe,ItemGreedyConsumer[]> matchNextMultiRecipe(BlockMenu inv ,int[] slots,List<MachineRecipe> recipes,boolean useHistory,int limit,Settings order,ItemPusherProvider pusher){
         int delta;
         switch(order){
             case REVERSE:delta=-1;break;
@@ -900,7 +901,7 @@ public class CraftUtils {
         }
         int __iter=__index;
         MachineRecipe checkRecipe=recipes.get(__iter);
-        ItemGreedyConsumer[] result=matchMultiRecipe(slotCounter,checkRecipe);
+        ItemGreedyConsumer[] result=matchMultiRecipe(slotCounter,checkRecipe,limit);
         if(result!=null) {
             if(useHistory) {
                 DataCache.setLastRecipe(inv.getLocation(),__iter);
@@ -911,7 +912,7 @@ public class CraftUtils {
         __iter+=delta;
         for(;__iter<recipeAmount&&__iter>=0;__iter+=delta){
             checkRecipe=recipes.get(__iter);
-            result=matchMultiRecipe(slotCounter,checkRecipe);
+            result=matchMultiRecipe(slotCounter,checkRecipe,limit);
             if(result!=null) {
                 if(useHistory) {
                     DataCache.setLastRecipe(inv.getLocation(),__iter);
@@ -927,7 +928,7 @@ public class CraftUtils {
         }
         for(;__iter!=__index;__iter+=delta) {
             checkRecipe=recipes.get(__iter);
-            result=matchMultiRecipe(slotCounter,checkRecipe);
+            result=matchMultiRecipe(slotCounter,checkRecipe,limit);
             if(result!=null) {
                 if(useHistory) {
                     DataCache.setLastRecipe(inv.getLocation(),__iter);
@@ -956,84 +957,84 @@ public class CraftUtils {
      * @return
      */
     /**
-    public static Pair<MachineRecipe,ItemGreedyConsumer[]> findNextMultiRecipe(BlockMenu inv,int[] inputs,int[] outputs,
-                                                                               List<MachineRecipe> recipes,int limit,boolean useHistory){
-        return findNextMultiRecipe(inv,inputs,outputs,recipes,limit,useHistory,Settings.SEQUNTIAL);
-    }
-    public static Pair<MachineRecipe,ItemGreedyConsumer[]> findNextMultiRecipe(BlockMenu inv,int[] inputs,int[] outputs,
-                                                                               List<MachineRecipe> recipes,int limit,boolean useHistory,Settings order){
-        return findNextMultiRecipe(inv,inputs,outputs,recipes,limit,useHistory,Settings.SEQUNTIAL,getpusher);
-    }
-    public static Pair<MachineRecipe,ItemGreedyConsumer[]> findNextMultiRecipe(BlockMenu inv,int[] inputs,int[] outputs,
-                                                                                      List<MachineRecipe> recipes,int limit,boolean useHistory,Settings order,ItemPusherProvider pusher){
-        int delta;
-        switch(order){
-            case REVERSE:delta=-1;break;
-            case SEQUNTIAL:
-            default: delta=1;break;
-        }
-        int len = inputs.length;
-        final ArrayList<ItemPusher> slotCounter=new ArrayList<>(len);
-        for(int i = 0; i < len; ++i) {
-            ItemPusher input=pusher.get(Settings.INPUT,inv,inputs[i]);
-            if(input!=null){
-                slotCounter.add(input);
-            }
-        }
-        //end before anything
-        int outlen=outputs.length;
-        int recipeAmount=recipes.size();
-        int __index=0;
-        //if usehistory ,will suggest a better place to start
-        if(useHistory) {
-            __index= AbstractMachines.getLastRecipe(inv.getLocation());
-            __index=(__index<0)?0:__index;
-            __index=(__index>=recipeAmount)?(recipeAmount-1):__index;
-        }
-        int __iter=__index;
-        MachineRecipe checkRecipe=recipes.get(__iter);
-        final ItemSlotPusher[] outPushers=new ItemSlotPusher[outlen];
-        for (int i=0;i<outlen;++i){
-            outPushers[i]=ItemSlotPusher.get(inv.getItemInSlot(outputs[i]),outputs[i]);
-        }
-        Pair<ItemGreedyConsumer[],ItemGreedyConsumer[]> tmp=countMultiRecipe(slotCounter,outPushers,checkRecipe,limit);
-        if(tmp!=null) {
-                multiUpdateInputMenu(tmp.getFirstValue(),inv);
-                if(useHistory) {
-                    AbstractMachines.setLastRecipe(inv.getLocation(),__iter);
-                }
-                return new Pair<>(checkRecipe,tmp.getSecondValue());
-        }
-        __iter+=delta;
-        for(;__iter<recipeAmount&&__iter>=0;__iter+=delta){
-            checkRecipe=recipes.get(__iter);
-            tmp=countMultiRecipe(slotCounter,outPushers,checkRecipe,limit);
-            if(tmp!=null) {
-                multiUpdateInputMenu(tmp.getFirstValue(),inv);
-                if(useHistory) {
-                    AbstractMachines.setLastRecipe(inv.getLocation(),__iter);
-                }
-                return new Pair<>(checkRecipe,tmp.getSecondValue());
-            }
-        }
-        if(__iter<0){
-            __iter=recipeAmount-1;
-        }else{
-            __iter=0;
-        }
-        for(;__iter!=__index;__iter+=delta) {
-            checkRecipe=recipes.get(__iter);
-            tmp=countMultiRecipe(slotCounter,outPushers,checkRecipe,limit);
-            if(tmp!=null) {
-                multiUpdateInputMenu(tmp.getFirstValue(),inv);
-                if(useHistory) {
-                    AbstractMachines.setLastRecipe(inv.getLocation(),__iter);
-                }
-                return new Pair<>(checkRecipe,tmp.getSecondValue());
-            }
-        }
-        return null;
-    }
+     public static Pair<MachineRecipe,ItemGreedyConsumer[]> findNextMultiRecipe(BlockMenu inv,int[] inputs,int[] outputs,
+     List<MachineRecipe> recipes,int limit,boolean useHistory){
+     return findNextMultiRecipe(inv,inputs,outputs,recipes,limit,useHistory,Settings.SEQUNTIAL);
+     }
+     public static Pair<MachineRecipe,ItemGreedyConsumer[]> findNextMultiRecipe(BlockMenu inv,int[] inputs,int[] outputs,
+     List<MachineRecipe> recipes,int limit,boolean useHistory,Settings order){
+     return findNextMultiRecipe(inv,inputs,outputs,recipes,limit,useHistory,Settings.SEQUNTIAL,getpusher);
+     }
+     public static Pair<MachineRecipe,ItemGreedyConsumer[]> findNextMultiRecipe(BlockMenu inv,int[] inputs,int[] outputs,
+     List<MachineRecipe> recipes,int limit,boolean useHistory,Settings order,ItemPusherProvider pusher){
+     int delta;
+     switch(order){
+     case REVERSE:delta=-1;break;
+     case SEQUNTIAL:
+     default: delta=1;break;
+     }
+     int len = inputs.length;
+     final ArrayList<ItemPusher> slotCounter=new ArrayList<>(len);
+     for(int i = 0; i < len; ++i) {
+     ItemPusher input=pusher.get(Settings.INPUT,inv,inputs[i]);
+     if(input!=null){
+     slotCounter.add(input);
+     }
+     }
+     //end before anything
+     int outlen=outputs.length;
+     int recipeAmount=recipes.size();
+     int __index=0;
+     //if usehistory ,will suggest a better place to start
+     if(useHistory) {
+     __index= AbstractMachines.getLastRecipe(inv.getLocation());
+     __index=(__index<0)?0:__index;
+     __index=(__index>=recipeAmount)?(recipeAmount-1):__index;
+     }
+     int __iter=__index;
+     MachineRecipe checkRecipe=recipes.get(__iter);
+     final ItemSlotPusher[] outPushers=new ItemSlotPusher[outlen];
+     for (int i=0;i<outlen;++i){
+     outPushers[i]=ItemSlotPusher.get(inv.getItemInSlot(outputs[i]),outputs[i]);
+     }
+     Pair<ItemGreedyConsumer[],ItemGreedyConsumer[]> tmp=countMultiRecipe(slotCounter,outPushers,checkRecipe,limit);
+     if(tmp!=null) {
+     multiUpdateInputMenu(tmp.getFirstValue(),inv);
+     if(useHistory) {
+     AbstractMachines.setLastRecipe(inv.getLocation(),__iter);
+     }
+     return new Pair<>(checkRecipe,tmp.getSecondValue());
+     }
+     __iter+=delta;
+     for(;__iter<recipeAmount&&__iter>=0;__iter+=delta){
+     checkRecipe=recipes.get(__iter);
+     tmp=countMultiRecipe(slotCounter,outPushers,checkRecipe,limit);
+     if(tmp!=null) {
+     multiUpdateInputMenu(tmp.getFirstValue(),inv);
+     if(useHistory) {
+     AbstractMachines.setLastRecipe(inv.getLocation(),__iter);
+     }
+     return new Pair<>(checkRecipe,tmp.getSecondValue());
+     }
+     }
+     if(__iter<0){
+     __iter=recipeAmount-1;
+     }else{
+     __iter=0;
+     }
+     for(;__iter!=__index;__iter+=delta) {
+     checkRecipe=recipes.get(__iter);
+     tmp=countMultiRecipe(slotCounter,outPushers,checkRecipe,limit);
+     if(tmp!=null) {
+     multiUpdateInputMenu(tmp.getFirstValue(),inv);
+     if(useHistory) {
+     AbstractMachines.setLastRecipe(inv.getLocation(),__iter);
+     }
+     return new Pair<>(checkRecipe,tmp.getSecondValue());
+     }
+     }
+     return null;
+     }
      **/
 
     public static int matchShapedRecipe(ItemStack[] input,MachineRecipe recipe,int limit){
@@ -1061,7 +1062,7 @@ public class CraftUtils {
     }
 
     public static Pair<MachineRecipe,ItemGreedyConsumer[]> findNextShapedRecipe(BlockMenu inv,int[] inputs,int[] outputs,
-                                                                               List<MachineRecipe> recipes,int limit,boolean useHistory,Settings order){
+                                                                                List<MachineRecipe> recipes,int limit,boolean useHistory,Settings order){
         int delta;
         switch(order){
             case REVERSE:delta=-1;break;
@@ -1101,7 +1102,7 @@ public class CraftUtils {
             int len2=recipeInput.length;
             for(int i=0;i<len2;++i){
                 if(inputItem[i]!=null)
-                inputItem[i].setAmount(inputItem[i].getAmount()-finalAmount*recipeInput[i].getAmount());
+                    inputItem[i].setAmount(inputItem[i].getAmount()-finalAmount*recipeInput[i].getAmount());
             }
             if(useHistory) {
                 DataCache.setLastRecipe(inv.getLocation(),__iter);
@@ -1279,7 +1280,7 @@ public class CraftUtils {
 //        if(!(!meta1.hasDisplayName() || (meta1.getDisplayName().equals(meta2.getDisplayName())))) {
 //            return false;
 //        }
-                //match display name
+        //match display name
         if(!(!meta1.hasDisplayName() || matchDisplayNameOnInvoke(meta1,meta2))) {
             return false;
         }
@@ -1393,20 +1394,20 @@ public class CraftUtils {
             }
             return lore1.hashCode()==lore2.hashCode();
             /**
-            int len=lore1.size();
-            String l1;
-            String l2;
-            for(int i=0;i<len;++i){
-                l1=lore1.get(i);
-                l2=lore2.get(i);
-                if(l1.length()!=l2.length()){
-                    return false;
-                }
-                if(l1.hashCode()!=l2.hashCode()){
-                    return false;
-                }
-            }
-            return true;**/
+             int len=lore1.size();
+             String l1;
+             String l2;
+             for(int i=0;i<len;++i){
+             l1=lore1.get(i);
+             l2=lore2.get(i);
+             if(l1.length()!=l2.length()){
+             return false;
+             }
+             if(l1.hashCode()!=l2.hashCode()){
+             return false;
+             }
+             }
+             return true;**/
         }
     }
 
