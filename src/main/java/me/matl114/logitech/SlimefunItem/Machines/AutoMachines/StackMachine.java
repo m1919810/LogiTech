@@ -256,7 +256,6 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
     }
     public void tick(Block b, @Nullable BlockMenu inv, SlimefunBlockData data, int tickCount){
         //首先 加载
-        long s=System.nanoTime();
         if(inv.hasViewer()){
             updateMenu(inv,b,Settings.RUN);
         }
@@ -270,11 +269,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
                 if(inv.hasViewer()){
                     inv.replaceExistingItem(MINFO_SLOT,getInfoItem(craftLimit,consumption,energy,this.efficiency,ItemStackHelper.getDisplayName(inv.getItemInSlot(MACHINE_SLOT))));
                 }
-                long a=System.nanoTime();
                 process(b,inv,data);
-                long end=System.nanoTime();
-                Debug.logger("pre load time cost ",(a-s)," ns");
-                Debug.logger("process time cost "+(end-a)+" ns");
             }else {
                 //没电
                 if(inv.hasViewer()){

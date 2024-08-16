@@ -1,6 +1,7 @@
 package me.matl114.logitech.Utils.UtilClass.ItemClass;
 
 import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedException;
+import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.Settings;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
@@ -30,7 +31,7 @@ public class ItemConsumer extends ItemCounter {
     }
     private List<ItemPusher> getTargetConsumers(){
         if(targetConsumers==null){
-            targetConsumers=new ArrayList<>(3);
+            targetConsumers=new ArrayList<>(6);
         }
         return targetConsumers;
     }
@@ -62,8 +63,7 @@ public class ItemConsumer extends ItemCounter {
         }
         int len=targetConsumers.size();
         for(int i=0;i<len;i++){
-            ItemPusher target = targetConsumers.get(i);
-            target.updateMenu(inv);
+            targetConsumers.get(i).updateMenu(inv);
         }
     }
     protected ItemConsumer clone(){

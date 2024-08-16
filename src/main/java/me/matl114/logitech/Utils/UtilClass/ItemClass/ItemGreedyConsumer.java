@@ -1,5 +1,6 @@
 package me.matl114.logitech.Utils.UtilClass.ItemClass;
 
+import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.Settings;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
@@ -26,7 +27,7 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
     }
     private List<ItemPusher> getTargetConsumers(){
         if(targetConsumers==null){
-            targetConsumers=new ArrayList<>(4);
+            targetConsumers=new ArrayList<>(8);
         }
         return targetConsumers;
     }
@@ -101,25 +102,22 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
         int s=cnt;
         cnt=matchAmount;
         int len=targetConsumers.size();
+        ItemPusher target;
         link:
         switch (mod){
             case GRAB :
                 for(int i=0;i<len;i++){
-                    ItemPusher target = targetConsumers.get(i);
+                    target= targetConsumers.get(i);
                     target.consume(this);
-
                     target.updateMenu(inv);
-
                     if(cnt<=0)break link;
                 }
                 break link;
             case PUSH:
                 for(int i=0;i<len;i++){
-                    ItemPusher target = targetConsumers.get(i);
-
+                    target = targetConsumers.get(i);
                     target.grab(this);
                     target.updateMenu(inv);
-
                     if(cnt<=0)break link ;
                 }
                 break link;

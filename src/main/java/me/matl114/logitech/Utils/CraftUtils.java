@@ -170,7 +170,7 @@ public class CraftUtils {
      * @param recipe
      * @return
      */
-    public static ItemGreedyConsumer[] matchMultiRecipe(List<ItemPusher> slotCounters, MachineRecipe recipe){
+    public static ItemGreedyConsumer[] matchMultiRecipe(List<ItemPusher> slotCounters, MachineRecipe recipe,int maxMatchCount){
         int len2=slotCounters.size();
         ItemStack[] recipeInput = recipe.getInput();
         int cnt = recipeInput.length;
@@ -185,6 +185,7 @@ public class CraftUtils {
                 }
                 if(CraftUtils.matchItemCounter(itemCounter,itemCounter2,false)){
                     itemCounter.consume(itemCounter2);
+                    if(itemCounter.getStackNum()>=maxMatchCount)break;
                 }
             }
             //不够一份的量
@@ -373,9 +374,8 @@ public class CraftUtils {
      * @return
      */
     public static ItemGreedyConsumer[] countMultiOutput(ItemGreedyConsumer[] inputInfo, BlockMenu inv, int[] output, MachineRecipe recipe, int limit,ItemPusherProvider pusher){
-
         int len2=output.length;
-        List<ItemPusher> outputCounters=new ArrayList<>(len2);
+        List<ItemPusher> outputCounters=new ArrayList<>(len2+1);
         int outputSlotpointer=0;
         ItemStack[] recipeOutput = recipe.getOutput();
         int cnt2=recipeOutput.length;
@@ -946,10 +946,10 @@ public class CraftUtils {
      * @param order
      * @return
      */
-    public static Pair<MachineRecipe,ItemGreedyConsumer[]> matchNextMultiRecipe(BlockMenu inv ,int[] slots,List<MachineRecipe> recipes,boolean useHistory,Settings order){
-        return matchNextMultiRecipe(inv,slots,recipes,useHistory,order,getpusher);
+    public static Pair<MachineRecipe,ItemGreedyConsumer[]> matchNextMultiRecipe(BlockMenu inv ,int[] slots,List<MachineRecipe> recipes,boolean useHistory,int limit,Settings order){
+        return matchNextMultiRecipe(inv,slots,recipes,useHistory,limit,order,getpusher);
     }
-    public static Pair<MachineRecipe,ItemGreedyConsumer[]> matchNextMultiRecipe(BlockMenu inv ,int[] slots,List<MachineRecipe> recipes,boolean useHistory,Settings order,ItemPusherProvider pusher){
+    public static Pair<MachineRecipe,ItemGreedyConsumer[]> matchNextMultiRecipe(BlockMenu inv ,int[] slots,List<MachineRecipe> recipes,boolean useHistory,int limit,Settings order,ItemPusherProvider pusher){
         int delta;
         switch(order){
             case REVERSE:delta=-1;break;
@@ -977,7 +977,7 @@ public class CraftUtils {
         }
         int __iter=__index;
         MachineRecipe checkRecipe=recipes.get(__iter);
-        ItemGreedyConsumer[] result=matchMultiRecipe(slotCounter,checkRecipe);
+        ItemGreedyConsumer[] result=matchMultiRecipe(slotCounter,checkRecipe,limit);
         if(result!=null) {
             if(useHistory) {
                 DataCache.setLastRecipe(inv.getLocation(),__iter);
@@ -988,7 +988,7 @@ public class CraftUtils {
         __iter+=delta;
         for(;__iter<recipeAmount&&__iter>=0;__iter+=delta){
             checkRecipe=recipes.get(__iter);
-            result=matchMultiRecipe(slotCounter,checkRecipe);
+            result=matchMultiRecipe(slotCounter,checkRecipe,limit);
             if(result!=null) {
                 if(useHistory) {
                     DataCache.setLastRecipe(inv.getLocation(),__iter);
@@ -1004,7 +1004,7 @@ public class CraftUtils {
         }
         for(;__iter!=__index;__iter+=delta) {
             checkRecipe=recipes.get(__iter);
-            result=matchMultiRecipe(slotCounter,checkRecipe);
+            result=matchMultiRecipe(slotCounter,checkRecipe,limit);
             if(result!=null) {
                 if(useHistory) {
                     DataCache.setLastRecipe(inv.getLocation(),__iter);

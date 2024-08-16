@@ -134,11 +134,8 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
         MultiCraftingOperation currentOperation = this.processor.getOperation(b);
         ItemGreedyConsumer[] fastCraft=null;
         if(currentOperation==null){
-            long a=System.nanoTime();
-
-            Pair<MachineRecipe,ItemGreedyConsumer[]> nextQ=CraftUtils.matchNextMultiRecipe(inv,getInputSlots(),getMachineRecipes(data),true, Settings.SEQUNTIAL);
-            long s=System.nanoTime();
-            Debug.logger("compute next multirecipe ",(s-a)," na");
+            int maxCraftlimit=getCraftLimit(b,inv);
+            Pair<MachineRecipe,ItemGreedyConsumer[]> nextQ=CraftUtils.matchNextMultiRecipe(inv,getInputSlots(),getMachineRecipes(data),true,maxCraftlimit, Settings.SEQUNTIAL);
             if(nextQ==null){
                 if(inv.hasViewer()){inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
                 }
@@ -146,7 +143,7 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
             }
             MachineRecipe next=nextQ.getFirstValue();
             int time=next.getTicks();
-            int maxCraftlimit=getCraftLimit(b,inv);
+
             if(time!=0){//超频机制
                 //尝试让time归1
                 //按比例减少maxlimit ,按最小值取craftlimit
@@ -163,8 +160,6 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
             //要末time=0 要末craftlimit=1 两者在这里都一样,不需要再修改time
             //如果底下这玩意还能给你减,那就craftlimit=0需要考虑,craftlimit=0直接堵上了 否则都一样time=0无区别
             ItemGreedyConsumer[] nextP = CraftUtils.countMultiOutput( nextQ.getSecondValue(),  inv,getOutputSlots(),next,craftlimit);
-            long t=System.nanoTime();
-            Debug.logger("count multiOutput ",(t-s)," ns");
             if (nextP != null) {
                 CraftUtils.multiUpdateInputMenu(nextQ.getSecondValue(),inv);
                 if(time>0){
@@ -174,6 +169,7 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
                 else if(time<=0){
                     fastCraft = nextP;
                 }
+
             }else{//if currentOperation ==null return  , cant find nextRecipe
                 if(inv.hasViewer()){inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
                 }

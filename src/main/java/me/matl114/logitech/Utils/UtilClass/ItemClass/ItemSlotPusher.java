@@ -68,10 +68,10 @@ public class ItemSlotPusher extends ItemPusher {
             if(wasNull){//空
                 //从数据源clone一个 正式转变为有实体的ItemStack 因为consumer那边可能是sfItem MultiItem
                 if(getAmount()>0){//非0
-                    item=item.clone();
-                    super.updateMenu(menu);
-                    menu.replaceExistingItem(slot,getItem());
+                    menu.replaceExistingItem(slot,getItem(),false);
+                    item=menu.getItemInSlot(slot);
                     wasNull=false;
+                    super.updateMenu(menu);
                 }//若空且是0，寄.直接退出
             }
             else{//不为空，同正常一样
