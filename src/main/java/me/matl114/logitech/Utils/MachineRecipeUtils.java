@@ -2,8 +2,10 @@ package me.matl114.logitech.Utils;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.MultiItemStack;
+import me.matl114.logitech.Utils.UtilClass.RecipeClass.MGeneratorRecipe;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.SequenceMachineRecipe;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.ShapedMachineRecipe;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.StackMachineRecipe;
@@ -92,15 +94,18 @@ public class MachineRecipeUtils {
     /**
      * please make sure your input IS already stacked and each input not similar with each other
      * @param tick tick num, int, not sec num
-     * @param recipe Pair
+     * @par
      */
-    public static MachineRecipe stackFrom(int tick,ItemStack[] ipnut,ItemStack[] output){
+    public static StackMachineRecipe stackFrom(int tick,ItemStack[] ipnut,ItemStack[] output){
         return new StackMachineRecipe(tick,stackIn(ipnut),stackIn(output));
     }
-    public static MachineRecipe stackFromPair(int tick, Pair<ItemStack[],ItemStack[]> recipe) {
+    public static StackMachineRecipe stackFromPair(int tick, Pair<ItemStack[],ItemStack[]> recipe) {
         return new StackMachineRecipe(tick,recipe.getFirstValue(),recipe.getSecondValue());
     }
-    public static MachineRecipe stackFromMachine(MachineRecipe recipe) {
+    public static StackMachineRecipe stackFromMachine(MachineRecipe recipe) {
+        if(recipe instanceof StackMachineRecipe recipe1){
+            return recipe1;
+        }
         return new StackMachineRecipe(recipe.getTicks(),stackIn(recipe.getInput()),stackIn(recipe.getOutput()));
     }
     /**
@@ -108,10 +113,10 @@ public class MachineRecipeUtils {
      * will return bottles and buckets
      * @param item sf shaped recipe
      */
-    public static MachineRecipe stackFromRecipe(SlimefunItem item){
+    public static StackMachineRecipe stackFromRecipe(SlimefunItem item){
         return stackFromRecipe(item,-1);
     }
-    public static MachineRecipe stackFromRecipe(SlimefunItem item,int time){
+    public static StackMachineRecipe stackFromRecipe(SlimefunItem item,int time){
         ItemStack[] input=item.getRecipe();
         List<ItemStack> outputs=new ArrayList<ItemStack>(){{
             add(item.getRecipeOutput());
@@ -144,7 +149,7 @@ public class MachineRecipeUtils {
      * @param
      * @return
      */
-    public static MachineRecipe shapeFrom(int ticks,ItemStack[] input,ItemStack[] output){
+    public static ShapedMachineRecipe shapeFrom(int ticks,ItemStack[] input,ItemStack[] output){
         return new ShapedMachineRecipe(ticks,input,output);
     }
     /**
@@ -153,7 +158,7 @@ public class MachineRecipeUtils {
      * @param
      * @return
      */
-    public static MachineRecipe shapeFromRecipe(SlimefunItem item){
+    public static ShapedMachineRecipe shapeFromRecipe(SlimefunItem item){
         return shapeFromRecipe(item,-1);
     }
 
@@ -163,7 +168,7 @@ public class MachineRecipeUtils {
      * @param time
      * @return
      */
-    public static MachineRecipe shapeFromRecipe(SlimefunItem item,int time){
+    public static ShapedMachineRecipe shapeFromRecipe(SlimefunItem item,int time){
         ItemStack[] input=item.getRecipe();
         List<ItemStack> outputs=new ArrayList<ItemStack>(){{
             add(item.getRecipeOutput());
@@ -181,7 +186,6 @@ public class MachineRecipeUtils {
     /**
      * chear nulls in recipe,add bucket and bottles in output, make machinerecipe
      * @param item
-     * @param time
      * @return
      */
     public static MachineRecipe FromRecipe(SlimefunItem item){
@@ -235,7 +239,7 @@ public class MachineRecipeUtils {
     }
 
 
-    public static MachineRecipe sequenceFrom(int ticks,ItemStack[] input,ItemStack[] output){
+    public static SequenceMachineRecipe sequenceFrom(int ticks,ItemStack[] input,ItemStack[] output){
         List<ItemStack> inputSequence=new ArrayList<ItemStack>();
         for(int i = 0; i < input.length; i++){
             if(input[i]==null)continue;
@@ -254,16 +258,60 @@ public class MachineRecipeUtils {
 //                it.setAmount(amount);
 //                inputSequence.add(it);
 //            }else {
-                inputSequence.add(input[i]);
+            inputSequence.add(input[i]);
 //            }
         }
         return new SequenceMachineRecipe(ticks,inputSequence.toArray(ItemStack[]::new),output);
     }
-    public static MachineRecipe sequenceFromRecipe(SlimefunItem item){
+    public static SequenceMachineRecipe sequenceFromRecipe(SlimefunItem item){
         //not implemented yet
         return null;
     }
-    public static MachineRecipe sequenceFromMachine(MachineRecipe recipe){
+    public static SequenceMachineRecipe sequenceFromMachine(MachineRecipe recipe){
+        if(recipe instanceof SequenceMachineRecipe recipe1){
+            return recipe1;
+        }
         return sequenceFrom(recipe.getTicks(),recipe.getInput(),recipe.getOutput());
     }
+    public static boolean isValidMGInput(ItemStack stack){
+        return true;
+    }
+    public static ItemStack[] makeValidMGInput(ItemStack[] input){
+        return input;
+    }
+    public static MGeneratorRecipe mgFrom(int ticks,ItemStack[] input,ItemStack[] output){
+        input=makeValidMGInput(input);
+        return new MGeneratorRecipe(stackFrom(ticks, input, output));
+    }
+    public static MGeneratorRecipe mgFromMachine(MachineRecipe recipe){
+        if(recipe instanceof MGeneratorRecipe recipe1){
+            return recipe1;
+        }else{
+            return new MGeneratorRecipe(recipe.getTicks(),stackIn(makeValidMGInput(recipe.getInput())),stackIn(recipe.getOutput()));
+        }
+    }
+    public static MGeneratorRecipe tryGenerateMGFromMachine(MachineRecipe recipe){
+        if(recipe instanceof MGeneratorRecipe recipe1){
+            return recipe1;
+        }
+        StackMachineRecipe recipe1;
+        if(recipe instanceof StackMachineRecipe recipe2){
+            recipe1=recipe2;
+        }else {
+            recipe1=stackFromMachine(recipe);
+        }
+        //会删除某些元素为空，所以需要重新stack
+        ItemStack[] input=stackIn(makeValidMGInput(recipe1.getInput()));
+        ItemStack[] output=recipe1.getOutput();
+        if(input.length==0){
+            return mgFrom(recipe1.getTicks(),input,output);
+        }else if(output.length!=0){
+            if(CraftUtils.matchItemStack(output[0],input[0],false)){
+                return mgFrom(recipe1.getTicks(),input,output);
+            }
+        }
+        return null;
+    }
+
 }
+
