@@ -130,14 +130,17 @@ public class TestStorageUnit extends AbstractMachine {
         return new ArrayList<MachineRecipe>();
     }
     public void process(Block b, BlockMenu menu,SlimefunBlockData data){
-        Location loc=b.getLocation().clone().add(0,2,0);
-        BlockMenu inv=StorageCacheUtils.getMenu(loc);
-
-        if(inv!=null){
-            TransportUtils.transportItemGreedy(menu,getOutputSlots(),inv,TransportUtils.getInvInputSlot(inv),
-                    ItemTransportFlow.INSERT,null,3567,CraftUtils.getpusher);
-        }
-
+//        Location loc=b.getLocation().clone().add(0,2,0);
+//        BlockMenu inv=StorageCacheUtils.getMenu(loc);
+//
+//        if(inv!=null){
+//            TransportUtils.transportItemGreedy(menu,getOutputSlots(),inv,TransportUtils.getInvInputSlot(inv),
+//                    ItemTransportFlow.INSERT,null,3567,CraftUtils.getpusher);
+//        }
+        ItemStack it=new ItemStack(Material.COBBLESTONE);
+        menu.replaceExistingItem(1,it);
+        it.setAmount(10);
+        //Debug.logger("check amount " ,menu.getItemInSlot(1).getAmount());
 
     }
     public boolean isSync(){

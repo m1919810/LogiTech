@@ -38,7 +38,16 @@ public class MultiBlockService {
     public static final HashMap<String,AbstractMultiBlockHandler> MULTIBLOCK_CACHE = new LinkedHashMap<>();
     public static final HashMap<Location, DisplayGroup> HOLOGRAM_CACHE=new HashMap<>();
     public static boolean validHandler(String uid){
-        return MULTIBLOCK_CACHE.containsKey(uid);
+        AbstractMultiBlockHandler handler=MULTIBLOCK_CACHE.get(uid);
+        if(handler==null){
+            return false;
+        }else {
+            String uuid=safeGetUUID(handler.getCore());
+            if(uid.equals(uuid)){//uid 核验,说明人没炸 uuid nullable
+                return true;
+            }
+            return false;
+        }
     }
     public static void deleteMultiBlock(String uid){
         AbstractMultiBlockHandler handler = MULTIBLOCK_CACHE.remove(uid);

@@ -134,7 +134,8 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
         MultiCraftingOperation currentOperation = this.processor.getOperation(b);
         ItemGreedyConsumer[] fastCraft=null;
         if(currentOperation==null){
-            Pair<MachineRecipe,ItemGreedyConsumer[]> nextQ=CraftUtils.matchNextMultiRecipe(inv,getInputSlots(),getMachineRecipes(data),true, Settings.SEQUNTIAL);
+            int maxCraftlimit=getCraftLimit(b,inv);
+            Pair<MachineRecipe,ItemGreedyConsumer[]> nextQ=CraftUtils.matchNextMultiRecipe(inv,getInputSlots(),getMachineRecipes(data),true,maxCraftlimit, Settings.SEQUNTIAL);
             if(nextQ==null){
                 if(inv.hasViewer()){inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
                 }
@@ -142,7 +143,7 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
             }
             MachineRecipe next=nextQ.getFirstValue();
             int time=next.getTicks();
-            int maxCraftlimit=getCraftLimit(b,inv);
+
             if(time!=0){//超频机制
                 //尝试让time归1
                 //按比例减少maxlimit ,按最小值取craftlimit
@@ -168,6 +169,7 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
                 else if(time<=0){
                     fastCraft = nextP;
                 }
+
             }else{//if currentOperation ==null return  , cant find nextRecipe
                 if(inv.hasViewer()){inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
                 }
