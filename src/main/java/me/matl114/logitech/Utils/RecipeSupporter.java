@@ -386,15 +386,15 @@ public class RecipeSupporter {
         //初始化对应物品
         for (RecipeType type:RECIPE_TYPES){
             try{
-            ItemStack it=type.toItem();
-            String ns=type.getKey().getNamespace().toUpperCase();
-            String id=type.getKey().getKey().toUpperCase();
-            if(it!=null){
-                SlimefunItemStack sfit=new SlimefunItemStack(id+"_ICON",AddUtils.addLore(it,"","&7配方类型:"+ns+":"+id));
-                RECIPETYPE_ICON.put(type, sfit  );
-            }else{
-                ILLEGAL_RECIPETYPES.add(type);
-            }
+                ItemStack it=type.toItem();
+                String ns=type.getKey().getNamespace().toUpperCase();
+                String id=type.getKey().getKey().toUpperCase();
+                if(it!=null){
+                    SlimefunItemStack sfit=new SlimefunItemStack(id+"_ICON",AddUtils.addLore(it,"","&7配方类型:"+ns+":"+id));
+                    RECIPETYPE_ICON.put(type, sfit  );
+                }else{
+                    ILLEGAL_RECIPETYPES.add(type);
+                }
             }catch (Throwable e){
                 ILLEGAL_RECIPETYPES.add(type);
             }
