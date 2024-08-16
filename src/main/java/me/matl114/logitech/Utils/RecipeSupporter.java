@@ -21,7 +21,6 @@ import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.MGeneratorRecipe;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractTransformer;
-import me.matl114.logitech.Utils.UtilClass.RecipeClass.MGeneratorRecipe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.Material;
@@ -420,24 +419,23 @@ public class RecipeSupporter {
                 }
                 else if (//item instanceof org.lins.mmmjjkx.rykenslimefuncustomizer.objects.customs.machine.CustomMaterialGenerator ||
                         item.getClass().getName().endsWith("CustomMaterialGenerator")){
-                    //item instanceof CustomMaterialGenerator){//org.lins.mmmjjkx.rykenslimefuncustomizer.objects.customs.machine.CustomMaterialGenerator){
+//                    //item instanceof CustomMaterialGenerator){//org.lins.mmmjjkx.rykenslimefuncustomizer.objects.customs.machine.CustomMaterialGenerator){
                     String methodName=null;
                     if(methodName==null){
                         try{
                             Object stack=invokeRecursively(item,Settings.FIELD,"output");
                             Object tick=invokeRecursively(item,Settings.FIELD,"tickRate");
-                            if(stack instanceof List<?> stacklist){
-                                recipes=new ArrayList<>(){{
-                                    int size=stacklist.size();
-                                    for(int i=0;i<size;i++){
-                                        var stack1=stacklist.get(i);
-                                        add(MachineRecipeUtils.mgFrom((Integer) tick,new ItemStack[0],new ItemStack[]{(ItemStack) stack1}));
-                                    }
-                                }};
-                            }else {
-                                recipes=new ArrayList<>(){{
-                                    add(MachineRecipeUtils.mgFrom((Integer) tick,new ItemStack[0],new ItemStack[]{(ItemStack) stack}));
-                                }};
+                            recipes=new ArrayList<>();
+                            if(stack instanceof List stacklist){
+                                int size=stacklist.size();
+                                for(int i=0;i<size;i++){
+                                    ItemStack stack1=(ItemStack) stacklist.get(i);
+                                    recipes.add(MachineRecipeUtils.mgFrom((Integer) tick,new ItemStack[0],new ItemStack[]{stack1}));
+
+                                }
+                            }
+                            else {
+                                recipes.add(MachineRecipeUtils.mgFrom((Integer) tick,new ItemStack[0],new ItemStack[]{(ItemStack) stack}));
                             }
                             methodName="output";
                         }catch (Throwable e){ }
@@ -446,54 +444,55 @@ public class RecipeSupporter {
                         try{
                             Object stack=invokeRecursively(item,Settings.FIELD,"generation");
                             Object tick=invokeRecursively(item,Settings.FIELD,"tickRate");
-                            if(stack instanceof List<?> stacklist){
-                                recipes=new ArrayList<>(){{
-                                    int size=stacklist.size();
-                                    for(int i=0;i<size;i++){
-                                        var stack1=stacklist.get(i);
-                                        add(MachineRecipeUtils.mgFrom((Integer) tick,new ItemStack[0],new ItemStack[]{(ItemStack) stack1}));
-                                    }
-                                }};
-                            }else {
-                                recipes=new ArrayList<>(){{
-                                    add(MachineRecipeUtils.mgFrom((Integer) tick,new ItemStack[0],new ItemStack[]{(ItemStack) stack}));
-                                }};
+                            recipes=new ArrayList<>();
+                            if(stack instanceof List stacklist){
+                                int size=stacklist.size();
+                                for(int i=0;i<size;i++){
+                                    ItemStack stack1=(ItemStack) stacklist.get(i);
+                                    recipes.add(MachineRecipeUtils.mgFrom((Integer) tick,new ItemStack[0],new ItemStack[]{stack1}));
+
+                                }
+                            }
+                            else {
+                                recipes.add(MachineRecipeUtils.mgFrom((Integer) tick,new ItemStack[0],new ItemStack[]{(ItemStack) stack}));
                             }
                             methodName="generation";
                         }catch (Throwable e){ }
                     }
+                } else if (resolveSpecialGenerators(item,recipes)) {
+
                 }
-                else{
-                    boolean blst=false;
+                else {
+                    boolean blst = false;
                     //if in class blacklist
-                    for (Class classt:BLACKLIST_MACHINECLASS){
-                        if(classt.isInstance(item)){
-                            blst=true;
+                    for (Class classt : BLACKLIST_MACHINECLASS) {
+                        if (classt.isInstance(item)) {
+                            blst = true;
                             break;
                         }
                     }
-                    if(!blst){
-                        Class<?> clazz=item.getClass();
-                        switch (1){
+                    if (!blst) {
+                        Class<?> clazz = item.getClass();
+                        switch (1) {
                             case 1:
-                                Object machineRecipes=null;
-                                String methodName=null;
-                                String infinityMachineBlockRecipe=".MachineBlockRecipe";
-                                String infinitylib="infinitylib";
-                                try{
-                                    if(methodName==null){
-                                        machineRecipes=invokeRecursively(item,Settings.METHOD,"getMachineRecipes");
-                                        if(machineRecipes!=null){
-                                            methodName="getMachineRecipes() method";
+                                Object machineRecipes = null;
+                                String methodName = null;
+                                String infinityMachineBlockRecipe = ".MachineBlockRecipe";
+                                String infinitylib = "infinitylib";
+                                try {
+                                    if (methodName == null) {
+                                        machineRecipes = invokeRecursively(item, Settings.METHOD, "getMachineRecipes");
+                                        if (machineRecipes != null) {
+                                            methodName = "getMachineRecipes() method";
                                         }
                                     }
-                                    if(methodName==null){
-                                        machineRecipes=invokeRecursively(item,Settings.FIELD,"recipes");
-                                        if(machineRecipes!=null){
-                                            methodName="getMachineRecipes() method";
+                                    if (methodName == null) {
+                                        machineRecipes = invokeRecursively(item, Settings.FIELD, "recipes");
+                                        if (machineRecipes != null) {
+                                            methodName = "getMachineRecipes() method";
                                         }
                                     }
-                                    if(machineRecipes!=null) {
+                                    if (machineRecipes != null) {
                                         if (machineRecipes instanceof List) {
                                             for (Object machineRecipe : (List) machineRecipes) {
                                                 //压缩配方,用于提供给机器
@@ -514,23 +513,22 @@ public class RecipeSupporter {
                                                     inp.add(4, ((AltarRecipe) machineRecipe).getCatalyst());
                                                     MachineRecipe rp = new MachineRecipe(9, inp.toArray(new ItemStack[inp.size()]), new ItemStack[]{((AltarRecipe) machineRecipe).getOutput()});
                                                     recipes.add(rp);
-                                                } else if (machineRecipe.getClass().getName().endsWith(infinityMachineBlockRecipe)&&
-                                                        machineRecipe.getClass().getName().contains(infinitylib)){
-//                                                    MachineRecipe ip=resolveInfinityRecipe(machineRecipe,item);
-//                                                    if(ip!=null){
-//                                                        recipes.add(ip);
-//                                                    }
-                                                }
-                                                else{
-                                                    throw new ClassCastException("wrong "+methodName+ " return type , " +
+                                                } else if (machineRecipe.getClass().getName().endsWith(infinityMachineBlockRecipe) &&
+                                                        machineRecipe.getClass().getName().contains(infinitylib)) {
+                                                    MachineRecipe ip = resolveInfinityMachineBlockRecipe(machineRecipe, item);
+                                                    if (ip != null) {
+                                                        //  Debug.logger("recipe not null");
+                                                        recipes.add(ip);
+                                                    }
+                                                } else {
+                                                    throw new ClassCastException("wrong " + methodName + " return type , " +
                                                             "List of " + machineRecipe.getClass().getName());
                                                 }
                                             }
                                             break;
                                         }
                                     }
-                                }
-                                catch (Throwable e){
+                                } catch (Throwable e) {
                                     e.getMessage();
                                 }
                             default:
@@ -627,6 +625,47 @@ public class RecipeSupporter {
         }
         Debug.logger("配方供应器工作完成, 耗时 "+(System.nanoTime()-a)+ " 纳秒");
 
+    }
+    public static MachineRecipe resolveInfinityMachineBlockRecipe(Object recipe, SlimefunItem machine){
+        int ticks=0;
+        //if(machine instanceof MachineBlock block){
+        try{
+            Integer a=(Integer) invokeRecursively(machine,Settings.FIELD,"ticksPerOutput");
+            if(a!=null){
+                ticks=a;
+            }
+        }catch (Throwable a){}
+        // }
+        try{
+            String[] item=(String[]) invokeRecursively(recipe,Settings.FIELD,"strings");
+            int[] counts=(int[]) invokeRecursively(recipe,Settings.FIELD,"amounts");
+            ItemStack stack=(ItemStack) invokeRecursively(recipe,Settings.FIELD,"output");
+            int len=item.length;
+            ItemStack[] input=new ItemStack[len];
+            for (int i=0;i<len;i++){
+              //  Debug.logger("item i ",item[i]," ",counts[i]);
+                input[i]=AddUtils.resolveItem(item[i]);
+                if(input[i]==null){
+                   // Debug.logger("resolve failed");
+                }else
+                //Debug.logger("resolve ",input[i]," ",counts[i]);
+                if(input[i]==null){
+                    return null;
+                }
+                input[i]= AddUtils.setCount(input[i],counts[i]);
+            }
+           // Debug.logger("return notnull recipe");
+            return MachineRecipeUtils.stackFrom(ticks,input,new ItemStack[]{stack.clone()});
+        }catch (Throwable e){
+            return null;
+        }
+    }
+    public static boolean resolveSpecialGenerators(SlimefunItem item,List<MachineRecipe> recipes){
+
+        return false;
+    }
+    public static MGeneratorRecipe resolveGrowingMachineRecipe(Object recipe, SlimefunItem machine){
+        return null;
     }
 
     private static void initUnshapedRecipes(RecipeType type) {

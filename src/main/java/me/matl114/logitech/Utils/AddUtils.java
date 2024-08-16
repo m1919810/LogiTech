@@ -809,4 +809,7 @@ public class AddUtils {
             throw new IllegalArgumentException("randomAmountStack expects min<max, got %d and %d".formatted(min,max));
         }
     }
+    public static ItemStack setCount(ItemStack stack,int amount){
+        return new CustomItemStack(stack,amount);
+    }
 }
