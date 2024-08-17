@@ -39,9 +39,22 @@ public class ItemConsumer extends ItemCounter {
         getTargetConsumers().add(target);
         target.dirty=true;
     }
+
+    /**
+     * add amount(only for recipe amount match) from target ,will not modify target
+     * @param other
+     */
     public void consume(ItemPusher other){
         super.consume(other);
         addRelate(other);
+    }
+    public void grab(ItemPusher target){
+        super.grab(target);
+        addRelate(target);
+    }
+    public void push(ItemPusher target){
+        super.push(target);
+        addRelate(target);
     }
 
     /**

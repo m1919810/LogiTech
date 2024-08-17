@@ -72,12 +72,43 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
         target.dirty=true;
     }
 
-
+    /**
+     * add record of match amount from targte amount ,will not modify target
+     * @param other
+     */
     public void consume(ItemPusher other){
         matchAmount += other.getAmount();
         addRelate(other);
     }
 
+    /**
+     * operate on the match Amount,push ,sub match A Amount and add to target till maxCnt
+     * @param target
+     */
+    public void push(ItemPusher target){
+        int left=target.getMaxStackCnt()-target.getAmount();
+        if(left<=matchAmount){
+            target.addAmount(left);
+            matchAmount-=left;
+        }else {
+            target.addAmount(matchAmount);
+            matchAmount=0;
+        }
+        dirty=dirty||left!=0;
+        addRelate(target);
+    }
+
+    /**
+     * operate on the match Amount,grab, add match Amount from target
+     * @param target
+     */
+    public void grab(ItemPusher target){
+        consume(target);
+        target.setAmount(0);
+    }
+
+    /**
+     */
     public void clearRelated(){
         if(targetConsumers!=null)
             targetConsumers.clear();

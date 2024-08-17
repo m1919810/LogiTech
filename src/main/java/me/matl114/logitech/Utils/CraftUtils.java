@@ -573,7 +573,6 @@ public class CraftUtils {
     public static boolean forcePush( ItemConsumer[] slotCounters, BlockMenu inv,int[] slots,ItemPusherProvider pusher){
        // ItemPusher[] slotCounters2=new ItemPusher[slots.length];
         DynamicArray<ItemPusher> slotCounters2=new DynamicArray<>(ItemPusher[]::new,slots.length,(i)->(pusher.get(Settings.OUTPUT,inv,slots[i])));
-        int slotpointer=0;
         for(int i=0;i<slotCounters.length;++i) {
             ItemConsumer outputItem=slotCounters[i];
             //consume mode
@@ -646,6 +645,7 @@ public class CraftUtils {
         ItemPusher itp=null;
         ItemGreedyConsumer outputItem;
         for(int i=0;i<len;++i) {
+
             outputItem=slotCounters[i];
             //consume mode
             outputItem.setAmount(outputItem.getMatchAmount());
@@ -653,12 +653,16 @@ public class CraftUtils {
                 itp=slotCounters2.get(j);
                 if(!itp.isDirty()){
                     if(itp.getItem()==null){
+                        //outputItem.push(itp);
                         itp.grab(outputItem);
+                        outputItem.addRelate(itp);
                     }else if (itp.getAmount()==itp.getMaxStackCnt()){
                         continue;
                     }
                     else if(matchItemCounter(outputItem,itp,false)){
                         itp.grab(outputItem);
+                        //@TODO 尝试把ItemConusmer的push和grab加入内置的addRelated
+                        outputItem.addRelate(itp);
                     }
                     if(outputItem.getAmount()<=0)break;
                 }
@@ -666,9 +670,24 @@ public class CraftUtils {
         }
         boolean hasChanged=false;
         for(int i=0;i<len;++i) {
+//            itp=slotCounters2.get(i);
+//            if(itp.isDirty()){
+//                hasChanged=true;
+//                itp.updateMenu(inv);
+//            }
             outputItem=slotCounters[i];
             outputItem.updateItems(inv,Settings.PUSH);
+            if(outputItem.isDirty()){
+                hasChanged=true;
+            }
         }
+        //@TODO try fix problem of creating too much ItemSlotPushers
+        //@TODO return value should be the dirty value of ItemConsumers,
+        //@TODO operation should be done by ItemConsumers not ItemPushers as it doesn't take into count in related
+//        for(int i=0;i<len;++i) {
+//            outputItem=slotCounters[i];
+//            outputItem.updateItems(inv,Settings.PUSH);
+//        }
         return hasChanged;
     }
     /**
