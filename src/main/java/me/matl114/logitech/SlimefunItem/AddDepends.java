@@ -13,10 +13,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import me.matl114.logitech.Dependency;
 import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.AdvanceRecipeCrafter;
 import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.ManualCrafter;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.Debug;
-import me.matl114.logitech.Utils.RecipeSupporter;
-import me.matl114.logitech.Utils.Settings;
+import me.matl114.logitech.Utils.*;
 import org.bukkit.Material;
 
 /**
@@ -40,7 +37,7 @@ public class AddDepends {
             e.printStackTrace();
         }
         try{
-            RecipeType mobInfuserType= (RecipeType) RecipeSupporter.invokeRecursively(SlimefunItem.getByItem(MobData.INFUSER), Settings.FIELD,"TYPE");
+            RecipeType mobInfuserType= (RecipeType) ReflectUtils.invokeRecursively(SlimefunItem.getByItem(MobData.INFUSER), Settings.FIELD,"TYPE");
             MANUAL_MOB=new ManualCrafter(AddGroups.MATERIAL, AddItem.MANUAL_MOB, RecipeType.NULL, AddUtils.NULL_RECIPE.clone(),
                     1919,810, MobDataInfuser.TYPE).register();
         }catch (Throwable e){

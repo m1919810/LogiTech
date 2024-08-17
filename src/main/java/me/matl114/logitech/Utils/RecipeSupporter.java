@@ -220,34 +220,6 @@ public class RecipeSupporter {
      * @param mod
      * @return
      */
-    public static  Object invokeRecursively(Object target,Settings mod,String declared){
-        return invokeRecursively(target,target.getClass(),mod,declared);
-    }
-    public static  Object invokeRecursively(Object target,Class clazz,Settings mod,String decleared){
-        try{
-            switch (mod){
-                case FIELD:
-                    Field _hasType=clazz.getDeclaredField(decleared);
-                    _hasType.setAccessible(true);
-                    return  _hasType.get(target);
-                case METHOD:
-                    Method _hasMethod=clazz.getDeclaredMethod(decleared);
-
-                    _hasMethod.setAccessible(true);
-                    return _hasMethod.invoke(target);
-            }
-        }catch (Throwable e){
-        }
-        clazz=clazz.getSuperclass();
-        if(clazz==null){
-            return null;
-        }else {
-            return invokeRecursively(target,clazz,mod,decleared);
-        }
-    }
-    public static Object invokeMethodRecursively(Object target,Class clazz,Settings mod,String declared,Object ... args){
-        return null;
-    }
     static{
         long a=System.nanoTime();
         Debug.logger("配方供应器开始进行数据采集,预计耗时2秒");
@@ -364,7 +336,7 @@ public class RecipeSupporter {
             }
             //解析指定类型特殊机器配方类型
             try{
-                Object _Type=invokeRecursively(item,Settings.FIELD,"TYPE");
+                Object _Type=ReflectUtils.invokeRecursively(item,Settings.FIELD,"TYPE");
                 if(_Type instanceof RecipeType&&!BLACKLIST_RECIPETYPES.contains((RecipeType) _Type)){
                     CUSTOM_RECIPETYPES.put(item,(RecipeType) _Type);
                     //Debug.logger("detect certain field TYPE: "+item);
@@ -426,8 +398,8 @@ public class RecipeSupporter {
                     String methodName=null;
                     if(methodName==null){
                         try{
-                            Object stack=invokeRecursively(item,Settings.FIELD,"output");
-                            Object tick=invokeRecursively(item,Settings.FIELD,"tickRate");
+                            Object stack=ReflectUtils.invokeRecursively(item,Settings.FIELD,"output");
+                            Object tick=ReflectUtils.invokeRecursively(item,Settings.FIELD,"tickRate");
                             recipes=new ArrayList<>();
                             if(stack instanceof List stacklist){
                                 int size=stacklist.size();
@@ -445,8 +417,8 @@ public class RecipeSupporter {
                     }
                     if(methodName==null){
                         try{
-                            Object stack=invokeRecursively(item,Settings.FIELD,"generation");
-                            Object tick=invokeRecursively(item,Settings.FIELD,"tickRate");
+                            Object stack=ReflectUtils.invokeRecursively(item,Settings.FIELD,"generation");
+                            Object tick=ReflectUtils.invokeRecursively(item,Settings.FIELD,"tickRate");
                             recipes=new ArrayList<>();
                             if(stack instanceof List stacklist){
                                 int size=stacklist.size();
@@ -484,13 +456,13 @@ public class RecipeSupporter {
                                 String infinitylib = "infinitylib";
                                 try {
                                     if (methodName == null) {
-                                        machineRecipes = invokeRecursively(item, Settings.METHOD, "getMachineRecipes");
+                                        machineRecipes = ReflectUtils.invokeRecursively(item, Settings.METHOD, "getMachineRecipes");
                                         if (machineRecipes != null) {
                                             methodName = "getMachineRecipes() method";
                                         }
                                     }
                                     if (methodName == null) {
-                                        machineRecipes = invokeRecursively(item, Settings.FIELD, "recipes");
+                                        machineRecipes = ReflectUtils.invokeRecursively(item, Settings.FIELD, "recipes");
                                         if (machineRecipes != null) {
                                             methodName = "getMachineRecipes() method";
                                         }
@@ -597,31 +569,31 @@ public class RecipeSupporter {
                 String methodName=null;
                 try{
                     if(methodName==null){
-                        energy=invokeRecursively(item,clazz,Settings.METHOD,"getEnergyConsumption");
+                        energy=ReflectUtils.invokeRecursively(item,clazz,Settings.METHOD,"getEnergyConsumption");
                         if(energy!=null){
                             methodName="getEnergyConsumption() method";
                         }
                     }
                     if(methodName==null){
-                        energy=invokeRecursively(item,Settings.FIELD,"EnergyConsumption");
+                        energy=ReflectUtils.invokeRecursively(item,Settings.FIELD,"EnergyConsumption");
                         if(energy!=null){
                             methodName="EnergyConsumption field";
                         }
                     }
                     if(methodName!=null){
-                        energy=invokeRecursively(item,Settings.FIELD,"energyConsumedPerTick");
+                        energy=ReflectUtils.invokeRecursively(item,Settings.FIELD,"energyConsumedPerTick");
                         if(energy!=null){
                             methodName="energyConsumedPerTick field";
                         }
                     }
                     if(methodName!=null){
-                        energy=invokeRecursively(item,Settings.FIELD,"energyPerTick");
+                        energy=ReflectUtils.invokeRecursively(item,Settings.FIELD,"energyPerTick");
                         if(energy!=null){
                             methodName="energyPerTick field";
                         }
                     }
                     if(methodName!=null){
-                        energy=invokeRecursively(item,Settings.FIELD,"per");
+                        energy=ReflectUtils.invokeRecursively(item,Settings.FIELD,"per");
                         if(energy!=null){
                             methodName="per";
                         }
@@ -650,19 +622,19 @@ public class RecipeSupporter {
         int ticks=0;
         //if(machine instanceof MachineBlock block){
         try{
-            Integer a=(Integer) invokeRecursively(machine,Settings.FIELD,"ticksPerOutput");
+            Integer a=(Integer) ReflectUtils.invokeRecursively(machine,Settings.FIELD,"ticksPerOutput");
             if(a!=null){
                 ticks=a-1;
             }
         }catch (Throwable a){}
         // }
         try{
-            String[] item=(String[]) invokeRecursively(recipe,Settings.FIELD,"strings");
-            int[] counts=(int[]) invokeRecursively(recipe,Settings.FIELD,"amounts");
-            ItemStack stack=(ItemStack) invokeRecursively(recipe,Settings.FIELD,"output");
+            String[] item=(String[]) ReflectUtils.invokeRecursively(recipe,Settings.FIELD,"strings");
+            int[] counts=(int[]) ReflectUtils.invokeRecursively(recipe,Settings.FIELD,"amounts");
+            ItemStack stack=(ItemStack)ReflectUtils. invokeRecursively(recipe,Settings.FIELD,"output");
             try{
                 //尝试判断是不是randomizedItemStack
-                Object itemlist=invokeRecursively(stack,Settings.FIELD,"items");
+                Object itemlist=ReflectUtils.invokeRecursively(stack,Settings.FIELD,"items");
                 if(itemlist!=null){
                     ItemStack[] list1=(ItemStack[])itemlist;
                     stack=AddUtils.eqRandItemStackFactory(Arrays.stream(list1).toList());
@@ -693,13 +665,13 @@ public class RecipeSupporter {
             int ticks=0;
             //if(machine instanceof MachineBlock block){
             try{
-                Integer a=(Integer) invokeRecursively(item,Settings.FIELD,"ticksPerOutput");
+                Integer a=(Integer) ReflectUtils.invokeRecursively(item,Settings.FIELD,"ticksPerOutput");
                 if(a!=null){
                     ticks=a-1;
                 }
             }catch (Throwable a){}
             try{
-                EnumMap<Material,ItemStack[]> map=(EnumMap<Material, ItemStack[]>) invokeRecursively(gm,Settings.FIELD,"recipes");
+                EnumMap<Material,ItemStack[]> map=(EnumMap<Material, ItemStack[]>) ReflectUtils.invokeRecursively(gm,Settings.FIELD,"recipes");
                 for(Map.Entry<Material,ItemStack[]> entry:map.entrySet()){
                     recipes.add(MachineRecipeUtils.mgFrom(ticks,Utils.array(new ItemStack(entry.getKey())),entry.getValue()));
                 }

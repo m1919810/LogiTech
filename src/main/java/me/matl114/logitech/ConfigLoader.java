@@ -19,10 +19,11 @@ public class ConfigLoader {
         //final File scAddonFile = new File(plugin.getDataFolder(), "language.yml");
         //copyFile(scAddonFile, "language");
         LANGUAGE=loadInternalConfig("language");   //new Config(plugin,"language.yml");
-        InputStream st=plugin.getClass().getResourceAsStream("/language.yml");
+
     }
     public static Plugin plugin;
     public static Config LANGUAGE;
+    public static Config MACHINES;
     public static File NULL_FILE;
     public static void init() {
         NULL_FILE=new File(plugin.getDataFolder(), "configure.yml");
