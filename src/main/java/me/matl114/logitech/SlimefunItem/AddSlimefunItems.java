@@ -123,8 +123,7 @@ public class AddSlimefunItems {
             .register();
 
 
-    public static final SlimefunItem TMP1=new MaterialItem(AddGroups.MATERIAL,AddItem.TMP1,RecipeType.NULL,
-            AddUtils.NULL_RECIPE.clone()).register();
+
         //generated
     public static final SlimefunItem EXISTE=new MaterialItem(AddGroups.MATERIAL,AddItem.EXISTE,RecipeType.NULL,
                 AddUtils.formatInfoRecipe(AddItem.LOGIC_REACTOR,Language.get("Machines.LOGIC_REACTOR.Name")),null)
@@ -379,7 +378,7 @@ public class AddSlimefunItems {
                     AddItem.LFIELD,AddItem.LPLATE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LPLATE,AddItem.LFIELD),2333,180,
             1000,1145)
             .register();
-    public static final  SlimefunItem SPECIAL_CRAFTER=new SpecialCrafter(AddGroups.BASIC, AddItem.SPECIAL_CRAFTER,RecipeType.NULL,
+    public static final  SlimefunItem SPECIAL_CRAFTER=new SpecialCrafter(AddGroups.BASIC, AddItem.SPECIAL_CRAFTER,BugCrafter.TYPE,
             recipe(AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,AddItem.LOGIC,AddItem.LOGIC,AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,
                     AddItem.LFIELD,AddItem.LDIGITIZER,setC(AddItem.LPLATE,2),setC(AddItem.LPLATE,2),AddItem.LMOTOR,AddItem.LFIELD,
                     AddItem.LOGIC,setC(AddItem.LPLATE,2),setC(AddItem.LCRAFT,2),AddItem.LIOPORT,setC(AddItem.LPLATE,2),AddItem.LOGIC,
@@ -692,6 +691,11 @@ public class AddSlimefunItems {
 
 
 
+    public static final SlimefunItem TMP1=new MaterialItem(AddGroups.FUNCTIONAL,AddItem.TMP1,RecipeType.NULL,
+            AddUtils.NULL_RECIPE.clone()).register();
+    public static final SlimefunItem RESOLVE_FAILED=new MaterialItem(AddGroups.FUNCTIONAL, AddItem.RESOLVE_FAILED,RecipeType.NULL,
+            AddUtils.NULL_RECIPE.clone(),null)
+            .register();
 
 
     public static final SlimefunItem CUSTOM1=register(new FIrstCustomItem(AddGroups.MATERIAL, AddItem.CUSTOM1,BugCrafter.TYPE,

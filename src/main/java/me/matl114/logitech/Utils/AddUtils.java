@@ -12,6 +12,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.MyAddon;
+import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.*;
 import me.matl114.logitech.Utils.UtilClass.FunctionalClass.LoreDecorator;
 import me.matl114.logitech.Utils.UtilClass.FunctionalClass.StringDecorator;
@@ -429,12 +430,13 @@ public class AddUtils {
                     }
                     return b;
                 }catch (Exception e2){
-                    throw new IllegalArgumentException(" Object %s can not be solved ! please check expression".formatted(a));
+                    Debug.logger("WARNING: Object %s can not be solved ! Please check if required Addon is installed!".formatted(a));
+                    return AddItem.RESOLVE_FAILED;
                 }
             }
         } else {
-            Debug.logger("failed to solve Object "+a.toString());
-            return null;
+            Debug.logger("WARNING: failed to solve Object "+a.toString());
+            return AddItem.RESOLVE_FAILED;
         }
 
     }

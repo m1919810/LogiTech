@@ -70,6 +70,8 @@ public class AddItem {
             Language.get("Groups.GENERATORS.Name"),Language.getList("Groups.GENERATORS.Lore"));
     public static final ItemStack ENERGY=AddUtils.themed(Material.LIGHTNING_ROD, AddUtils.Theme.CATEGORY2,
             Language.get("Groups.ENERGY.Name"),Language.getList("Groups.ENERGY.Lore"));
+    public static final ItemStack FUNCTIONAL=AddUtils.themed(Material.STRUCTURE_VOID, AddUtils.Theme.CATEGORY2,
+            Language.get("Groups.FUNCTIONAL.Name"),Language.getList("Groups.FUNCTIONAL.Lore"));
     //feat
     public static final ItemStack FEAT1=AddUtils.themed(Material.BOOK, AddUtils.Theme.NONE,
             Language.get("Groups.FEAT1.Name"),Language.getList("Groups.FEAT1.Lore"));
@@ -362,8 +364,11 @@ public class AddItem {
     public static final SlimefunItemStack TEST_STACKGENERATOR=AddUtils.themed("TEST_STACKGENERATOR",Material.SMOOTH_STONE,AddUtils.Theme.MACHINE2,
             Language.get("Generators.TEST_STACKGENERATOR.Name"),Language.getList("Generators.TEST_STACKGENERATOR.Lore"));
     //tmp占位符
-    public static final SlimefunItemStack TMP1= new SlimefunItemStack("TMP1",Material.STONE,"TMP1","暂未开发");
+    public static final SlimefunItemStack TMP1= new SlimefunItemStack("TMP1",Material.STONE,"&b占位符","&7暂未开发");
+    public static final SlimefunItemStack RESOLVE_FAILED=AddUtils.themed("RESOLVE_FAILED",Material.STRUCTURE_VOID,AddUtils.Theme.NONE,
+            Language.get("Items.RESOLVE_FAILED.Name"),Language.getList("Items.RESOLVE_FAILED.Lore"));
     public static final HashSet<ItemStack> ADDGLOW=new HashSet<>(){{
+        add(RESOLVE_FAILED);
         add(BUG);
         add(INFO);
         add(BEYOND);

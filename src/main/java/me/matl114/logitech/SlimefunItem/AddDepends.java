@@ -19,7 +19,7 @@ public class AddDepends {
         try{
             MANUAL_INF=
                     new ManualCrafter(AddGroups.MATERIAL, AddItem.MANUAL_INF, RecipeType.NULL, AddUtils.NULL_RECIPE.clone(),
-                            1919,810, InfinityWorkbench.TYPE).register();
+                            1919,810, INFINITYWORKBENCH_TYPE).register();
         }catch (Throwable e){
             Debug.logger("generate an exception while loading soft depends");
             e.printStackTrace();
@@ -27,7 +27,7 @@ public class AddDepends {
         try{
 
             MANUAL_MOB=new ManualCrafter(AddGroups.MATERIAL, AddItem.MANUAL_MOB, RecipeType.NULL, AddUtils.NULL_RECIPE.clone(),
-                    1919,810, MobDataInfuser.TYPE).register();
+                    1919,810,MOBDATA_TYPE).register();
         }catch (Throwable e){
             Debug.logger("generate an exception while loading soft depends");
             e.printStackTrace();
@@ -35,7 +35,7 @@ public class AddDepends {
         try{
             MANUAL_NTWBENCH=
                     new ManualCrafter(AddGroups.MATERIAL, AddItem.MANUAL_NTWBENCH, RecipeType.NULL, AddUtils.NULL_RECIPE.clone(),
-                            1919,810, NetworkQuantumWorkbench.TYPE, NTWEP_WORKBENCH_TYPE).register();
+                            1919,810,NTWQTWORKBENCH_TYPE, NTWEP_WORKBENCH_TYPE).register();
         }catch (Throwable e){
             Debug.logger("generate an exception while loading soft depends");
             e.printStackTrace();
@@ -43,7 +43,7 @@ public class AddDepends {
         try{
             AUTO_INF=
                     new AdvanceRecipeCrafter(AddGroups.MATERIAL, AddItem.AUTO_INF, RecipeType.NULL, AddUtils.NULL_RECIPE.clone()
-                            , Material.RESPAWN_ANCHOR,1919,810,8, InfinityWorkbench.TYPE).register();
+                            , Material.RESPAWN_ANCHOR,1919,810,8,INFINITYWORKBENCH_TYPE).register();
         }catch (Throwable e){
             Debug.logger("generate an exception while loading soft depends");
             e.printStackTrace();

@@ -172,6 +172,8 @@ zh_CN:
       Name: '&d逻辑工艺 &6材料生成与转化'
     ENERGY:
       Name: '&d逻辑工艺 &6电力与能源拓展'
+    FUNCTIONAL:
+      Name: '&d逻辑工艺 &6功能性物品'
 
   Items:
     BUG:
@@ -340,6 +342,12 @@ zh_CN:
       Name: '头颅展示示例'
       Lore:
         - '来自头颅解析仪'
+    RESOLVE_FAILED:
+      Name: '&c物品解析失败!'
+      Lore:
+        - '&7并未找到符合id的物品! 该配方已被禁用!'
+
+
   Machines:
     LOGIC_REACTOR:
       Name: '逻辑反应堆'
