@@ -78,8 +78,8 @@ public abstract class ItemCounter implements Cloneable{
      * @param amount
      */
     public void setAmount(int amount) {
+        dirty=dirty||amount!=cnt;
         cnt=amount;
-        dirty=true;
     }
     /**
      * get recorded amount

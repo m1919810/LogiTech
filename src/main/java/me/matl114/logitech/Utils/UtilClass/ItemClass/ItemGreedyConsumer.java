@@ -86,16 +86,13 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
      * @param target
      */
     public void push(ItemPusher target){
-        int left=target.getMaxStackCnt()-target.getAmount();
-        if(left<=matchAmount){
-            target.addAmount(left);
-            matchAmount-=left;
-        }else {
-            target.addAmount(matchAmount);
-            matchAmount=0;
-        }
-        dirty=dirty||left!=0;
+        int tmp=cnt;
+        cnt=matchAmount;
+        target.grab(this);
         addRelate(target);
+        matchAmount=cnt;
+        cnt=tmp;
+
     }
 
     /**
@@ -103,8 +100,12 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
      * @param target
      */
     public void grab(ItemPusher target){
-        consume(target);
-        target.setAmount(0);
+        int tmp=cnt;
+        cnt=matchAmount;
+        super.grab(target);
+        addRelate(target);
+        matchAmount=cnt;
+        cnt=tmp;
     }
 
     /**
@@ -123,9 +124,28 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
         return this.getStackNum()-o.getStackNum();
     }
 
+    /**
+     * simply update all related in record, be careful to use it
+     * @param inv
+     * @param mod
+     */
+    public void updateItems(BlockMenu inv ,Settings mod){
+        if(targetConsumers==null){
+            return;
+        }
+        int len=targetConsumers.size();
+        for(int i=0;i<len;i++){
+            targetConsumers.get(i).updateMenu(inv);
+        }
+    }
 
-
-    public void updateItems(BlockMenu inv , Settings mod){
+    /**
+     * calculate again about this if matchAmount changed manually,will use recorded Relateed and try grab/consume
+     * make sure your matchAmount is what you want
+     * @param inv
+     * @param mod
+     */
+    public void updateItemsPlus(BlockMenu inv , Settings mod){
         //preserver
         if(targetConsumers==null){
             return;
@@ -154,8 +174,10 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
                 break link;
 
         }
+        matchAmount=cnt;
         cnt=s;
     }
+
     protected ItemGreedyConsumer clone(){
         return (ItemGreedyConsumer) super.clone();
     }

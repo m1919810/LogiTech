@@ -71,8 +71,15 @@ public abstract  class AbstractTransformer extends AbstractMachine {
            int tick=DataCache.getCustomData(data,"tick",-1);
            if(tick<=0){
                 process(b,menu,data);
+               if (menu.hasViewer()){
+                   menu.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_NULL);
+               }
            }else{
                DataCache.setCustomData(data,"tick",tick-1);
+
+               if(menu.hasViewer()){
+                   menu.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_WORKING);
+               }
            }
 
            //long t=System.nanoTime();
@@ -89,9 +96,6 @@ public abstract  class AbstractTransformer extends AbstractMachine {
         MachineRecipe nextP = CraftUtils.matchNextRecipe(inv, getInputSlots(),getMachineRecipes(data),true, Settings.SEQUNTIAL);
         if (nextP != null) {
             processorCost(block,inv);
-            if(inv.hasViewer()){
-                    inv.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_WORKING);
-            }
             int tickers=DataCache.getCustomData(data,"tick",0);
             if(tickers>=0){
                 int maxMultiple=getCraftLimit(data);
@@ -103,8 +107,6 @@ public abstract  class AbstractTransformer extends AbstractMachine {
                 }
             }
             DataCache.setCustomData(data,"tick",nextP.getTicks());
-        }else if (inv.hasViewer()){
-            inv.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_NULL);
         }
     }
     public int getPublicTick(){

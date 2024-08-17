@@ -524,6 +524,11 @@ public class AddSlimefunItems {
 
             }})
             .register();
+    public static final SlimefunItem SAMPLE_HEAD=new MaterialItem(AddGroups.SPECIAL,AddItem.SAMPLE_HEAD,RecipeType.NULL,
+            AddUtils.NULL_RECIPE.clone(),null)
+            .register();
+
+
     //multiblock
     public static final SlimefunItem PORTAL_CORE=new PortalCore(AddGroups.SPACE,AddItem.PORTAL_CORE,BugCrafter.TYPE,
             recipe(AddItem.LFIELD,AddItem.LFIELD,AddItem.DIMENSIONAL_SHARD,AddItem.DIMENSIONAL_SHARD,AddItem.LFIELD,AddItem.LFIELD,

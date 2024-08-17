@@ -573,32 +573,38 @@ public class CraftUtils {
     public static boolean forcePush( ItemConsumer[] slotCounters, BlockMenu inv,int[] slots,ItemPusherProvider pusher){
        // ItemPusher[] slotCounters2=new ItemPusher[slots.length];
         DynamicArray<ItemPusher> slotCounters2=new DynamicArray<>(ItemPusher[]::new,slots.length,(i)->(pusher.get(Settings.OUTPUT,inv,slots[i])));
-        for(int i=0;i<slotCounters.length;++i) {
-            ItemConsumer outputItem=slotCounters[i];
+        ItemConsumer outputItem;
+        ItemPusher itemCounter;
+        int len=slotCounters.length;
+        for(int i=0;i<len;++i) {
+            outputItem=slotCounters[i];
             //consume mode
             outputItem.syncData();
             for(int j=0;j<slots.length;++j) {
-                ItemPusher itemCounter=slotCounters2.get(j);
+                itemCounter=slotCounters2.get(j);
                 if(!itemCounter.isDirty()){
                     if(itemCounter.getItem()==null){
-                        itemCounter.grab(outputItem);
+                        outputItem.push(itemCounter);
+//                        itemCounter.grab(outputItem);
+//                        outputItem.addRelate(itemCounter);
                     }else if (itemCounter.getAmount()==itemCounter.getMaxStackCnt()){
                         continue;
                     }
                     else if(matchItemCounter(outputItem,itemCounter,false)){
-                        itemCounter.grab(outputItem);
-
+                        outputItem.push(itemCounter);
+//                        itemCounter.grab(outputItem);
+//                        outputItem.addRelate(itemCounter);
                     }
                     if(outputItem.getAmount()<=0)break;
                 }
             }
         }
         boolean hasChanged=false;
-        for(int i=0;i< slots.length;++i) {
-            ItemPusher itp=slotCounters2.get(i);
-            if(itp.isDirty()){
+        for(int i=0;i< len;++i) {
+            outputItem=slotCounters[i];
+            outputItem.updateItems(inv,Settings.PUSH);
+            if(outputItem.isDirty()){
                 hasChanged=true;
-                itp.updateMenu(inv);
             }
         }
         return hasChanged;
@@ -645,26 +651,24 @@ public class CraftUtils {
         ItemPusher itp=null;
         ItemGreedyConsumer outputItem;
         for(int i=0;i<len;++i) {
-
             outputItem=slotCounters[i];
             //consume mode
-            outputItem.setAmount(outputItem.getMatchAmount());
             for(int j=0;j<slots.length;++j) {
                 itp=slotCounters2.get(j);
                 if(!itp.isDirty()){
                     if(itp.getItem()==null){
-                        //outputItem.push(itp);
-                        itp.grab(outputItem);
-                        outputItem.addRelate(itp);
+                        outputItem.push(itp);
+//                        itp.grab(outputItem);
+//                        outputItem.addRelate(itp);
                     }else if (itp.getAmount()==itp.getMaxStackCnt()){
                         continue;
                     }
                     else if(matchItemCounter(outputItem,itp,false)){
-                        itp.grab(outputItem);
-                        //@TODO 尝试把ItemConusmer的push和grab加入内置的addRelated
-                        outputItem.addRelate(itp);
+                        outputItem.push(itp);
+//                        itp.grab(outputItem);
+//                        outputItem.addRelate(itp);
                     }
-                    if(outputItem.getAmount()<=0)break;
+                    if(outputItem.getMatchAmount()<=0)break;
                 }
             }
         }
@@ -681,13 +685,6 @@ public class CraftUtils {
                 hasChanged=true;
             }
         }
-        //@TODO try fix problem of creating too much ItemSlotPushers
-        //@TODO return value should be the dirty value of ItemConsumers,
-        //@TODO operation should be done by ItemConsumers not ItemPushers as it doesn't take into count in related
-//        for(int i=0;i<len;++i) {
-//            outputItem=slotCounters[i];
-//            outputItem.updateItems(inv,Settings.PUSH);
-//        }
         return hasChanged;
     }
     /**
@@ -708,13 +705,13 @@ public class CraftUtils {
 
     public static void multiUpdateInputMenu(ItemGreedyConsumer[] recipeGreedyCounters,BlockMenu inv){
         for(int i = 0; i< recipeGreedyCounters.length; ++i){
-            recipeGreedyCounters[i].updateItems(inv,Settings.GRAB);
+            recipeGreedyCounters[i].updateItemsPlus(inv,Settings.GRAB);
         }
     }
 
     public static void multiUpdateOutputMenu(ItemGreedyConsumer[] recipeGreedyCounters,BlockMenu inv){
         for(int i = 0; i< recipeGreedyCounters.length; ++i){
-            recipeGreedyCounters[i].updateItems(inv,Settings.PUSH);
+            recipeGreedyCounters[i].updateItemsPlus(inv,Settings.PUSH);
         }
     }
 

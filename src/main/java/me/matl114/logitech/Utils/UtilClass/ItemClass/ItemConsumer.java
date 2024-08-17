@@ -53,10 +53,9 @@ public class ItemConsumer extends ItemCounter {
         addRelate(target);
     }
     public void push(ItemPusher target){
-        super.push(target);
+        target.grab(this);
         addRelate(target);
     }
-
     /**
      * clear all modifi
      */

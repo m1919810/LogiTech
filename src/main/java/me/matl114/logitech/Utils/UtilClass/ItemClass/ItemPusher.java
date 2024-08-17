@@ -73,6 +73,10 @@ public class ItemPusher extends ItemCounter {
             counter.addAmount(-left);
         }
     }
+    public void push(ItemCounter counter) {
+        counter.grab(this);
+    }
+
 
     /**
      * should sync before

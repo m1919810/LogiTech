@@ -308,7 +308,7 @@ public class MachineRecipeUtils {
 //            return mgFrom(recipe1.getTicks(),input,output);
 //        }else
         if(input.length!=0&& output.length!=0){
-            if(input.length==1&&output.length==1&&CraftUtils.matchItemStack(output[0],input[0],false)&&input[0].getAmount()>=output[0].getAmount()){
+            if(input.length==1&&output.length==1&&CraftUtils.matchItemStack(output[0],input[0],true)&&input[0].getAmount()>=output[0].getAmount()){
                 return mgFrom(recipe1.getTicks(),input,output);
             }
 //            if(input[0] instanceof DisplayItemStack){

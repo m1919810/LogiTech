@@ -198,6 +198,11 @@ public class AddItem {
     public static final SlimefunItemStack HYPER_LINK=AddUtils.themed("HYPER_LINK",Material.NETHER_STAR,AddUtils.Theme.ITEM1,
             Language.get("Items.HYPER_LINK.Name"),Language.getList("Items.HYPER_LINK.Lore"));
 
+    public static final SlimefunItemStack SAMPLE_HEAD=AddUtils.themed("SAMPLE_HEAD",Material.PLAYER_HEAD,AddUtils.Theme.ITEM1,
+            Language.get("Items.SAMPLE_HEAD.Name"),Language.getList("Items.SAMPLE_HEAD.Lore"));
+
+
+
     //nachines
     public static final SlimefunItemStack HEAD_ANALYZER=AddUtils.themed("HEAD_ANALYZER",Material.SOUL_CAMPFIRE, AddUtils.Theme.MACHINE1,
             Language.get("Machines.HEAD_ANALYZER.Name"),Language.getList("Machines.HEAD_ANALYZER.Lore"));

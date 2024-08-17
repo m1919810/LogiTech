@@ -12,6 +12,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.matl114.logitech.Items.CustomHead;
+import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.CraftUtils;
@@ -27,6 +28,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 //import net.kyori.adventure.text.Component;
 //import net.kyori.adventure.text.event.ClickEvent;
 //import net.kyori.adventure.text.format.NamedTextColor;
@@ -45,7 +47,7 @@ public class HeadAnalyzer extends AbstractMachine{
     protected final int DECODE_SLOT=1;
     protected final int ENCODE_DISPLAY=16;
     protected final int DECODE_INPUTSLOT=10;
-    protected final ItemStack CHANGE_ITEM=new CustomItemStack(Material.CRAFTING_TABLE,"&e点击转换头颅","&7当下方为默认头颅时,点击输入hash,可以更改头颅样式","&7当下方不为默认头颅且非粘液物品时,将头颅转为默认头颅");
+    protected final ItemStack CHANGE_ITEM=new CustomItemStack(Material.CRAFTING_TABLE,"&e点击转换头颅","&7当下方为默认头颅时,点击输入hash,可以更改头颅样式","&7当下方为展示示例头颅或非粘液物品时,将头颅转为默认头颅");
     protected final ItemStack ENCODE_ITEM=new CustomItemStack(Material.NAME_TAG,"&e点击输入hash","&7将在下方显示头颅样式");
     protected final ItemStack ENCODE_DISPLAY_NULL=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&c空","&c暂未输入hash或者不是有效的hash");
     protected final ItemStack DECODE_ITEM=new CustomItemStack(Material.KNOWLEDGE_BOOK,"&e点击解析下方头颅","&7若下方为有效物品,则显示hash","&3hash: &f空");
@@ -130,31 +132,32 @@ public class HeadAnalyzer extends AbstractMachine{
             if(it!=null&&it.getType()==Material.PLAYER_HEAD){
 
                 if(!it.hasItemMeta()){
+                    blockMenu.replaceExistingItem(CHANGE_INPUT,null);
                     AddUtils.sendMessage(player,"&e请输入头颅的hash码");
                     player.closeInventory();
                     ChatInput.waitForPlayer(
                             Slimefun.instance(),
                             player,
                             msg ->{
-                                ItemStack it2=blockMenu.getItemInSlot(CHANGE_INPUT);
-                                if(it!=null&&it2.getType()==Material.PLAYER_HEAD){
-                                    ItemMeta meta2=it2.getItemMeta();
-                                    if(!it2.hasItemMeta()){
-                                        it2.setItemMeta(CustomHead.getHead(msg).getItemMeta());
-                                        blockMenu.open(player);
-                                        return;
-                                    }
+                                ItemStack it2=AddItem.SAMPLE_HEAD.clone();
+                                ItemMeta meta2=it2.getItemMeta();
+                                ItemMeta target_meta=CustomHead.getHead(msg).getItemMeta();
+
+                                if(meta2 instanceof SkullMeta skmeta && target_meta instanceof SkullMeta skmeta2){
+                                    skmeta.setOwnerProfile(skmeta2.getOwnerProfile());
                                 }
-                                AddUtils.sendMessage(player,"&c物品已被提前变更!");
+                                it2.setItemMeta(meta2);
+                                blockMenu.replaceExistingItem(CHANGE_INPUT,it2);
                                 blockMenu.open(player);
+                                return;
                             } );
                 }else{
                     ItemMeta meta=it.getItemMeta();
                     String id= CraftUtils.parseSfId(meta);
-                    if(id==null){
+                    if(id==null||id.equals( AddItem.SAMPLE_HEAD.getItemId())){
                         it.setItemMeta(null);
                     }else{
-                        AddUtils.sendMessage(player,"&c不能在这里使用粘液科技的物品!");
+                        AddUtils.sendMessage(player,"&c不是合法物品,无法清除头颅数据!");
                     }
                 }
             }

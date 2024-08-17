@@ -78,7 +78,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType {
                            int time, int energybuffer, int energyConsumption) {
         super(itemGroup, item, recipeType, recipe, time, energybuffer, energyConsumption, new LinkedHashMap<>());
         this.PROCESSOR_SLOT=22;
-        String[] lores=new String[]{"&7下侧为输出槽,左侧为输入检测槽","&a输入检测槽中的物品不会被消耗!","&e生产数量只与堆叠机器的数目有关,与输入检测数目无关"};
+        String[] lores=new String[]{"&7下侧为输出槽,左侧为输入检测槽","&a输入检测槽中的物品不会被消耗!","&e生产数量只与堆叠机器的数目有关,与输入检测数目无关","&e生产时间为原配方生产时间"};
         AddUtils.setLore(this.INFO_WORKING,lores);
         AddUtils.setLore(this.INFO_NULL,lores);
     }
@@ -246,12 +246,19 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType {
             if(energy>consumption){
                 if(inv.hasViewer()){
                     inv.replaceExistingItem(MINFO_SLOT,getInfoItem(craftLimit,consumption,energy,this.efficiency, ItemStackHelper.getDisplayName(inv.getItemInSlot(MACHINE_SLOT))));
+
                 }
                 int tick=DataCache.getCustomData(data,"tick",-1);
                 if(tick<=0){
                     process(b,inv,data);
+                    if (inv.hasViewer()){
+                        inv.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_NULL);
+                    }
                 }else{
                     DataCache.setCustomData(data,"tick",tick-1);
+                    if(inv.hasViewer()){
+                        inv.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_WORKING);
+                    }
                 }
             }else {
                 //没电
