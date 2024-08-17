@@ -7,6 +7,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.SlimefunItem.Machines.*;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
@@ -50,6 +51,7 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
         this.publicTime=0;
         this.progressItem = new ItemStack(processbar);
     }
+
     public AdvanceRecipeCrafter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                                 Material processbar, int energyConsumption, int energyBuffer,int ticks,
                                 RecipeType... craftType)  {
@@ -57,6 +59,9 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
         this.craftType=craftType;
         this.publicTime=ticks;
         this.progressItem = new ItemStack(processbar);
+        SchedulePostRegister.addPostRegisterTask(()->
+            getDisplayRecipes()
+        );
     }
     public List<MachineRecipe> getMachineRecipes() {
         if(this.machineRecipes == null||this.machineRecipes.isEmpty()||this.craftType!=null) {
@@ -64,24 +69,30 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
                 this.machineRecipes = new ArrayList<>();
             }
             if(publicTime==0){
-            if(this.craftType.length<=0){
-                return new ArrayList<>();
-            }
-            else {
-                this.machineRecipes=new ArrayList<>();
-                for(RecipeType rt : this.craftType){
-                    if(rt!=null)
-                        this.machineRecipes.addAll(RecipeSupporter.getStackedRecipes(rt));
+                if(this.craftType.length<=0){
+                    return new ArrayList<>();
                 }
-            }
-            //reset ticks to ...
+                else {
+
+                    this.machineRecipes=new ArrayList<>();
+                    for(RecipeType rt : this.craftType){
+                        if(rt!=null){
+                            List<MachineRecipe> rep=RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(rt);
+                            if(rep==null)rep=new ArrayList<>();
+                            this.machineRecipes.addAll(rep);
+                        }
+                    }
+                }
+                //reset ticks to ...
             }else{
+                //@TODO new MachineRecipe to reset ticks
                 this.machineRecipes=new ArrayList<>();
                 for(int i=0;i<this.craftType.length;i++){
                     RecipeType rt = this.craftType[i];
                     if(rt!=null){
-                        this.machineRecipes.addAll( RecipeSupporter.getStackedRecipes(rt));
-
+                        List<MachineRecipe> rep=RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(rt);
+                        if(rep==null)rep=new ArrayList<>();
+                        this.machineRecipes.addAll(rep);
                     }
                 }
             }

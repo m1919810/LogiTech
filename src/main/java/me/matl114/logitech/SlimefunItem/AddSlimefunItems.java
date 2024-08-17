@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.MyAddon;
+import me.matl114.logitech.SlimefunItem.Blocks.AbstractBlock;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.MultiIOPort;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.PortalCore;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.SolarReactorCore;
@@ -336,6 +337,12 @@ public class AddSlimefunItems {
                     "OBSERVER","STICKY_PISTON","STICKY_PISTON","STICKY_PISTON","STICKY_PISTON","OBSERVER",
                     "TNT","SLIME_BLOCK","ANVIL","ANVIL","SLIME_BLOCK","TNT"),null)
             .register();
+    public static final SlimefunItem SAMPLE_HEAD=new AbstractBlock(AddGroups.SPECIAL,AddItem.SAMPLE_HEAD,RecipeType.NULL,
+            AddUtils.NULL_RECIPE.clone())
+            .register();
+
+
+
 
     //machines
     public static final SlimefunItem BOOL_GENERATOR=new BoolGenerator(AddGroups.BASIC,AddItem.BOOL_GENERATOR,RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -524,9 +531,7 @@ public class AddSlimefunItems {
 
             }})
             .register();
-    public static final SlimefunItem SAMPLE_HEAD=new MaterialItem(AddGroups.SPECIAL,AddItem.SAMPLE_HEAD,RecipeType.NULL,
-            AddUtils.NULL_RECIPE.clone(),null)
-            .register();
+
 
 
     //multiblock

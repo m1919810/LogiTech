@@ -39,8 +39,12 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         }
         ConfigLoader.load(this);
         Language.loadConfig(ConfigLoader.LANGUAGE);
-        Dependency.init();
-        Debug.logger("依赖检测完毕");
+        try{
+            Dependency.init();
+        }catch (Throwable e){
+            Debug.logger("在加载软依赖时出现错误! 出现版本不匹配的附属,加载终止");
+        }
+        Debug.logger("软依赖检测完毕");
         AddGroups.registerGroups(this);
         Debug.logger("物品组加载完毕");
         Debug.logger("自定义物品加载完毕");

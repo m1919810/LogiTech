@@ -1,0 +1,32 @@
+stack_type:
+  #用于强制改变设置某些机器为 机器 或者 生成器 并改变电力耗量
+  LOGITECH_LOGIC_REACTOR:
+    #type支持"none","machine","generator"
+    #设置为none则会将该机器从两个堆叠中移除
+    type: "none"
+    #设置电力消耗/t*机器数
+    #设置为-1则不会更改
+    energy: -1
+
+recipe_modify:
+  CARBON_PRESS:
+    #mode是操作方式 允许a+ a w+ w
+    #a代表添加 w代表覆写 +代表是否尝试修改原机器配方 若不加+则只会修改堆叠机器配方
+    #警告: "+"慎用,可能造成无法预知的错误！
+    #注意 当你希望对非生成器加入生成器配方 请使用“w" 否则可能无法加载入堆叠生成器
+    mode: "a+"
+    #机器类型 支持 machine 和 generator(材料生成器)
+    #分别会添加到堆叠机器和堆叠生成器上
+    #若为生成器则不会尝试修改原机器配方！
+    type: "machine"
+    recipe:
+      #名字随意 顺序读取
+      example_recipe:
+        input:
+          #在这里写入 数量+id 即可解析为物品
+          #铜锭将会被解析为粘液铜锭
+          #应该没人用原版铜这种垃圾吧
+          - "3BEDROCK"
+        output:
+          - "DIRT"
+        tick: 5

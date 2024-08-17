@@ -1,11 +1,6 @@
 package me.matl114.logitech.Utils;
 
-import com.ytdd9527.networks.expansion.core.item.machine.manual.ExpansionWorkbench;
-import io.github.mooy1.infinityexpansion.items.blocks.InfinityWorkbench;
 import io.github.mooy1.infinityexpansion.items.machines.GrowingMachine;
-import io.github.mooy1.infinityexpansion.items.machines.VoidHarvester;
-import io.github.mooy1.infinityexpansion.items.mobdata.MobDataInfuser;
-import io.github.sefiraat.networks.slimefun.network.NetworkQuantumWorkbench;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -16,8 +11,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Composter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Crucible;
-import me.matl114.logitech.Dependency;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
+import me.matl114.logitech.ConfigLoader;
 import me.matl114.logitech.MyAddon;
+import me.matl114.logitech.SlimefunItem.AddDepends;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.MGeneratorRecipe;
@@ -28,8 +25,6 @@ import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.inventory.*;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.*;
 
 public class RecipeSupporter {
@@ -128,8 +123,6 @@ public class RecipeSupporter {
      * be careful ,ticks of these MachineRecipe are -1 ! not able to use directly in machine
      */
     public static final HashMap<RecipeType, List<MachineRecipe>> PROVIDED_UNSHAPED_RECIPES = new LinkedHashMap<>(){{
-
-
     }};
     //总统计表
     public static final HashSet<RecipeType> RECIPE_TYPES = new LinkedHashSet<>();
@@ -148,15 +141,18 @@ public class RecipeSupporter {
         add(RecipeType.GRIND_STONE);
         add(RecipeType.ORE_CRUSHER);
         add(RecipeType.SMELTERY);
-        if(Dependency.hasInfiniteExpansion){
-            add(InfinityWorkbench.TYPE);
-            add(MobDataInfuser.TYPE);
+        if(AddDepends.INFINITYWORKBENCH_TYPE!=null){
+            add(AddDepends.INFINITYWORKBENCH_TYPE);
         }
-        if(Dependency.hasNetwork){
-            add(NetworkQuantumWorkbench.TYPE);
+        if(AddDepends.MOBDATA_TYPE!=null) {
+
+            add(AddDepends.MOBDATA_TYPE);
         }
-        if(Dependency.hasNetworkExpansion){
-            add(ExpansionWorkbench.TYPE);
+        if(AddDepends.NTWQTWORKBENCH_TYPE!=null){
+            add(AddDepends.NTWQTWORKBENCH_TYPE);
+        }
+        if(AddDepends.NTWEP_WORKBENCH_TYPE!=null){
+            add(AddDepends.NTWEP_WORKBENCH_TYPE);
         }
     }};
     //废弃的表
@@ -165,15 +161,15 @@ public class RecipeSupporter {
     }};
     //被禁用的配方
     public static final HashSet<RecipeType> BLACKLIST_RECIPETYPES = new HashSet<>(){{
-        if(Dependency.hasInfiniteExpansion){
-            add(VoidHarvester.TYPE);
+        if(AddDepends.VOIDHARVEST!=null){
+            add(AddDepends.VOIDHARVEST);
         }
 
     }};
     //一般来说不能让玩家合成的
     public static final HashSet<RecipeType> ILLEGAL_RECIPETYPES =new HashSet<>(){{
-        if(Dependency.hasInfiniteExpansion){
-            add(VoidHarvester.TYPE);
+        if(AddDepends.VOIDHARVEST!=null){
+            add(AddDepends.VOIDHARVEST);
         }
         add(RecipeType.NULL);
         add(RecipeType.MOB_DROP);
@@ -213,6 +209,176 @@ public class RecipeSupporter {
         }
         return  null;
     }
+    public static boolean tryModifyStandardMachineRecipe(SlimefunItem item,List<MachineRecipe> sourceRecipe,boolean apply){
+        String fieldName=null;
+        boolean isMethod=false;
+        Object machineRecipes=null;
+        if (fieldName == null) {
+            machineRecipes = ReflectUtils.invokeGetRecursively(item, Settings.FIELD, "recipes");
+            if (machineRecipes != null) {
+                fieldName = "recipes";
+            }
+        }
+        if (fieldName == null) {
+            machineRecipes = ReflectUtils.invokeGetRecursively(item, Settings.FIELD, "machineRecipes");
+            if (machineRecipes != null) {
+                fieldName= "machineRecipes";
+            }
+        }
+        if (fieldName == null) {
+            machineRecipes = ReflectUtils.invokeGetRecursively(item, Settings.METHOD, "getMachineRecipes");
+            if (machineRecipes != null) {
+                fieldName = "getMachineRecipes";
+                isMethod=true;
+            }
+        }
+        if(machineRecipes==null){
+            return false;
+        }
+        try{
+            List<MachineRecipe> result=new ArrayList<>();
+
+            if(apply){
+                List<MachineRecipe> origin=(List<MachineRecipe>) machineRecipes;
+                result.addAll(origin);
+            }
+            result.addAll(sourceRecipe);
+            ReflectUtils.invokeSetRecursively(item,fieldName,result);
+            return true;
+        }catch (Throwable e){
+            try{
+                List<MachineRecipe> origin=(List<MachineRecipe>) machineRecipes;
+                origin.addAll(sourceRecipe);
+                return  true;
+            }catch (Throwable e1){
+                return false;
+            }
+        }
+    }
+    public static void loadMachineModification(Config config){
+        Set<String > keySets=config.getKeys("recipe_modify");
+        for (String machineId:keySets){
+            String machinepath="recipe_modify."+machineId;
+            SlimefunItem machine;
+            try{
+                machine= SlimefunItem.getById(machineId);
+            }catch(Throwable e){
+                Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: not valid item  %s".formatted(machineId));
+                continue;
+            }
+            boolean append=false;
+            boolean applyToMachine=false;
+            boolean isGenerator=false;
+            Set<String> machineRecipe=null;
+            try{
+                String method=config.getString(machinepath+".mode");
+                append=method.startsWith("a");
+                applyToMachine=method.endsWith("+");
+                machineRecipe=config.getKeys(machinepath+".recipe");
+                isGenerator=config.getString(machinepath+".type").startsWith("gen");
+            }catch(Throwable e){
+                Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: error config format in %s".formatted(machineId));
+            }
+            if(machineRecipe==null){
+                continue;
+            }
+            List<MachineRecipe> recipes=new ArrayList<>(machineRecipe.size()+2);
+            try{
+                recipeloop:
+                for(String recipe:machineRecipe){
+                    String rcpath=machinepath+".recipe."+recipe;
+                    List<String> inputlist=config.getStringList(rcpath+".input");
+                    List<String> outputlist=config.getStringList(rcpath+".output");
+                    int tick=config.getInt(rcpath+".tick");
+                    ItemStack[] input=new ItemStack[inputlist.size()];
+                    ItemStack[] output=new ItemStack[outputlist.size()];
+                    for(int i=0;i<input.length;i++){
+                        input[i]=AddUtils.resolveItem(inputlist.get(i));
+                        if(input[i]==null){
+                            Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: error config format in recipe %s".formatted(recipe));
+                            continue recipeloop;
+                        }
+                    }
+                    for(int i=0;i<output.length;i++){
+                        output[i]=AddUtils.resolveItem(outputlist.get(i));
+                        if(output[i]==null){
+                            Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: error config format in recipe %s".formatted(recipe));
+                            continue recipeloop;
+                        }
+                    }
+                    if(isGenerator){
+                        recipes.add(MachineRecipeUtils.mgFrom(tick,input,output));
+                    }else{
+                        recipes.add(MachineRecipeUtils.stackFrom(tick,input,output));
+                    }
+                }
+            }catch(Throwable e){
+                Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: error recipe format in %s".formatted(machineId));
+            }
+
+            List<MachineRecipe> recipe=MACHINE_RECIPELIST.get(machine);
+            if(recipe==null){
+                recipe=new ArrayList<>(machineRecipe.size()+2);
+                MACHINE_RECIPELIST.put(machine,recipe);
+            }
+            if(!append){
+                recipe.clear();
+            }//加入机器列表
+            recipe.addAll(recipes);
+            if(applyToMachine&&!isGenerator){
+                if(!tryModifyStandardMachineRecipe(machine,recipes,applyToMachine)){
+                    Debug.logger("WARNING: %s 不是标准的机器,尝试修改机器配方列表失败,禁用该物品 + 模式".formatted(machineId));
+                }
+            }
+        }
+    }
+    public static void loadStackMachineConfig(Config config){
+        Set<String > keySets=config.getKeys("stack_type");
+        for (String machineId:keySets){
+            String machinepath="stack_type."+machineId;
+            SlimefunItem machine;
+            try{
+                machine= SlimefunItem.getById(machineId);
+            }catch (Throwable e){
+                Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: not valid item  %s".formatted(machineId));
+                continue;
+            }
+            String type=null;
+            int energy=-1;
+
+            try{
+                type=config.getString(machinepath+".type");
+                energy=config.getInt(machinepath+".energy");
+            }catch(Throwable e){
+                Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: error config format in %s".formatted(machineId));
+            }
+            if(type==null){
+                continue;
+            }
+            if(type.startsWith("gen")){
+                STACKMACHINE_LIST.remove(machine);
+                Integer a=STACKMGENERATOR_LIST.get(machine);
+                if(a==null){
+                    energy=0;
+                }else {
+                    energy=energy==-1?a:energy;
+                }
+                STACKMGENERATOR_LIST.put(machine,energy);
+            }else if(type.startsWith("mach")){
+                STACKMGENERATOR_LIST.remove(machine);
+                Integer a=STACKMACHINE_LIST.get(machine);
+                if(a==null){
+                    energy=0;
+                }else {
+                    energy=energy==-1?a:energy;
+                }
+                STACKMACHINE_LIST.put(machine,energy);
+            }else if(type.startsWith("no")){
+                STACKMACHINE_LIST.remove(machine);
+                STACKMGENERATOR_LIST.remove(machine);
+            }
+        }
+    }
 
     /**
      * invoke recursively
@@ -220,25 +386,16 @@ public class RecipeSupporter {
      * @param mod
      * @return
      */
-    static{
+    private static boolean hasInit=false;
+    public static void initRecipeSupportor(){
+        if(hasInit){
+            throw new RuntimeException("RecipeSupporter start register task before server start!! register abort");
+        }
+        hasInit=true;
         long a=System.nanoTime();
         Debug.logger("配方供应器开始进行数据采集,预计耗时2秒");
         Debug.logger("期间tps可能会下降,请不要在供应器工作时进入服务器");
         Debug.logger("期间的报错信息均可忽略");
-        //this should be recipes with problems ,but we eventually replace them after search
-//        HashSet<RecipeType> recipeBlackList=new HashSet<>(){{
-//            add(RecipeType.GOLD_PAN);
-//            add(RecipeType.ORE_WASHER);}
-//        };
-//
-//        HashSet<MultiBlockMachine> multiblockBlackList=new HashSet<>(){{
-//            add((MultiBlockMachine) SlimefunItems.ORE_WASHER.getItem());
-//            add((MultiBlockMachine) SlimefunItems.AUTOMATED_PANNING_MACHINE.getItem());
-//            add((MultiBlockMachine) SlimefunItems.TABLE_SAW.getItem());
-//        }
-//        };
-
-
         Debug.logger("读取全部配方中...");
         RECIPE_TYPES.add(BukkitUtils.VANILLA_CRAFTTABLE);
         PROVIDED_SHAPED_RECIPES.put(BukkitUtils.VANILLA_CRAFTTABLE,new ArrayList<>());
@@ -246,9 +403,6 @@ public class RecipeSupporter {
         RECIPE_TYPES.add(BukkitUtils.VANILLA_FURNACE);
         PROVIDED_UNSHAPED_RECIPES.put(BukkitUtils.VANILLA_FURNACE,new ArrayList<>());
         PROVIDED_SHAPED_RECIPES.put(BukkitUtils.VANILLA_FURNACE,new ArrayList<>());
-//        RECIPE_TYPES.add(VANILLA_MERCHANT);
-//        PROVIDED_UNSHAPED_RECIPES.put(VANILLA_MERCHANT,new ArrayList<>());
-//        PROVIDED_SHAPED_RECIPES.put(VANILLA_MERCHANT,new ArrayList<>());
         Iterator<Recipe> recipeIterator = PLUGIN.getJavaPlugin().getServer().recipeIterator();
         while (recipeIterator.hasNext()) {
             Recipe next = recipeIterator.next();
@@ -270,11 +424,6 @@ public class RecipeSupporter {
                 PROVIDED_SHAPED_RECIPES.get(BukkitUtils.VANILLA_FURNACE).add(MachineRecipeUtils.shapeFrom(-1,Utils.array(input),Utils.array(next.getResult())));
                 PROVIDED_UNSHAPED_RECIPES.get(BukkitUtils.VANILLA_FURNACE).add(MachineRecipeUtils.stackFrom(-1,Utils.array(input),Utils.array(next.getResult())));
             }
-//            else if(next instanceof MerchantRecipe){
-//                List<ItemStack> input=((MerchantRecipe)next).getIngredients();
-//                PROVIDED_SHAPED_RECIPES.get(VANILLA_MERCHANT).add(MachineRecipeUtils.shapeFrom(-1,input.toArray(new ItemStack[input.size()]),Utils.array(next.getResult())));
-//                PROVIDED_UNSHAPED_RECIPES.get(VANILLA_MERCHANT).add(MachineRecipeUtils.stackFrom(-1,input.toArray(new ItemStack[input.size()]),Utils.array(next.getResult())));
-//            }
         }
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
             RecipeType recipeType = item.getRecipeType();
@@ -336,7 +485,7 @@ public class RecipeSupporter {
             }
             //解析指定类型特殊机器配方类型
             try{
-                Object _Type=ReflectUtils.invokeRecursively(item,Settings.FIELD,"TYPE");
+                Object _Type=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"TYPE");
                 if(_Type instanceof RecipeType&&!BLACKLIST_RECIPETYPES.contains((RecipeType) _Type)){
                     CUSTOM_RECIPETYPES.put(item,(RecipeType) _Type);
                     //Debug.logger("detect certain field TYPE: "+item);
@@ -398,8 +547,8 @@ public class RecipeSupporter {
                     String methodName=null;
                     if(methodName==null){
                         try{
-                            Object stack=ReflectUtils.invokeRecursively(item,Settings.FIELD,"output");
-                            Object tick=ReflectUtils.invokeRecursively(item,Settings.FIELD,"tickRate");
+                            Object stack=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"output");
+                            Object tick=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"tickRate");
                             recipes=new ArrayList<>();
                             if(stack instanceof List stacklist){
                                 int size=stacklist.size();
@@ -417,8 +566,8 @@ public class RecipeSupporter {
                     }
                     if(methodName==null){
                         try{
-                            Object stack=ReflectUtils.invokeRecursively(item,Settings.FIELD,"generation");
-                            Object tick=ReflectUtils.invokeRecursively(item,Settings.FIELD,"tickRate");
+                            Object stack=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"generation");
+                            Object tick=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"tickRate");
                             recipes=new ArrayList<>();
                             if(stack instanceof List stacklist){
                                 int size=stacklist.size();
@@ -456,15 +605,21 @@ public class RecipeSupporter {
                                 String infinitylib = "infinitylib";
                                 try {
                                     if (methodName == null) {
-                                        machineRecipes = ReflectUtils.invokeRecursively(item, Settings.METHOD, "getMachineRecipes");
+                                        machineRecipes = ReflectUtils.invokeGetRecursively(item, Settings.METHOD, "getMachineRecipes");
                                         if (machineRecipes != null) {
                                             methodName = "getMachineRecipes() method";
                                         }
                                     }
                                     if (methodName == null) {
-                                        machineRecipes = ReflectUtils.invokeRecursively(item, Settings.FIELD, "recipes");
+                                        machineRecipes = ReflectUtils.invokeGetRecursively(item, Settings.FIELD, "recipes");
                                         if (machineRecipes != null) {
-                                            methodName = "getMachineRecipes() method";
+                                            methodName = "recipes field";
+                                        }
+                                    }
+                                    if (methodName == null) {
+                                        machineRecipes = ReflectUtils.invokeGetRecursively(item, Settings.FIELD, "machineRecipes");
+                                        if (machineRecipes != null) {
+                                            methodName = "machineRecipes field";
                                         }
                                     }
                                     if (machineRecipes != null) {
@@ -543,20 +698,11 @@ public class RecipeSupporter {
                 e.printStackTrace();
             }
         }
-        //invok 进机器配方 测试
-//        SlimefunItem compressor= SlimefunItem.getById("ELECTRIC_PRESS");
-//        try{
-//            Class clazz= AContainer.class;
-//            Field getMR=clazz.getDeclaredField("recipes");
-//            getMR.setAccessible(true);
-//            List<MachineRecipe> machineRecipes=(List<MachineRecipe>) getMR.get(compressor);
-//            machineRecipes.addAll(PROVIDED_UNSHAPED_RECIPES.get(RecipeType.COMPRESSOR));
-//        }catch (Throwable e){
-//            Debug.logger("generate unexpected exception while invoking compressor! :"+e.getMessage());
-//            e.printStackTrace();
-//        }
+        Debug.logger("尝试载入机器配方修改配置文件");
+        loadMachineModification(ConfigLoader.MACHINES);
         //解析机器用电,并提供给StackMachine
         //到时候还需要解析生成器配方和用电
+        Debug.logger("注册堆叠机器的机器列表");
         for(Map.Entry<SlimefunItem,List<MachineRecipe>> e:MACHINE_RECIPELIST.entrySet()){
             SlimefunItem item=e.getKey();
             //黑名单 本附属非processor的machine 和 高级processor
@@ -569,31 +715,31 @@ public class RecipeSupporter {
                 String methodName=null;
                 try{
                     if(methodName==null){
-                        energy=ReflectUtils.invokeRecursively(item,clazz,Settings.METHOD,"getEnergyConsumption");
+                        energy=ReflectUtils.invokeGetRecursively(item,clazz,Settings.METHOD,"getEnergyConsumption");
                         if(energy!=null){
                             methodName="getEnergyConsumption() method";
                         }
                     }
                     if(methodName==null){
-                        energy=ReflectUtils.invokeRecursively(item,Settings.FIELD,"EnergyConsumption");
+                        energy=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"EnergyConsumption");
                         if(energy!=null){
                             methodName="EnergyConsumption field";
                         }
                     }
                     if(methodName!=null){
-                        energy=ReflectUtils.invokeRecursively(item,Settings.FIELD,"energyConsumedPerTick");
+                        energy=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"energyConsumedPerTick");
                         if(energy!=null){
                             methodName="energyConsumedPerTick field";
                         }
                     }
                     if(methodName!=null){
-                        energy=ReflectUtils.invokeRecursively(item,Settings.FIELD,"energyPerTick");
+                        energy=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"energyPerTick");
                         if(energy!=null){
                             methodName="energyPerTick field";
                         }
                     }
                     if(methodName!=null){
-                        energy=ReflectUtils.invokeRecursively(item,Settings.FIELD,"per");
+                        energy=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"per");
                         if(energy!=null){
                             methodName="per";
                         }
@@ -616,25 +762,33 @@ public class RecipeSupporter {
                 }
             }
         }
+        loadStackMachineConfig(ConfigLoader.MACHINES);
         Debug.logger("配方供应器工作完成, 耗时 "+(System.nanoTime()-a)+ " 纳秒");
+    }
+    static{
+        Debug.logger("RecipeSupportor Work Start");
+
+        initRecipeSupportor();
+
+
     }
     public static MachineRecipe resolveInfinityMachineBlockRecipe(Object recipe, SlimefunItem machine){
         int ticks=0;
         //if(machine instanceof MachineBlock block){
         try{
-            Integer a=(Integer) ReflectUtils.invokeRecursively(machine,Settings.FIELD,"ticksPerOutput");
+            Integer a=(Integer) ReflectUtils.invokeGetRecursively(machine,Settings.FIELD,"ticksPerOutput");
             if(a!=null){
                 ticks=a-1;
             }
         }catch (Throwable a){}
         // }
         try{
-            String[] item=(String[]) ReflectUtils.invokeRecursively(recipe,Settings.FIELD,"strings");
-            int[] counts=(int[]) ReflectUtils.invokeRecursively(recipe,Settings.FIELD,"amounts");
-            ItemStack stack=(ItemStack)ReflectUtils. invokeRecursively(recipe,Settings.FIELD,"output");
+            String[] item=(String[]) ReflectUtils.invokeGetRecursively(recipe,Settings.FIELD,"strings");
+            int[] counts=(int[]) ReflectUtils.invokeGetRecursively(recipe,Settings.FIELD,"amounts");
+            ItemStack stack=(ItemStack)ReflectUtils.invokeGetRecursively(recipe,Settings.FIELD,"output");
             try{
                 //尝试判断是不是randomizedItemStack
-                Object itemlist=ReflectUtils.invokeRecursively(stack,Settings.FIELD,"items");
+                Object itemlist=ReflectUtils.invokeGetRecursively(stack,Settings.FIELD,"items");
                 if(itemlist!=null){
                     ItemStack[] list1=(ItemStack[])itemlist;
                     stack=AddUtils.eqRandItemStackFactory(Arrays.stream(list1).toList());
@@ -665,13 +819,13 @@ public class RecipeSupporter {
             int ticks=0;
             //if(machine instanceof MachineBlock block){
             try{
-                Integer a=(Integer) ReflectUtils.invokeRecursively(item,Settings.FIELD,"ticksPerOutput");
+                Integer a=(Integer) ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"ticksPerOutput");
                 if(a!=null){
                     ticks=a-1;
                 }
             }catch (Throwable a){}
             try{
-                EnumMap<Material,ItemStack[]> map=(EnumMap<Material, ItemStack[]>) ReflectUtils.invokeRecursively(gm,Settings.FIELD,"recipes");
+                EnumMap<Material,ItemStack[]> map=(EnumMap<Material, ItemStack[]>) ReflectUtils.invokeGetRecursively(gm,Settings.FIELD,"recipes");
                 for(Map.Entry<Material,ItemStack[]> entry:map.entrySet()){
                     recipes.add(MachineRecipeUtils.mgFrom(ticks,Utils.array(new ItemStack(entry.getKey())),entry.getValue()));
                 }

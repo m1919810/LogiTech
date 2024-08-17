@@ -63,7 +63,6 @@ public class MenuUtils {
      */
     public static ItemStack syncSlot(BlockMenu inv ,int slot, ItemStack item){
         if(item instanceof AbstractItemStack){
-            Debug.logger("multiItemStack called");
             item=item.clone();
         }
         inv.replaceExistingItem(slot, item,false);

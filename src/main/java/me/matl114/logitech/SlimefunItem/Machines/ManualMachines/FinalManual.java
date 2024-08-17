@@ -98,7 +98,6 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
     });
     //after start,load recipeType from config
     public void registerRecipeList(){
-        Debug.logger("FINAL MANUAL register task start");
         craftType=BW_LIST.toArray(new RecipeType[BW_LIST.size()]);
     }
     public final List<RecipeType> BW_LIST;

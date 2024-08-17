@@ -33,8 +33,8 @@ public class Schedules {
                 SchedulePostRegister.schedulePostRegister();
             }
         };
-        int delayPostRegister=10;
-        postRegisterTask.runTaskLaterAsynchronously(plugin, delayPostRegister);
+        int delayPostRegister=1;
+        postRegisterTask.runTaskLater(plugin,delayPostRegister);
     }
     public static void onDisableSchedules(Plugin plugin){
         Debug.logger("保存附属数据中");

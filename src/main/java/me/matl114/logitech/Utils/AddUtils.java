@@ -429,12 +429,11 @@ public class AddUtils {
                     }
                     return b;
                 }catch (Exception e2){
-                    Debug.logger("[resolveItem] Generate an exception while dealing with Object ",a.toString(),"class type ",a.getClass());
-                    return  null;
+                    throw new IllegalArgumentException(" Object %s can not be solved ! please check expression".formatted(a));
                 }
             }
         } else {
-            Debug.logger("[resolveItem] failed to resolve Object "+a.toString());
+            Debug.logger("failed to solve Object "+a.toString());
             return null;
         }
 
