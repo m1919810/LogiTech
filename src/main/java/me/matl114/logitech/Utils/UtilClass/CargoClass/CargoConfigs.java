@@ -1,5 +1,7 @@
 package me.matl114.logitech.Utils.UtilClass.CargoClass;
 
+import me.matl114.logitech.Utils.Debug;
+
 public enum CargoConfigs {
     /**
      * 是否强对称
@@ -52,7 +54,7 @@ public enum CargoConfigs {
         this(bit,1);
     }
     public int getConfigInt(int code){
-        return (code<<this.bit)&this.template;
+        return (code>>this.bit)&this.template;
     }
     public boolean getConfig(int code){
         return getConfigInt(code)!=0;
@@ -64,7 +66,8 @@ public enum CargoConfigs {
         value=(value&this.template)<<this.bit;
         int blank=~(this.template<<this.bit);
         code=code&blank;
-        return code&value;
+        code =code|value;
+        return code;
     }
     public static int setAllConfig(boolean symm,boolean isnull,boolean islazy,boolean blklst,boolean fromInput,boolean toOutput,boolean reverse,int limit){
         int code=0;

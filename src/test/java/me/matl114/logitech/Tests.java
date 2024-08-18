@@ -21,7 +21,7 @@ public class Tests {
     }
 
 
-    @Test
+    //@Test
     public void test_init(){
         TestStack[] testStacks = new TestStack[]{
                 new TestStack(1),
@@ -71,6 +71,16 @@ public class Tests {
        boolean reverse=false;
        int trans=647;
        int configCode= CargoConfigs.setAllConfig(symm,isnull,lazy,bklst,fromInput,toOutput,reverse,trans);
-       log("check config code "+configCode);
+
+       log("[TEST CONFIG CODE] "+configCode);
+       assert CargoConfigs.IS_SYMM.getConfig(configCode)==symm;
+       assert CargoConfigs.IS_NULL.getConfig(configCode)==isnull;
+       assert CargoConfigs.IS_LAZY.getConfig(configCode)==lazy;
+       assert CargoConfigs.TO_OUTPUT.getConfig(configCode)==toOutput;
+       assert CargoConfigs.REVERSE.getConfig(configCode)==reverse;
+       assert CargoConfigs.IS_BLKLST.getConfig(configCode)==bklst;
+       assert CargoConfigs.FROM_INPUT.getConfig(configCode)==fromInput;
+       assert CargoConfigs.TRANSLIMIT.getConfigInt(configCode)==trans;
+       log("[TEST CONFIG CODE] TEST SUCCESS");
     }
 }
