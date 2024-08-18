@@ -144,6 +144,14 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType {
                     if(clickAction.isRightClicked()){
                         limit=16;
                     }
+                    if(this.energyConsumption>0){
+                        int charge=this.getCharge(menu.getLocation())/this.energyConsumption;
+                        limit=Math.min(limit,charge);
+                        if(limit==0){
+                            AddUtils.sendMessage(player,"&c电力不足!无法进行合成");
+                        }
+                    }
+
                     craft(menu,limit);
                     MultiBlockManual.this.tick(block,menu,1);
                     return false;
@@ -155,7 +163,13 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType {
                     if(clickAction.isRightClicked()){
                         limit=3456;
                     }
-
+                    if(this.energyConsumption>0){
+                        int charge=this.getCharge(menu.getLocation())/this.energyConsumption;
+                        limit=Math.min(limit,charge);
+                        if(limit==0){
+                            AddUtils.sendMessage(player,"&c电力不足!无法进行合成");
+                        }
+                    }
                     craft(menu,limit);
                     MultiBlockManual.this.tick(block,menu,1);
                     return false;

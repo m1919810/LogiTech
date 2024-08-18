@@ -224,6 +224,12 @@ public class AddItem {
             Language.get("Machines.SPECIAL_CRAFTER.Name"),Language.getList("Machines.SPECIAL_CRAFTER.Lore"));
     public static final SlimefunItemStack STAR_SMELTERY=AddUtils.themed("STAR_SMELTERY",Material.BLAST_FURNACE,AddUtils.Theme.MACHINE1,
             Language.get("Machines.STAR_SMELTERY.Name"),Language.getList("Machines.STAR_SMELTERY.Lore"));
+
+    public static final SlimefunItemStack INFINITY_AUTOCRAFT=AddUtils.themed("INFINITY_AUTOCRAFT",Material.CRYING_OBSIDIAN,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.INFINITY_AUTOCRAFT.Name"),Language.getList("Machines.INFINITY_AUTOCRAFT.Lore"));
+
+
+
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Manuals.MANUAL_CORE.Name"),Language.getList("Manuals.MANUAL_CORE.Lore"));
@@ -265,6 +271,12 @@ public class AddItem {
             Language.get("Manuals.COMPOSTER.Name"),Language.getList("Manuals.COMPOSTER.Lore"));
     public static final SlimefunItemStack MULTIMACHINE_MANUAL=AddUtils.themed("MULTIMACHINE_MANUAL",Material.GRAY_STAINED_GLASS,AddUtils.Theme.MANUAL1,
             Language.get("Manuals.MULTIMACHINE_MANUAL.Name"),Language.getList("Manuals.MULTIMACHINE_MANUAL.Lore"));
+    public static final SlimefunItemStack MOBDATA_MANUAL=AddUtils.themed("MOBDATA_MANUAL",Material.LODESTONE,AddUtils.Theme.MANUAL1,
+            Language.get("Manuals.MOBDATA_MANUAL.Name"),Language.getList("Manuals.MOBDATA_MANUAL.Lore"));
+    public static final SlimefunItemStack INFINITY_MANUAL=AddUtils.themed("INFINITY_MANUAL",Material.RESPAWN_ANCHOR,AddUtils.Theme.MANUAL1,
+            Language.get("Manuals.INFINITY_MANUAL.Name"),Language.getList("Manuals.INFINITY_MANUAL.Lore"));
+    public static final SlimefunItemStack NTWWORKBENCH_MANUAL=AddUtils.themed("NTWWORKBENCH_MANUAL",Material.BAMBOO_BLOCK,AddUtils.Theme.MANUAL1,
+            Language.get("Manuals.NTWWORKBENCH_MANUAL.Name"),Language.getList("Manuals.NTWWORKBENCH_MANUAL.Lore"));
 
     //generators
     public static final SlimefunItemStack MAGIC_STONE=AddUtils.themed("MAGIC_STONE",Material.COBBLESTONE,AddUtils.Theme.MACHINE2,
@@ -285,6 +297,9 @@ public class AddItem {
             Language.get("Generators.DUPE_MG.Name"),Language.getList("Generators.DUPE_MG.Lore"));
     public static final SlimefunItemStack ENDDUPE_MG=AddUtils.themed("ENDDUPE_MG",Material.END_PORTAL_FRAME,AddUtils.Theme.MACHINE2,
             Language.get("Generators.ENDDUPE_MG.Name"),Language.getList("Generators.ENDDUPE_MG.Lore"));
+
+
+
 
 
 

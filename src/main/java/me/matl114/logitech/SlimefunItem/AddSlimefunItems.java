@@ -54,25 +54,25 @@ public class AddSlimefunItems {
         item.register(INSTANCE);
         return item;
     }
-    private static Object mkP(Object v1,Object v2){
+    protected static Object mkP(Object v1,Object v2){
         return new Pair(v1,v2);
     }
-    private static Object[] mkl(Object ... v){
+    protected static Object[] mkl(Object ... v){
         return Arrays.stream(v).toArray();
     }
-    private static ItemStack[] recipe(Object ... v){
+    protected static ItemStack[] recipe(Object ... v){
         return Arrays.stream(v).map(AddUtils::resolveItem).toArray(ItemStack[]::new);
     }
-    private static <T extends Object> List<T> list(T ... input){
+    protected static <T extends Object> List<T> list(T ... input){
         return Arrays.asList(input);
     }
-    private static <T extends Object,Z extends Object> Pair<T,Z> pair(T v1,Z v2){
+    protected static <T extends Object,Z extends Object> Pair<T,Z> pair(T v1,Z v2){
         return new Pair(v1,v2);
     }
-    private static ItemStack setC(ItemStack it,int amount){
+    protected static ItemStack setC(ItemStack it,int amount){
         return new CustomItemStack(it,amount);
     }
-    private static ItemStack[] nullRecipe(){
+    protected static ItemStack[] nullRecipe(){
         return AddUtils.NULL_RECIPE.clone();
     }
 //    private static HashMap<Object,Integer> mrecipe(Object ... v){
@@ -384,7 +384,8 @@ public class AddSlimefunItems {
                     AddItem.LOGIC,setC(AddItem.LPLATE,2),setC(AddItem.LCRAFT,2),AddItem.LIOPORT,setC(AddItem.LPLATE,2),AddItem.LOGIC,
                     AddItem.LOGIC,setC(AddItem.LPLATE,2),AddItem.LSCHEDULER,setC(AddItem.LCRAFT,2),setC(AddItem.LPLATE,2),AddItem.LOGIC,
                     AddItem.LFIELD,AddItem.LMOTOR,setC(AddItem.LPLATE,2),setC(AddItem.LPLATE,2),AddItem.LDIGITIZER,AddItem.LFIELD,
-                    AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,AddItem.LOGIC,AddItem.LOGIC,AddItem.LFIELD,AddItem.STAR_GOLD_INGOT), Material.STONE,12,2500,25_000)
+                    AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,AddItem.LOGIC,AddItem.LOGIC,AddItem.LFIELD,AddItem.STAR_GOLD_INGOT)
+            , Material.STONE,12,2500,25_000,new HashSet<>(){{add(AddDepends.INFINITYWORKBENCH_TYPE);}})
             .register();
     public static final  SlimefunItem STAR_SMELTERY=new EMachine(AddGroups.BASIC, AddItem.STAR_SMELTERY,BugCrafter.TYPE,
             recipe(AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,
@@ -401,6 +402,11 @@ public class AddSlimefunItems {
     public static final SlimefunItem RECIPE_LOGGER=new RegisteryLogger(AddGroups.SPECIAL,AddItem.RECIPE_LOGGER,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(null,null,null,"CRAFTING_TABLE",BUG,Material.WRITABLE_BOOK,null,null))
             .register();
+
+
+
+
+
 
 
     //Material Generators
@@ -831,7 +837,7 @@ public class AddSlimefunItems {
     public static final SlimefunItem ANTIGRAVITY=register(new AntiGravityBar(AddGroups.MATERIAL, AddItem.ANTIGRAVITY,RecipeType.NULL,AddUtils.NULL_RECIPE.clone()));
 
     public static final SlimefunItem WORKBENCH1=register(new TestWorkBench(AddGroups.MATERIAL, AddItem.WORKBENCH1,RecipeType.NULL,AddUtils.NULL_RECIPE.clone(),
-            1919,810,
+            0,0,
                 new LinkedHashMap<>(){{
                     put(mkP(
                             mkl(null,"2COPPER_DUST",null,AddSlimefunItems.MATL114,"4DIAMOND",AddSlimefunItems.CUSTOM1,null,"3IRON_DUST",null),
@@ -840,7 +846,7 @@ public class AddSlimefunItems {
                 }}
             ));
     public static final SlimefunItem FINAL_MANUAL=register(new FinalManual(AddGroups.MATERIAL, AddItem.FINAL_MANUAL,RecipeType.NULL,AddUtils.NULL_RECIPE.clone(),
-            1919,810));
+            0,0));
     public static final SlimefunItem TEST_MPART=new MultiPart(AddGroups.MATERIAL,AddItem.TESTPART,RecipeType.NULL,AddUtils.NULL_RECIPE.clone(),
             "test.part").register();
     public static final SlimefunItem TEST_MCORE=new MultiCoreTest(AddGroups.MATERIAL,AddItem.TESTCORE,RecipeType.NULL,AddUtils.NULL_RECIPE.clone(),

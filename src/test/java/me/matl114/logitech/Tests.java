@@ -8,6 +8,8 @@ import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.Utils.UtilClass.CargoClass.CargoConfig;
+import me.matl114.logitech.Utils.UtilClass.CargoClass.CargoConfigs;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -57,5 +59,18 @@ public class Tests {
         itp2.init(testStacks[2],5);
         log(itp2.amount+" "+itp2.maxCnt+" "+itp2.slot);
         //ItemStack
+    }
+    @Test
+    public void test_configCode(){
+       boolean symm=false;
+       boolean isnull=true;
+       boolean lazy=false;
+       boolean bklst=true;
+       boolean fromInput=true;
+       boolean toOutput=false;
+       boolean reverse=false;
+       int trans=647;
+       int configCode= CargoConfigs.setAllConfig(symm,isnull,lazy,bklst,fromInput,toOutput,reverse,trans);
+       log("check config code "+configCode);
     }
 }

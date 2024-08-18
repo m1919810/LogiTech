@@ -70,7 +70,9 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
 
     }
     public void addInfo(ItemStack item){
-
+        if(this.energyConsumption > 0){
+            item.setItemMeta(AddUtils.workBenchInfoAdd(item,this.energybuffer,this.energyConsumption).getItemMeta());
+        }
     }
     public List<MachineRecipe> getMachineRecipes(){
         return machineRecipes;
@@ -143,6 +145,13 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
                     if(clickAction.isRightClicked()){
                         limit=16;
                     }
+                    if(this.energyConsumption>0){
+                        int charge=this.getCharge(menu.getLocation())/this.energyConsumption;
+                        limit=Math.min(limit,charge);
+                        if(limit==0){
+                            AddUtils.sendMessage(player,"&c电力不足!无法进行合成");
+                        }
+                    }
                     craft(menu,limit);
                     AbstractManual.this.tick(block,menu,1);
                     return false;
@@ -154,7 +163,13 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
                     if(clickAction.isRightClicked()){
                         limit=3456;
                     }
-
+                    if(this.energyConsumption>0){
+                        int charge=this.getCharge(menu.getLocation())/this.energyConsumption;
+                        limit=Math.min(limit,charge);
+                        if(limit==0){
+                            AddUtils.sendMessage(player,"&c电力不足!无法进行合成");
+                        }
+                    }
                     craft(menu,limit);
                     AbstractManual.this.tick(block,menu,1);
                     return false;
@@ -195,6 +210,7 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
 
     public void craft(BlockMenu inv,int limit){
         Location  loc=inv.getLocation();
+
         int recordIndex=getNowRecordRecipe(loc);
         List<MachineRecipe> mRecipe=getMachineRecipes(null,inv);
         //没有匹配配方会直接返回失败
@@ -202,11 +218,17 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
             return;
         }
         MachineRecipe recordRecipe=mRecipe.get(recordIndex);
+        //计算电力
+
         Pair<ItemGreedyConsumer[],ItemGreedyConsumer[]> results=
                 CraftUtils.countMultiRecipe(inv,getInputSlots(),getOutputSlots(),recordRecipe,limit);
         //输出满了会返回null
         if(results==null){
             return;
+        }
+        if(this.energyConsumption>0){
+            int craftTime=CraftUtils.calMaxCraftTime(results.getSecondValue(),limit);
+            this.removeCharge(loc,craftTime*this.energyConsumption);
         }
         CraftUtils.multiUpdateInputMenu(results.getFirstValue(),inv);
         CraftUtils.multiUpdateOutputMenu(results.getSecondValue(),inv);

@@ -55,7 +55,7 @@ public interface RecipeDisplay extends RecipeDisplayItem {
                 if(time>=0)
                     lore.add("&e进程耗时: "+(int)(time/2)+"s ("+time+"tick)");
                 else
-                    lore.add("&e非进度配方");
+                    lore.add("&e直接合成~");
                 stack=AddUtils.addLore(stack, lore.toArray(new String[0]));
                 break;
         }

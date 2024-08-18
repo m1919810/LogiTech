@@ -194,6 +194,13 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
                         if(clickAction.isRightClicked()){
                             limit=64;
                         }
+                        if(this.energyConsumption>0){
+                            int charge=this.getCharge(menu.getLocation())/this.energyConsumption;
+                            limit=Math.min(limit,charge);
+                            if(limit==0){
+                                AddUtils.sendMessage(player,"&c电力不足!无法进行合成");
+                            }
+                        }
                         craft(menu,limit);
                         FinalManual.this.tick(block,menu,1);
                         SecurityUtils.unlock(player,SecurityUtils.Lock.MenuClickLock);
@@ -209,6 +216,13 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
                         int limit=3456;
                         if(clickAction.isRightClicked()){
                             limit=9_999_999;
+                        }
+                        if(this.energyConsumption>0){
+                            int charge=this.getCharge(menu.getLocation())/this.energyConsumption;
+                            limit=Math.min(limit,charge);
+                            if(limit==0){
+                                AddUtils.sendMessage(player,"&c电力不足!无法进行合成");
+                            }
                         }
                         craft(menu,limit);
                         FinalManual.this.tick(block,menu,1);

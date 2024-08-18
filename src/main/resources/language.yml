@@ -381,6 +381,10 @@ zh_CN:
       Lore:
         - '尝试在虚拟虚空中捕捉量子能量'
         - '似乎还捕捉到了奇怪的东西..'
+    INFINITY_AUTOCRAFT:
+      Name: '无尽自动合成台'
+      Lore:
+        - '消耗大量电力自动化合成无尽配方'
     SPECIAL_CRAFTER:
       Name: '逻辑模拟合成站'
       Lore:
@@ -390,6 +394,7 @@ zh_CN:
       Name: '星辰金锻铸炉'
       Lore:
         - '铸造稀有的合金'
+
   Manuals:
     MANUAL_CORE:
       Name: '乱序核心'
@@ -437,6 +442,19 @@ zh_CN:
       Name: '快捷综合机器'
       Lore:
         - '合并加热压力仓和其他没用的机器'
+    MOBDATA_MANUAL:
+      Name: '快捷生物芯片注入器'
+      Lore:
+        - '而你,我的朋友,你才是真正的懒狗'
+    INFINITY_MANUAL:
+      Name: '快捷无尽工作台'
+      Lore:
+        - '一键合成! ...但是注意电力'
+    NTWWORKBENCH_MANUAL:
+      Name: '快捷网络工作台'
+      Lore:
+        - '又是懒狗东西'
+        - '似乎还增加了拓展的配方?'
   Generators:
 
     MAGIC_STONE:

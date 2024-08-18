@@ -30,38 +30,44 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class SpecialCrafter extends AbstractProcessor implements RecipeLock {
     public List<ItemStack> displayedMemory;
     protected final int publicTime;
-    protected static final int[] BORDER={
+    protected final int[] BORDER={
             3,5,12,14
     };
-    protected static  final int[] RECIPE_DISPLAY={
+    protected  final int[] RECIPE_DISPLAY={
             30,31,32,39,40,41,48,49,50
     };
-    protected static final int[] INPUT_SLOT={
+    protected final int[] INPUT_SLOT={
             0,1,9,10,18,19,27,28,36,37,45,46
     };
-    protected static final int[] OUTPUT_SLOT={
+    protected final int[] OUTPUT_SLOT={
             7,8,16,17,25,26,34,35,43,44,52,53
     };
-    protected static final int[] BORDER_SLOT={
+    protected final int[] BORDER_SLOT={
             2,6,11,15,20,24,29,33,38,42,47,51
     };
-    protected static final int RECIPEITEM_SLOT=13;
-    protected static final int MACHINEITEM_SLOT=22;
+    protected final int RECIPEITEM_SLOT=13;
+    protected final int MACHINEITEM_SLOT=22;
     protected int PARSE_SLOT=4;
     protected RecipeType[] craftType;
-    protected static final ItemStack PARSE_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&e点击解析配方",
+    protected final HashSet<RecipeType> BW_LIST;
+    protected final ItemStack PARSE_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&e点击解析配方",
             "&b机制:","&6将配方表输出的物品(若有多个则第一个)置于下方第一个槽位","&6将配方表所使用的特殊工作台置于下方第二个槽位","&6右键本槽位,或者开关容器界面,配方将被解析","&6机器将按照解析出的指定配方合成");
-    protected static final ItemStack DISPLAY_BKGROUND=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE," ");
-    protected static final ItemStack DISPLAY_DEFAULT_BKGROUND=new CustomItemStack(Material.RED_STAINED_GLASS_PANE," ");
-
+    protected final ItemStack DISPLAY_BKGROUND=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE," ");
+    protected final ItemStack DISPLAY_DEFAULT_BKGROUND=new CustomItemStack(Material.RED_STAINED_GLASS_PANE," ");
     public SpecialCrafter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
-                             Material progressItem,int ticks, int energyConsumption, int energyBuffer){
+                          Material progressItem,int ticks, int energyConsumption, int energyBuffer){
+        this(category,item,recipeType,recipe,progressItem,ticks,energyConsumption,energyBuffer,new HashSet<>());
+    }
+    public SpecialCrafter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
+                             Material progressItem,int ticks, int energyConsumption, int energyBuffer,HashSet<RecipeType> blackList){
         super(category,item,recipeType,recipe,progressItem,energyConsumption,energyBuffer,null);
+        this.BW_LIST=blackList;
         this.publicTime=ticks;
     }
     public ItemStack getProgressBar(){
@@ -76,11 +82,15 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock {
         if(craftType==null||craftType.length<=0){
             HashMap<SlimefunItem,RecipeType> types=RecipeSupporter.CUSTOM_RECIPETYPES;
             if(types==null||types.size()<=0){
+                craftType=new RecipeType[0];
                 return craftType;
             }
             craftType=new RecipeType[types.size()];
             int cnt=0;
             for(RecipeType e :types.values()){
+                if(BW_LIST.contains(e)){//黑名单
+                    continue;
+                }
                 craftType[cnt]=e;
                 cnt++;
             }
