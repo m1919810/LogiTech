@@ -83,4 +83,5 @@ public class Tests {
         a.subList(size-8,size).clear();
         log(a.size()+"");
     }
+
 }

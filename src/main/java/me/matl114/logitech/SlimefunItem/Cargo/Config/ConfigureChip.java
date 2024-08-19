@@ -12,7 +12,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CargoConfigCard {
+public class ConfigureChip {
+    /**
+     *
+     */
     public final static String LORE_DISPLAY_PREFIX = AddUtils.resolveColor("&x&E&B&3&3&E&B通用货运配置卡: &f");
     public final static NamespacedKey KEY_LOC = AddUtils.getNameKey("cargo_config");
     public final static String LORE_MATCH="&8⇨ &7";
@@ -31,7 +34,7 @@ public class CargoConfigCard {
         return meta.getPersistentDataContainer().has(KEY_LOC);
     }
     public static boolean canConfig(ItemMeta meta) {
-        String it=CraftUtils.parseSfId(meta);
+        String it= CraftUtils.parseSfId(meta);
         if(it==null) return false;
         return SlimefunItem.getById(it) instanceof ConfigCard;
     }

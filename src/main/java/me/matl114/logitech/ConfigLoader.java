@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.logging.Level;
 
 public class ConfigLoader {
-    public static boolean TESTMODE = true;
+    public static boolean TESTMODE = MyAddon.testmod();
     public static void load(Plugin plugin) {
         ConfigLoader.plugin=plugin;
         init();
@@ -39,8 +39,14 @@ public class ConfigLoader {
 
     }
     private static void copyFile(File file, String name) {
-
-        if (!file.exists()||TESTMODE) {
+        if(TESTMODE){
+            try{
+                Files.delete(file.toPath());
+            }catch(Throwable e){
+                Debug.logger("[TEST MODE] FAILED TO DELETE FILE: "+file.getAbsolutePath());
+            }
+        }
+        if (!file.exists()) {
             try {
                 Files.copy(plugin.getClass().getResourceAsStream("/"+ name + ".yml"), file.toPath());
             } catch (IOException e) {

@@ -767,11 +767,8 @@ public class RecipeSupporter {
         Debug.logger("配方供应器工作完成, 耗时 "+(System.nanoTime()-a)+ " 纳秒");
     }
     static{
-        Debug.logger("RecipeSupportor Work Start");
-
+        Debug.logger("配方供应器开始初始化...");
         initRecipeSupportor();
-
-
     }
     public static MachineRecipe resolveInfinityMachineBlockRecipe(Object recipe, SlimefunItem machine){
         int ticks=0;

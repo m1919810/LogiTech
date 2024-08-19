@@ -30,7 +30,7 @@ public class AddDepends {
                             ),600_000,20_000,MOBDATA_TYPE)
                     .register();
         }catch (Throwable e){
-            Debug.logger("generate an exception while loading soft depends");
+            Debug.logger("AN ERROR OCCURED WHILE REGISTERING ITEM: MOBDATA_MANUAL,ITEM DISABLED");
             e.printStackTrace();
         }
         try{
@@ -44,7 +44,7 @@ public class AddDepends {
                     100_000_000,2_500_000,INFINITYWORKBENCH_TYPE)
                     .register();
         }catch (Throwable e){
-            Debug.logger("generate an exception while loading soft depends");
+            Debug.logger("AN ERROR OCCURED WHILE REGISTERING ITEM: INFINITY_MANUAL,ITEM DISABLED");
             e.printStackTrace();
         }
         try{
@@ -58,7 +58,7 @@ public class AddDepends {
                     0,0,NTWQTWORKBENCH_TYPE,NTWEP_WORKBENCH_TYPE)
                     .register();
         }catch (Throwable e){
-            Debug.logger("generate an exception while loading soft depends");
+            Debug.logger("AN ERROR OCCURED WHILE REGISTERING ITEM: NTWWORKBENCH_MANUAL,ITEM DISABLED");
             e.printStackTrace();
         }
         try{
@@ -72,7 +72,7 @@ public class AddDepends {
                     , Material.STONE,150_000,1_500_000,15,INFINITYWORKBENCH_TYPE)
                     .register();
         }catch (Throwable e){
-            Debug.logger("generate an exception while loading soft depends");
+            Debug.logger("AN ERROR OCCURED WHILE REGISTERING ITEM: INFINITY_AUTOCRAFT,ITEM DISABLED");
             e.printStackTrace();
         }
     }

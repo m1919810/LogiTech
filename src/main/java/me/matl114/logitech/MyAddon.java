@@ -20,6 +20,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 
 public class MyAddon extends JavaPlugin implements SlimefunAddon {
+    public static boolean testmod=false;
+    public static boolean testmod(){
+        return testmod;
+    }
     private static MyAddon instance;
     private static PluginManager manager;
 
@@ -38,6 +42,9 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
 
         if (cfg.getBoolean("options.auto-update")) {
             // 你可以在这里添加自动更新功能
+        }if(cfg.getBoolean("options.test")||testmod) {
+            testmod = true;
+            Debug.logger("Addon is running on TEST MODE");
         }
         ConfigLoader.load(this);
         Language.loadConfig(ConfigLoader.LANGUAGE);

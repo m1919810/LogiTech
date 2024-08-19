@@ -135,4 +135,7 @@ public abstract class AbstractCargo extends CustomSlimefunItem implements Recipe
     public void process(Block b,BlockMenu menu, SlimefunBlockData data,int configCode){
         //doing nothing
     }
+    public boolean isSync(){
+        return true;
+    }
 }

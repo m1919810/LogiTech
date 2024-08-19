@@ -430,7 +430,7 @@ public class AddUtils {
                     }
                     return b;
                 }catch (Exception e2){
-                    Debug.logger("WARNING: Object %s can not be solved ! Please check if required Addon is installed!".formatted(a));
+                    Debug.logger("WARNING: Object %s can not be solved ! Required Addon not installed ! Disabling relavent recipes...".formatted(a));
                     return AddItem.RESOLVE_FAILED;
                 }
             }
