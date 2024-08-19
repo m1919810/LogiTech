@@ -704,7 +704,18 @@ public class AddUtils {
         stack.setItemMeta(meta);
         return stack;
     }
-
+    public static ItemStack hideAllFlags(ItemStack stack){
+        ItemMeta meta=stack.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.addItemFlags(ItemFlag.HIDE_ARMOR_TRIM);
+        meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
+        meta.addItemFlags(ItemFlag.HIDE_DYE);
+        meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
+        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        stack.setItemMeta(meta);
+        return stack;
+    }
     /**
      * get a info display item to present in SF machineRecipe display
      * @param title

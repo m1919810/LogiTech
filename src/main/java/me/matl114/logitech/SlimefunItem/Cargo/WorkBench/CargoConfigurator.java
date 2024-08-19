@@ -26,7 +26,7 @@ import org.checkerframework.checker.units.qual.C;
 
 public class CargoConfigurator extends AbstractBlock {
     protected final int[] BORDER=new int[]{
-            0,1,2,3,5,6,7,8,27,28,29,30,31,32,33,34,35
+            0,1,2,3,5,6,7,8,27,28,29,30,32,33,34,35
     };
     protected final int[] INFO_SLOTS=new int[]{
             4,9,10,11,12,13,14,15,16,17
@@ -89,7 +89,7 @@ public class CargoConfigurator extends AbstractBlock {
         int[] configCodes=new int[8];
         ItemStack stack;
         for (int i=0;i<7;++i){
-           stack=inv.getItemInSlot(slots[i+1]);
+           stack=inv.getItemInSlot(slots[i]);
             if(stack==null){
                 return false;
             }
@@ -128,9 +128,9 @@ public class CargoConfigurator extends AbstractBlock {
     public void newMenuInstance(BlockMenu inv, Block block){
         inv.addMenuClickHandler(INFO_SLOTS[0],((player, i, itemStack, clickAction) -> {
             if(craft(inv)){
-                AddUtils.sendMessage(player,"a配置成功!");
+                AddUtils.sendMessage(player,"&a配置成功!");
             }else{
-                AddUtils.sendMessage(player,"&c配置失败,请检查输入槽的内容!");
+                AddUtils.sendMessage(player,"&c配置失败,请检查槽位的内容!");
             }
             return false;
         }));

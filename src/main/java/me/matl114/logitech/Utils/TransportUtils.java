@@ -192,6 +192,16 @@ public class TransportUtils {
             transportItemGreedy(from,fromSlot,to,toSlot,toFlow,false,false,false,blacklist,translimit,CraftUtils.getpusher);
         }
     }
+    public static boolean inbwlist(HashSet<ItemStack> bwset,ItemPusher pusher){
+        if(bwset==null||bwset.isEmpty()){return false;}
+        for(ItemStack item:bwset){
+            Debug.logger("check item? ");
+            if(CraftUtils.matchItemStack(item,pusher,false)){
+                Debug.logger("item in bwlist");
+                return true;
+            }
+        }return false;
+    }
     public static void transportItemGreedy(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,ItemTransportFlow toFlow,
                                            boolean isnull,boolean lazy,boolean whitlist, HashSet<ItemStack> blacklist, int translimit,
                                            ItemPusherProvider provider){
@@ -204,9 +214,6 @@ public class TransportUtils {
         //如果是黑名单物品则会被设置为-1,null会被设置为-2
         int len2=toSlot.length;
         int[] toRecord=new int[len2];
-        if(blacklist==null){
-            blacklist=new HashSet<>();
-        }
         //输入输出槽的缓存，将会在这里进行数量操作,最终同步
         DynamicArray<ItemPusher> fromCache=new DynamicArray<>(ItemPusher[]::new,len,(i)->(provider.get(Settings.INPUT,from,fromSlot[i])));
         //ItemPusher[] fromCache=new ItemPusher[len];
@@ -226,7 +233,7 @@ public class TransportUtils {
             fromPusher=fromCache.get(i);
             //只有 黑名单模式且黑名单不包含 或者 白名单模式或者白名单包含 时候 才通过
             //不通过： 黑名单模式且黑名单包含 白名单模式且白名单不包含
-            if(fromPusher==null||(blacklist.contains(fromPusher.getItem())^whitlist)){//判断输入是不是空或者黑名单
+            if(fromPusher==null||(inbwlist(blacklist,fromPusher)^whitlist)){//判断输入是不是空或者黑名单
                 continue;
             }
             //查询是否和之前推送的物品一样
@@ -317,14 +324,11 @@ public class TransportUtils {
         //如果不匹配,那就全是0作为初始值
         //如果是黑名单物品则会被设置为-1,null会被设置为-2
         int len2=toSlot.length;
-        if(blacklist==null){
-            blacklist=new HashSet<>();
-        }
         int transSlot=Math.min(len2,len);
         for(int i=0;i<transSlot;++i){
             ItemPusher fromCache=provider.get(Settings.INPUT,from,fromSlot[i]);
             ItemPusher toCache=provider.get(Settings.OUTPUT,to,toSlot[i]);
-            if(fromCache==null||(blacklist.contains(fromCache.getItem())^whitlist)){
+            if(fromCache==null||(inbwlist(blacklist,fromCache)^whitlist)){
                 continue;
             }
             if(toCache.getItem()==null){

@@ -16,6 +16,10 @@ import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.SolarReactorCore;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiPart;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockTypes;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiCoreTest;
+import me.matl114.logitech.SlimefunItem.Cargo.Config.ConfigCard;
+import me.matl114.logitech.SlimefunItem.Cargo.Transportation.RemoteCargo;
+import me.matl114.logitech.SlimefunItem.Cargo.Transportation.SimpleCargo;
+import me.matl114.logitech.SlimefunItem.Cargo.WorkBench.CargoConfigurator;
 import me.matl114.logitech.SlimefunItem.Items.*;
 import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.*;
 import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.FinalManual;
@@ -258,7 +262,7 @@ public class AddSlimefunItems {
             .register();
 
     public static final SlimefunItem DIMENSIONAL_SHARD=new AbstractGeoResource(AddGroups.MATERIAL, AddItem.DIMENSIONAL_SHARD,
-            recipe(null,AddUtils.getInfoShow("&f获取方式","&7在末地大部分群系","或风袭沙丘或蘑菇岛开采","&7或者在本附属的矿机中获取"),null,null,AddItem.END_MINER),
+            recipe(null,AddItem.END_MINER,null,null,AddUtils.getInfoShow("&f获取方式","&7在末地大部分群系","或风袭沙丘或蘑菇岛开采","&7或者在本附属的矿机中获取")),
             1, new HashMap<>(){{
                 put(Biome.END_BARRENS,1);
                 put(Biome.END_HIGHLANDS,1);
@@ -269,7 +273,7 @@ public class AddSlimefunItems {
             }}) .registerGeo();
 
     public static final SlimefunItem STAR_GOLD=new AbstractGeoResource(AddGroups.MATERIAL,AddItem.STAR_GOLD,
-            recipe(null,AddUtils.getInfoShow("&f获取方式","&7在末地部分群系开采","&7或者在本附属的矿机中获取"),null,null,AddItem.END_MINER),0,
+            recipe(null,AddItem.END_MINER,null,null,AddUtils.getInfoShow("&f获取方式","&7在末地部分群系开采","&7或者在本附属的矿机中获取")),0,
             new HashMap<>(){{
                 put(Biome.END_BARRENS,1);
             }}).registerGeo();
@@ -693,9 +697,41 @@ public class AddSlimefunItems {
             })
             .register();
 
-
-
-
+    //cargo items
+    public static final SlimefunItem CARGO_PART=new MaterialItem(AddGroups.CARGO,AddItem.CARGO_PART,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe("CARGO_NODE","CARGO_NODE_OUTPUT","CARGO_NODE",AddItem.FALSE_,AddItem.LOGIGATE,AddItem.TRUE_,
+                    "CARGO_NODE","CARGO_NODE_INPUT","CARGO_NODE"),null)
+            .setOutput(setC(AddItem.CARGO_PART,13)).register();
+    public static final SlimefunItem CARGO_CONFIG=new ConfigCard(AddGroups.CARGO,AddItem.CARGO_CONFIG,RecipeType.ANCIENT_ALTAR,
+            recipe(AddItem.PARADOX,AddItem.CARGO_PART,AddItem.PARADOX,AddItem.NOLOGIC,AddItem.BUG,AddItem.LOGIC,
+                    AddItem.PARADOX,AddItem.CARGO_PART,AddItem.PARADOX))
+            .register();
+    public static final SlimefunItem CARGO_CONFIGURATOR=new CargoConfigurator(AddGroups.CARGO,AddItem.CARGO_CONFIGURATOR,BugCrafter.TYPE,
+            recipe(setC(AddItem.BUG,3),AddItem.PARADOX,AddItem.CHIP_INGOT,AddItem.CHIP_INGOT,AddItem.PARADOX,setC(AddItem.BUG,3),
+                    AddItem.PARADOX,"HOPPER",setC(AddItem.ABSTRACT_INGOT,2),setC(AddItem.ABSTRACT_INGOT,2),"HOPPER",AddItem.PARADOX,
+                    AddItem.CHIP_INGOT,setC(AddItem.ABSTRACT_INGOT,2),"FLETCHING_TABLE","LOOM",setC(AddItem.ABSTRACT_INGOT,2),AddItem.CHIP_INGOT,
+                    AddItem.CHIP_INGOT,setC(AddItem.ABSTRACT_INGOT,2),"CARTOGRAPHY_TABLE","SMITHING_TABLE",setC(AddItem.ABSTRACT_INGOT,2),AddItem.CHIP_INGOT,
+                    AddItem.PARADOX,"HOPPER",setC(AddItem.ABSTRACT_INGOT,2),setC(AddItem.ABSTRACT_INGOT,2),"HOPPER",AddItem.PARADOX,
+                    setC(AddItem.BUG,3),AddItem.PARADOX,AddItem.CHIP_INGOT,AddItem.CHIP_INGOT,AddItem.PARADOX,setC(AddItem.BUG,3)))
+            .register();
+    public static final SlimefunItem SIMPLE_CARGO=new SimpleCargo(AddGroups.CARGO,AddItem.SIMPLE_CARGO,BugCrafter.TYPE,
+            recipe(AddItem.PARADOX,AddItem.PARADOX,"HOPPER","HOPPER",AddItem.PARADOX,AddItem.PARADOX,
+                    AddItem.PARADOX,null,"CARGO_NODE","CARGO_NODE",null,AddItem.PARADOX,
+                    AddItem.PARADOX,null,AddItem.CARGO_PART,AddItem.ABSTRACT_INGOT,null,AddItem.PARADOX,
+                    AddItem.PARADOX,null,AddItem.BUG,AddItem.CARGO_PART,null,AddItem.PARADOX,
+                    AddItem.PARADOX,null,"CARGO_NODE","CARGO_NODE",null,AddItem.PARADOX,
+                    AddItem.PARADOX,AddItem.PARADOX,"HOPPER","HOPPER",AddItem.PARADOX,AddItem.PARADOX),
+            list(AddUtils.getInfoShow("&f机制","")))
+            .register();
+    public static final SlimefunItem REMOTE_CARGO=new RemoteCargo(AddGroups.CARGO,AddItem.REMOTE_CARGO,BugCrafter.TYPE,
+            recipe(AddItem.PARADOX,AddItem.PARADOX,AddItem.HYPER_LINK,AddItem.HYPER_LINK,AddItem.PARADOX,AddItem.PARADOX,
+                    AddItem.PARADOX,null,"CARGO_NODE","CARGO_NODE",null,AddItem.PARADOX,
+                    AddItem.PARADOX,null,AddItem.CARGO_PART,AddItem.ABSTRACT_INGOT,null,AddItem.PARADOX,
+                    AddItem.PARADOX,null,AddItem.BUG,AddItem.CARGO_PART,null,AddItem.PARADOX,
+                    AddItem.PARADOX,null,"CARGO_NODE","CARGO_NODE",null,AddItem.PARADOX,
+                    AddItem.PARADOX,AddItem.PARADOX,"HOPPER","HOPPER",AddItem.PARADOX,AddItem.PARADOX),
+            null)
+            .register();
 
     public static final SlimefunItem TMP1=new MaterialItem(AddGroups.FUNCTIONAL,AddItem.TMP1,RecipeType.NULL,
             AddUtils.NULL_RECIPE.clone()).register();

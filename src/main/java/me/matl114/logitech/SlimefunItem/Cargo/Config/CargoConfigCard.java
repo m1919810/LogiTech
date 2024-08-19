@@ -1,7 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Cargo.Config;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import me.matl114.logitech.SlimefunItem.Items.ConfigCard;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.CargoConfigs;
@@ -18,7 +17,7 @@ public class CargoConfigCard {
      */
     public final static String LORE_DISPLAY_PREFIX = AddUtils.resolveColor("&x&E&B&3&3&E&B通用货运配置卡: &f");
     public final static NamespacedKey KEY_LOC = AddUtils.getNameKey("cargo_config");
-    public final static String LORE_MATCH="&8⇨ &7";
+    public final static String LORE_MATCH=AddUtils.resolveColor("&8⇨ &7");
     public final static String[] LORE_PREFIX=new String[]{
             AddUtils.resolveColor ("&8⇨ &7强对称: &3"),
             AddUtils.resolveColor ("&8⇨ &7仅空传输: &3"),

@@ -185,7 +185,7 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType {
                                     menu.open(player1);
                                     return false;
                                 })
-                                ).open(player);
+                                ).open(player,null);
                     }else{
 
                         player.sendMessage(ChatColors.color("&e您所摆放的方式并不构成多方块机器"));

@@ -46,7 +46,7 @@ public class TestWorkBench extends AbstractWorkBench {
                 }
         );
         menu.addMenuClickHandler(getRecipeMenuSlot(),((player, i, itemStack, clickAction) -> {
-            getRecipeMenu(block,menu).open(player);
+            getRecipeMenu(block,menu).open(player,null);
             return false;
         }));
     }

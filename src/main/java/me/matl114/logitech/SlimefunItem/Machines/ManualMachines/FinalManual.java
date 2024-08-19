@@ -243,7 +243,7 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
                                     menu.open(player1);
                                     return false;
                                 })
-                        ).open(player);
+                        ).open(player,null);
                     }else{
                         player.sendMessage(ChatColors.color("&e配方类型获取错误"));
                         // player.sendMessage();

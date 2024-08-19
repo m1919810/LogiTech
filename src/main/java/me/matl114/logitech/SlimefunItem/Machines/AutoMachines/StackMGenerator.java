@@ -159,7 +159,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType {
                             inv.open(player1);
                             return false;
                         })
-                ).open(player);
+                ).open(player,null);
             }else{
                 player.sendMessage(ChatColors.color("&e您所放置的机器为空或者为不支持的机器"));
                 // player.sendMessage();

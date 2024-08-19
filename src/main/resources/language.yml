@@ -346,7 +346,18 @@ zh_CN:
       Name: '&c物品解析失败!'
       Lore:
         - '&7并未找到符合id的物品! 该配方已被禁用!'
-
+    CARGO_PART:
+      Name: '逻辑货运零件'
+      Lore:
+        - '用于配置货运运输数量'
+    CARGO_CONFIG:
+      Name: '通用货运机器配置卡'
+      Lore:
+        - '插入机器以载入货运配置'
+    CARGO_CONFIGURATOR:
+      Name: '通用货运配置台'
+      Lore:
+        - '用于编辑通用货运配置卡'
 
   Machines:
     LOGIC_REACTOR:
@@ -394,6 +405,8 @@ zh_CN:
       Name: '星辰金锻铸炉'
       Lore:
         - '铸造稀有的合金'
+
+
 
   Manuals:
     MANUAL_CORE:
@@ -529,7 +542,23 @@ zh_CN:
         - '将模拟器输出槽的物品传入槽位'
         - '运输配置:'
         - '强对称: 禁用'
-
+  Cargo:
+    SIMPLE_CARGO:
+      Name: '邻接传输器'
+      Lore:
+        - '将物品从一组槽位转向另一组...'
+        - '可选择邻接的方块作为源方与目标'
+    REMOTE_CARGO:
+      Name: '远程传输器'
+      Lore:
+        - '将物品从一组槽位转向另一组...'
+        - '放入超链接以选择方块作为源方与目标'
+    LINE_CARGO:
+      Name: '链式传输器'
+      Lore:
+        - '经典永流传...'
+        - '按指定方向顺序执行传输任务'
+        - '每个方块向下一个方块进行传输'
   Theme:
     ITEM1:
       Name: "&3物品"

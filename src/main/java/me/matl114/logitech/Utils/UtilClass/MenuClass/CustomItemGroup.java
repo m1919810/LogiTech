@@ -234,11 +234,7 @@ public abstract class CustomItemGroup extends FlexItemGroup {
             return false;
         });
         //返回键
-        menu.overrideHandler(1,((player, i, itemStack, clickAction) -> {
-            //var2.getGuideHistory().openLastEntry(Slimefun.getRegistry().getSlimefunGuide(var3));
-            var2.getGuideHistory().goBack(Slimefun.getRegistry().getSlimefunGuide(var3));
-            return false;
-        }));
+        menu.setBackSlot(1);
         //依次按照计算好的index放入物品组，也可以自定义index放入
         int groupSize=subGroups.size();
         for(int j=0;j<groupSize;j++){
@@ -250,7 +246,11 @@ public abstract class CustomItemGroup extends FlexItemGroup {
             }));
         }
         addGuideRelated(menu,var1,var2,var3,page);
-        ChestMenu chestMenu = menu.constructPage(page);
+        ChestMenu chestMenu = menu.constructPage(page,((player, i, itemStack, clickAction) -> {
+            //var2.getGuideHistory().openLastEntry(Slimefun.getRegistry().getSlimefunGuide(var3));
+            var2.getGuideHistory().goBack(Slimefun.getRegistry().getSlimefunGuide(var3));
+            return false;
+        }));
         addMenuRelated(chestMenu,var1,var2,var3,page);
         chestMenu.open(var1);
     }

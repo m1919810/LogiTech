@@ -153,7 +153,7 @@ public class MenuUtils {
                 a.setInventory(i,NO_ITEM);
             }
             a.setHandler(i,(player, i1, itemStack, clickAction) -> {
-                constructor.construct(machine,recipe,a.getOpenHandler(pageNow)).open(player);
+                constructor.construct(machine,recipe,a.getOpenHandler(pageNow,backHandler)).open(player,null);
                 return false;
             });
         }
@@ -225,7 +225,7 @@ public class MenuUtils {
                 SlimefunItem sfitem=SlimefunItem.getByItem(input[i]);
                 if(sfitem!=null){
                     a.setHandler(RECIPESLOT_3X3[i],((player, i1, itemStack, clickAction) -> {
-                        createItemRecipeDisplay(sfitem,a.getOpenHandler()).open(player);
+                        createItemRecipeDisplay(sfitem,a.getOpenHandler(1,backHandler)).open(player,null);
                         return false;
                     }) );
                 }
@@ -272,7 +272,7 @@ public class MenuUtils {
                 SlimefunItem sfitem=SlimefunItem.getByItem(input[i]);
                 if(sfitem!=null){
                     a.setHandler(RECIPESLOT_6x6[i],((player, i1, itemStack, clickAction) -> {
-                        createItemRecipeDisplay(sfitem,a.getOpenHandler()).open(player);
+                        createItemRecipeDisplay(sfitem,a.getOpenHandler(1,backHandler)).open(player,null);
                         return false;
                     }) );
                 }
@@ -336,7 +336,8 @@ public class MenuUtils {
             }else{
                 final List<MachineRecipe> machineRecipes=recipe;
                 a.setHandler(i,(player, i1, itemStack, clickAction) -> {
-                    createMRecipeListDisplay(map.get(entry),machineRecipes,a.getOpenHandler(currentPage)).open(player);
+                   createMRecipeListDisplay(map.get(entry),machineRecipes,a.getOpenHandler(currentPage,backHandler)).open(player,null);
+
                     return false;
                 });
             }
@@ -381,7 +382,7 @@ public class MenuUtils {
             }else{
                 final List<MachineRecipe> machineRecipes=recipe;
                 a.setHandler(i,(player, i1, itemStack, clickAction) -> {
-                    createMRecipeListDisplay(entry.getItem(),machineRecipes,a.getOpenHandler(currentPage)).open(player);
+                    createMRecipeListDisplay(entry.getItem(),machineRecipes,a.getOpenHandler(currentPage,backHandler)).open(player,null);
                     return false;
                 });
             }

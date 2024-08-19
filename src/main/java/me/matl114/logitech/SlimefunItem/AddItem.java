@@ -16,6 +16,7 @@ public class AddItem {
         for (ItemStack it :ADDGLOW){
             AddUtils.addGlow(it);
         }
+        AddUtils.hideAllFlags(CARGO_CONFIG);
     }
 
     //Groups
@@ -203,8 +204,6 @@ public class AddItem {
     public static final SlimefunItemStack SAMPLE_HEAD=AddUtils.themed("SAMPLE_HEAD",Material.PLAYER_HEAD,AddUtils.Theme.ITEM1,
             Language.get("Items.SAMPLE_HEAD.Name"),Language.getList("Items.SAMPLE_HEAD.Lore"));
 
-    public static final SlimefunItemStack CARGO_PART=AddUtils.themed("CARGO_PART",Material.SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE,AddUtils.Theme.ITEM1,
-            Language.get("Items.CARGO_PART.Name"),Language.getList("Items.CARGO_PART.Lore"));
 
 
     //nachines
@@ -300,8 +299,17 @@ public class AddItem {
     public static final SlimefunItemStack ENDDUPE_MG=AddUtils.themed("ENDDUPE_MG",Material.END_PORTAL_FRAME,AddUtils.Theme.MACHINE2,
             Language.get("Generators.ENDDUPE_MG.Name"),Language.getList("Generators.ENDDUPE_MG.Lore"));
 
-
-
+    //cargos
+    public static final SlimefunItemStack CARGO_PART=AddUtils.themed("CARGO_PART",Material.SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE,AddUtils.Theme.ITEM1,
+            Language.get("Items.CARGO_PART.Name"),Language.getList("Items.CARGO_PART.Lore"));
+    public static final SlimefunItemStack CARGO_CONFIG=AddUtils.themed("CARGO_CONFIG",Material.TIDE_ARMOR_TRIM_SMITHING_TEMPLATE,AddUtils.Theme.ITEM1,
+            Language.get("Items.CARGO_CONFIG.Name"),Language.getList("Items.CARGO_CONFIG.Lore"));
+    public static final SlimefunItemStack CARGO_CONFIGURATOR=AddUtils.themed("CARGO_CONFIGURATOR",Material.JUKEBOX,AddUtils.Theme.ITEM1,
+            Language.get("Items.CARGO_CONFIGURATOR.Name"),Language.getList("Items.CARGO_CONFIGURATOR.Lore"));
+    public static final SlimefunItemStack SIMPLE_CARGO=AddUtils.themed("SIMPLE_CARGO",Material.TARGET,AddUtils.Theme.ITEM1,
+            Language.get("Cargo.SIMPLE_CARGO.Name"),Language.getList("Cargo.SIMPLE_CARGO.Lore"));
+    public static final SlimefunItemStack REMOTE_CARGO=AddUtils.themed("REMOTE_CARGO",Material.CALIBRATED_SCULK_SENSOR,AddUtils.Theme.ITEM1,
+            Language.get("Cargo.REMOTE_CARGO.Name"),Language.getList("Cargo.REMOTE_CARGO.Lore"));
 
 
 

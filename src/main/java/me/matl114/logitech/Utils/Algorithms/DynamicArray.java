@@ -16,7 +16,7 @@ public class DynamicArray<T> extends AbstractList<T> implements List<T> {
         this.array=generator.apply(size);
         this.size=size;
         this.func=indexer;
-        this.maxinum=0;
+        this.maxinum=-1;
     }
     public int size(){
         return size;
@@ -25,11 +25,12 @@ public class DynamicArray<T> extends AbstractList<T> implements List<T> {
         return size==0;
     }
     public T get(int index){
-        this.maxinum=Math.max(maxinum,index);
         if(index<0 || index>=size){
-            throw new IndexOutOfBoundsException();
+            throw new IndexOutOfBoundsException(index+" is out of bounds "+size);
         }
         T a=array[index];
+        this.maxinum=Math.max(maxinum,index);
+
         if(a!=null){
             return a;
         }

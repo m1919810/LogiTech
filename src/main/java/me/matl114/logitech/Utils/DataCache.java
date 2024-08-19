@@ -65,10 +65,34 @@ public interface DataCache {
     }
     static final Pattern LOCATION_DE_PATTERN=Pattern.compile("(.*?),(.*?),(.*?),(.*?)");
     static final String LOCATION_CODE_PATTERN="%s,%.1f,%.1f,%.1f";
-    public static Location getLastLocation(Location loc){
-        SlimefunBlockData data=CONTROLLER.getBlockDataFromCache(loc);
+    public static Location locationFromString(String loc){
         try{
-            String location=data.getData("location");
+            if("null".equals(loc)){
+                return null;
+            }
+            Matcher matcher = LOCATION_DE_PATTERN.matcher(loc);
+            if(matcher.matches()){
+                String world = matcher.group(1);
+                int x = Integer.parseInt(matcher.group(2));
+                int y = Integer.parseInt(matcher.group(3));
+                int z = Integer.parseInt(matcher.group(4));
+                return new Location(Bukkit.getWorld(world), x, y, z);
+            }
+        }catch (Throwable e){
+        }
+        return null;
+    }
+    public static String locationToString(Location loc){
+        if(loc==null){
+            return "null";
+        }else{
+            return new StringBuilder().append(loc.getWorld().getName()).append(',')
+                    .append(loc.getBlockX()).append(',').append(loc.getBlockY()).append(',').append(loc.getBlockZ()).toString();
+        }
+    }
+    public static Location getLocation(String key,SlimefunBlockData data){
+        try{
+            String location=data.getData(key);
             if("null".equals(location)){
                 return null;
             }
@@ -82,18 +106,28 @@ public interface DataCache {
                 return new Location(Bukkit.getWorld(world), x, y, z);
             }
         }catch (Throwable a){
-
         }
-        data.setData("location","null");
+        data.setData(key,"null");
         //important to clone ,dont change origin
         return null;
     }
+    public static Location getLastLocation(SlimefunBlockData data){
+        return getLocation("location",data);
+    }
+    public static Location getLastLocation(Location loc){
+        SlimefunBlockData data=CONTROLLER.getBlockDataFromCache(loc);
+        return getLastLocation(data);
+    }
+    public static void setLocation(String key, SlimefunBlockData data, Location loc2){
+        data.setData(key,locationToString(loc2));
+    }
+    public static void setLocation(String key, Location loc, Location loc2){
+        SlimefunBlockData data=CONTROLLER.getBlockDataFromCache(loc);
+        data.setData(key,locationToString(loc2));
+    }
     public static void setLastLocation(Location loc ,Location loc2){
-        if(loc2==null){
-            StorageCacheUtils.setData(loc,"location","null");
-        }else{
-            StorageCacheUtils.setData(loc,"location",LOCATION_CODE_PATTERN.formatted(loc2.getWorld().getName(), loc2.getX(), loc2.getY(), loc2.getZ()));
-        }
+        SlimefunBlockData data=CONTROLLER.getBlockDataFromCache(loc);
+        setLocation("location",data,loc2);
     }
     public static String getLastUUID(SlimefunBlockData data){
 

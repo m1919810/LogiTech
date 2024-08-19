@@ -1,6 +1,7 @@
 package me.matl114.logitech.Utils.UtilClass.MenuClass;
 
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.MenuUtils;
 import me.matl114.logitech.Utils.Settings;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -206,48 +207,59 @@ public class CustomMenu {
      * use for backSlot
      * @return
      */
-    public ChestMenu.MenuClickHandler getOpenHandler(){
-        return getOpenHandler(1);
-    }
-    public ChestMenu.MenuClickHandler getOpenHandler(int page){
+//    public ChestMenu.MenuClickHandler getOpenHandler(){
+//        return getOpenHandler(1);
+//    }
+    public ChestMenu.MenuClickHandler getOpenHandler(int page, ChestMenu.MenuClickHandler backHandlers){
         return (player1, i1, itemStack, clickAction) ->{
-            this.openPages(player1,page);
+            this.openPages(player1,page,backHandlers);
             return false;
         };
     }
-    public ChestMenu.MenuClickHandler generatePageClick(int slot, int page){
+    public ChestMenu.MenuClickHandler generatePageClick(int slot, int page,ChestMenu.MenuClickHandler backHandlers){
         if(slot==nextSlot){
             return (player1, i1, itemStack, clickAction) -> {
                 if(page<pages)
-                    openPages(player1,page+1);
+                    openPages(player1,page+1,backHandlers);
                 return false;
             };
         }else if(slot==prevSlot){
             return (player1, i1, itemStack, clickAction) -> {
                 if(page>1)
-                    openPages(player1,page-1);
+                    openPages(player1,page-1,backHandlers);
                 return false;
             };
         }
         else return null;
     }
-    public void openPages(Player player,int page){
-        openPages(player,page,null);
+//    public void openPages(Player player,int page){
+//        openPages(player,page,null);
+//    }
+    private static class CustomPage{
+        CustomMenu menu;
+        int page;
+        ChestMenu.MenuClickHandler backhandler;
+        public CustomPage(CustomMenu menu,int page,ChestMenu.MenuClickHandler backhandler){
+            this.menu=menu;
+            this.page=page;
+            this.backhandler=backhandler;
+        }
+//        public ChestMenu constructPage(){
+//
+//        }
     }
     public void openPages(Player p,int page,ChestMenu.MenuClickHandler backHandlers){
-        ChestMenu menu=constructPage(page);
-        if(this.backSlot>=0&&backHandlers!=null){
-            menu.addMenuClickHandler(this.backSlot,backHandlers);
-        }
+        ChestMenu menu=constructPage(page,backHandlers);
+
         menu.open(p);
     }
-    public void open(Player p){
-        open(p,null);
-    }
+//    public void open(Player p){
+//        open(p,null);
+//    }
     public void open(Player p,ChestMenu.MenuClickHandler backHandlers){
         openPages(p,1,backHandlers);
     }
-    public ChestMenu constructPage(int page){
+    public ChestMenu constructPage(int page,ChestMenu.MenuClickHandler backHandlers){
         assert page<=pages&&page>=1;
         int startIndex=(page-1)*pageContent;
         int endIndex=Math.min(inventorySize,page*pageContent);
@@ -270,7 +282,7 @@ public class CustomMenu {
             if(overrideHandler.containsKey(slot)){
                 handler=overrideHandler.get(slot);
             }else if(slot==prevSlot||slot==nextSlot){
-                handler=generatePageClick(slot,page);
+                handler=generatePageClick(slot,page,backHandlers);
             }else{
                 handler=ChestMenuUtils.getEmptyClickHandler();
             }
@@ -293,7 +305,7 @@ public class CustomMenu {
             if(overrideHandler.containsKey(slot)){
                 handler=overrideHandler.get(slot);
             }else if(slot==prevSlot||slot==nextSlot){
-                handler=generatePageClick(slot,page);
+                handler=generatePageClick(slot,page,backHandlers);
             }else{
                 if(i<delta){
                     handler=menuHandlers[i+startIndex];
@@ -316,11 +328,14 @@ public class CustomMenu {
             if(overrideHandler.containsKey(slot)){
                 handler=overrideHandler.get(slot);
             }else if(slot==prevSlot||slot==nextSlot){
-                handler=generatePageClick(slot,page);
+                handler=generatePageClick(slot,page,backHandlers);
             }else{
                 handler=ChestMenuUtils.getEmptyClickHandler();
             }
             inv.addItem(slot,slotItem,handler);
+        }
+        if(this.backSlot>=0&&backHandlers!=null){
+            inv.addMenuClickHandler(this.backSlot,backHandlers);
         }
         return inv;
     }

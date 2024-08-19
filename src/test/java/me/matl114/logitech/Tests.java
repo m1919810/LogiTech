@@ -1,12 +1,14 @@
 package me.matl114.logitech;
 
 
+import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.MathUtils;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.CargoConfigs;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Tests {
     public static void log(String message) {
@@ -66,10 +68,7 @@ public class Tests {
        int configCode= CargoConfigs.setAllConfig(symm,isnull,lazy,bklst,fromInput,toOutput,reverse,trans);
 
        log("[TEST CONFIG CODE] "+configCode);
-       long t =System.nanoTime();
        assert CargoConfigs.IS_SYMM.getConfig(configCode)==symm;
-       long b =System.nanoTime();
-       log("config time cost "+(b-t)+" ns");
        assert CargoConfigs.IS_NULL.getConfig(configCode)==isnull;
        assert CargoConfigs.IS_LAZY.getConfig(configCode)==lazy;
        assert CargoConfigs.TO_OUTPUT.getConfig(configCode)==toOutput;
@@ -90,19 +89,32 @@ public class Tests {
     }
     @Test
     public void test_MathUtils(){
-        log("[TEST MathUtils] TEST START" );
+        log("[TEST MathUtils] TEST START");
         //StringBuilder builder=new StringBuilder();
         assert "01001110000000000000000000000000".equals( MathUtils.toBinaryCode(114));
         assert "11111111111111111111111111111111".equals( MathUtils.toBinaryCode(-1));
         assert "11111111111111111111111111111110".equals( MathUtils.toBinaryCode(2147483647));
         assert "01110001111111111111111111111111".equals( MathUtils.toBinaryCode(-114));
         assert MathUtils.getBit("01001110000000000000000000000000",4);
+        for(int i=0;i<10;++i){
+            int a= ThreadLocalRandom.current().nextInt(217956969);
+            int b= ThreadLocalRandom.current().nextInt(217956969);
+            assert MathUtils.andStr(MathUtils.toBinaryCode(a),MathUtils.toBinaryCode(b)).equals(MathUtils.toBinaryCode(a&b));
+            assert MathUtils.orStr(MathUtils.toBinaryCode(a),MathUtils.toBinaryCode(b)).equals(MathUtils.toBinaryCode(a|b));
+            assert MathUtils.xorStr(MathUtils.toBinaryCode(a),MathUtils.toBinaryCode(b)).equals(MathUtils.toBinaryCode(a^b));
+            assert MathUtils.notStr(MathUtils.toBinaryCode(a)).equals(MathUtils.toBinaryCode(~a));
+            assert MathUtils.leftShiftStr(MathUtils.toBinaryCode(a)).equals(MathUtils.toBinaryCode(a<<1));
+            assert MathUtils.rightShiftStr(MathUtils.toBinaryCode(a)).equals(MathUtils.toBinaryCode(a>>1));
+            assert MathUtils.rightShiftStr(MathUtils.toBinaryCode(-a)).equals(MathUtils.toBinaryCode((-a)>>1));
+        }
         //char s="abuoiono".charAt(8);
         long a=System.nanoTime();
-        MathUtils.toBinaryCode(114);
+        MathUtils.rightShiftStr("11111111111111111111111111111110");
+        MathUtils.leftShiftStr("11111111111111111111111111111110");
         long b=System.nanoTime();
-        log("test time "+(b-a)+" ns");
+        log("bc test time "+(b-a)+" ns");
         log(new StringBuilder().append("holy ").append("shit ").toString());
+        log("αοθωπαςο".getClass().getName());
         log("[TEST MathUtils] TEST SUCCESS");
     }
 

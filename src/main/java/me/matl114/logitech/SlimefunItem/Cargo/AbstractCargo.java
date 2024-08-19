@@ -24,6 +24,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.checkerframework.checker.units.qual.A;
@@ -31,6 +32,7 @@ import org.checkerframework.checker.units.qual.A;
 import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -38,6 +40,7 @@ public abstract class AbstractCargo extends CustomSlimefunItem implements Recipe
     public abstract int[] getInputSlots();
     public abstract int[] getOutputSlots();
     public abstract int getConfigSlot();
+    public abstract int[] getBWListSlot();
     public int defaultConfigCode=CargoConfigs.getDefaultConfig();
     public int getDefaultConfig(){
         return defaultConfigCode;
@@ -52,8 +55,11 @@ public abstract class AbstractCargo extends CustomSlimefunItem implements Recipe
             AddUtils.addGlow( new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换方向","&3当前方向: 向下"))
     };
     public AbstractCargo(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, List<ItemStack> displayList) {
-        super(itemGroup, item, recipeType, recipe, displayList);
+        super(itemGroup, item, recipeType, recipe,null);
         this.displayedMemory=new ArrayList<>();
+        if(displayList==null){
+            displayList=new ArrayList<>();
+        }
         int len=displayList.size();
         for(int i=0;i<len;i++){
             displayedMemory.add(displayList.get(i));
@@ -72,6 +78,17 @@ public abstract class AbstractCargo extends CustomSlimefunItem implements Recipe
             }
             return false;
         });
+    }
+
+    /**
+     * used in cargoTask
+     * @param saveKey
+     * @param data
+     * @return
+     */
+    public Directions getDirection(String saveKey,SlimefunBlockData data){
+        int direction=DataCache.getCustomData(data,saveKey,0);
+            return Directions.fromInt(direction);
     }
     public void updateDirectionSlot(String saveKey, BlockMenu blockMenu,int slot){
         SlimefunBlockData data=DataCache.safeLoadBlock(blockMenu.getLocation());
@@ -126,16 +143,25 @@ public abstract class AbstractCargo extends CustomSlimefunItem implements Recipe
         }
         int configCode=getConfigCode(data);
         if(conditionHandle(b,menu)){
-            process(b,menu,data,configCode);
+
+            cargoTask(b,menu,data,configCode);
         }
     }
     public boolean conditionHandle(Block b,BlockMenu menu){
         return true;
     }
-    public void process(Block b,BlockMenu menu, SlimefunBlockData data,int configCode){
+    public void cargoTask(Block b, BlockMenu menu, SlimefunBlockData data, int configCode){
         //doing nothing
     }
     public boolean isSync(){
         return true;
+    }
+    public void onBreak(BlockBreakEvent e, BlockMenu menu){
+        MenuBlock.super.onBreak(e,menu);
+        if(menu!=null){
+            Location loc=menu.getLocation();
+            menu.dropItems(loc,getConfigSlot());
+            menu.dropItems(loc,getBWListSlot());
+        }
     }
 }

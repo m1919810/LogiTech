@@ -24,6 +24,7 @@ public class MathUtils {
     static final char[] digits = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
             'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+    static final String zeroString=toBinaryCode(0);
     /**
      * int型存储规则 采用小端存储
      */
@@ -64,6 +65,90 @@ public class MathUtils {
         } while(charPos <len);
     }
     public static String toBinaryCode(int num){
+        StringBuilder sb= new StringBuilder();
+        for (int i=0;i<32;++i){
+            sb.append((num&1)==0?'0':'1');
+            num=num>>1;
+        }
+        return sb.toString();
+    }
+
+    /**
+     * make sure these codes
+     * @param a
+     * @param b
+     * @return
+     */
+    public static String andStr(String a,String b){
+        if(a.length()!=32||b.length()!=32){
+            return zeroString;
+        }else {
+            StringBuilder sb= new StringBuilder();
+            for(int i=0;i<32;++i){
+                sb.append((a.charAt(i)==digits[1]&&b.charAt(i)==digits[1])?'1':'0');
+            }
+            return sb.toString();
+        }
+    }
+    public static String orStr(String a,String b){
+        if(a.length()!=32||b.length()!=32){
+            return zeroString;
+        }else {
+            StringBuilder sb= new StringBuilder();
+            for(int i=0;i<32;++i){
+                sb.append((a.charAt(i)==digits[1]||b.charAt(i)==digits[1])?'1':'0');
+            }
+            return sb.toString();
+        }
+    }
+    public static String xorStr(String a,String b){
+        if(a.length()!=32||b.length()!=32){
+            return zeroString;
+        }else {
+            StringBuilder sb= new StringBuilder();
+            for(int i=0;i<32;++i){
+                sb.append((a.charAt(i)==b.charAt(i))?'0':'1');
+            }
+            return sb.toString();
+        }
+    }
+    public static String notStr(String a){
+        if(a.length()!=32){
+            return zeroString;
+        }else {
+            StringBuilder sb= new StringBuilder();
+            for(int i=0;i<32;++i){
+                sb.append((a.charAt(i)==digits[1])?'0':'1');
+            }
+            return sb.toString();
+        }
+    }
+    public static String leftShiftStr(String a){
+        if(a.length()!=32){
+            return zeroString;
+        }else {
+            StringBuilder sb= new StringBuilder(a);
+            sb.insert(0,digits[0]);
+            return sb.substring(0,32);
+        }
+    }
+
+    /**
+     * 算数右移
+     * @param a
+     * @return
+     */
+    public static String rightShiftStr(String a){
+        if(a.length()!=32){
+            return zeroString;
+        }else {
+            StringBuilder sb= new StringBuilder(a);
+            //sb.deleteCharAt(0);
+            sb.append(a.charAt(a.length()-1));
+            return sb.substring(1,a.length()+1);
+        }
+    }
+    public static String toBinaryCodeForce(int num){
         int chars = 32;
         byte[] buf;
         if(isCompacted){

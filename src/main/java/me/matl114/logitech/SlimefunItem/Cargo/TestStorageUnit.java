@@ -54,7 +54,7 @@ public class TestStorageUnit extends AbstractMachine {
                     setDefaultNPSlots();
                     addInventory(0,new ItemStack(Material.COMMAND_BLOCK));
                 }
-            }.build().openPages(player,1);
+            }.build().openPages(player,1,null);
             return false;
 
 
@@ -74,6 +74,12 @@ public class TestStorageUnit extends AbstractMachine {
 
         inv.addMenuClickHandler(20,((player, i, itemStack, clickAction) -> {
             Debug.logger("check blockstatemeta", ((Orientable)bLock.getRelative(BlockFace.UP).getBlockData()).getAxis());
+            return false;
+        }));
+        inv.addMenuClickHandler(18,((player, i, itemStack, clickAction) -> {
+            try{
+                Thread.sleep(100);
+            }catch(InterruptedException e){}
             return false;
         }));
         inv.addMenuClickHandler(20,((player, i, itemStack, clickAction) -> {
@@ -126,18 +132,18 @@ public class TestStorageUnit extends AbstractMachine {
 //        menu.replaceExistingItem(1,it);
 //        it.setAmount(10);
         //Debug.logger("check amount " ,menu.getItemInSlot(1).getAmount());
-//        for(int i=0;i<3;++i){
-//            final int s=i;
-//            Schedules.launchSchedules(()->{
-//                try{
-//                    Thread.sleep(100);
-//                }catch (Throwable e){
-//
-//                }
-//                Debug.logger("sync test on loc ",s);
-//            },0,false,0);
-//        }
-//        Debug.logger("sync task launched");
+        for(int i=0;i<3;++i){
+            final int s=i;
+            Schedules.launchSchedules(()->{
+                try{
+                    Thread.sleep(100);
+                }catch (Throwable e){
+
+                }
+                Debug.logger("sync test on loc ",s);
+            },0,true,0);
+        }
+        Debug.logger("sync task launched");
     }
     public boolean isSync(){
         return false;
