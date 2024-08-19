@@ -40,8 +40,12 @@ public class TestMachine extends AbstractEnergyProvider {
         return OUTPUT_SLOT;
     }
     public void addInfo(ItemStack stack){
-        stack.setItemMeta(AddUtils.addLore(stack,"&8⇨ &e⚡ &7%s ~ %s J/t".
-                formatted(AddUtils.formatDouble(-ENERGY_ABSMAX),AddUtils.formatDouble(ENERGY_ABSMAX))).getItemMeta());
+        stack.setItemMeta(AddUtils.addLore(stack,
+                new StringBuilder("&8⇨ &e⚡ &7").
+                        append(AddUtils.formatDouble(-ENERGY_ABSMAX)).
+                        append(" ~ ").
+                        append(AddUtils.formatDouble(ENERGY_ABSMAX)).append(" J/t").toString()).getItemMeta());
+
     }
     public TestMachine(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,int energyBuffer,int energyAbsMax,
                        int outputMin,int outputMax){

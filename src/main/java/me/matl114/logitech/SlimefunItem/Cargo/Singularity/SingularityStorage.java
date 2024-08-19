@@ -89,10 +89,10 @@ public class SingularityStorage extends StorageType {
 
         List<String> lore =meta.hasLore()? meta.getLore():new ArrayList<>();
         if(lore.size()>0){
-            lore.set(lore.size()-1,AMOUNT_DISPLAY_PREFIX+amount);
+            lore.set(lore.size()-1,AddUtils.concat( AMOUNT_DISPLAY_PREFIX,String.valueOf(amount)));
         }
         else {
-            lore.add(AMOUNT_DISPLAY_PREFIX+amount);
+            lore.add(AddUtils.concat( AMOUNT_DISPLAY_PREFIX,String.valueOf(amount)));
         }
         meta.setLore(lore);
 

@@ -3,6 +3,7 @@ package me.matl114.logitech.Utils.UtilClass.RecipeClass;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
 import io.github.thebusybiscuit.slimefun4.implementation.operations.CraftingOperation;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
@@ -83,7 +84,7 @@ public class SequenceCraftingOperation implements MachineOperation {
             for(int i=now+1;i<total;++i){
                 lines.add(seqRecipe.displayedNames[i].formatted("&c",0,"&c"));
             }
-            lines.add("&7当前物品处理时间: %dt/%dt".formatted(this.currentSeqTicks,this.tickPerSeq));
+            lines.add(AddUtils.concat("&7当前物品处理时间: ",String.valueOf(this.currentSeqTicks),"t/",String.valueOf(this.tickPerSeq),"t"));
             ItemStack it=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&a阶段输入进程",lines);
             return it;
         }else

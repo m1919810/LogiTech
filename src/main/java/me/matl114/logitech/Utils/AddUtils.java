@@ -821,4 +821,11 @@ public class AddUtils {
     public static ItemStack setCount(ItemStack stack,int amount){
         return new CustomItemStack(stack,amount);
     }
+    public static String concat(String... strs){
+        StringBuilder sb=new StringBuilder();
+        for(int i=0;i<strs.length;++i){
+            sb.append(strs[i]);
+        }
+        return sb.toString();
+    }
 }

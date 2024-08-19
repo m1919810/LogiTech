@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockPart;
 import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.AbstractTransportor;
+import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.TransportUtils;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
@@ -46,8 +47,8 @@ public class MultiIOPort extends AbstractTransportor implements MultiBlockPart {
         this.CONFIG_TO = to;
         this.CONFIG_SYMM = isSym;
         this.INFO_ITEM=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,
-                "&a传输器信息","&7类别: &6%s".formatted(CONFIG_TO?"输入接口":"输出接口"),
-                "&7强对称: &6%s".formatted(CONFIG_SYMM?"是":"否"),
+                "&a传输器信息", AddUtils.concat( "&7类别: &6",CONFIG_TO?"输入接口":"输出接口"),
+              AddUtils.concat(  "&7强对称: &6",CONFIG_SYMM?"是":"否"),
                 "&7可配置: &6否");
     }
     public String getPartId(){

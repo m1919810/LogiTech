@@ -59,12 +59,12 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
     protected final ItemStack MACHINEMENU_ICON=new CustomItemStack(Material.BLAST_FURNACE,"&b该机器支持的机器列表","&6点击打开菜单");
     protected final ItemStack RECIPEMENU_ICON=new CustomItemStack(Material.KNOWLEDGE_BOOK,"&b当前模拟的机器配方列表","&6点击打开菜单");
     protected ItemStack getInfoItem(int craftlimit,int energyCost,int charge,double efficiency,String name){
-        return new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&a机器信息","&7当前模拟的机器名称: %s".formatted(name),
+        return new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&a机器信息",AddUtils.concat("&7当前模拟的机器名称: ",(name)),
                 "&7当前并行处理数: %-3d".formatted(craftlimit),"&7当前每刻耗电量: %sJ/t".formatted(AddUtils.formatDouble(energyCost)),"&7当前电量: %sJ".formatted(AddUtils.formatDouble(charge)),
-                "&7当前工作效率: %s".formatted(AddUtils.getPercentFormat(efficiency)));
+                AddUtils.concat("&7当前工作效率: ",AddUtils.getPercentFormat(efficiency)));
     }
     protected ItemStack getInfoOffItem(int craftlimit ,int energyCost,int charge,String name){
-        return new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&c机器信息","&c缺少电力!","&7当前模拟的机器名称: %s".formatted(name),
+        return new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&c机器信息","&c缺少电力!",AddUtils.concat("&7当前模拟的机器名称: ",(name)),
                 "&7当前并行处理数: %-3d".formatted(craftlimit),"&7当前每刻耗电量: %sJ/t".formatted(AddUtils.formatDouble(energyCost)),"&7当前电量: %sJ".formatted(AddUtils.formatDouble(charge)));
     }
     protected double efficiency;

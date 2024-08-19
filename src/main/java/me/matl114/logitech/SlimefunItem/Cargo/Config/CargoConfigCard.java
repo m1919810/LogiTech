@@ -13,25 +13,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CargoConfigCard {
+    /**
+     *
+     */
     public final static String LORE_DISPLAY_PREFIX = AddUtils.resolveColor("&x&E&B&3&3&E&B通用货运配置卡: &f");
     public final static NamespacedKey KEY_LOC = AddUtils.getNameKey("cargo_config");
     public final static String LORE_MATCH="&8⇨ &7";
     public final static String[] LORE_PREFIX=new String[]{
-            AddUtils.resolveColor ("&8⇨ &7强对称: &3%s"),
-            AddUtils.resolveColor ("&8⇨ &7仅空传输: &3%s"),
-            AddUtils.resolveColor ("&8⇨ &7懒惰模式: &3%s"),
-            AddUtils.resolveColor ("&8⇨ &7白名单: &3%s"),
-            AddUtils.resolveColor ("&8⇨ &7取自输入槽: &3%s"),
-            AddUtils.resolveColor ("&8⇨ &7传向输出槽: &3%s"),
-            AddUtils.resolveColor ("&8⇨ &7逆向传输: &3%s"),
+            AddUtils.resolveColor ("&8⇨ &7强对称: &3"),
+            AddUtils.resolveColor ("&8⇨ &7仅空传输: &3"),
+            AddUtils.resolveColor ("&8⇨ &7懒惰模式: &3"),
+            AddUtils.resolveColor ("&8⇨ &7白名单: &3"),
+            AddUtils.resolveColor ("&8⇨ &7取自输入槽: &3"),
+            AddUtils.resolveColor ("&8⇨ &7传向输出槽: &3"),
+            AddUtils.resolveColor ("&8⇨ &7逆向传输: &3"),
 
-            AddUtils.resolveColor ("&8⇨ &7传输数量: &3%d")
+            AddUtils.resolveColor ("&8⇨ &7传输数量: &3")
     };
+    public static void appendConfigLore(List<String> lore,int code){
+        lore.add(AddUtils.concat( LORE_PREFIX[0],CargoConfigs.IS_SYMM.getConfig(code)?"true":"false"));
+        lore.add(AddUtils.concat( LORE_PREFIX[1],CargoConfigs.IS_NULL.getConfig(code)?"true":"false"));
+        lore.add(AddUtils.concat( LORE_PREFIX[2],CargoConfigs.IS_LAZY.getConfig(code)?"true":"false"));
+        lore.add(AddUtils.concat( LORE_PREFIX[3],CargoConfigs.IS_WHITELST.getConfig(code)?"true":"false"));
+        lore.add(AddUtils.concat( LORE_PREFIX[4],CargoConfigs.FROM_INPUT.getConfig(code)?"true":"false"));
+        lore.add(AddUtils.concat( LORE_PREFIX[5],CargoConfigs.TO_OUTPUT.getConfig(code)?"true":"false"));
+        lore.add(AddUtils.concat( LORE_PREFIX[6],CargoConfigs.REVERSE.getConfig(code)?"true":"false"));
+        lore.add(AddUtils.concat( LORE_PREFIX[7],String.valueOf( CargoConfigs.TRANSLIMIT.getConfigInt(code))));
+    }
     public static boolean isConfig(ItemMeta meta) {
         return meta.getPersistentDataContainer().has(KEY_LOC);
     }
     public static boolean canConfig(ItemMeta meta) {
-        String it=CraftUtils.parseSfId(meta);
+        String it= CraftUtils.parseSfId(meta);
         if(it==null) return false;
         return SlimefunItem.getById(it) instanceof ConfigCard;
     }
@@ -64,14 +77,7 @@ public class CargoConfigCard {
             meta.getPersistentDataContainer().set(KEY_LOC, AbstractAmount.TYPE,code);
             List<String> lore=meta.hasLore()? meta.getLore():new ArrayList<>();
             lore.add(LORE_DISPLAY_PREFIX);
-            lore.add(LORE_PREFIX[0].formatted(CargoConfigs.IS_SYMM.getConfig(code)?"true":"false"));
-            lore.add(LORE_PREFIX[1].formatted(CargoConfigs.IS_NULL.getConfig(code)?"true":"false"));
-            lore.add(LORE_PREFIX[2].formatted(CargoConfigs.IS_LAZY.getConfig(code)?"true":"false"));
-            lore.add(LORE_PREFIX[3].formatted(CargoConfigs.IS_WHITELST.getConfig(code)?"true":"false"));
-            lore.add(LORE_PREFIX[4].formatted(CargoConfigs.FROM_INPUT.getConfig(code)?"true":"false"));
-            lore.add(LORE_PREFIX[5].formatted(CargoConfigs.TO_OUTPUT.getConfig(code)?"true":"false"));
-            lore.add(LORE_PREFIX[6].formatted(CargoConfigs.REVERSE.getConfig(code)?"true":"false"));
-            lore.add(LORE_PREFIX[7].formatted(CargoConfigs.TRANSLIMIT.getConfigInt(code)));
+            appendConfigLore(lore,code);
 
             meta.setLore(lore);
 
@@ -90,14 +96,7 @@ public class CargoConfigCard {
         int size=lore.size();
         int len=Math.min(9,size);
         lore.subList(size-len,size).clear();
-        lore.add(LORE_PREFIX[0].formatted(CargoConfigs.IS_SYMM.getConfig(code)?"true":"false"));
-        lore.add(LORE_PREFIX[1].formatted(CargoConfigs.IS_NULL.getConfig(code)?"true":"false"));
-        lore.add(LORE_PREFIX[2].formatted(CargoConfigs.IS_LAZY.getConfig(code)?"true":"false"));
-        lore.add(LORE_PREFIX[3].formatted(CargoConfigs.IS_WHITELST.getConfig(code)?"true":"false"));
-        lore.add(LORE_PREFIX[4].formatted(CargoConfigs.FROM_INPUT.getConfig(code)?"true":"false"));
-        lore.add(LORE_PREFIX[5].formatted(CargoConfigs.TO_OUTPUT.getConfig(code)?"true":"false"));
-        lore.add(LORE_PREFIX[6].formatted(CargoConfigs.REVERSE.getConfig(code)?"true":"false"));
-        lore.add(LORE_PREFIX[7].formatted(CargoConfigs.TRANSLIMIT.getConfigInt(code)));
+        appendConfigLore(lore,code);
         meta.setLore(lore);
     }
 }
