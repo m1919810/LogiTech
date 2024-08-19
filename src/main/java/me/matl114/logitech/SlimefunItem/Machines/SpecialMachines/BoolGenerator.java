@@ -153,7 +153,7 @@ public class BoolGenerator extends AbstractProcessor {
             }
         }
 
-        processorCost(b,inv);
+        progressorCost(b,inv);
         if (fastCraft!=null) {
             CraftUtils.updateOutputMenu(fastCraft,inv);
         }else if(currentOperation.isFinished()){

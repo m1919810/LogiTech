@@ -9,9 +9,9 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
-import me.matl114.logitech.SlimefunItem.Machines.AbstractTransformer;
 import me.matl114.logitech.SlimefunItem.Machines.MultiCraftType;
 import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomMenu;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -69,9 +69,11 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType {
     }
 
     protected double efficiency=1.0;
+    protected static CustomMenu MACHINE_LIST_MENU=null;
     static{
         SchedulePostRegister.addPostRegisterTask(()->{
             getMachineList();
+            MACHINE_LIST_MENU=  MenuUtils.createMachineListDisplay(getMachineList(),null).setBackSlot(1);
         });
     }
     public StackMGenerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
@@ -165,10 +167,10 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType {
             return false;
         }));
         inv.addMenuClickHandler(MACHINEMENU_SLOT,((player, i, itemStack, clickAction) -> {
-            MenuUtils.createMachineListDisplay(getMachineList(),((player1, i1, itemStack1, clickAction1) -> {
+            MACHINE_LIST_MENU.open(player,((player1, i1, itemStack1, clickAction1) -> {
                 inv.open(player1);
                 return false;
-            })).open(player);
+            }));
             return false;
         }));
         updateMenu(inv,block,Settings.INIT);
@@ -198,6 +200,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType {
                         int charge=getEnergy(i);
                         DataCache.setCustomData(data,"mae",charge==0?energyConsumption:charge);
                         DataCache.setCustomData(data,"tick",-1);
+                        inv.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_NULL);
                         return;
                     }
                 }
@@ -207,7 +210,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType {
             MultiCraftType.forceSetRecipeTypeIndex(data,-1);
         DataCache.setCustomData(data,"mae",0);
     }
-    public void processorCost(Block b,BlockMenu inv){
+    public void progressorCost(Block b, BlockMenu inv){
         Location loc=inv.getLocation();
         int charge=DataCache.getCustomData(loc,"mae",energyConsumption);
         int craftLimit=getCraftLimit(b,inv);
@@ -243,33 +246,35 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType {
             int craftLimit=getCraftLimit(b,inv);
             int consumption=(int)(Math.min((craftLimit*charge)/efficiency,this.energybuffer));
             int energy=this.getCharge(inv.getLocation(),data);
+            int tick=DataCache.getCustomData(data,"tick",-1);
             if(energy>consumption){
                 if(inv.hasViewer()){
-                    inv.replaceExistingItem(MINFO_SLOT,getInfoItem(craftLimit,consumption,energy,this.efficiency, ItemStackHelper.getDisplayName(inv.getItemInSlot(MACHINE_SLOT))));
-
+                    if(tick==-1)
+                        inv.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_WORKING);
+                    inv.replaceExistingItem(MINFO_SLOT,getInfoItem(craftLimit,consumption,energy,
+                            this.efficiency,ItemStackHelper.getDisplayName(inv.getItemInSlot(MACHINE_SLOT))));
                 }
-                int tick=DataCache.getCustomData(data,"tick",-1);
+
                 if(tick<=0){
                     process(b,inv,data);
-                    if (inv.hasViewer()){
-                        inv.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_NULL);
-                    }
+
                 }else{
                     DataCache.setCustomData(data,"tick",tick-1);
-                    if(inv.hasViewer()){
-                        inv.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_WORKING);
-                    }
                 }
-            }else {
-                //没电
-                if(inv.hasViewer()){
-                    inv.replaceExistingItem(MINFO_SLOT,getInfoOffItem(craftLimit,consumption,energy,ItemStackHelper.getDisplayName(inv.getItemInSlot(MACHINE_SLOT))));
+            }
+            else  if (inv.hasViewer()){
+                inv.replaceExistingItem(MINFO_SLOT,getInfoOffItem(craftLimit,consumption,energy,
+                        ItemStackHelper.getDisplayName(inv.getItemInSlot(MACHINE_SLOT))));
+                if(tick!=-1){
+                    DataCache.setCustomData(data,"tick",-1);
+                    inv.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_NULL);
                 }
             }
 
         }else {
             DataCache.setCustomData(data,"tick",-1);
             if(inv.hasViewer()){
+                inv.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_NULL);
                 inv.replaceExistingItem(MINFO_SLOT,MINFO_ITEM_OFF);
             }
         }

@@ -1,4 +1,4 @@
-package me.matl114.logitech.SlimefunItem.Storage.StorageMachines;
+package me.matl114.logitech.SlimefunItem.Cargo.StorageMachines;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -11,9 +11,8 @@ import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.Utils.Settings;
 import me.matl114.logitech.Utils.TransportUtils;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.ItemStorageCache;
-import me.matl114.logitech.SlimefunItem.Storage.Storages;
+import me.matl114.logitech.SlimefunItem.Cargo.Storages;
 import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.CraftUtils;
 
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;

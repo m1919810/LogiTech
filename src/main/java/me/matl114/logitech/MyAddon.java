@@ -1,17 +1,19 @@
 package me.matl114.logitech;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import me.matl114.logitech.Depends.DependencyInfinity;
+import me.matl114.logitech.Depends.DependencyNetwork;
 import me.matl114.logitech.Listeners.ListenerManager;
 import me.matl114.logitech.Schedule.Schedules;
+import me.matl114.logitech.SlimefunItem.AddDepends;
 import me.matl114.logitech.SlimefunItem.AddGroups;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockTypes;
-import me.matl114.logitech.SlimefunItem.Storage.Storages;
+import me.matl114.logitech.SlimefunItem.Cargo.Storages;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
-import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockType;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -40,9 +42,14 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         ConfigLoader.load(this);
         Language.loadConfig(ConfigLoader.LANGUAGE);
         try{
-            Dependency.init();
+            DependencyNetwork.init();
         }catch (Throwable e){
-            Debug.logger("在加载软依赖时出现错误! 出现版本不匹配的附属,加载终止");
+            Debug.logger("在加载软依赖 NETWORKS时出现错误! 出现版本不匹配的附属,禁用附属相应内容");
+        }
+        try{
+            DependencyInfinity.init();
+        }catch (Throwable e){
+            Debug.logger("在加载软依赖 INFINITY时出现错误! 出现版本不匹配的附属,禁用附属相应内容");
         }
         Debug.logger("软依赖检测完毕");
         AddGroups.registerGroups(this);
@@ -53,7 +60,7 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         AddSlimefunItems.registerSlimefunItems();
         Debug.logger("粘液物品注册完毕");
         //注册关于依赖的相关内容
-        Dependency.setup(this);
+        AddDepends.setup(this);
         Debug.logger("依赖注册完毕");
         Schedules.setupSchedules(this);
         Debug.logger("计划线程设立完毕");

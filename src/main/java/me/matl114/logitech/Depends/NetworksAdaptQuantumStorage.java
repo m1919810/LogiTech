@@ -1,22 +1,21 @@
-package me.matl114.logitech.SlimefunItem.Storage.NetworkAdapts;
+package me.matl114.logitech.Depends;
 
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
-import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;
 import io.github.sefiraat.networks.utils.datatypes.PersistentQuantumStorageType;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedException;
+import me.matl114.logitech.SlimefunItem.AddDepends;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.StorageType;
 import me.matl114.logitech.Utils.CraftUtils;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class QuantumStorage extends StorageType {
-    public QuantumStorage() {
+public class NetworksAdaptQuantumStorage extends StorageType {
+    public NetworksAdaptQuantumStorage() {
         super();
     }
-
     @Override
     public boolean isStorage(ItemMeta meta) {
         return  (DataTypeMethods.hasCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE));
@@ -24,15 +23,25 @@ public class QuantumStorage extends StorageType {
 
     @Override
     public boolean canStorage(ItemMeta meta) {
-        return SlimefunItem.getById(CraftUtils.parseSfId(meta)) instanceof NetworkQuantumStorage;
+        if(AddDepends.NETWORKSQUANTUMSTORAGE==null){
+            return false;
+        }
+        String id=CraftUtils.parseSfId(meta);
+        if(id==null){
+            return false;
+        }
+        return AddDepends.NETWORKSQUANTUMSTORAGE.isInstance(SlimefunItem.getById(id));
     }
 
     @Override
     public boolean canStorage(SlimefunItem item) {
-        return item instanceof NetworkQuantumStorage;
+        if(AddDepends.NETWORKSQUANTUMSTORAGE==null){
+            return false;
+        }
+        return AddDepends.NETWORKSQUANTUMSTORAGE.isInstance(item);
     }
     public QuantumCache getQuantumCache(ItemMeta meta) {
-        return DataTypeMethods.getCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE);
+        return DataTypeMethods.getCustom(meta, AddDepends.NTWQUANTUMKEY, PersistentQuantumStorageType.TYPE);
     }
     @Override
     public int getStorageMaxSize(ItemMeta meta) {
@@ -72,7 +81,7 @@ public class QuantumStorage extends StorageType {
 
     @Override
     public void updateStorageDisplay(ItemMeta meta, ItemStack item, int amount) {
-        QuantumCache cache=getQuantumCache(meta);
+        var cache=getQuantumCache(meta);
         cache.setItemStack(item);
         cache.setAmount(amount);
         cache.updateMetaLore(meta);
@@ -80,7 +89,7 @@ public class QuantumStorage extends StorageType {
 
     @Override
     public void updateStorageAmountDisplay(ItemMeta meta, int amount) {
-        QuantumCache cache=getQuantumCache(meta);
+        var cache=getQuantumCache(meta);
         cache.setAmount(amount);
         cache.updateMetaLore(meta);
     }

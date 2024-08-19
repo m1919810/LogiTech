@@ -1,24 +1,24 @@
 package me.matl114.logitech.SlimefunItem;
 
-import io.github.mooy1.infinityexpansion.items.blocks.InfinityWorkbench;
-import io.github.mooy1.infinityexpansion.items.mobdata.MobDataInfuser;
-import io.github.sefiraat.networks.slimefun.network.NetworkQuantumWorkbench;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import me.matl114.logitech.Language;
 import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.AdvanceRecipeCrafter;
-import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.EMachine;
 import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.ManualCrafter;
-import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.ManualMachine;
 import me.matl114.logitech.SlimefunItem.Machines.WorkBenchs.BugCrafter;
 import me.matl114.logitech.Utils.*;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 /**
  * only enable when certain addon are enable
  */
 public class AddDepends {
+    public static void setup(SlimefunAddon plugin){
+        AddDepends.registerSlimefunItems(plugin);
+    }
     public static void registerSlimefunItems(SlimefunAddon plugin){
         try{
             MOBDATA_MANUAL=new ManualCrafter(AddGroups.MANUAL,AddItem.MOBDATA_MANUAL, BugCrafter.TYPE,
@@ -76,9 +76,9 @@ public class AddDepends {
             e.printStackTrace();
         }
     }
-    public static boolean hasInfiniteExpansion;
-    public static boolean hasNetwork;
-    public static boolean hasNetworkExpansion;
+    public static boolean hasInfiniteExpansion=false;
+    public static boolean hasNetwork=false;
+    public static boolean hasNetworkExpansion=false;
     public static RecipeType MOBDATA_TYPE;
     public static RecipeType INFINITYWORKBENCH_TYPE;
     public static RecipeType NTWQTWORKBENCH_TYPE;
@@ -86,9 +86,10 @@ public class AddDepends {
     public static RecipeType NTWEP_WORKBENCH_TYPE;
     public static RecipeType VOIDHARVEST   ;
     public static RecipeType SINGULARITY_CONSTRUCTOR;
-
     public static SlimefunItem MOBDATA_MANUAL;
     public static SlimefunItem INFINITY_MANUAL;
     public static SlimefunItem NTWWORKBENCH_MANUAL;
     public static SlimefunItem INFINITY_AUTOCRAFT;
+    public static  Class NETWORKSQUANTUMSTORAGE;
+    public static NamespacedKey NTWQUANTUMKEY;
 }

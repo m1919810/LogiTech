@@ -1,4 +1,4 @@
-package me.matl114.logitech.SlimefunItem.Storage.StorageMachines;
+package me.matl114.logitech.SlimefunItem.Cargo.StorageMachines;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;

@@ -1,6 +1,5 @@
 package me.matl114.logitech.SlimefunItem.Machines.WorkBenchs;
 
-import io.github.mooy1.infinityexpansion.infinitylib.machines.MachineRecipeType;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -9,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractWorkBench;
+import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.RecipeSupporter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -21,9 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BugCrafter extends AbstractWorkBench {
-    public static final MachineRecipeType TYPE=new MachineRecipeType("bug_crafter",
-                                                                            new CustomItemStack(AddItem.BUG_CRAFTER, AddItem.BUG_CRAFTER.getDisplayName(),
-                    "", "&c配方显示不完整，请从%s查看正确的配方!".formatted(Language.get("Machines.BUG_CRAFTER.Name"))));
+    public static final RecipeType TYPE=new RecipeType(
+            AddUtils.getNameKey("bug_crafter"),
+            new CustomItemStack(AddItem.BUG_CRAFTER, AddItem.BUG_CRAFTER.getDisplayName(),
+                    "", "&c配方显示不完整，请从%s查看正确的配方!".formatted(Language.get("Machines.BUG_CRAFTER.Name")))
+    );
     protected static final int[] INPUT_SLOT=new int[]{0, 1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14,
             18, 19, 20, 21, 22, 23, 27, 28, 29, 30, 31, 32, 36, 37, 38, 39, 40, 41, 45, 46, 47, 48, 49, 50};
     protected static final  int[] OUTPUT_SLOT=new int[]{ 34,35,43,44,52,53};

@@ -1,7 +1,7 @@
-package me.matl114.logitech.SlimefunItem.Storage.Singularity;
+package me.matl114.logitech.SlimefunItem.Cargo.Singularity;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import me.matl114.logitech.SlimefunItem.Storage.StorageMachines.Singularity;
+import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.Singularity;
 import me.matl114.logitech.Utils.UtilClass.PdcClass.AbstractAmount;
 import me.matl114.logitech.Utils.UtilClass.PdcClass.AbstractStorageType;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.StorageType;
@@ -28,7 +28,9 @@ public class SingularityStorage extends StorageType {
         return meta.getPersistentDataContainer().has(KEY_AMOUNT)&&meta.getPersistentDataContainer().has(KEY_ITEM);
     }
     public boolean canStorage(ItemMeta meta) {
-        return SlimefunItem.getById(CraftUtils.parseSfId(meta)) instanceof Singularity;
+        String it=CraftUtils.parseSfId(meta);
+        if(it==null) return false;
+        return SlimefunItem.getById(it) instanceof Singularity;
     }
     public boolean canStorage(SlimefunItem sfitem){
         return sfitem instanceof Singularity;

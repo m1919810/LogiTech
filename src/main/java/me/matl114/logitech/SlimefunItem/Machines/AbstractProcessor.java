@@ -171,7 +171,7 @@ public abstract class AbstractProcessor extends AbstractMachine implements Machi
             }
         }
 
-            processorCost(b,inv);
+            progressorCost(b,inv);
             if (fastCraft!=null) {
                 CraftUtils.updateOutputMenu(fastCraft,inv);
                 return;

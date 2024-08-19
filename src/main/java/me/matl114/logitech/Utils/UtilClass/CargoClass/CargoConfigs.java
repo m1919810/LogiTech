@@ -1,7 +1,5 @@
 package me.matl114.logitech.Utils.UtilClass.CargoClass;
 
-import me.matl114.logitech.Utils.Debug;
-
 public enum CargoConfigs {
     /**
      * 是否强对称
@@ -18,7 +16,7 @@ public enum CargoConfigs {
     /**
      * 是否使用黑名单,若否则使用白名单
      */
-    IS_BLKLST(3),
+    IS_WHITELST(3),
     /**
      * 是否从源头的输入槽输入，默认否 为输出槽
      */
@@ -38,34 +36,43 @@ public enum CargoConfigs {
     /**
      * end bit
      */
-    END(31)
+    VALID(31)
     ;
 
 
 
     ;
     int bit;
-    int template;
+    int bitPos;
+    int blank;
+    int valueTemplate;
+    int codeTemplate;
     CargoConfigs(int bit,int len){
         this.bit = bit;
-        this.template = (1<<len) -1;
+        this.bitPos = 1<<this.bit;
+        this.valueTemplate = (1<<len) -1;
+        this.codeTemplate = this.valueTemplate<<this.bit;
+        this.blank = ~(this.codeTemplate);
     }
     CargoConfigs(int bit){
         this(bit,1);
     }
     public int getConfigInt(int code){
-        return (code>>this.bit)&this.template;
+        return (code>>this.bit)&this.valueTemplate;
     }
     public boolean getConfig(int code){
-        return getConfigInt(code)!=0;
+        return (code&this.codeTemplate)!=0;
     }
     public int setConfig(int code,boolean value){
-        return setConfig(code ,value?1:0);
+        int valueInt=value?this.bitPos:0;
+        code=code&this.blank;
+        code=code|valueInt;
+        return code;
+
     }
     public int setConfig(int code,int value){
-        value=(value&this.template)<<this.bit;
-        int blank=~(this.template<<this.bit);
-        code=code&blank;
+        value=(value&this.valueTemplate)<<this.bit;
+        code=code&this.blank;
         code =code|value;
         return code;
     }
@@ -74,11 +81,14 @@ public enum CargoConfigs {
         code= IS_SYMM.setConfig(code,symm);
         code= IS_NULL.setConfig(code,isnull);
         code= IS_LAZY.setConfig(code,islazy);
-        code= IS_BLKLST.setConfig(code,blklst);
+        code= IS_WHITELST.setConfig(code,blklst);
         code= FROM_INPUT.setConfig(code,fromInput);
         code= TO_OUTPUT.setConfig(code,toOutput);
         code= REVERSE.setConfig(code,reverse);
         code=TRANSLIMIT.setConfig(code,limit);
         return code;
+    }
+    public static int getDefaultConfig(){
+        return 8192;
     }
 }

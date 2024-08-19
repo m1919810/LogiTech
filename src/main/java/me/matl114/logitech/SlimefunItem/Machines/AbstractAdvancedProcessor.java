@@ -124,7 +124,7 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
         return this.machineRecipes;
     }
 
-    protected void processorCost(Block b,BlockMenu menu) {
+    protected void progressorCost(Block b, BlockMenu menu) {
         return ;
     }
     public int getCraftLimit(Block b,BlockMenu inv){
@@ -176,7 +176,7 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
                 return ;
             }
         }
-        processorCost(b,inv);
+        progressorCost(b,inv);
         if (fastCraft!=null) {
             CraftUtils.multiUpdateOutputMenu(fastCraft,inv);
         }else if(currentOperation.isFinished()){

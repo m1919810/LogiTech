@@ -5,9 +5,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
-import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -15,6 +12,7 @@ import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractAdvancedProcessor;
 import me.matl114.logitech.SlimefunItem.Machines.MultiCraftType;
 import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomMenu;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -24,11 +22,9 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-import org.checkerframework.checker.units.qual.C;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -72,9 +68,11 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
                 "&7当前并行处理数: %-3d".formatted(craftlimit),"&7当前每刻耗电量: %sJ/t".formatted(AddUtils.formatDouble(energyCost)),"&7当前电量: %sJ".formatted(AddUtils.formatDouble(charge)));
     }
     protected double efficiency;
+    protected static CustomMenu MACHINE_LIST_MENU;
     static{
         SchedulePostRegister.addPostRegisterTask(()->{
             getMachineList();
+            MACHINE_LIST_MENU=MenuUtils.createMachineListDisplay(getMachineList(),null).setBackSlot(1);
         });
     }
     public StackMachine(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
@@ -192,10 +190,10 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
             return false;
         }));
         inv.addMenuClickHandler(MACHINEMENU_SLOT,((player, i, itemStack, clickAction) -> {
-            MenuUtils.createMachineListDisplay(getMachineList(),((player1, i1, itemStack1, clickAction1) -> {
+            MACHINE_LIST_MENU.open(player,((player1, i1, itemStack1, clickAction1) -> {
                 inv.open(player1);
                 return false;
-            })).open(player);
+            }));
             return false;
         }));
 
@@ -241,7 +239,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
             MultiCraftType.forceSetRecipeTypeIndex(data,-1);
             DataCache.setCustomData(data,"mae",0);
     }
-    public void processorCost(Block b,BlockMenu inv){
+    public void progressorCost(Block b, BlockMenu inv){
         Location loc=inv.getLocation();
         int charge=DataCache.getCustomData(loc,"mae",energyConsumption);
         int craftLimit=getCraftLimit(b,inv);
@@ -261,13 +259,15 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
             int energy=this.getCharge(inv.getLocation(),data);
             if(energy>consumption){
                 if(inv.hasViewer()){
-                    inv.replaceExistingItem(MINFO_SLOT,getInfoItem(craftLimit,consumption,energy,this.efficiency,ItemStackHelper.getDisplayName(inv.getItemInSlot(MACHINE_SLOT))));
+                    inv.replaceExistingItem(MINFO_SLOT,getInfoItem(craftLimit,consumption,energy,this.efficiency,
+                            ItemStackHelper.getDisplayName(inv.getItemInSlot(MACHINE_SLOT))));
                 }
                 process(b,inv,data);
             }else {
                 //没电
                 if(inv.hasViewer()){
-                    inv.replaceExistingItem(MINFO_SLOT,getInfoOffItem(craftLimit,consumption,energy,ItemStackHelper.getDisplayName(inv.getItemInSlot(MACHINE_SLOT))));
+                    inv.replaceExistingItem(MINFO_SLOT,getInfoOffItem(craftLimit,consumption,energy,
+                            ItemStackHelper.getDisplayName(inv.getItemInSlot(MACHINE_SLOT))));
                 }
             }
 

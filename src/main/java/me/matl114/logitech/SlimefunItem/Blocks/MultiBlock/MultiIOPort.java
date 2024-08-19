@@ -8,12 +8,8 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockPart;
-import me.matl114.logitech.SlimefunItem.Blocks.MultiCore;
-import me.matl114.logitech.SlimefunItem.Blocks.MultiPart;
-import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
-import me.matl114.logitech.SlimefunItem.Storage.StorageMachines.AbstractTransportor;
+import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.AbstractTransportor;
 import me.matl114.logitech.Utils.CraftUtils;
-import me.matl114.logitech.Utils.MenuUtils;
 import me.matl114.logitech.Utils.TransportUtils;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -23,11 +19,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
-import org.checkerframework.checker.units.qual.C;
-
-import java.util.List;
 
 public class MultiIOPort extends AbstractTransportor implements MultiBlockPart {
     protected final boolean CONFIG_TO;

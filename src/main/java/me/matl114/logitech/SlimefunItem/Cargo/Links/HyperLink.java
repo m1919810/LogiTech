@@ -1,6 +1,7 @@
-package me.matl114.logitech.SlimefunItem.Storage.Links;
+package me.matl114.logitech.SlimefunItem.Cargo.Links;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.Singularity;
 import me.matl114.logitech.SlimefunItem.Items.HypLink;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.CraftUtils;
@@ -22,7 +23,12 @@ public class HyperLink {
         return meta.getPersistentDataContainer().has(KEY_LOC);
     }
     public static boolean canLink(ItemMeta meta) {
-        return SlimefunItem.getById(CraftUtils.parseSfId(meta)) instanceof HypLink;
+        String it=CraftUtils.parseSfId(meta);
+        if(it==null) return false;
+        return SlimefunItem.getById(it) instanceof HypLink;
+    }
+    public boolean canLink(SlimefunItem sfitem){
+        return sfitem instanceof HypLink;
     }
     public static Location getLink(ItemMeta meta) {
         return meta.getPersistentDataContainer().get(KEY_LOC,AbstractLocation.TYPE);

@@ -1,16 +1,13 @@
-package me.matl114.logitech.SlimefunItem.Storage.StorageMachines;
+package me.matl114.logitech.SlimefunItem.Cargo.StorageMachines;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
 import me.matl114.logitech.SlimefunItem.Machines.MenuBlock;
 import me.matl114.logitech.SlimefunItem.Machines.Ticking;
-import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Settings;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;

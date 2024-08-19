@@ -1,6 +1,5 @@
 package me.matl114.logitech.Utils;
 
-import io.github.mooy1.infinityexpansion.items.machines.GrowingMachine;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -531,8 +530,8 @@ public class RecipeSupporter {
                 List<MachineRecipe> recipes=new ArrayList<>();
                 if (item instanceof AContainer){
                     recipes=((AContainer)item).getMachineRecipes();
-                }else if(item instanceof AbstractTransformer){//自己实现的生成器 但是用的普通机器的格式 需要转掉
-                    List<MachineRecipe> recipeslst=(((AbstractTransformer)item).getMachineRecipes());
+                }else if(item instanceof AbstractTransformer atransformer){//自己实现的生成器 但是用的普通机器的格式 需要转掉
+                    List<MachineRecipe> recipeslst=atransformer.getMachineRecipes();
                     if(recipeslst!=null){
                         int i=recipeslst.size();
                         recipes=new ArrayList<>();
@@ -542,7 +541,7 @@ public class RecipeSupporter {
                     }
                 }
                 else if (//item instanceof org.lins.mmmjjkx.rykenslimefuncustomizer.objects.customs.machine.CustomMaterialGenerator ||
-                        item.getClass().getName().endsWith("CustomMaterialGenerator")){
+                        item.getClass().getName().endsWith("MaterialGenerator")){
 //                    //item instanceof CustomMaterialGenerator){//org.lins.mmmjjkx.rykenslimefuncustomizer.objects.customs.machine.CustomMaterialGenerator){
                     String methodName=null;
                     if(methodName==null){
@@ -700,9 +699,10 @@ public class RecipeSupporter {
         }
         Debug.logger("尝试载入机器配方修改配置文件");
         loadMachineModification(ConfigLoader.MACHINES);
-        //解析机器用电,并提供给StackMachine
+        //解析机器用电,并提供给StackMachine和stackGenerator
         //到时候还需要解析生成器配方和用电
         Debug.logger("注册堆叠机器的机器列表");
+        //尝试获取
         for(Map.Entry<SlimefunItem,List<MachineRecipe>> e:MACHINE_RECIPELIST.entrySet()){
             SlimefunItem item=e.getKey();
             //黑名单 本附属非processor的machine 和 高级processor
@@ -744,24 +744,25 @@ public class RecipeSupporter {
                             methodName="per";
                         }
                     }
-                    if (methodName!=null) {
-                        if(energy instanceof Integer en)
-                            energyComsumption=en;
-                    }
+                    if(energy instanceof Integer en)
+                        energyComsumption=en;
                 }catch (Throwable exp){}
             }
             List<MachineRecipe> result=e.getValue();
             if(MachineRecipeUtils.isGeneratorRecipe(result)){
-                if(!(item instanceof AbstractMachine&&(!(item instanceof AbstractProcessor)))){
+                //剔除掉非AbstractTransformer的本附属机器
+                if(!(item instanceof AbstractMachine&&(!(item instanceof AbstractTransformer)))){
                     STACKMGENERATOR_LIST.put(item,energyComsumption);
                 }
             }
             else if(MachineRecipeUtils.isMachineRecipe(result)){
+                //剔除掉非AbstractProcessor的本附属机器
                 if(!(item instanceof AbstractMachine&&(!(item instanceof AbstractProcessor)))){
                     STACKMACHINE_LIST.put(item,energyComsumption);
                 }
             }
         }
+        //加载对堆叠机器列表的修改配置
         loadStackMachineConfig(ConfigLoader.MACHINES);
         Debug.logger("配方供应器工作完成, 耗时 "+(System.nanoTime()-a)+ " 纳秒");
     }
@@ -774,7 +775,6 @@ public class RecipeSupporter {
     }
     public static MachineRecipe resolveInfinityMachineBlockRecipe(Object recipe, SlimefunItem machine){
         int ticks=0;
-        //if(machine instanceof MachineBlock block){
         try{
             Integer a=(Integer) ReflectUtils.invokeGetRecursively(machine,Settings.FIELD,"ticksPerOutput");
             if(a!=null){
@@ -798,12 +798,7 @@ public class RecipeSupporter {
             int len=item.length;
             ItemStack[] input=new ItemStack[len];
             for (int i=0;i<len;i++){
-              //  Debug.logger("item i ",item[i]," ",counts[i]);
                 input[i]=AddUtils.resolveItem(item[i]);
-                if(input[i]==null){
-                   // Debug.logger("resolve failed");
-                }else
-                //Debug.logger("resolve ",input[i]," ",counts[i]);
                 if(input[i]==null){
                     return null;
                 }
@@ -815,9 +810,8 @@ public class RecipeSupporter {
     }
     public static boolean resolveSpecialGenerators(SlimefunItem item,List<MachineRecipe> recipes){
 
-        if(item instanceof GrowingMachine gm){
+        if(item.getClass().getName().endsWith("GrowingMachine")){
             int ticks=0;
-            //if(machine instanceof MachineBlock block){
             try{
                 Integer a=(Integer) ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"ticksPerOutput");
                 if(a!=null){
@@ -825,7 +819,7 @@ public class RecipeSupporter {
                 }
             }catch (Throwable a){}
             try{
-                EnumMap<Material,ItemStack[]> map=(EnumMap<Material, ItemStack[]>) ReflectUtils.invokeGetRecursively(gm,Settings.FIELD,"recipes");
+                EnumMap<Material,ItemStack[]> map=(EnumMap<Material, ItemStack[]>) ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"recipes");
                 for(Map.Entry<Material,ItemStack[]> entry:map.entrySet()){
                     recipes.add(MachineRecipeUtils.mgFrom(ticks,Utils.array(new ItemStack(entry.getKey())),entry.getValue()));
                 }

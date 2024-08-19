@@ -9,7 +9,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
-import me.matl114.logitech.SlimefunItem.Storage.Links.HyperLink;
+import me.matl114.logitech.SlimefunItem.Cargo.Links.HyperLink;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.block.Block;

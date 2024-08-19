@@ -9,7 +9,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractTransformer;
-import me.matl114.logitech.SlimefunItem.Machines.MultiCraftType;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
 import me.matl114.logitech.Utils.AddUtils;
@@ -65,7 +64,7 @@ public class SMGenerator extends AbstractTransformer  {
     }
     public void process(Block block, BlockMenu inv, SlimefunBlockData data){
         MachineRecipe nextP =getMachineRecipes().get(0);
-        processorCost(block,inv);
+        progressorCost(block,inv);
         CraftUtils.pushItems(nextP.getOutput(),inv,getOutputSlots());
     }
 

@@ -10,11 +10,13 @@ import java.util.function.Supplier;
 public class DynamicArray<T> extends AbstractList<T> implements List<T> {
     private T[] array;
     private int size;
+    private int maxinum;
     private IntFunction<T> func;
     public DynamicArray(IntFunction<T[]> generator , int size,IntFunction<T> indexer) {
         this.array=generator.apply(size);
         this.size=size;
         this.func=indexer;
+        this.maxinum=0;
     }
     public int size(){
         return size;
@@ -23,6 +25,7 @@ public class DynamicArray<T> extends AbstractList<T> implements List<T> {
         return size==0;
     }
     public T get(int index){
+        this.maxinum=Math.max(maxinum,index);
         if(index<0 || index>=size){
             throw new IndexOutOfBoundsException();
         }
@@ -37,5 +40,13 @@ public class DynamicArray<T> extends AbstractList<T> implements List<T> {
     }
     public T[] getResult(){
         return array;
+    }
+
+    /**
+     * used in array sequencial visiting
+     * @return
+     */
+    public int getMaxVisitedIndex(){
+        return maxinum;
     }
 }

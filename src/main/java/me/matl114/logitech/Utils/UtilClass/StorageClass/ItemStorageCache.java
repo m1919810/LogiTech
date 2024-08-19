@@ -3,7 +3,7 @@ package me.matl114.logitech.Utils.UtilClass.StorageClass;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.Schedule.ScheduleSave;
-import me.matl114.logitech.SlimefunItem.Storage.Storages;
+import me.matl114.logitech.SlimefunItem.Cargo.Storages;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.MenuUtils;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;

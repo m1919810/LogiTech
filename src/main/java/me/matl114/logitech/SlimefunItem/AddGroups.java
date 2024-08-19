@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.MenuUtils;
 import me.matl114.logitech.Utils.RecipeSupporter;
@@ -125,6 +126,24 @@ public class AddGroups {
                     put(31,BEYOND);
                 }}
             ){
+        public CustomMenu MACHINEMENU=null;
+        public CustomMenu RECIPEMENU=null;
+        public void initCustomMenus(){
+            MACHINEMENU=MenuUtils.createMachineListDisplay(RecipeSupporter.MACHINE_RECIPELIST.keySet().stream().toList(),null).setBackSlot(1);
+            RECIPEMENU=MenuUtils.createRecipeTypeDisplay(RecipeSupporter.RECIPE_TYPES.stream().toList(),null).setBackSlot(1);
+        }
+        public CustomMenu getMachineMenu(){
+            if(MACHINEMENU==null){
+                initCustomMenus();
+            }
+            return MACHINEMENU;
+        }
+        public CustomMenu getRecipeMenu(){
+            if(RECIPEMENU==null){
+                initCustomMenus();
+            }
+            return RECIPEMENU;
+        }
         //used to set common handlers and common params
         public void init(MenuFactory factory){
             //对模板进行最高级别的覆写
@@ -141,23 +160,24 @@ public class AddGroups {
 
             factory.addInventory(70,new ItemStack(Material.COMMAND_BLOCK));
             factory.addInventory(34,AddItem.TOBECONTINUE);
+            SchedulePostRegister.addPostRegisterTask(this::initCustomMenus);
             //对自动生成的物品组位置进行修改(如果使用hashmap指定物品组则不用修改
         }
         //used to set GUIDE based handlers,an interface to adapt CustomMenu menus
         public void addGuideRelated(CustomMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int page){
             //加入实例化之后的handler和item,同打开玩家等数据有关的handler
             menu.setHandler(4 ,((Player player1, int i1, ItemStack itemstack1, ClickAction clickAction) -> {
-                MenuUtils.createRecipeTypeDisplay(RecipeSupporter.RECIPE_TYPES.stream().toList(),((player, i, itemStack, clickAction1) -> {
+                getRecipeMenu().open(player1,((player, i, itemStack, clickAction1) -> {
                     this.openPage(player1,profile,mode,page);
                     return false;
-                })).open(player1);
+                }));
                 return false;
             }));
             menu.setHandler(2,((Player player1, int i1, ItemStack itemstack1, ClickAction clickAction) -> {
-                MenuUtils.createMachineListDisplay(RecipeSupporter.MACHINE_RECIPELIST.keySet().stream().toList(),((player, i, itemStack, clickAction1) -> {
+                getMachineMenu().open(player1,((player, i, itemStack, clickAction1) -> {
                     this.openPage(player1,profile,mode,page);
                     return false;
-                })).open(player1);
+                }));
                 return false;
             }));
         }

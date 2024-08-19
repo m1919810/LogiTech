@@ -39,6 +39,7 @@ public class ConfigLoader {
 
     }
     private static void copyFile(File file, String name) {
+
         if (!file.exists()||TESTMODE) {
             try {
                 Files.copy(plugin.getClass().getResourceAsStream("/"+ name + ".yml"), file.toPath());

@@ -1,7 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Machines.AutoMachines;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -9,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
 import me.matl114.logitech.SlimefunItem.Machines.MultiCraftType;
 import me.matl114.logitech.SlimefunItem.Machines.RecipeDisplay;
@@ -69,6 +69,9 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock {
         super(category,item,recipeType,recipe,progressItem,energyConsumption,energyBuffer,null);
         this.BW_LIST=blackList;
         this.publicTime=ticks;
+        SchedulePostRegister.addPostRegisterTask(()->{
+            getCraftTypes();
+        });
     }
     public ItemStack getProgressBar(){
         return this.progressbar;
@@ -79,7 +82,7 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock {
         }};
     }
     public RecipeType[] getCraftTypes(){
-        if(craftType==null||craftType.length<=0){
+        if(craftType==null){
             HashMap<SlimefunItem,RecipeType> types=RecipeSupporter.CUSTOM_RECIPETYPES;
             if(types==null||types.size()<=0){
                 craftType=new RecipeType[0];
@@ -94,7 +97,8 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock {
                 craftType[cnt]=e;
                 cnt++;
             }
-        }return craftType;
+        }
+        return craftType;
     }
     public int[] getInputSlots(){
         return INPUT_SLOT;
@@ -152,24 +156,24 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock {
     }
 
     public MachineRecipe getRecordRecipe(Location loc){
-        int index= MultiCraftType.getRecipeTypeIndex(loc);
-        if(index>=0){
-            int index2=getNowRecordRecipe(loc);
-            if(index2>=0){
-                return RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(getCraftTypes()[index]).get(index2);
-            }
-
-        }
-        return null;
+        return getRecordRecipe(DataCache.safeLoadBlock(loc));
     }
     public MachineRecipe getRecordRecipe(SlimefunBlockData data){
         int index=MultiCraftType.getRecipeTypeIndex(data);
         if(index>=0){
-            int index2=getNowRecordRecipe(data);
-            if(index2>=0){
-                return RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(getCraftTypes()[index]).get(index2);
+            RecipeType[] types=getCraftTypes();
+            if(index>=types.length){//下标越界检查
+                MultiCraftType.setRecipeTypeIndex(data,-1);
+                return null;
             }
-
+            List<MachineRecipe> recipes=RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(types[index]);
+            int index2=getNowRecordRecipe(data);
+            if(index2>=0&&recipes.size()>index2){
+                return recipes.get(index2);
+            }else {
+                setNowRecordRecipe(data,-1);
+                return null;
+            }
         }
         return null;
     }
@@ -179,7 +183,7 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock {
         Location loc=menu.getLocation();
         if(machineType==null||!RecipeSupporter.CUSTOM_RECIPETYPES.containsKey(machineType)){
             setNowRecordRecipe(loc,-1);
-           MultiCraftType.  setRecipeTypeIndex(loc,-1);
+            MultiCraftType.setRecipeTypeIndex(loc,-1);
             return false;
         }
         RecipeType type=RecipeSupporter.CUSTOM_RECIPETYPES.get(machineType);
@@ -269,7 +273,7 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock {
                 return ;
             }
         }
-        processorCost(b,inv);
+        progressorCost(b,inv);
         if (fastCraft!=null) {
             CraftUtils.updateOutputMenu(fastCraft,inv);
         }else if(currentOperation.isFinished()){

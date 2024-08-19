@@ -109,6 +109,7 @@ public class CustomMenu {
     ItemStack[] suffixs;
     int nextSlot=-1;
     int prevSlot=-1;
+    int backSlot=-1;
     ChestMenu.MenuClickHandler backHandlers=ChestMenuUtils.getEmptyClickHandler();
     HashMap<Integer,ItemStack> overrideItem=new HashMap<>();
     HashMap<Integer,ChestMenu.MenuClickHandler> overrideHandler=new HashMap<>();
@@ -135,6 +136,13 @@ public class CustomMenu {
     }
     public int getPages(){
         return this.pages;
+    }
+    public CustomMenu setBackSlot(int slot){
+        this.backSlot=slot;
+        return this;
+    }
+    public int getBackSlot(){
+        return this.backSlot;
     }
     public CustomMenu setNextPageButtom(int slot){
         assert slot<size;
@@ -223,11 +231,21 @@ public class CustomMenu {
         }
         else return null;
     }
-    public void openPages(Player p,int page){
-        constructPage(page).open(p);
+    public void openPages(Player player,int page){
+        openPages(player,page,null);
+    }
+    public void openPages(Player p,int page,ChestMenu.MenuClickHandler backHandlers){
+        ChestMenu menu=constructPage(page);
+        if(this.backSlot>=0&&backHandlers!=null){
+            menu.addMenuClickHandler(this.backSlot,backHandlers);
+        }
+        menu.open(p);
     }
     public void open(Player p){
-        openPages(p,1);
+        open(p,null);
+    }
+    public void open(Player p,ChestMenu.MenuClickHandler backHandlers){
+        openPages(p,1,backHandlers);
     }
     public ChestMenu constructPage(int page){
         assert page<=pages&&page>=1;

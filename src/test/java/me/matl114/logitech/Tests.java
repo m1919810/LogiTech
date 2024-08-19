@@ -1,19 +1,10 @@
 package me.matl114.logitech;
 
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
-import me.matl114.logitech.SlimefunItem.Machines.AbstractAdvancedProcessor;
-import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
-import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
-import me.matl114.logitech.Utils.CraftUtils;
-import me.matl114.logitech.Utils.Debug;
-import me.matl114.logitech.Utils.UtilClass.CargoClass.CargoConfig;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.CargoConfigs;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 public class Tests {
     public static void log(String message) {
@@ -78,9 +69,18 @@ public class Tests {
        assert CargoConfigs.IS_LAZY.getConfig(configCode)==lazy;
        assert CargoConfigs.TO_OUTPUT.getConfig(configCode)==toOutput;
        assert CargoConfigs.REVERSE.getConfig(configCode)==reverse;
-       assert CargoConfigs.IS_BLKLST.getConfig(configCode)==bklst;
+       assert CargoConfigs.IS_WHITELST.getConfig(configCode)==bklst;
        assert CargoConfigs.FROM_INPUT.getConfig(configCode)==fromInput;
        assert CargoConfigs.TRANSLIMIT.getConfigInt(configCode)==trans;
        log("[TEST CONFIG CODE] TEST SUCCESS");
+        ArrayList<Integer> a=new ArrayList<>(){{
+            for(int i=0;i<16;++i){
+                add(i);
+            }
+        }};
+        log(a.size()+"");
+        int size=a.size();
+        a.subList(size-8,size).clear();
+        log(a.size()+"");
     }
 }

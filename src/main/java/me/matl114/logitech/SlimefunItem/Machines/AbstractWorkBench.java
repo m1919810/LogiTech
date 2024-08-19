@@ -115,7 +115,7 @@ public abstract class AbstractWorkBench extends AbstractMachine {
         //do nothing
         return true;
     }
-    protected void processorCost(Block b,BlockMenu menu) {
+    protected void progressorCost(Block b, BlockMenu menu) {
         //do nothing
     }
     public void craft(Block b,BlockMenu inv){

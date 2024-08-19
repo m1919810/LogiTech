@@ -25,10 +25,10 @@ import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.MultiBlockManual
 import me.matl114.logitech.SlimefunItem.Machines.SpecialMachines.*;
 import me.matl114.logitech.SlimefunItem.Machines.WorkBenchs.BugCrafter;
 import me.matl114.logitech.SlimefunItem.Machines.WorkBenchs.TestWorkBench;
-import me.matl114.logitech.SlimefunItem.Storage.StorageMachines.InputPort;
-import me.matl114.logitech.SlimefunItem.Storage.StorageMachines.OutputPort;
-import me.matl114.logitech.SlimefunItem.Storage.StorageMachines.Singularity;
-import me.matl114.logitech.SlimefunItem.Storage.TestStorageUnit;
+import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.InputPort;
+import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.OutputPort;
+import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.Singularity;
+import me.matl114.logitech.SlimefunItem.Cargo.TestStorageUnit;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.BukkitUtils;
 import me.matl114.logitech.Utils.Debug;

@@ -1,20 +1,13 @@
-package me.matl114.logitech.SlimefunItem.Storage;
+package me.matl114.logitech.SlimefunItem.Cargo;
 
-import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networks.expansion.setup.ExpansionItemStacks;
-import com.ytdd9527.networks.expansion.util.Transformations;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import dev.sefiraat.sefilib.entity.display.builders.ItemDisplayBuilder;
 import dev.sefiraat.sefilib.misc.TransformationBuilder;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import me.matl114.logitech.MyAddon;
-import me.matl114.logitech.Schedule.ScheduleAsync;
-import me.matl114.logitech.Schedule.ScheduleSave;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
@@ -23,24 +16,16 @@ import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.PortalType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Orientable;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.lang.reflect.Field;
 import java.util.*;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class TestStorageUnit extends AbstractMachine {
     private static final int[] INPUT_SLOT = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
@@ -129,22 +114,33 @@ public class TestStorageUnit extends AbstractMachine {
     public List<MachineRecipe> getMachineRecipes(){
         return new ArrayList<MachineRecipe>();
     }
-    public void process(Block b, BlockMenu menu,SlimefunBlockData data){
+    public void process(Block b, BlockMenu menu, SlimefunBlockData data){
 //        Location loc=b.getLocation().clone().add(0,2,0);
 //        BlockMenu inv=StorageCacheUtils.getMenu(loc);
 //
 //        if(inv!=null){
-//            TransportUtils.transportItemGreedy(menu,getOutputSlots(),inv,TransportUtils.getInvInputSlot(inv),
-//                    ItemTransportFlow.INSERT,null,3567,CraftUtils.getpusher);
+//            int configCode=73728;
+//            TransportUtils.transportItemGeneral(menu,inv,configCode,null);
 //        }
-        ItemStack it=new ItemStack(Material.COBBLESTONE);
-        menu.replaceExistingItem(1,it);
-        it.setAmount(10);
+//        ItemStack it=new ItemStack(Material.COBBLESTONE);
+//        menu.replaceExistingItem(1,it);
+//        it.setAmount(10);
         //Debug.logger("check amount " ,menu.getItemInSlot(1).getAmount());
-
+//        for(int i=0;i<3;++i){
+//            final int s=i;
+//            Schedules.launchSchedules(()->{
+//                try{
+//                    Thread.sleep(100);
+//                }catch (Throwable e){
+//
+//                }
+//                Debug.logger("sync test on loc ",s);
+//            },0,false,0);
+//        }
+//        Debug.logger("sync task launched");
     }
     public boolean isSync(){
-        return true;
+        return false;
     }
 
 }

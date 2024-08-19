@@ -64,7 +64,7 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
         );
     }
     public List<MachineRecipe> getMachineRecipes() {
-        if(this.machineRecipes == null||this.machineRecipes.isEmpty()||this.craftType!=null) {
+        if(this.machineRecipes == null||this.craftType!=null) {
             if(this.machineRecipes==null) {
                 this.machineRecipes = new ArrayList<>();
             }
@@ -104,8 +104,13 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
     }
     public MachineRecipe getRecordRecipe(SlimefunBlockData data){
         int index=getNowRecordRecipe(data);
+        List<MachineRecipe> recipes=getMachineRecipes();
+        if(index>=recipes.size()){//越界
+            setNowRecordRecipe(data,-1);
+            return null;
+        }
         if(index<0)return null;
-       else return getMachineRecipes().get(index);
+       else return recipes.get(index);
 
     }
    public void constructMenu(BlockMenuPreset preset) {
@@ -229,7 +234,7 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
                 return ;
             }
         }
-        processorCost(b,inv);
+        progressorCost(b,inv);
         if (fastCraft!=null) {
             CraftUtils.multiUpdateOutputMenu(fastCraft,inv);
         }else if(currentOperation.isFinished()){

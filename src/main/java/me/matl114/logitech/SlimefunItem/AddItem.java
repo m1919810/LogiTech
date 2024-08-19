@@ -203,6 +203,8 @@ public class AddItem {
     public static final SlimefunItemStack SAMPLE_HEAD=AddUtils.themed("SAMPLE_HEAD",Material.PLAYER_HEAD,AddUtils.Theme.ITEM1,
             Language.get("Items.SAMPLE_HEAD.Name"),Language.getList("Items.SAMPLE_HEAD.Lore"));
 
+    public static final SlimefunItemStack CARGO_PART=AddUtils.themed("CARGO_PART",Material.SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE,AddUtils.Theme.ITEM1,
+            Language.get("Items.CARGO_PART.Name"),Language.getList("Items.CARGO_PART.Lore"));
 
 
     //nachines

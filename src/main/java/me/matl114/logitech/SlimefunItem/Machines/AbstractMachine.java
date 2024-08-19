@@ -152,14 +152,14 @@ public abstract  class AbstractMachine extends CustomSlimefunItem implements Tic
      * @param b
      * @param preset
      */
-    public abstract void process(Block b, BlockMenu preset,SlimefunBlockData data);
+    public abstract void process(Block b, BlockMenu preset, SlimefunBlockData data);
 
     /**
      * make cost for process
      * @param b
      * @param menu
      */
-    protected void processorCost(Block b,BlockMenu menu) {
+    protected void progressorCost(Block b, BlockMenu menu) {
         this.handlerProcessCost.accept(menu);
     }
 

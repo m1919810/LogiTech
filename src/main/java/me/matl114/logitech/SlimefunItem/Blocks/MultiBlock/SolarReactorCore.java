@@ -2,23 +2,17 @@ package me.matl114.logitech.SlimefunItem.Blocks.MultiBlock;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Schedule.PersistentEffects.CustomEffects;
 import me.matl114.logitech.Schedule.PersistentEffects.PlayerEffects;
-import me.matl114.logitech.Schedule.ScheduleEffects;
 import me.matl114.logitech.Schedule.ScheduleSave;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.AddItem;
-import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
-import me.matl114.logitech.SlimefunItem.Machines.MenuBlock;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.AbstractMultiBlockHandler;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
@@ -220,7 +214,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
         // has block
         boolean hasblock=false;
         int len=checkedLocation.length;
-        for(int i=0;i<4;++i){//26中选3个
+        for(int i=0;i<4;++i){//26中选4个
             int locIndex=AddUtils.random(len);
             Location loc1=loc.clone().add(checkedLocation[locIndex]);
             Block block=loc1.getBlock();
@@ -422,7 +416,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
             //runtime检查是否完整,每3tick检查一次,每次有1/10的概率检测一个方块
             runtimeCheck(loc,data,autoCode);
             //直接开销电量
-            super.processorCost(b,inv);
+            super.progressorCost(b,inv);
             if((!checkCondition(loc)&&statusCode>0)||charge<energyConsumption){
                 //避免重连的时候出现问题,重连的时候statusCode为-3到-1,但是如果没有电 直接寄
                 MultiBlockService.deleteMultiBlock(DataCache.getLastUUID(loc));
@@ -444,7 +438,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
         }
     }
 
-    public void processorCost(Block b,BlockMenu inv){
+    public void progressorCost(Block b, BlockMenu inv){
         //覆盖父类 让process中不扣电
         //转到我的ticker里扣
     }
