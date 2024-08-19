@@ -11,7 +11,7 @@ public class MathUtils {
         return codeStr.charAt(bit)=='1';
     }
     public static boolean getBit(String codeStr,int bit){
-
+        return false;
     }
     public static String toBinaryCode(int num){
         StringBuffer sb = new StringBuffer();
