@@ -231,7 +231,7 @@ public abstract class AbstractWorkBench extends AbstractMachine {
                 }
                 //try safe push
                 //能全放下
-                if(itps[slot].getAmount()<=0&&itps[slot].safeAddAmount(recipeCount)){//push的数量
+                if(itcs[slot].getAmount()<=0&&itps[slot].safeAddAmount(recipeCount)){//push的数量
                     //真的有地方,同步背包里的相关counter
                     itcs[slot].updateItems(menu,Settings.PUSH);
                 }
