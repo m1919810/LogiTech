@@ -72,7 +72,7 @@ public class BugCrafter extends AbstractWorkBench {
                 }
         );
         menu.addMenuClickHandler(getRecipeMenuSlot(),((player, i, itemStack, clickAction) -> {
-            getRecipeMenu(block,menu).open(player,null);
+            getRecipeMenu(block,menu).build().setBackHandler(((player1, i1, itemStack1, clickAction1) -> {menu.open(player);return false;})).open(player);
             return false;
         }));
     }

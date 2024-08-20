@@ -10,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.SlimefunItem.Machines.*;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.ItemStorageCache;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
@@ -66,7 +67,12 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
             add(RecipeType.ANCIENT_ALTAR);
             add(RecipeType.ORE_CRUSHER);
         }};
-        SchedulePostRegister.addPostRegisterTask(this::registerRecipeList);
+        SchedulePostRegister.addPostRegisterTask(
+                ()->{
+                    registerRecipeList();
+                    initMenuFactory();
+                }
+        );
 
     }
     public static final ItemPusherProvider SINGULARITY_PROVIDER=((mod, inv, slot) -> {
@@ -146,6 +152,26 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
         for(int i=0;i<len;i++){
             preset.addItem(RECIPE_DISPLAY[i],DISPLAY_DEFAULT_BKGROUND, ChestMenuUtils.getEmptyClickHandler());
         }
+    }
+    protected HashMap<RecipeType,MenuFactory>  RECIPEMENU=null;
+    protected void initMenuFactory(){
+        if(RECIPEMENU==null){
+            RECIPEMENU=new HashMap<>();
+            int len=craftType.length;
+            RecipeType rp;
+            for(int i=0;i<len;i++){
+                rp=craftType[i];
+                RECIPEMENU.put(rp, MenuUtils.createMRecipeListDisplay(RecipeSupporter.RECIPETYPE_ICON.get(rp),RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(rp),
+                        null
+                ));
+            }
+        }
+    }
+    protected MenuFactory getMenuFactory(RecipeType r){
+        if(RECIPEMENU==null){
+            initMenuFactory();
+        }
+        return RECIPEMENU.get(r);
     }
     public void newMenuInstance(BlockMenu menu, Block block){
         int ind=MultiCraftType.getRecipeTypeIndex(menu.getLocation());
@@ -238,12 +264,10 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
                     int index=MultiCraftType.getRecipeTypeIndex(menu.getLocation());
                     if(index>=0){
                         RecipeType rp=getCraftTypes()[index];
-                        MenuUtils.createMRecipeListDisplay(RecipeSupporter.RECIPETYPE_ICON.get(rp),RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(rp),
-                                ((player1, i1, itemStack1, clickAction1) -> {
-                                    menu.open(player1);
-                                    return false;
-                                })
-                        ).open(player,null);
+                        getMenuFactory(rp).build().setBackHandler(((player1, i1, itemStack1, clickAction1) -> {
+                            menu.open(player1);
+                            return false;
+                        })).open(player);
                     }else{
                         player.sendMessage(ChatColors.color("&e配方类型获取错误"));
                         // player.sendMessage();

@@ -12,6 +12,7 @@ import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.SlimefunItem.Machines.MultiCraftType;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomMenu;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -69,11 +70,11 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType {
     }
 
     protected double efficiency=1.0;
-    protected static CustomMenu MACHINE_LIST_MENU=null;
+    protected static MenuFactory MACHINE_LIST_MENU=null;
     static{
         SchedulePostRegister.addPostRegisterTask(()->{
             getMachineList();
-            MACHINE_LIST_MENU=  MenuUtils.createMachineListDisplay(getMachineList(),null).setBackSlot(1);
+            MACHINE_LIST_MENU=  MenuUtils.createMachineListDisplay(getMachineList(),null).setBack(1);
         });
     }
     public StackMGenerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
@@ -154,12 +155,12 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType {
             if(index>=0&&index<getListSize()){
                 SlimefunItem item=getMachineList().get(index);
 
-                MenuUtils.createMRecipeListDisplay(item.getItem(),RecipeSupporter.MACHINE_RECIPELIST.get(item),
-                        ((player1, i1, itemStack1, clickAction1) -> {
-                            inv.open(player1);
-                            return false;
-                        })
-                ).open(player,null);
+                MenuUtils.createMRecipeListDisplay(item.getItem(),RecipeSupporter.MACHINE_RECIPELIST.get(item),null
+
+                ).build().setBackHandler(((player1, i1, itemStack1, clickAction1) -> {
+                    inv.open(player1);
+                    return false;
+                })).open(player);
             }else{
                 player.sendMessage(ChatColors.color("&e您所放置的机器为空或者为不支持的机器"));
                 // player.sendMessage();
@@ -167,10 +168,10 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType {
             return false;
         }));
         inv.addMenuClickHandler(MACHINEMENU_SLOT,((player, i, itemStack, clickAction) -> {
-            MACHINE_LIST_MENU.open(player,((player1, i1, itemStack1, clickAction1) -> {
+            MACHINE_LIST_MENU.build().setBackHandler((player1, i1, itemStack1, clickAction1) -> {
                 inv.open(player1);
                 return false;
-            }));
+            }).open(player);
             return false;
         }));
         updateMenu(inv,block,Settings.INIT);

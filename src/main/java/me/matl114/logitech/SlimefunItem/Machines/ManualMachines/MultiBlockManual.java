@@ -13,6 +13,7 @@ import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.SlimefunItem.Machines.*;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -58,6 +59,7 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType {
         super(category,item,recipeType,recipe,energybuffer,energyConsumption,null);
         SchedulePostRegister.addPostRegisterTask(()->{
             getDisplayRecipes();
+            initMenuFactory();
         });
     }
     public MultiBlockMachine[] getCraftTypes(){
@@ -98,6 +100,24 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType {
             setNowRecordRecipe(loc,-1);
         }
         return null;
+    }
+    protected HashMap<MultiBlockMachine, MenuFactory> RECIPEMENU=null;
+    protected void initMenuFactory(){
+        if(RECIPEMENU==null) {
+            RECIPEMENU = new HashMap<>();
+            MultiBlockMachine[] list = getCraftTypes();
+            int len = list.length;
+            for (int i = 0; i < len; i++) {
+                RECIPEMENU.put(list[i], MenuUtils.createMRecipeListDisplay(list[i].getItem(), RecipeSupporter.MULTIBLOCK_RECIPES.get(list[i]), null
+                ));
+            }
+        }
+    }
+    protected MenuFactory getMenuFactory(MultiBlockMachine r){
+        if(RECIPEMENU==null){
+            initMenuFactory();
+        }
+        return RECIPEMENU.get(r);
     }
     public void constructMenu(BlockMenuPreset preset) {
         //空白背景 禁止点击
@@ -180,12 +200,10 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType {
                     int index=MultiCraftType.getRecipeTypeIndex(menu.getLocation());
                     if(index>=0){
                         MultiBlockMachine multiblock=getCraftTypes()[index];
-                        MenuUtils.createMRecipeListDisplay(multiblock.getItem(),RecipeSupporter.MULTIBLOCK_RECIPES.get(multiblock),
-                                ((player1, i1, itemStack1, clickAction1) -> {
-                                    menu.open(player1);
-                                    return false;
-                                })
-                                ).open(player,null);
+                        getMenuFactory(multiblock).build().setBackHandler(((player1, i1, itemStack1, clickAction1) -> {
+                            menu.open(player1);
+                            return false;
+                        })).open(player);
                     }else{
 
                         player.sendMessage(ChatColors.color("&e您所摆放的方式并不构成多方块机器"));

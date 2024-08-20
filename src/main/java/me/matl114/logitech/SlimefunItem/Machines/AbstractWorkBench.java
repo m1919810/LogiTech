@@ -12,6 +12,7 @@ import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomMenu;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -78,16 +79,24 @@ public abstract class AbstractWorkBench extends AbstractMachine {
      * @param preset
      */
     public abstract void constructMenu(BlockMenuPreset preset);
-    public CustomMenu getRecipeMenu(Block b, BlockMenu inv){
-        return MenuUtils.createMRecipeListDisplay(getItem(),getMachineRecipes(),((player, i, itemStack, clickAction) -> {
-            inv.open(player);
-            return false;
-        }),(itemstack,recipes,backhandler)->{
-            return MenuUtils.createMRecipeDisplay(itemstack,recipes,backhandler).overrideItem(8,LAZY_ONECLICK).overrideHandler(8,((player, i, itemStack, clickAction) -> {
+    public MenuFactory getRecipeMenu(Block b,BlockMenu inv){
+
+         return MenuUtils.createMRecipeListDisplay(getItem(),getMachineRecipes(),null,(MenuUtils.RecipeMenuConstructor)(itemstack, recipes, backhandler)->{
+            return MenuUtils.createMRecipeDisplay(itemstack,recipes,backhandler).addOverrides(8,LAZY_ONECLICK).addHandler(8,((player, i, itemStack, clickAction) -> {
                 moveRecipe(player,inv,recipes, clickAction.isRightClicked());
                 return false;
             }));
         });
+
+//        return MenuUtils.createMRecipeListDisplay(getItem(),getMachineRecipes(),((player, i, itemStack, clickAction) -> {
+//            inv.open(player);
+//            return false;
+//        }),(itemstack,recipes,backhandler)->{
+//            return MenuUtils.createMRecipeDisplay(itemstack,recipes,backhandler).overrideItem(8,LAZY_ONECLICK).overrideHandler(8,((player, i, itemStack, clickAction) -> {
+//                moveRecipe(player,inv,recipes, clickAction.isRightClicked());
+//                return false;
+//            }));
+//        });
     }
     public int getCraftLimit(Block b,BlockMenu inv){
         return CRAFT_LIMIT;
@@ -175,7 +184,6 @@ public abstract class AbstractWorkBench extends AbstractMachine {
         PlayerInventory inv = player.getInventory();
         int[] inputs=getRecipeSlots();
         int maxCnt=max?64:1;
-        boolean hasNext=true;
         if(recipe.length>inputs.length){
             AddUtils.sendMessage(player,"&c配方大小不匹配,不能在该工作台进行");
             player.closeInventory();
@@ -204,7 +212,6 @@ public abstract class AbstractWorkBench extends AbstractMachine {
                     itps[slot]=CraftUtils.getpusher.get(Settings.OUTPUT,menu,inputs[slot]);
                     //不匹配，即非空且不match，就没有下次了
                     if(!itps[slot].isNull()&&!CraftUtils.matchItemCounter(itps[slot],itcs[slot],false)) {
-                        hasNext = false;
                         break;
                     }else{//匹配，设置为consumer的
                         itps[slot].setFrom(itcs[slot]);
@@ -223,22 +230,12 @@ public abstract class AbstractWorkBench extends AbstractMachine {
                     }
                 }
                 //try safe push
-                if(itcs[slot].getAmount()>0){
-                    hasNext=false;
-                    break;
-                }
-                else if(itps[slot].safeAddAmount(recipeCount)){//push的数量
-
+                //能全放下
+                if(itps[slot].getAmount()<=0&&itps[slot].safeAddAmount(recipeCount)){//push的数量
                     //真的有地方,同步背包里的相关counter
                     itcs[slot].updateItems(menu,Settings.PUSH);
-                }else {
-                    hasNext=false;
-                    break;
                 }
             }//提前中断,意味着没有后面的了
-            if(!hasNext){
-                break;
-            }
         }
         for(int i=0;i<recipe.length;++i){
             if(itps[i]!=null){

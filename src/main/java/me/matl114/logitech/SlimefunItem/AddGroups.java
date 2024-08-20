@@ -92,7 +92,7 @@ public class AddGroups {
 
         }
         @Override
-        protected void addMenuRelated(ChestMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int pages) {
+        protected void addGuideRelated(ChestMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int pages) {
             if(AddUtils.standardRandom()<0.666){
                 int rand=AddUtils.random(36);
                 if(menu.getItemInSlot(rand+9)==null){
@@ -126,19 +126,19 @@ public class AddGroups {
                     put(31,BEYOND);
                 }}
             ){
-        public CustomMenu MACHINEMENU=null;
-        public CustomMenu RECIPEMENU=null;
+        public MenuFactory MACHINEMENU=null;
+        public MenuFactory RECIPEMENU=null;
         public void initCustomMenus(){
-            MACHINEMENU=MenuUtils.createMachineListDisplay(RecipeSupporter.MACHINE_RECIPELIST.keySet().stream().toList(),null).setBackSlot(1);
-            RECIPEMENU=MenuUtils.createRecipeTypeDisplay(RecipeSupporter.RECIPE_TYPES.stream().toList(),null).setBackSlot(1);
+            MACHINEMENU=MenuUtils.createMachineListDisplay(RecipeSupporter.MACHINE_RECIPELIST.keySet().stream().toList(),null).setBack(1);
+            RECIPEMENU=MenuUtils.createRecipeTypeDisplay(RecipeSupporter.RECIPE_TYPES.stream().toList(),null).setBack(1);
         }
-        public CustomMenu getMachineMenu(){
+        public MenuFactory getMachineMenu(){
             if(MACHINEMENU==null){
                 initCustomMenus();
             }
             return MACHINEMENU;
         }
-        public CustomMenu getRecipeMenu(){
+        public MenuFactory getRecipeMenu(){
             if(RECIPEMENU==null){
                 initCustomMenus();
             }
@@ -164,22 +164,25 @@ public class AddGroups {
             //对自动生成的物品组位置进行修改(如果使用hashmap指定物品组则不用修改
         }
         //used to set GUIDE based handlers,an interface to adapt CustomMenu menus
-        public void addGuideRelated(CustomMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int page){
+        public void addGuideRelated(ChestMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int page){
             //加入实例化之后的handler和item,同打开玩家等数据有关的handler
-            menu.setHandler(4 ,((Player player1, int i1, ItemStack itemstack1, ClickAction clickAction) -> {
-                getRecipeMenu().open(player1,((player, i, itemStack, clickAction1) -> {
-                    this.openPage(player1,profile,mode,page);
+            if(page==1){
+                menu.addMenuClickHandler(13 ,((Player player1, int i1, ItemStack itemstack1, ClickAction clickAction) -> {
+                    getRecipeMenu().build().setBackHandler(((player, i, itemStack, clickAction1) -> {
+                        this.openPage(player1,profile,mode,page);
+                        return false;
+                    })).open(player1);
                     return false;
                 }));
-                return false;
-            }));
-            menu.setHandler(2,((Player player1, int i1, ItemStack itemstack1, ClickAction clickAction) -> {
-                getMachineMenu().open(player1,((player, i, itemStack, clickAction1) -> {
-                    this.openPage(player1,profile,mode,page);
+                menu.addMenuClickHandler(11,((Player player1, int i1, ItemStack itemstack1, ClickAction clickAction) -> {
+                    getMachineMenu().build().setBackHandler(((player, i, itemStack, clickAction1) -> {
+                        this.openPage(player1,profile,mode,page);
+                        return false;
+                    })).open(player1);
                     return false;
                 }));
-                return false;
-            }));
+            }
+
         }
     };
 }

@@ -54,7 +54,7 @@ public class TestStorageUnit extends AbstractMachine {
                     setDefaultNPSlots();
                     addInventory(0,new ItemStack(Material.COMMAND_BLOCK));
                 }
-            }.build().openPages(player,1,null);
+            }.build().openPages(player,1);
             return false;
 
 

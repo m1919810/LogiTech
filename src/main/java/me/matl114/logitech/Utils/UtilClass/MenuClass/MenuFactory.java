@@ -1,6 +1,7 @@
 package me.matl114.logitech.Utils.UtilClass.MenuClass;
 
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.Utils.Debug;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.inventory.ItemStack;
 
@@ -10,20 +11,22 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class MenuFactory {
-    private MenuPreset preset;
+    private final MenuPreset preset;
     int pages;
     int size;
     int prev;
     int next;
+    int back;
+    private CustomMenuHandler finalBackHandler=null;
     String title;
-    ItemStack[] prefixs;
-    ItemStack[] suffixs;
+    private ItemStack[] prefixs;
+    private ItemStack[] suffixs;
     List<ItemStack> inventory;
-    List<ChestMenu.MenuClickHandler> handlers;
-    ItemStack[] finalInventory;
-    ChestMenu.MenuClickHandler[] finalHandlers;
-    HashMap<Integer, ItemStack> overrideItem=new HashMap<>();
-    HashMap<Integer, ChestMenu.MenuClickHandler> overrideHandler=new HashMap<>();
+    List<CustomMenuHandler> handlers;
+    private ItemStack[] finalInventory;
+    private CustomMenuHandler[] finalHandlers;
+    private  HashMap<Integer, ItemStack> overrideItem=new HashMap<>();
+    private  HashMap<Integer, CustomMenuHandler> overrideHandler=new HashMap<>();
     boolean isFinal;
     public MenuFactory(MenuPreset preset,String title,int pages) {
         this.isFinal=false;
@@ -42,14 +45,17 @@ public abstract class MenuFactory {
         }
         this.overrideHandler=new HashMap<>();
         this.overrideItem=new HashMap<>();
-        this.overrideHandler.putAll(preset.getPrehandlers());
+        HashMap<Integer, ChestMenu.MenuClickHandler> ovhandlers=preset.getPrehandlers();
+        for (Map.Entry<Integer, ChestMenu.MenuClickHandler> entry : ovhandlers.entrySet()) {
+            this.overrideHandler.put(entry.getKey(),CustomMenuHandler.from(entry.getValue()));
+        }
         this.overrideItem.putAll(preset.getPreitems());
         this.inventory = new ArrayList<>();
         this.handlers=new ArrayList<>();
         int preSize=pages*(this.size-preset.getPrelen()-preset.getSuflen());
         for(int i=0;i<preSize;i++) {
             inventory.add(null);
-            handlers.add(null);
+            this.handlers.add(null);
         }
         this.prev=-1;
         this.next=-1;
@@ -65,6 +71,15 @@ public abstract class MenuFactory {
         prev = slot;
         return this;
     }
+    public MenuFactory setBack(int slot) {
+        if(isFinal)return this;
+        back = slot;
+        return this;
+    }
+    public MenuFactory setBackHandler(CustomMenuHandler handler) {
+        this.finalBackHandler=handler;
+        return this;
+    }
     public abstract void init();
     public MenuFactory setDefaultNPSlots(){
         if(isFinal)return this;
@@ -78,12 +93,22 @@ public abstract class MenuFactory {
     }
     public MenuFactory addOverrides(int slot,ChestMenu.MenuClickHandler handler) {
         if(isFinal)return this;
+        overrideHandler.put(slot, CustomMenuHandler.from(handler));
+        return this;
+    }
+    public MenuFactory addOverrides(int slot,CustomMenuHandler handler) {
+        if(isFinal)return this;
         overrideHandler.put(slot, handler);
         return this;
     }
     public MenuFactory addOverrides(int slot,ItemStack item, ChestMenu.MenuClickHandler handler) {
         if(isFinal)return this;
-        overrideHandler.put(slot, handler);
+        overrideHandler.put(slot, CustomMenuHandler.from(handler));
+        return addOverrides(slot,item);
+    }
+    public MenuFactory addOverrides(int slot,ItemStack item,CustomMenuHandler handler) {
+        if(isFinal)return this;
+        overrideHandler.put(slot,handler);
         return addOverrides(slot,item);
     }
     public MenuFactory addInventory(int pos,ItemStack item){
@@ -101,8 +126,26 @@ public abstract class MenuFactory {
             handlers.add(null);
             inventory.add(null);
         }
+        handlers.set(pos,CustomMenuHandler.from(handler));
+        return addInventory(pos,item);
+    }
+    public MenuFactory addInventory(int pos,ItemStack item,CustomMenuHandler handler){
+        if(isFinal)return this;
+        while(pos>=handlers.size()){
+            handlers.add(null);
+            inventory.add(null);
+        }
         handlers.set(pos,handler);
         return addInventory(pos,item);
+    }
+    public MenuFactory addHandler(int pos,CustomMenuHandler handler){
+        if(isFinal)return this;
+        while(pos>=handlers.size()){
+            handlers.add(null);
+            inventory.add(null);
+        }
+        handlers.set(pos,handler);
+        return this;
     }
     public MenuFactory addHandler(int pos,ChestMenu.MenuClickHandler handler){
         if(isFinal)return this;
@@ -110,7 +153,7 @@ public abstract class MenuFactory {
             handlers.add(null);
             inventory.add(null);
         }
-        handlers.set(pos,handler);
+        handlers.set(pos,CustomMenuHandler.from(handler));
         return this;
     }
     public ItemStack getInventory(int pos){
@@ -124,7 +167,10 @@ public abstract class MenuFactory {
             return  null;
         }else return inventory.get(pos);
     }
-    public ChestMenu.MenuClickHandler getHandler(int pos){
+    public int getInventorySize(){
+        return finalInventory.length;
+    }
+    public CustomMenuHandler getHandler(int pos){
         if (isFinal){
             if(pos>=finalHandlers.length) {
                 return null;
@@ -134,6 +180,30 @@ public abstract class MenuFactory {
             return null;
         }else return handlers.get(pos);
     }
+    public boolean hasOverridesItem(int loc){
+        return overrideItem.containsKey(loc);
+    }
+    public boolean hasOverrideHandler(int loc){
+        return overrideHandler.containsKey(loc);
+    }
+    public ItemStack getOverrideItem(int loc){
+        return overrideItem.get(loc);
+    }
+    public CustomMenuHandler getOverrideHandler(int loc){
+        return overrideHandler.get(loc);
+    }
+    public int getPrefixSize(){
+        return prefixs.length;
+    }
+    public ItemStack getPrefix(int loc){
+        return prefixs[loc];
+    }
+    public int getSuffixSize(){
+        return suffixs.length;
+    }
+    public ItemStack getSuffix(int loc){
+        return suffixs[loc];
+    }
     public MenuFactory makeFinal(){
         isFinal=true;
         if(inventory.size()!=handlers.size()){
@@ -141,38 +211,36 @@ public abstract class MenuFactory {
         }
         for(int i=0;i<handlers.size();i++) {
             if(handlers.get(i)==null) {
-                handlers.set(i,ChestMenuUtils.getEmptyClickHandler());
+                handlers.set(i,CustomMenuHandler.empty());
             }
         }
         finalInventory=inventory.toArray(new ItemStack[inventory.size()]);
-        finalHandlers=handlers.toArray(new ChestMenu.MenuClickHandler[handlers.size()]);
+        finalHandlers=handlers.toArray(new CustomMenuHandler[handlers.size()]);
         inventory=null;
         handlers=null;
         return  this;
     }
     public CustomMenu build(){
-        CustomMenu a;
-        if(isFinal){
-            a=new CustomMenu(title,size,finalInventory.length,prefixs,suffixs,finalInventory,finalHandlers);
-        }else{
-            for(int i=0;i<handlers.size();i++) {
-                if(handlers.get(i)==null) {
-                    handlers.set(i,ChestMenuUtils.getEmptyClickHandler());
-                }
-            }
-            a=new CustomMenu(title,size,inventory.size(),prefixs,suffixs,inventory.toArray(new ItemStack[inventory.size()]),handlers.toArray(new ChestMenu.MenuClickHandler[handlers.size()]));
-        }
+        return build(null);
+    }
+    public CustomMenu build(CustomMenuHandler fatherHandler){
+        if(!isFinal)
+            makeFinal();
+        CustomMenu a=new CustomMenu(title,size,finalInventory.length,this);
         if(next>=0&&next<size){
             a.setNextPageButtom(next);
         }
         if(prev>=0&&prev<size){
             a.setPrevPageButtom(prev);
         }
-        for(Map.Entry<Integer,ItemStack> par:this.overrideItem.entrySet()){
-            a.overrideItem(par.getKey(),par.getValue());
-        }
-        for(Map.Entry<Integer,ChestMenu.MenuClickHandler> par:this.overrideHandler.entrySet()){
-            a.overrideHandler(par.getKey(),par.getValue());
+        if(back>=0&&back<size){
+            a.setBackSlot(back);
+            if(fatherHandler!=null) {
+                a.setBackHandler(fatherHandler.getInstance(a));
+            }
+            else if(finalBackHandler!=null){
+                a.setBackHandler(finalBackHandler.getInstance(a));
+            }
         }
         return a;
     }

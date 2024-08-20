@@ -37,10 +37,6 @@ public class CustomMenu {
         }
         return handler;
     }
-    public CustomMenu(String title,int size, int menulens, HashMap<Integer, ItemStack> prefix,HashMap<Integer, ItemStack> suffix,
-                      HashMap<Integer, ItemStack> itemDisplays,HashMap<Integer, ChestMenu.MenuClickHandler> itemHandlers) {
-        this(title,size,menulens,prefix,suffix,constructItemList(itemDisplays),constructHandler(itemHandlers));
-    }
     private static ItemStack[] constructBackGround(HashMap<Integer,ItemStack> prefix, Settings mod){
         if(prefix==null) {
             prefix=new HashMap<>();
@@ -87,15 +83,12 @@ public class CustomMenu {
                 return items2.toArray(new ItemStack[items2.size()]);
         }
     }
-    public CustomMenu(String title, int size,int menulens, HashMap<Integer, ItemStack> prefix,HashMap<Integer, ItemStack> suffix,
-                      ItemStack[] itemDisplays,ChestMenu.MenuClickHandler[] itemHandlers) {
-        this(title,size,menulens,constructBackGround(prefix,Settings.PREFIX),constructBackGround(suffix,Settings.SUFFIX),itemDisplays,itemHandlers);
-    }
-    public CustomMenu(String title ,int size,int menulens,ItemStack[] prefix,ItemStack[] suffix,
-                      HashMap<Integer, ItemStack> itemDisplays,HashMap<Integer, ChestMenu.MenuClickHandler> itemHandlers){
-        this(title,size,menulens,prefix,suffix,
-                constructItemList(itemDisplays),constructHandler(itemHandlers));
-    }
+
+    /**
+     * 将MenuFactory实例化 使用MenuFactory中的数据构造CustomMenu多界面对象(一个包含返回跳转处理函数 和 内部跳转方法的对象)
+     * 我们会在界面的时候尝试实例化一个CustomMenu并尝试从MenuFactory载入数据,同时设置跳转
+     *
+     */
     String title;
     //界面大小
     int size;
@@ -105,46 +98,35 @@ public class CustomMenu {
     int pageContent;
     //总大小
     int inventorySize;
-    ItemStack[] inventory;
-    ItemStack[] prefixs;
-    ItemStack[] suffixs;
+    MenuFactory factory;
     int nextSlot=-1;
     int prevSlot=-1;
     int backSlot=-1;
     ChestMenu.MenuClickHandler backHandlers=ChestMenuUtils.getEmptyClickHandler();
-    HashMap<Integer,ItemStack> overrideItem=new HashMap<>();
-    HashMap<Integer,ChestMenu.MenuClickHandler> overrideHandler=new HashMap<>();
-    ChestMenu.MenuClickHandler[] menuHandlers;
-    public CustomMenu(String title,int size, int menulens, ItemStack[] prefix,ItemStack[] suffix,ItemStack[] itemDisplays,ChestMenu.MenuClickHandler[] itemHandlers) {
+    //#TODO 重构customMenu 支持跳转
+    //#TODO 重构相关方法 让menu支持跳转
+    public CustomMenu(String title,int size, int menulens,MenuFactory factory) {
+        this.factory=factory;
         this.title=title;
-        this.prefixs=prefix;
-        this.suffixs=suffix;
-        int fixlen=prefix.length+suffix.length;
+
+        int fixlen=factory.getPrefixSize()+factory.getSuffixSize();
         assert size%9==0&&size<=54;
 
         this.size=size;
         this.pageContent=size-fixlen;
-        this.inventorySize=Math.max(menulens,itemDisplays.length);
+        this.inventorySize=Math.max(menulens,factory.getInventorySize());
         this.pages =(1+(inventorySize-1)/this.pageContent);
         if(this.pages ==0)this.pages =1;//防止有傻逼不塞东西 写0
-        this.inventory=new ItemStack[inventorySize];
-        System.arraycopy(itemDisplays,0,this.inventory,0,itemDisplays.length);
-        this.menuHandlers=new ChestMenu.MenuClickHandler[inventorySize];
-        System.arraycopy(itemHandlers,0,this.menuHandlers,0,itemHandlers.length);
-        for(int i=itemHandlers.length;i<inventorySize;i++){
-            menuHandlers[i]=ChestMenuUtils.getEmptyClickHandler();
-        }
     }
     public int getPages(){
         return this.pages;
     }
-    public CustomMenu setBackSlot(int slot){
-        this.backSlot=slot;
-        return this;
-    }
-    public int getBackSlot(){
-        return this.backSlot;
-    }
+
+    /**
+     * 设置当前对象跳转槽
+     * @param slot
+     * @return
+     */
     public CustomMenu setNextPageButtom(int slot){
         assert slot<size;
         this.nextSlot=slot;
@@ -155,111 +137,109 @@ public class CustomMenu {
         this.prevSlot=slot;
         return this;
     }
+    public CustomMenu setBackSlot(int slot){
+        assert slot<size;
+        this.backSlot=slot;
+        return this;
+    }
+    public CustomMenu setBackHandler(ChestMenu.MenuClickHandler handler){
+        this.backHandlers=handler==null?ChestMenuUtils.getEmptyClickHandler():handler;
+        return this;
+    }
 
-    public CustomMenu setInventory(int index,ItemStack item){
-        inventory[index]=item;
-        return this;
-    }
-    public CustomMenu setHandler(int index,ChestMenu.MenuClickHandler handler){
-        menuHandlers[index]=handler;
-        return this;
-    }
-    public CustomMenu overrideHandler(int slot,ChestMenu.MenuClickHandler handler){
-        overrideHandler.put(slot,handler);
-        return this;
-    }
-    public CustomMenu overrideItem(int slot,ItemStack item){
-        overrideItem.put(slot,item);
-        return this;
-    }
+    /**
+     * 自动生成跳转槽物品
+     * @param slot
+     * @param page
+     * @return
+     */
     public ItemStack generatePageSlot( int slot, int page){
         if(slot==prevSlot){
             return MenuUtils.getPreviousButton(page,pages);
         }else if(slot==nextSlot){
             return MenuUtils.getNextButton(page,pages);
+        }else if(slot==backSlot){
+            return MenuUtils.getBackButton();
         }
         return null;
     }
-    public ItemStack getItem(int slot,int page){
-        if(overrideItem.containsKey(slot)){
-            return overrideItem.get(slot);
-        }else if(slot==nextSlot||slot==prevSlot){
-            return generatePageSlot(slot,page);
-        }
-        else {
-            if(slot<prefixs.length){
-                return prefixs[slot];
-            }else if (slot>=size-suffixs.length){
-                return suffixs[slot];
-            }else {
-                return inventory[slot-prefixs.length+(page-1)*pageContent];
-            }
-        }
-    }
-    public ItemStack getInventory(int index){
-        if(index<inventory.length)
-            return inventory[index];
-        else
-            return null;
-    }
 
     /**
-     * use for backSlot
+     * 自动生成跳转槽处理程序 #TODO 增加返回跳转槽
+     * @param slot
+     * @param page
+
      * @return
      */
-//    public ChestMenu.MenuClickHandler getOpenHandler(){
-//        return getOpenHandler(1);
-//    }
-    public ChestMenu.MenuClickHandler getOpenHandler(int page, ChestMenu.MenuClickHandler backHandlers){
-        return (player1, i1, itemStack, clickAction) ->{
-            this.openPages(player1,page,backHandlers);
-            return false;
-        };
-    }
-    public ChestMenu.MenuClickHandler generatePageClick(int slot, int page,ChestMenu.MenuClickHandler backHandlers){
+    public ChestMenu.MenuClickHandler generatePageClick(int slot, int page){
         if(slot==nextSlot){
             return (player1, i1, itemStack, clickAction) -> {
                 if(page<pages)
-                    openPages(player1,page+1,backHandlers);
+                    openPages(player1,page+1);
                 return false;
             };
         }else if(slot==prevSlot){
             return (player1, i1, itemStack, clickAction) -> {
                 if(page>1)
-                    openPages(player1,page-1,backHandlers);
+                    openPages(player1,page-1);
                 return false;
             };
+        }else if(slot==backSlot){
+            return backHandlers==null?ChestMenuUtils.getEmptyClickHandler():backHandlers;
         }
         else return null;
     }
-//    public void openPages(Player player,int page){
-//        openPages(player,page,null);
-//    }
-    private static class CustomPage{
-        CustomMenu menu;
-        int page;
-        ChestMenu.MenuClickHandler backhandler;
-        public CustomPage(CustomMenu menu,int page,ChestMenu.MenuClickHandler backhandler){
-            this.menu=menu;
-            this.page=page;
-            this.backhandler=backhandler;
-        }
-//        public ChestMenu constructPage(){
-//
-//        }
-    }
-    public void openPages(Player p,int page,ChestMenu.MenuClickHandler backHandlers){
-        ChestMenu menu=constructPage(page,backHandlers);
 
+    /**
+     * 载入物品的逻辑
+     * @param slot
+     * @param page
+     * @return
+     */
+    public ItemStack getItem(int slot,int page){
+        if(factory.hasOverridesItem(slot)){
+            return factory.getOverrideItem(slot);
+        }else if(slot==nextSlot||slot==prevSlot){
+            return generatePageSlot(slot,page);
+        }
+        else {
+            int len=factory.getPrefixSize();
+            int len2=factory.getSuffixSize();
+            if(slot< len){
+                return factory.getPrefix(slot);
+            }else if (slot>=size-len2){
+                return factory.getSuffix(slot);
+            }else {
+                return factory.getInventory(slot-len+(page-1)*pageContent);
+            }
+        }
+    }
+
+    /**
+     * 获得指向该对象的打开槽,公共的
+     * @return
+     */
+    public static CustomMenuHandler getOpenHandler(int page){
+        return (cm -> ((player, i, itemStack, clickAction) -> {
+            cm.openPages(player,page);
+            return false;
+        }));
+    }
+    public CustomMenuHandler getOpenThisHandler(int pages){
+        return (cm -> ((player, i, itemStack, clickAction) -> {
+            this.openPages(player,pages);
+            return false;
+        }));
+    }
+
+    public void openPages(Player p,int page){
+        ChestMenu menu=constructPage(page);
         menu.open(p);
     }
-//    public void open(Player p){
-//        open(p,null);
-//    }
-    public void open(Player p,ChestMenu.MenuClickHandler backHandlers){
-        openPages(p,1,backHandlers);
+    public void open(Player p){
+        openPages(p,1);
     }
-    public ChestMenu constructPage(int page,ChestMenu.MenuClickHandler backHandlers){
+    public ChestMenu constructPage(int page){
         assert page<=pages&&page>=1;
         int startIndex=(page-1)*pageContent;
         int endIndex=Math.min(inventorySize,page*pageContent);
@@ -269,66 +249,71 @@ public class CustomMenu {
         ItemStack slotItem;
         ChestMenu.MenuClickHandler handler;
         int slot;
-        for(int i=0;i<prefixs.length;i++){
+        int len=factory.getPrefixSize();
+        for(int i=0;i<len;i++){
             slot=i;
-            if(overrideItem.containsKey(slot)){
-                slotItem=overrideItem.get(slot);
+            if(factory.hasOverridesItem(slot)){
+                slotItem=factory.getOverrideItem(slot);
             }else if(slot==nextSlot||slot==prevSlot){
                 slotItem=generatePageSlot(slot,page);
             }
             else {
-                slotItem=prefixs[i];
+                slotItem=factory.getPrefix(i);
             }
-            if(overrideHandler.containsKey(slot)){
-                handler=overrideHandler.get(slot);
+            if(factory.hasOverrideHandler(slot)){
+                handler=factory.getOverrideHandler(slot).getInstance(this);
             }else if(slot==prevSlot||slot==nextSlot){
-                handler=generatePageClick(slot,page,backHandlers);
+                handler=generatePageClick(slot,page);
             }else{
                 handler=ChestMenuUtils.getEmptyClickHandler();
             }
             inv.addItem(slot,slotItem,handler);
         }
         for(int i=0;i<pageContent;i++){
-            slot=i+prefixs.length;
-            if(overrideItem.containsKey(slot)){
-                slotItem=overrideItem.get(slot);
+            slot=i+len;
+            if(factory.hasOverridesItem(slot)){
+                slotItem=factory.getOverrideItem(slot);
             }else if(slot==nextSlot||slot==prevSlot){
                 slotItem=generatePageSlot(slot,page);
             }
             else {
                 if(i<delta){
-                    slotItem=inventory[i+startIndex];
+                    slotItem=factory.getInventory(i+startIndex);
                 }else{
                     slotItem=null;
                 }
             }
-            if(overrideHandler.containsKey(slot)){
-                handler=overrideHandler.get(slot);
+            if(factory.hasOverrideHandler(slot)){
+                handler=factory.getOverrideHandler(slot).getInstance(this);
             }else if(slot==prevSlot||slot==nextSlot){
-                handler=generatePageClick(slot,page,backHandlers);
+                handler=generatePageClick(slot,page);
             }else{
                 if(i<delta){
-                    handler=menuHandlers[i+startIndex];
+                    handler=factory.getHandler(i+startIndex).getInstance(this);
+                    if(handler==null){
+                        handler=ChestMenuUtils.getEmptyClickHandler();
+                    }
                 }else{
                     handler=ChestMenuUtils.getEmptyClickHandler();
                 }
             }
             inv.addItem(slot,slotItem,handler);
         }
-        for(int i=0;i<suffixs.length;i++){
-            slot=size-suffixs.length+i;
-            if(overrideItem.containsKey(slot)){
-                slotItem=overrideItem.get(slot);
+        int len2=factory.getSuffixSize();
+        for(int i=0;i<len2;i++){
+            slot=size-len2+i;
+            if(factory.hasOverridesItem(slot)){
+                slotItem=factory.getOverrideItem(slot);
             }else if(slot==nextSlot||slot==prevSlot){
                 slotItem=generatePageSlot(slot,page);
             }
             else {
-                slotItem=suffixs[i];
+                slotItem=factory.getSuffix(i);
             }
-            if(overrideHandler.containsKey(slot)){
-                handler=overrideHandler.get(slot);
+            if(factory.hasOverrideHandler(slot)){
+                handler=factory.getOverrideHandler(slot).getInstance(this);
             }else if(slot==prevSlot||slot==nextSlot){
-                handler=generatePageClick(slot,page,backHandlers);
+                handler=generatePageClick(slot,page);
             }else{
                 handler=ChestMenuUtils.getEmptyClickHandler();
             }

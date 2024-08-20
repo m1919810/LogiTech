@@ -11,6 +11,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.chat.ChatInput;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.MenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.Material;
@@ -29,6 +30,9 @@ public abstract class CustomItemGroup extends FlexItemGroup {
     MenuFactory menuFactory;
     int pages;
     int size;
+    int prelen=9;
+    int suflen=9;
+    int contentPerPage;
     List<ItemGroup> subGroups;
     int[] subGroupIndex;
     boolean isVisible;
@@ -51,7 +55,8 @@ public abstract class CustomItemGroup extends FlexItemGroup {
 
         assert size>=27&&size%9==0;
         this.subGroups=subGroup;
-        this.pages=1+(inventorylen-1)/(size-18);
+        this.contentPerPage=size-18;
+        this.pages=1+(inventorylen-1)/contentPerPage;
         this.isVisible=true;
         if(title==null){
             title=item.getItemMeta().getDisplayName();
@@ -83,7 +88,8 @@ public abstract class CustomItemGroup extends FlexItemGroup {
 
         assert size>=27&&size%9==0;
         this.subGroups=subGroup.values().stream().toList();
-        this.pages=1+(inventorylen-1)/(size-18);
+        this.contentPerPage=size-18;
+        this.pages=1+(inventorylen-1)/this.contentPerPage;
         this.isVisible=true;
         if(title==null){
             title=item.getItemMeta().getDisplayName();
@@ -130,7 +136,7 @@ public abstract class CustomItemGroup extends FlexItemGroup {
      * @param mode
      * @param pages
      */
-    protected abstract void addGuideRelated(CustomMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int pages);
+    protected abstract void addGuideRelated(ChestMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int pages);
     protected int[] getSubGroupIndex(){
         return subGroupIndex;
     }
@@ -151,8 +157,7 @@ public abstract class CustomItemGroup extends FlexItemGroup {
      * @param mode
      * @param pages
      */
-    protected void addMenuRelated(ChestMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int pages){
-    }
+
     /**
      * get a preview slotPlan of ItemGroups, will init subGroupIndex, can modify slot to custom subGroup position
      * @return
@@ -204,27 +209,27 @@ public abstract class CustomItemGroup extends FlexItemGroup {
 
         openPage(var1,var2,var3,page);
     }
-
+    //public GuideMenuHandler getPrevGuideHandler(){}
     public void openPage(Player var1, PlayerProfile var2, SlimefunGuideMode var3,int page){
         assert page>=1&&page<=pages;
         var2.getGuideHistory().add(this,page);
-        CustomMenu menu=menuFactory.build();
+        ChestMenu menu=menuFactory.build().constructPage(page);
         //prev键
-        menu.overrideHandler(this.size-8,((player, i, itemStack, clickAction) -> {
+        menu.addMenuClickHandler(this.size-8,((player, i, itemStack, clickAction) -> {
             if(page>1){
                 this.openPage(var1,var2,var3,page-1);
             }return false;
         }));
         //next键
-        menu.overrideHandler(this.size-2,((player, i, itemStack, clickAction) -> {
+        menu.addMenuClickHandler(this.size-2,((player, i, itemStack, clickAction) -> {
 
             if(page<this.pages){
                 this.openPage(var1,var2,var3,page+1);
             }return false;
         }));
         //搜索键
-        menu.overrideItem(7,ChestMenuUtils.getSearchButton(var1));
-        menu.overrideHandler(7, (pl, slot, item, action) -> {
+        menu.replaceExistingItem(7,ChestMenuUtils.getSearchButton(var1));
+        menu.addMenuClickHandler(7, (pl, slot, item, action) -> {
             pl.closeInventory();
             Slimefun.getLocalization().sendMessage(pl, "guide.search.message");
             ChatInput.waitForPlayer(
@@ -234,25 +239,27 @@ public abstract class CustomItemGroup extends FlexItemGroup {
             return false;
         });
         //返回键
-        menu.setBackSlot(1);
-        //依次按照计算好的index放入物品组，也可以自定义index放入
-        int groupSize=subGroups.size();
-        for(int j=0;j<groupSize;j++){
-            ItemGroup itg=subGroups.get(j);
-            int index=subGroupIndex[j];
-            menu.setHandler(index,((player, i, itemStack, clickAction) -> {
-                SlimefunGuide.openItemGroup(var2, itg, var3, 1);
-                return false;
-            }));
-        }
-        addGuideRelated(menu,var1,var2,var3,page);
-        ChestMenu chestMenu = menu.constructPage(page,((player, i, itemStack, clickAction) -> {
-            //var2.getGuideHistory().openLastEntry(Slimefun.getRegistry().getSlimefunGuide(var3));
+        menu.addMenuClickHandler(1,((player, i, itemStack, clickAction) -> {
             var2.getGuideHistory().goBack(Slimefun.getRegistry().getSlimefunGuide(var3));
             return false;
         }));
-        addMenuRelated(chestMenu,var1,var2,var3,page);
-        chestMenu.open(var1);
+        //依次按照计算好的index放入物品组，也可以自定义index放入
+        int groupSize=subGroups.size();
+        int startIndex=(page-1)*contentPerPage;
+        int endIndex=page*contentPerPage;
+        for(int j=0;j<groupSize;j++){
+            ItemGroup itg=subGroups.get(j);
+            int index=subGroupIndex[j];
+            if(index>=startIndex&&index<endIndex){
+                menu.addMenuClickHandler(index-startIndex+prelen,((player, i, itemStack, clickAction) -> {
+                    SlimefunGuide.openItemGroup(var2, itg, var3, 1);
+                    return false;
+                }));
+            }
+        }
+        addGuideRelated(menu,var1,var2,var3,page);
+
+        menu.open(var1);
     }
     //modified from guizhan Infinity Expansion 2
     private int getLastPage(Player var1, PlayerProfile var2, SlimefunGuideMode var3){
