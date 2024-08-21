@@ -103,8 +103,6 @@ public class CustomMenu {
     int prevSlot=-1;
     int backSlot=-1;
     ChestMenu.MenuClickHandler backHandlers=ChestMenuUtils.getEmptyClickHandler();
-    //#TODO 重构customMenu 支持跳转
-    //#TODO 重构相关方法 让menu支持跳转
     public CustomMenu(String title,int size, int menulens,MenuFactory factory) {
         this.factory=factory;
         this.title=title;
@@ -165,7 +163,7 @@ public class CustomMenu {
     }
 
     /**
-     * 自动生成跳转槽处理程序 #TODO 增加返回跳转槽
+     * 自动生成跳转槽处理程序
      * @param slot
      * @param page
 

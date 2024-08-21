@@ -24,6 +24,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.checkerframework.checker.units.qual.C;
 
+import java.util.LinkedHashMap;
+
 public class CargoConfigurator extends AbstractBlock {
     protected final int[] BORDER=new int[]{
             0,1,2,3,5,6,7,8,27,28,29,30,32,33,34,35
@@ -57,6 +59,25 @@ public class CargoConfigurator extends AbstractBlock {
             new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 传输数量限制",
                     "&e将[%s]置于下方".formatted(Language.get("Items.CARGO_PART.Name")),"&7配置传输数量","&a传输数量增加<物品数量>"),
     };
+    protected final ItemStack TIPS_ITEM=AddUtils.randItemStackFactory(
+            new LinkedHashMap<>(){{
+                put(new CustomItemStack(Material.KNOWLEDGE_BOOK,"&a小tips","&7将仅空模式设置为true可以减少机器运行开销"),400);
+                put(new CustomItemStack(Material.KNOWLEDGE_BOOK,"&a小tips","&7强对称模式很强大,或许你会很好的利用它"),200);
+                put(new CustomItemStack(Material.KNOWLEDGE_BOOK,"&a小tips","&7懒惰模式会在首次传输某槽位后终止传输"),200);
+                put(new CustomItemStack(Material.KNOWLEDGE_BOOK,"&a小tips","&7请不要让传输双方的目标槽位重叠,除非你想丢物品!"),800);
+                put(new CustomItemStack(Material.KNOWLEDGE_BOOK,"&a小tips","&7若无特殊需求,尽量不要放置黑白名单,这有助于服务器健康"),200);
+                put(new CustomItemStack(Material.KNOWLEDGE_BOOK,"&a小tips","&7将仅空模式设置为true可以减少机器运行开销"),200);
+                put(new CustomItemStack(Material.KNOWLEDGE_BOOK,"&a小tips","&7货运配置卡可以同时配置一组!"),200);
+                put(new CustomItemStack(Material.KNOWLEDGE_BOOK,"&a小tips","&7已经配置好的配置卡可以放入配置槽重配,这将覆盖之前的设置"),200);
+                put(new CustomItemStack(Material.KNOWLEDGE_BOOK,"&a小tips","&7将仅空模式设置为true可以减少机器运行开销"),200);
+                put(new CustomItemStack(Material.KNOWLEDGE_BOOK,"&a小tips","&7逆向模式看起来似乎没什么用,不过你可以在链式运输中使用它"),200);
+                put(new CustomItemStack(Material.KNOWLEDGE_BOOK,"&a小tips","&7本附属通用货运方法由matl114设计","若有疑问可以寻找作者"),100);
+                put(new CustomItemStack(Material.KNOWLEDGE_BOOK,"&a小tips","&7最有效的配置是除了仅空模式以外全设置false,同时调制合适的传输数量"),100);
+                put(AddUtils.addGlow( new CustomItemStack(Material.KNOWLEDGE_BOOK,"&x&E&B&3&3&E&B小彩蛋","&b恭喜您抽中了1/3600概率的彩蛋","&b想来您今天的运势一定很好!")),1);
+
+            }}
+    );
+    protected final int TIPS_SLOT=35;
     protected ItemCounter MATCHED_CARGO=CraftUtils.getConsumer(AddItem.CARGO_PART);
     public CargoConfigurator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
@@ -126,6 +147,9 @@ public class CargoConfigurator extends AbstractBlock {
         }else return false;
     }
     public void newMenuInstance(BlockMenu inv, Block block){
+        inv.addMenuOpeningHandler(player -> {
+            inv.replaceExistingItem(TIPS_SLOT,TIPS_ITEM.clone());
+        });
         inv.addMenuClickHandler(INFO_SLOTS[0],((player, i, itemStack, clickAction) -> {
             if(craft(inv)){
                 AddUtils.sendMessage(player,"&a配置成功!");

@@ -11,6 +11,7 @@ import me.matl114.logitech.Language;
 import me.matl114.logitech.SlimefunItem.Cargo.AbstractCargo;
 import me.matl114.logitech.SlimefunItem.Cargo.Links.HyperLink;
 import me.matl114.logitech.Utils.DataCache;
+import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.Settings;
 import me.matl114.logitech.Utils.TransportUtils;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.Directions;
@@ -38,23 +39,15 @@ public class RemoteCargo extends AbstractCargo {
     };
     protected final ItemStack[] INFO_ITEM=new ItemStack[]{
             new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&b机制",
-                    "&7在左侧配置链式方向","&7在中间的槽位插入[%s]".formatted(Language.get("Items.CARGO_CONFIG.Name")),"&7在下方放入黑/白名单物品",
-                    "&e机器将进行链式传输","&c警告:只有连续方块长度长于1时才会进行传输"),
+                    "&7在左侧配置源方方块超链接","&7在中间的槽位插入[%s]".formatted(Language.get("Items.CARGO_CONFIG.Name")),"&7在下方放入黑/白名单物品",
+                    "&e机器将从源方方块向目标方块进行传输","&c警告:当你设置两方块相同时,请不要让他们操作同样的槽位,否则后果自负"),
             new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&b机制",
-                    "&7在右侧配置链式设定","&7在中间的槽位插入[%s]".formatted(Language.get("Items.CARGO_CONFIG.Name")),"&7在下方放入黑/白名单物品",
-                    "&e机器将进行链式传输","&c警告:只有连续方块长度长于1时才会进行传输")
+                    "&7在右侧配置目标方块超链接","&7在中间的槽位插入[%s]".formatted(Language.get("Items.CARGO_CONFIG.Name")),"&7在下方放入黑/白名单物品",
+                    "&e机器将从源方方块向目标方块进行传输","&c警告:当你设置两方块相同时,请不要让他们操作同样的槽位,否则后果自负")
     };
-    protected final int[] CONFIG_SLOT=new int[]{
-
+    protected final int[] LOCATION_SLOT=new int[]{
+            10,16
     };
-    protected final String[] CONFIG_KEYS=new String[]{
-
-    };
-    protected final ItemStack[] CONFIG_ITEM=new ItemStack[]{
-
-    };
-    protected final int DIRECTION_SLOT=10;
-
     public int[] getBWListSlot(){
         return BWSLOT;
     }
@@ -93,16 +86,63 @@ public class RemoteCargo extends AbstractCargo {
 
         updateMenu(inv,b, Settings.INIT);
     }
-    public void updateConfigSlots(){
-
+    public Location getLocation(String saveKey,SlimefunBlockData data){
+        return DataCache.getLocation(saveKey,data);
+    }
+    public void updateLocationSlot(String saveKey, BlockMenu blockMenu,int slot){
+        ItemStack it=blockMenu.getItemInSlot(slot);
+        if(it!=null){
+            ItemMeta meta=it.getItemMeta();
+            if(HyperLink.isLink(meta)){
+                Location loc=HyperLink.getLink(meta);
+                DataCache.setLocation(saveKey,blockMenu.getLocation(),loc);
+                return;
+            }
+        }
+        DataCache.setLocation(saveKey,blockMenu.getLocation(),null);
     }
     public void updateMenu(BlockMenu inv ,Block b,Settings mod){
         loadConfig(inv,b);
-        updateDirectionSlot("line_dir",inv,DIRECTION_SLOT);
+        updateLocationSlot("from_dir",inv,LOCATION_SLOT[0]);
+        updateLocationSlot("to_dir",inv,LOCATION_SLOT[1]);
     }
     public void cargoTask(Block b, BlockMenu menu, SlimefunBlockData data, int configCode){
-
+        //Location loc=menu.getLocation();
+        Location from_dir=getLocation("from_dir",data);
+        if(from_dir==null){
+            return;
+        }
+        BlockMenu from= StorageCacheUtils.getMenu(from_dir);
+        if(from==null){
+            return;
+        }
+        Location to_dir=getLocation("to_dir",data);
+        if(to_dir==null){
+            return;
+        }
+        BlockMenu to= StorageCacheUtils.getMenu(to_dir);
+        if(to==null){
+            return;
+        }
+        long s=System.nanoTime();
+        int[] bwslots=getBWListSlot();
+        HashSet<ItemStack> bwset=new HashSet<>();
+        ItemStack it;
+        for (int i=0;i<bwslots.length;++i){
+            it=menu.getItemInSlot(bwslots[i]);
+            if(it!=null){
+                bwset.add(it);
+            }
+        }
+        TransportUtils.transportItemGeneral(from,to,configCode,bwset);
+        s=System.nanoTime();
     }
-//
+    public void onBreak(BlockBreakEvent e, BlockMenu menu){
+        super.onBreak(e, menu);
+        if(menu!=null){
+            Location loc=menu.getLocation();
+            menu.dropItems(loc,LOCATION_SLOT);
+        }
+    }
 
 }

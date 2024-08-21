@@ -64,20 +64,20 @@ public interface DataCache {
         data.setData("recipe", String.valueOf(val));
     }
     static final Pattern LOCATION_DE_PATTERN=Pattern.compile("(.*?),(.*?),(.*?),(.*?)");
-    static final String LOCATION_CODE_PATTERN="%s,%.1f,%.1f,%.1f";
+    static final String LOCATION_CODE_SPLITER=",";
+    static final String LOCATION_CODE_PATTERN="%s,%d,%d,%d";
     public static Location locationFromString(String loc){
         try{
             if("null".equals(loc)){
                 return null;
             }
-            Matcher matcher = LOCATION_DE_PATTERN.matcher(loc);
-            if(matcher.matches()){
-                String world = matcher.group(1);
-                int x = Integer.parseInt(matcher.group(2));
-                int y = Integer.parseInt(matcher.group(3));
-                int z = Integer.parseInt(matcher.group(4));
-                return new Location(Bukkit.getWorld(world), x, y, z);
-            }
+            String[] list=loc.split(LOCATION_CODE_SPLITER);
+            if(list.length!=4)return null;
+            String world =list[0];
+            int x = Integer.parseInt(list[1]);
+            int y = Integer.parseInt(list[2]);
+            int z = Integer.parseInt(list[3]);
+            return new Location(Bukkit.getWorld(world), x, y, z);
         }catch (Throwable e){
         }
         return null;
@@ -91,25 +91,15 @@ public interface DataCache {
         }
     }
     public static Location getLocation(String key,SlimefunBlockData data){
-        try{
-            String location=data.getData(key);
-            if("null".equals(location)){
-                return null;
-            }
-            Matcher matcher = LOCATION_DE_PATTERN.matcher(location);
-            if(matcher.matches()){
-                String world = matcher.group(1);
-                float x = Float.parseFloat(matcher.group(2));
-                float y = Float.parseFloat(matcher.group(3));
-                float z = Float.parseFloat(matcher.group(4));
-
-                return new Location(Bukkit.getWorld(world), x, y, z);
-            }
-        }catch (Throwable a){
+        String location=data.getData(key);
+        if(location!=null){
+            Location loc=locationFromString(location);
+            return loc;
+        }else{
+            data.setData(key,"null");
+            //important to clone ,dont change origin
+            return null;
         }
-        data.setData(key,"null");
-        //important to clone ,dont change origin
-        return null;
     }
     public static Location getLastLocation(SlimefunBlockData data){
         return getLocation("location",data);

@@ -71,10 +71,10 @@ public class MultiIOPort extends AbstractTransportor implements MultiBlockPart {
             if (inv!=null){
                 if(CONFIG_TO){
                     TransportUtils.transportItem(menu,getOutputSlots(),inv,TransportUtils.getInvInputSlot(inv),
-                            ItemTransportFlow.INSERT,CONFIG_SYMM,null,576);
+                            CONFIG_SYMM,null,576);
                 }else {
                     TransportUtils.transportItem(inv,TransportUtils.getInvOutputSlot(inv),menu,getInputSlots(),
-                            ItemTransportFlow.INSERT,CONFIG_SYMM,null,576);
+                            CONFIG_SYMM,null,576);
                 }
             }
         }

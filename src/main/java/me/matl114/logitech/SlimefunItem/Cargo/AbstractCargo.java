@@ -47,12 +47,12 @@ public abstract class AbstractCargo extends CustomSlimefunItem implements Recipe
     }
     protected final ItemStack[] DIRECTION_ITEM=new ItemStack[]{
             new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6点击切换方向","&3当前方向: 无"),
-            AddUtils.addGlow( new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换方向","&3当前方向: 向北")),
-            AddUtils.addGlow( new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换方向","&3当前方向: 向西")),
-            AddUtils.addGlow( new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换方向","&3当前方向: 向南")),
-            AddUtils.addGlow( new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换方向","&3当前方向: 向东")),
-            AddUtils.addGlow( new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换方向","&3当前方向: 向上")),
-            AddUtils.addGlow( new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换方向","&3当前方向: 向下"))
+            AddUtils.addGlow( new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6点击切换方向","&3当前方向: 向北")),
+            AddUtils.addGlow( new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6点击切换方向","&3当前方向: 向西")),
+            AddUtils.addGlow( new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6点击切换方向","&3当前方向: 向南")),
+            AddUtils.addGlow( new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6点击切换方向","&3当前方向: 向东")),
+            AddUtils.addGlow( new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6点击切换方向","&3当前方向: 向上")),
+            AddUtils.addGlow( new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6点击切换方向","&3当前方向: 向下"))
     };
     public AbstractCargo(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, List<ItemStack> displayList) {
         super(itemGroup, item, recipeType, recipe,null);

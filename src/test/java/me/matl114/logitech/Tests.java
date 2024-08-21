@@ -2,13 +2,18 @@ package me.matl114.logitech;
 
 
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.Utils.Algorithms.DynamicArray;
+import me.matl114.logitech.Utils.Algorithms.SimpleLinkList;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.MathUtils;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.CargoConfigs;
+import me.matl114.logitech.Utils.UtilClass.TestItemStack;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Tests {
     public static void log(String message) {
@@ -55,7 +60,7 @@ public class Tests {
         log(itp2.amount+" "+itp2.maxCnt+" "+itp2.slot);
         //ItemStack
     }
-    @Test
+   // @Test
     public void test_configCode(){
        boolean symm=false;
        boolean isnull=true;
@@ -87,7 +92,7 @@ public class Tests {
         a.subList(size-8,size).clear();
         log(a.size()+"");
     }
-    @Test
+    //@Test
     public void test_MathUtils(){
         log("[TEST MathUtils] TEST START");
         //StringBuilder builder=new StringBuilder();
@@ -117,5 +122,253 @@ public class Tests {
         log("αοθωπαςο".getClass().getName());
         log("[TEST MathUtils] TEST SUCCESS");
     }
+    //@Test
+    public void test_Regex(){
+        String s="world,-133,29,14";
+        Pattern reg=Pattern.compile("(.*?),(.*?),(.*?),(.*?)");
+        Matcher m=reg.matcher(s);
+        if(m.find()){
+            log(m.group(1));
+        }
+        String t;
+        int a;
+        int b;
+        int c;
+        long start=System.nanoTime();
+        for(int i=0;i<100_0000;++i){
+            m=reg.matcher(s);
+            m.matches();
+            t=m.group(1);
+            a=Integer.parseInt(m.group(2));
+            b=Integer.parseInt(m.group(3));
+            c=Integer.parseInt(m.group(4));
+        }
+        long end=System.nanoTime();
+        log("[TEST Regex] first test"+(end-start)+" ns");
+        start=System.nanoTime();
+        String[] st;
+        for(int i=0;i<100_0000;++i){
+            st= s.split(",");
+            assert st.length==4;
+            t=st[0];
+            a=Integer.parseInt(st[1]);
+            b=Integer.parseInt(st[2]);
+            c=Integer.parseInt(st[3]);
+        }
+        end=System.nanoTime();
+        log("[TEST Regex] first test"+(end-start)+" ns");
+        st= s.split(",");
+        assert st.length==4;
+        t=st[0];
+        a=Integer.parseInt(st[1]);
+        b=Integer.parseInt(st[2]);
+        c=Integer.parseInt(st[3]);
+        log("print "+t+" "+a+" "+b+" "+c);
+    }
+    //@Test
+    public void test_Transport(){
 
+        long start=System.nanoTime();
+        for(int s=0;s<32;++s){
+            int[] a=new int[54];
+            //int[] b=new int[54];
+
+            for (int i=0;i<54;++i){
+                a[i]=-1;
+            }
+            for(int i=1;i<54;++i){
+                for(int j=0;j<54;++j){
+                    if(a[j]==-1){
+                        //b[i]=i+1;
+                        continue;
+                    }
+                }
+            }
+        }
+        long end=System.nanoTime();
+        log("[TEST Transport] first test"+(end-start)+" ns");
+        start=System.nanoTime();
+        for(int s=0;s<32;++s){
+            LinkedHashMap<Integer,Integer> a=new LinkedHashMap<>();
+            for (int i=0;i<54;++i){
+                a.put(i,-1);
+            }
+            for(int i=1;i<54;++i){
+                Iterator<Map.Entry<Integer, Integer>> it=a.entrySet().iterator();
+                while(it.hasNext()){
+
+                    Map.Entry<Integer, Integer> entry=it.next();
+                    if(entry.getValue()==-1){
+                        it.remove();
+                    }
+                }
+                if(a.isEmpty())break;
+            }
+        }
+        end=System.nanoTime();
+        log("[TEST Transport] second test"+(end-start)+" ns");
+        start=System.nanoTime();
+        for(int s=0;s<32;++s){
+            List<Integer> a=new ArrayList<Integer> (55);
+            for (int i=0;i<54;++i){
+                a.add(-1);
+            }
+            SimpleLinkList<Integer> slt=new SimpleLinkList<>(a);
+            for(int i=1;i<54;++i){
+                int prev=-1;
+                int next;
+                int data;
+                while(slt.hasNext(prev)){
+
+                    next=slt.getNext(prev);
+                    data=slt.get(next);
+                    if(data==-1){
+                      //  log("checkout "+prev+" "+next);
+                        slt.deleteNext(prev);
+                    }else{
+                        prev=next;
+                    }
+                }
+            }
+        }
+        end=System.nanoTime();
+        log("[TEST Transport] third test"+(end-start)+" ns");
+        start=System.nanoTime();
+        for(int s=0;s<32;++s){
+            int[] a=new int[54];
+            for (int i=0;i<54;++i){
+                a[i]=-1;
+            }
+            loop:
+            for(int j=0;j<54;++j){
+                for(int i=1;i<54;++i){
+                    if(a[j]==-1){
+                        continue loop;
+                    }
+                }
+            }
+        }
+        end=System.nanoTime();
+        log("[TEST Transport] final test"+(end-start)+" ns");
+        int[] b=new int[54];
+
+        start=System.nanoTime();
+        for(int s=0;s<32;++s){
+            int[] a=new int[54];
+            List<Integer> data1=new ArrayList<>(54);
+            List<Integer> data2=new ArrayList<>(54);
+            //int[] b=new int[54];
+
+            for (int i=0;i<54;++i){
+                a[i]=-1;
+
+                if(a[i]>0){
+                    data1.add(i);
+                }else {
+                    data2.add(i);
+                }
+            }
+            int len1=data1.size();
+            int len2=data2.size();
+            for(int i=1;i<len1;++i){
+                for(int j=0;j<len2;++j){
+                    if(data2.get(j)==-1){
+                        b[i]=i+1;
+                        continue;
+                    }
+                }
+            }
+        }
+        end=System.nanoTime();
+        log("[TEST Transport] fourth test"+(end-start)+" ns");
+        //测试样例1
+        TestStack[] inv1=new TestStack[54];
+        TestStack[] inv2=new TestStack[54];
+        for(int i=0;i<54;++i){
+            inv1[i]=new TestStack(64);
+            inv2[i]=new TestStack(64);
+        }
+        start=System.nanoTime();
+        for(int tr=0;tr<32;++tr){
+            int[] toRecord=new int[54];
+//            List<TestStack> data1=new ArrayList<>(54);
+//            List<TestStack> data2=new ArrayList<>(54);
+            TestStack[] data1=new TestStack[54];
+            int len1=0;
+            TestStack as;
+            for(int j=0;j<54;++j){
+                as=inv2[j];
+                if(as.getAmount()!=as.getMaxAmount()){
+                    data1[len1]=as;
+                    ++len1;
+               }
+            }
+            TestStack as1;
+            TestStack as2;
+            for (int i=0;i<54;++i){
+                as1=inv1[i];
+                if(as1.getAmount()==0)continue;
+                int s1=as1.getAmount();
+                for(int j=0;j<len1;++j){
+                    toRecord[i]=-1;
+                    as2=data1[j];
+                    //if(as2.getAmount()==as2.getMaxAmount()){continue;}
+                    int s2=as2.getAmount();
+                    s1-=s2;
+                    if(s1<=0){
+                        break;
+                    }
+                }
+            }
+        }
+        end=System.nanoTime();
+        log("[TEST Transport] simulate test 1"+(end-start)+" ns");
+    }
+    @Test
+    public void test_Transport2(){
+        //测试样例1
+        TestStack[] inv1=new TestStack[54];
+        TestStack[] inv2=new TestStack[54];
+        for(int i=0;i<54;++i){
+            inv1[i]=new TestStack(64);
+            inv2[i]=new TestStack(64);
+        }
+        long start=System.nanoTime();
+        for(int tr=0;tr<32;++tr){
+//            List<TestStack> data1=new ArrayList<>(54);
+//            List<TestStack> data2=new ArrayList<>(54);
+            int[] data1=new int[54];
+            int[] data0=new int[54];
+            int len1=0;
+            TestStack as;
+            for(int j=0;j<54;++j){
+                as=inv2[j];
+                if(as.getAmount()!=as.getMaxAmount()){
+                    data1[len1]=j;
+                    ++len1;
+                }
+            }
+            int[] toRecord=new int[len1];
+            TestStack as1;
+            TestStack as2;
+            for (int i=0;i<54;++i){
+                as1=inv1[i];
+                if(as1.getAmount()==0)continue;
+                data0[len1]=i;
+                int s1=as1.getAmount();
+                for(int j=0;j<len1;++j){
+                    toRecord[i]=-1;
+                    as2=inv2[data1[j]];
+                    //if(as2.getAmount()==as2.getMaxAmount()){continue;}
+                    int s2=as2.getAmount();
+                    s1-=s2;
+                    if(s1<=0){
+                        break;
+                    }
+                }
+            }
+        }
+        long end=System.nanoTime();
+        log("[TEST Transport] simulate test 1"+(end-start)+" ns");
+    }
 }

@@ -304,13 +304,14 @@ public class AddItem {
             Language.get("Items.CARGO_PART.Name"),Language.getList("Items.CARGO_PART.Lore"));
     public static final SlimefunItemStack CARGO_CONFIG=AddUtils.themed("CARGO_CONFIG",Material.TIDE_ARMOR_TRIM_SMITHING_TEMPLATE,AddUtils.Theme.ITEM1,
             Language.get("Items.CARGO_CONFIG.Name"),Language.getList("Items.CARGO_CONFIG.Lore"));
-    public static final SlimefunItemStack CARGO_CONFIGURATOR=AddUtils.themed("CARGO_CONFIGURATOR",Material.JUKEBOX,AddUtils.Theme.ITEM1,
+    public static final SlimefunItemStack CARGO_CONFIGURATOR=AddUtils.themed("CARGO_CONFIGURATOR",Material.JUKEBOX,AddUtils.Theme.MACHINE1,
             Language.get("Items.CARGO_CONFIGURATOR.Name"),Language.getList("Items.CARGO_CONFIGURATOR.Lore"));
-    public static final SlimefunItemStack SIMPLE_CARGO=AddUtils.themed("SIMPLE_CARGO",Material.TARGET,AddUtils.Theme.ITEM1,
+    public static final SlimefunItemStack SIMPLE_CARGO=AddUtils.themed("SIMPLE_CARGO",Material.TARGET,AddUtils.Theme.MACHINE1,
             Language.get("Cargo.SIMPLE_CARGO.Name"),Language.getList("Cargo.SIMPLE_CARGO.Lore"));
-    public static final SlimefunItemStack REMOTE_CARGO=AddUtils.themed("REMOTE_CARGO",Material.CALIBRATED_SCULK_SENSOR,AddUtils.Theme.ITEM1,
+    public static final SlimefunItemStack REMOTE_CARGO=AddUtils.themed("REMOTE_CARGO",Material.CALIBRATED_SCULK_SENSOR,AddUtils.Theme.MACHINE1,
             Language.get("Cargo.REMOTE_CARGO.Name"),Language.getList("Cargo.REMOTE_CARGO.Lore"));
-
+    public static final SlimefunItemStack LINE_CARGO=AddUtils.themed("LINE_CARGO",Material.OBSERVER,AddUtils.Theme.MACHINE1,
+            Language.get("Cargo.LINE_CARGO.Name"),Language.getList("Cargo.LINE_CARGO.Lore"));
 
 
     //multiblock

@@ -149,17 +149,17 @@ public class TransportUtils {
                     :from.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
             ItemTransportFlow flow=to_output?ItemTransportFlow.WITHDRAW:ItemTransportFlow.INSERT;
             int[] toSlot= to.getPreset().getSlotsAccessedByItemTransport(flow);
-            transportItem(from,fromSlot,to,toSlot,flow,configCode,bwlist,provider);
+            transportItem(from,fromSlot,to,toSlot,configCode,bwlist,provider);
         }else {
             int[] toSlot=to_output?
                     to.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW)
                     :to.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.INSERT);
             ItemTransportFlow flow=from_input?ItemTransportFlow.INSERT:ItemTransportFlow.WITHDRAW;
             int[] fromSlot= from.getPreset().getSlotsAccessedByItemTransport(flow);
-            transportItem(to,toSlot,from,fromSlot,flow,configCode,bwlist,provider);
+            transportItem(to,toSlot,from,fromSlot,configCode,bwlist,provider);
         }
     }
-    public static void transportItem(BlockMenu from,int[] fromSlot,BlockMenu to,int[] toSlot,ItemTransportFlow flow,int configCode,
+    public static void transportItem(BlockMenu from,int[] fromSlot,BlockMenu to,int[] toSlot,int configCode,
                                      HashSet<ItemStack> bwList,ItemPusherProvider provider){
         boolean issymm=CargoConfigs.IS_SYMM.getConfig(configCode);
         boolean isnull=CargoConfigs.IS_NULL.getConfig(configCode);
@@ -167,9 +167,9 @@ public class TransportUtils {
         boolean iswtlist=CargoConfigs.IS_WHITELST.getConfig(configCode);
         int limit=CargoConfigs.TRANSLIMIT.getConfigInt(configCode);
         if(issymm){
-            transportItemSymm(from,fromSlot,to,toSlot,flow,isnull,islazy,iswtlist,bwList,limit,provider);
+            transportItemSymm(from,fromSlot,to,toSlot,isnull,islazy,iswtlist,bwList,limit,provider);
         }else{
-            transportItemGreedy(from,fromSlot,to,toSlot,flow,isnull,islazy,iswtlist,bwList,limit,provider);
+            transportItemGreedy(from,fromSlot,to,toSlot,isnull,islazy,iswtlist,bwList,limit,provider);
         }
     }
 
@@ -179,17 +179,16 @@ public class TransportUtils {
      * @param fromSlot
      * @param to
      * @param toSlot
-     * @param toFlow
      * @param isSymm
      * @param blacklist
      * @param translimit
      */
-    public static void transportItem(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,ItemTransportFlow toFlow,boolean isSymm,
+    public static void transportItem(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,boolean isSymm,
                                      HashSet<ItemStack> blacklist, int translimit){
         if(isSymm){
-            transportItemSymm(from,fromSlot,to,toSlot,toFlow,false,false,false,blacklist,translimit,CraftUtils.getpusher);
+            transportItemSymm(from,fromSlot,to,toSlot,false,false,false,blacklist,translimit,CraftUtils.getpusher);
         }else {
-            transportItemGreedy(from,fromSlot,to,toSlot,toFlow,false,false,false,blacklist,translimit,CraftUtils.getpusher);
+            transportItemGreedy(from,fromSlot,to,toSlot,false,false,false,blacklist,translimit,CraftUtils.getpusher);
         }
     }
     public static boolean inbwlist(HashSet<ItemStack> bwset,ItemPusher pusher){
@@ -202,16 +201,19 @@ public class TransportUtils {
             }
         }return false;
     }
-    public static void transportItemGreedy(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,ItemTransportFlow toFlow,
+    //FIXME performance badly when lots of MAXSIZE item in target slot,try mark
+    //FIXME may cause sth
+    public static void transportItemGreedy(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,
                                            boolean isnull,boolean lazy,boolean whitlist, HashSet<ItemStack> blacklist, int translimit,
                                            ItemPusherProvider provider){
         List<ItemPusher> record=new ArrayList<>(6);
         int recordlen=0;
         int len=fromSlot.length;
-        //从1开始，标记为相同的说明match
-        //空槽将被标记为相同的并且会被push
-        //如果不匹配,那就全是0作为初始值
-        //如果是黑名单物品则会被设置为-1,null会被设置为-2
+        //TODO 从1开始，from槽位中的物品会被标记， 标记为相同的说明match
+        //TODO 如果与某个输出里的槽位match 如果它有一个先前的编号 则将当前item设置为这个编号
+        //TODO 若没有标记或者空槽将会被push，会标记最后一个为id，因为一次匹配链最多只有一个非满槽位出现
+        //TODO 设置为-1会让后续跳过匹配 比如黑名单或者槽位已满
+        //TODO 当前问题 重复获取了太多满槽,导致开销过大,
         int len2=toSlot.length;
         int[] toRecord=new int[len2];
         //输入输出槽的缓存，将会在这里进行数量操作,最终同步
@@ -240,12 +242,11 @@ public class TransportUtils {
             int getRecordIndex=0;
             boolean hasGotRecord=false;
             //获得可推送的槽位，其实基本上所有机器都是一样的输出槽,小部分有限制会不一样
-            int[] availableSlots=to.getPreset().getSlotsAccessedByItemTransport(to,toFlow,fromPusher.getItem());
-            for(int j=0;j<availableSlots.length;++j){
-                //获得对应的toSlot下标编号《可能不存在,这里不考虑
-                Integer index=slot2index.get(availableSlots[j]);
-
-                if(index!=null){
+            //TODO 将此处遍历变成可变长度 减少后续搜索开销。并且支持快速删除
+            //TODO 需要实现简易链表
+            for(int index=0;index<toSlot.length;++index){
+                //
+                if(toRecord[index]!=-1){
                     toPusher=toCache.get(index);
                     //匹配，空的或者使用历史记录
                     if(toPusher.getItem()==null){
@@ -258,6 +259,7 @@ public class TransportUtils {
                     }else if(isnull||toPusher.getAmount()==toPusher.getMaxStackCnt()){
                         //目标槽位已满,直接跳过
                         //非空模式 直接跳过
+                        toRecord[index]=-1;
                         continue;
                     }else {
                         if(!hasGotRecord){//不存在类型记录,至少暂时的
@@ -315,7 +317,7 @@ public class TransportUtils {
         dynamicUpdatePushers(toCache,to);
         dynamicUpdatePushers(fromCache,from);
     }
-    public static void transportItemSymm(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,ItemTransportFlow toFlow,
+    public static void transportItemSymm(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,
                                          boolean isnull,boolean lazy,boolean whitlist, HashSet<ItemStack> blacklist, int translimit,
                                          ItemPusherProvider provider){
         int len=fromSlot.length;

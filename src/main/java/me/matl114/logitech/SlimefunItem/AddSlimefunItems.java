@@ -17,6 +17,7 @@ import me.matl114.logitech.SlimefunItem.Blocks.MultiPart;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockTypes;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiCoreTest;
 import me.matl114.logitech.SlimefunItem.Cargo.Config.ConfigCard;
+import me.matl114.logitech.SlimefunItem.Cargo.Transportation.LineCargo;
 import me.matl114.logitech.SlimefunItem.Cargo.Transportation.RemoteCargo;
 import me.matl114.logitech.SlimefunItem.Cargo.Transportation.SimpleCargo;
 import me.matl114.logitech.SlimefunItem.Cargo.WorkBench.CargoConfigurator;
@@ -732,6 +733,18 @@ public class AddSlimefunItems {
                     AddItem.PARADOX,AddItem.PARADOX,"HOPPER","HOPPER",AddItem.PARADOX,AddItem.PARADOX),
             null)
             .register();
+    public static final SlimefunItem LINE_CARGO=new LineCargo(AddGroups.CARGO,AddItem.LINE_CARGO,BugCrafter.TYPE,
+            recipe(AddItem.PARADOX,AddItem.PARADOX,AddItem.LBOOLIZER,AddItem.LBOOLIZER,AddItem.PARADOX,AddItem.PARADOX,
+                    AddItem.PARADOX,null,"GPS_TRANSMITTER_2","GPS_TRANSMITTER_2",null,AddItem.PARADOX,
+                    AddItem.PARADOX,null,AddItem.CARGO_PART,AddItem.ABSTRACT_INGOT,null,AddItem.PARADOX,
+                    AddItem.PARADOX,null,AddItem.LDIGITIZER,AddItem.CARGO_PART,null,AddItem.PARADOX,
+                    AddItem.PARADOX,null,"CARGO_NODE","CARGO_NODE",null,AddItem.PARADOX,
+                    AddItem.PARADOX,AddItem.PARADOX,"HOPPER","HOPPER",AddItem.PARADOX,AddItem.PARADOX),null)
+            .register();
+
+
+
+
 
     public static final SlimefunItem TMP1=new MaterialItem(AddGroups.FUNCTIONAL,AddItem.TMP1,RecipeType.NULL,
             AddUtils.NULL_RECIPE.clone()).register();
