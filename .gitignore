@@ -1,10 +1,10 @@
 /bin/
 /.settings/
 /target/
-/.idea/
+.idea/
 *.iml
 .project
 .classpath
 .DS_Store
 workspace.xml
-*.gitignore
+.gitignore
