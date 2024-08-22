@@ -11,6 +11,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.FinalManual;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -207,8 +208,8 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
             }
         }
     }
-    //TODO 增加pusher成员 使用成员进行process
-    //TODO 以便子类修改和调控
+
+    protected ItemPusherProvider CRAFT_PROVIDER=CraftUtils.getpusher;
     public void craft(BlockMenu inv,int limit){
         Location  loc=inv.getLocation();
 
@@ -222,7 +223,7 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
         //计算电力
 
         Pair<ItemGreedyConsumer[],ItemGreedyConsumer[]> results=
-                CraftUtils.countMultiRecipe(inv,getInputSlots(),getOutputSlots(),recordRecipe,limit);
+                CraftUtils.countMultiRecipe(inv,getInputSlots(),getOutputSlots(),recordRecipe,limit,CRAFT_PROVIDER);
         //输出满了会返回null
         if(results==null){
             return;

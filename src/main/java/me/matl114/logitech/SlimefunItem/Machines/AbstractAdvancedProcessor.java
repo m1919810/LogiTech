@@ -10,6 +10,8 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.MultiCraftingOperation;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -130,14 +132,15 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
     public int getCraftLimit(Block b,BlockMenu inv){
         return 64;
     }
-    //TODO 增加pusher成员 使用成员进行process
-    //TODO 以便子类修改和调控
+
+    protected ItemPusherProvider CRAFT_PROVIDER=CraftUtils.getpusher;
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         MultiCraftingOperation currentOperation = this.processor.getOperation(b);
         ItemGreedyConsumer[] fastCraft=null;
         if(currentOperation==null){
             int maxCraftlimit=getCraftLimit(b,inv);
-            Pair<MachineRecipe,ItemGreedyConsumer[]> nextQ=CraftUtils.matchNextMultiRecipe(inv,getInputSlots(),getMachineRecipes(data),true,maxCraftlimit, Settings.SEQUNTIAL);
+            Pair<MachineRecipe,ItemGreedyConsumer[]> nextQ=CraftUtils.matchNextMultiRecipe(inv,getInputSlots(),getMachineRecipes(data),
+                    true,maxCraftlimit, Settings.SEQUNTIAL,CRAFT_PROVIDER);
             if(nextQ==null){
                 if(inv.hasViewer()){inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
                 }
@@ -161,7 +164,7 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
             int craftlimit=CraftUtils.calMaxCraftTime(nextQ.getSecondValue(),maxCraftlimit);
             //要末time=0 要末craftlimit=1 两者在这里都一样,不需要再修改time
             //如果底下这玩意还能给你减,那就craftlimit=0需要考虑,craftlimit=0直接堵上了 否则都一样time=0无区别
-            ItemGreedyConsumer[] nextP = CraftUtils.countMultiOutput( nextQ.getSecondValue(),  inv,getOutputSlots(),next,craftlimit);
+            ItemGreedyConsumer[] nextP = CraftUtils.countMultiOutput( nextQ.getSecondValue(),  inv,getOutputSlots(),next,craftlimit,CRAFT_PROVIDER);
             if (nextP != null) {
                 CraftUtils.multiUpdateInputMenu(nextQ.getSecondValue(),inv);
                 if(time>0){
@@ -184,7 +187,7 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
         }else if(currentOperation.isFinished()){
             ItemGreedyConsumer[] var4=currentOperation.getResults();
             int var5 = var4.length;
-            CraftUtils.multiForcePush(var4,inv,getOutputSlots());
+            CraftUtils.multiForcePush(var4,inv,getOutputSlots(),CRAFT_PROVIDER);
             if(inv.hasViewer()){
                 inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
             }

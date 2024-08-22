@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.MachineRecipeUtils;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
@@ -92,19 +93,21 @@ public abstract  class AbstractTransformer extends AbstractMachine {
     }
     //TODO 增加pusher成员 使用成员进行process
     //TODO 以便子类修改和调控
+    protected ItemPusherProvider CRAFT_PROVIDER=CraftUtils.getpusher;
     public void process(Block block, BlockMenu inv, SlimefunBlockData data){
 
-        MachineRecipe nextP = CraftUtils.matchNextRecipe(inv, getInputSlots(),getMachineRecipes(data),true, Settings.SEQUNTIAL);
+        MachineRecipe nextP = CraftUtils.matchNextRecipe(inv, getInputSlots(),getMachineRecipes(data),
+                true, Settings.SEQUNTIAL,CRAFT_PROVIDER);
         if (nextP != null) {
             progressorCost(block,inv);
             int tickers=DataCache.getCustomData(data,"tick",0);
             if(tickers>=0){
                 int maxMultiple=getCraftLimit(data);
                 if(maxMultiple==1){
-                    CraftUtils.pushItems(nextP.getOutput(),inv,getOutputSlots());
+                    CraftUtils.pushItems(nextP.getOutput(),inv,getOutputSlots(),CRAFT_PROVIDER);
                 }else {
 
-                    CraftUtils.multiPushItems(nextP.getOutput(),inv,getOutputSlots(),maxMultiple);
+                    CraftUtils.multiPushItems(nextP.getOutput(),inv,getOutputSlots(),maxMultiple,CRAFT_PROVIDER);
                 }
             }
             DataCache.setCustomData(data,"tick",nextP.getTicks()-1);

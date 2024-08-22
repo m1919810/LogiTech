@@ -1219,7 +1219,7 @@ public class CraftUtils {
     /**
      * sequence CRAFT, match itemstack with the first
      */
-    public static Pair<MachineRecipe,ItemConsumer> findNextSequenceRecipe(BlockMenu inv,int[] inputs,List<MachineRecipe> recipes,boolean useHistory,ItemPusherProvider pusher,Settings order){
+    public static Pair<MachineRecipe,ItemConsumer> findNextSequenceRecipe(BlockMenu inv,int[] inputs,List<MachineRecipe> recipes,boolean useHistory,Settings order,ItemPusherProvider pusher){
         int delta;
         switch(order){
             case REVERSE:delta=-1;break;

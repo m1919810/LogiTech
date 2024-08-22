@@ -142,7 +142,6 @@ public class LineCargo extends AbstractCargo {
         updateDirectionSlot("line_dir",inv,DIRECTION_SLOT);
         updateConfigSlots(inv);
     }
-    //TODO better performance of line cargo
     public void cargoTask(Block b, BlockMenu menu, SlimefunBlockData data, int configCode){
         Directions dir=getDirection("line_dir",data);
         if(dir==Directions.NONE||dir==null)return;

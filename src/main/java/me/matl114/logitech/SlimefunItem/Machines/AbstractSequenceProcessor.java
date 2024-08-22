@@ -13,6 +13,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.SequenceCraftingOperation;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -131,13 +132,14 @@ public abstract class AbstractSequenceProcessor extends AbstractMachine implemen
             inv.replaceExistingItem(slots[i],null);
         }
     }
-    //TODO 增加pusher成员 使用成员进行process
-    //TODO 以便子类修改和调控
+
+    protected ItemPusherProvider CRAFT_PROVIDER=CraftUtils.getpusher;
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         SequenceCraftingOperation currentOperation = (SequenceCraftingOperation)this.processor.getOperation(b);
 
         if(currentOperation==null){
-            Pair<MachineRecipe,ItemConsumer> nextP=   CraftUtils.findNextSequenceRecipe(inv,getInputSlots(),getMachineRecipes(),true,CraftUtils.getpusher, Settings.SEQUNTIAL);
+            Pair<MachineRecipe,ItemConsumer> nextP=   CraftUtils.findNextSequenceRecipe(inv,getInputSlots(),getMachineRecipes(),
+                    true,Settings.SEQUNTIAL,CRAFT_PROVIDER);
             if(nextP==null){
                 if(inv.hasViewer()){
                     inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
@@ -155,7 +157,7 @@ public abstract class AbstractSequenceProcessor extends AbstractMachine implemen
         }
         progressorCost(b,inv);
         if(currentOperation.isFinished()){
-            if(CraftUtils.pushItems(currentOperation.getResults(),inv,getOutputSlots())){
+            if(CraftUtils.pushItems(currentOperation.getResults(),inv,getOutputSlots(),CRAFT_PROVIDER)){
                 if(inv.hasViewer()){
                     inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
                 }
@@ -171,7 +173,7 @@ public abstract class AbstractSequenceProcessor extends AbstractMachine implemen
                 int[] slots=getInputSlots();
                 ItemPusher[] inputers=new ItemPusher[slots.length];
                 for(int i=0;i<slots.length;i++){
-                    inputers[i]=CraftUtils.getpusher.get(Settings.INPUT,inv,slots[i]);
+                    inputers[i]=CRAFT_PROVIDER.get(Settings.INPUT,inv,slots[i]);
                 }
                 if(!CraftUtils.matchSequenceRecipeTarget(inputers,fastNext)){
                     //没有更改 触发清除，清除输入槽内全部物品

@@ -59,7 +59,7 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
     };
     public FinalManual(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                          int energybuffer, int energyConsumption) {
-        super(category,item,recipeType,recipe,energybuffer,energyConsumption,null);
+        super(category,item,recipeType,recipe,0,0,null);
         this.BW_LIST=new ArrayList<>(){{
             add(RecipeType.ENHANCED_CRAFTING_TABLE);
             add(RecipeType.SMELTERY);
@@ -73,6 +73,8 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
                     initMenuFactory();
                 }
         );
+        //启动奇点合成的支持
+        this.CRAFT_PROVIDER=SINGULARITY_PROVIDER;
 
     }
     public static final ItemPusherProvider SINGULARITY_PROVIDER=((mod, item, slot) -> {
@@ -219,13 +221,6 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
                         if(clickAction.isRightClicked()){
                             limit=64;
                         }
-                        if(this.energyConsumption>0){
-                            int charge=this.getCharge(menu.getLocation())/this.energyConsumption;
-                            limit=Math.min(limit,charge);
-                            if(limit==0){
-                                AddUtils.sendMessage(player,"&c电力不足!无法进行合成");
-                            }
-                        }
                         craft(menu,limit);
                         FinalManual.this.tick(block,menu,1);
                         SecurityUtils.unlock(player,SecurityUtils.Lock.MenuClickLock);
@@ -241,13 +236,6 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
                         int limit=3456;
                         if(clickAction.isRightClicked()){
                             limit=9_999_999;
-                        }
-                        if(this.energyConsumption>0){
-                            int charge=this.getCharge(menu.getLocation())/this.energyConsumption;
-                            limit=Math.min(limit,charge);
-                            if(limit==0){
-                                AddUtils.sendMessage(player,"&c电力不足!无法进行合成");
-                            }
                         }
                         craft(menu,limit);
                         FinalManual.this.tick(block,menu,1);
@@ -357,24 +345,27 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
             }
         }
     }
-    public void craft(BlockMenu inv,int limit){
-        Location  loc=inv.getLocation();
-        int recordIndex=getNowRecordRecipe(loc);
-        List<MachineRecipe> mRecipe=getMachineRecipes(null,inv);
-        //没有匹配配方会直接返回失败
-        if(recordIndex<0||recordIndex>=mRecipe.size()){
-            return;
-        }
-        MachineRecipe recordRecipe=mRecipe.get(recordIndex);
-        Pair<ItemGreedyConsumer[],ItemGreedyConsumer[]> results=
-                CraftUtils.countMultiRecipe(inv,getInputSlots(),getOutputSlots(),recordRecipe,limit,SINGULARITY_PROVIDER);
-        //输出满了会返回null
-        if(results==null){
-            return;
-        }
-        CraftUtils.multiUpdateInputMenu(results.getFirstValue(),inv);
-        CraftUtils.multiUpdateOutputMenu(results.getSecondValue(),inv);
-    }
+//    public void craft(BlockMenu inv,int limit){
+//        Location  loc=inv.getLocation();
+//        int recordIndex=getNowRecordRecipe(loc);
+//        List<MachineRecipe> mRecipe=getMachineRecipes(null,inv);
+//        //没有匹配配方会直接返回失败
+//        if(recordIndex<0||recordIndex>=mRecipe.size()){
+//            return;
+//        }
+//        MachineRecipe recordRecipe=mRecipe.get(recordIndex);
+//        Pair<ItemGreedyConsumer[],ItemGreedyConsumer[]> results=
+//                CraftUtils.countMultiRecipe(inv,getInputSlots(),getOutputSlots(),recordRecipe,limit,SINGULARITY_PROVIDER);
+//        //输出满了会返回null
+//        if(results==null){
+//            return;
+//        }if(this.energyConsumption>0){
+//            int craftTime=CraftUtils.calMaxCraftTime(results.getSecondValue(),limit);
+//            this.removeCharge(loc,craftTime*this.energyConsumption);
+//        }
+//        CraftUtils.multiUpdateInputMenu(results.getFirstValue(),inv);
+//        CraftUtils.multiUpdateOutputMenu(results.getSecondValue(),inv);
+//    }
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         //only works when has viewer.
         if(inv!=null&&inv.hasViewer()){

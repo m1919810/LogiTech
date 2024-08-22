@@ -10,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.SimpleCraftingOperation;
 import me.matl114.logitech.Utils.MachineRecipeUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -144,8 +145,8 @@ public abstract class AbstractProcessor extends AbstractMachine implements Machi
     public int[] getOutputSlots(){
         return new int[]{24,25};
     }
-    //TODO 增加pusher成员 使用成员进行process
-    //TODO 以便子类修改和调控
+
+    protected ItemPusherProvider CRAFT_PROVIDER=CraftUtils.getpusher;
     public List<MachineRecipe> getMachineRecipes(){
         return this.machineRecipes;
     }
@@ -153,7 +154,8 @@ public abstract class AbstractProcessor extends AbstractMachine implements Machi
         SimpleCraftingOperation currentOperation = (SimpleCraftingOperation)this.processor.getOperation(b);
         ItemConsumer[] fastCraft=null;
         if(currentOperation==null){
-            Pair<MachineRecipe, ItemConsumer[]> nextP = CraftUtils.findNextRecipe(inv,getInputSlots(),getOutputSlots(),getMachineRecipes(),true);
+            Pair<MachineRecipe, ItemConsumer[]> nextP = CraftUtils.findNextRecipe(inv,getInputSlots(),getOutputSlots(),getMachineRecipes(),true
+            ,Settings.SEQUNTIAL,CRAFT_PROVIDER);
             if (nextP != null) {
                 MachineRecipe next =nextP.getFirstValue();
                 ItemConsumer[] outputInfo=nextP.getSecondValue();
@@ -179,7 +181,7 @@ public abstract class AbstractProcessor extends AbstractMachine implements Machi
             }
             if(currentOperation.isFinished()){
                 ItemConsumer[] var4=currentOperation.getResults();
-                CraftUtils.forcePush(var4,inv,getOutputSlots());
+                CraftUtils.forcePush(var4,inv,getOutputSlots(),CRAFT_PROVIDER);
                 if(inv.hasViewer()){
 
                     inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
