@@ -17,7 +17,6 @@ import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.AbstractMultiBlockHandler;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockType;
-import me.matl114.logitech.Utils.UtilClass.PdcClass.AbstractLocation;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.SimpleCraftingOperation;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -122,7 +121,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
 
             enderCrystal.setGravity(false);
             PersistentDataContainer container = enderCrystal.getPersistentDataContainer();
-            container.set(BIND_NS, AbstractLocation.STRING,DataCache.locationToString(loc));
+            container.set(BIND_NS, PersistentDataType.STRING,DataCache.locationToString(loc));
             EFFECT_CACHE.put(loc,enderCrystal);
         }
     }

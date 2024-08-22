@@ -7,10 +7,7 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.AbstractItemStack;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.EquivalItemStack;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.MultiItemStack;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.RandomItemStack;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.*;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomMenu;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomMenuHandler;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
@@ -164,10 +161,19 @@ public class MenuUtils {
         return a;
     }
     //TODO 增加对随机物品和随机概率物品的支持
+    private static String getAmountDisplay(ItemStack stack){
+        if(stack instanceof RandAmountStack rand){
+            return "%d~%d".formatted(rand.getMin(),rand.getMax());
+        }
+        else{
+            return "x"+stack.getAmount();
+        }
+
+    }
     private static ItemStack getDisplayItem(ItemStack it){
         if(it==null||it.getType().isAir())return null;
         ItemStack finalStack;
-        if(it instanceof RandomItemStack){
+        if(it instanceof RandomItemStack||it instanceof ProbItemStack){
             List<String> namelist=new ArrayList<>(){{
                 add("");
                 add("&3随机物品输出~");
@@ -175,24 +181,32 @@ public class MenuUtils {
                 List<Double> wlist=((RandomItemStack)it).getWeight(1.0);
                 int len=list.size();
                 for(int i=0;i<len;i++){
-                    add("&f"+ItemStackHelper.getDisplayName(list.get(i))+ " "+"&e 概率: "+AddUtils.getPercentFormat(wlist.get(i)));
+                    add(AddUtils.concat(  "&f",
+                            ItemStackHelper.getDisplayName(list.get(i)),
+                            " &e",getAmountDisplay(list.get(i)),
+                            " 概率: ",AddUtils.getPercentFormat(wlist.get(i))) );
                 }
             }};
-
-            finalStack= AddUtils.addLore(it.clone(),namelist.toArray(new String[namelist.size()]));
+            //如果是proItemStack就获得其实例 因为不能整一个air出来
+            ItemStack sample=(it instanceof ProbItemStack)?new ItemStack(it):it.clone();
+            finalStack= AddUtils.addLore(sample,namelist.toArray(new String[namelist.size()]));
         }else if(it instanceof EquivalItemStack){
             List<String> namelist=new ArrayList<>(){{
                 add("");
                 add("&3等价物品输入~");
                 List<ItemStack> list=((EquivalItemStack)it).getItemStacks();
-                for(ItemStack item:list){
-                    add("&f"+ItemStackHelper.getDisplayName(item));
+                int len=list.size();
+                for(int i=0;i<len;i++){
+                    add(AddUtils.concat(  "&f",
+                            ItemStackHelper.getDisplayName(list.get(i)),
+                            " ",getAmountDisplay(list.get(i))) );
                 }
             }};
             finalStack= AddUtils.addLore(it.clone(),namelist.toArray(new String[namelist.size()]));
-
         }
-        else{
+        else if(it instanceof RandAmountStack){
+            finalStack=AddUtils.addLore(new ItemStack(it),AddUtils.concat("&e随机数量: ",getAmountDisplay(it)));
+        }else{
             finalStack=it;
         }
         //防止因为意外出现的air 指
