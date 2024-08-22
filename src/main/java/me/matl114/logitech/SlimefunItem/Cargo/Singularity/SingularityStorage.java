@@ -2,6 +2,7 @@ package me.matl114.logitech.SlimefunItem.Cargo.Singularity;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.Singularity;
+import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.UtilClass.PdcClass.AbstractAmount;
 import me.matl114.logitech.Utils.UtilClass.PdcClass.AbstractStorageType;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.StorageType;
@@ -11,6 +12,7 @@ import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +43,7 @@ public class SingularityStorage extends StorageType {
     public void setStorage(ItemMeta meta, ItemStack item ) {
         if(item!=null) {
             clearStorage(meta);
-            meta.getPersistentDataContainer().set(KEY_AMOUNT, AbstractAmount.TYPE,0);
+            meta.getPersistentDataContainer().set(KEY_AMOUNT, PersistentDataType.INTEGER,0);
             ItemStack tmp=item.clone();
             tmp.setAmount(1);
             meta.getPersistentDataContainer().set(KEY_ITEM, AbstractStorageType.TYPE,tmp);
@@ -80,10 +82,16 @@ public class SingularityStorage extends StorageType {
         return  meta.getPersistentDataContainer().get(KEY_ITEM,AbstractStorageType.TYPE);
     }
     public int getStorageAmount(ItemMeta meta) {
-        return meta.getPersistentDataContainer().get(KEY_AMOUNT, AbstractAmount.TYPE);
+        try{
+            Integer e= meta.getPersistentDataContainer().get(KEY_AMOUNT,PersistentDataType.INTEGER);
+            if(e==null) return 0;
+            return e;
+        }catch(Throwable e){
+            return 0;
+        }
     }
     public void setStorageAmount(ItemMeta meta, int amount) {
-        meta.getPersistentDataContainer().set(KEY_AMOUNT, AbstractAmount.TYPE,amount);
+        meta.getPersistentDataContainer().set(KEY_AMOUNT, PersistentDataType.INTEGER,amount);
     }
     public void updateStorageAmountDisplay(ItemMeta meta, int amount) {
 

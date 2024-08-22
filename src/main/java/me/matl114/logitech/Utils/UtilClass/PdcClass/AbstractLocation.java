@@ -11,7 +11,7 @@ import org.bukkit.persistence.PersistentDataType;
 import javax.annotation.Nonnull;
 
 public class AbstractLocation implements PersistentDataType<PersistentDataContainer, Location> {
-    public final static AbstractLocation TYPE = new AbstractLocation();
+   // public final static AbstractLocation TYPE = new AbstractLocation();
     public static final NamespacedKey AMOUNT= AddUtils.getNameKey("data");
     public Class<PersistentDataContainer> getPrimitiveType(){
         return PersistentDataContainer.class;

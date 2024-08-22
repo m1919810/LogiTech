@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
+import me.matl114.logitech.SlimefunItem.Machines.WorkBenchs.BugCrafter;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.MenuUtils;
 import me.matl114.logitech.Utils.RecipeSupporter;
@@ -36,8 +37,6 @@ public class AddGroups {
     public static final ItemGroup MATERIAL =new DummyItemGroup(AddUtils.getNameKey("material" ), AddItem.MATERIAL);
 
     public static final ItemGroup BASIC =new DummyItemGroup(AddUtils.getNameKey("basic" ), AddItem.BASIC);
-
-    public static final ItemGroup DEPENDS= new DummyItemGroup(AddUtils.getNameKey("depends" ), AddItem.DEPENDS);
 
     public static final ItemGroup CARGO = new DummyItemGroup(AddUtils.getNameKey("cargo" ), AddItem.CARGO);
 
@@ -112,7 +111,7 @@ public class AddGroups {
                 new LinkedHashMap<>(){{
                     put(6,MATERIAL);
                     put(0,INFO);
-                    put(8,DEPENDS);
+                    //put(8,ALLBIGRECIPES);
                     put(10,BASIC);
                     put(12,MANUAL);
                     put(14,ENERGY);
@@ -128,9 +127,12 @@ public class AddGroups {
             ){
         public MenuFactory MACHINEMENU=null;
         public MenuFactory RECIPEMENU=null;
+        public MenuFactory BUGCRAFTER=null;
         public void initCustomMenus(){
             MACHINEMENU=MenuUtils.createMachineListDisplay(RecipeSupporter.MACHINE_RECIPELIST.keySet().stream().toList(),null).setBack(1);
             RECIPEMENU=MenuUtils.createRecipeTypeDisplay(RecipeSupporter.RECIPE_TYPES.stream().toList(),null).setBack(1);
+            BUGCRAFTER=MenuUtils.createMRecipeListDisplay(AddItem.BUG_CRAFTER,RecipeSupporter.PROVIDED_SHAPED_RECIPES.get(BugCrafter.TYPE),
+                    null,MenuUtils::createMRecipeDisplay);
         }
         public MenuFactory getMachineMenu(){
             if(MACHINEMENU==null){
@@ -143,6 +145,12 @@ public class AddGroups {
                 initCustomMenus();
             }
             return RECIPEMENU;
+        }
+        public MenuFactory getBugCrafterMenu(){
+            if(BUGCRAFTER==null){
+                initCustomMenus();
+            }
+            return BUGCRAFTER;
         }
         //used to set common handlers and common params
         public void init(MenuFactory factory){
@@ -157,7 +165,7 @@ public class AddGroups {
             //对模板内的填充物进行修改
             factory.addInventory(2,AddItem.ALLMACHINE);
             factory.addInventory(4,AddItem.ALLRECIPE);
-
+            factory.addInventory(8,AddItem.ALLBIGRECIPES);
             factory.addInventory(70,new ItemStack(Material.COMMAND_BLOCK));
             factory.addInventory(34,AddItem.TOBECONTINUE);
             SchedulePostRegister.addPostRegisterTask(this::initCustomMenus);
@@ -181,6 +189,13 @@ public class AddGroups {
                     })).open(player1);
                     return false;
                 }));
+                menu.addMenuClickHandler(17,(((player1, i1, itemStack1, clickAction) -> {
+                    getBugCrafterMenu().build().setBackHandler(((player, i, itemStack, clickAction1) -> {
+                        this.openPage(player1,profile,mode,page);
+                        return false;
+                    })).open(player1);
+                    return false;
+                })));
             }
 
         }

@@ -92,7 +92,7 @@ public class Tests {
         a.subList(size-8,size).clear();
         log(a.size()+"");
     }
-    //@Test
+    @Test
     public void test_MathUtils(){
         log("[TEST MathUtils] TEST START");
         //StringBuilder builder=new StringBuilder();
@@ -117,9 +117,22 @@ public class Tests {
         MathUtils.rightShiftStr("11111111111111111111111111111110");
         MathUtils.leftShiftStr("11111111111111111111111111111110");
         long b=System.nanoTime();
-        log("bc test time "+(b-a)+" ns");
+        log("bc test time 2"+(b-a)+" ns");
         log(new StringBuilder().append("holy ").append("shit ").toString());
         log("αοθωπαςο".getClass().getName());
+        a=System.nanoTime();
+        for(int i=0;i<100_000;++i){
+            MathUtils.bitCount(114514,23);
+        }
+        b=System.nanoTime();
+        log("bc test time 3  "+(b-a)+" ns");
+        log(MathUtils.toBinaryCode(114514));
+        for(int i=0;i<=32;++i){
+            log(MathUtils.toBinaryCode(MathUtils.maskToN(2147483647,i)));
+        }
+        log(MathUtils.bitCount(114514,23)+"");
+        log(MathUtils.toBinaryCode(-114514));
+        log(MathUtils.bitCount(-114514,23)+"");
         log("[TEST MathUtils] TEST SUCCESS");
     }
     //@Test
@@ -334,11 +347,13 @@ public class Tests {
             inv2[i]=new TestStack(64);
         }
         long start=System.nanoTime();
-        for(int tr=0;tr<32;++tr){
+        for(int tr=0;tr<320;++tr){
 //            List<TestStack> data1=new ArrayList<>(54);
 //            List<TestStack> data2=new ArrayList<>(54);
+//            TestStack[] data1=new TestStack[54];
+//            TestStack[] data2=new TestStack[54];
             int[] data1=new int[54];
-            int[] data0=new int[54];
+//            int[] data0=new int[54];
             int len1=0;
             TestStack as;
             for(int j=0;j<54;++j){
@@ -351,14 +366,22 @@ public class Tests {
             int[] toRecord=new int[len1];
             TestStack as1;
             TestStack as2;
+            boolean isFirst=true;
+            int s1;
             for (int i=0;i<54;++i){
                 as1=inv1[i];
                 if(as1.getAmount()==0)continue;
-                data0[len1]=i;
-                int s1=as1.getAmount();
+                //data0[len1]=as1;
+                s1=as1.getAmount();
                 for(int j=0;j<len1;++j){
+
                     toRecord[i]=-1;
                     as2=inv2[data1[j]];
+                    if(isFirst){
+                        if(as2.getAmount()==as2.getMaxAmount()){
+                            continue;
+                        }
+                    }
                     //if(as2.getAmount()==as2.getMaxAmount()){continue;}
                     int s2=as2.getAmount();
                     s1-=s2;

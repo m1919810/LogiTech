@@ -207,7 +207,8 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
             }
         }
     }
-
+    //TODO 增加pusher成员 使用成员进行process
+    //TODO 以便子类修改和调控
     public void craft(BlockMenu inv,int limit){
         Location  loc=inv.getLocation();
 

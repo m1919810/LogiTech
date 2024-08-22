@@ -163,6 +163,7 @@ public class MenuUtils {
         }
         return a;
     }
+    //TODO 增加对随机物品和随机概率物品的支持
     private static ItemStack getDisplayItem(ItemStack it){
         if(it==null||it.getType().isAir())return null;
         ItemStack finalStack;

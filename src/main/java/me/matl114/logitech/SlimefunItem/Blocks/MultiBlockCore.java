@@ -1,7 +1,7 @@
 package me.matl114.logitech.SlimefunItem.Blocks;
 
 
-import me.matl114.logitech.SlimefunItem.Machines.Ticking;
+import me.matl114.logitech.Utils.UtilClass.TickerClass.Ticking;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.AbstractMultiBlockHandler;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import org.bukkit.Location;

@@ -46,8 +46,8 @@ public class AddItem {
             Language.get("Groups.ALLRECIPE.Name"), Language.getList("Groups.ALLRECIPE.Lore"));
     public static final ItemStack BASIC=AddUtils.themed(Material.FURNACE,AddUtils.Theme.CATEGORY2,
             Language.get("Groups.BASIC.Name"),Language.getList("Groups.BASIC.Lore")  );
-    public static final ItemStack DEPENDS=AddUtils.themed(Material.LODESTONE, AddUtils.Theme.CATEGORY2,
-            Language.get("Groups.DEPENDS.Name"),Language.getList("Groups.DEPENDS.Lore"));
+    public static final ItemStack ALLBIGRECIPES =AddUtils.themed(Material.LODESTONE, AddUtils.Theme.CATEGORY2,
+            Language.get("Groups.ALLBIGRECIPES.Name"),Language.getList("Groups.ALLBIGRECIPES.Lore"));
     public static final ItemStack CARGO=AddUtils.themed(Material.BAMBOO_CHEST_RAFT,AddUtils.Theme.CATEGORY2,
             Language.get("Groups.CARGO.Name"),Language.getList("Groups.CARGO.Lore"));
     public static final ItemStack SINGULARITY=AddUtils.themed(Material.NETHER_STAR,AddUtils.Theme.CATEGORY2,
@@ -203,7 +203,8 @@ public class AddItem {
 
     public static final SlimefunItemStack SAMPLE_HEAD=AddUtils.themed("SAMPLE_HEAD",Material.PLAYER_HEAD,AddUtils.Theme.ITEM1,
             Language.get("Items.SAMPLE_HEAD.Name"),Language.getList("Items.SAMPLE_HEAD.Lore"));
-
+    public static final SlimefunItemStack CHIP=AddUtils.themed("CHIP",Material.NAME_TAG,AddUtils.Theme.ITEM1,
+            Language.get("Items.CHIP.Name"),Language.getList("Items.CHIP.Lore"));
 
 
     //nachines
@@ -228,6 +229,16 @@ public class AddItem {
 
     public static final SlimefunItemStack INFINITY_AUTOCRAFT=AddUtils.themed("INFINITY_AUTOCRAFT",Material.CRYING_OBSIDIAN,AddUtils.Theme.MACHINE1,
             Language.get("Machines.INFINITY_AUTOCRAFT.Name"),Language.getList("Machines.INFINITY_AUTOCRAFT.Lore"));
+    public static final SlimefunItemStack CHIP_MAKER=AddUtils.themed("CHIP_MAKER",Material.CHISELED_BOOKSHELF,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.CHIP_MAKER.Name"),Language.getList("Machines.CHIP_MAKER.Lore"));
+    public static final SlimefunItemStack CHIP_CONSUMER=AddUtils.themed("CHIP_CONSUMER",Material.TORCH,AddUtils.Theme.ITEM1,
+            Language.get("Machines.CHIP_CONSUMER.Name"),Language.getList("Machines.CHIP_CONSUMER.Lore"));
+    public static final SlimefunItemStack CHIP_BICONSUMER=AddUtils.themed("CHIP_BICONSUMER",Material.LANTERN,AddUtils.Theme.ITEM1,
+            Language.get("Machines.CHIP_BICONSUMER.Name"),Language.getList("Machines.CHIP_BICONSUMER.Lore"));
+    public static final SlimefunItemStack SEQ_CONSTRUCTOR=AddUtils.themed("SEQ_CONSTRUCTOR",Material.BAMBOO_MOSAIC,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.SEQ_CONSTRUCTOR.Name"),Language.getList("Machines.SEQ_CONSTRUCTOR.Lore"));
+
+
 
 
 
@@ -312,7 +323,12 @@ public class AddItem {
             Language.get("Cargo.REMOTE_CARGO.Name"),Language.getList("Cargo.REMOTE_CARGO.Lore"));
     public static final SlimefunItemStack LINE_CARGO=AddUtils.themed("LINE_CARGO",Material.OBSERVER,AddUtils.Theme.MACHINE1,
             Language.get("Cargo.LINE_CARGO.Name"),Language.getList("Cargo.LINE_CARGO.Lore"));
-
+    public static final SlimefunItemStack BISORTER=AddUtils.themed("BISORTER",Material.VERDANT_FROGLIGHT,AddUtils.Theme.MACHINE1,
+            Language.get("Cargo.BISORTER.Name"),Language.getList("Cargo.BISORTER.Lore"));
+    public static final SlimefunItemStack QUARSORTER=AddUtils.themed("QUARSORTER",Material.PEARLESCENT_FROGLIGHT,AddUtils.Theme.MACHINE1,
+            Language.get("Cargo.QUARSORTER.Name"),Language.getList("Cargo.QUARSORTER.Lore"));
+    public static final SlimefunItemStack OCTASORTER=AddUtils.themed("OCTASORTER",Material.OCHRE_FROGLIGHT,AddUtils.Theme.ITEM1,
+            Language.get("Cargo.OCTASORTER.Name"),Language.getList("Cargo.OCTASORTER.Lore"));
 
     //multiblock
     public static final SlimefunItemStack PORTAL_CORE=AddUtils.themed("PORTAL_CORE",Material.CRYING_OBSIDIAN,AddUtils.Theme.MULTIBLOCK1,
@@ -368,6 +384,10 @@ public class AddItem {
             AddUtils.themed("OUTPORT",new ItemStack(Material.END_STONE),AddUtils.Theme.CARGO1,"取出接口","较快的将物品取出奇点...");
     public static final SlimefunItemStack TESTUNIT1=
             AddUtils.themed("TESTUNIT1",new ItemStack(Material.GLASS),AddUtils.Theme.CARGO1,"测试存储单元","啥用都没");
+    public static final SlimefunItemStack TESTUNIT2=
+            AddUtils.themed("TESTUNIT2",new ItemStack(Material.GLASS),AddUtils.Theme.CARGO1,"测试存储单元2","啥用都没");
+    public static final SlimefunItemStack TESTUNIT3=
+            AddUtils.themed("TESTUNIT3",new ItemStack(Material.GLASS),AddUtils.Theme.CARGO1,"测试存储单元3","啥用都没");
     public static final SlimefunItemStack AUTO_SPECIAL=
             AddUtils.themed("AUTOCRAFT_SPECIAL",new ItemStack(Material.LOOM),AddUtils.Theme.MACHINE2,"测试特殊合成机","测试测试");
     public static final SlimefunItemStack AUTO_MULTIBLOCK=

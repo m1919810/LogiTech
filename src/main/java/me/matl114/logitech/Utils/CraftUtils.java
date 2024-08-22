@@ -113,8 +113,7 @@ public class CraftUtils {
      * use .get(mod,inv,slot) to get ItemPusher
      * mod should be in {Settings.INPUT,Settings.OUTPUT}
      */
-    public static final  ItemPusherProvider getpusher=(Settings mod,BlockMenu inv,int slot)->{
-        ItemStack it=inv.getItemInSlot(slot);
+    public static final  ItemPusherProvider getpusher=(Settings mod,ItemStack it,int slot)->{
         if(mod==Settings.INPUT||it!=null){
             return ItemPusher.get(it);
         }else{

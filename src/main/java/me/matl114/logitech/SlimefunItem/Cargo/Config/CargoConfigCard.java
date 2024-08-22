@@ -7,6 +7,7 @@ import me.matl114.logitech.Utils.UtilClass.CargoClass.CargoConfigs;
 import me.matl114.logitech.Utils.UtilClass.PdcClass.AbstractAmount;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +52,12 @@ public class CargoConfigCard {
         return sfitem instanceof ConfigCard;
     }
     public static int getConfig(ItemMeta meta) {
-        Integer code= meta.getPersistentDataContainer().get(KEY_LOC, AbstractAmount.TYPE);
-        return code!=null?code:-1;
+        try{
+            Integer code= meta.getPersistentDataContainer().get(KEY_LOC, PersistentDataType.INTEGER);
+            return code!=null?code:-1;
+        }catch(Throwable e){
+            return 0;
+        }
     }
     public static void clearConfig(ItemMeta meta) {
         meta.getPersistentDataContainer().remove(KEY_LOC);
@@ -73,7 +78,7 @@ public class CargoConfigCard {
     public static void setConfig(ItemMeta meta, int code) {
         if(code!=-1) {
             clearConfig(meta);
-            meta.getPersistentDataContainer().set(KEY_LOC, AbstractAmount.TYPE,code);
+            meta.getPersistentDataContainer().set(KEY_LOC, PersistentDataType.INTEGER,code);
             List<String> lore=meta.hasLore()? meta.getLore():new ArrayList<>();
             lore.add(LORE_DISPLAY_PREFIX);
             appendConfigLore(lore,code);
@@ -84,7 +89,7 @@ public class CargoConfigCard {
     }
     public static void setConfigCode(ItemMeta meta, int loc) {
         if(loc!=-1) {
-            meta.getPersistentDataContainer().set(KEY_LOC,AbstractAmount.TYPE,loc);
+            meta.getPersistentDataContainer().set(KEY_LOC,PersistentDataType.INTEGER,loc);
         }else {
             clearConfig(meta);
         }

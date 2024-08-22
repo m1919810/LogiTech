@@ -5,11 +5,14 @@ import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.Singularity;
 import me.matl114.logitech.SlimefunItem.Items.HypLink;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.CraftUtils;
+import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.UtilClass.PdcClass.AbstractLocation;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -31,7 +34,11 @@ public class HyperLink {
         return sfitem instanceof HypLink;
     }
     public static Location getLink(ItemMeta meta) {
-        return meta.getPersistentDataContainer().get(KEY_LOC,AbstractLocation.TYPE);
+        try{
+            return DataCache.locationFromString(meta.getPersistentDataContainer().get(KEY_LOC,PersistentDataType.STRING));
+        }catch(Throwable e){
+            return null;
+        }
 
     }
     public static void clearLink(ItemMeta meta) {
@@ -52,8 +59,9 @@ public class HyperLink {
     }
     public static void setLink(ItemMeta meta, Location loc) {
         if(loc!=null) {
+            String  locstr= DataCache.locationToString(loc);
             clearLink(meta);
-            meta.getPersistentDataContainer().set(KEY_LOC,AbstractLocation.TYPE,loc);
+            meta.getPersistentDataContainer().set(KEY_LOC, PersistentDataType.STRING,locstr);
             List<String> lore=meta.hasLore()? meta.getLore():new ArrayList<>();
             lore.add(LOC_DISPLAY_PREFIX);
             lore.add(LOC_DISPLAY.formatted(loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
@@ -63,7 +71,8 @@ public class HyperLink {
     }
     public static void setLinkLocation(ItemMeta meta, Location loc) {
         if(loc!=null) {
-            meta.getPersistentDataContainer().set(KEY_LOC,AbstractLocation.TYPE,loc);
+            String  locstr= DataCache.locationToString(loc);
+            meta.getPersistentDataContainer().set(KEY_LOC, PersistentDataType.STRING,locstr);
         }
     }
     public static void updateLinkLocationDisplay(ItemMeta meta, Location loc) {

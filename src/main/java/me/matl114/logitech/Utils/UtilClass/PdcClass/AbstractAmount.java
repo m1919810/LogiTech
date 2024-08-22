@@ -10,8 +10,14 @@ import org.bukkit.persistence.PersistentDataType;
 import javax.annotation.Nonnull;
 
 public class AbstractAmount implements PersistentDataType<PersistentDataContainer, Integer> {
-    public final static AbstractAmount TYPE = new AbstractAmount();
-    public static final NamespacedKey AMOUNT= AddUtils.getNameKey("data");
+    //public final static AbstractAmount TYPE = new AbstractAmount("data");
+//    public final static AbstractAmount X = new AbstractAmount("x");
+//    public final static AbstractAmount Y = new AbstractAmount("y");
+//    public final static AbstractAmount Z = new AbstractAmount("z");
+    public AbstractAmount(String s) {
+        AMOUNT=AddUtils.getNameKey(s);
+    }
+    public final NamespacedKey AMOUNT;
     public Class<PersistentDataContainer> getPrimitiveType(){
         return PersistentDataContainer.class;
     }

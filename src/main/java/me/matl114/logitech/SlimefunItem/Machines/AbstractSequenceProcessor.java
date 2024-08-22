@@ -131,6 +131,8 @@ public abstract class AbstractSequenceProcessor extends AbstractMachine implemen
             inv.replaceExistingItem(slots[i],null);
         }
     }
+    //TODO 增加pusher成员 使用成员进行process
+    //TODO 以便子类修改和调控
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         SequenceCraftingOperation currentOperation = (SequenceCraftingOperation)this.processor.getOperation(b);
 

@@ -144,7 +144,8 @@ public abstract class AbstractProcessor extends AbstractMachine implements Machi
     public int[] getOutputSlots(){
         return new int[]{24,25};
     }
-
+    //TODO 增加pusher成员 使用成员进行process
+    //TODO 以便子类修改和调控
     public List<MachineRecipe> getMachineRecipes(){
         return this.machineRecipes;
     }

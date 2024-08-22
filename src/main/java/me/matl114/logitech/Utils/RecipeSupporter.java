@@ -675,6 +675,7 @@ public class RecipeSupporter {
 
                         }//else if(machineRecipe instanceof CustomMachineRecipe){
                         //将3mjkx的玩意转一下
+                        //TODO 兼容rsc配方
                         // continue;
                         //}
                         else {

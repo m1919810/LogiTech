@@ -2,17 +2,14 @@ package me.matl114.logitech.SlimefunItem.Cargo;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import me.matl114.logitech.SlimefunItem.Blocks.AbstractBlock;
 import me.matl114.logitech.SlimefunItem.Cargo.Config.CargoConfigCard;
 import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
 import me.matl114.logitech.SlimefunItem.Machines.MenuBlock;
 import me.matl114.logitech.SlimefunItem.Machines.RecipeDisplay;
-import me.matl114.logitech.SlimefunItem.Machines.Ticking;
+import me.matl114.logitech.Utils.UtilClass.TickerClass.Ticking;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Settings;
@@ -27,14 +24,10 @@ import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.checkerframework.checker.units.qual.A;
 
 import javax.annotation.Nullable;
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public abstract class AbstractCargo extends CustomSlimefunItem implements RecipeDisplay , MenuBlock, Ticking {
     public abstract int[] getInputSlots();
@@ -153,9 +146,7 @@ public abstract class AbstractCargo extends CustomSlimefunItem implements Recipe
     public void cargoTask(Block b, BlockMenu menu, SlimefunBlockData data, int configCode){
         //doing nothing
     }
-    public boolean isSync(){
-        return true;
-    }
+
     public void onBreak(BlockBreakEvent e, BlockMenu menu){
         MenuBlock.super.onBreak(e,menu);
         if(menu!=null){

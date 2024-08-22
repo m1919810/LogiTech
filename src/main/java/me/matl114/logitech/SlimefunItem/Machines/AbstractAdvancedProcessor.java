@@ -130,6 +130,8 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
     public int getCraftLimit(Block b,BlockMenu inv){
         return 64;
     }
+    //TODO 增加pusher成员 使用成员进行process
+    //TODO 以便子类修改和调控
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         MultiCraftingOperation currentOperation = this.processor.getOperation(b);
         ItemGreedyConsumer[] fastCraft=null;

@@ -35,6 +35,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.BlockVector;
 
 import java.util.*;
@@ -121,7 +122,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
 
             enderCrystal.setGravity(false);
             PersistentDataContainer container = enderCrystal.getPersistentDataContainer();
-            container.set(BIND_NS, AbstractLocation.TYPE,loc);
+            container.set(BIND_NS, AbstractLocation.STRING,DataCache.locationToString(loc));
             EFFECT_CACHE.put(loc,enderCrystal);
         }
     }
@@ -149,7 +150,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
     public boolean checkBind(Entity entity,Location loc){
         if(entity instanceof EnderCrystal) {
             PersistentDataContainer container=entity.getPersistentDataContainer();
-            Location loc2=container.get(BIND_NS,AbstractLocation.TYPE);
+            Location loc2=DataCache.locationFromString( container.get(BIND_NS, PersistentDataType.STRING));
             if(loc.equals(loc2)){
 
                 return true;

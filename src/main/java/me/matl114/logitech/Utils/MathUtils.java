@@ -24,7 +24,15 @@ public class MathUtils {
     static final char[] digits = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
             'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+    static final int[] mask ;
     static final String zeroString=toBinaryCode(0);
+    static {
+        mask=new int[33];
+        for(int i=0; i<32; i++) {
+            mask[i]=(1<<i) -1;
+        }
+        mask[32]=-1;
+    }
     /**
      * int型存储规则 采用小端存储
      */
@@ -168,5 +176,15 @@ public class MathUtils {
          * we assume that  code len 32
          */
         return 0;
+    }
+    public static int maskToN(int code ,int n){
+
+        int maskN =mask[n];
+        return code&maskN;
+    }
+    public static int bitCount(int code,int to){
+        code=maskToN(code,to);
+        int tmp = code - ((code >>1) &033333333333) - ((code >>2) &011111111111);
+        return ((tmp + (tmp >>3)) &030707070707) %63;
     }
 }

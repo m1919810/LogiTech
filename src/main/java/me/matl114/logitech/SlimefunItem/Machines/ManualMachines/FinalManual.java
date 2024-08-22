@@ -75,8 +75,7 @@ public class FinalManual extends AbstractManual implements MultiCraftType {
         );
 
     }
-    public static final ItemPusherProvider SINGULARITY_PROVIDER=((mod, inv, slot) -> {
-        ItemStack item=inv.getItemInSlot(slot);
+    public static final ItemPusherProvider SINGULARITY_PROVIDER=((mod, item, slot) -> {
         if(item==null){
             if(mod==Settings.INPUT)return null;
             else return ItemSlotPusher.get(null,slot);

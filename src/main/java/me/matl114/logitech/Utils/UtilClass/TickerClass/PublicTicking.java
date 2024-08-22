@@ -1,16 +1,14 @@
-package me.matl114.logitech.SlimefunItem.Machines;
+package me.matl114.logitech.Utils.UtilClass.TickerClass;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.block.Block;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-public interface PublicTicking extends Ticking{
+public interface PublicTicking extends Ticking {
     //one type one ticker
     //all machines under one object use same ticks
 

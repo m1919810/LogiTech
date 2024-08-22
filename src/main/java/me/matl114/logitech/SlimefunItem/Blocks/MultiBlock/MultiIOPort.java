@@ -97,7 +97,5 @@ public class MultiIOPort extends AbstractTransportor implements MultiBlockPart {
             return super.getSlotsAccessedByItemTransportPlus(menu,flow,item);
         }
     }
-    public boolean isSync(){
-        return true;
-    }
+
 }
