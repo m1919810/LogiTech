@@ -25,7 +25,7 @@ import me.matl114.logitech.SlimefunItem.Cargo.Config.ConfigCard;
 import me.matl114.logitech.SlimefunItem.Cargo.TestStorageUnit2;
 import me.matl114.logitech.SlimefunItem.Cargo.Transportation.LineCargo;
 import me.matl114.logitech.SlimefunItem.Cargo.Transportation.RemoteCargo;
-import me.matl114.logitech.SlimefunItem.Cargo.Transportation.SimpleCargo;
+import me.matl114.logitech.SlimefunItem.Cargo.Transportation.AdjacentCargo;
 import me.matl114.logitech.SlimefunItem.Cargo.WorkBench.CargoConfigurator;
 import me.matl114.logitech.SlimefunItem.Cargo.WorkBench.ChipBiConsumer;
 import me.matl114.logitech.SlimefunItem.Cargo.WorkBench.ChipConsumer;
@@ -781,7 +781,7 @@ public class AddSlimefunItems {
                     AddItem.PARADOX,"HOPPER",setC(AddItem.ABSTRACT_INGOT,2),setC(AddItem.ABSTRACT_INGOT,2),"HOPPER",AddItem.PARADOX,
                     setC(AddItem.BUG,3),AddItem.PARADOX,AddItem.CHIP_INGOT,AddItem.CHIP_INGOT,AddItem.PARADOX,setC(AddItem.BUG,3)))
             .register();
-    public static final SlimefunItem SIMPLE_CARGO=new SimpleCargo(AddGroups.CARGO,AddItem.SIMPLE_CARGO,BugCrafter.TYPE,
+    public static final SlimefunItem SIMPLE_CARGO=new AdjacentCargo(AddGroups.CARGO,AddItem.SIMPLE_CARGO,BugCrafter.TYPE,
             recipe(AddItem.PARADOX,AddItem.PARADOX,"HOPPER","HOPPER",AddItem.PARADOX,AddItem.PARADOX,
                     AddItem.PARADOX,null,"CARGO_NODE","CARGO_NODE",null,AddItem.PARADOX,
                     AddItem.PARADOX,null,AddItem.CARGO_PART,AddItem.ABSTRACT_INGOT,null,AddItem.PARADOX,

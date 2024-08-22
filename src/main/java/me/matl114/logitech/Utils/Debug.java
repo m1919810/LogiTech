@@ -7,12 +7,12 @@ import java.util.logging.Logger;
 public class Debug {
     public  static Logger log = Logger.getLogger(AddUtils.ADDON_ID);
     public static Logger testlog=Logger.getLogger("TEST");
-    public  static boolean debug = MyAddon.testmod();
+    public  static boolean debug = MyAddon.testmode();
     public static  void logger(String message) {
         log.info(message);
     }
     public static void debug(String message) {
-        if(debug){
+        if( MyAddon.testmode()){
             testlog.info(message);
         }
     }
@@ -35,5 +35,10 @@ public class Debug {
             msg+=" "+m.toString();
         }
         debug(msg);
+    }
+    public static void debug(Throwable t) {
+        if( MyAddon.testmode()){
+            t.printStackTrace();
+        }
     }
 }

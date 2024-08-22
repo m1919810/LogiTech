@@ -7,6 +7,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.SlimefunItem.Cargo.Config.CargoConfigCard;
+import me.matl114.logitech.SlimefunItem.Cargo.Config.ChipControllable;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.CargoConfigs;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
@@ -23,7 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
-public abstract class AbstractSorter extends AbstractSyncTickCargo{
+public abstract class AbstractSorter extends AbstractSyncTickCargo implements  ChipControllable {
     public static SyncBlockTick SORTER_SYNC =new SyncBlockTick();
 
     public AbstractSorter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,int divideAmount){
@@ -38,9 +39,10 @@ public abstract class AbstractSorter extends AbstractSyncTickCargo{
                         ),null,
                         AddUtils.getInfoShow("&f机制",
                                 "&7机器拥有%d个输入槽位以及%d个输入白名单槽".formatted(divideAmount,divideAmount),
-                                "&7槽位之间一一对应,会对货运输入进行限制",
+                                "&7白名单槽会对智能货运机器或者其他附属货运进行限制",
                                 "&7其中,白名单槽不放物品代表对应槽位匹配任意输入",
-                                "&7其中,白名单槽放物品代表对应槽位匹配该物品的输入"),null,
+                                "&7其中,白名单槽放物品代表对应槽位匹配该物品的输入",
+                                "&ePS:网络附属和原版货运会接受该限制"),null,
                         AddUtils.getInfoShow("&f机制",
                                 "&7机器会选中一个输入槽",
                                 "&7每个tick机器将该槽位物品转移至输出槽",
@@ -51,10 +53,6 @@ public abstract class AbstractSorter extends AbstractSyncTickCargo{
                         ),null
                 )
         );
-    }
-    public void preRegister(){
-        super.preRegister();
-        this.addItemHandler((BlockTicker) SORTER_SYNC);
     }
     public void newMenuInstance(@Nonnull BlockMenu blockMenu, @Nonnull Block block){
         blockMenu.addMenuOpeningHandler(player -> {
@@ -131,10 +129,16 @@ public abstract class AbstractSorter extends AbstractSyncTickCargo{
             return blankSlot;
         }
     }
+    public void preRegister(){
+        super.preRegister();
+        //shared ticker
+        this.addItemHandler((BlockTicker) SORTER_SYNC);
+    }
     public void onBreak(BlockBreakEvent e, BlockMenu inv){
         super.onBreak(e, inv);
         if(inv!=null){
             inv.dropItems(inv.getLocation(),getInputWLSlot());
+            inv.dropItems(inv.getLocation(),getChipSlot());
         }
     }
 }

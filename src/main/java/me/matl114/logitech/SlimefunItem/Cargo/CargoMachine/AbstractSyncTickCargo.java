@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import me.matl114.logitech.SlimefunItem.Blocks.AbstractBlock;
 import me.matl114.logitech.SlimefunItem.Cargo.Config.ChipCardCode;
+import me.matl114.logitech.SlimefunItem.Cargo.Config.ChipControllable;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Settings;
 import me.matl114.logitech.Utils.UtilClass.TickerClass.SyncBlockTick;
@@ -28,39 +29,6 @@ public abstract class AbstractSyncTickCargo extends AbstractBlock implements Syn
     }
     public abstract int[] getInputSlots();
     public abstract int[] getOutputSlots();
-    public abstract int getChipSlot();
-
-    /**
-     * 获得当前运行状态
-     * 0，1为状态code
-     * -1为待机
-     * @return
-     */
-    protected final String CCODEKEY="ccmd";
-//    public Integer parseChipCommand(SlimefunBlockData data){
-//        String val=data.getData(CCODEKEY);
-//        try{
-//            if(val.startsWith("n"))return -1;
-//            return (Integer.parseInt(val));
-//        }catch(Throwable e){
-//            data.setData(CCODEKEY,"n");
-//            return null;
-//        }
-//    }
-    public void loadChipCommand(BlockMenu inv){
-        SlimefunBlockData data=DataCache.safeLoadBlock(inv.getLocation());
-        ItemStack it=inv.getItemInSlot(getChipSlot());
-        if(it!=null){
-            ItemMeta im=it.getItemMeta();
-            if(ChipCardCode.isConfig(im)){
-                int code=ChipCardCode.getConfig(im);
-                data.setData(CCODEKEY,String.valueOf(code));
-                return;
-            }
-        }
-        data.setData(CCODEKEY,"n");
-        return;
-    }
     public abstract void constructMenu(BlockMenuPreset preset);
     public abstract void newMenuInstance(BlockMenu menu,Block b);
     public abstract void updateMenu(BlockMenu blockMenu, Block block, Settings mod);
@@ -69,13 +37,5 @@ public abstract class AbstractSyncTickCargo extends AbstractBlock implements Syn
         super.preRegister();
         this.registerBlockMenu(this);
         this.handleMenu(this);
-        //shared ticker
-
-    }
-    public void onBreak(BlockBreakEvent e,BlockMenu inv){
-        super.onBreak(e, inv);
-        if(inv!=null){
-            inv.dropItems(inv.getLocation(),getChipSlot());
-        }
     }
 }

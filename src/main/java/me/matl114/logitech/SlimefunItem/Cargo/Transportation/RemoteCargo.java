@@ -10,10 +10,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.SlimefunItem.Cargo.AbstractCargo;
 import me.matl114.logitech.SlimefunItem.Cargo.Links.HyperLink;
-import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.Debug;
-import me.matl114.logitech.Utils.Settings;
-import me.matl114.logitech.Utils.TransportUtils;
+import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.Directions;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -62,6 +59,19 @@ public class RemoteCargo extends AbstractCargo {
     }
     public RemoteCargo(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, List<ItemStack> displayList) {
         super(itemGroup, item, recipeType, recipe, displayList);
+        setDisplayRecipes(
+                Utils.list(AddUtils.getInfoShow("&f机制",
+                                "&7这是一个普通货运机器",
+                                "&7普通货运机器的行为会包括若干对源方块和目标方块",
+                                "&7普通货运机器会进行从源方块到目标方块的物流传输",
+                                "&7普通货运机器支持较大规模的传输量",
+                                "&7但是相应的,他会忽视机器对物品的输入槽位限制"
+                        ),null,
+                        AddUtils.getInfoShow("&f机制",
+                                "&7本机器可以选择任意方块参与传输",
+                                "将绑定目标方块的%s插入指定槽位以选择参与的方块".formatted(Language.get("Items.HYPER_LINK.Name"))),null
+                )
+        );
 
     }
     public void constructMenu(BlockMenuPreset preset){

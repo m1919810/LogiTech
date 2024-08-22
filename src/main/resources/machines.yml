@@ -27,10 +27,53 @@ recipe_modify:
       #名字随意 顺序读取
       example_recipe:
         input:
+          #每个物品都要一个不同的标号 因为列表不支持某些设置
           #在这里写入 数量+id 即可解析为物品
           #铜锭将会被解析为粘液铜锭
           #应该没人用原版铜这种垃圾吧
-          - "3BEDROCK"
+          1: "3BEDROCK"
         output:
-          - "DIRT"
+          1: "DIRT"
         tick: 5
+  #这是一个抽象示例，实际上铜粉不能产任何东西 但是我们可以配置它让他在堆叠机器中产出
+  COPPER_DUST:
+    mode: "w"
+    type: "machine"
+    recipe:
+      example_abstract_recipe:
+        input:
+          1:
+            #配方表支持使用抽象物品组 但是仅限本附属机器可以实际产出
+            #类型有 ra(从若干物品中按权重出一个) rc (随机数量的物品) eq(等价输入,指输入任意一个都可以匹配) rp(一定的概率为当前物品 一定概率为空)
+            # (未启用)dp(展示物品,将在整合配方的时候自动丢弃)
+            type: "eq"
+            item:
+              - "BEDROCK"
+              - "COMMAND_BLOCK"
+        output:
+          1:
+            type: "ra"
+            item:
+              1: #随机物品组支持嵌套,虽然有些嵌套可能并不像想的那样
+                type: "rp"
+                item:
+                  1:
+                    type: "rc"
+                    item:
+                      1: "DIRT"
+                    weight:
+                      min: 3
+                      max: 23
+                      #这里的weight指的是从3-23随机数量
+                      #实际写什么都没关系 但是min max听起来很好
+                #每项item的标志要和weight对应 不然会加载失败
+                weight: #这里的weight指的是百分比概率
+                  1: 66
+              2: "DIAMOND"
+            weight: #这里的weight指的是对应的物品组的概率
+              1: 1
+              2: 4
+          #经过上面的配置 我们应该可以获得一个随机物品组 80%出一个钻石 20%*66%出3-23随机数量的泥土 和剩下的概率什么都不出,作为机器第一个输出
+
+          2: "2LOGITECH_NOLOGIC"
+        tick: 200

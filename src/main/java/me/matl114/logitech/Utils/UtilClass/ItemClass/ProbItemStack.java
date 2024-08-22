@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProbItemStack extends ItemStack implements MultiItemStack {
-    //TODO 增加随机存在物品 即物品有a的概率是存在 1-a的概率是null
     ItemStack stack;
     double prob;
     List<ItemStack> stacklist;

@@ -13,8 +13,6 @@ import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockTypes;
 import me.matl114.logitech.SlimefunItem.Cargo.Storages;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.Debug;
-import me.matl114.logitech.Utils.ReflectUtils;
-import me.matl114.logitech.Utils.Settings;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,7 +21,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 
 public class MyAddon extends JavaPlugin implements SlimefunAddon {
     public static boolean testmod=false;
-    public static boolean testmod(){
+    public static boolean testmode(){
         return testmod;
     }
     private static MyAddon instance;
@@ -43,11 +41,13 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         Config cfg = new Config(this);
 
         if (cfg.getBoolean("options.auto-update")) {
-            // 你可以在这里添加自动更新功能
-        }if(cfg.getBoolean("options.test")||testmod) {
-            testmod = true;
-            Debug.logger("Addon is running on TEST MODE");
+
         }
+            // 你可以在这里添加自动更新功能
+//        }if(cfg.getBoolean("options.test")||testmod) {
+//            testmod = true;
+//            Debug.logger("Addon is running on TEST MODE");
+//        }
         ConfigLoader.load(this);
         Language.loadConfig(ConfigLoader.LANGUAGE);
         try{

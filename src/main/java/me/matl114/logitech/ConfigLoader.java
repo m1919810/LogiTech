@@ -1,42 +1,40 @@
 package me.matl114.logitech;
 
 import com.google.common.base.Charsets;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Debug;
-import me.matl114.logitech.Utils.MachineRecipeUtils;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
-import org.yaml.snakeyaml.reader.StreamReader;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
 
 public class ConfigLoader {
-    public static boolean TESTMODE = MyAddon.testmod();
+    public static boolean TESTMODE = MyAddon.testmode();
     public static void load(Plugin plugin) {
         ConfigLoader.plugin=plugin;
         init();
         //final File scAddonFile = new File(plugin.getDataFolder(), "language.yml");
         //copyFile(scAddonFile, "language");
+        INNERCONFIG=loadInternalConfig("config");
+        if(INNERCONFIG.getBoolean("options.test")) {
+            MyAddon.testmod=true;
+            TESTMODE=true;
+            Debug.debug("Addon is running on TEST MODE");
+        }
         LANGUAGE=loadInternalConfig("language");   //new Config(plugin,"language.yml");
         MACHINES=loadExternalConfig("machines");
+
     }
     public static Plugin plugin;
+    public static Config INNERCONFIG;
     public static Config LANGUAGE;
     public static Config MACHINES;
     public static File NULL_FILE;
     public static void init() {
         NULL_FILE=new File(plugin.getDataFolder(), "configure.yml");
-
     }
     private static void copyFile(File file, String name) {
         if(TESTMODE){

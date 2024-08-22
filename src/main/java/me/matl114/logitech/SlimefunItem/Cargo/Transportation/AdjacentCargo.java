@@ -9,9 +9,11 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.SlimefunItem.Cargo.AbstractCargo;
+import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Settings;
 import me.matl114.logitech.Utils.TransportUtils;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.Directions;
+import me.matl114.logitech.Utils.Utils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
@@ -22,7 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashSet;
 import java.util.List;
 
-public class SimpleCargo extends AbstractCargo {
+public class AdjacentCargo extends AbstractCargo {
     protected final int[] BORDER=new int[]{
             0,1,2,6,7,8,9,11,15,17,18,19,20,24,25,26
     };
@@ -55,9 +57,20 @@ public class SimpleCargo extends AbstractCargo {
     public int getConfigSlot(){
         return 4;
     }
-    public SimpleCargo(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, List<ItemStack> displayList) {
+    public AdjacentCargo(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, List<ItemStack> displayList) {
         super(itemGroup, item, recipeType, recipe, displayList);
-
+        setDisplayRecipes(
+                Utils.list(AddUtils.getInfoShow("&f机制",
+                                "&7这是一个普通货运机器",
+                        "&7普通货运机器的行为会包括若干对源方块和目标方块",
+                        "&7普通货运机器会进行从源方块到目标方块的物流传输",
+                        "&7普通货运机器支持较大规模的传输量",
+                        "&7但是相应的,他会忽视机器对物品的输入槽位限制"
+                        ),null,
+                AddUtils.getInfoShow("&f机制",
+                        "&7本机器可以选择与其相邻的方块参与传输"),null
+                )
+        );
     }
     public void constructMenu(BlockMenuPreset preset){
         int[] border=BORDER;

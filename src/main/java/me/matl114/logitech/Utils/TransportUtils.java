@@ -135,6 +135,7 @@ public class TransportUtils {
             }
         }
     }
+    //TODO 增加transportItemClever 兼容输入槽
     public static void transportItemGeneral(BlockMenu from, BlockMenu to, int ConfigCode, HashSet<ItemStack> bwlist){
         transportItem(from,to,ConfigCode,bwlist,CraftUtils.getpusher);
     }
