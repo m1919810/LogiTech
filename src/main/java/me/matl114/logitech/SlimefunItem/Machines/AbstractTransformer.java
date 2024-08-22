@@ -93,7 +93,6 @@ public abstract  class AbstractTransformer extends AbstractMachine {
     }
     //TODO 增加pusher成员 使用成员进行process
     //TODO 以便子类修改和调控
-    protected ItemPusherProvider CRAFT_PROVIDER=CraftUtils.getpusher;
     public void process(Block block, BlockMenu inv, SlimefunBlockData data){
 
         MachineRecipe nextP = CraftUtils.matchNextRecipe(inv, getInputSlots(),getMachineRecipes(data),

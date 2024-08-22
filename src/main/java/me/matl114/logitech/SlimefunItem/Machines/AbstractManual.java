@@ -209,7 +209,7 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
         }
     }
 
-    protected ItemPusherProvider CRAFT_PROVIDER=CraftUtils.getpusher;
+
     public void craft(BlockMenu inv,int limit){
         Location  loc=inv.getLocation();
 

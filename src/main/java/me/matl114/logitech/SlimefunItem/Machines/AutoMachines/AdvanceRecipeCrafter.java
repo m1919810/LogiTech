@@ -213,7 +213,8 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
                 return ;
             }
 
-            Pair<ItemGreedyConsumer[],ItemGreedyConsumer[]> nextP=CraftUtils.countMultiRecipe(inv,getInputSlots(),getOutputSlots(),next,getCraftLimit(b,inv));
+            Pair<ItemGreedyConsumer[],ItemGreedyConsumer[]> nextP=CraftUtils.countMultiRecipe(inv,getInputSlots(),
+                    getOutputSlots(),next,getCraftLimit(b,inv),CRAFT_PROVIDER);
 
             if (nextP != null) {
 
@@ -240,7 +241,7 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
         }else if(currentOperation.isFinished()){
             ItemGreedyConsumer[] var4=currentOperation.getResults();
             int var5 = var4.length;
-            CraftUtils.multiForcePush(var4,inv,getOutputSlots());
+            CraftUtils.multiForcePush(var4,inv,getOutputSlots(),CRAFT_PROVIDER);
             if(inv.hasViewer()){inv.replaceExistingItem(22, MenuUtils.PROCESSOR_NULL);
             }
             this.processor.endOperation(b);

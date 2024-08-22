@@ -252,7 +252,8 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock {
                 return ;
             }
 
-            Pair<ItemConsumer[],ItemConsumer[]> nextP=CraftUtils.countOneRecipe(inv,getInputSlots(),getOutputSlots(),next);
+            Pair<ItemConsumer[],ItemConsumer[]> nextP=CraftUtils.countOneRecipe(inv,getInputSlots(),getOutputSlots(),next
+            ,CRAFT_PROVIDER);
 
             if (nextP != null) {
 
@@ -279,7 +280,7 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock {
         }else if(currentOperation.isFinished()){
             ItemConsumer[] var4=currentOperation.getResults();
             int var5 = var4.length;
-            CraftUtils.forcePush(var4,inv,getOutputSlots());
+            CraftUtils.forcePush(var4,inv,getOutputSlots(),CRAFT_PROVIDER);
             if(inv.hasViewer()){inv.replaceExistingItem(21, MenuUtils.PROCESSOR_NULL);
                 inv.replaceExistingItem(23, MenuUtils.PROCESSOR_NULL);
             }
@@ -289,13 +290,9 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock {
             if(inv.hasViewer()){
                 this.processor.updateProgressBar(inv, 21, currentOperation);
                 this.processor.updateProgressBar(inv, 23, currentOperation);
-
             }
             currentOperation.addProgress(1);
-
         }
-
-
     }
     @Override
     public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {

@@ -852,42 +852,7 @@ public class AddSlimefunItems {
                     "COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT",
                     "COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT",
                     "COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT")));
-    public static final SlimefunItem MACHINE1=register(new OEMachine(AddGroups.MATERIAL, AddItem.MACHINE1,RecipeType.NULL,AddUtils.NULL_RECIPE.clone(),
-            Material.BOOK,57,514,
-                new LinkedHashMap<>(){{
-                    put(new Object[]{new ItemStack(Material.BOOK),new ItemStack(Material.DIAMOND)
-                            ,AddSlimefunItems.CUSTOM1             ,null},3);
-                    put(new Object[]{new ItemStack(Material.COMMAND_BLOCK),null
-                            ,AddSlimefunItems.CUSTOM1             ,AddSlimefunItems.MATL114},2);
-                    put(new Object[]{new ItemStack(Material.EMERALD),null
-                            ,AddSlimefunItems.MATL114            ,null},1);
-                    put(new Object[]{new ItemStack(Material.DIAMOND,64),new ItemStack(Material.DIAMOND,16),
-                    new ItemStack(Material.BEACON,1),null},3);
-                    put(new Object[]{new ItemStack(Material.GOLD_INGOT,1),null,
-                            new ItemStack(Material.BEACON,1),null},0);
-                    put(new Object[]{AddSlimefunItems.MATL114,null,
-                            AddSlimefunItems.CUSTOM1,null},0);
-                }}
 
-            ));
-    public static final  SlimefunItem MACHINE2=register(new TEMachine(AddGroups.MATERIAL, AddItem.MACHINE2,RecipeType.NULL,AddUtils.NULL_RECIPE.clone(),
-            Material.ACACIA_BOAT,57,514,
-                new LinkedHashMap<>(){{
-                put(new Object[]{new ItemStack(Material.BOOK),new ItemStack(Material.DIAMOND)
-                        ,AddSlimefunItems.CUSTOM1             ,null},3);
-                put(new Object[]{new ItemStack(Material.COMMAND_BLOCK),null
-                        ,AddSlimefunItems.CUSTOM1             ,AddSlimefunItems.MATL114},2);
-                put(new Object[]{new ItemStack(Material.EMERALD),null
-                        ,AddSlimefunItems.MATL114            ,null},1);
-                put(new Object[]{new ItemStack(Material.DIAMOND,64),new ItemStack(Material.DIAMOND,16),
-                        new ItemStack(Material.BEACON,1),null},3);
-                put(new Object[]{new ItemStack(Material.GOLD_INGOT,1),null,
-                        new ItemStack(Material.BEACON,1),null},0);
-                put(new Object[]{AddSlimefunItems.MATL114,null,
-                        AddSlimefunItems.CUSTOM1,null},0);
-            }}
-
-    ));
     public static  final  SlimefunItem SMG1=new SMGenerator(AddGroups.MATERIAL, AddItem.SMG1,RecipeType.NULL,AddUtils.NULL_RECIPE.clone(),3,114514,0,
                AddUtils.randItemStackFactory( new LinkedHashMap<>(){{
                     put(Material.DIAMOND,1);

@@ -133,7 +133,6 @@ public abstract class AbstractSequenceProcessor extends AbstractMachine implemen
         }
     }
 
-    protected ItemPusherProvider CRAFT_PROVIDER=CraftUtils.getpusher;
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         SequenceCraftingOperation currentOperation = (SequenceCraftingOperation)this.processor.getOperation(b);
 

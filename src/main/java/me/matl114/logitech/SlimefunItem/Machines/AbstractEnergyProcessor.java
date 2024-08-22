@@ -9,10 +9,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.CraftUtils;
-import me.matl114.logitech.Utils.MachineRecipeUtils;
-import me.matl114.logitech.Utils.MenuUtils;
+import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.SimpleCraftingOperation;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -136,7 +133,8 @@ public abstract class AbstractEnergyProcessor extends AbstractEnergyProvider imp
             SimpleCraftingOperation currentOperation = (SimpleCraftingOperation)this.processor.getOperation(l);
             ItemConsumer[] fastCraft=null;
             if(currentOperation==null){
-                Pair<MachineRecipe, ItemConsumer[]> nextP = CraftUtils.findNextRecipe(inv,getInputSlots(),getOutputSlots(),getMachineRecipes(),true);
+                Pair<MachineRecipe, ItemConsumer[]> nextP = CraftUtils.findNextRecipe(inv,getInputSlots(),getOutputSlots(),
+                        getMachineRecipes(),true, Settings.SEQUNTIAL,CRAFT_PROVIDER);
                 if (nextP != null) {
 
                     MachineRecipe next =nextP.getFirstValue();
@@ -160,7 +158,7 @@ public abstract class AbstractEnergyProcessor extends AbstractEnergyProvider imp
                 CraftUtils.updateOutputMenu(fastCraft,inv);
             }else if(currentOperation.isFinished()){
                 ItemConsumer[] var4=currentOperation.getResults();
-                CraftUtils.forcePush(var4,inv,getOutputSlots());
+                CraftUtils.forcePush(var4,inv,getOutputSlots(),CRAFT_PROVIDER);
                 if(inv.hasViewer()){
 
                     inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);

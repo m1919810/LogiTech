@@ -12,8 +12,10 @@ import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponen
 
 import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Settings;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
 import me.matl114.logitech.Utils.UtilClass.TickerClass.Ticking;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -148,6 +150,11 @@ public abstract  class AbstractMachine extends CustomSlimefunItem implements Tic
         return this.handleProcess.apply(menu);
     }
 
+    /**
+     * provided for craft counter-generate
+     * can generated custom wrapped item cache by changing this
+     */
+    protected ItemPusherProvider CRAFT_PROVIDER= CraftUtils.getpusher;
     /**
      * do real tick process like findrecipe or pushitem
      * @param b

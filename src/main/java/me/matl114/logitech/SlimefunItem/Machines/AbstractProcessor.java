@@ -146,7 +146,6 @@ public abstract class AbstractProcessor extends AbstractMachine implements Machi
         return new int[]{24,25};
     }
 
-    protected ItemPusherProvider CRAFT_PROVIDER=CraftUtils.getpusher;
     public List<MachineRecipe> getMachineRecipes(){
         return this.machineRecipes;
     }

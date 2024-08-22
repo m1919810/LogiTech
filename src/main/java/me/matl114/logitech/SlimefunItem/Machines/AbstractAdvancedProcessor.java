@@ -133,7 +133,6 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
         return 64;
     }
 
-    protected ItemPusherProvider CRAFT_PROVIDER=CraftUtils.getpusher;
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         MultiCraftingOperation currentOperation = this.processor.getOperation(b);
         ItemGreedyConsumer[] fastCraft=null;

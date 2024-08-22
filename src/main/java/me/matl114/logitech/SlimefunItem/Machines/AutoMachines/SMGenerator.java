@@ -65,7 +65,7 @@ public class SMGenerator extends AbstractTransformer  {
     public void process(Block block, BlockMenu inv, SlimefunBlockData data){
         MachineRecipe nextP =getMachineRecipes().get(0);
         progressorCost(block,inv);
-        CraftUtils.pushItems(nextP.getOutput(),inv,getOutputSlots());
+        CraftUtils.pushItems(nextP.getOutput(),inv,getOutputSlots(),CRAFT_PROVIDER);
     }
 
 
