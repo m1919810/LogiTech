@@ -15,16 +15,21 @@ import me.matl114.logitech.ConfigLoader;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.SlimefunItem.AddDepends;
 import me.matl114.logitech.SlimefunItem.AddItem;
+import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.MultiBlockProcessor;
+import me.matl114.logitech.SlimefunItem.Blocks.MultiCore;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
+import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.EMachine;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.EqProRandomStack;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ProbItemStack;
+import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.MGeneratorRecipe;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractTransformer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.Material;
 import org.bukkit.Tag;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.*;
 
 import java.util.*;
@@ -366,6 +371,9 @@ public class RecipeSupporter {
             for(String key:keys){
                 stack.add(loadItemStack(config,AddUtils.concat(itemPath,".",key)));
             }
+            if(stack.isEmpty()){
+                throw  new IllegalArgumentException("illegal config format %s".formatted(AddUtils.concat(itemPath,".")));
+            }
             if(s.startsWith("eq")){//input eq
                 return AddUtils.equalItemStackFactory(stack);
             }else{
@@ -672,11 +680,13 @@ public class RecipeSupporter {
                             Object tick=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"tickRate");
                             recipes=new ArrayList<>();
                             if(stack instanceof List stacklist){
-                                int size=stacklist.size();
-                                for(int i=0;i<size;i++){
-                                    ItemStack stack1=(ItemStack) stacklist.get(i);
-                                    recipes.add(MachineRecipeUtils.mgFrom((Integer) tick,new ItemStack[0],new ItemStack[]{stack1}));
-
+                                if(!stacklist.isEmpty()){
+                                    int len=stacklist.size();
+                                    ItemStack[] output=new ItemStack[len];
+                                    for (int i=0;i<len;++i){
+                                        output[i]=(ItemStack) stacklist.get(i);
+                                    }
+                                    recipes.add(MachineRecipeUtils.mgFrom((Integer)tick,new ItemStack[0],output));
                                 }
                             }
                             else {
@@ -691,11 +701,13 @@ public class RecipeSupporter {
                             Object tick=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"tickRate");
                             recipes=new ArrayList<>();
                             if(stack instanceof List stacklist){
-                                int size=stacklist.size();
-                                for(int i=0;i<size;i++){
-                                    ItemStack stack1=(ItemStack) stacklist.get(i);
-                                    recipes.add(MachineRecipeUtils.mgFrom((Integer) tick,new ItemStack[0],new ItemStack[]{stack1}));
-
+                                if(!stacklist.isEmpty()){
+                                    int len=stacklist.size();
+                                    ItemStack[] output=new ItemStack[len];
+                                    for (int i=0;i<len;++i){
+                                        output[i]=(ItemStack) stacklist.get(i);
+                                    }
+                                    recipes.add(MachineRecipeUtils.mgFrom((Integer)tick,new ItemStack[0],output));
                                 }
                             }
                             else {
@@ -796,18 +808,11 @@ public class RecipeSupporter {
                         machineRecipe=transferRSCRecipes(machineRecipe);
                         if(machineRecipe ==null)
                             continue;
-                        if(machineRecipe instanceof MGeneratorRecipe){
-                            res=machineRecipe;
-
-                        }
-                        else {
-                            res=machineRecipe;
-                        }
-                        MGeneratorRecipe validGenerator=MachineRecipeUtils.tryGenerateMGFromMachine(res);
+                        MGeneratorRecipe validGenerator=MachineRecipeUtils.tryGenerateMGFromMachine(machineRecipe);
                         if(validGenerator!=null){
                             res=validGenerator;
                         }else {
-                            res=MachineRecipeUtils.stackFromMachine(res);
+                            res=MachineRecipeUtils.stackFromMachine(machineRecipe);
                         }
 
                         result.add(res);
@@ -831,6 +836,9 @@ public class RecipeSupporter {
             SlimefunItem item=e.getKey();
             //黑名单 本附属非processor的machine 和 高级processor
             int energyComsumption=0;
+            if(item instanceof ImportRecipes ir &&ir.isConflict()){
+                continue;
+            }
             if(item instanceof AContainer container){
                 energyComsumption=container.getEnergyConsumption();
             }else{
@@ -881,7 +889,7 @@ public class RecipeSupporter {
             }
             else if(MachineRecipeUtils.isMachineRecipe(result)){
                 //剔除掉非AbstractProcessor的本附属机器
-                if(!(item instanceof AbstractMachine&&(!(item instanceof AbstractProcessor)))){
+                if(!(item instanceof AbstractMachine&&(!(item instanceof EMachine)))){
                     STACKMACHINE_LIST.put(item,energyComsumption);
                 }
             }

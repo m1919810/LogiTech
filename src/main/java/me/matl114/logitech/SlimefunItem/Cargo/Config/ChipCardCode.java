@@ -35,6 +35,11 @@ public class ChipCardCode {
         stack.setItemMeta(getCard(1));
         return stack;
     }).get();
+    public final static ItemStack CHIP_FINAL=((Supplier<ItemStack>)()->{
+        ItemStack stack=AddItem.CHIP.clone();
+        stack.setItemMeta(getCard(1431655765));
+        return stack;
+    }).get();
     public static ItemMeta getCard(int code){
         ItemMeta it=meta.clone();
         setConfig(it,code);

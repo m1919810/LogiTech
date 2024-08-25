@@ -5,6 +5,7 @@ import me.matl114.logitech.Utils.Settings;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  */
 public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGreedyConsumer> {
     private int matchAmount;
+    private int maxStackCnt;
     private List<ItemPusher> targetConsumers;
     private static ItemGreedyConsumer INSTANCE=new ItemGreedyConsumer(new ItemStack(Material.STONE));
     public ItemGreedyConsumer(ItemStack itemStack) {
@@ -31,9 +33,26 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
         }
         return targetConsumers;
     }
+//    public ItemMeta getMeta() {
+//        if(item.hasItemMeta()){
+//            if (meta==null){
+//                //check if const item stack
+//                if(item instanceof ConstItemStack cis){
+//                    meta= cis.getItemMetaConst();
+//                }else{
+//                    meta=item.getItemMeta();
+//                }
+//            }
+//            return meta;
+//        }
+//        return null;
+//    }
     public void init(ItemStack itemStack) {
         super.init( itemStack);
         this.matchAmount = 0;
+    }
+    public int maxStackSize(){
+        return this.maxStackCnt;
     }
     /**
      * get total amount of matching items
@@ -78,6 +97,7 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
      */
     public void consume(ItemPusher other){
         matchAmount += other.getAmount();
+
         addRelate(other);
     }
 

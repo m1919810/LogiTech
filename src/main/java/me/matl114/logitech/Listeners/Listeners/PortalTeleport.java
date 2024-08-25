@@ -19,10 +19,11 @@ import org.bukkit.event.entity.EntityPortalEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 
 public class PortalTeleport implements Listener {
-    public final int[] dx=new int[]{0,1,0,-1,0};
-    public final int[] dz=new int[]{0,0,1,0,-1};
+    public final int[] dx=new int[]{0,1,0,-1,0,1,1,-1,-1};
+    public final int[] dz=new int[]{0,0,1,0,-1,1,-1,-1,1};
     @EventHandler
     //沉浸式体验传送门 abab
+    //FIXME 目标传送门未激活时传送有误
     public void onTeleportRedirect(PlayerPortalEvent event) {
         Location loco = event.getFrom();
         int x = loco.getBlockX();
@@ -30,7 +31,7 @@ public class PortalTeleport implements Listener {
         int z = loco.getBlockZ();
         loco=new Location(loco.getWorld(),x,y,z);
         Location loc;
-        for(int i=0;i<5;++i) {
+        for(int i=0;i<9;++i) {
             loc=loco.clone().add(dx[i],0,dz[i]);
             if(loc.getBlock().getType()!= Material.CRYING_OBSIDIAN){
                 continue;

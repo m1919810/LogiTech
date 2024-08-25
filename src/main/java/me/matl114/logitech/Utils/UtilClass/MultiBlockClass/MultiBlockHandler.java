@@ -2,35 +2,37 @@ package me.matl114.logitech.Utils.UtilClass.MultiBlockClass;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiCore;
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Debug;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+
+import java.util.Random;
 
 public class MultiBlockHandler  implements AbstractMultiBlockHandler {
 
     private final AbstractMultiBlock STRUCTURE_TYPE;
     public final Location CORE;
     private boolean active = false;
-    private final int[] RESPOND;
+    private final int size;
     public final  String uid;
-    private MultiBlockHandler(AbstractMultiBlock type, Location core,String uid) {
-        this.STRUCTURE_TYPE = type;
+    private MultiBlockHandler(AbstractMultiBlock block, Location core,String uid) {
+        this.STRUCTURE_TYPE =block;
         this.CORE=core;
         this.uid=uid;
-        this.RESPOND=new int[type.getStructureSize()];
-        for (int i = 0; i < type.getStructureSize(); i++) {
-            this.RESPOND[i]=3;
-        }
+        this.size=block.getStructureSize();
     }
     public static AbstractMultiBlockHandler createHandler( Location core,AbstractMultiBlock type,String uid) {
         //check
         MultiBlockHandler multiBlockHandler = new MultiBlockHandler(type, core, uid);
         multiBlockHandler.active=true;
-        int len=multiBlockHandler.RESPOND.length;
+        int len=multiBlockHandler.size;
         for(int i=0;i<len;i++){
 
 
@@ -55,11 +57,17 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
         }
         return multiBlockHandler;
     }
+    public AbstractMultiBlock getMultiBlock(){
+        return STRUCTURE_TYPE;
+    }
     public Location getCore() {
         return CORE.clone();
     }
+    public MultiBlockService.Direction getDirection(){
+        return this.STRUCTURE_TYPE.getDirection();
+    }
     public int getSize(){
-        return RESPOND.length;
+        return size;
     }
     public String getUid() {
         return uid;
@@ -76,7 +84,7 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
      * @return
      */
     public boolean checkIfComplete(){
-        int len=this.RESPOND.length;
+        int len=this.size;
         boolean complete=true;
         for(int i=0;i<len;i++){
             Vector delta= STRUCTURE_TYPE.getStructurePart(i);
@@ -90,12 +98,13 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
         }
         return complete;
     }
+    protected Random rand=new Random();
     public boolean checkIfCompleteRandom(){
-        int len=this.RESPOND.length;
+        int len=this.size;
         boolean complete=true;
         int checkChance=10;//随机选取1/10的方块检测
         for(int s=0;s<len;s++){
-            int i= AddUtils.random(checkChance);
+            int i=rand.nextInt(checkChance);
             if(i==0){
                 Vector delta= STRUCTURE_TYPE.getStructurePart(s);
                 Location partloc=CORE.clone().add(delta);
@@ -111,26 +120,24 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
     }
     public void acceptPartRequest(Location loc){
         if(this.active){
-            int index=getPartIndex(loc);
-            if(index>=0){
-                RESPOND[index]=3;
-
-            }
+//            int index=getPartIndex(loc);
+//            if(index>=0){
+//
+//            }
         }else {
             //multiblock被关闭 被抛出但是有part恰好响应了，则手动关掉part
             MultiBlockService.setStatus(loc,0);
             DataCache.setLastUUID(loc,"null");
         }
     }
+
+    /**
+     * should tell if this is active and complete,then the service will called handler.destroy if not
+     * @return
+     */
     public boolean acceptCoreRequest(){
-        if(checkIfOnline()){//need continue
-            //I don't know what to said
-            return true;
-        }else{
-            //销毁multiblock的全部内容
-            destroy();
-            return false;
-        }
+        return checkIfOnline();
+
     }
     public static int getPartIndex(Location loc){
         try{
@@ -148,28 +155,7 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
     }
 
     public boolean checkIfOnline(){
-        //there is no need to check!
-        //if there's any shit who dies, they send deleteMultiBlock or they are not dying
-//        for (int i=0;i<this.RESPOND.length;i++){
-//            if (this.RESPOND[i]>=4){
-//                //keep
-//            }else if(this.RESPOND[i]>0){
-//                //common tick
-//                --this.RESPOND[i];
-//            }
-//            else{
-//                //check sf id if match ,set to 20,else return false
-//                Location blockloc=getBlockLoc(i);
-//                if(this.STRUCTURE_TYPE.getStructurePartId(i).equals(MultiBlockService.getPartId(blockloc))
-//                        &&this.uid.equals(DataCache.getLastUUID(blockloc))){
-//                    //not respond by sf tick,because has sfid but no tick respond.
-//                    this.RESPOND[i]=20;
-//                }else {
-//                    //has tick,no respond,no match sfid means it has been destroyed
-//                    return false;
-//                }
-//            }
-//        }
+
         return this.active;
     }
 
@@ -177,6 +163,10 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
         Vector delta=STRUCTURE_TYPE.getStructurePart(index);
         return this.CORE.clone().add(delta);
     }
+
+    /**
+     * this method should called onMultiBlockDisable for CORE and reset blockdata!
+     */
     public void destroy(){
         this.active=false;
         if(DataCache.hasData(CORE)){
@@ -187,7 +177,7 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
                 ((MultiBlockCore) it).onMultiBlockDisable(CORE,this);
             }
         }
-        for(int i=0;i<this.RESPOND.length;i++){
+        for(int i=0;i<this.size;i++){
             Location loc=CORE.clone().add(STRUCTURE_TYPE.getStructurePart(i));
             if(DataCache.hasData(loc)){
                 DataCache.setLastUUID(loc,"null");

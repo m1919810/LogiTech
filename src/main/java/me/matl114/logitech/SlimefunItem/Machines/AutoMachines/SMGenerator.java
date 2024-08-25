@@ -9,9 +9,8 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractTransformer;
-import me.matl114.logitech.Utils.CraftUtils;
+import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
-import me.matl114.logitech.Utils.AddUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -33,15 +32,11 @@ public class SMGenerator extends AbstractTransformer  {
         super(itemGroup, item, recipeType, recipe,time,energybuffer,energyConsumption,
                 new LinkedHashMap<>(){{
                     this.put(new Pair<>(
-                            new ItemStack[]{new DisplayItemStack(
-                     new CustomItemStack(
-                                Material.KNOWLEDGE_BOOK,
-                                "&7速度",
-                                "&7每 " + Integer.toString(time) + " 粘液刻生成一次"
-                        ))}, outputs_w
+                            new ItemStack[]{}, outputs_w
                     ),time) ;
                 }}
         );
+        this.PROCESSOR_SLOT=0;
 
 
     }
@@ -50,6 +45,7 @@ public class SMGenerator extends AbstractTransformer  {
         super.addInfo(stack);
     }
     public void constructMenu(BlockMenuPreset preset){
+        preset.setSize(9);
         preset.addItem(INFO_SLOT,this.INFO_WORKING.clone(), ChestMenuUtils.getEmptyClickHandler());
     }
     public int[] getInputSlots(){
@@ -62,11 +58,38 @@ public class SMGenerator extends AbstractTransformer  {
     public boolean isSync(){
         return false;
     }
-    public void process(Block block, BlockMenu inv, SlimefunBlockData data){
-        MachineRecipe nextP =getMachineRecipes().get(0);
-        progressorCost(block,inv);
-        CraftUtils.pushItems(nextP.getOutput(),inv,getOutputSlots(),CRAFT_PROVIDER);
-    }
+    public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int ticker) {
+        int tick=DataCache.getCustomData(data,"tick",-1);
+        //long f=System.nanoTime();
+        if(conditionHandle(b,menu)){
+            if(tick==-1&&menu.hasViewer()){
+                menu.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_WORKING);
+            }
+            // long a=System.nanoTime();
+            //long s=System.nanoTime();
+            progressorCost(b,menu);
+            if(tick<=0){
+                MachineRecipe nextP = getMachineRecipes().get(0);
 
+                if (tick == 0){
+                    int maxMultiple = getCraftLimit(data);
+                    if (maxMultiple == 1) {
+                        CraftUtils.pushItems(nextP.getOutput(), menu, getOutputSlots(), CRAFT_PROVIDER);
+                    } else {
+
+                        CraftUtils.multiPushItems(nextP.getOutput(),menu, getOutputSlots(), maxMultiple, CRAFT_PROVIDER);
+                    }
+                }
+                DataCache.setCustomData(data,"tick",nextP.getTicks()-1);
+
+            }else{
+                DataCache.setCustomData(data,"tick",tick-1);
+            }
+
+        }else if (tick!=-1&&menu.hasViewer()){
+            DataCache.setCustomData(data,"tick",-1);
+            menu.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_NULL);
+        }
+    }
 
 }

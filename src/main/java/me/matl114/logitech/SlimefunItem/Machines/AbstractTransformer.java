@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.MachineRecipeUtils;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -28,7 +29,6 @@ public abstract  class AbstractTransformer extends AbstractMachine {
 
     public final int time;
     private int pubTick;
-    private int diffTick;
 
     protected int PROCESSOR_SLOT=22;
     public final ItemStack INFO_WORKING= new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,
@@ -39,13 +39,15 @@ public abstract  class AbstractTransformer extends AbstractMachine {
                              int time,  int energybuffer,int energyConsumption,
                                LinkedHashMap<Object ,Integer> customRecipes){
         super(category,item , recipeType, recipe,energybuffer,energyConsumption);
+        Debug.logger("trans constructor called");
+        Debug.logger(this.getId());
         this.time = (time<=0)?1:time;
         this.pubTick = 0;
-        this.diffTick =(3+ AddUtils.random(1145))%this.time;
 
         if(customRecipes!=null){
             this.machineRecipes=new ArrayList<>(customRecipes.size());
             var tmp=AddUtils.buildRecipeMap(customRecipes);
+            Debug.debug("build");
             for (Map.Entry<Pair<ItemStack[], ItemStack[]>, Integer> recipePiece : tmp.entrySet()) {
                 //no need to stack and can not stack(maybe some shitmachine will stack
                 //but we stack it in order to format up
@@ -54,10 +56,24 @@ public abstract  class AbstractTransformer extends AbstractMachine {
                 ));
             }
         }
+
         else{
             this.machineRecipes=new ArrayList<>();
         }
+        Debug.logger("trans constructor finished");
 
+    }
+    public List<ItemStack> _getDisplayRecipes() {
+        List<ItemStack> list= super._getDisplayRecipes();
+        if(!list.isEmpty()&&list.get(0)==null){
+            list.set(0,new DisplayItemStack(
+                    new CustomItemStack(
+                            Material.KNOWLEDGE_BOOK,
+                            "&7速度",
+                            "&7每 " + Integer.toString(time) + " 粘液刻生成一次"
+                    )));
+        }
+        return list;
     }
     public List<MachineRecipe> getMachineRecipes() {
         return machineRecipes;
@@ -72,14 +88,27 @@ public abstract  class AbstractTransformer extends AbstractMachine {
            }
           // long a=System.nanoTime();
            //long s=System.nanoTime();
+           progressorCost(b,menu);
            if(tick<=0){
-                process(b,menu,data);
+               MachineRecipe nextP = CraftUtils.matchNextRecipe(menu, getInputSlots(),getMachineRecipes(data),
+                       true, Settings.SEQUNTIAL,CRAFT_PROVIDER);
+               if (nextP != null) {
+                   if (tick == 0){
+                       int maxMultiple = getCraftLimit(data);
+                       if (maxMultiple == 1) {
+                           CraftUtils.pushItems(nextP.getOutput(), menu, getOutputSlots(), CRAFT_PROVIDER);
+                       } else {
+
+                           CraftUtils.multiPushItems(nextP.getOutput(),menu, getOutputSlots(), maxMultiple, CRAFT_PROVIDER);
+                       }
+                    }
+                   DataCache.setCustomData(data,"tick",nextP.getTicks()-1);
+               }
 
            }else{
                DataCache.setCustomData(data,"tick",tick-1);
            }
-           //long t=System.nanoTime();
-           //Debug.logger("get time : handle ",(a-f)," cost ",(s-a)," process ",(t-s));
+
         }else if (tick!=-1&&menu.hasViewer()){
            DataCache.setCustomData(data,"tick",-1);
             menu.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_NULL);
@@ -91,24 +120,9 @@ public abstract  class AbstractTransformer extends AbstractMachine {
     public int getCraftLimit(SlimefunBlockData data){
         return 1;
     }
-    public void process(Block block, BlockMenu inv, SlimefunBlockData data){
+    public final void process(Block block, BlockMenu inv, SlimefunBlockData data){
 
-        MachineRecipe nextP = CraftUtils.matchNextRecipe(inv, getInputSlots(),getMachineRecipes(data),
-                true, Settings.SEQUNTIAL,CRAFT_PROVIDER);
-        if (nextP != null) {
-            progressorCost(block,inv);
-            int tickers=DataCache.getCustomData(data,"tick",0);
-            if(tickers>=0){
-                int maxMultiple=getCraftLimit(data);
-                if(maxMultiple==1){
-                    CraftUtils.pushItems(nextP.getOutput(),inv,getOutputSlots(),CRAFT_PROVIDER);
-                }else {
 
-                    CraftUtils.multiPushItems(nextP.getOutput(),inv,getOutputSlots(),maxMultiple,CRAFT_PROVIDER);
-                }
-            }
-            DataCache.setCustomData(data,"tick",nextP.getTicks()-1);
-        }
     }
     public int getPublicTick(){
         return this.pubTick;

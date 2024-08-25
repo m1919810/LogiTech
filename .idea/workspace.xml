@@ -4,7 +4,33 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="feat: add support to rscCustomRecipe and configured AbstractItemStack" />
+    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="feat: add support to rscCustomRecipe and configured AbstractItemStack">
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/RandOutItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Items/CustomHead.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Items/CustomHead.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Schedule/ScheduleEffects.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Schedule/ScheduleEffects.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddSlimefunItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddSlimefunItems.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlockTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlockTypes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Cargo/Config/ChipCardCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Cargo/Config/ChipCardCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Cargo/Transportation/RedstoneAdjacentCargo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Cargo/Transportation/RedstoneAdjacentCargo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/AbstractAdvancedProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/AbstractAdvancedProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/AutoMachines/StackMachine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/AutoMachines/StackMachine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/AddUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/AddUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/CraftUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/CraftUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/MachineRecipeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/MachineRecipeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/MenuUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/MenuUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/TransportUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/TransportUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/EquivalItemStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/EquivalItemStack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/ItemCounter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/ItemCounter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/ItemGreedyConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/ItemGreedyConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/ItemPusher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/ItemPusher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/ProbItemStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/ProbItemStack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/RandAmountStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/RandAmountStack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/RandomItemStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/RandomItemStack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/language.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/language.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/machines.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/machines.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

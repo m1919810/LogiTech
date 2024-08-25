@@ -8,6 +8,7 @@ public class Debug {
     public  static Logger log = Logger.getLogger(AddUtils.ADDON_ID);
     public static Logger testlog=Logger.getLogger("TEST");
     public  static boolean debug = MyAddon.testmode();
+    public static boolean pos=false;
     public static  void logger(String message) {
         log.info(message);
     }

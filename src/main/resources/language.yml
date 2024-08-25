@@ -10,7 +10,7 @@ zh_CN:
     MATERIAL:
       Name: '&d逻辑工艺 &6基础材料'
     ALLMACHINE:
-      Name: '&d逻辑工艺 &6通用机器类型大全'
+      Name: '&d逻辑工艺 &6堆叠机器支持列表'
     ALLRECIPE:
       Name: '&d逻辑工艺 &6合成配方类型大全'
     URL:
@@ -168,6 +168,8 @@ zh_CN:
         - '&7这些机器怎么看起来功能怪怪的...'
     TOBECONTINUE:
       Name: '&6未完待续...'
+      Lore:
+        - "&7仍在开发,敬请期待"
     SPACE:
       Name: '&d逻辑工艺 &6空间技艺'
     GENERATORS:
@@ -185,7 +187,7 @@ zh_CN:
     MATL114:
       Name: 'MATL114'
       Lore:
-        - '没错,我是作者...'
+        - '没错,我是逻辑工艺的作者...'
     CHIP_INGOT:
       Name: '薯片合金'
       Lore:
@@ -289,7 +291,11 @@ zh_CN:
     PDCECDMD:
       Name: '钚铈镉钔合金'
       Lore:
-        - '布什,戈门,这也太抽象了吧'
+        - '布什,戈门'
+    HGTLPBBI:
+      Name: '汞铊铅铋合金'
+      Lore:
+        - '“不知道为什么熔点超高的合金”'
     REINFORCED_CHIP_INGOT:
       Name: '强化薯片合金'
       Lore:
@@ -366,6 +372,37 @@ zh_CN:
       Lore:
         - '还真是薯片...(哈哈哈'
         - '可存储32位数据的芯片'
+    CHIP_CORE:
+      Name: '智能控制核心'
+      Lore:
+        - '内部编码了复杂的代码..'
+        - '用于控制复杂机器运行'
+    LSINGULARITY:
+      Name: '逻辑奇点'
+      Lore:
+        - '伴生于超新星'
+        - '终极之始'
+    THALLIUM:
+      Name: '铊 (Tl)'
+    HYDRAGYRUM:
+      Name: '汞 (Hg)'
+    RADIATION_CLEAR:
+      Name: '辐射区域清除器'
+      Lore:
+        - '嘿嘿,管理专用'
+    BISILVER:
+      Name: '铋银'
+      Lore:
+        - '介于真实和虚幻的材料'
+    PAGOLD:
+      Name: '钯金'
+      Lore:
+        - '有股椰子的味道..'
+    STACKFRAME:
+      Name: '堆叠空间'
+      Lore:
+        - '在虚拟空间中压缩大量机器..'
+        - '用于合成传说中的堆叠机器'
   Machines:
     LOGIC_REACTOR:
       Name: '逻辑反应堆'
@@ -393,7 +430,7 @@ zh_CN:
         - '支持生成本附属的粘液物品注册格式代码'
         - '仅对开发者有用'
     ENDFRAME_MACHINE:
-      Name: '传送门框架构建机'
+      Name: '空间框架构建机'
     LVOID_GENERATOR:
       Name: '虚空量子发电机'
       Lore:
@@ -430,6 +467,19 @@ zh_CN:
       Lore:
         - '反复凝聚概念...'
         - '序列进度机器'
+
+    STACKMACHINE:
+      Name: '堆叠机器'
+      Lore:
+        - '传说中的堆叠机器'
+        - '将支持的机器插入指定槽位以载入配方'
+        - '堆叠效率: 1.00'
+        - '支持范围: 全部配方机器'
+    ENERGY_TRASH:
+      Name: '能源垃圾桶'
+      Lore:
+        - '将电网中多余的电销毁'
+        - '会优先保证用电器的供需'
   Manuals:
     MANUAL_CORE:
       Name: '乱序核心'
@@ -490,6 +540,11 @@ zh_CN:
       Lore:
         - '又是懒狗东西'
         - '似乎还增加了拓展的配方?'
+    MULTIBLOCK_MANUAL:
+      Name: '快捷多方块结构模拟器'
+      Lore:
+        - '在虚拟空间中模拟多方块结构'
+        - '支持全体多方块结构的快捷合成'
   Generators:
 
     MAGIC_STONE:
@@ -525,6 +580,19 @@ zh_CN:
       Name: '特性复制机'
     ENDDUPE_MG:
       Name: '末地门特性复制机'
+    STACKMGENERATOR:
+      Name: '堆叠生成器'
+      Lore:
+        - '传说中的堆叠机器'
+        - '将支持的生成器插入指定槽位以载入配方'
+        - '将机器指定样板插在输入槽(如果有)以生成'
+        - '堆叠效率: 1.00'
+        - '支持范围: 全部材料生成器'
+    REVERSE_GENERATOR:
+      Name: '逆生成器'
+      Lore:
+        - '成功掌控了基础逻辑的力量'
+        - '以此制造基础的抽象逻辑材料'
   MultiBlock:
     PORTAL_CORE:
       Name: '维度传送门核心'
@@ -550,7 +618,7 @@ zh_CN:
       Name: '超新星模拟器防护罩'
       Lore:
         - '"身临其境"'
-        - '不可疑被其他组件替代'
+        - '不可以被其他组件替代'
     SOLAR_INPUT:
       Name: '超新星模拟器货运接口-输入'
       Lore:
@@ -564,6 +632,28 @@ zh_CN:
         - '将模拟器输出槽的物品传入槽位'
         - '运输配置:'
         - '强对称: 禁用'
+    TRANSMUTATOR_FRAME:
+      Name: '元素嬗变机框架'
+    TRANSMUTATOR_GLASS:
+      Name: '元素嬗变机防护罩'
+      Lore:
+        - "可以有效隔绝核辐射"
+        - '"这次应该不会炸了"'
+    TRANSMUTATOR_ROD:
+      Name: '原子合金核燃料棒'
+      Lore:
+        - '其原子结构中蕴含狂暴的力量'
+        - '是诱导嬗变反应的最佳选择'
+    TRANSMUTATOR:
+      Name: '元素嬗变机'
+      Lore:
+        - '创造元素,转换元素,掌控元素'
+        - '重组原子以制造稀有元素材料'
+        - '⇨ 可以在投影的基础上为多方块中间部分增加高度'
+        - '⇨ 每增加一格并行处理数x2,即机器耗时减半'
+        - '⇨ 中间部分最多10格,即最大并行处理数1024'
+        - '⇨ 机器进程中必须满足冷却剂的供应!'
+        - '⇨ 最好别在它进程的时候打它什么主意'
   Cargo:
     SIMPLE_CARGO:
       Name: '邻接传输器'

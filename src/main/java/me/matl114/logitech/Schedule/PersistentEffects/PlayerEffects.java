@@ -1,6 +1,7 @@
 package me.matl114.logitech.Schedule.PersistentEffects;
 
 import me.matl114.logitech.Schedule.ScheduleEffects;
+import me.matl114.logitech.Schedule.Schedules;
 import org.bukkit.entity.Player;
 
 import java.util.function.Function;
@@ -53,8 +54,7 @@ public class PlayerEffects {
     }
     public static void grantEffect(AbstractEffect type, Player p, int level, int time, Function<Player,Boolean> predicate){
         PlayerEffects eff = new PlayerEffects(type,time,level);
-        if( ScheduleEffects.addEffect(p,eff,predicate))
-            eff.start(p);
+        ScheduleEffects.addEffect(p,eff,predicate);
     }
     public static void grantEffect(AbstractEffect type, Player p, int level, int time){
         PlayerEffects eff = new PlayerEffects(type,time,level);

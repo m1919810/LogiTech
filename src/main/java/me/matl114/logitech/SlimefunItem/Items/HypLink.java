@@ -3,15 +3,19 @@ package me.matl114.logitech.SlimefunItem.Items;
 import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import io.github.sefiraat.networks.slimefun.network.grid.NetworkGrid;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
 import me.matl114.logitech.SlimefunItem.Cargo.Links.HyperLink;
 import me.matl114.logitech.Utils.DataCache;
+import me.matl114.logitech.Utils.WorldUtils;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -36,7 +40,8 @@ public class HypLink extends CustomSlimefunItem {
             if(b.isPresent()){
                 ItemStack it= event.getItem();
                 ItemMeta im = it.getItemMeta();
-                if(HyperLink.canLink(im)){
+                if(HyperLink.canLink(im)&&WorldUtils.hasPermission(
+                        event.getPlayer(),b.get(),Interaction.INTERACT_BLOCK)){
                     HyperLink.setLink(im,b.get().getLocation());
                     it.setItemMeta(im);
                 }
@@ -47,7 +52,8 @@ public class HypLink extends CustomSlimefunItem {
             ItemMeta im = it.getItemMeta();
             if(HyperLink.isLink(im)){
                 Location loc=HyperLink.getLink(im);
-                if(loc!=null){
+                if(loc!=null&& WorldUtils.hasPermission(
+                        event.getPlayer(),loc,Interaction.INTERACT_BLOCK)){
                     SlimefunBlockData data= DataCache.safeLoadBlock(loc);
                     if(data!=null){
                         BlockMenu menu=data.getBlockMenu();

@@ -4,6 +4,8 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import me.matl114.logitech.Depends.DependencyInfinity;
 import me.matl114.logitech.Depends.DependencyNetwork;
 import me.matl114.logitech.Listeners.ListenerManager;
+import me.matl114.logitech.Schedule.PersistentEffects.CustomEffects;
+import me.matl114.logitech.Schedule.PersistentEffects.RadiationRegion;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.AddDepends;
 import me.matl114.logitech.SlimefunItem.AddGroups;
@@ -81,6 +83,10 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         MultiBlockService.setup();
         //注册多方块类型
         MultiBlockTypes.setup();
+        //加载自定义效果机制
+        CustomEffects.setup();
+        //加载辐射机制
+        RadiationRegion.setup();
         //加载配方工具
         CraftUtils.setup();
 

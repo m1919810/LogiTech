@@ -2,15 +2,19 @@ package me.matl114.logitech.Utils.UtilClass.ItemClass;
 
 import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedException;
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.Utils.Debug;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
-public class RandomItemStack extends ItemStack implements MultiItemStack {
+public class RandomItemStack extends ItemStack implements MultiItemStack,RandOutItem {
+    public Random rand=new Random();
     public ItemStack[] itemList;
     public Double[] itemWeight;
-    public double[] weightSum;
+    //public int[] weightSum;
     public int sum;
+    public int[] weightSum;
+    //private TreeMap<Integer,ItemStack> weightMap = new TreeMap<Integer,ItemStack>();
     public RandomItemStack(LinkedHashMap<ItemStack ,Integer> itemSettings) {
         super(itemSettings.keySet().iterator().next());
         this.sum=itemSettings.keySet().size();
@@ -21,16 +25,18 @@ public class RandomItemStack extends ItemStack implements MultiItemStack {
             weight += entry;
         }
         int cnt=0;
-        weightSum=new double[sum+1];
+        weightSum=new int[sum+1];
         weightSum[0]=0;
         for(Map.Entry<ItemStack, Integer> entry : itemSettings.entrySet()) {
             itemList[cnt] = entry.getKey();
             double r=entry.getValue();
             itemWeight[cnt]= r/(double)weight;
-            weightSum[cnt+1]=weightSum[cnt]+itemWeight[cnt];
+//           int lastWeight = this.weightMap.isEmpty() ? 0 : this.weightMap.lastKey();//统一转为double
+//            this.weightMap.put(entry.getValue() + lastWeight, entry.getKey());
+           weightSum[cnt+1]=weightSum[cnt]+entry.getValue();
             cnt++;
         }
-
+        //this.weightSum=this.weightMap.lastKey();
 
     }
     //递归地解析全体物品列
@@ -43,7 +49,6 @@ public class RandomItemStack extends ItemStack implements MultiItemStack {
                 items.add(itemList[i].clone());
             }
         }
-
         return items;
     }
     public List<Double> getWeight(Double percentage) {
@@ -60,17 +65,51 @@ public class RandomItemStack extends ItemStack implements MultiItemStack {
     public int getTypeNum(){
         return this.sum;
     }
+//    public ItemStack randIndex(){
+//        int randomWeight =   AddUtils.random(weightSum);
+//        SortedMap<Integer,ItemStack> tailMap = this.weightMap.tailMap(randomWeight, false);
+//        return this.weightMap.get(tailMap.firstKey());
+//    }
     public ItemStack clone(){
-        return itemList[AddUtils.weightedRandom(this.weightSum())].clone();
+        int i=weightedRandom(this.weightSum);
+        return this.itemList[i].clone();
+    }
+    public ItemStack getInstance(){
+        long a,s;
+        ItemStack it=this.itemList[weightedRandom(this.weightSum)];
+        return (it instanceof RandOutItem w)?w.getInstance():it;
+    }
+    public int weightedRandom(int[] weightSum ){
+        int len=weightSum.length;
+        int randouble=rand.nextInt(weightSum[len-1]);
+        //if(len>114){
+        int start=0;
+        int end=len-1;
+        while(end-start>1){
+            int mid=(start+end)/2;
+            if(weightSum[mid]<randouble){
+                start=mid;
+            }else if (weightSum[mid]>randouble) {
+                end=mid;
+            }else return mid;
+        }
+        return start;
+        // }
+//        else{
+//
+//            for(int i=0;i<len-1;i++){
+//                if(randouble<weightSum[i+1]){
+//                    return i;
+//                }
+//            }
+//            return 0;
+//        }
     }
     public int getMaxStackSize(){
         return 64;
     }
-    public double[] weightSum(){
-        return this.weightSum;
-    }
     public void setAmount(int amount){
-        throw new NotImplementedException("RandomItemStack is mutable and can not set Amount");
+        throw new NotImplementedException("AbstractItemStack can not set Amount");
     }
     public boolean matchItem(ItemStack item,boolean strictCheck){
         return false;

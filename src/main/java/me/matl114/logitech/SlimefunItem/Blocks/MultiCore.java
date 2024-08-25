@@ -39,6 +39,6 @@ public abstract class MultiCore extends MultiPart implements MultiBlockCore {
         super.preRegister();
     }
     public boolean isSync(){
-        return true;
+        return false;
     }
 }

@@ -24,16 +24,16 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 
 public abstract class AbstractAdvancedProcessor extends AbstractMachine implements MachineProcessHolder<MultiCraftingOperation> {
-    protected static final int[] BORDER={
+    protected final int[] BORDER={
             3,4,5,12,13,14,21,22,23,30,31,32,39,40,41,48,49,50
     };
-    protected static final int[] BORDER_SLOT={
+    protected final int[] BORDER_SLOT={
             2,6,11,15,20,24,29,33,38,42,47,51
     };
-    protected static final int[] INPUT_SLOT={
+    protected  final int[] INPUT_SLOT={
             0,1,9,10,18,19,27,28,36,37,45,46
     };
-    protected static final int[] OUTPUT_SLOT={
+    protected final int[] OUTPUT_SLOT={
             7,8,16,17,25,26,34,35,43,44,52,53
     };
     protected int PROCESSOR_SLOT=22;
@@ -74,13 +74,17 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
 
     public void addInfo(ItemStack stack){
 
-        stack.setItemMeta(AddUtils.machineInfoAdd(stack,this.energybuffer,this.energyConsumption).getItemMeta());
+        stack.setItemMeta( AddUtils.machineInfoAdd(
+                AddUtils.addLore(stack,"&8⇨ &7并行处理机器"),
+                this.energybuffer,this.energyConsumption).getItemMeta());
     }
     /**
      * need implement,  method from MachineProcessorHolder
      * @return
      */
-    public abstract ItemStack getProgressBar();
+    public ItemStack getProgressBar(){
+        return this.progressbar;
+    }
 
 
     /**
@@ -99,13 +103,13 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
      */
     public void constructMenu(BlockMenuPreset preset) {
         //空白背景 禁止点击
-        int[] border = AbstractAdvancedProcessor.BORDER;
+        int[] border = BORDER;
         int len=border.length;
         for(int var4 = 0; var4 < len; ++var4) {
             preset.addItem(border[var4], ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
         //输入槽边框
-        border = AbstractAdvancedProcessor.BORDER_SLOT;
+        border = BORDER_SLOT;
         len = border.length;
         for(int var4 = 0; var4 <len; ++var4) {
 
@@ -115,11 +119,11 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
         preset.addItem(PROCESSOR_SLOT,MenuUtils.PROCESSOR_NULL, ChestMenuUtils.getEmptyClickHandler());
     }
     public int[] getInputSlots(){
-        return AbstractAdvancedProcessor.INPUT_SLOT;
+        return INPUT_SLOT;
     }
 
     public int[] getOutputSlots(){
-        return AbstractAdvancedProcessor.OUTPUT_SLOT;
+        return OUTPUT_SLOT;
     }
 
     public List<MachineRecipe> getMachineRecipes(){
@@ -132,7 +136,6 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
     public int getCraftLimit(Block b,BlockMenu inv){
         return 64;
     }
-
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         MultiCraftingOperation currentOperation = this.processor.getOperation(b);
         ItemGreedyConsumer[] fastCraft=null;
@@ -141,7 +144,8 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
             Pair<MachineRecipe,ItemGreedyConsumer[]> nextQ=CraftUtils.matchNextMultiRecipe(inv,getInputSlots(),getMachineRecipes(data),
                     true,maxCraftlimit, Settings.SEQUNTIAL,CRAFT_PROVIDER);
             if(nextQ==null){
-                if(inv.hasViewer()){inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
+                if(inv.hasViewer()){
+                    inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
                 }
                 return;
             }
@@ -179,6 +183,7 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
                 }
                 return ;
             }
+
         }
         progressorCost(b,inv);
         if (fastCraft!=null) {
@@ -200,8 +205,6 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
             currentOperation.addProgress(1);
 
         }
-
-
     }
     public void preRegister(){
         super.preRegister();

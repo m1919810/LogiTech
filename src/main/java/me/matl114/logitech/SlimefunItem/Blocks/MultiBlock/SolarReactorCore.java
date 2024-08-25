@@ -45,13 +45,13 @@ public class SolarReactorCore extends MultiBlockProcessor {
     protected final int HOLOGRAM_SLOT=8;
     protected final ItemStack[] TOGGLE_ITEM=new ItemStack[]{
             new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&6点击切换反应堆状态",
-            "&6shift点击切换是否自动构建","&7当前状态: &c关闭","&7自动构建: &c关","&7警告:你最好别在进程中关闭反应堆")
+            "&6shift点击切换是否自动构建","&7当前状态: &c关闭","&7自动构建: &c关","&7警告:你最好别在进程中破坏机器")
             ,new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&6点击切换反应堆状态",
-            "&6shift点击切换是否自动构建","&7当前状态: &c关闭","&7自动构建: &a开","&7警告:你最好别在进程中关闭反应堆"),
+            "&6shift点击切换是否自动构建","&7当前状态: &c关闭","&7自动构建: &a开","&7警告:你最好别在进程中破坏机器"),
             new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换反应堆状态",
-                    "&6shift点击切换是否自动构建","&7当前状态: &a开启","&7自动构建: &c关","&7警告:你最好别在进程中关闭反应堆")
+                    "&6shift点击切换是否自动构建","&7当前状态: &a开启","&7自动构建: &c关","&7警告:你最好别在进程中破坏机器")
             ,new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换反应堆状态",
-            "&6shift点击切换是否自动构建","&7当前状态: &a开启","&7自动构建: &a开","&7警告:你最好别在进程中关闭反应堆")
+            "&6shift点击切换是否自动构建","&7当前状态: &a开启","&7自动构建: &a开","&7警告:你最好别在进程中破坏机器")
     };
     protected final ItemStack HOLOGRAM_ITEM_ON=new CustomItemStack(SlimefunItems.HOLOGRAM_PROJECTOR,"&6点击切换全息投影","&7当前状态: &a开启");
     protected final ItemStack HOLOGRAM_ITEM_OFF=new CustomItemStack(SlimefunItems.HOLOGRAM_PROJECTOR,"&6点击切换全息投影","&7当前状态: &c关闭");
@@ -88,7 +88,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
             Iterator<Location> iter=locs.iterator();
             while(iter.hasNext()){
                 Location loc=iter.next();
-                removeEffect(loc);
+                removeEffectSync(loc);
             }
         });
         this.PROCESSOR_SLOT=31;
@@ -132,6 +132,18 @@ public class SolarReactorCore extends MultiBlockProcessor {
             getAsEffect(entity,loc);
         }),0,true,0);
     }
+    public void removeEffectSync(Location loc){
+        EnderCrystal cry= EFFECT_CACHE.remove(loc);
+        Location loc2=loc.clone().add(0.5,1,0.5);
+        if(cry!=null)
+            cry.remove();
+        Collection<Entity> allCrystal=loc2.getWorld().getNearbyEntities(loc2, REMOVE_EFFECT_OFFSET, REMOVE_EFFECT_OFFSET, REMOVE_EFFECT_OFFSET,(entity -> {
+            return entity.getType()==EntityType.ENDER_CRYSTAL&&checkBind(entity,loc);
+        }));
+        for (Entity entity:allCrystal){
+            entity.remove();
+        }
+    }
     public void removeEffect(Location loc){
         EnderCrystal cry= EFFECT_CACHE.remove(loc);
         Location loc2=loc.clone().add(0.5,1,0.5);
@@ -157,37 +169,6 @@ public class SolarReactorCore extends MultiBlockProcessor {
         }
         return false;
     }
-//    public class SolarDamage implements DamageType {
-//
-//        public SolarDamage(){
-//
-//        }
-//        NamespacedKey key=AddUtils.getNameKey("solar");
-//        public String getTranslationKey(){
-//            return  "solar_kill";
-//        }
-//        public DamageScaling getDamageScaling(){
-//            return DamageScaling.NEVER;
-//        }
-//
-//
-//        public DamageEffect getDamageEffect(){
-//            return DamageEffect.HURT;
-//        }
-//
-//
-//        public DeathMessageType getDeathMessageType(){
-//            return DeathMessageType.DEFAULT;
-//        }
-//
-//        public float getExhaustion(){
-//            return 1.0f;
-//        }
-//        public NamespacedKey getKey(){
-//            return key;
-//        }
-//    }
-//    public SolarDamage DAMAGETYPE=new SolarDamage();
     public BlockVector[] checkedLocation=new ArrayList<BlockVector>(){{
     for(int i=-1;i<=1;++i){
         for(int j=-1;j<=1;++j){
@@ -199,39 +180,42 @@ public class SolarReactorCore extends MultiBlockProcessor {
         }
     }
     }}.toArray(BlockVector[]::new);
-    public boolean checkCondition(Location loc){
+    protected Random rand=new Random();
+    public boolean checkCondition(Location loc,SlimefunBlockData data){
         //no endcrystal
+        boolean isPendingOff=false;
         EnderCrystal cry= EFFECT_CACHE.get(loc);
         if(cry!=null&&cry.isValid()){
             Location loc2=cry.getLocation();
             Location loc1=loc.clone().add(0.5,1,0.5);
             if(loc2.distance(loc1)>EFFECT_OFFSET){
-                return false;
+                isPendingOff=true;
             }
-        }else {
+        }
+        if(isPendingOff){
+            MultiBlockService.toggleOff(data);
             return false;
         }
         // has block
-        boolean hasblock=false;
         int len=checkedLocation.length;
         for(int i=0;i<4;++i){//26中选4个
-            int locIndex=AddUtils.random(len);
+            int locIndex=rand.nextInt(len);
             Location loc1=loc.clone().add(checkedLocation[locIndex]);
             Block block=loc1.getBlock();
             if(!block.getType().isAir()){
-                hasblock=true;
+                Schedules.launchSchedules(()->{
+                Location fillspace;
+                Block fillblock;
                 for(int s=0;s<len;++s){
-                    loc1=loc.clone().add(checkedLocation[s]);
-                    block=loc1.getBlock();
+                    fillspace=loc.clone().add(checkedLocation[s]);
+                    fillblock=fillspace.getBlock();
                     WorldUtils.removeSlimefunBlock(loc1,true);
-                    block.setType(Material.AIR);
+                    fillblock.setType(Material.AIR);
                 }
-                break;
+                },0,true,0);
+                MultiBlockService.toggleOff(data);
+                return false;
             }
-        }
-
-        if (hasblock){
-            return false;
         }
         //kill all nearby entity
         Schedules.launchSchedules(Schedules.getRunnable(()->{
@@ -257,9 +241,9 @@ public class SolarReactorCore extends MultiBlockProcessor {
         if(inv!=null){
             inv.close();
         }
-        loc.getWorld().createExplosion(loc,32,true,true);
         Location center=loc.clone();
         Schedules.launchSchedules(()->{
+            loc.getWorld().createExplosion(loc,32,true,true);
             Collection<Entity> entities=center.getWorld().getNearbyEntities(center,ENTITY_EFFECT_OFFSET,ENTITY_EFFECT_OFFSET,ENTITY_EFFECT_OFFSET);
             for(Entity entity:entities){
                 if(entity instanceof Player player){
@@ -276,7 +260,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
             center.getBlock().setType(Material.CRYING_OBSIDIAN);
             int len=handler.getSize();
             for (int i=0;i<len;++i){
-                int chance=AddUtils.random(3);
+                int chance=rand.nextInt(3);
                 if(chance==(i%3)){
                     Location loc2=handler.getBlockLoc(i);
                     loc2.getBlock().setType(Material.CRYING_OBSIDIAN);
@@ -337,7 +321,8 @@ public class SolarReactorCore extends MultiBlockProcessor {
             inv.replaceExistingItem(HOLOGRAM_SLOT,HOLOGRAM_ITEM_ON);
         }
         int status=MultiBlockService.getStatus(loc)==0?0:1;
-        int autoRec=DataCache.getCustomData(loc,"auto",0)==0?0:1;
+        //负数为
+        int autoRec=DataCache.getCustomData(loc,"auto",0)<=0?0:1;
         inv.replaceExistingItem(TOGGLE_SLOT,TOGGLE_ITEM[status*2+autoRec]);
         if(status==0){
 
@@ -417,7 +402,8 @@ public class SolarReactorCore extends MultiBlockProcessor {
             runtimeCheck(loc,data,autoCode);
             //直接开销电量
             super.progressorCost(b,inv);
-            if((!checkCondition(loc)&&statusCode>0)||charge<energyConsumption){
+            Schedules.launchSchedules(()->checkCondition(loc,data),0,false,0);
+            if(charge<energyConsumption){
                 //避免重连的时候出现问题,重连的时候statusCode为-3到-1,但是如果没有电 直接寄
                 MultiBlockService.deleteMultiBlock(DataCache.getLastUUID(loc));
                 return;

@@ -7,6 +7,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Schedule.Schedules;
 import org.bukkit.*;
@@ -15,8 +16,10 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Orientable;
 import org.bukkit.block.structure.Mirror;
 import org.bukkit.block.structure.StructureRotation;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nonnull;
 import java.util.Set;
 
 public class WorldUtils {
@@ -71,6 +74,24 @@ public class WorldUtils {
     public static void moveSlimefunBlock(Location loc, boolean force) {
 
     }
+    public static boolean hasPermission(@Nonnull Player player, @Nonnull Block location, @Nonnull Interaction... interactions) {
+        for (Interaction interaction : interactions) {
+            if (!Slimefun.getProtectionManager().hasPermission(player, location, interaction)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static boolean hasPermission(@Nonnull Player player, @Nonnull Location location, @Nonnull Interaction... interactions) {
+        for (Interaction interaction : interactions) {
+            if (!Slimefun.getProtectionManager().hasPermission(player, location, interaction)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
 
 
 

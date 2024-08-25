@@ -9,10 +9,9 @@ public interface AbstractMultiBlockType {
      * get schema block list
      * @return
      */
-    public BlockVector[] getStructurePos();
 
     /**
-     * get schema size
+     * get schema size,used in hologram type show
      * @return
      */
     public int getSchemaSize();
@@ -31,10 +30,10 @@ public interface AbstractMultiBlockType {
      * @param id
      * @return
      */
-    public MultiBlockType addBlock(int x, int y, int z,String id);
+    //public MultiBlockType addBlock(int x, int y, int z,String id);
 
     /**
-     * get index th block
+     * get index th block,used in hologram type show
      * @param index
      * @return
      */
@@ -44,10 +43,12 @@ public interface AbstractMultiBlockType {
      * get structure id list
      * @return
      */
-    public String[] getStructureIds();
+//    public BlockVector[] getStructurePos();
+//
+//    public String[] getStructureIds();
 
     /**
-     * get index th id
+     * get index th id,used in hologram type show
      * @param index
      * @return
      */

@@ -14,6 +14,7 @@ import me.matl114.logitech.SlimefunItem.Machines.MultiCraftType;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomMenu;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
+import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class StackMachine extends AbstractAdvancedProcessor implements MultiCraftType {
+public class StackMachine extends AbstractAdvancedProcessor implements MultiCraftType, ImportRecipes {
     protected final int[] BORDER={
             12,14,21,23,30,31,32,39,41,48,49,50
     };
@@ -84,7 +85,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
 
     }
     public void addInfo(ItemStack stack){
-
+        stack.setItemMeta( AddUtils.capacitorInfoAdd(stack,energybuffer).getItemMeta());
     }
     public static List<SlimefunItem> getMachineList(){
         if(BW_LIST==null){
@@ -246,6 +247,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
         int consumption=(int)(Math.min((craftLimit*charge)/efficiency,this.energybuffer));
         this.removeCharge(loc,consumption);
     }
+
     public void tick(Block b, @Nullable BlockMenu inv, SlimefunBlockData data, int tickCount){
         //首先 加载
         if(inv.hasViewer()){

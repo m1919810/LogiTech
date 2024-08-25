@@ -23,23 +23,32 @@ public class ScheduleEffects {
     static {
         CustomEffects.registerEffect();
     }
-    private static final HashMap<UUID, ConcurrentHashMap<AbstractEffect,PlayerEffects>> EFFECTS = new HashMap<>();
+    private static final HashMap<UUID, HashMap<AbstractEffect,PlayerEffects>> EFFECTS = new HashMap<>();
     //when player login after server start ,they may contains effect attributes
-    public static void initAllEffects(Player p) {
+    private static void initAllEffects(Player p) {
         int len=REGISTERED_EFFECTS.size();
         for(AbstractEffect effect : REGISTERED_EFFECTS) {
             effect.initEffect(p);
         }
     }
-    //should be syc
+    /**
+     * 该操作会自动把自己变成同步的
+     * @param p
+     */
     public static void clearEffect(Player p, AbstractEffect effect) {
+        Schedules.launchSchedules(()->{
          PlayerEffects eff= EFFECTS.get(p).get(effect);
          if(eff != null) {
              eff.finish();
-         }
+         }},0,true,0);
     }
+
+    /**
+     * 该操作只能在同步线程中调用
+     * @param p
+     */
     public static void clearAllEffects(Player p) {
-        ConcurrentHashMap<AbstractEffect,PlayerEffects> effects = EFFECTS.get(p.getUniqueId());
+        HashMap<AbstractEffect,PlayerEffects> effects = EFFECTS.get(p.getUniqueId());
         Set<AbstractEffect> effectSet = effects.keySet();
         for(AbstractEffect effect : effectSet) {
             PlayerEffects eff= effects.get(effect);
@@ -47,16 +56,23 @@ public class ScheduleEffects {
                 eff.finish();
         }
     }
+
+    /**
+     * 该操作只能在death监听器中调用
+     * @param e
+     */
     public static void clearEffectsOnDeath(PlayerDeathEvent e) {
         Player p = e.getEntity();
-        ConcurrentHashMap<AbstractEffect,PlayerEffects> effects = EFFECTS.get(p.getUniqueId());
-        Set<AbstractEffect> effectSet = effects.keySet();
-        for(AbstractEffect effect : effectSet) {
-            PlayerEffects eff= effects.get(effect);
-            if(eff!=null){
-                eff.getType().onDeathEvent(e);
-                if(eff.getType().onDeathClear()){
-                    eff.finish();
+        synchronized (lock){
+            HashMap<AbstractEffect,PlayerEffects> effects = EFFECTS.get(p.getUniqueId());
+            Set<AbstractEffect> effectSet = effects.keySet();
+            for(AbstractEffect effect : effectSet) {
+                PlayerEffects eff= effects.get(effect);
+                if(eff!=null){
+                    eff.getType().onDeathEvent(e);
+                    if(eff.getType().onDeathClear()){
+                        eff.finish();
+                    }
                 }
             }
         }
@@ -65,58 +81,82 @@ public class ScheduleEffects {
     public static boolean hasEffects(Player p,AbstractEffect effect) {
         return EFFECTS.get(p).containsKey(effect);
     }
+
+
+    /**
+     * 该操作只能在同步线程中调用!
+     * @param player
+     * @param effect
+     * @return
+     */
     public static void addEffect(Player player, PlayerEffects effect){
-        addEffect(player,effect,(player1 -> {return true;}));
+        addEffect(player,effect,(player1 -> true));
     }
-    public static boolean addEffect(Player player, PlayerEffects effect, Function<Player,Boolean> predicate) {
-
-        if (EFFECTS.containsKey(player.getUniqueId())) {
-            ConcurrentHashMap<AbstractEffect,PlayerEffects> effects = EFFECTS.get(player.getUniqueId());
-            PlayerEffects old = effects.get(effect.getType());
-            if(predicate.apply(player)){
-                if(old==null) {
-                    effects.put(effect.getType(), effect);
-                }else {
-                    old.extend(effect);
-                }
-                return true;
-            }else {
-                return false;
-            }
-        }else{
-
-            ConcurrentHashMap<AbstractEffect,PlayerEffects> effects = new ConcurrentHashMap<>();
-            if(predicate.apply(player)){
-                effects.put(effect.getType(), effect);
-                EFFECTS.put(player.getUniqueId(),effects);
-                return true;
-            }
-            EFFECTS.put(player.getUniqueId(),effects);
-            return false;
-        }
-    }
-    public static void scheduleEffects(){
-        for (Player player : Bukkit.getOnlinePlayers()){
+    /**
+     * 该操作只能在同步线程中调用!
+     * @param player
+     * @param effect
+     * @return
+     */
+    private static byte[] lock = new byte[0];
+    public static void addEffect(Player player, PlayerEffects effect, Function<Player,Boolean> predicate) {
+        synchronized(lock){
             if (EFFECTS.containsKey(player.getUniqueId())) {
-                ConcurrentHashMap<AbstractEffect,PlayerEffects> effects = EFFECTS.get(player.getUniqueId());
-
-                for(Map.Entry<AbstractEffect,PlayerEffects> entry : effects.entrySet()){
-                    PlayerEffects effect = entry.getValue();
-
-
-
-                    if(effect.isFinished()){
-                        effect.end(player);
-                        effects.remove(entry.getKey());
+                HashMap<AbstractEffect,PlayerEffects> effects = EFFECTS.get(player.getUniqueId());
+                PlayerEffects old = effects.get(effect.getType());
+                if(predicate.apply(player)){
+                    if(old==null) {
+                        effects.put(effect.getType(), effect);
                     }else {
-                        effect.tick(player);
+                        old.extend(effect);
                     }
+                    Schedules.launchSchedules(()-> {
+                        effect.start(player);
+                    },0,true,0);
                 }
             }else{
-
-                initAllEffects(player);
-                EFFECTS.put(player.getUniqueId(),new ConcurrentHashMap<>());
+                HashMap<AbstractEffect,PlayerEffects> effects = new HashMap<>();
+                if(predicate.apply(player)){
+                    effects.put(effect.getType(), effect);
+                    EFFECTS.put(player.getUniqueId(),effects);
+                    Schedules.launchSchedules(()-> {
+                        effect.start(player);
+                    },0,true,0);
+                    return;
+                }
+                EFFECTS.put(player.getUniqueId(),effects);
             }
         }
     }
+
+    /**
+     * 该runnable只能在Schedules的effect线程运行
+     */
+    public static void scheduleEffects(){
+    HashMap<AbstractEffect,PlayerEffects> effects;
+
+        for (Player player : Bukkit.getOnlinePlayers()){
+            synchronized(lock){
+                if (EFFECTS.containsKey(player.getUniqueId())) {
+                    effects = EFFECTS.get(player.getUniqueId());
+                    if(effects.isEmpty())continue;
+                    for(Map.Entry<AbstractEffect,PlayerEffects> entry : effects.entrySet()){
+                        PlayerEffects effect = entry.getValue();
+                        if(effect.isFinished()){
+                            effect.end(player);
+
+                            effects.remove(entry.getKey());
+
+                        }else {
+                            effect.tick(player);
+                        }
+                    }
+                }else{
+                    initAllEffects(player);
+                    EFFECTS.put(player.getUniqueId(),new HashMap<>());
+                }
+            }
+        }
+    }
+
 }

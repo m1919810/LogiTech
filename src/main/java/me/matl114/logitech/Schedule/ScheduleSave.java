@@ -5,6 +5,10 @@ import java.util.HashSet;
 public class ScheduleSave {
     public static HashSet<Runnable> FINAL_SAVES = new HashSet<>();
     public static HashSet<Runnable> PERIODIC_SAVES = new HashSet<>();
+
+    /**
+     *
+     */
     public static void onFinalSave(){
         for (Runnable task : PERIODIC_SAVES) {
             task.run();
@@ -30,7 +34,7 @@ public class ScheduleSave {
     }
 
     /**
-     * will save when server off
+     * will save when server off, WARNING! NO SCHEDULE LAUNCHED IN THIS PART
      * @param task
      */
     public static void addFinalTask(Runnable task){

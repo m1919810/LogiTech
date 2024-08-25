@@ -13,6 +13,7 @@ import me.matl114.logitech.SlimefunItem.Machines.MultiCraftType;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomMenu;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
+import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -29,7 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StackMGenerator extends MMGenerator implements MultiCraftType {
+public class StackMGenerator extends MMGenerator implements MultiCraftType, ImportRecipes {
     protected final int[] BORDER=new int[]{
             6,7,8,12,14,15,17,21,23,24,25,26
     };
@@ -113,7 +114,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType {
         return BW_LIST_ENERGYCOMSUME[index];
     }
     public void addInfo(ItemStack stack){
-
+        stack.setItemMeta( AddUtils.capacitorInfoAdd(stack,energybuffer).getItemMeta());
     }
     public MachineRecipe getRecordRecipe(Location loc){
         return getRecordRecipe(DataCache.safeLoadBlock(loc));
@@ -255,10 +256,22 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType {
                     inv.replaceExistingItem(MINFO_SLOT,getInfoItem(craftLimit,consumption,energy,
                             this.efficiency,ItemStackHelper.getDisplayName(inv.getItemInSlot(MACHINE_SLOT))));
                 }
-
+                progressorCost(b,inv);
                 if(tick<=0){
-                    process(b,inv,data);
+                    MachineRecipe nextP = CraftUtils.matchNextRecipe(inv, getInputSlots(),getMachineRecipes(data),
+                            true, Settings.SEQUNTIAL,CRAFT_PROVIDER);
+                    if (nextP != null) {
+                        if (tick == 0){
+                            int maxMultiple = getCraftLimit(data);
+                            if (maxMultiple == 1) {
+                                CraftUtils.pushItems(nextP.getOutput(), inv, getOutputSlots(), CRAFT_PROVIDER);
+                            } else {
 
+                                CraftUtils.multiPushItems(nextP.getOutput(),inv, getOutputSlots(), maxMultiple, CRAFT_PROVIDER);
+                            }
+                        }
+                        DataCache.setCustomData(data,"tick",nextP.getTicks()-1);
+                    }
                 }else{
                     DataCache.setCustomData(data,"tick",tick-1);
                 }
@@ -280,6 +293,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType {
             }
         }
     }
+
     public void onBreak(BlockBreakEvent e, BlockMenu inv){
         if(inv!=null){
             Location loc=inv.getLocation();

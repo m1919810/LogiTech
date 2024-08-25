@@ -22,7 +22,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
-import java.util.function.Supplier;
 
 public abstract class AbstractSorter extends AbstractSyncTickCargo implements  ChipControllable {
     public static SyncBlockTick SORTER_SYNC =new SyncBlockTick();
@@ -105,7 +104,7 @@ public abstract class AbstractSorter extends AbstractSyncTickCargo implements  C
             inv.replaceExistingItem(getInfoSlot(),getInfoItem(code,synTickCount));
         int[] inputs=getInputSlots();
         int slot=inputs[ MathUtils.bitCount(code,(synTickCount%32)+1)%inputs.length];
-        TransportUtils.transportItem(inv,new int[]{slot},inv,getOutputSlots(), CargoConfigs.getDefaultConfig(),null,CraftUtils.getpusher);
+        TransportUtils.transportItem(inv,new int[]{slot},inv,getOutputSlots(), CargoConfigs.getDefaultConfig(),false,null,CraftUtils.getpusher);
     }
     public int[] getSlotsAccessedByItemTransportPlus(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item){
         if(flow==ItemTransportFlow.WITHDRAW){

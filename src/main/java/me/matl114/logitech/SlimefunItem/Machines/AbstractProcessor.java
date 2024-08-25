@@ -65,7 +65,7 @@ public abstract class AbstractProcessor extends AbstractMachine implements Machi
     public AbstractProcessor(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                              Material progressItem, int energyConsumption, int energyBuffer,
                              LinkedHashMap<Object, Integer> customRecipes){
-        this(category,item,recipeType,recipe,new ItemStack(progressItem),energyBuffer,energyConsumption,customRecipes);
+        this(category,item,recipeType,recipe,new ItemStack(progressItem),energyConsumption,energyBuffer,customRecipes);
     }
 
     /**

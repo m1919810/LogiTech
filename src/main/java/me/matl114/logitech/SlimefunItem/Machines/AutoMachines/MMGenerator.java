@@ -46,6 +46,7 @@ public class MMGenerator extends AbstractTransformer {
     }
     public void addInfo(ItemStack stack){
         stack.setItemMeta( AddUtils.smgInfoAdd(stack,time).getItemMeta() );
+        super.addInfo(stack);
     }
 
     public void constructMenu(BlockMenuPreset preset) {

@@ -6,6 +6,7 @@ import me.matl114.logitech.Utils.Settings;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -26,6 +27,20 @@ public class ItemConsumer extends ItemCounter {
         super.init(item);
         this.targetConsumers = null;
     }
+//    public ItemMeta getMeta() {
+//        if(item.hasItemMeta()){
+//            if (meta==null){
+//                //check if const item stack
+//                if(item instanceof ConstItemStack cis){
+//                    meta= cis.getItemMetaConst();
+//                }else{
+//                    meta=item.getItemMeta();
+//                }
+//            }
+//            return meta;
+//        }
+//        return null;
+//    }
     public void updateItemStack(){
         throw new NotImplementedException("this method should not be called");
     }
@@ -50,11 +65,11 @@ public class ItemConsumer extends ItemCounter {
     }
     public void grab(ItemPusher target){
         super.grab(target);
-        addRelate(target);
+      //  addRelate(target);
     }
     public void push(ItemPusher target){
         target.grab(this);
-        addRelate(target);
+       // addRelate(target);
     }
     /**
      * clear all modifi

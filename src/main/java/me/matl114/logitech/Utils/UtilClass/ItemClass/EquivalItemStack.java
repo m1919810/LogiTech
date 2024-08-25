@@ -12,7 +12,7 @@ public class EquivalItemStack extends ItemStack implements MultiItemStack {
     public double[] weightSum;
     public int sum;
     public EquivalItemStack(HashMap<ItemStack ,Integer> itemSettings) {
-        super(Material.AIR);
+        super(Material.STONE);
         this.sum=itemSettings.keySet().size();
         this.itemList=new ItemStack[sum];
         this.itemWeight=new Double[sum];
@@ -25,7 +25,7 @@ public class EquivalItemStack extends ItemStack implements MultiItemStack {
             itemList[cnt] = entry.getKey();
             itemWeight[cnt]= 1.0/(double)weight;
             weightSum[cnt+1]=weightSum[cnt]+itemWeight[cnt];
-            cnt++;
+            ++cnt;
         }
     }
     //递归地解析全体物品列

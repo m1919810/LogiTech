@@ -11,6 +11,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.SlimefunItem.Machines.*;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
+import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.ItemStorageCache;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
@@ -29,7 +30,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
-public class FinalManual extends AbstractManual implements MultiCraftType {
+public class FinalManual extends AbstractManual implements MultiCraftType, ImportRecipes {
     protected final int[] INPUT_SLOT = new int[]{3,4,5,6,7,8,12,13,14,15,16,17,21,22,23,24,25,26,30,31,32,33,34,35,39,40,41,42,43,44,48,49,50,51,52,53};
     protected final int[] OUTPUT_SLOT=new int[]{30,31,32,33,34,35,39,40,41,42,43,44,48,49,50,51,52,53,3,4,5,6,7,8,12,13,14,15,16,17,21,22,23,24,25,26};
     protected static final int RECIPE_ITEM_SLOT=0;

@@ -174,11 +174,12 @@ public class MenuUtils {
         if(it==null||it.getType().isAir())return null;
         ItemStack finalStack;
         if(it instanceof RandomItemStack||it instanceof ProbItemStack){
+            List<ItemStack> list=((MultiItemStack)it).getItemStacks();
             List<String> namelist=new ArrayList<>(){{
                 add("");
                 add("&3随机物品输出~");
-                List<ItemStack> list=((RandomItemStack)it).getItemStacks();
-                List<Double> wlist=((RandomItemStack)it).getWeight(1.0);
+
+                List<Double> wlist=((MultiItemStack)it).getWeight(1.0);
                 int len=list.size();
                 for(int i=0;i<len;i++){
                     add(AddUtils.concat(  "&f",
@@ -188,13 +189,14 @@ public class MenuUtils {
                 }
             }};
             //如果是proItemStack就获得其实例 因为不能整一个air出来
-            ItemStack sample=(it instanceof ProbItemStack)?new ItemStack(it):it.clone();
+            ItemStack sample=list.get(0);
+            if(sample.getType().isAir())return null;
             finalStack= AddUtils.addLore(sample,namelist.toArray(new String[namelist.size()]));
         }else if(it instanceof EquivalItemStack){
+            List<ItemStack> list=((EquivalItemStack)it).getItemStacks();
             List<String> namelist=new ArrayList<>(){{
                 add("");
                 add("&3等价物品输入~");
-                List<ItemStack> list=((EquivalItemStack)it).getItemStacks();
                 int len=list.size();
                 for(int i=0;i<len;i++){
                     add(AddUtils.concat(  "&f",
@@ -202,7 +204,9 @@ public class MenuUtils {
                             " ",getAmountDisplay(list.get(i))) );
                 }
             }};
-            finalStack= AddUtils.addLore(it.clone(),namelist.toArray(new String[namelist.size()]));
+            ItemStack sample=list.get(0);
+            if(sample.getType().isAir())return null;
+            finalStack= AddUtils.addLore(sample,namelist.toArray(new String[namelist.size()]));
         }
         else if(it instanceof RandAmountStack){
             finalStack=AddUtils.addLore(new ItemStack(it),AddUtils.concat("&e随机数量: ",getAmountDisplay(it)));
@@ -236,10 +240,12 @@ public class MenuUtils {
             }else{
                 a.setBackHandler(CustomMenuHandler.from(CLOSE_HANDLER));
             }
-            if(recipe.getTicks()>=0)
-                a.addInventory(RECIPETYPESLOT_3X3,AddUtils.addLore(machine,"","&a在该机器中耗时"+recipe.getTicks()+"&at制作"));
-            else
-                a.addInventory(RECIPETYPESLOT_3X3,AddUtils.addLore(machine,"","&a在该机器中制作"));
+            if(machine!=null&&!machine.getType().isAir()){
+                if(recipe.getTicks()>=0)
+                    a.addInventory(RECIPETYPESLOT_3X3,AddUtils.addLore(machine,"","&a在该机器中耗时"+recipe.getTicks()+"&at制作"));
+                else
+                    a.addInventory(RECIPETYPESLOT_3X3,AddUtils.addLore(machine,"","&a在该机器中制作"));
+            }
             for(int i=0;i<input.length;++i){
                 a.addInventory(RECIPESLOT_3X3[i],getDisplayItem(input[i]) );
                 SlimefunItem sfitem=SlimefunItem.getByItem(input[i]);
@@ -366,7 +372,7 @@ public class MenuUtils {
             }else{
                 final List<MachineRecipe> machineRecipes=recipe;
                 a.addHandler(i,(customMenuHandler) ->((player, i1, itemStack, clickAction) -> {
-                    createMRecipeListDisplay(map.get(entry),machineRecipes,customMenuHandler.getOpenThisHandler(pageNum)).build().open(player);
+                    createMRecipeListDisplay(map.get(entry),machineRecipes,customMenuHandler.getOpenThisHandler(currentPage)).build().open(player);
                     return false;
                 }));
             }

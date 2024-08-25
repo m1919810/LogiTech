@@ -7,6 +7,7 @@ import dev.sefiraat.sefilib.entity.display.builders.ItemDisplayBuilder;
 import dev.sefiraat.sefilib.misc.TransformationBuilder;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.Schedule.ScheduleSave;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockPart;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiPart;
 import me.matl114.logitech.Utils.AddUtils;
@@ -25,7 +26,7 @@ public class MultiBlockService {
         ScheduleSave.addFinalTask(()->{
             Set<Location> locs=HOLOGRAM_CACHE.keySet();
             for(Location loc:locs){
-                removeHologram(loc);
+                removeHologramSync(loc);
             }
         });
     }
@@ -91,6 +92,12 @@ public class MultiBlockService {
             v.setZ(y);
             return v;
         }
+        public int getRotateX(int x,int z){
+            return x*dx+z*dy;
+        }
+        public int getRotateZ(int x,int z){
+            return -x*dy+z*dx;
+        }
         public static Direction getDirection(Location loc){
             try{
                 String __= StorageCacheUtils.getData(loc,"mb-dir");
@@ -117,6 +124,15 @@ public class MultiBlockService {
                 default:str1="0";
             }
             StorageCacheUtils.setData(loc,"mb-dir",str1);
+        }
+        public static Direction fromInt(int i){
+            switch(i){
+                case 0:return Direction.NORTH;
+                case 1:return Direction.EAST;
+                case 2:return Direction.SOUTH;
+                case 3:return Direction.WEST;
+                default:return Direction.NORTH;
+            }
         }
     }
     public interface MultiBlockBuilder{
@@ -172,9 +188,17 @@ public class MultiBlockService {
                 return true;
             }else {
                 //发出关闭信号,等待下一次coreRequest响应
+
                 handler.setActive(false);
                 return false;
             }
+        }
+    }
+    public static void toggleOff(SlimefunBlockData data){
+        String uid=DataCache.getLastUUID(data);
+        AbstractMultiBlockHandler handler=MULTIBLOCK_CACHE.get(uid);
+        if(handler!=null){
+            handler.setActive(false);
         }
     }
         //called in tickers
@@ -249,7 +273,8 @@ public class MultiBlockService {
                 if( handler.acceptCoreRequest()){
                     return true;
                 }else {
-                    deleteMultiBlock(handler.getUid());
+                    //contains auto called delete
+                    handler.destroy();
                     setStatus(loc,0);
                     DataCache.setLastUUID(loc,"null");
 
@@ -282,6 +307,15 @@ public class MultiBlockService {
 
     public static void removeHologram(Location loc){
 
+        DisplayGroup displayGroup=HOLOGRAM_CACHE.remove(loc);
+        if(displayGroup!=null){
+            Schedules.launchSchedules(
+                    displayGroup::remove,
+                    0,true,0);
+        }
+        DataCache.setCustomData(loc,"holo",0);
+    }
+    public static void removeHologramSync(Location loc){
         DisplayGroup displayGroup=HOLOGRAM_CACHE.remove(loc);
         if(displayGroup!=null){
             displayGroup.remove();

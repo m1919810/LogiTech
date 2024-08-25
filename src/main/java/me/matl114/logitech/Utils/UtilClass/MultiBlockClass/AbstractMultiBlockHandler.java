@@ -13,7 +13,8 @@ public interface AbstractMultiBlockHandler {
      * @return
      */
     public Location getCore() ;
-
+    public MultiBlockService.Direction getDirection();
+    public AbstractMultiBlock getMultiBlock();
     /**
      * is multiblock be build
      * @return
@@ -21,8 +22,6 @@ public interface AbstractMultiBlockHandler {
     public boolean isActive();
     //响应部件信号
     public void setActive(boolean active);
-
-
     /**
      * accept in part ticks
      * @param loc
@@ -31,8 +30,9 @@ public interface AbstractMultiBlockHandler {
     //响应主核信号 返回是否还正常
 
     /**
-     * accept in core ticks,check if active and return boolean value,when active is down, destroy the multiblock
-     * @return
+     * accept in core ticks,check if active and return boolean value,when active is down, return false,
+     * the service method will call the  destroy method
+     *  @return
      */
     public boolean acceptCoreRequest();
 
@@ -70,8 +70,7 @@ public interface AbstractMultiBlockHandler {
     public String getUid();
 
     /**
-     * called on destroy action
+     * this method should called onMultiBlockDisable for CORE and reset blockdata!
      */
     public void destroy();
-
 }

@@ -137,9 +137,12 @@ public class TransportUtils {
     }
     //TODO 增加transportItemClever 兼容输入槽
     public static void transportItemGeneral(BlockMenu from, BlockMenu to, int ConfigCode, HashSet<ItemStack> bwlist){
-        transportItem(from,to,ConfigCode,bwlist,CraftUtils.getpusher);
+        transportItem(from,to,ConfigCode,false,bwlist,CraftUtils.getpusher);
     }
-    public static void transportItem(BlockMenu from,BlockMenu to ,int configCode,HashSet<ItemStack> bwlist,ItemPusherProvider provider){
+    public static void transportItemSmarter(BlockMenu from, BlockMenu to, int ConfigCode, HashSet<ItemStack> bwlist){
+       transportItem(from,to,ConfigCode,true,bwlist,CraftUtils.getpusher);
+    }
+    public static void transportItem(BlockMenu from,BlockMenu to ,int configCode,boolean smart,HashSet<ItemStack> bwlist,ItemPusherProvider provider){
         boolean from_input= CargoConfigs.FROM_INPUT.getConfig(configCode);
         boolean to_output= CargoConfigs.TO_OUTPUT.getConfig(configCode);
 
@@ -150,18 +153,22 @@ public class TransportUtils {
                     :from.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
             ItemTransportFlow flow=to_output?ItemTransportFlow.WITHDRAW:ItemTransportFlow.INSERT;
             int[] toSlot= to.getPreset().getSlotsAccessedByItemTransport(flow);
-            transportItem(from,fromSlot,to,toSlot,configCode,bwlist,provider);
+            //只有目标INSERT才需要
+            smart=smart&&flow==ItemTransportFlow.INSERT;
+            transportItem(from,fromSlot,to,toSlot,configCode,smart,bwlist,provider);
         }else {
             int[] toSlot=to_output?
                     to.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW)
                     :to.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.INSERT);
             ItemTransportFlow flow=from_input?ItemTransportFlow.INSERT:ItemTransportFlow.WITHDRAW;
             int[] fromSlot= from.getPreset().getSlotsAccessedByItemTransport(flow);
-            transportItem(to,toSlot,from,fromSlot,configCode,bwlist,provider);
+            //只有目标INSERT才需要
+            smart=smart&&flow==ItemTransportFlow.INSERT;
+            transportItem(to,toSlot,from,fromSlot,configCode,smart,bwlist,provider);
         }
     }
     public static void transportItem(BlockMenu from,int[] fromSlot,BlockMenu to,int[] toSlot,int configCode,
-                                     HashSet<ItemStack> bwList,ItemPusherProvider provider){
+            boolean smart, HashSet<ItemStack> bwList,ItemPusherProvider provider){
         boolean issymm=CargoConfigs.IS_SYMM.getConfig(configCode);
         boolean isnull=CargoConfigs.IS_NULL.getConfig(configCode);
         boolean islazy=CargoConfigs.IS_LAZY.getConfig(configCode);
@@ -170,7 +177,12 @@ public class TransportUtils {
         if(issymm){
             transportItemSymm(from,fromSlot,to,toSlot,isnull,islazy,iswtlist,bwList,limit,provider);
         }else{
-            transportItemGreedy(from,fromSlot,to,toSlot,isnull,islazy,iswtlist,bwList,limit,provider);
+            if(!smart){
+                transportItemGreedy_2(from,fromSlot,to,toSlot,isnull,islazy,iswtlist,bwList,limit,provider);
+            }else {
+                limit=Math.min(limit,576);
+                transportItemSmart_2(from,fromSlot,to,toSlot,isnull,islazy,iswtlist,bwList,limit,provider);
+            }
         }
     }
 
@@ -203,18 +215,17 @@ public class TransportUtils {
         }return false;
     }
     //FIXME performance badly when lots of MAXSIZE item in target slot,try mark
-    //FIXME may cause sth
     public static void transportItemGreedy(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,
                                            boolean isnull,boolean lazy,boolean whitlist, HashSet<ItemStack> blacklist, int translimit,
                                            ItemPusherProvider provider){
         List<ItemPusher> record=new ArrayList<>(6);
         int recordlen=0;
         int len=fromSlot.length;
-        //TODO 从1开始，from槽位中的物品会被标记， 标记为相同的说明match
-        //TODO 如果与某个输出里的槽位match 如果它有一个先前的编号 则将当前item设置为这个编号
-        //TODO 若没有标记或者空槽将会被push，会标记最后一个为id，因为一次匹配链最多只有一个非满槽位出现
-        //TODO 设置为-1会让后续跳过匹配 比如黑名单或者槽位已满
-        //TODO 当前问题 重复获取了太多满槽,导致开销过大,
+        //T 从1开始，from槽位中的物品会被标记， 标记为相同的说明match
+        //TOD 如果与某个输出里的槽位match 如果它有一个先前的编号 则将当前item设置为这个编号
+        //TOD 若没有标记或者空槽将会被push，会标记最后一个为id，因为一次匹配链最多只有一个非满槽位出现
+        //TOD 设置为-1会让后续跳过匹配 比如黑名单或者槽位已满
+        //TOD 当前问题 重复获取了太多满槽,导致开销过大,
         int len2=toSlot.length;
         int[] toRecord=new int[len2];
         //输入输出槽的缓存，将会在这里进行数量操作,最终同步
@@ -243,8 +254,8 @@ public class TransportUtils {
             int getRecordIndex=0;
             boolean hasGotRecord=false;
             //获得可推送的槽位，其实基本上所有机器都是一样的输出槽,小部分有限制会不一样
-            //TODO 将此处遍历变成可变长度 减少后续搜索开销。并且支持快速删除
-            //TODO 需要实现简易链表
+            //TOD 将此处遍历变成可变长度 减少后续搜索开销。并且支持快速删除
+            //TOD 需要实现简易链表
             for(int index=0;index<toSlot.length;++index){
                 //
                 if(toRecord[index]!=-1){
@@ -322,17 +333,16 @@ public class TransportUtils {
 
 
     //FIXME performance badly when lots of MAXSIZE item in target slot,try mark
-    //FIXME may cause sth
     public static void transportItemGreedy_2_workspace(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,
                                            boolean isnull,boolean lazy,boolean whitlist, HashSet<ItemStack> blacklist, int translimit,
                                            ItemPusherProvider provider){
         //int recordlen=0;
         int len=fromSlot.length;
-        //TODO 从1开始，from槽位中的物品会被标记， 标记为相同的说明match
-        //TODO 如果与某个输出里的槽位match 如果它有一个先前的编号 则将当前item设置为这个编号
-        //TODO 若没有标记或者空槽将会被push，会标记最后一个为id，因为一次匹配链最多只有一个非满槽位出现
-        //TODO 设置为-1会让后续跳过匹配 比如黑名单或者槽位已满
-        //TODO 当前问题 重复获取了太多满槽,导致开销过大,
+        //TOD 从1开始，from槽位中的物品会被标记， 标记为相同的说明match
+        //TOD 如果与某个输出里的槽位match 如果它有一个先前的编号 则将当前item设置为这个编号
+        //TOD 若没有标记或者空槽将会被push，会标记最后一个为id，因为一次匹配链最多只有一个非满槽位出现
+        //TOD 设置为-1会让后续跳过匹配 比如黑名单或者槽位已满
+        //TOD 当前问题 重复获取了太多满槽,导致开销过大,
         int len2=toSlot.length;
         int[] toRecord=new int[len2];
         //输入输出槽的缓存，将会在这里进行数量操作,最终同步
@@ -370,8 +380,8 @@ public class TransportUtils {
             //int getRecordIndex=0;
             //boolean hasGotRecord=false;
             //获得可推送的槽位，其实基本上所有机器都是一样的输出槽,小部分有限制会不一样
-            //TODO 将此处遍历变成可变长度 减少后续搜索开销。并且支持快速删除
-            //TODO 需要实现简易链表
+            //TOD 将此处遍历变成可变长度 减少后续搜索开销。并且支持快速删除
+            //TOD 需要实现简易链表
             for(int index=0;index<indexLen;++index){
                 //
                 if(toRecord[index]!=-1){
@@ -386,7 +396,7 @@ public class TransportUtils {
                         translimit-=fromAmount;
                         //translimit=toPusher.transportFrom(fromPusher,translimit);
                         //拆开写转运
-                        //TODO 将update改到不同的地方 不要做存储
+                        //TOD 将update改到不同的地方 不要做存储
                         if(fromAmount==fromPusher.getMaxStackCnt()){
                             //满了,全转,下次别来了
                             fromPusher.setAmount(0);
@@ -403,16 +413,16 @@ public class TransportUtils {
                         toRecord[index]=-1;
                         continue;
                     }else {//存在东西 需要考虑该怎么推送的问题
-                        //TODO 为什么这个record是没有必要的
-                        //TODO 证据：首先 在场上只会有最多一个非满的某个record位
-                        //TODO 因为一开始都没有
-                        //TODO 你需要通过比较才能出 而每次最多出一个
-                        //TODO 但是你作为fromCache第一次比较就必定要比到这个record 所以有和没有都一样。
-                        //TODO 所以删除
+                        //TOD 为什么这个record是没有必要的
+                        //TOD 证据：首先 在场上只会有最多一个非满的某个record位
+                        //TOD 因为一开始都没有
+                        //TOD 你需要通过比较才能出 而每次最多出一个
+                        //TOD 但是你作为fromCache第一次比较就必定要比到这个record 所以有和没有都一样。
+                        //TOD 所以删除
                         //if(!hasGotRecord){//不存在类型记录,至少暂时的
                         if(CraftUtils.matchItemCounter(fromPusher,toPusher,false)){//如果匹配
                             translimit=toPusher.transportFrom(fromPusher,translimit);
-                            //TODO 将update改到不同的地方 不要做存储
+                            //TOD 将update改到不同的地方 不要做存储
                             toPusher.updateMenu(to);
                             fromPusher.updateMenu(from);
                             //尝试维护历史记录,如果恰好匹配上了,那会挺不错的
@@ -475,6 +485,20 @@ public class TransportUtils {
     }
 
     //#TODO GREAT IMPROVEMENT
+
+    /**
+     * second version of transportGreedy, greate improvement of fullsize destination transportation
+     * @param from
+     * @param fromSlot
+     * @param to
+     * @param toSlot
+     * @param isnull
+     * @param lazy
+     * @param whitlist
+     * @param blacklist
+     * @param translimit
+     * @param provider
+     */
     public static void transportItemGreedy_2(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,
                                              boolean isnull,boolean lazy,boolean whitlist, HashSet<ItemStack> blacklist, int translimit,
                                              ItemPusherProvider provider){
@@ -503,13 +527,121 @@ public class TransportUtils {
         ItemPusher fromPusher ;
         ItemPusher toPusher;
         int fromAmount;
+        int maxSizeSlotTill=0;
         loop:
         for(int i=0;i<len;++i){
             fromPusher=provider.get(Settings.INPUT,from,fromSlot[i]);
             if(fromPusher==null||(inbwlist(blacklist,fromPusher)^whitlist)){
                 continue;
             }
-            for(int index=0;index<indexLen;++index){
+            for(int index=maxSizeSlotTill;index<indexLen;++index){
+                if(!toRecord[index]){
+                    toPusher=toCache.get(index);
+                    if(toPusher.getItem()==null){
+                        toPusher.setFrom(fromPusher);
+                        //转运方法,
+                        fromAmount=Math.min(translimit, fromPusher.getAmount());
+                        toPusher.setAmount(fromAmount);
+                        translimit-=fromAmount;
+                        //拆开写转运
+                        //
+                        if( fromAmount==fromPusher.getMaxStackCnt()){
+                            //满了 或者非空了 ?,全转,下次别来了
+                            fromPusher.setAmount(0);
+                            //标记为true说明已经转完了
+                            toRecord[index]=true;
+                            maxSizeSlotTill+=(index==maxSizeSlotTill)?1:0;
+                        }else {
+                            fromPusher.addAmount(-fromAmount);
+                            //设置历史,如果为空按理说应该没有先前的设置过
+                        }
+                        toPusher.updateMenu(to);
+                        fromPusher.updateMenu(from);
+                        //FIXME 非空逻辑有问题 需要在获取槽位的时候剔除掉
+                    }else {
+                        if(CraftUtils.matchItemCounter(fromPusher,toPusher,false)){//如果匹配
+                            translimit=toPusher.transportFrom(fromPusher,translimit);
+                            //TODO 将update改到不同的地方 不要做存储
+                            toPusher.updateMenu(to);
+                            fromPusher.updateMenu(from);
+                        }
+                    }
+                    //结束了,,
+                    //没有转运份额了,终结
+                    if(translimit==0){
+                        break loop;
+                    }
+                    if(fromPusher.getAmount()<=0){
+                        break;
+                    }
+                }
+            }
+            if(lazy&&fromPusher.isDirty()){
+                //当前非空 且被运输了 并且是首位阻断模式 直接退出
+                break ;
+            }
+            //不一样则新增record,下次用
+        }
+    }
+
+    /**
+     * use slot limit of getSlotAccess
+     * @param from
+     * @param fromSlot
+     * @param to
+     * @param toSlot
+     * @param isnull
+     * @param lazy
+     * @param whitlist
+     * @param blacklist
+     * @param translimit
+     * @param provider
+     */
+    public static void transportItemSmart_2(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,
+                                             boolean isnull,boolean lazy,boolean whitlist, HashSet<ItemStack> blacklist, int translimit,
+                                             ItemPusherProvider provider){
+        int len=fromSlot.length;
+        int len2=toSlot.length;
+        int[] toCacheIndex=new int[len2];
+        int indexLen=0;
+        ItemStack stack;
+        int[] slotMappers=new int[54];//we assert that slot is under 54
+        for(int i=0;i<len2;++i){
+            stack=to.getItemInSlot(toSlot[i]);
+            //如果是空 则大概率要考虑这玩意
+            if(stack==null){
+                toCacheIndex[indexLen]=toSlot[i];
+                ++indexLen;
+                slotMappers[toSlot[i]]=indexLen;//以区别0
+            }
+            //如果不是非空模式 且非满 才要考虑这玩意
+            else if(!isnull&&stack.getAmount()!=stack.getMaxStackSize()){
+                toCacheIndex[indexLen]=toSlot[i];
+                ++indexLen;
+                slotMappers[toSlot[i]]=indexLen;//+1.，以区别0
+            }
+        }
+        //我那么大一个输出槽呢？
+        if(indexLen<=0)return;
+        DynamicArray<ItemPusher> toCache=new DynamicArray<>(ItemPusher[]::new,indexLen,(i)->(provider.get(Settings.OUTPUT,to,toCacheIndex[i])));
+        boolean[] toRecord=new boolean[indexLen];
+        ItemPusher fromPusher ;
+        ItemPusher toPusher;
+        int fromAmount;
+        int[] restrictedInsertSlot;
+        int index;
+        loop:
+        for(int i=0;i<len;++i){
+            fromPusher=provider.get(Settings.INPUT,from,fromSlot[i]);
+            if(fromPusher==null||(inbwlist(blacklist,fromPusher)^whitlist)){
+                continue;
+            }
+            restrictedInsertSlot=to.getPreset().getSlotsAccessedByItemTransport(to,ItemTransportFlow.INSERT,fromPusher.getItem());
+            int restrictedLen=restrictedInsertSlot.length;
+            for(int j=0;j<restrictedLen;++j){
+                index=slotMappers[restrictedInsertSlot[j]]-1;
+                //not in available slots
+                if(index<0)continue ;
                 if(!toRecord[index]){
                     toPusher=toCache.get(index);
                     if(toPusher.getItem()==null){
@@ -557,7 +689,6 @@ public class TransportUtils {
             //不一样则新增record,下次用
         }
     }
-
 
 
 

@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiCore;
 import me.matl114.logitech.SlimefunItem.Cargo.Links.HyperLink;
@@ -105,6 +106,7 @@ public class PortalCore extends MultiCore {
         Block block3=block2.getRelative(BlockFace.UP);
         WorldUtils.removeSlimefunBlock(block2.getLocation(),true);
         WorldUtils.removeSlimefunBlock(block3.getLocation(),true);
+        Schedules.launchSchedules(()->{
         block3.setType(Material.NETHER_PORTAL);
         block2.setType(Material.NETHER_PORTAL);
         //南北向的
@@ -121,17 +123,19 @@ public class PortalCore extends MultiCore {
                 block3.setBlockData(state3);
             }
         }
-
+        },0,true,0);
     }
     public void deletePortal(Block block1){
         Block block2=block1.getRelative(BlockFace.UP);
         Block block3=block2.getRelative(BlockFace.UP);
+        Schedules.launchSchedules(()->{
         if(block2.getType()==Material.NETHER_PORTAL){
             block2.setType(Material.AIR);
         }
         if(block3.getType()==Material.NETHER_PORTAL){
             block3.setType(Material.AIR);
         }
+        },0,true,0);
     }
     public void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler){
         super.onMultiBlockDisable(loc,handler);

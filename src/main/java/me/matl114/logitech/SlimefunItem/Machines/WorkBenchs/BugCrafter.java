@@ -10,6 +10,7 @@ import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractWorkBench;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.RecipeSupporter;
+import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -20,7 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BugCrafter extends AbstractWorkBench {
+public class BugCrafter extends AbstractWorkBench implements ImportRecipes {
     public static final RecipeType TYPE=new RecipeType(
             AddUtils.getNameKey("bug_crafter"),
             new CustomItemStack(AddItem.BUG_CRAFTER, AddItem.BUG_CRAFTER.getDisplayName(),
@@ -88,5 +89,8 @@ public class BugCrafter extends AbstractWorkBench {
     }
     public int getRecipeMenuSlot(){
         return MENU_SLOT;
+    }
+    public boolean isConflict(){
+        return false;
     }
 }

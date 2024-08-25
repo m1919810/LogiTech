@@ -1,4 +1,4 @@
-package me.matl114.logitech.SlimefunItem.Machines.SpecialMachines;
+package me.matl114.logitech.SlimefunItem.Machines.Electrics;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -7,26 +7,24 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 
-import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractEnergyProvider;
 import me.matl114.logitech.Utils.*;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
+import java.util.Random;
 
-public class TestMachine extends AbstractEnergyProvider {
+public class TestGenerator extends AbstractEnergyProvider {
+    public final Random rand = new Random();
     public final int ENERGY_ABSMAX;
     public final int OUTPUT_MIN;
     public final int OUTPUT_MAX;
@@ -47,8 +45,8 @@ public class TestMachine extends AbstractEnergyProvider {
                         append(AddUtils.formatDouble(ENERGY_ABSMAX)).append(" J/t").toString()).getItemMeta());
 
     }
-    public TestMachine(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,int energyBuffer,int energyAbsMax,
-                       int outputMin,int outputMax){
+    public TestGenerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int energyBuffer, int energyAbsMax,
+                         int outputMin, int outputMax){
         super(itemGroup, item, recipeType, recipe,energyBuffer,0);
         this.OUTPUT_MIN=outputMin;
         this.OUTPUT_MAX=outputMax;
@@ -77,7 +75,7 @@ public class TestMachine extends AbstractEnergyProvider {
         if(inv.hasViewer()){
             inv.replaceExistingItem(DISPLAY_SLOT,AddUtils.getGeneratorDisplay(true,"虚空量子",charge,this.energybuffer));
         }
-        return  AddUtils.random(2*this.ENERGY_ABSMAX+1)-ENERGY_ABSMAX;
+        return  rand.nextInt(2*this.ENERGY_ABSMAX+1)-ENERGY_ABSMAX;
     }
     public void constructMenu(BlockMenuPreset inv){
         inv.addItem(DISPLAY_SLOT, ChestMenuUtils.getBackground());

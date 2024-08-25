@@ -16,6 +16,7 @@ import me.matl114.logitech.SlimefunItem.Machines.RecipeLock;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
+import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.SimpleCraftingOperation;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -33,7 +34,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-public class SpecialCrafter extends AbstractProcessor implements RecipeLock {
+public class SpecialCrafter extends AbstractProcessor implements RecipeLock, ImportRecipes {
     public List<ItemStack> displayedMemory;
     protected final int publicTime;
     protected final int[] BORDER={

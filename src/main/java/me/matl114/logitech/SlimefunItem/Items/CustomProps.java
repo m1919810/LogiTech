@@ -15,9 +15,9 @@ public abstract class CustomProps extends CustomSlimefunItem {
     public CustomProps(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe){
         super(itemGroup, item, recipeType, recipe);
     }
-    public CustomProps(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, List<ItemStack> items){
+    public CustomProps(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, List<ItemStack> displayes){
         super(itemGroup, item, recipeType, recipe);
-        setDisplayRecipes(items);
+        setDisplayRecipes(displayes);
     }
     /**
      * used for clickAction items

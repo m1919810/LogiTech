@@ -394,4 +394,56 @@ public class Tests {
         long end=System.nanoTime();
         log("[TEST Transport] simulate test 1"+(end-start)+" ns");
     }
+    @Test
+    public void test_InstanceOf(){
+        TestConsumer tc=new TestConsumer(new TestStack(114));
+        long start,end;
+        start=System.nanoTime();
+        int a=1;
+        for(int i=0;i<100_000;++i){
+            if(tc instanceof TestCounter){
+                a=1;
+            }
+        }
+        end=System.nanoTime();
+        log((end-start)+" ns");
+    }
+
+    public static int weightedRandom(int[] weightSum ){
+        int len=weightSum.length;
+        int randouble=ThreadLocalRandom.current().nextInt(len);
+        //if(len>114){
+        int start=0;
+        int end=len-1;
+        while(end-start>1){
+            int mid=(start+end)/2;
+            if(weightSum[mid]<randouble){
+                start=mid;
+            }else if (weightSum[mid]>randouble) {
+                end=mid;
+            }else return mid;
+        }
+        return start;
+    }
+    @Test
+    public void test_Random(){
+        long a,s;
+        Random r=new Random();
+
+        a=System.nanoTime();
+        for(int i=0;i<100_000;++i){
+            r.nextInt(400);
+        }
+        s=System.nanoTime();
+        log("rand "+(s-a)+" ns");
+        int[] weightSum=new int[]{
+                30,60,110,130,170,230,290,330,400
+        };
+        a=System.nanoTime();
+        for(int i=0;i<100_000;++i){
+            weightedRandom(weightSum);
+        }
+        s=System.nanoTime();
+        log("rand "+(s-a)+" ns");
+    }
 }

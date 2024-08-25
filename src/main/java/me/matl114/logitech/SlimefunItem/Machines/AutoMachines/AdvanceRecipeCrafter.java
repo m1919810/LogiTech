@@ -11,6 +11,7 @@ import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.SlimefunItem.Machines.*;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
+import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.MultiCraftingOperation;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -27,19 +28,19 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements RecipeLock {
-    protected static final int[] BORDER={
+public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements RecipeLock, ImportRecipes {
+    protected final int[] BORDER={
             3,5,12,14,21,22,23
     };
-    protected static  final int[] RECIPE_DISPLAY={
+    protected   final int[] RECIPE_DISPLAY={
             30,31,32,39,40,41,48,49,50
     };
-    protected static final int RECIPEITEM_SLOT=13;
+    protected  final int RECIPEITEM_SLOT=13;
     protected int PARSE_SLOT=4;
-    protected static final ItemStack PARSE_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&e点击解析配方",
+    protected  final ItemStack PARSE_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&e点击解析配方",
             "&b机制:","&6将配方表输出的物品(若有多个则第一个)置于下方","&6右键该槽位,或者开关容器界面,配方将被解析","&6机器将按照解析出的指定配方合成");
-    protected static final ItemStack DISPLAY_BKGROUND=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE," ");
-    protected static final ItemStack DISPLAY_DEFAULT_BKGROUND=new CustomItemStack(Material.RED_STAINED_GLASS_PANE," ");
+    protected  final ItemStack DISPLAY_BKGROUND=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE," ");
+    protected  final ItemStack DISPLAY_DEFAULT_BKGROUND=new CustomItemStack(Material.RED_STAINED_GLASS_PANE," ");
     protected final ItemStack progressItem;
     protected final RecipeType[] craftType;
     protected final int publicTime;
@@ -115,19 +116,19 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
     }
    public void constructMenu(BlockMenuPreset preset) {
         //空白背景 禁止点击
-        int[] border = AdvanceRecipeCrafter.BORDER;
+        int[] border = BORDER;
         int len=border.length;
         for(int var4 = 0; var4 < len; ++var4) {
             preset.addItem(border[var4], ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
         //输入槽边框
-        border = AbstractAdvancedProcessor.BORDER_SLOT;
+        border = BORDER_SLOT;
         len = border.length;
         for(int var4 = 0; var4 <len; ++var4) {
             preset.addItem(border[var4], ChestMenuUtils.getInputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
         }
         preset.addItem(22,MenuUtils.PROCESSOR_NULL, ChestMenuUtils.getEmptyClickHandler());
-        border = AdvanceRecipeCrafter.RECIPE_DISPLAY;
+        border = RECIPE_DISPLAY;
         len = border.length;
         //emptyhandler
         for(int var4 = 0; var4 < len; ++var4) {

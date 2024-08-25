@@ -103,8 +103,12 @@ public abstract  class AbstractMachine extends CustomSlimefunItem implements Tic
      * @return
      */
     public void addInfo(ItemStack stack){
-        if(this.energyConsumption!=0)
+        if(this.energyConsumption!=0){
             stack.setItemMeta(AddUtils.machineInfoAdd(stack,this.energybuffer,this.energyConsumption).getItemMeta());
+        }
+        else if(this.energyNetComponent==EnergyNetComponentType.CAPACITOR){
+            stack.setItemMeta(AddUtils.capacitorInfoAdd(stack,this.energybuffer).getItemMeta());
+        }
     }
 
     /**

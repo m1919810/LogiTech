@@ -25,6 +25,8 @@ import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Damageable;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -46,6 +48,7 @@ public class AddUtils {
     public static boolean USE_IDDECORATOR=true;
     private static final double SF_TPS = 20.0 / (double) Slimefun.getTickerTask().getTickRate();
     private static final DecimalFormat FORMAT = new DecimalFormat("###,###,###,###,###,###.#");
+    private static Random random=new Random();
     public static String formatDouble(double s){
         return FORMAT.format(s);
     }
@@ -115,6 +118,9 @@ public class AddUtils {
     public static final int START_CODE=rgb2int("eb33eb");
             //15409899;
     public static final int END_CODE=rgb2int("970097");
+    public static String color(String str){
+        return resolveRGB(START_CODE)+str;
+    }
     public static String colorful(String str) {
         int len=str.length()-1;
         if(len<=0){
@@ -158,15 +164,30 @@ public class AddUtils {
                 })
         ),
         ITEM1(
-                AddUtils::colorful,
+                AddUtils::color,
                 ((List<String> a)->{{
                         List<String> finallist=new ArrayList<>() ;
                         for(String i:a){
                             finallist.add(desc(i));
                         }
+                        //减少开销
+//                        finallist.add("");
+//                        finallist.add(addonTag(Language.get("Theme.ITEM1.Name")));
+                        return finallist;
+                }
+                })
+        ),
+        ITEM2(
+                AddUtils::colorful,
+                ((List<String> a)->{{
+                    List<String> finallist=new ArrayList<>() ;
+                    for(String i:a){
+                        finallist.add(desc(i));
+                    }
+                    //减少开销
                         finallist.add("");
                         finallist.add(addonTag(Language.get("Theme.ITEM1.Name")));
-                        return finallist;
+                    return finallist;
                 }
                 })
         ),
@@ -329,7 +350,7 @@ public class AddUtils {
                 )
         ;
         private final StringDecorator NAME_DEC;
-        private final LoreDecorator LORE_DEC;
+        private final LoreDecorator  LORE_DEC;
         Theme(StringDecorator nameDec, LoreDecorator loreDec){
             NAME_DEC=nameDec;
             LORE_DEC=loreDec;
@@ -363,7 +384,7 @@ public class AddUtils {
                 idDecorator(id),
                 itemStack,
                 themeType.NAME_DEC.decorate(name),
-                finallist.toArray(new String[finallist.size() - 1])
+                finallist.toArray(String[]::new)
         );
     }
     public static ItemStack themed(Material material, Theme themeType, String name, String... lore){
@@ -380,7 +401,7 @@ public class AddUtils {
         return new CustomItemStack(
                 itemStack,
                 themeType.NAME_DEC.decorate(name),
-                finallist.toArray(new String[finallist.size() - 1])
+                finallist.toArray(String[]::new)
         );
     }
     public static ItemStack themed(Material material, String name, String... lore){
@@ -394,6 +415,7 @@ public class AddUtils {
         if(a instanceof ItemStack){
             return  (ItemStack) a;
         }else if(a instanceof SlimefunItem){
+            Debug.logger("clone slimefunItem");
             return ((SlimefunItem) a).getItem().clone();
         }else if(a instanceof  Material){
             return  new ItemStack((Material) a);
@@ -558,6 +580,9 @@ public class AddUtils {
         return "&8⇨ &7速度: &b每 " + Integer.toString(time) + " 粘液刻生成一次";
     }
 
+    public static ItemStack capacitorInfoAdd(ItemStack item,int energyBuffer){
+        return AddUtils.addLore(item, LoreBuilder.powerBuffer(energyBuffer));
+    }
     public static  ItemStack machineInfoAdd(ItemStack item,int energyBuffer,int energyConsumption){
         return machineInfoAdd(item,energyBuffer,energyConsumption,Settings.USE_SEC_EXP);
     }
@@ -588,38 +613,14 @@ public class AddUtils {
      * @return
      */
     public static int random(int length){
-        return ThreadLocalRandom.current().nextInt(length);
+        return random.nextInt(length);
     }
     //generate rand in (0,1)
     public static double standardRandom(){
-        return ThreadLocalRandom.current().nextDouble();
+        return random.nextDouble();
     }
     //we supposed that u have checked these shits
-    public static int weightedRandom(double[] weightSum ){
-        int len=weightSum.length;
-        double randouble=standardRandom()*weightSum[len-1];
-        if(len>6){
-        int start=0;
-        int end=len-1;
-        while(end-start>1){
-            int mid=(start+end)/2;
-            if(weightSum[mid]<randouble){
-                start=mid;
-            }else if (weightSum[mid]>randouble) {
-                end=mid;
-            }else return mid;
-        }
-        return start;
-        }else{
 
-            for(int i=0;i<len-1;i++){
-                if(randouble<weightSum[i+1]){
-                    return i;
-                }
-            }
-            return 0;
-        }
-    }
     public static ItemStack eqRandItemStackFactory(List<ItemStack> list){
         LinkedHashMap<Object,Integer> map=new LinkedHashMap<>();
         int i=list.size();
@@ -661,6 +662,11 @@ public class AddUtils {
             }
             return (ItemStack)new RandomItemStack(c);
         }
+    public static ItemStack probItemStackFactory(ItemStack it,int prob){
+        if(prob>=100)return it;
+        prob=prob<0?0:prob;
+        return new ProbItemStack(it,((double)prob)/100 );
+    }
     public static <T extends Object> ItemStack equalItemStackFactory(List<T> list){
             LinkedHashMap<ItemStack,Integer> c=new LinkedHashMap<>();
             for(Object o:list){
@@ -843,5 +849,8 @@ public class AddUtils {
             sb.append(strs[i]);
         }
         return sb.toString();
+    }
+    public static void damageGeneric(Damageable e, double f){
+        e.setHealth(Math.max( e.getHealth()-f,0.0));
     }
 }

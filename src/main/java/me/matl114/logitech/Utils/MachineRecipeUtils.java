@@ -2,10 +2,7 @@ package me.matl114.logitech.Utils;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.AbstractItemStack;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.MultiItemStack;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.*;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.MGeneratorRecipe;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.SequenceMachineRecipe;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.ShapedMachineRecipe;
@@ -36,26 +33,31 @@ public class MachineRecipeUtils {
      * @return
      */
     public static ItemStack[] stackIn(ItemStack[] items){
-        LinkedHashSet<ItemConsumer> stacks = new LinkedHashSet<>();
-        boolean __flag=false;
+        LinkedHashSet<ItemCounter> stacks = new LinkedHashSet<>();
+        boolean __flag;
         for(int i = 0; i < items.length; i++){
             ItemStack a = items[i];
             if(a==null)continue;
+            if(a instanceof AbstractItemStack){
+                stacks.add(ItemCounter.get(a));
+                continue;
+            }
             __flag=false;
-            for(ItemConsumer stack : stacks){
-                if(CraftUtils.matchItemStack(a,stack.getItem(),true)){
+
+            for(ItemCounter stack : stacks){
+                if(CraftUtils.matchItemStack(a,stack,true)){
                     stack.addAmount(a.getAmount());
                     __flag=true;
                     break;
                 }
             }
             if(__flag==false){
-                stacks.add(new ItemConsumer(a));
+                stacks.add(ItemCounter.get(a));
             }
         }
         ItemStack[] result = new ItemStack[stacks.size()];
         int cnt=0;
-        for(ItemConsumer stack : stacks){
+        for(ItemCounter stack : stacks){
             if(stack.getItem() instanceof AbstractItemStack){
                 result[cnt] = stack.getItem();
             }
@@ -82,7 +84,33 @@ public class MachineRecipeUtils {
             }
 
         }
-        return result.toArray(new ItemStack[result.size()]);
+        ItemStack[] stacklist= result.toArray(new ItemStack[result.size()]);
+//        int len=stacklist.length;
+//        for(int i = 0; i<len; i++){
+//            if(stacklist[i]!=null){
+//                if(!(stacklist[i] instanceof AbstractItemStack)){
+//                    stacklist[i]=new ConstItemStack(stacklist[i]);
+//                }
+//            }
+//        }
+        return stacklist;
+    }
+
+    /**
+     * what can I say ,bro ;for those who need to keep nulls
+     * @return
+     */
+    public static ItemStack[] i(ItemStack[] stacklist){
+        //ItemStack[] stacks;
+//        int len=stacklist.length;
+//        for(int i = 0; i<len; i++){
+//            if(stacklist[i]!=null){
+//                if(!(stacklist[i] instanceof AbstractItemStack)){
+//                    stacklist[i]= new ConstItemStack(stacklist[i]);
+//                }
+//            }
+//        }
+        return stacklist;
     }
 
     /**
@@ -101,7 +129,7 @@ public class MachineRecipeUtils {
         return new StackMachineRecipe(tick,stackIn(ipnut),stackIn(output));
     }
     public static StackMachineRecipe stackFromPair(int tick, Pair<ItemStack[],ItemStack[]> recipe) {
-        return new StackMachineRecipe(tick,recipe.getFirstValue(),recipe.getSecondValue());
+        return new StackMachineRecipe(tick,stackIn(recipe.getFirstValue()),stackIn(recipe.getSecondValue()));
     }
     public static StackMachineRecipe stackFromMachine(MachineRecipe recipe) {
         if(recipe instanceof StackMachineRecipe recipe1){
@@ -151,7 +179,7 @@ public class MachineRecipeUtils {
      * @return
      */
     public static ShapedMachineRecipe shapeFrom(int ticks,ItemStack[] input,ItemStack[] output){
-        return new ShapedMachineRecipe(ticks,input,output);
+        return new ShapedMachineRecipe(ticks,i(input),stackIn(output));
     }
     /**
      * build shaped recipe,keep nulls ,don't stack ,add returned bottles,make machinerecipe
@@ -182,7 +210,7 @@ public class MachineRecipeUtils {
                 }
             }
         }
-        return new ShapedMachineRecipe(time,item.getRecipe(),stackIn(outputs.toArray(ItemStack[]::new)));
+        return new ShapedMachineRecipe(time,i(item.getRecipe()),stackIn(outputs.toArray(ItemStack[]::new)));
     }
     /**
      * chear nulls in recipe,add bucket and bottles in output, make machinerecipe
@@ -262,7 +290,7 @@ public class MachineRecipeUtils {
             inputSequence.add(input[i]);
 //            }
         }
-        return new SequenceMachineRecipe(ticks,inputSequence.toArray(ItemStack[]::new),output);
+        return new SequenceMachineRecipe(ticks,in( inputSequence.toArray(ItemStack[]::new)),in(output));
     }
     public static SequenceMachineRecipe sequenceFromRecipe(SlimefunItem item){
         //not implemented yet
@@ -272,17 +300,23 @@ public class MachineRecipeUtils {
         if(recipe instanceof SequenceMachineRecipe recipe1){
             return recipe1;
         }
-        return sequenceFrom(recipe.getTicks(),recipe.getInput(),recipe.getOutput());
+        return sequenceFrom(recipe.getTicks(),in(recipe.getInput()),in(recipe.getOutput()));
     }
     public static boolean isValidMGInput(ItemStack stack){
         return true;
     }
     public static ItemStack[] makeValidMGInput(ItemStack[] input){
-        return input;
+        List<ItemStack> it=new ArrayList<>();
+        for(int i = 0; i < input.length; i++){
+            if(input[i]==null)continue;
+            if(input[i] instanceof DisplayItemStack)continue;
+            it.add(input[i]);
+        }
+        return it.toArray(new ItemStack[it.size()]);
     }
     public static MGeneratorRecipe mgFrom(int ticks,ItemStack[] input,ItemStack[] output){
         input=makeValidMGInput(input);
-        return new MGeneratorRecipe(stackFrom(ticks, input, output));
+        return new MGeneratorRecipe(stackFrom(ticks, stackIn(input), stackIn(output)));
     }
     public static MGeneratorRecipe mgFromMachine(MachineRecipe recipe){
         if(recipe instanceof MGeneratorRecipe recipe1){

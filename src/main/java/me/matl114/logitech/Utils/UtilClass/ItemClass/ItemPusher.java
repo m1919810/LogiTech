@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public class ItemPusher extends ItemCounter {
 
-    protected int maxStackCnt;
+
     private static ItemPusher INSTANCE=new ItemPusher(new ItemStack(Material.STONE));
     public ItemPusher(){
         super();
@@ -18,7 +18,6 @@ public class ItemPusher extends ItemCounter {
     public ItemPusher(ItemStack item) {
         //can use as storage unit
         super(item);
-        this.maxStackCnt = item.getMaxStackSize();
 
     }
     public static ItemPusher get(ItemStack item) {
@@ -29,11 +28,9 @@ public class ItemPusher extends ItemCounter {
     }
     protected void init(ItemStack item){
         super.init( item);
-        this.maxStackCnt = item.getMaxStackSize();
     }
     protected void init( ){
         super.init();
-        this.maxStackCnt=0;
     }
 
     public ItemPusher(ItemStack item,int maxcnt) {
@@ -60,9 +57,7 @@ public class ItemPusher extends ItemCounter {
 
         }
     }
-    public int getMaxStackCnt() {
-        return maxStackCnt;
-    }
+
     public void grab(ItemCounter counter) {
         int left=maxStackCnt-cnt;
         if(left>counter.getAmount()){
