@@ -496,7 +496,7 @@ zh_CN:
     ARC_REACTOR:
       Name: '方舟反应堆'
       Lore:
-        - 'IRONMAN同款~'
+        - 'IronMan 同款~'
   Manuals:
     MANUAL_CORE:
       Name: '乱序核心'
