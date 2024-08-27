@@ -78,7 +78,7 @@ public class TestGenerator extends AbstractEnergyProvider {
         return  rand.nextInt(2*this.ENERGY_ABSMAX+1)-ENERGY_ABSMAX;
     }
     public void constructMenu(BlockMenuPreset inv){
-        inv.addItem(DISPLAY_SLOT, ChestMenuUtils.getBackground());
+        inv.addItem(DISPLAY_SLOT, ChestMenuUtils.getBackground(),ChestMenuUtils.getEmptyClickHandler());
     }
     public void newMenuInstance(BlockMenu inv, Block block){
         inv.addMenuOpeningHandler((player -> {

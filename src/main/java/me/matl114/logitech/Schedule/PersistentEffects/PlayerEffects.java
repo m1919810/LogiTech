@@ -59,7 +59,6 @@ public class PlayerEffects {
     public static void grantEffect(AbstractEffect type, Player p, int level, int time){
         PlayerEffects eff = new PlayerEffects(type,time,level);
         ScheduleEffects.addEffect(p,eff);
-        eff.start(p);
     }
 
 }

@@ -220,7 +220,10 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
             if (nextP != null) {
 
                     CraftUtils.multiUpdateInputMenu(nextP.getFirstValue(),inv);
-                    int ticks=this.publicTime;
+                    int ticks=next.getTicks();
+                    if(next.getTicks()<0){
+                        ticks=this.publicTime;
+                    }
                 if(ticks>0){
 
                     currentOperation = new MultiCraftingOperation(nextP.getSecondValue(),ticks);

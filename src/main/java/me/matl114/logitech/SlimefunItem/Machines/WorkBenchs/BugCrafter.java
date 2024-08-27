@@ -68,7 +68,7 @@ public class BugCrafter extends AbstractWorkBench implements ImportRecipes {
         menu.addMenuClickHandler(CRAFT_SLOT,
                 (player, i, itemStack, clickAction)->{
 
-                    craft(block,menu);
+                    craft(block,menu,player);
                     return false;
                 }
         );

@@ -1,7 +1,6 @@
 package me.matl114.logitech.Depends;
 
 
-import com.ytdd9527.networks.expansion.setup.ExpansionItemStacks;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumWorkbench;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -32,23 +31,16 @@ public class DependencyNetwork {
                 Debug.logger("generate an exception while loading softDepends NTWQUANTUMKEY, don't worry, that's not a big deal");
                 AddDepends.hasNetwork = false;
             }
+
             try{
-                AddDepends.NTWEP_WORKBENCH= SlimefunItem.getByItem(ExpansionItemStacks.NETWORK_EXPANSION_WORKBENCH);
+                AddDepends.NTWEP_WORKBENCH=SlimefunItem.getById("NTW_EXPANSION_WORKBENCH");
                 AddDepends.NTWEP_WORKBENCH_TYPE=(RecipeType) ReflectUtils.invokeGetRecursively(AddDepends.NTWEP_WORKBENCH,Settings.FIELD,"TYPE");
-                //NTWEP_WORKBENCH_TYPE= ExpansionItems.NETWORK_EXPANSION_WORKBENCH.TYPE;
                 AddDepends.hasNetworkExpansion =true;
-            }catch(Throwable e){
-                try{
-                    Debug.logger("failed to find item NTW_EXPANSION_WORKBENCH, BACKUP PLAN START");
-                    AddDepends.NTWEP_WORKBENCH=SlimefunItem.getById("NTW_EXPANSION_WORKBENCH");
-                    AddDepends.NTWEP_WORKBENCH_TYPE=(RecipeType) ReflectUtils.invokeGetRecursively(AddDepends.NTWEP_WORKBENCH,Settings.FIELD,"TYPE");
-                    AddDepends.hasNetworkExpansion =true;
-                    Debug.logger("backup plan works!");
-                }catch (Throwable e1){
-                    Debug.logger("generate an exception while loading softDepends NTWEXPANSION_WORKBENCH, don't worry, that's not a big deal");
-                    AddDepends.hasNetworkExpansion =false;
-                }
+            }catch (Throwable e1){
+                Debug.logger("generate an exception while loading softDepends NTWEXPANSION_WORKBENCH, don't worry, that's not a big deal");
+                AddDepends.hasNetworkExpansion =false;
             }
+
             try{
                 AddDepends.NTWQTWORKBENCH_TYPE= NetworkQuantumWorkbench.TYPE;
             }catch(Throwable e){

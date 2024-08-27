@@ -127,16 +127,22 @@ public abstract class AbstractWorkBench extends AbstractMachine {
     protected void progressorCost(Block b, BlockMenu menu) {
         //do nothing
     }
-    public void craft(Block b,BlockMenu inv){
+    public void craft(Block b,BlockMenu inv,Player player){
         Location loc=inv.getLocation();
         int charge=getCharge(inv.getLocation());
         int limit;
         if(this.energyConsumption > 0){
-            limit=Math.min((charge/this.energyConsumption),getCraftLimit(b,inv));
+            int chargelimit=(charge/this.energyConsumption);
+            if(chargelimit==0){
+                AddUtils.sendMessage(player,AddUtils.concat("&c电力不足或条件不足! ",String.valueOf(charge),"J/ ",String.valueOf( this.energyConsumption),"J"));
+                return;
+            }
+            limit=Math.min(chargelimit,getCraftLimit(b,inv));
         }else {
             limit=getCraftLimit(b,inv);
         }
         if(limit == 0){
+            AddUtils.sendMessage(player,"&c合成失败,请检查合成条件是否均具备");
             return;
         }
         Pair<MachineRecipe, ItemGreedyConsumer[]> outputResult=
@@ -148,8 +154,6 @@ public abstract class AbstractWorkBench extends AbstractMachine {
                 removeCharge(loc,craftTime*this.energyConsumption);
             }
             CraftUtils.multiUpdateOutputMenu(outputResult.getSecondValue(),inv);
-
-
         }
     }
 

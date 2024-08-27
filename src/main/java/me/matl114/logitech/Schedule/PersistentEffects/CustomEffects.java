@@ -1,6 +1,7 @@
 package me.matl114.logitech.Schedule.PersistentEffects;
 
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.Utils.Debug;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Player;
@@ -67,6 +68,25 @@ public class CustomEffects {
         }
         public void onDeathEvent(PlayerDeathEvent e) {
             e.setDeathMessage(AddUtils.resolveColor( "%s &6的身体被核辐射穿成了筛子".formatted(e.getEntity().getName())));
+        }
+    };
+    public static AbstractEffect WRONG_BUTTON= new AbstractEffect("WRONG_BUTTON") {
+        @Override
+        public void aquireEffect(Player p, int level) {
+            p.setHealth(0);
+
+        }
+
+        @Override
+        public void removeEffect(Player p, int level) {
+        }
+
+        @Override
+        public void tickEffect(Player p, int level) {
+
+        }
+        public void onDeathEvent(PlayerDeathEvent e) {
+            e.setDeathMessage(AddUtils.resolveColor( "%s &6因选错了方向而被系统制裁".formatted(e.getEntity().getName())));
         }
     };
 }

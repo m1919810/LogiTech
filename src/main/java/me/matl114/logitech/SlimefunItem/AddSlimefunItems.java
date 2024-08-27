@@ -114,7 +114,6 @@ public class AddSlimefunItems {
         }};
     }
     //items
-    //TODO make abstractAdvanceProcessor
     public static final RecipeType STARSMELTERY=new RecipeType(
             AddUtils.getNameKey("star_smeltery"),
             new CustomItemStack(AddItem.STAR_SMELTERY, AddItem.STAR_SMELTERY.getDisplayName(),
@@ -771,6 +770,16 @@ public class AddSlimefunItems {
             .register();
 
     //TODO register recips
+    //发电机
+    //更多的智能货运
+    //垃圾提 ok
+    //终极路线
+    //高级芯片之类的?
+    //补充说明 堆叠机器
+    //正反发电机
+    //方舟反应堆
+    //百度
+    //吃掉实体
 
 
     //multiblock

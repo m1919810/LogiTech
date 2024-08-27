@@ -16,6 +16,7 @@ import me.matl114.logitech.SlimefunItem.Cargo.Storages;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
+import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -35,6 +36,14 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
     public static PluginManager getManager() {
         return manager;
     }
+    public static String username;
+    public static String repo;
+    public static String branch;
+    static{
+        username="m1919810";
+        repo="LogiTech";
+        branch="master";
+    }
     @Override
     public void onEnable() {
         instance =this;
@@ -43,7 +52,7 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         Config cfg = new Config(this);
 
         if (cfg.getBoolean("options.auto-update")) {
-
+            tryUpdate();
         }
             // 你可以在这里添加自动更新功能
 //        }if(cfg.getBoolean("options.test")||testmod) {
@@ -93,7 +102,11 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         //注册
         Debug.logger("附属特性注册完毕");
     }
-
+    public void tryUpdate() {
+        if ( getDescription().getVersion().startsWith("Build")) {
+            GuizhanUpdater.start(this, getFile(), username, repo, branch);
+        }
+    }
     @Override
     public void onDisable() {
         // 禁用插件的逻辑...

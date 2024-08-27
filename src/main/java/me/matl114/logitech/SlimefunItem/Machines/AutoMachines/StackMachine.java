@@ -230,7 +230,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
                         //是该机器,设置下标，都不用查了 肯定不一样
                         MultiCraftType.forceSetRecipeTypeIndex(data,i);
                         int charge=getEnergy(i);
-                        DataCache.setCustomData(data,"mae",charge==0?energyConsumption:charge);
+                        DataCache.setCustomData(data,"mae",charge==-1?energyConsumption:charge);
                         return;
                     }
                 }

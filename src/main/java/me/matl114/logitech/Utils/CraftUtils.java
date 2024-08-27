@@ -411,6 +411,7 @@ public class CraftUtils {
                 for(int i=0;i<len2;++i) {
                     ItemPusher itemCounter=pusher.get(Settings.OUTPUT,inv,output[i]);
                     if(itemCounter.getItem()==null){
+                        itemCounter.setFrom(recipeCounter2[0]);
                         recipeCounter2[0].addRelate(itemCounter);
                         recipeCounter2[0].addMatchAmount(recipeCounter2[0].getMaxStackCnt());
                     }
@@ -446,6 +447,7 @@ public class CraftUtils {
             for(int j=0;j<len2;++j) {
                 ItemPusher itemCounter=outputCounters.get(j);
                 if(itemCounter.getItem()==null){
+                    itemCounter.setFrom(itemCounter2);
                     itemCounter2.addRelate(itemCounter);
                     itemCounter2.addMatchAmount(itemCounter2.getMaxStackCnt());
                     hasNextPushSlot=true;
@@ -455,6 +457,7 @@ public class CraftUtils {
                     continue;
                 }
                 else if(CraftUtils.matchItemCounter(itemCounter2,itemCounter,false)){
+                    itemCounter.setFrom(itemCounter2);
                     itemCounter2.addRelate(itemCounter);
                     itemCounter2.addMatchAmount(itemCounter2.getMaxStackCnt()-itemCounter.getAmount());
                     hasNextPushSlot=true;
@@ -510,6 +513,7 @@ public class CraftUtils {
                 ItemPusher itemCounter=output[outputSlotpointer];
                 ++outputSlotpointer;
                 if(itemCounter.getItem()==null){
+                    itemCounter.setFrom(recipeCounter2[0]);
                     recipeCounter2[0].addRelate(itemCounter);
                     recipeCounter2[0].addMatchAmount(recipeCounter2[0].getMaxStackCnt());
                 }
@@ -517,6 +521,7 @@ public class CraftUtils {
                     continue;
                 }
                 else if(CraftUtils.matchItemCounter(recipeCounter2[0],itemCounter,false)){
+                    itemCounter.setFrom(recipeCounter2[0]);
                     recipeCounter2[0].addRelate(itemCounter);
                     recipeCounter2[0].addMatchAmount(recipeCounter2[0].getMaxStackCnt()-itemCounter.getAmount());
                 }
@@ -702,6 +707,7 @@ public class CraftUtils {
                 itp=slotCounters2.get(j);
                 if(!itp.isDirty()){
                     if(itp.getItem()==null){
+                        itp.setFrom(outputItem);
                         outputItem.push(itp);
 //                        itp.grab(outputItem);
 //                        outputItem.addRelate(itp);

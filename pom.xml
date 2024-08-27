@@ -47,7 +47,7 @@
                     <relocations>
                         <relocation>
                             <pattern>org.bstats</pattern>
-                            <shadedPattern>io.github.sefiraat.networks.bstats</shadedPattern>
+                            <shadedPattern>me.matl114.logitech.bstats</shadedPattern>
                         </relocation>
                     </relocations>
                     <filters>
@@ -87,7 +87,6 @@
             <version>1.20.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>com.github.StarWishsama</groupId>
             <artifactId>Slimefun4</artifactId>
@@ -106,35 +105,24 @@
             <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>dev.sefiraat</groupId>
             <artifactId>SefiLib</artifactId>
             <version>0.2.6</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>com.github.SlimefunGuguProject</groupId>
             <artifactId>InfinityExpansion</artifactId>
             <version>bebf0bd0f9</version>
             <scope>provided</scope>
         </dependency>
-
-        <dependency>
-            <groupId>io.github.sefiraat</groupId>
-            <artifactId>Networks</artifactId>
-            <version>Expansion-2.0.5-preview-Alpha</version>
-            <scope>provided</scope>
-        </dependency>
-
         <dependency>
             <groupId>com.github.SlimefunGuguProject</groupId>
             <artifactId>Networks</artifactId>
             <version>1514bf728b</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>

@@ -70,7 +70,7 @@ public class RadiationRegion {
             if(entity instanceof  Player player){
                 AddUtils.sendMessage(player,"&e警告!您已进入危险的辐射区!");
                 PlayerEffects.grantEffect(CustomEffects.RADIATION,
-                        player,level,60,(player1 -> {return loc.distance(player1.getLocation())<1.4*range;}));
+                        player,level,60,(player1 -> true));
             }
         }
     }

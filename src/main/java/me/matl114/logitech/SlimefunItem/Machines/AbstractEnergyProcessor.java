@@ -11,6 +11,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
+import me.matl114.logitech.Utils.UtilClass.RecipeClass.EnergyProviderOperation;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.SimpleCraftingOperation;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -26,18 +27,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractEnergyProcessor extends AbstractEnergyProvider implements  MachineProcessHolder<SimpleCraftingOperation> {
+public abstract class AbstractEnergyProcessor extends AbstractEnergyProvider implements  MachineProcessHolder<EnergyProviderOperation> {
     protected final int[] BORDER = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44};
     protected final int[] BORDER_IN = new int[]{9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
     protected final int[] BORDER_OUT = new int[]{14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
 
     protected final ItemStack progressbar;
-    protected final MachineProcessor<SimpleCraftingOperation> processor;
+    protected final MachineProcessor<EnergyProviderOperation> processor;
     protected int PROCESSOR_SLOT=22;
     public AbstractEnergyProcessor(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
-                                   Material progressItem, int energyProvider, int energyBuffer,
+                                   Material progressItem, int energyBuffer,int energyProvider,
                                    LinkedHashMap<Object, Integer> customRecipes){
-        super(category, item, recipeType, recipe,  energyProvider, energyBuffer);
+        super(category, item, recipeType, recipe, energyBuffer, energyProvider );
         this.progressbar=new ItemStack(progressItem);
         this.processor = new MachineProcessor(this);
         this.processor.setProgressBar(progressbar);
@@ -61,7 +62,7 @@ public abstract class AbstractEnergyProcessor extends AbstractEnergyProvider imp
      * method from MachineProcessorHolder
      * @return
      */
-    public MachineProcessor<SimpleCraftingOperation> getMachineProcessor() {
+    public MachineProcessor<EnergyProviderOperation> getMachineProcessor() {
         return this.processor;
     }
 
@@ -129,8 +130,8 @@ public abstract class AbstractEnergyProcessor extends AbstractEnergyProvider imp
     public int getGeneratedOutput(@Nonnull Location l, @Nonnull SlimefunBlockData data){
 
         BlockMenu inv= StorageCacheUtils.getMenu(l);
-        if(conditionHandle(null,inv)){
-            SimpleCraftingOperation currentOperation = (SimpleCraftingOperation)this.processor.getOperation(l);
+        if(inv!=null&&conditionHandle(null,inv)){
+            EnergyProviderOperation currentOperation = (EnergyProviderOperation)this.processor.getOperation(l);
             ItemConsumer[] fastCraft=null;
             if(currentOperation==null){
                 Pair<MachineRecipe, ItemConsumer[]> nextP = CraftUtils.findNextRecipe(inv,getInputSlots(),getOutputSlots(),
@@ -140,7 +141,7 @@ public abstract class AbstractEnergyProcessor extends AbstractEnergyProvider imp
                     MachineRecipe next =nextP.getFirstValue();
                     ItemConsumer[] outputInfo=nextP.getSecondValue();
                     if(next.getTicks()>0){
-                        currentOperation = new SimpleCraftingOperation(outputInfo,next.getTicks());
+                        currentOperation = new EnergyProviderOperation(outputInfo,next.getTicks(),this.energyConsumption);
                         this.processor.startOperation(l, currentOperation);
                     }
                     else if(next.getTicks()<=0){
@@ -173,7 +174,7 @@ public abstract class AbstractEnergyProcessor extends AbstractEnergyProvider imp
                 currentOperation.addProgress(1);
 
             }
-            return -this.energyConsumption;
+            return currentOperation.getEnergy();
         }else{
             return 0;
         }

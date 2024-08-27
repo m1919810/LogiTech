@@ -16,6 +16,7 @@ public class EqProRandomStack extends RandomItemStack  {
            });
         }});
     }
+
     public EqProRandomStack(LinkedHashMap<ItemStack,Integer> itemSettings) {
         super(itemSettings);
     }

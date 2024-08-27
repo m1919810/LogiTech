@@ -8,11 +8,24 @@ public class ReflectUtils {
         return invokeGetRecursively(target,target.getClass(),mod,declared);
     }
     public static  Object invokeGetRecursively(Object target, Class clazz, Settings mod, String decleared){
+//        if(Debug.debug){
+//            Debug.debug("try invoke ",clazz);
+//        }
         try{
             switch (mod){
                 case FIELD:
+//                    if(clazz.getName().endsWith("AbstractMachineBlock")){
+//                        Debug.debug("try print this");
+//                        Field[] fields=clazz.getDeclaredFields();
+//                        for(Field f:fields){
+//                            Debug.debug(f.getName());
+//                        }
+//                    }
+                    //Debug.debug("start find field ",decleared);
                     Field _hasType=clazz.getDeclaredField(decleared);
+                   // Debug.debug("find field");
                     _hasType.setAccessible(true);
+                  //  Debug.debug("Access true");
                     return  _hasType.get(target);
                 case METHOD:
                     Method _hasMethod=clazz.getDeclaredMethod(decleared);

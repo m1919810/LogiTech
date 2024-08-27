@@ -97,7 +97,6 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
      */
     public void consume(ItemPusher other){
         matchAmount += other.getAmount();
-
         addRelate(other);
     }
 
@@ -109,7 +108,6 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
         int tmp=cnt;
         cnt=matchAmount;
         target.grab(this);
-        addRelate(target);
         matchAmount=cnt;
         cnt=tmp;
 
@@ -123,7 +121,6 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
         int tmp=cnt;
         cnt=matchAmount;
         super.grab(target);
-        addRelate(target);
         matchAmount=cnt;
         cnt=tmp;
     }

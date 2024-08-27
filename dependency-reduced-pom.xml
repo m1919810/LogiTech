@@ -34,7 +34,7 @@
           <relocations>
             <relocation>
               <pattern>org.bstats</pattern>
-              <shadedPattern>io.github.sefiraat.networks.bstats</shadedPattern>
+              <shadedPattern>me.matl114.logitech.bstats</shadedPattern>
             </relocation>
           </relocations>
           <filters>
@@ -90,12 +90,6 @@
       <groupId>com.github.SlimefunGuguProject</groupId>
       <artifactId>InfinityExpansion</artifactId>
       <version>bebf0bd0f9</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.github.sefiraat</groupId>
-      <artifactId>Networks</artifactId>
-      <version>Expansion-2.0.5-preview-Alpha</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

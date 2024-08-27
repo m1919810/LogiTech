@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
@@ -216,7 +217,7 @@ public class RecipeSupporter {
         }
         return  null;
     }
-    public static boolean tryModifyStandardMachineRecipe(SlimefunItem item,List<MachineRecipe> sourceRecipe,boolean apply){
+    public static boolean tryModifyStandardMachineRecipe(SlimefunItem item,List<MachineRecipe> sourceRecipe,boolean append){
         String fieldName=null;
         boolean isMethod=false;
         Object machineRecipes=null;
@@ -245,7 +246,7 @@ public class RecipeSupporter {
         try{
             List<MachineRecipe> result=new ArrayList<>();
 
-            if(apply){
+            if(append){
                 List<MachineRecipe> origin=(List<MachineRecipe>) machineRecipes;
                 result.addAll(origin);
             }
@@ -314,6 +315,8 @@ public class RecipeSupporter {
                             input[len]=it;
                             ++len;
                         }
+                    }else{
+                        Debug.debug("empty input");
                     }
                     int len2=0;
                     if(outputKey.size()>0){
@@ -326,6 +329,8 @@ public class RecipeSupporter {
                             output[len2]=it;
                             ++len2;
                         }
+                    }else{
+                        Debug.debug("empty output");
                     }
                     if(isGenerator){
                         recipes.add(MachineRecipeUtils.mgFrom(tick,input,output));
@@ -348,7 +353,7 @@ public class RecipeSupporter {
             }//加入机器列表
             recipe.addAll(recipes);
             if(applyToMachine&&!isGenerator){
-                if(!tryModifyStandardMachineRecipe(machine,recipes,applyToMachine)){
+                if(!tryModifyStandardMachineRecipe(machine,recipes,append)){
                     Debug.logger("WARNING: %s 不是标准的机器,尝试修改机器配方列表失败,禁用该物品 + 模式".formatted(machineId));
 
                 }
@@ -508,6 +513,88 @@ public class RecipeSupporter {
             return null;
         }
     }
+    public static int tryGetMachineEnergy(SlimefunItem item){
+        int energyComsumption=-1;
+        if(!(item instanceof EnergyNetComponent)){
+            return 0;
+        }
+        if(item instanceof AContainer container){
+            return container.getEnergyConsumption();
+        }else{
+            Object energy=null;
+            String methodName=null;
+            try{
+                try{
+                    if(methodName==null){
+                        energy=ReflectUtils.invokeGetRecursively(item,Settings.METHOD,"getEnergyConsumption");
+                        if(energy!=null){
+                            energyComsumption=(Integer)energy;
+                            methodName="getEnergyConsumption() method";
+                        }
+                    }
+                }
+                catch(Throwable e){
+
+                }
+                try{
+                if(methodName==null){
+                    energy=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"EnergyConsumption");
+                    if(energy!=null){
+                        energyComsumption=(Integer)energy;
+                        methodName="EnergyConsumption field";
+                    }
+                }
+                }
+                catch(Throwable e){
+
+                    }
+                try{
+                if(methodName==null){
+                    energy=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"energyConsumedPerTick");
+                    if(energy!=null){
+                        energyComsumption=(Integer)energy;
+                        methodName="energyConsumedPerTick field";
+                    }
+                }
+                }
+                catch(Throwable e){
+
+                }
+                try{
+                if(methodName==null){
+                    energy=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"energyPerTick");
+                    if(energy!=null){
+                        energyComsumption=(Integer)energy;
+                        methodName="energyPerTick field";
+                    }
+                }
+                }
+                catch(Throwable e){
+
+                }
+                try{
+                if(methodName==null){
+                    energy=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"per");
+                    if(energy!=null){
+                        energyComsumption=(Integer)energy;
+                        methodName="per";
+                    }
+                }
+                }
+
+                catch(Throwable e){
+
+                }
+                if(energyComsumption==-1){
+                    Debug.debug("find no energy declared");
+                }
+            }catch (Throwable exp){
+                Debug.debug("exception generate while invoking ",item);
+                Debug.debug(exp);
+            }
+            return energyComsumption;
+        }
+    }
 
     /**
      * invoke recursively
@@ -532,6 +619,7 @@ public class RecipeSupporter {
         RECIPE_TYPES.add(BukkitUtils.VANILLA_FURNACE);
         PROVIDED_UNSHAPED_RECIPES.put(BukkitUtils.VANILLA_FURNACE,new ArrayList<>());
         PROVIDED_SHAPED_RECIPES.put(BukkitUtils.VANILLA_FURNACE,new ArrayList<>());
+        //原版配方
         Iterator<Recipe> recipeIterator = PLUGIN.getJavaPlugin().getServer().recipeIterator();
         while (recipeIterator.hasNext()) {
             Recipe next = recipeIterator.next();
@@ -544,14 +632,23 @@ public class RecipeSupporter {
                 PROVIDED_SHAPED_RECIPES.get(BukkitUtils.VANILLA_CRAFTTABLE).add(MachineRecipeUtils.shapeFrom(-1,input.toArray(new ItemStack[0]),Utils.array(next.getResult())));
                 PROVIDED_UNSHAPED_RECIPES.get(BukkitUtils.VANILLA_CRAFTTABLE).add(MachineRecipeUtils.stackFrom(-1,input.toArray(new ItemStack[0]),Utils.array(next.getResult())));
 
-            } else if (next instanceof ShapelessRecipe) {
+            } else if (next instanceof ShapelessRecipe slr) {
+                List< RecipeChoice> choice= slr.getChoiceList();
+                List<ItemStack> inputs;
+                int len=choice.size();
+
                 List<ItemStack> input = ((ShapelessRecipe) next).getIngredientList();
                 PROVIDED_SHAPED_RECIPES.get(BukkitUtils.VANILLA_CRAFTTABLE).add(MachineRecipeUtils.shapeFrom(-1,input.toArray(new ItemStack[input.size()]),Utils.array(next.getResult())));
                 PROVIDED_UNSHAPED_RECIPES.get(BukkitUtils.VANILLA_CRAFTTABLE).add(MachineRecipeUtils.stackFrom(-1,input.toArray(new ItemStack[input.size()]),Utils.array(next.getResult())));
-            }else if(next instanceof FurnaceRecipe) {
-                ItemStack input = ((FurnaceRecipe) next).getInput();
-                PROVIDED_SHAPED_RECIPES.get(BukkitUtils.VANILLA_FURNACE).add(MachineRecipeUtils.shapeFrom(-1,Utils.array(input),Utils.array(next.getResult())));
-                PROVIDED_UNSHAPED_RECIPES.get(BukkitUtils.VANILLA_FURNACE).add(MachineRecipeUtils.stackFrom(-1,Utils.array(input),Utils.array(next.getResult())));
+            }else if(next instanceof FurnaceRecipe recipe) {
+                RecipeChoice choice =recipe.getInputChoice();
+
+                if (choice instanceof RecipeChoice.MaterialChoice materialChoice) {
+                    for (Material input : materialChoice.getChoices()) {
+                        PROVIDED_UNSHAPED_RECIPES.get(BukkitUtils.VANILLA_FURNACE).add(MachineRecipeUtils.stackFrom(recipe.getCookingTime()/10,new ItemStack[] {new ItemStack(input)},new ItemStack[] {recipe.getResult()}));
+                        PROVIDED_SHAPED_RECIPES.get(BukkitUtils.VANILLA_FURNACE).add(MachineRecipeUtils.shapeFrom(recipe.getCookingTime()/10,new ItemStack[] {new ItemStack(input)},new ItemStack[] {recipe.getResult()}));
+                    }
+                }
             }
         }
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
@@ -563,31 +660,24 @@ public class RecipeSupporter {
                 PROVIDED_UNSHAPED_RECIPES.put(recipeType,new ArrayList<>());
             }
         }
-        //先解析当前的
+        //先解析多方块机器的配方
         for(RecipeType recipeType :RECIPE_TYPES){
             if(!BLACKLIST_RECIPETYPES.contains(recipeType)) {//not in black list
                 SlimefunItem sfitem=recipeType.getMachine();
-                if (sfitem instanceof MultiBlockMachine) {
+                if (sfitem instanceof MultiBlockMachine mb) {
                     List<ItemStack[]>  recipeInputs= RecipeType.getRecipeInputList((MultiBlockMachine) sfitem);
                     List<MachineRecipe> recipes=new ArrayList<>();
                     List<MachineRecipe> shapedrecipes=new ArrayList<>();
                     for(ItemStack[] recipeInput: recipeInputs) {
-                        ItemStack recipeOutput=RecipeType.getRecipeOutputList((MultiBlockMachine) sfitem,recipeInput);
-                        SlimefunItem resultSfitem=SlimefunItem.getByItem(recipeOutput);
-                        if(resultSfitem !=null) {//如果是由物品注册来的
-                            recipes.add(MachineRecipeUtils.stackFromRecipe(resultSfitem));
-                            shapedrecipes.add(MachineRecipeUtils.shapeFromRecipe(resultSfitem));
-                        }else{
-                            recipes.add(MachineRecipeUtils.stackFrom(0,recipeInput,new ItemStack[] {RecipeType.getRecipeOutputList((MultiBlockMachine) sfitem,recipeInput)}));
-                            shapedrecipes.add(MachineRecipeUtils.shapeFrom(0,recipeInput,new ItemStack[] {RecipeType.getRecipeOutputList((MultiBlockMachine) sfitem,recipeInput)}));
-                        }
+                        recipes.add(MachineRecipeUtils.stackFromMultiBlock(recipeInput,mb,-1 ));
+                        shapedrecipes.add(MachineRecipeUtils.shapeFromMultiBlock(recipeInput,mb,-1));
                     }
-                    //记录
+                    //记录配方类型对应的多方块
                     MULTIBLOCK_RECIPETYPES.put(recipeType,(MultiBlockMachine) sfitem);
-                    //将多方块的配方注册为
+                    //将"多方块背后的配方类型"注册为多方块的列表
                     PROVIDED_SHAPED_RECIPES.put(recipeType,shapedrecipes);
                     PROVIDED_UNSHAPED_RECIPES.put(recipeType,recipes);
-                    //顺便注册了多方块
+                    //顺便注册了多方块的配方类型
                     MULTIBLOCK_RECIPES.put((MultiBlockMachine) sfitem,recipes);
                 }
             }
@@ -835,61 +925,22 @@ public class RecipeSupporter {
         for(Map.Entry<SlimefunItem,List<MachineRecipe>> e:MACHINE_RECIPELIST.entrySet()){
             SlimefunItem item=e.getKey();
             //黑名单 本附属非processor的machine 和 高级processor
-            int energyComsumption=0;
             if(item instanceof ImportRecipes ir &&ir.isConflict()){
                 continue;
             }
-            if(item instanceof AContainer container){
-                energyComsumption=container.getEnergyConsumption();
-            }else{
-                Class<?> clazz=item.getClass();
-                Object energy=null;
-                String methodName=null;
-                try{
-                    if(methodName==null){
-                        energy=ReflectUtils.invokeGetRecursively(item,clazz,Settings.METHOD,"getEnergyConsumption");
-                        if(energy!=null){
-                            methodName="getEnergyConsumption() method";
-                        }
-                    }
-                    if(methodName==null){
-                        energy=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"EnergyConsumption");
-                        if(energy!=null){
-                            methodName="EnergyConsumption field";
-                        }
-                    }
-                    if(methodName!=null){
-                        energy=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"energyConsumedPerTick");
-                        if(energy!=null){
-                            methodName="energyConsumedPerTick field";
-                        }
-                    }
-                    if(methodName!=null){
-                        energy=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"energyPerTick");
-                        if(energy!=null){
-                            methodName="energyPerTick field";
-                        }
-                    }
-                    if(methodName!=null){
-                        energy=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"per");
-                        if(energy!=null){
-                            methodName="per";
-                        }
-                    }
-                    if(energy instanceof Integer en)
-                        energyComsumption=en;
-                }catch (Throwable exp){}
-            }
+            int energyComsumption;
             List<MachineRecipe> result=e.getValue();
             if(MachineRecipeUtils.isGeneratorRecipe(result)){
                 //剔除掉非AbstractTransformer的本附属机器
                 if(!(item instanceof AbstractMachine&&(!(item instanceof AbstractTransformer)))){
+                    energyComsumption=tryGetMachineEnergy(item);
                     STACKMGENERATOR_LIST.put(item,energyComsumption);
                 }
             }
             else if(MachineRecipeUtils.isMachineRecipe(result)){
                 //剔除掉非AbstractProcessor的本附属机器
                 if(!(item instanceof AbstractMachine&&(!(item instanceof EMachine)))){
+                    energyComsumption=tryGetMachineEnergy(item);
                     STACKMACHINE_LIST.put(item,energyComsumption);
                 }
             }

@@ -210,6 +210,7 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
     }
 
 
+
     public void craft(BlockMenu inv,int limit){
         Location  loc=inv.getLocation();
 

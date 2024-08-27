@@ -19,8 +19,9 @@ public abstract class MenuFactory {
     int back;
     private CustomMenuHandler finalBackHandler=null;
     String title;
-    private ItemStack[] prefixs;
-    private ItemStack[] suffixs;
+//    private ItemStack[] prefixs;
+//    private ItemStack[] suffixs;
+    private ItemStack backGround;
     List<ItemStack> inventory;
     List<CustomMenuHandler> handlers;
     private ItemStack[] finalInventory;
@@ -34,15 +35,16 @@ public abstract class MenuFactory {
         this.preset = preset;
         this.pages = pages;
         this.size = preset.getSize();
-        this.prefixs = new ItemStack[preset.getPrelen()];
-
-        for(int i=0;i<preset.getPrelen();i++) {
-            prefixs[i]= ChestMenuUtils.getBackground();
-        }
-        this.suffixs = new ItemStack[preset.getSuflen()];
-        for(int i=0;i<preset.getSuflen();i++) {
-            suffixs[i]= ChestMenuUtils.getBackground();
-        }
+//        this.prefixs = new ItemStack[preset.getPrelen()];
+//
+//        for(int i=0;i<preset.getPrelen();i++) {
+//            prefixs[i]=this.backGround;
+//        }
+//        this.suffixs = new ItemStack[preset.getSuflen()];
+//        for(int i=0;i<preset.getSuflen();i++) {
+//            suffixs[i]= this.backGround;
+//        }
+        this.backGround=ChestMenuUtils.getBackground()  ;
         this.overrideHandler=new HashMap<>();
         this.overrideItem=new HashMap<>();
         HashMap<Integer, ChestMenu.MenuClickHandler> ovhandlers=preset.getPrehandlers();
@@ -192,17 +194,21 @@ public abstract class MenuFactory {
     public CustomMenuHandler getOverrideHandler(int loc){
         return overrideHandler.get(loc);
     }
+    public MenuFactory setBackGround(ItemStack item) {
+        backGround = item;
+        return this;
+    }
     public int getPrefixSize(){
-        return prefixs.length;
+        return preset.getPrelen();
     }
     public ItemStack getPrefix(int loc){
-        return prefixs[loc];
+        return this.backGround;
     }
     public int getSuffixSize(){
-        return suffixs.length;
+        return preset.getSuflen();
     }
     public ItemStack getSuffix(int loc){
-        return suffixs[loc];
+        return this.backGround;
     }
     public MenuFactory makeFinal(){
         isFinal=true;

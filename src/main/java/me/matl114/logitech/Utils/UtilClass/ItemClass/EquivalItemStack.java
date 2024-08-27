@@ -8,6 +8,7 @@ import java.util.*;
 
 public class EquivalItemStack extends ItemStack implements MultiItemStack {
     public ItemStack[] itemList;
+    public ItemCounter[] counterList;
     public Double[] itemWeight;
     public double[] weightSum;
     public int sum;
@@ -15,6 +16,7 @@ public class EquivalItemStack extends ItemStack implements MultiItemStack {
         super(Material.STONE);
         this.sum=itemSettings.keySet().size();
         this.itemList=new ItemStack[sum];
+        this.counterList=new ItemCounter[sum];
         this.itemWeight=new Double[sum];
         int weight = itemSettings.size();
 
@@ -23,6 +25,7 @@ public class EquivalItemStack extends ItemStack implements MultiItemStack {
         weightSum[0]=0;
         for(Map.Entry<ItemStack, Integer> entry : itemSettings.entrySet()) {
             itemList[cnt] = entry.getKey();
+            counterList[cnt]=ItemCounter.get(itemList[cnt]);
             itemWeight[cnt]= 1.0/(double)weight;
             weightSum[cnt+1]=weightSum[cnt]+itemWeight[cnt];
             ++cnt;
@@ -59,12 +62,11 @@ public class EquivalItemStack extends ItemStack implements MultiItemStack {
         return itemList[0].clone();
     }
     public boolean matchItem(ItemStack item,boolean strickCheck){
-        for (int i = 0; i < itemList.length; i++) {
-            if(CraftUtils.matchItemStack(item,itemList[i],strickCheck)){
+        for (int i = 0; i < counterList.length; i++) {
+            if(CraftUtils.matchItemStack(item,counterList[i],strickCheck)){
                 return true;
             }
         }
         return false;
-
     }
 }

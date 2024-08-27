@@ -1,6 +1,8 @@
 package me.matl114.logitech.Utils;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.*;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.MGeneratorRecipe;
@@ -12,6 +14,8 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.function.IntFunction;
+import java.util.function.Supplier;
 
 public class MachineRecipeUtils {
     public static final ItemStack BOTTLE=new ItemStack(Material.GLASS_BOTTLE);
@@ -27,6 +31,9 @@ public class MachineRecipeUtils {
         put(Material.LINGERING_POTION, BOTTLE);
         put(Material.DRAGON_EGG, BOTTLE);
     }};
+    public interface RecipeConstructor<T>{
+        public T construct(int ticks,ItemStack[] input,ItemStack[] output);
+    }
     /**
      * only called when init recipe list!
      * @param items
@@ -58,7 +65,7 @@ public class MachineRecipeUtils {
         ItemStack[] result = new ItemStack[stacks.size()];
         int cnt=0;
         for(ItemCounter stack : stacks){
-            if(stack.getItem() instanceof AbstractItemStack){
+            if(stack.getItem() instanceof RandOutItem){
                 result[cnt] = stack.getItem();
             }
             else {
@@ -145,20 +152,55 @@ public class MachineRecipeUtils {
     public static StackMachineRecipe stackFromRecipe(SlimefunItem item){
         return stackFromRecipe(item,-1);
     }
-    public static StackMachineRecipe stackFromRecipe(SlimefunItem item,int time){
-        ItemStack[] input=item.getRecipe();
-        List<ItemStack> outputs=new ArrayList<ItemStack>(){{
-            add(item.getRecipeOutput());
-        } };
+    public static <T extends MachineRecipe> T getNoComsumed(T recipe, RecipeConstructor<T> constructor){
+        List<ItemStack> outputs=new ArrayList<ItemStack>();
+        ItemStack[] output=recipe.getOutput();
+        for(int i=0;i<output.length;i++){
+            outputs.add(output[i]);
+        }
+        ItemStack[] input=recipe.getInput();
+         boolean hasChanged=false;
         for(int i = 0; i < input.length; i++){
             if(input[i]==null)continue;
             if(NOCONSUME_MAP.containsKey(input[i].getType())){
                 if(CraftUtils.matchItemStack(new ItemStack(input[i].getType()),input[i],true)){
                     outputs.add(NOCONSUME_MAP.get(input[i].getType()));
+                    hasChanged=true;
                 }
             }
         }
-        return new StackMachineRecipe(time,stackIn(item.getRecipe()),stackIn(outputs.toArray(ItemStack[]::new)));
+        if(hasChanged){
+            return constructor.construct(recipe.getTicks(),input,outputs.toArray(new ItemStack[outputs.size()]));
+
+        }else {
+            return recipe;
+        }
+    }
+    public static StackMachineRecipe stackFromMultiBlock(ItemStack[] input, MultiBlockMachine machine){
+        return stackFromMultiBlock(input,machine,-1);
+    }
+    public static StackMachineRecipe stackFromMultiBlock(ItemStack[] input, MultiBlockMachine machine,int ticks){
+        ItemStack recipeOutput= RecipeType.getRecipeOutputList(machine,input);
+        SlimefunItem resultSfitem=SlimefunItem.getByItem(recipeOutput);
+        if(resultSfitem==null&&ticks==-1){
+            ticks=0;
+        }
+        return getNoComsumed(new StackMachineRecipe(ticks,stackIn(input),new ItemStack[]{recipeOutput}),StackMachineRecipe::new);
+    }
+    public static StackMachineRecipe stackFromRecipe(SlimefunItem item,int time){
+//        ItemStack[] input=item.getRecipe();
+//        List<ItemStack> outputs=new ArrayList<ItemStack>(){{
+//            add(item.getRecipeOutput());
+//        } };
+//        for(int i = 0; i < input.length; i++){
+//            if(input[i]==null)continue;
+//            if(NOCONSUME_MAP.containsKey(input[i].getType())){
+//                if(CraftUtils.matchItemStack(new ItemStack(input[i].getType()),input[i],true)){
+//                    outputs.add(NOCONSUME_MAP.get(input[i].getType()));
+//                }
+//            }
+//        }
+        return getNoComsumed(new StackMachineRecipe(time,stackIn(item.getRecipe()),new ItemStack[]{item.getRecipeOutput()}),StackMachineRecipe::new);
     }
     /**
      * check if any NOT-TO-BE-CONSUMED Item
@@ -189,6 +231,17 @@ public class MachineRecipeUtils {
      */
     public static ShapedMachineRecipe shapeFromRecipe(SlimefunItem item){
         return shapeFromRecipe(item,-1);
+    }
+    public static StackMachineRecipe shapeFromMultiBlock(ItemStack[] input, MultiBlockMachine machine){
+        return stackFromMultiBlock(input,machine,-1);
+    }
+    public static StackMachineRecipe shapeFromMultiBlock(ItemStack[] input, MultiBlockMachine machine,int ticks){
+        ItemStack recipeOutput= RecipeType.getRecipeOutputList(machine,input);
+        SlimefunItem resultSfitem=SlimefunItem.getByItem(recipeOutput);
+        if(resultSfitem==null&&ticks==-1){
+            ticks=0;
+        }
+        return getNoComsumed(new StackMachineRecipe(ticks,i(input),new ItemStack[]{recipeOutput}),StackMachineRecipe::new);
     }
 
     /**

@@ -21,6 +21,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
@@ -152,6 +153,11 @@ public abstract  class AbstractMachine extends CustomSlimefunItem implements Tic
      */
     public boolean conditionHandle(Block b,BlockMenu menu){
         return this.handleProcess.apply(menu);
+    }
+    public void removeCharge(@Nonnull Location l, int charge){
+        if(charge>0){
+            EnergyNetComponent.super.removeCharge(l,charge);
+        }
     }
 
     /**

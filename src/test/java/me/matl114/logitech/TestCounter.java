@@ -3,11 +3,11 @@ package me.matl114.logitech;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.Test;
 
-public class TestCounter  implements Cloneable {
-    TestStack it;
-    int amount;
-    boolean dirty;
-
+public abstract class TestCounter  implements Cloneable {
+    private TestStack it;
+    private int amount;
+    private boolean dirty;
+    private final int shit=1919;
     public TestCounter(TestStack it) {
         this.it = it;
         this.amount = it.getAmount();

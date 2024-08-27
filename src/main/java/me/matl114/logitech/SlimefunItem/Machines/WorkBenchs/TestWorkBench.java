@@ -41,7 +41,7 @@ public class TestWorkBench extends AbstractWorkBench {
         menu.addMenuClickHandler(CRAFT_SLOT,
                 (player, i, itemStack, clickAction)->{
 
-                    craft(block,menu);
+                    craft(block,menu,player);
                     return false;
                 }
         );

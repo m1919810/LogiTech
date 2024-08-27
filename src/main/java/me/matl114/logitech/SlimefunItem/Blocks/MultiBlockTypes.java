@@ -149,7 +149,6 @@ public class MultiBlockTypes {
 
         }
     }.build();
-    //Todo 嬗变机 用核能的架子
     public static final CubeMultiBlockType NUCLEAR_REACTOR=new CubeMultiBlockType(){
         protected int[] dx=new int[]{
             2,2,3,3,3,4,4,5,5,5,6,6
