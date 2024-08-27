@@ -36,6 +36,10 @@
               <pattern>org.bstats</pattern>
               <shadedPattern>me.matl114.logitech.bstats</shadedPattern>
             </relocation>
+            <relocation>
+              <pattern>com.jeff_media.morepersistentdatatypes</pattern>
+              <shadedPattern>me.matl114.morepersistentdatatypes</shadedPattern>
+            </relocation>
           </relocations>
           <filters>
             <filter>

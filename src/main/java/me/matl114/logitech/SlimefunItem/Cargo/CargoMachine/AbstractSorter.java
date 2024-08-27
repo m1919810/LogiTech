@@ -30,7 +30,7 @@ public abstract class AbstractSorter extends AbstractSyncTickCargo implements  C
         super(itemGroup, item, recipeType, recipe);
         setDisplayRecipes(
                 Utils.list(AddUtils.getInfoShow("&f机制",
-                                "&7这是一个同步货运机器,属于[SORTER_SYNC]组",
+                                "&7这是一个同步货运机器,属于[CHIP_SYNC]组",
                                 "&7位于同组的机器共享同一个ticker计数器",
                                 "&7机器用该计数器顺序读取%s中记录的01码".formatted(Language.get("Items.CHIP.Name")),
                                 "&7机器会读取01码的第<ticker>%32位",

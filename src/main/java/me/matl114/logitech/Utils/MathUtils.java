@@ -25,13 +25,19 @@ public class MathUtils {
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
             'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
     static final int[] mask ;
+    static final int[] POW;
     static final String zeroString=toBinaryCode(0);
     static {
         mask=new int[33];
+        POW=new int[33];
         for(int i=0; i<32; i++) {
+            POW[i]=(1<<i);
             mask[i]=(1<<i) -1;
         }
         mask[32]=-1;
+    }
+    public static int getBitPos(int k){
+        return POW[k];
     }
     /**
      * int型存储规则 采用小端存储

@@ -497,6 +497,12 @@ zh_CN:
       Name: '方舟反应堆'
       Lore:
         - 'IronMan 同款~'
+    ADVANCED_CHIP_MAKER:
+      Name: '高效芯片光刻机'
+      Lore:
+        - '拥有复刻二进制位的能力'
+        - '周期性的选择01数据的位'
+        - '从样本芯片复制此位数据到目标芯片'
   Manuals:
     MANUAL_CORE:
       Name: '乱序核心'

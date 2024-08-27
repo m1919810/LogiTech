@@ -265,7 +265,8 @@ public class AddItem {
             Language.get("Machines.OPPO_GEN.Name"),Language.getList("Machines.OPPO_GEN.Lore"));
     public static final SlimefunItemStack ARC_REACTOR=AddUtils.themed("ARC_REACTOR",CustomHead.REACTOR.getItem(),AddUtils.Theme.MACHINE1,
             Language.get("Machines.ARC_REACTOR.Name"),Language.getList("Machines.ARC_REACTOR.Lore"));
-
+    public static final SlimefunItemStack ADVANCED_CHIP_MAKER=AddUtils.themed("ADVANCED_CHIP_MAKER",Material.CHISELED_BOOKSHELF,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.ADVANCED_CHIP_MAKER.Name"),Language.getList("Machines.ADVANCED_CHIP_MAKER.Lore"));
 
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
@@ -479,5 +480,6 @@ public class AddItem {
         add(BISILVER);
         add(STACKFRAME);
         add(MULTIBLOCK_MANUAL);
+        add(ADVANCED_CHIP_MAKER);
     }};
 }
