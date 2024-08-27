@@ -861,10 +861,13 @@ public class RecipeSupporter {
                                                     } else if (item instanceof Crucible) {
                                                         break;
                                                     } else break;
-                                                } else if (machineRecipe instanceof AltarRecipe) {
-                                                    List<ItemStack> inp = ((AltarRecipe) machineRecipe).getInput();
-                                                    inp.add(4, ((AltarRecipe) machineRecipe).getCatalyst());
-                                                    MachineRecipe rp = new MachineRecipe(9, inp.toArray(new ItemStack[inp.size()]), new ItemStack[]{((AltarRecipe) machineRecipe).getOutput()});
+                                                } else if (machineRecipe instanceof AltarRecipe ar) {
+                                                    List<ItemStack> inp = (ar).getInput();
+                                                    List<ItemStack> inpCopy=new ArrayList<>();
+                                                    if(!inp.isEmpty())
+                                                        inpCopy.addAll(inp);
+                                                    inpCopy.add(4, (ar).getCatalyst());
+                                                    MachineRecipe rp = new MachineRecipe(9, inpCopy.toArray(new ItemStack[inpCopy.size()]), new ItemStack[]{((AltarRecipe) machineRecipe).getOutput()});
                                                     recipes.add(rp);
                                                 } else if (machineRecipe.getClass().getName().endsWith(infinityMachineBlockRecipe) &&
                                                         machineRecipe.getClass().getName().contains(infinitylib)) {

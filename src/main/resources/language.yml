@@ -482,6 +482,15 @@ zh_CN:
       Lore:
         - '将电网中多余的电销毁'
         - '会优先保证用电器的供需'
+    OPPO_GEN:
+      Name: '正反发电机'
+      Lore:
+        - '拥有正反两面的发电机'
+        - '这难道不令人感到奇怪末'
+    ARC_REACTOR:
+      Name: '方舟反应堆'
+      Lore:
+        - 'IRONMAN同款~'
   Manuals:
     MANUAL_CORE:
       Name: '乱序核心'

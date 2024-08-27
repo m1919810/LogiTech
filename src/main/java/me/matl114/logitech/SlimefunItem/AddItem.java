@@ -259,8 +259,10 @@ public class AddItem {
             Language.get("Machines.STACKMACHINE.Name"),Language.getList("Machines.STACKMACHINE.Lore"));
     public static final SlimefunItemStack ENERGY_TRASH=AddUtils.themed("ENERGY_TRASH", SlimefunItems.PORTABLE_DUSTBIN.getItem().getItem().clone()
             ,AddUtils.Theme.MACHINE1, Language.get("Machines.ENERGY_TRASH.Name"),Language.getList("Machines.ENERGY_TRASH.Lore"));
-
-
+    public static final SlimefunItemStack OPPO_GEN=AddUtils.themed("OPPO_GEN",CustomHead.HOT_MACHINE.getItem(), AddUtils.Theme.MACHINE1,
+            Language.get("Machines.OPPO_GEN.Name"),Language.getList("Machines.OPPO_GEN.Lore"));
+    public static final SlimefunItemStack ARC_REACTOR=AddUtils.themed("ARC_REACTOR",Material.PLAYER_HEAD,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.ARC_REACTOR.Name"),Language.getList("Machines.ARC_REACTOR.Lore"));
 
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,

@@ -18,7 +18,7 @@ website: https://github.com/m1919810/LogiTech
 version: ${project.version}
 
 ## 这是运行该附属所需的最低MC版本。
-api-version: 1.20
+api-version: '1.20'
 
 ## 指定 Slimefun 作为依赖项，必须
 
