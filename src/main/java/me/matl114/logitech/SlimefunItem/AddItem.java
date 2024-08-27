@@ -224,6 +224,8 @@ public class AddItem {
             Language.get("Items.BISILVER.Name"),Language.getList("Items.BISILVER.Lore"));
     public static final SlimefunItemStack PAGOLD=AddUtils.themed("PAGOLD",Material.GOLD_INGOT,AddUtils.Theme.ITEM1,
             Language.get("Items.PAGOLD.Name"),Language.getList("Items.PAGOLD.Lore"));
+    public static final SlimefunItemStack LASER=AddUtils.themed("LASER",CustomHead.LASER.getItem(), AddUtils.Theme.ITEM1,
+            Language.get("Items.LASER.Name"),Language.getList("Items.LASER.Lore"));
 
     //nachines
     public static final SlimefunItemStack HEAD_ANALYZER=AddUtils.themed("HEAD_ANALYZER",Material.SOUL_CAMPFIRE, AddUtils.Theme.MACHINE1,
@@ -261,8 +263,9 @@ public class AddItem {
             ,AddUtils.Theme.MACHINE1, Language.get("Machines.ENERGY_TRASH.Name"),Language.getList("Machines.ENERGY_TRASH.Lore"));
     public static final SlimefunItemStack OPPO_GEN=AddUtils.themed("OPPO_GEN",CustomHead.HOT_MACHINE.getItem(), AddUtils.Theme.MACHINE1,
             Language.get("Machines.OPPO_GEN.Name"),Language.getList("Machines.OPPO_GEN.Lore"));
-    public static final SlimefunItemStack ARC_REACTOR=AddUtils.themed("ARC_REACTOR",Material.PLAYER_HEAD,AddUtils.Theme.MACHINE1,
+    public static final SlimefunItemStack ARC_REACTOR=AddUtils.themed("ARC_REACTOR",CustomHead.REACTOR.getItem(),AddUtils.Theme.MACHINE1,
             Language.get("Machines.ARC_REACTOR.Name"),Language.getList("Machines.ARC_REACTOR.Lore"));
+
 
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
@@ -369,17 +372,17 @@ public class AddItem {
             Language.get("MultiBlock.SOLAR_REACTOR_FRAME.Name"),Language.getList("MultiBlock.SOLAR_REACTOR_FRAME.Lore"));
     public static final SlimefunItemStack SOLAR_REACTOR_GLASS=AddUtils.themed("SOLAR_REACTOR_GLASS",Material.TINTED_GLASS,AddUtils.Theme.MULTIBLOCK2,
             Language.get("MultiBlock.SOLAR_REACTOR_GLASS.Name"),Language.getList("MultiBlock.SOLAR_REACTOR_GLASS.Lore"));
-    public static final SlimefunItemStack SOLAR_INPUT=AddUtils.themed("SOLAR_INPUT",Material.WAXED_OXIDIZED_COPPER,AddUtils.Theme.ITEM1,
+    public static final SlimefunItemStack SOLAR_INPUT=AddUtils.themed("SOLAR_INPUT",Material.WAXED_OXIDIZED_COPPER,AddUtils.Theme.MULTIBLOCK2,
             Language.get("MultiBlock.SOLAR_INPUT.Name"),Language.getList("MultiBlock.SOLAR_INPUT.Lore"));
-    public static final SlimefunItemStack SOLAR_OUTPUT=AddUtils.themed("SOLAR_OUTPUT",Material.WAXED_COPPER_BLOCK,AddUtils.Theme.ITEM1,
+    public static final SlimefunItemStack SOLAR_OUTPUT=AddUtils.themed("SOLAR_OUTPUT",Material.WAXED_COPPER_BLOCK,AddUtils.Theme.MULTIBLOCK2,
             Language.get("MultiBlock.SOLAR_OUTPUT.Name"),Language.getList("MultiBlock.SOLAR_OUTPUT.Lore"));
-    public static final SlimefunItemStack TRANSMUTATOR_FRAME=AddUtils.themed("TRANSMUTATOR_FRAME",Material.SMOOTH_STONE, AddUtils.Theme.ITEM1,
+    public static final SlimefunItemStack TRANSMUTATOR_FRAME=AddUtils.themed("TRANSMUTATOR_FRAME",Material.SMOOTH_STONE, AddUtils.Theme.MULTIBLOCK2,
             Language.get("MultiBlock.TRANSMUTATOR_FRAME.Name"),Language.getList("MultiBlock.TRANSMUTATOR_FRAME.Lore"));
-    public static final SlimefunItemStack TRANSMUTATOR_GLASS=AddUtils.themed("TRANSMUTATOR_GLASS",Material.LIGHT_GRAY_STAINED_GLASS,AddUtils.Theme.ITEM1,
+    public static final SlimefunItemStack TRANSMUTATOR_GLASS=AddUtils.themed("TRANSMUTATOR_GLASS",Material.LIGHT_GRAY_STAINED_GLASS,AddUtils.Theme.MULTIBLOCK2,
             Language.get("MultiBlock.TRANSMUTATOR_GLASS.Name"),Language.getList("MultiBlock.TRANSMUTATOR_GLASS.Lore"));
-    public static final SlimefunItemStack TRANSMUTATOR_ROD=AddUtils.themed("TRANSMUTATOR_ROD",Material.REINFORCED_DEEPSLATE,AddUtils.Theme.ITEM1,
+    public static final SlimefunItemStack TRANSMUTATOR_ROD=AddUtils.themed("TRANSMUTATOR_ROD",Material.REINFORCED_DEEPSLATE,AddUtils.Theme.MULTIBLOCK2,
             Language.get("MultiBlock.TRANSMUTATOR_ROD.Name"),Language.getList("MultiBlock.TRANSMUTATOR_ROD.Lore"));
-    public static final SlimefunItemStack TRANSMUTATOR=AddUtils.themed("TRANSMUTATOR",Material.FURNACE,AddUtils.Theme.MACHINE1,
+    public static final SlimefunItemStack TRANSMUTATOR=AddUtils.themed("TRANSMUTATOR",Material.FURNACE,AddUtils.Theme.MULTIBLOCK1,
             Language.get("MultiBlock.TRANSMUTATOR.Name"),Language.getList("MultiBlock.TRANSMUTATOR.Lore"));
 
 

@@ -16,6 +16,6 @@ public class EnergyTrash  extends Capacitor {
         super(category, item, recipeType, recipe, energybuffer);
     }
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
-        this.setCharge(inv.getLocation(),0);
+        this.setCharge(b.getLocation(),0);
     }
 }

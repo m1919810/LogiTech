@@ -244,6 +244,8 @@ zh_CN:
       Name: '铂 (pt)'
     MOLYBDENUM:
       Name: '钼 (mo)'
+      Lore:
+        - '用于芯片制造'
     CERIUM:
       Name: '铈 (ce)'
     CADMIUM_INGOT:
@@ -404,6 +406,10 @@ zh_CN:
       Lore:
         - '在虚拟空间中压缩大量机器..'
         - '用于合成传说中的堆叠机器'
+    LASER:
+      Name: '纳米级激光发生器'
+      Lore:
+        - '用于芯片制造'
   Machines:
     LOGIC_REACTOR:
       Name: '逻辑反应堆'

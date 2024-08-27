@@ -1,6 +1,6 @@
 package me.matl114.logitech.Utils.UtilClass.PdcClass;
 
-import de.jeff_media.morepersistentdatatypes.DataType;
+import com.jeff_media.morepersistentdatatypes.DataType;
 import me.matl114.logitech.Utils.AddUtils;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;

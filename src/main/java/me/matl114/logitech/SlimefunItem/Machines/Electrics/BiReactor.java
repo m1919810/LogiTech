@@ -10,6 +10,7 @@ import me.matl114.logitech.Language;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractEnergyProvider;
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
 import me.matl114.logitech.Utils.Utils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -76,10 +77,10 @@ public class BiReactor extends AbstractEnergyProvider {
     protected int energyConsumptionFalse;
     public BiReactor(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                      int energyBuffer, int energyProvider,int falseEnergy) {
-        super(category, item, recipeType, recipe,   energyBuffer,-energyProvider);
+        super(category, item, recipeType, recipe,   energyBuffer,energyProvider);
         this.energyConsumptionFalse=falseEnergy;
-        STATUS_ITEM[0]=AddUtils.addGlow( new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&e状态: &a正","发电量: %dJ/T".formatted(this.energyConsumption)));
-        STATUS_ITEM[1]=AddUtils.addGlow( new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&e状态: &c负","发电量: %dJ/T".formatted(-this.energyConsumptionFalse)));
+        STATUS_ITEM[0]=AddUtils.addGlow( new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&e状态: &a正","&7发电量: %dJ/t".formatted(this.energyConsumption)));
+        STATUS_ITEM[1]=AddUtils.addGlow( new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&e状态: &c负","&7发电量: %dJ/t".formatted(-this.energyConsumptionFalse)));
         this.setDisplayRecipes(Utils.list(AddUtils.getInfoShow("&f机制 &a正","&7当同时输入%s和%s时,发电 %dJ".
                 formatted(Language.get("Items.FALSE_.Name"),Language.get("Items.TRUE_.Name"),this.energyConsumption)),
                 new DisplayItemStack(AddItem.TRUE_),
@@ -94,30 +95,31 @@ public class BiReactor extends AbstractEnergyProvider {
         int[] border=BORDER;
         int len= border.length;
         for (int i=0;i<len;i++){
-            preset.addItem(len, ChestMenuUtils.getBackground(),ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(border[i], ChestMenuUtils.getBackground(),ChestMenuUtils.getEmptyClickHandler());
         }
         border=INPUT_BORDER;
         len= border.length;
         for (int i=0;i<len;i++){
-            preset.addItem(len, ChestMenuUtils.getInputSlotTexture(),ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(border[i], ChestMenuUtils.getInputSlotTexture(),ChestMenuUtils.getEmptyClickHandler());
         }
         border=OUTPUT_BORDER;
         len= border.length;
         for (int i=0;i<len;i++){
-            preset.addItem(len, ChestMenuUtils.getOutputSlotTexture(),ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(border[i], ChestMenuUtils.getOutputSlotTexture(),ChestMenuUtils.getEmptyClickHandler());
         }
         border=INFO_SLOT;
         len= border.length;
         for (int i=0;i<len;i++){
             preset.addItem(border[i],INFO_ITEMS[i],ChestMenuUtils.getEmptyClickHandler());
         }
-       preset.addItem(STATUS_SLOT,STATUS_ITEM[0]);
+       preset.addItem(STATUS_SLOT,STATUS_ITEM[0],ChestMenuUtils.getEmptyClickHandler());
 
 
     }
     public int getGeneratedOutput(@Nonnull Location l, @Nonnull SlimefunBlockData data){
         BlockMenu inv=data.getBlockMenu();
         if(inv!=null){
+
             ItemStack it= inv.getItemInSlot(TRUE_SLOTS[0]);
             if(it!=null&&it.getType()==Material.MUSIC_DISC_5&&(!it.getEnchantments().isEmpty())){
                 ItemStack it2;
@@ -132,7 +134,7 @@ public class BiReactor extends AbstractEnergyProvider {
                 }
             }
             if(inv.hasViewer()){
-                inv.replaceExistingItem(STATUS_SLOT,STATUS_ITEM[0]);
+                inv.replaceExistingItem(STATUS_SLOT,STATUS_ITEM[1]);
             }
             return -this.energyConsumptionFalse;
         }else return 0;

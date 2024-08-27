@@ -36,6 +36,7 @@ import me.matl114.logitech.SlimefunItem.Cargo.WorkBench.ChipConsumer;
 import me.matl114.logitech.SlimefunItem.Items.*;
 import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.*;
 import me.matl114.logitech.SlimefunItem.Machines.Electrics.BiReactor;
+import me.matl114.logitech.SlimefunItem.Machines.Electrics.EGenerator;
 import me.matl114.logitech.SlimefunItem.Machines.Electrics.EnergyTrash;
 import me.matl114.logitech.SlimefunItem.Machines.Electrics.TestGenerator;
 import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.FinalManual;
@@ -50,6 +51,7 @@ import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.OutputPort;
 import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.Singularity;
 import me.matl114.logitech.SlimefunItem.Cargo.TestStorageUnit;
 import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.EqProRandomStack;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ProbItemStack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -424,6 +426,14 @@ public class AddSlimefunItems {
                     AddItem.PDCECDMD,AddItem.HGTLPBBI,AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,AddItem.HGTLPBBI,AddItem.PDCECDMD,
                     AddItem.LCRAFT,AddItem.PDCECDMD,AddItem.BISILVER,AddItem.BISILVER,AddItem.PDCECDMD,AddItem.LIOPORT),null)
             .setOutput(setC(AddItem.STACKFRAME,32)).register();
+    public static final SlimefunItem LASER=new MaterialItem(AddGroups.ADVANCED,AddItem.LASER,BugCrafter.TYPE,
+            recipe(AddItem.HYDRAGYRUM,AddItem.MOLYBDENUM,AddItem.BORON,AddItem.BORON,AddItem.MOLYBDENUM,AddItem.HYDRAGYRUM,
+                    AddItem.ANTIMONY_INGOT,AddItem.BORON,AddItem.MOLYBDENUM,AddItem.MOLYBDENUM,AddItem.BORON,AddItem.ANTIMONY_INGOT,
+                    AddItem.BORON,AddItem.PAGOLD,AddItem.LSINGULARITY,AddItem.LSINGULARITY,AddItem.PAGOLD,AddItem.BORON,
+                    AddItem.BORON,AddItem.PAGOLD,AddItem.LSINGULARITY,AddItem.LSINGULARITY,AddItem.PAGOLD,AddItem.BORON,
+                    AddItem.ANTIMONY_INGOT,AddItem.BORON,AddItem.MOLYBDENUM,AddItem.MOLYBDENUM,AddItem.BORON,AddItem.ANTIMONY_INGOT,
+                    AddItem.HYDRAGYRUM,AddItem.MOLYBDENUM,AddItem.BORON,AddItem.BORON,AddItem.MOLYBDENUM,AddItem.HYDRAGYRUM),null)
+            .register();
 
     //machines
     public static final SlimefunItem BOOL_GENERATOR=new BoolGenerator(AddGroups.BASIC,AddItem.BOOL_GENERATOR,RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -470,7 +480,7 @@ public class AddSlimefunItems {
             recipe(AddItem.BUG,"ENERGY_REGULATOR",AddItem.BUG,"ENERGY_CONNECTOR","TRASH_CAN_BLOCK","ENERGY_CONNECTOR",
                     AddItem.BUG,"ENERGIZED_CAPACITOR",AddItem.BUG), 100_000_000)
             .register();
-    public static final  SlimefunItem OPPO_GEN=new BiReactor(AddGroups.ENERGY, AddItem.OPPO_GEN,RecipeType.NULL,
+    public static final  SlimefunItem OPPO_GEN=new BiReactor(AddGroups.ENERGY, AddItem.OPPO_GEN,BugCrafter.TYPE,
             recipe(null,null,null,null,null,null,
                     null,AddItem.ABSTRACT_INGOT,AddItem.FALSE_,AddItem.TRUE_,AddItem.ABSTRACT_INGOT,null,
                     null,AddItem.ABSTRACT_INGOT,AddItem.TRUE_,AddItem.FALSE_,AddItem.ABSTRACT_INGOT,null,
@@ -478,14 +488,18 @@ public class AddSlimefunItems {
                     AddItem.ABSTRACT_INGOT,AddItem.LBOOLIZER,AddItem.LBOOLIZER,AddItem.LBOOLIZER,AddItem.LBOOLIZER,AddItem.ABSTRACT_INGOT,
                     AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT), 15_000,1_000,10_000)
             .register();
-//    public static final  SlimefunItem ARC_REACTOR=new EGenerator(AddGroups.BASIC, AddItem.ARC_REACTOR,RecipeType.NULL,
-//            recipe(null,null,null,null,null,null,
-//                    null,AddItem.PAGOLD,AddItem.PAGOLD,AddItem.PAGOLD,AddItem.PAGOLD,null,
-//                    AddItem.PAGOLD,AddItem.SPACE_PLATE,AddItem.CHIP_CORE,AddItem.CHIP_CORE,AddItem.SPACE_PLATE,AddItem.PAGOLD,
-//                    AddItem.PAGOLD,AddItem.SPACE_PLATE,AddItem.SMELERY_CORE,AddItem.TECH_CORE,AddItem.SPACE_PLATE,AddItem.PAGOLD,
-//                    AddItem.PAGOLD,AddItem.LSINGULARITY,AddItem.MASS_CORE,AddItem.METAL_CORE,AddItem.LSINGULARITY,AddItem.PAGOLD,
-//                    AddItem.BISILVER,AddItem.BISILVER,AddItem.BISILVER,AddItem.BISILVER,AddItem.BISILVER,AddItem.BISILVER), Material.STONE,0,0,null)
-//            .register();
+    public static final  SlimefunItem ARC_REACTOR=new EGenerator(AddGroups.ENERGY, AddItem.ARC_REACTOR,RecipeType.NULL,
+            recipe(null,null,null,null,null,null,
+                    null,AddItem.PAGOLD,AddItem.PAGOLD,AddItem.PAGOLD,AddItem.PAGOLD,null,
+                    AddItem.PAGOLD,AddItem.SPACE_PLATE,AddItem.CHIP_CORE,AddItem.CHIP_CORE,AddItem.SPACE_PLATE,AddItem.PAGOLD,
+                    AddItem.PAGOLD,AddItem.SPACE_PLATE,AddItem.SMELERY_CORE,AddItem.TECH_CORE,AddItem.SPACE_PLATE,AddItem.PAGOLD,
+                    AddItem.PAGOLD,AddItem.LSINGULARITY,AddItem.MASS_CORE,AddItem.METAL_CORE,AddItem.LSINGULARITY,AddItem.PAGOLD,
+                    AddItem.BISILVER,AddItem.BISILVER,AddItem.BISILVER,AddItem.BISILVER,AddItem.BISILVER,AddItem.BISILVER), Material.BEACON,25_000_000,333_333,
+            mkMp(
+                mkP(    mkl(AddItem.PAGOLD),mkl("GOLD")) ,600,
+                    mkP(    mkl(AddItem.BISILVER),mkl(AddItem.ABSTRACT_INGOT)) ,480
+            ))
+            .register();
     public static final  SlimefunItem SPECIAL_CRAFTER=new SpecialCrafter(AddGroups.BASIC, AddItem.SPECIAL_CRAFTER,BugCrafter.TYPE,
             recipe(AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,AddItem.LOGIC,AddItem.LOGIC,AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,
                     AddItem.LFIELD,AddItem.LDIGITIZER,setC(AddItem.LPLATE,2),setC(AddItem.LPLATE,2),AddItem.LMOTOR,AddItem.LFIELD,
@@ -798,6 +812,9 @@ public class AddSlimefunItems {
     //方舟反应堆
     //百度
     //吃掉实体
+    //红石控制的货运
+    //芯片控制的货运
+    //红石tnt生成器
 
 
     //multiblock
