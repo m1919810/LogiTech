@@ -81,7 +81,7 @@ public abstract class AbstractWorkBench extends AbstractMachine {
     public abstract void constructMenu(BlockMenuPreset preset);
     public MenuFactory getRecipeMenu(Block b,BlockMenu inv){
 
-         return MenuUtils.createMRecipeListDisplay(getItem(),getMachineRecipes(),null,(MenuUtils.RecipeMenuConstructor)(itemstack, recipes, backhandler)->{
+         return MenuUtils.createMRecipeListDisplay(getItem(),getMachineRecipes(),null,(MenuUtils.RecipeMenuConstructor)(itemstack, recipes, backhandler,history)->{
             return MenuUtils.createMRecipeDisplay(itemstack,recipes,backhandler).addOverrides(8,LAZY_ONECLICK).addHandler(8,((player, i, itemStack, clickAction) -> {
                 moveRecipe(player,inv,recipes, clickAction.isRightClicked());
                 return false;

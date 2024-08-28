@@ -102,6 +102,7 @@ public class CustomMenu {
     int nextSlot=-1;
     int prevSlot=-1;
     int backSlot=-1;
+    int lastpage=1;
     ChestMenu.MenuClickHandler backHandlers=ChestMenuUtils.getEmptyClickHandler();
     public CustomMenu(String title,int size, int menulens,MenuFactory factory) {
         this.factory=factory;
@@ -172,14 +173,18 @@ public class CustomMenu {
     public ChestMenu.MenuClickHandler generatePageClick(int slot, int page){
         if(slot==nextSlot){
             return (player1, i1, itemStack, clickAction) -> {
-                if(page<pages)
+                if(page<pages){
                     openPages(player1,page+1);
+                    this.lastpage=page+1;
+                }
                 return false;
             };
         }else if(slot==prevSlot){
             return (player1, i1, itemStack, clickAction) -> {
-                if(page>1)
+                if(page>1){
                     openPages(player1,page-1);
+                    this.lastpage=page-1;
+                }
                 return false;
             };
         }else if(slot==backSlot){

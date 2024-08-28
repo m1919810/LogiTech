@@ -69,7 +69,6 @@ public abstract class CustomItemGroup extends FlexItemGroup {
         };
         init(menuFactory);
         addItemGroups();
-        menuFactory.makeFinal();
         this.size=size;
 
     }

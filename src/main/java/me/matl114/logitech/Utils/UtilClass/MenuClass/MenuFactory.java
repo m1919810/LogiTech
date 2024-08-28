@@ -227,7 +227,11 @@ public abstract class MenuFactory {
         return  this;
     }
     public CustomMenu build(){
-        return build(null);
+        if(this.guideBuilder==null){
+            return build(null);
+        }else {
+            return buildGuide(null,this.guideBuilder);
+        }
     }
     public CustomMenu build(CustomMenuHandler fatherHandler){
         if(!isFinal)
@@ -247,6 +251,39 @@ public abstract class MenuFactory {
             else if(finalBackHandler!=null){
                 a.setBackHandler(finalBackHandler.getInstance(a));
             }
+        }
+        return a;
+    }
+    public PlayerHistoryRecord<GuideCustomMenu> guideBuilder=null;
+    public MenuFactory setGuideModHistory(PlayerHistoryRecord<GuideCustomMenu> guideBuilder){
+        if(guideBuilder!=null)
+            this.guideBuilder=guideBuilder;
+        return this;
+    }
+    public GuideCustomMenu buildGuide(CustomMenuHandler fatherHandler,PlayerHistoryRecord<GuideCustomMenu> history){
+        if(!isFinal)
+            makeFinal();
+        GuideCustomMenu a=new GuideCustomMenu(title,size,finalInventory.length,this);
+        if(next>=0&&next<size){
+            a.setNextPageButtom(next);
+        }
+        if(prev>=0&&prev<size){
+            a.setPrevPageButtom(prev);
+        }
+        if(back>=0&&back<size){
+            a.setBackSlot(back);
+            if(fatherHandler!=null) {
+                a.setBackHandler(fatherHandler.getInstance(a));
+            }
+            else if(finalBackHandler!=null){
+                a.setBackHandler(finalBackHandler.getInstance(a));
+            }
+        }
+        if(guideBuilder==null){
+            a.setUseHistory(false);
+        }else {
+            a.setUseHistory(true);
+            a.setHistory(guideBuilder);
         }
         return a;
     }

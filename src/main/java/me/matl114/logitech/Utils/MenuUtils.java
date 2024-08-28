@@ -8,10 +8,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.*;
-import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomMenu;
-import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomMenuHandler;
-import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
-import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuPreset;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.*;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -118,12 +115,20 @@ public class MenuUtils {
     public static final int[] RECIPESLOT_6x6=new int[]{1,2,3,4,5,6,10,11,12,13,14,15,19,20,21,22,23,24,28,29,30,31,32,33,37,38,39,40,41,42,46,47,48,49,50,51};
     public static final int[] RECIPEOUTPUT_6X6=new int[]{35,44,53};
     public interface RecipeMenuConstructor{
-        public MenuFactory construct(ItemStack icon, MachineRecipe recipe , CustomMenuHandler backhandler);
+        public MenuFactory construct(ItemStack icon, MachineRecipe recipe , CustomMenuHandler backhandler, PlayerHistoryRecord<GuideCustomMenu> history);
     }
     public static MenuFactory createMRecipeListDisplay(ItemStack machine, List<MachineRecipe> machineRecipes, @Nullable CustomMenuHandler backHandler){
-        return createMRecipeListDisplay(machine,machineRecipes,backHandler,MenuUtils::createMRecipeDisplay);
+        return createMRecipeListDisplay(machine,machineRecipes,backHandler,null,MenuUtils::createMRecipeDisplay);
+    }
+    public static MenuFactory createMRecipeListDisplay(ItemStack machine, List<MachineRecipe> machineRecipes, @Nullable CustomMenuHandler backHandler,PlayerHistoryRecord<GuideCustomMenu> history){
+        return createMRecipeListDisplay(machine,machineRecipes,backHandler,history,MenuUtils::createMRecipeDisplay);
     }
     public static MenuFactory createMRecipeListDisplay(ItemStack machine, List<MachineRecipe> machineRecipes, @Nullable CustomMenuHandler backHandler,RecipeMenuConstructor constructor){
+        return createMRecipeListDisplay(machine,machineRecipes,backHandler,null,constructor);
+    }
+
+    public static MenuFactory createMRecipeListDisplay(ItemStack machine, List<MachineRecipe> machineRecipes, @Nullable CustomMenuHandler backHandler,PlayerHistoryRecord<GuideCustomMenu> history,RecipeMenuConstructor constructor){
+
         int RecipeSize = machineRecipes.size();
         int pageContent=36;
         int pageNum=(1+(RecipeSize-1)/pageContent);
@@ -138,6 +143,7 @@ public class MenuUtils {
                 setDefaultNPSlots();
             }
         }.addOverrides(7,displayMachine);
+        a.setGuideModHistory(history);
         a.setBack(1);
         if(backHandler!=null){
             a.setBackHandler(backHandler);
@@ -154,7 +160,7 @@ public class MenuUtils {
                 a.addInventory(i,NO_ITEM);
             }
             a.addHandler(i,(cm)-> (player, i1, itemStack, clickAction) -> {
-                constructor.construct(machine,recipe,cm.getOpenThisHandler(pageNow)).build().open(player);
+                constructor.construct(machine,recipe,cm.getOpenThisHandler(pageNow),history).build().open(player);
                 return false;
             });
         }
@@ -225,6 +231,9 @@ public class MenuUtils {
         return finalStack;
     }
     public static MenuFactory createMRecipeDisplay(ItemStack machine,MachineRecipe recipe,@Nullable CustomMenuHandler backHandler){
+        return createMRecipeDisplay(machine,recipe,backHandler,null);
+    }
+    public static MenuFactory createMRecipeDisplay(ItemStack machine,MachineRecipe recipe,@Nullable CustomMenuHandler backHandler, PlayerHistoryRecord<GuideCustomMenu> history){
         ItemStack[] input=recipe.getInput();
         ItemStack[] output=recipe.getOutput();
         int inputlen=input.length;
@@ -234,6 +243,7 @@ public class MenuUtils {
 
                 }
             };
+            a.setGuideModHistory(history);
             a.setBack(RECIPEBACKSLOT_3X3);
             if(backHandler!=null){
                 a.setBackHandler(backHandler);
@@ -278,6 +288,7 @@ public class MenuUtils {
                 public void init(){
                 }
             };
+            a.setGuideModHistory(history);
             a.setBack(RECIPEBACKSLOT_6X6);
             if(backHandler!=null){
                 a.setBackHandler (backHandler);
@@ -330,6 +341,9 @@ public class MenuUtils {
      * @return
      */
     public static MenuFactory createRecipeTypeDisplay(List<RecipeType> recipeTypes, CustomMenuHandler backHandler){
+        return createRecipeTypeDisplay(recipeTypes,backHandler,null);
+    }
+    public static MenuFactory createRecipeTypeDisplay(List<RecipeType> recipeTypes, CustomMenuHandler backHandler,PlayerHistoryRecord<GuideCustomMenu> history){
         HashMap<RecipeType,ItemStack> map=RecipeSupporter.RECIPETYPE_ICON;
         int RecipeSize =0;
         for(RecipeType entry:recipeTypes){
@@ -345,6 +359,7 @@ public class MenuUtils {
                 setDefaultNPSlots();
             }
         }.addOverrides(7, SlimefunGuide.getItem(SlimefunGuide.getDefaultMode()));
+        a.setGuideModHistory(history);
         if(backHandler!=null){
             a.setBack(1);
             a.setBackHandler(backHandler);
@@ -381,6 +396,9 @@ public class MenuUtils {
         return a;
     }
     public static MenuFactory createMachineListDisplay(List<SlimefunItem> machineTypes,CustomMenuHandler backHandler){
+        return createMachineListDisplay(machineTypes,backHandler,null);
+    }
+    public static MenuFactory createMachineListDisplay(List<SlimefunItem> machineTypes,CustomMenuHandler backHandler,PlayerHistoryRecord<GuideCustomMenu> history){
         HashMap<SlimefunItem,List<MachineRecipe>> map=RecipeSupporter.MACHINE_RECIPELIST;
         int RecipeSize =0;
         for(SlimefunItem entry:machineTypes){
@@ -395,7 +413,8 @@ public class MenuUtils {
             public void init(){
                 setDefaultNPSlots();
             }
-        }.addOverrides(7, SlimefunGuide.getItem(SlimefunGuide.getDefaultMode()));
+        }.addOverrides(7, SlimefunGuide.getItem(SlimefunGuide.getDefaultMode())).setGuideModHistory(history);
+
         a.setBack(1);
         if(backHandler!=null){
             a.setBackHandler(backHandler);

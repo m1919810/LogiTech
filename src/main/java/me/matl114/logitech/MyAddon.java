@@ -103,9 +103,9 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         Debug.logger("附属特性注册完毕");
     }
     public void tryUpdate() {
-        if ( getDescription().getVersion().startsWith("Build")) {
+        //if ( getDescription().getVersion().startsWith("Build")) {
             GuizhanUpdater.start(this, getFile(), username, repo, branch);
-        }
+        //}
     }
     @Override
     public void onDisable() {

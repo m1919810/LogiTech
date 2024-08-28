@@ -576,14 +576,14 @@ public class AddSlimefunItems {
             AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),Material.IRON_PICKAXE,
             2_000,2_000_000,1.0)
             .register();
-    public static final  SlimefunItem ADVANCED_CHIP_MAKER=new ChipCopier(AddGroups.ADVANCED, AddItem.ADVANCED_CHIP_MAKER,RecipeType.NULL,
-            recipe(null,AddItem.REINFORCED_CHIP_INGOT,AddItem.CHIP_MAKER,AddItem.CHIP_MAKER,AddItem.REINFORCED_CHIP_INGOT,null,
-                    null,AddItem.REINFORCED_CHIP_INGOT,AddItem.CHIP_MAKER,AddItem.CHIP_MAKER,AddItem.REINFORCED_CHIP_INGOT,null,
-                    AddItem.HGTLPBBI,AddItem.SPACE_PLATE,AddItem.LASER,AddItem.LASER,AddItem.SPACE_PLATE,AddItem.HGTLPBBI,
-                    AddItem.BISILVER,AddItem.SPACE_PLATE,setC(AddItem.LSINGULARITY,2),setC(AddItem.LSINGULARITY,2),AddItem.SPACE_PLATE,AddItem.BISILVER,
-                    AddItem.BISILVER,AddItem.SPACE_PLATE,setC(AddItem.LSINGULARITY,2),setC(AddItem.LSINGULARITY,2),AddItem.SPACE_PLATE,AddItem.BISILVER,
-                    AddItem.PDCECDMD,AddItem.SPACE_PLATE,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.SPACE_PLATE,AddItem.PDCECDMD))
-            .register();
+//    public static final  SlimefunItem ADVANCED_CHIP_MAKER=new ChipCopier(AddGroups.ADVANCED, AddItem.ADVANCED_CHIP_MAKER,RecipeType.NULL,
+//            recipe(null,AddItem.REINFORCED_CHIP_INGOT,AddItem.CHIP_MAKER,AddItem.CHIP_MAKER,AddItem.REINFORCED_CHIP_INGOT,null,
+//                    null,AddItem.REINFORCED_CHIP_INGOT,AddItem.CHIP_MAKER,AddItem.CHIP_MAKER,AddItem.REINFORCED_CHIP_INGOT,null,
+//                    AddItem.HGTLPBBI,AddItem.SPACE_PLATE,AddItem.LASER,AddItem.LASER,AddItem.SPACE_PLATE,AddItem.HGTLPBBI,
+//                    AddItem.BISILVER,AddItem.SPACE_PLATE,setC(AddItem.LSINGULARITY,2),setC(AddItem.LSINGULARITY,2),AddItem.SPACE_PLATE,AddItem.BISILVER,
+//                    AddItem.BISILVER,AddItem.SPACE_PLATE,setC(AddItem.LSINGULARITY,2),setC(AddItem.LSINGULARITY,2),AddItem.SPACE_PLATE,AddItem.BISILVER,
+//                    AddItem.PDCECDMD,AddItem.SPACE_PLATE,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.SPACE_PLATE,AddItem.PDCECDMD))
+//            .register();
 
 
 

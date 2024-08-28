@@ -34,8 +34,10 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class AddGroups {
     public static void registerGroups(SlimefunAddon plugin){
@@ -44,6 +46,7 @@ public class AddGroups {
     }
     // 给你的分类提供一个独一无二的ID
     protected static  final NamespacedKey itemGroupId = AddUtils.getNameKey("addon_category");
+    protected static final NamespacedKey bugcrafterId = AddUtils.getNameKey("bugcrafter");
 
     public static final ItemGroup MATERIAL =new DummyItemGroup(AddUtils.getNameKey("material" ), AddItem.MATERIAL);
 
@@ -70,7 +73,7 @@ public class AddGroups {
     public static final ItemGroup ENERGY= new DummyItemGroup(AddUtils.getNameKey("energy"),AddItem.ENERGY);
 
     public static final ItemGroup FUNCTIONAL=new DummyItemGroup(AddUtils.getNameKey("functional"),AddItem.FUNCTIONAL);
-
+    //FIXME 修改描述
     public static final ItemGroup INFO =new CustomItemGroup(AddUtils.getNameKey("info"),null, AddItem.INFO,54,36,new LinkedHashMap<>()) {
         @Override
         protected void init(MenuFactory factory) {
@@ -118,6 +121,7 @@ public class AddGroups {
         }
     };
     //TODO 增加更多彩蛋
+    //TODO 将配方页改成物品组
     public static final ItemGroup ROOT=new CustomItemGroup(itemGroupId,AddUtils.colorful(AddUtils.ADDON_NAME), AddItem.ROOT,54,108,
                 new LinkedHashMap<>(){{
                     put(2,MATERIAL);
@@ -282,5 +286,29 @@ public class AddGroups {
 
         }
     };
+
+    public static ItemGroup BUGCRAFTER=new CustomItemGroup(bugcrafterId,AddUtils.colorful(AddUtils.ADDON_NAME),AddItem.ALLBIGRECIPES,54,36,new LinkedHashMap<>()) {
+        MenuFactory subRecipe;
+        @Override
+        protected void init(MenuFactory factory) {
+            ItemStack menuBackGround=new CustomItemStack(Material.PURPLE_STAINED_GLASS_PANE,"");
+            factory.addOverrides(4,AddItem.URL,(Player player1, int i1, ItemStack itemstack1, ClickAction clickAction) -> {
+                final TextComponent link = new TextComponent("单击此处访问Github");
+                link.setColor(ChatColor.YELLOW);
+                link.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/m1919810/LogiTech"));
+                player1.spigot().sendMessage(link);
+                return false;
+            });
+            factory.setBackGround(menuBackGround);
+
+        }
+
+        @Override
+        protected void addGuideRelated(ChestMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int pages) {
+
+        }
+    };
+
+
 }
 
