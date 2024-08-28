@@ -243,7 +243,9 @@ public class CustomMenu {
         openPages(p,1);
     }
     public ChestMenu constructPage(int page){
-        assert page<=pages&&page>=1;
+        if(! (page<=pages&&page>=1)){
+            page=lastpage;
+        }
         int startIndex=(page-1)*pageContent;
         int endIndex=Math.min(inventorySize,page*pageContent);
         int delta=endIndex-startIndex;

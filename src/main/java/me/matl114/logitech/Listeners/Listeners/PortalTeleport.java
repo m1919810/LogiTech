@@ -23,7 +23,6 @@ public class PortalTeleport implements Listener {
     public final int[] dz=new int[]{0,0,1,0,-1,1,-1,-1,1};
     @EventHandler
     //沉浸式体验传送门 abab
-    //FIXME 目标传送门未激活时传送有误
     public void onTeleportRedirect(PlayerPortalEvent event) {
         Location loco = event.getFrom();
         int x = loco.getBlockX();
@@ -49,6 +48,7 @@ public class PortalTeleport implements Listener {
                 } else {
                     AddUtils.sendMessage(player, "&c目标传送门未启用,传送失败!");
                 }
+                player.setPortalCooldown(60);
                 event.setCancelled(true);
                 return;
             }
@@ -93,9 +93,6 @@ public class PortalTeleport implements Listener {
                 }
 
             }
-
-           // event.setCancelled(true);
-            return;
         }
 
     }

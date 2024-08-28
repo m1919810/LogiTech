@@ -68,6 +68,7 @@ public class PortalCore extends MultiCore {
                 return true;
             }
         }
+        DataCache.setLastLocation(inv.getLocation(),null);
         return false;
     }
     public Location checkLink(Location loc){
@@ -160,6 +161,9 @@ public class PortalCore extends MultiCore {
         }else{
             inv.replaceExistingItem(HOLOGRAM_SLOT,HOLOGRAM_ITEM_ON_2);
         }
+        if(!loadLink(inv)){
+            MultiBlockService.deleteMultiBlock(inv.getLocation());
+        }
     }
     public void newMenuInstance(BlockMenu inv, Block block){
         Location loc2=block.getLocation();
@@ -206,6 +210,8 @@ public class PortalCore extends MultiCore {
                     AddUtils.sendMessage(player,"&a全息投影已切换至东西向!");
                     MultiBlockService.createHologram(loc,MBTYPE, MultiBlockService.Direction.WEST, MBID_TO_ITEM);
                     DataCache.setCustomData(loc,"holo",2);
+                }else {
+                    AddUtils.sendMessage(player,"&a全息投影已关闭!");
                 }
             }
             updateMenu(inv,block,Settings.RUN);
@@ -222,6 +228,12 @@ public class PortalCore extends MultiCore {
         process(b,menu,data);
 
     }
+    public void processCore(Block b, BlockMenu menu){
+        if(menu.hasViewer()){
+            updateMenu(menu,b,Settings.RUN);
+        }
+    }
+
     public void onBreak(BlockBreakEvent e, BlockMenu inv){
         if(inv!=null){
             Location loc=inv.getLocation();

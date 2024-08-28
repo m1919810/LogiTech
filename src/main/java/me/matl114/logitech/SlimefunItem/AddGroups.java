@@ -3,7 +3,10 @@ package me.matl114.logitech.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.chat.ChatInput;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Items.CustomHead;
@@ -12,14 +15,8 @@ import me.matl114.logitech.Schedule.PersistentEffects.CustomEffects;
 import me.matl114.logitech.Schedule.PersistentEffects.PlayerEffects;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.SlimefunItem.Machines.WorkBenchs.BugCrafter;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.MenuUtils;
-import me.matl114.logitech.Utils.RecipeSupporter;
-import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomItemGroup;
-import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomMenu;
-import me.matl114.logitech.Utils.UtilClass.MenuClass.DummyItemGroup;
-import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
-import me.matl114.logitech.Utils.WorldUtils;
+import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.*;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import net.md_5.bungee.api.ChatColor;
@@ -34,15 +31,28 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 public class AddGroups {
     public static void registerGroups(SlimefunAddon plugin){
         ROOT.register(plugin);
+        INFO.register(plugin);
         MATERIAL.register(plugin);
+        BASIC.register(plugin);
+        CARGO.register(plugin);
+        SINGULARITY.register(plugin);
+        ADVANCED.register(plugin);
+        BEYOND.register(plugin);
+        VANILLA.register(plugin);
+        MANUAL.register(plugin);
+        SPECIAL.register(plugin);
+        SPACE.register(plugin);
+        GENERATORS.register(plugin);
+        ENERGY.register(plugin);
+        FUNCTIONAL.register(plugin);
     }
     // 给你的分类提供一个独一无二的ID
     protected static  final NamespacedKey itemGroupId = AddUtils.getNameKey("addon_category");
@@ -73,10 +83,95 @@ public class AddGroups {
     public static final ItemGroup ENERGY= new DummyItemGroup(AddUtils.getNameKey("energy"),AddItem.ENERGY);
 
     public static final ItemGroup FUNCTIONAL=new DummyItemGroup(AddUtils.getNameKey("functional"),AddItem.FUNCTIONAL);
-    //FIXME 修改描述
+    public static ItemGroup BUGCRAFTER=new CustomItemGroup(bugcrafterId,AddUtils.colorful(AddUtils.ADDON_NAME),AddItem.ALLBIGRECIPES,54,36,new LinkedHashMap<>()) {
+        public PlayerHistoryRecord<CustomMenu> historyHandler=new PlayerHistoryRecord<CustomMenu>() {
+            HashMap<UUID,List<CustomMenu>> records=new HashMap<>();
+            public  CustomMenu getRecord(Player player){
+                UUID uuid=player.getUniqueId();
+                synchronized(records){
+                    List<CustomMenu> list=records.get(uuid);
+                    if(list==null){
+                        list=new ArrayList<CustomMenu>();
+                    }
+                    if(list.isEmpty()){
+                        return null;
+                    }
+                    return list.get(list.size()-1);
+                }
+            }
+            public void addRecord(Player player, CustomMenu record){
+                UUID uuid=player.getUniqueId();
+                synchronized(records){
+                    List<CustomMenu> list=records.get(uuid);
+                    if(list==null){
+                        list=new ArrayList<>();
+                        records.put(uuid,list);
+                    }
+                    list.add(record);
+
+                }
+            }
+            public CustomMenu deleteRecord(Player player,CustomMenu record){
+                UUID uuid=player.getUniqueId();
+                synchronized(records){
+                    List<CustomMenu> list=records.get(uuid);
+                    if(list==null||list.isEmpty()){
+                        return null;
+                    }
+                    return list.remove(list.size()-1);
+                }
+            }
+        };
+        MenuFactory subRecipes=null;
+        public void initCustomMenus(){
+            subRecipes=MenuUtils.createMRecipeListDisplay(AddItem.BUG_CRAFTER,RecipeSupporter.PROVIDED_SHAPED_RECIPES.get(BugCrafter.TYPE),
+                    null,historyHandler,MenuUtils::createMRecipeDisplay);
+        }
+        public MenuFactory getSubRecipes() {
+            if(subRecipes==null){
+                initCustomMenus();
+            }
+            return subRecipes;
+        }
+        protected void init(MenuFactory factory) {
+            ItemStack menuBackGround=new CustomItemStack(Material.PURPLE_STAINED_GLASS_PANE,"");
+            factory.addOverrides(4,AddItem.URL,(Player player1, int i1, ItemStack itemstack1, ClickAction clickAction) -> {
+                final TextComponent link = new TextComponent("单击此处访问Github");
+                link.setColor(ChatColor.YELLOW);
+                link.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/m1919810/LogiTech"));
+                player1.spigot().sendMessage(link);
+                return false;
+            });
+            factory.setBackGround(menuBackGround);
+            SchedulePostRegister.addPostRegisterTask(this::initCustomMenus);
+        }
+        public void openPage(Player var1, PlayerProfile var2, SlimefunGuideMode var3,int page){
+
+            var2.getGuideHistory().add(this,1);
+            CustomMenu menu= historyHandler.getRecord(var1);
+            if(menu!=null){
+                ChestMenu historyMenu=menu.constructPage(-1);
+                historyMenu.open(var1);
+                return;
+            }
+            CustomMenu menu2=getSubRecipes().build();
+            menu2.setBackSlot(1);
+            menu2.setBackHandler(((player, i, itemStack, clickAction) -> {
+                var2.getGuideHistory().goBack(Slimefun.getRegistry().getSlimefunGuide(var3));
+                return false;
+            }));
+            menu2.openPages(var1,1);
+        }
+        @Override
+        protected void addGuideRelated(ChestMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int pages) {
+
+        }
+    };
+
     public static final ItemGroup INFO =new CustomItemGroup(AddUtils.getNameKey("info"),null, AddItem.INFO,54,36,new LinkedHashMap<>()) {
         @Override
         protected void init(MenuFactory factory) {
+            this.setVisble(false);
             factory.addInventory(1,AddItem.INFO1);
             factory.addInventory(11,AddItem.INFO2);
             factory.addInventory(21,AddItem.INFO3);
@@ -101,9 +196,6 @@ public class AddGroups {
             factory.addInventory(35,AddItem.FEAT9);
             factory.addOverrides(4,AddItem.MATL114);
         }
-        public void addGuideRelated(CustomMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int page){
-
-        }
         @Override
         protected void addGuideRelated(ChestMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int pages) {
             if(AddUtils.standardRandom()<0.666){
@@ -120,13 +212,11 @@ public class AddGroups {
             }
         }
     };
-    //TODO 增加更多彩蛋
-    //TODO 将配方页改成物品组
     public static final ItemGroup ROOT=new CustomItemGroup(itemGroupId,AddUtils.colorful(AddUtils.ADDON_NAME), AddItem.ROOT,54,108,
                 new LinkedHashMap<>(){{
                     put(2,MATERIAL);
                     put(0,INFO);
-                    //put(8,ALLBIGRECIPES);
+                    put(27,BUGCRAFTER);
                     put(4,BASIC);
                     put(3,MANUAL);
                     put(6,ENERGY);
@@ -142,12 +232,11 @@ public class AddGroups {
             ){
         public MenuFactory MACHINEMENU=null;
         public MenuFactory RECIPEMENU=null;
-        public MenuFactory BUGCRAFTER=null;
         public void initCustomMenus(){
             MACHINEMENU=MenuUtils.createMachineListDisplay(RecipeSupporter.MACHINE_RECIPELIST.keySet().stream().toList(),null).setBack(1);
             RECIPEMENU=MenuUtils.createRecipeTypeDisplay(RecipeSupporter.RECIPE_TYPES.stream().toList(),null).setBack(1);
-            BUGCRAFTER=MenuUtils.createMRecipeListDisplay(AddItem.BUG_CRAFTER,RecipeSupporter.PROVIDED_SHAPED_RECIPES.get(BugCrafter.TYPE),
-                    null,MenuUtils::createMRecipeDisplay);
+//            BUGCRAFTER=MenuUtils.createMRecipeListDisplay(AddItem.BUG_CRAFTER,RecipeSupporter.PROVIDED_SHAPED_RECIPES.get(BugCrafter.TYPE),
+//                    null,MenuUtils::createMRecipeDisplay);
         }
         public MenuFactory getMachineMenu(){
             if(MACHINEMENU==null){
@@ -161,16 +250,15 @@ public class AddGroups {
             }
             return RECIPEMENU;
         }
-        public MenuFactory getBugCrafterMenu(){
-            if(BUGCRAFTER==null){
-                initCustomMenus();
-            }
-            return BUGCRAFTER;
-        }
-
-
+//        public MenuFactory getBugCrafterMenu(){
+//            if(BUGCRAFTER==null){
+//                initCustomMenus();
+//            }
+//            return BUGCRAFTER;
+//        }
         //used to set common handlers and common params
         public void init(MenuFactory factory){
+            this.setVisble(true);
             //对模板进行最高级别的覆写
             ItemStack menuBackGround=new CustomItemStack(Material.PURPLE_STAINED_GLASS_PANE,"");
             factory.addOverrides(4,AddItem.URL,(Player player1, int i1, ItemStack itemstack1, ClickAction clickAction) -> {
@@ -213,14 +301,29 @@ public class AddGroups {
             factory.addInventory(59,h4);
             factory.addInventory(60,h5);
             factory.addInventory(63,h6);
+            this.s7metas=new ItemMeta[6];
+            String continueStr="&7点击继续";
+            ItemStack it=new CustomItemStack(AddItem.MATL114,AddUtils.color("你觉得..."),continueStr);
+            factory.addInventory(71,it);
+            it=new CustomItemStack(AddItem.MATL114,AddUtils.color("我能在患有痴呆症的情况下完成逻辑工艺的编写吗?"),continueStr);
+            s7metas[0]=it.getItemMeta();
+            it=new CustomItemStack(AddItem.MATL114,AddUtils.color("这能被完成么,这可能完成么?"),continueStr);
+            s7metas[1]=it.getItemMeta();
+            it=new CustomItemStack(AddItem.MATL114,AddUtils.color("我知道这有点难"),continueStr);
+            s7metas[2]=it.getItemMeta();
+            it=new CustomItemStack(AddItem.MATL114,AddUtils.color("所以,我想"),continueStr);
+            s7metas[3]=it.getItemMeta();
+            it=new CustomItemStack(AddItem.MATL114,AddUtils.color("今年我要进行一项从未有人达成过的挑战"),continueStr);
+            s7metas[4]=it.getItemMeta();
         }
         final ItemStack s1=new CustomItemStack(CustomHead.getHead("fd524332cdb381c9e51f77d4cec9bc6d4d1c5bdec1499d206d8383e9176bdfb0"),AddUtils.color("haiman"),"&7haiman科技作者","&7海曼科技会为你提供足够的物质支持");
         final ItemStack s2=new CustomItemStack(CustomHead.getHead("a9b046531a6182de634d6fed1f3b4f885ee99bfe2bc0c1684f7b97d396c2059f"),AddUtils.color("mmmjjkx"),"&7rsc开发者","&3纯大蛇\uD83D\uDE0B");
         final ItemStack s3=new CustomItemStack(Material.REPEATING_COMMAND_BLOCK,AddUtils.color("tinalness"),"&7大香蕉的本质是命令方块\uD83D\uDE0B(确信","&7但是你或许会需要他的网络拓展");
         final ItemStack s4=new CustomItemStack(CustomHead.SUPPORT.getItem(),AddUtils.color("HgTlPbBi"),"&7逻辑工艺的支持者","&7提出了很多有用的点子");
         final ItemStack s5=new CustomItemStack(CustomHead.getHead("8e434215b5616bf37dccbacdb240bd16de59507e62a5371ceca80327b398e65"),AddUtils.color("Tmatsuki_rui"),"&7凉城服的祸源","&7纯傻逼,给爷死啊\uD83D\uDE21");
-        final ItemStack s6=new CustomItemStack(AddItem.MATL114,"  ","&7看得出你的视力很好","&7所以一定要仔细阅读","&7版本说明与机器说明哦");
+        final ItemStack s6=new CustomItemStack(CustomHead.BUSHIGEMEN.getItem(),"  ","&7看得出你的视力很好","&7所以一定要仔细阅读","&7版本说明与机器说明哦");
         final ItemStack head=new CustomItemStack(Material.PLAYER_HEAD,AddUtils.color("逝者的头颅"));
+        ItemMeta[] s7metas;
         //used to set GUIDE based handlers,an interface to adapt CustomMenu menus
         public void addGuideRelated(ChestMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int page){
             //加入实例化之后的handler和item,同打开玩家等数据有关的handler
@@ -239,13 +342,13 @@ public class AddGroups {
                     })).open(player1);
                     return false;
                 }));
-                menu.addMenuClickHandler(36,(((player1, i1, itemStack1, clickAction) -> {
-                    getBugCrafterMenu().build().setBackHandler(((player, i, itemStack, clickAction1) -> {
-                        this.openPage(player1,profile,mode,page);
-                        return false;
-                    })).open(player1);
-                    return false;
-                })));
+//                menu.addMenuClickHandler(36,(((player1, i1, itemStack1, clickAction) -> {
+//                    getBugCrafterMenu().build().setBackHandler(((player, i, itemStack, clickAction1) -> {
+//                        this.openPage(player1,profile,mode,page);
+//                        return false;
+//                    })).open(player1);
+//                    return false;
+//                })));
             }else if(page==2){
                 menu.addMenuClickHandler(29,((player, i, itemStack, clickAction) -> {
                     menu.replaceExistingItem(29,s1);
@@ -282,32 +385,19 @@ public class AddGroups {
                     menu.addMenuClickHandler(36,ChestMenuUtils.getEmptyClickHandler());
                     return false;
                 }));
+                menu.addMenuClickHandler(44, new ChestMenu.MenuClickHandler() {
+                    int index=0;
+                    @Override
+                    public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+                        itemStack.setItemMeta(s7metas[index]);
+                        index=(index+1)%5;
+                        return false;
+                    }
+                });
             }
-
         }
     };
 
-    public static ItemGroup BUGCRAFTER=new CustomItemGroup(bugcrafterId,AddUtils.colorful(AddUtils.ADDON_NAME),AddItem.ALLBIGRECIPES,54,36,new LinkedHashMap<>()) {
-        MenuFactory subRecipe;
-        @Override
-        protected void init(MenuFactory factory) {
-            ItemStack menuBackGround=new CustomItemStack(Material.PURPLE_STAINED_GLASS_PANE,"");
-            factory.addOverrides(4,AddItem.URL,(Player player1, int i1, ItemStack itemstack1, ClickAction clickAction) -> {
-                final TextComponent link = new TextComponent("单击此处访问Github");
-                link.setColor(ChatColor.YELLOW);
-                link.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/m1919810/LogiTech"));
-                player1.spigot().sendMessage(link);
-                return false;
-            });
-            factory.setBackGround(menuBackGround);
-
-        }
-
-        @Override
-        protected void addGuideRelated(ChestMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int pages) {
-
-        }
-    };
 
 
 }

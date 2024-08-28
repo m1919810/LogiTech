@@ -633,6 +633,7 @@ public class RecipeSupporter {
                 PROVIDED_UNSHAPED_RECIPES.get(BukkitUtils.VANILLA_CRAFTTABLE).add(MachineRecipeUtils.stackFrom(-1,input.toArray(new ItemStack[0]),Utils.array(next.getResult())));
 
             } else if (next instanceof ShapelessRecipe slr) {
+                //TODO 将物品输入转为等价物品组
                 List< RecipeChoice> choice= slr.getChoiceList();
                 List<ItemStack> inputs;
                 int len=choice.size();

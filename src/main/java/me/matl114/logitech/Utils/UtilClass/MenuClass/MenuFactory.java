@@ -254,13 +254,13 @@ public abstract class MenuFactory {
         }
         return a;
     }
-    public PlayerHistoryRecord<GuideCustomMenu> guideBuilder=null;
-    public MenuFactory setGuideModHistory(PlayerHistoryRecord<GuideCustomMenu> guideBuilder){
+    public PlayerHistoryRecord<CustomMenu> guideBuilder=null;
+    public MenuFactory setGuideModHistory(PlayerHistoryRecord<CustomMenu> guideBuilder){
         if(guideBuilder!=null)
             this.guideBuilder=guideBuilder;
         return this;
     }
-    public GuideCustomMenu buildGuide(CustomMenuHandler fatherHandler,PlayerHistoryRecord<GuideCustomMenu> history){
+    public GuideCustomMenu buildGuide(CustomMenuHandler fatherHandler,PlayerHistoryRecord<CustomMenu> history){
         if(!isFinal)
             makeFinal();
         GuideCustomMenu a=new GuideCustomMenu(title,size,finalInventory.length,this);

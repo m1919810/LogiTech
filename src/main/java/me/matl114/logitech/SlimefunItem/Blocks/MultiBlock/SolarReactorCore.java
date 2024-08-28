@@ -380,6 +380,8 @@ public class SolarReactorCore extends MultiBlockProcessor {
                 AddUtils.sendMessage(player,"&a全息投影已开启!");
                 MultiBlockService.createHologram(loc,MBTYPE, MultiBlockService.Direction.NORTH, MBID_TO_ITEM);
                 DataCache.setCustomData(loc,"holo",1);
+            }else {
+                AddUtils.sendMessage(player,"&a全息投影已关闭!");
             }
             updateMenu(inv,block,Settings.RUN);
             return false;

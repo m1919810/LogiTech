@@ -18,6 +18,7 @@ import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+//TODO 正在开发
 
 public class ChipCopier extends AbstractSyncTickCargo{
     protected final int[] BORDER=new int[]{

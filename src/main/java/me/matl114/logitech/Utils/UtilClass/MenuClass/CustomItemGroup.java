@@ -27,15 +27,15 @@ import java.util.Map;
 
 public abstract class CustomItemGroup extends FlexItemGroup {
     protected static final ItemStack INVOKE_ERROR=new CustomItemStack(Material.BARRIER,"&c","","&c获取物品组物品展示失败");
-    MenuFactory menuFactory;
-    int pages;
-    int size;
-    int prelen=9;
-    int suflen=9;
-    int contentPerPage;
-    List<ItemGroup> subGroups;
-    int[] subGroupIndex;
-    boolean isVisible;
+    protected MenuFactory menuFactory;
+    protected int pages;
+    protected int size;
+    protected int prelen=9;
+    protected int suflen=9;
+    protected int contentPerPage;
+    protected List<ItemGroup> subGroups;
+    protected int[] subGroupIndex;
+    protected boolean isVisible;
     @Override
     public ItemStack getItem(Player p){
         return this.item;
@@ -50,28 +50,28 @@ public abstract class CustomItemGroup extends FlexItemGroup {
      * @param inventorylen
      * @param subGroup
      */
-    public CustomItemGroup(NamespacedKey key, String title, ItemStack item, int size,int inventorylen, List<ItemGroup> subGroup){
-        super(key,item);
-
-        assert size>=27&&size%9==0;
-        this.subGroups=subGroup;
-        this.contentPerPage=size-18;
-        this.pages=1+(inventorylen-1)/contentPerPage;
-        this.isVisible=true;
-        if(title==null){
-            title=item.getItemMeta().getDisplayName();
-        }
-        this.menuFactory=new MenuFactory(MenuUtils.SIMPLE_MENU.setSize(size),title,this.pages) {
-            @Override
-            public void init() {
-                setDefaultNPSlots();
-            }
-        };
-        init(menuFactory);
-        addItemGroups();
-        this.size=size;
-
-    }
+//    public CustomItemGroup(NamespacedKey key, String title, ItemStack item, int size,int inventorylen, List<ItemGroup> subGroup){
+//        super(key,item);
+//
+//        assert size>=27&&size%9==0;
+//        this.subGroups=subGroup;
+//        this.contentPerPage=size-18;
+//        this.pages=1+(inventorylen-1)/contentPerPage;
+//        this.isVisible=true;
+//        if(title==null){
+//            title=item.getItemMeta().getDisplayName();
+//        }
+//        this.menuFactory=new MenuFactory(MenuUtils.SIMPLE_MENU.setSize(size),title,this.pages) {
+//            @Override
+//            public void init() {
+//                setDefaultNPSlots();
+//            }
+//        };
+//        init(menuFactory);
+//        addItemGroups();
+//        this.size=size;
+//
+//    }
 
     /**
      * this type of ItemGroup has custom ItemGroup Position
@@ -89,7 +89,7 @@ public abstract class CustomItemGroup extends FlexItemGroup {
         this.subGroups=subGroup.values().stream().toList();
         this.contentPerPage=size-18;
         this.pages=1+(inventorylen-1)/this.contentPerPage;
-        this.isVisible=true;
+        this.isVisible=false;
         if(title==null){
             title=item.getItemMeta().getDisplayName();
         }
@@ -142,7 +142,7 @@ public abstract class CustomItemGroup extends FlexItemGroup {
     protected List<ItemGroup> getItemGroup(){
         return this.subGroups;
     }
-    protected void isVisble(boolean visble){
+    protected void setVisble(boolean visble){
         this.isVisible=visble;
     }
 
@@ -199,6 +199,9 @@ public abstract class CustomItemGroup extends FlexItemGroup {
     }
     public boolean isVisible(Player var1, PlayerProfile var2, SlimefunGuideMode var3){
         return isVisible;
+    }
+    public boolean isHidden(Player p) {
+        return !isVisible;
     }
     public void open(Player var1, PlayerProfile var2, SlimefunGuideMode var3){
         int page=getLastPage(var1,var2,var3);

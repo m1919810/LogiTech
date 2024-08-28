@@ -40,13 +40,11 @@ public class BoolGenerator extends AbstractProcessor {
     public BoolGenerator(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, Material progressItem,int tick) {
         super(category,item,recipeType,recipe,progressItem,250,2000,null);
         this.processtick=tick;
-        this.machineRecipes=new ArrayList<MachineRecipe>(){{
-            add(new MachineRecipe(0, new ItemStack[]{AddUtils.getInfoShow("&f生成机制","&7当配方匹配时,槽位依次消耗min(槽位物品数,%s)个物品".formatted(inputCost),"&7当配方不匹配时,清空输入槽的物品")},new ItemStack[0]));
-            add(MachineRecipeUtils.stackFrom(tick,new ItemStack[]{AddUtils.getInfoShow("&f生成机制","&7当输入槽全部相同时候,生成%s".formatted(Language.get("Items.TRUE_.Name")))},
-                    new ItemStack[]{AddItem.TRUE_}));
-            add(MachineRecipeUtils.stackFrom(tick,new ItemStack[]{AddUtils.getInfoShow("&f生成机制","&7当输入槽全部不同时候,生成%s".formatted(Language.get("Items.FALSE_.Name")))},
-                    new ItemStack[]{AddItem.FALSE_}));
-        }};
+        setDisplayRecipes(Utils.list(
+                AddUtils.getInfoShow("&f生成机制","&7当所有输入槽内物品全部相同时候,生成%s".formatted(Language.get("Items.TRUE_.Name"))),AddItem.TRUE_,
+                AddUtils.getInfoShow("&f生成机制","&7当任两输入槽内物品全部不同时候,生成%s".formatted(Language.get("Items.FALSE_.Name"))),AddItem.FALSE_,
+                AddUtils.getInfoShow("&f生成机制","&7当配方匹配时,槽位依次消耗min(槽位物品数,%s)个物品".formatted(inputCost) ),null));
+        this.machineRecipes=new ArrayList<>();
         AddUtils.addGlow(this.getProgressBar());
     }
     public void constructMenu(BlockMenuPreset preset) {

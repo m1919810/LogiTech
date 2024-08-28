@@ -1,6 +1,7 @@
 package me.matl114.logitech.Utils.UtilClass.MenuClass;
 
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.Utils.Debug;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.entity.Player;
 
@@ -28,7 +29,7 @@ public class GuideCustomMenu extends CustomMenu {
         this.useHistory = useHistory;
         return this;
     }
-    private PlayerHistoryRecord<GuideCustomMenu> history;
+    private PlayerHistoryRecord<CustomMenu> history;
     public CustomMenu setBackHandler(ChestMenu.MenuClickHandler handler){
         ChestMenu.MenuClickHandler han =handler==null? ChestMenuUtils.getEmptyClickHandler():handler;
         this.backHandlers=((player, i, itemStack, clickAction) -> {
@@ -39,18 +40,18 @@ public class GuideCustomMenu extends CustomMenu {
         });
         return this;
     }
-    public GuideCustomMenu setHistory(PlayerHistoryRecord<GuideCustomMenu> history){
+    public GuideCustomMenu setHistory(PlayerHistoryRecord<CustomMenu> history){
         this.history=history;
         return this;
     }
     public void openPages(Player p,int page){
         if(useHistory&&history!= null){
-            GuideCustomMenu menu= history.getRecord(p);
-            if(menu!=null){
-                ChestMenu historyMenu=menu.constructPage(menu.lastpage);
-                historyMenu.open(p);
-                return;
-            }
+//            CustomMenu menu= history.getRecord(p);
+//            if(menu!=null){
+//                ChestMenu historyMenu=menu.constructPage(menu.lastpage);
+//                historyMenu.open(p);
+//                return;
+//            }
             history.addRecord(p,this);
         }
         ChestMenu menu=constructPage(page);

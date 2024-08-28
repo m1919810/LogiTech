@@ -305,9 +305,15 @@ public class Transmutator extends MultiBlockAdvancedProcessor  {
             MultiBlockService.removeHologram(loc);
             if(statusCode==0){
                 if(holoStatus!=4){
-                    AddUtils.sendMessage(player,"&a全息投影已切换至南北向!");
+                    if(holoStatus==0)
+                        AddUtils.sendMessage(player,"&a全息投影已开启!");
+                    else
+                        AddUtils.sendMessage(player,"&a全息投影已切换方向!");
                     MultiBlockService.createHologram(loc,MBTYPE, MultiBlockService.Direction.fromInt(holoStatus), MBID_TO_ITEM);
                     DataCache.setCustomData(loc,"holo",holoStatus+1);
+                }
+                else {
+                    AddUtils.sendMessage(player,"&a全息投影已关闭!");
                 }
             }
             updateMenu(inv,block,Settings.RUN);

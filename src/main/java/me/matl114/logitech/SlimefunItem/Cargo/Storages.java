@@ -24,4 +24,7 @@ public class Storages {
         }
         return null;
     })).get();
+    //TODO 支持绑定实体存储
+    //TODO IO接口加一个均衡的 均算作实体存储
+
 }

@@ -183,7 +183,7 @@ public class AddSlimefunItems {
                     AddItem.UNIQUE,AddItem.EXISTE,AddItem.UNIQUE,AddItem.EXISTE,AddItem.UNIQUE,AddItem.EXISTE,
                     null,AddItem.UNIQUE,null,AddItem.UNIQUE,null,AddItem.UNIQUE,
                     "SOLDER_INGOT","SOLDER_INGOT","SOLDER_INGOT","SOLDER_INGOT","SOLDER_INGOT","SOLDER_INGOT"),null)
-            .setOutput(setC(AddItem.LFIELD,13))
+            .setOutput(setC(AddItem.LFIELD,17))
             .register();
 
 
@@ -446,7 +446,7 @@ public class AddSlimefunItems {
             recipe(AddItem.LOGIGATE,"COMPARATOR",AddItem.LOGIGATE,
                     "HEATING_COIL" , AddItem.TRUE_,"HEATING_COIL",
                     "REINFORCED_PLATE","CARBONADO_EDGED_CAPACITOR","REINFORCED_PLATE"
-                    ),Material.COMPARATOR,7)
+                    ),Material.COMPARATOR,3)
             .register();
     public static final SlimefunItem BUG_CRAFTER=new BugCrafter(AddGroups.BASIC,AddItem.BUG_CRAFTER,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.ABSTRACT_INGOT,AddItem.LOGIGATE,AddItem.ABSTRACT_INGOT,
@@ -495,12 +495,13 @@ public class AddSlimefunItems {
                     AddItem.PAGOLD,AddItem.SPACE_PLATE,AddItem.CHIP_CORE,AddItem.CHIP_CORE,AddItem.SPACE_PLATE,AddItem.PAGOLD,
                     AddItem.PAGOLD,AddItem.SPACE_PLATE,AddItem.SMELERY_CORE,AddItem.TECH_CORE,AddItem.SPACE_PLATE,AddItem.PAGOLD,
                     AddItem.PAGOLD,AddItem.LSINGULARITY,AddItem.MASS_CORE,AddItem.METAL_CORE,AddItem.LSINGULARITY,AddItem.PAGOLD,
-                    AddItem.BISILVER,AddItem.BISILVER,AddItem.BISILVER,AddItem.BISILVER,AddItem.BISILVER,AddItem.BISILVER), Material.BEACON,25_000_000,333_333,
+                    AddItem.BISILVER,AddItem.BISILVER,AddItem.BISILVER,AddItem.BISILVER,AddItem.BISILVER,AddItem.BISILVER), Material.BEACON,2_500_000,116_665,
             mkMp(
                 mkP(    mkl(AddItem.PAGOLD),mkl("GOLD_INGOT")) ,600,
                     mkP(    mkl(AddItem.BISILVER),mkl(AddItem.ABSTRACT_INGOT)) ,480
             ))
             .register();
+
     public static final  SlimefunItem SPECIAL_CRAFTER=new SpecialCrafter(AddGroups.BASIC, AddItem.SPECIAL_CRAFTER,BugCrafter.TYPE,
             recipe(AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,AddItem.LOGIC,AddItem.LOGIC,AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,
                     AddItem.LFIELD,AddItem.LDIGITIZER,setC(AddItem.LPLATE,2),setC(AddItem.LPLATE,2),AddItem.LMOTOR,AddItem.LFIELD,
@@ -571,19 +572,21 @@ public class AddSlimefunItems {
                     AddItem.ABSTRACT_INGOT,setC(AddItem.LDIGITIZER,2),AddItem.LFIELD,AddItem.LFIELD,setC(AddItem.LDIGITIZER,2),AddItem.ABSTRACT_INGOT,
                     AddItem.LENGINE,AddItem.ABSTRACT_INGOT,AddItem.LPLATE,AddItem.LPLATE,AddItem.ABSTRACT_INGOT,AddItem.LENGINE),8_000,2_500)
             .register();
-
     public static final SlimefunItem STACKMACHINE=new StackMachine(AddGroups.ADVANCED,AddItem.STACKMACHINE,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),Material.IRON_PICKAXE,
             2_000,2_000_000,1.0)
             .register();
-//    public static final  SlimefunItem ADVANCED_CHIP_MAKER=new ChipCopier(AddGroups.ADVANCED, AddItem.ADVANCED_CHIP_MAKER,RecipeType.NULL,
-//            recipe(null,AddItem.REINFORCED_CHIP_INGOT,AddItem.CHIP_MAKER,AddItem.CHIP_MAKER,AddItem.REINFORCED_CHIP_INGOT,null,
-//                    null,AddItem.REINFORCED_CHIP_INGOT,AddItem.CHIP_MAKER,AddItem.CHIP_MAKER,AddItem.REINFORCED_CHIP_INGOT,null,
-//                    AddItem.HGTLPBBI,AddItem.SPACE_PLATE,AddItem.LASER,AddItem.LASER,AddItem.SPACE_PLATE,AddItem.HGTLPBBI,
-//                    AddItem.BISILVER,AddItem.SPACE_PLATE,setC(AddItem.LSINGULARITY,2),setC(AddItem.LSINGULARITY,2),AddItem.SPACE_PLATE,AddItem.BISILVER,
-//                    AddItem.BISILVER,AddItem.SPACE_PLATE,setC(AddItem.LSINGULARITY,2),setC(AddItem.LSINGULARITY,2),AddItem.SPACE_PLATE,AddItem.BISILVER,
-//                    AddItem.PDCECDMD,AddItem.SPACE_PLATE,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.SPACE_PLATE,AddItem.PDCECDMD))
-//            .register();
+    //FIXME 增加介绍，回去测试
+    //FIXME 回去继续开发新特性！
+    //FIXME 增加最终机器 先创建
+    public static final  SlimefunItem ADVANCED_CHIP_MAKER=new ChipCopier(AddGroups.ADVANCED, AddItem.ADVANCED_CHIP_MAKER,RecipeType.NULL,
+            recipe(null,AddItem.REINFORCED_CHIP_INGOT,AddItem.CHIP_MAKER,AddItem.CHIP_MAKER,AddItem.REINFORCED_CHIP_INGOT,null,
+                    null,AddItem.REINFORCED_CHIP_INGOT,AddItem.CHIP_MAKER,AddItem.CHIP_MAKER,AddItem.REINFORCED_CHIP_INGOT,null,
+                    AddItem.HGTLPBBI,AddItem.SPACE_PLATE,AddItem.LASER,AddItem.LASER,AddItem.SPACE_PLATE,AddItem.HGTLPBBI,
+                    AddItem.BISILVER,AddItem.SPACE_PLATE,setC(AddItem.LSINGULARITY,2),setC(AddItem.LSINGULARITY,2),AddItem.SPACE_PLATE,AddItem.BISILVER,
+                    AddItem.BISILVER,AddItem.SPACE_PLATE,setC(AddItem.LSINGULARITY,2),setC(AddItem.LSINGULARITY,2),AddItem.SPACE_PLATE,AddItem.BISILVER,
+                    AddItem.PDCECDMD,AddItem.SPACE_PLATE,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.SPACE_PLATE,AddItem.PDCECDMD))
+            .register();
 
 
 
@@ -612,7 +615,7 @@ public class AddSlimefunItems {
                     AddItem.LFIELD,AddItem.ABSTRACT_INGOT,setC(AddItem.LBOOLIZER,47),setC(AddItem.LOGIGATE,31),AddItem.ABSTRACT_INGOT,AddItem.LFIELD,
                     AddItem.LFIELD,AddItem.ABSTRACT_INGOT,setC(AddItem.LOGIGATE,33),setC(AddItem.NOLOGIC,63),AddItem.ABSTRACT_INGOT,AddItem.LFIELD,
                     AddItem.TRUE_,AddItem.LFIELD,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LFIELD,AddItem.TRUE_,
-                    null,AddItem.FALSE_,AddItem.LFIELD,AddItem.LFIELD,AddItem.FALSE_,null), 9, 114514, 999,
+                    null,AddItem.FALSE_,AddItem.LFIELD,AddItem.LFIELD,AddItem.FALSE_,null), 7, 114514, 256,
             new LinkedHashMap<>(){{
                 put(mkl(AddItem.TRUE_),mkl(setC(AddItem.TRUE_,114514)));
                 put(mkl(AddItem.FALSE_),mkl(setC(AddItem.FALSE_,1919810)));
@@ -623,7 +626,7 @@ public class AddSlimefunItems {
             recipe(AddItem.ABSTRACT_INGOT,AddItem.MAGIC_STONE,AddItem.ABSTRACT_INGOT,
                     AddItem.UNIQUE,AddItem.LENGINE,AddItem.EXISTE
                     ,AddItem.WORLD_FEAT,AddItem.MAGIC_STONE,AddItem.WORLD_FEAT
-            ),18,2_500,700,
+            ),18,2_500,500,
             AddUtils.randItemStackFactory(
                     mkMp("8COBBLESTONE",50,
                             "4COAL",8,
@@ -641,7 +644,7 @@ public class AddSlimefunItems {
                     null,AddItem.LPLATE,AddItem.OVERWORLD_MINER,AddItem.OVERWORLD_MINER,AddItem.LPLATE,null,
                     null,AddItem.LPLATE,AddItem.LENGINE,AddItem.LENGINE,AddItem.LPLATE,null,
                     null,AddItem.NETHER_FEAT,"ENERGIZED_CAPACITOR","ENERGIZED_CAPACITOR",AddItem.NETHER_FEAT,null
-                  ),20,3_000,500,
+                  ),20,3_000,800,
             AddUtils.randItemStackFactory(
                     mkMp(
                             "32NETHERRACK",50,
@@ -660,7 +663,7 @@ public class AddSlimefunItems {
                     null,AddItem.LPLATE,AddItem.NETHER_MINER,AddItem.NETHER_MINER,AddItem.LPLATE,null,
                     null,AddItem.LPLATE,"ENERGIZED_CAPACITOR","ENERGIZED_CAPACITOR",AddItem.LPLATE,null,
                     AddItem.END_FEAT,AddItem.LENGINE,AddItem.END_FEAT,AddItem.END_FEAT,AddItem.LENGINE,AddItem.END_FEAT
-            ),20,6_000,1_500,
+            ),20,6_000,1_200,
             AddUtils.randItemStackFactory(
                     mkMp(
                             "64END_STONE",240,
@@ -679,7 +682,7 @@ public class AddSlimefunItems {
                     AddItem.LFIELD,null,AddItem.END_MINER,AddItem.END_MINER,null,AddItem.LFIELD,
                     AddItem.LFIELD,null,AddItem.END_MINER,AddItem.END_MINER,null,AddItem.LFIELD,
                     AddItem.STAR_GOLD_INGOT,AddItem.LIOPORT,AddItem.LENGINE,AddItem.LENGINE,AddItem.LIOPORT,AddItem.STAR_GOLD_INGOT,
-                    "GPS_TRANSMITTER_4",AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,"GPS_TRANSMITTER_4"),12,18_000,6_000,
+                    "GPS_TRANSMITTER_4",AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,"GPS_TRANSMITTER_4"),12,18_000,3_600,
             AddUtils.randItemStackFactory(
                     mkMp(
                             "64COBBLESTONE",1,
@@ -793,7 +796,7 @@ public class AddSlimefunItems {
                     null,AddItem.PAGOLD,AddItem.NOLOGIC,AddItem.NOLOGIC,AddItem.PAGOLD,null,
                     AddItem.PAGOLD,AddItem.SPACE_PLATE,AddItem.LSINGULARITY,AddItem.LSINGULARITY,AddItem.SPACE_PLATE,AddItem.PAGOLD,
                     AddItem.PAGOLD,AddItem.SPACE_PLATE,AddItem.LSINGULARITY,AddItem.LSINGULARITY,AddItem.SPACE_PLATE,AddItem.PAGOLD,
-                    null,AddItem.PAGOLD,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.PAGOLD,null), 10, 0, 0,
+                    null,AddItem.PAGOLD,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.PAGOLD,null), 10, 1_000_000, 24_000,
             new LinkedHashMap<>(){{
                 put(mkl(AddItem.LOGIGATE),mkl(setC(AddItem.LOGIGATE,64)));
                 put(mkl(AddItem.LOGIC),mkl(setC(AddItem.NOLOGIC,64)));
@@ -810,7 +813,7 @@ public class AddSlimefunItems {
             .register();
 
     //TODO register recips
-    //发电机
+    //发电机 123
     //更多的智能货运
     //垃圾提 ok
     //终极路线

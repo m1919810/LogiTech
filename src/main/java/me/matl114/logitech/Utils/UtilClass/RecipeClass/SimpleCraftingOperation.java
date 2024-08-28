@@ -4,9 +4,9 @@ import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 
 public class SimpleCraftingOperation implements MachineOperation {
-    private ItemConsumer[] outputItems;
-    private int totalTicks;
-    private int currentTicks;
+    protected ItemConsumer[] outputItems;
+    protected int totalTicks;
+    protected int currentTicks;
     public SimpleCraftingOperation(ItemConsumer[] outputItems,int time) {
         this.outputItems = outputItems;
         this.totalTicks = time;

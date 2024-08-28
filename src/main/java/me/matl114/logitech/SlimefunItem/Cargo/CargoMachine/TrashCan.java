@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
-
+//TODO 未创建实例
 public class TrashCan extends AbstractMachine {
     protected final int[] INPUT_SLOTS= IntStream.rangeClosed(0, 53).toArray();
     protected final int[] OUTPUT_SLOTS= new int[0];

@@ -115,19 +115,19 @@ public class MenuUtils {
     public static final int[] RECIPESLOT_6x6=new int[]{1,2,3,4,5,6,10,11,12,13,14,15,19,20,21,22,23,24,28,29,30,31,32,33,37,38,39,40,41,42,46,47,48,49,50,51};
     public static final int[] RECIPEOUTPUT_6X6=new int[]{35,44,53};
     public interface RecipeMenuConstructor{
-        public MenuFactory construct(ItemStack icon, MachineRecipe recipe , CustomMenuHandler backhandler, PlayerHistoryRecord<GuideCustomMenu> history);
+        public MenuFactory construct(ItemStack icon, MachineRecipe recipe , CustomMenuHandler backhandler, PlayerHistoryRecord<CustomMenu> history);
     }
     public static MenuFactory createMRecipeListDisplay(ItemStack machine, List<MachineRecipe> machineRecipes, @Nullable CustomMenuHandler backHandler){
         return createMRecipeListDisplay(machine,machineRecipes,backHandler,null,MenuUtils::createMRecipeDisplay);
     }
-    public static MenuFactory createMRecipeListDisplay(ItemStack machine, List<MachineRecipe> machineRecipes, @Nullable CustomMenuHandler backHandler,PlayerHistoryRecord<GuideCustomMenu> history){
+    public static MenuFactory createMRecipeListDisplay(ItemStack machine, List<MachineRecipe> machineRecipes, @Nullable CustomMenuHandler backHandler,PlayerHistoryRecord<CustomMenu> history){
         return createMRecipeListDisplay(machine,machineRecipes,backHandler,history,MenuUtils::createMRecipeDisplay);
     }
     public static MenuFactory createMRecipeListDisplay(ItemStack machine, List<MachineRecipe> machineRecipes, @Nullable CustomMenuHandler backHandler,RecipeMenuConstructor constructor){
         return createMRecipeListDisplay(machine,machineRecipes,backHandler,null,constructor);
     }
 
-    public static MenuFactory createMRecipeListDisplay(ItemStack machine, List<MachineRecipe> machineRecipes, @Nullable CustomMenuHandler backHandler,PlayerHistoryRecord<GuideCustomMenu> history,RecipeMenuConstructor constructor){
+    public static MenuFactory createMRecipeListDisplay(ItemStack machine, List<MachineRecipe> machineRecipes, @Nullable CustomMenuHandler backHandler,PlayerHistoryRecord<CustomMenu> history,RecipeMenuConstructor constructor){
 
         int RecipeSize = machineRecipes.size();
         int pageContent=36;
@@ -233,7 +233,7 @@ public class MenuUtils {
     public static MenuFactory createMRecipeDisplay(ItemStack machine,MachineRecipe recipe,@Nullable CustomMenuHandler backHandler){
         return createMRecipeDisplay(machine,recipe,backHandler,null);
     }
-    public static MenuFactory createMRecipeDisplay(ItemStack machine,MachineRecipe recipe,@Nullable CustomMenuHandler backHandler, PlayerHistoryRecord<GuideCustomMenu> history){
+    public static MenuFactory createMRecipeDisplay(ItemStack machine,MachineRecipe recipe,@Nullable CustomMenuHandler backHandler, PlayerHistoryRecord<CustomMenu> history){
         ItemStack[] input=recipe.getInput();
         ItemStack[] output=recipe.getOutput();
         int inputlen=input.length;
@@ -261,7 +261,7 @@ public class MenuUtils {
                 SlimefunItem sfitem=SlimefunItem.getByItem(input[i]);
                 if(sfitem!=null){
                     a.addHandler(RECIPESLOT_3X3[i],(cm)->((player, i1, itemStack, clickAction) -> {
-                        createItemRecipeDisplay(sfitem,cm.getOpenThisHandler(1)).build().open(player);
+                        createItemRecipeDisplay(sfitem,cm.getOpenThisHandler(1),history).build().open(player);
                         return false;
                     }));
                 }
@@ -310,7 +310,7 @@ public class MenuUtils {
                 SlimefunItem sfitem=SlimefunItem.getByItem(input[i]);
                 if(sfitem!=null){
                     a.addHandler(RECIPESLOT_6x6[i],(cm)->((player, i1, itemStack, clickAction) -> {
-                        createItemRecipeDisplay(sfitem,cm.getOpenThisHandler(1)).build().open(player);
+                        createItemRecipeDisplay(sfitem,cm.getOpenThisHandler(1),history).build().open(player);
                         return false;
                     }) );
                 }
@@ -330,8 +330,11 @@ public class MenuUtils {
         }
 
     }
+    public static MenuFactory createItemRecipeDisplay(SlimefunItem item,@Nullable CustomMenuHandler backHandler,PlayerHistoryRecord<CustomMenu> history){
+        return createMRecipeDisplay(item.getRecipeType().toItem(),new MachineRecipe(-1,item.getRecipe(),new ItemStack[]{item.getRecipeOutput()}),backHandler,history);
+    }
     public static MenuFactory createItemRecipeDisplay(SlimefunItem item,@Nullable CustomMenuHandler backHandler){
-        return createMRecipeDisplay(item.getRecipeType().toItem(),new MachineRecipe(-1,item.getRecipe(),new ItemStack[]{item.getRecipeOutput()}),backHandler);
+        return createMRecipeDisplay(item.getRecipeType().toItem(),new MachineRecipe(-1,item.getRecipe(),new ItemStack[]{item.getRecipeOutput()}),backHandler,null);
     }
 
     /**
@@ -343,7 +346,7 @@ public class MenuUtils {
     public static MenuFactory createRecipeTypeDisplay(List<RecipeType> recipeTypes, CustomMenuHandler backHandler){
         return createRecipeTypeDisplay(recipeTypes,backHandler,null);
     }
-    public static MenuFactory createRecipeTypeDisplay(List<RecipeType> recipeTypes, CustomMenuHandler backHandler,PlayerHistoryRecord<GuideCustomMenu> history){
+    public static MenuFactory createRecipeTypeDisplay(List<RecipeType> recipeTypes, CustomMenuHandler backHandler,PlayerHistoryRecord<CustomMenu> history){
         HashMap<RecipeType,ItemStack> map=RecipeSupporter.RECIPETYPE_ICON;
         int RecipeSize =0;
         for(RecipeType entry:recipeTypes){
@@ -398,7 +401,7 @@ public class MenuUtils {
     public static MenuFactory createMachineListDisplay(List<SlimefunItem> machineTypes,CustomMenuHandler backHandler){
         return createMachineListDisplay(machineTypes,backHandler,null);
     }
-    public static MenuFactory createMachineListDisplay(List<SlimefunItem> machineTypes,CustomMenuHandler backHandler,PlayerHistoryRecord<GuideCustomMenu> history){
+    public static MenuFactory createMachineListDisplay(List<SlimefunItem> machineTypes,CustomMenuHandler backHandler,PlayerHistoryRecord<CustomMenu> history){
         HashMap<SlimefunItem,List<MachineRecipe>> map=RecipeSupporter.MACHINE_RECIPELIST;
         int RecipeSize =0;
         for(SlimefunItem entry:machineTypes){
