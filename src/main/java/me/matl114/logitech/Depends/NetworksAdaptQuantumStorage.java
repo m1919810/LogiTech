@@ -7,10 +7,14 @@ import io.github.sefiraat.networks.utils.datatypes.PersistentQuantumStorageType;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedException;
 import me.matl114.logitech.SlimefunItem.AddDepends;
+import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.StorageType;
 import me.matl114.logitech.Utils.CraftUtils;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class NetworksAdaptQuantumStorage extends StorageType {
     public NetworksAdaptQuantumStorage() {
@@ -45,8 +49,13 @@ public class NetworksAdaptQuantumStorage extends StorageType {
     }
     @Override
     public int getStorageMaxSize(ItemMeta meta) {
-        QuantumCache cache=getQuantumCache(meta);
-        return cache.getLimit();
+        QuantumCache cache= getQuantumCache(meta);
+        Method amount=NetWorkQuantumMethod. getLimitMethod(cache);
+        try{
+            return (Integer)amount.invoke(cache);
+        }catch (Throwable e){
+            return 0;
+        }
     }
 
     @Override
@@ -66,7 +75,13 @@ public class NetworksAdaptQuantumStorage extends StorageType {
 
     @Override
     public int getStorageAmount(ItemMeta meta) {
-        return (int)(getQuantumCache(meta).getAmount());
+        QuantumCache cache= getQuantumCache(meta);
+        Method amount=NetWorkQuantumMethod. getAmountMethod(cache);
+        try{
+            return (Integer)amount.invoke(cache);
+        }catch (Throwable e){
+            return 0;
+        }
     }
 
     @Override

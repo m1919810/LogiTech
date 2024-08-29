@@ -12,6 +12,7 @@ import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractAdvancedProcessor;
 import me.matl114.logitech.SlimefunItem.Machines.MultiCraftType;
 import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomMenu;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
@@ -69,7 +70,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
         return new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&c机器信息","&c缺少电力!",AddUtils.concat("&7当前模拟的机器名称: ",(name)),
                 "&7当前并行处理数: %-3d".formatted(craftlimit),"&7当前每刻耗电量: %sJ/t".formatted(AddUtils.formatDouble(energyCost)),"&7当前电量: %sJ".formatted(AddUtils.formatDouble(charge)));
     }
-    protected double efficiency;
+    protected int efficiency;
     protected static MenuFactory MACHINE_LIST_MENU;
     static{
         SchedulePostRegister.addPostRegisterTask(()->{
@@ -81,7 +82,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
                         Material progressItem, int energyConsumption, int energyBuffer,double efficiency) {
         super(category, item, recipeType, recipe, progressItem, energyConsumption, energyBuffer, null);
         AddUtils.addGlow(getProgressBar());
-        this.efficiency=efficiency;
+        this.efficiency=(int)efficiency;
 
     }
     public void addInfo(ItemStack stack){
@@ -200,8 +201,9 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
 
         updateMenu(inv,block,Settings.INIT);
     }
+    //FIXME 优化逻辑以减少对机器数据的读取
     public int getCraftLimit(Block b,BlockMenu inv){
-       return inv.getItemInSlot(MACHINE_SLOT).getAmount();
+       return (int)(this.efficiency*inv.getItemInSlot(MACHINE_SLOT).getAmount());
     }
     public int getCraftLimit(SlimefunBlockData data){ return data.getBlockMenu().getItemInSlot(MACHINE_SLOT).getAmount(); }
     public void updateMenu(BlockMenu inv, Block block, Settings mod){
@@ -209,32 +211,34 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
 //
 //        }
         SlimefunBlockData data=DataCache.safeLoadBlock(inv.getLocation());
-        ItemStack it=inv.getItemInSlot(MACHINE_SLOT);
-        SlimefunItem sfitem=SlimefunItem.getByItem(it);
+        ItemPusher it=this.CRAFT_PROVIDER.get(Settings.INPUT,inv,this.MACHINE_SLOT);
         int index=MultiCraftType.getRecipeTypeIndex(data);
-        if(sfitem!=null){
-            SlimefunItem historyMachine;
-            if(index>=0&&index<getListSize()){
-                historyMachine= getMachineList().get(index);
-            }else {
-                historyMachine=null;
-            }
-            if(sfitem==historyMachine){
-                //和历史机器一样
-                return;
-            }else {
-                int size=getListSize();
-                List<SlimefunItem> lst=getMachineList();
-                for(int i=0;i<size;++i){
-                    if(sfitem==lst.get(i)){
-                        //是该机器,设置下标，都不用查了 肯定不一样
-                        MultiCraftType.forceSetRecipeTypeIndex(data,i);
-                        int charge=getEnergy(i);
-                        DataCache.setCustomData(data,"mae",charge==-1?energyConsumption:charge);
-                        return;
-                    }
+        if(it!=null){
+            SlimefunItem sfitem=SlimefunItem.getByItem(it.getItem());
+            if(sfitem!=null){
+                SlimefunItem historyMachine;
+                if(index>=0&&index<getListSize()){
+                    historyMachine= getMachineList().get(index);
+                }else {
+                    historyMachine=null;
                 }
-            }//找不到,给你机会你不重用啊
+                if(sfitem==historyMachine){
+                    //和历史机器一样
+                    return;
+                }else {
+                    int size=getListSize();
+                    List<SlimefunItem> lst=getMachineList();
+                    for(int i=0;i<size;++i){
+                        if(sfitem==lst.get(i)){
+                            //是该机器,设置下标，都不用查了 肯定不一样
+                            MultiCraftType.forceSetRecipeTypeIndex(data,i);
+                            int charge=getEnergy(i);
+                            DataCache.setCustomData(data,"mae",charge==-1?energyConsumption:charge);
+                            return;
+                        }
+                    }
+                }//找不到,给你机会你不重用啊
+            }
         }
         if(index!=-1)//即将变成-1,不一样才变,不用重复查询
             MultiCraftType.forceSetRecipeTypeIndex(data,-1);
@@ -262,14 +266,14 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
             if(energy>consumption){
                 if(inv.hasViewer()){
                     inv.replaceExistingItem(MINFO_SLOT,getInfoItem(craftLimit,consumption,energy,this.efficiency,
-                            ItemStackHelper.getDisplayName(inv.getItemInSlot(MACHINE_SLOT))));
+                            ItemStackHelper.getDisplayName(this.CRAFT_PROVIDER.get(Settings.OUTPUT,inv,this.MACHINE_SLOT).getItem())));
                 }
                 process(b,inv,data);
             }else {
                 //没电
                 if(inv.hasViewer()){
                     inv.replaceExistingItem(MINFO_SLOT,getInfoOffItem(craftLimit,consumption,energy,
-                            ItemStackHelper.getDisplayName(inv.getItemInSlot(MACHINE_SLOT))));
+                            ItemStackHelper.getDisplayName(this.CRAFT_PROVIDER.get(Settings.OUTPUT,inv,this.MACHINE_SLOT).getItem())));
                 }
             }
 

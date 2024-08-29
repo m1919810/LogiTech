@@ -198,7 +198,10 @@ public class CraftUtils {
                 if(i==0){
                     itemCounter2.syncData();
                 }
-                if(CraftUtils.matchItemCounter(results,itemCounter2,false)){
+                if(itemCounter2.isDirty()){
+                    continue;
+                }
+                else if(CraftUtils.matchItemCounter(results,itemCounter2,false)){
                     results.consume(itemCounter2);
                     if(results.getAmount()<=0)break;
                 }

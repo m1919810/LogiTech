@@ -34,6 +34,7 @@ public interface RecipeDisplay extends RecipeDisplayItem {
                     lore.add("&c输入数量: "+stack.getAmount());
                 }
                 stack=AddUtils.addLore(stack, lore.toArray(new String[0]));
+
                 break;
             case OUTPUT:
             default:

@@ -42,6 +42,15 @@ public class DependencyInfinity {
             if(hasErr){
                 AddDepends.hasInfiniteExpansion=false;
             }
+            try{
+                AddDepends.VOIDHARVEST=(RecipeType) ReflectUtils.invokeGetRecursively(SlimefunItem.getByItem(Machines.VOID_HARVESTER), Settings.FIELD,"TYPE");
+            }catch(Throwable e){
+                Debug.logger("generate an exception while loading softDepends, don't worry, that's not a big deal");
+                hasErr=true;
+            }
+            if(hasErr){
+                AddDepends.hasInfiniteExpansion=false;
+            }
         }
 
     }

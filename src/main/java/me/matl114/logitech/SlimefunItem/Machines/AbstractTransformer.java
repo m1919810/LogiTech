@@ -39,15 +39,12 @@ public abstract  class AbstractTransformer extends AbstractMachine {
                              int time,  int energybuffer,int energyConsumption,
                                LinkedHashMap<Object ,Integer> customRecipes){
         super(category,item , recipeType, recipe,energybuffer,energyConsumption);
-        Debug.logger("trans constructor called");
-        Debug.logger(this.getId());
         this.time = (time<=0)?1:time;
         this.pubTick = 0;
 
         if(customRecipes!=null){
             this.machineRecipes=new ArrayList<>(customRecipes.size());
             var tmp=AddUtils.buildRecipeMap(customRecipes);
-            Debug.debug("build");
             for (Map.Entry<Pair<ItemStack[], ItemStack[]>, Integer> recipePiece : tmp.entrySet()) {
                 //no need to stack and can not stack(maybe some shitmachine will stack
                 //but we stack it in order to format up
@@ -60,7 +57,6 @@ public abstract  class AbstractTransformer extends AbstractMachine {
         else{
             this.machineRecipes=new ArrayList<>();
         }
-        Debug.logger("trans constructor finished");
 
     }
     public List<ItemStack> _getDisplayRecipes() {

@@ -66,7 +66,7 @@ public class BiReactor extends AbstractEnergyProvider {
     }
     public int[] getSlotsAccessedByItemTransportPlus(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item){
         if(flow==ItemTransportFlow.WITHDRAW)return getOutputSlots();
-        if(item!=null&& item.getType()==Material.MUSIC_DISC_5){
+        if(item!=null&&!item.getType().isAir()&& item.getType()==Material.MUSIC_DISC_5){
             return item.getEnchantments().isEmpty()?FALSE_SLOTS:TRUE_SLOTS;
         }
         return getInputSlots();
@@ -81,10 +81,10 @@ public class BiReactor extends AbstractEnergyProvider {
         this.energyConsumptionFalse=falseEnergy;
         STATUS_ITEM[0]=AddUtils.addGlow( new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&e状态: &a正","&7发电量: %dJ/t".formatted(this.energyConsumption)));
         STATUS_ITEM[1]=AddUtils.addGlow( new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&e状态: &c负","&7发电量: %dJ/t".formatted(-this.energyConsumptionFalse)));
-        this.setDisplayRecipes(Utils.list(AddUtils.getInfoShow("&f机制 &a正","&7当同时输入%s和%s时,发电 %dJ".
+        this.setDisplayRecipes(Utils.list(AddUtils.getInfoShow("&f机制 &a正","&7当同时输入%s和%s时,视为满足条件,发电 %dJ".
                 formatted(Language.get("Items.FALSE_.Name"),Language.get("Items.TRUE_.Name"),this.energyConsumption)),
                 new DisplayItemStack(AddItem.TRUE_),
-                AddUtils.getInfoShow("&f机制 &c负","&7当不满足输入条件时候,发电 -%dJ".
+                AddUtils.getInfoShow("&f机制 &c负","&7当不满足’正‘的输入条件时候,视为不满足条件,发电 -%dJ".
                         formatted(this.energyConsumptionFalse)),
                 new DisplayItemStack(AddItem.FALSE_)));
     }

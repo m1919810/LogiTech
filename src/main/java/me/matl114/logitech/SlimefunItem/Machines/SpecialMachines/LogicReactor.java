@@ -49,7 +49,7 @@ public class LogicReactor extends AbstractProcessor {
     protected final ItemStack SWITCH_OFF=new CustomItemStack(Material.SOUL_TORCH,"&6反应堆运行状态: &c关闭","&7点击开启反应堆");
     protected final ItemStack SWITCH_ON=new CustomItemStack(Material.REDSTONE_TORCH,"&6反应堆运行状态: &a开启","&7点击关闭反应堆","&c注意:关闭反应堆将丢失当前机器进度");
     public LogicReactor(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, Material progressItem, int tick) {
-        super(category,item,recipeType,recipe,progressItem,500,4000,null);
+        super(category,item,recipeType,recipe,progressItem,400,4000,null);
         this.processorTick = tick;
         this.machineRecipes=new ArrayList<>(){{
             add(MachineRecipeUtils.FromMachine(AddUtils.formatInfoMachineRecipe(Utils.array(AddItem.LOGIC),tick,

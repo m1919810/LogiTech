@@ -78,32 +78,7 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
         this.CRAFT_PROVIDER=SINGULARITY_PROVIDER;
 
     }
-    public static final ItemPusherProvider SINGULARITY_PROVIDER=((mod, item, slot) -> {
-        if(item==null){
-            if(mod==Settings.INPUT)return null;
-            else return ItemSlotPusher.get(null,slot);
-        }
-        //not null.
-        ItemPusher tar=null;
-        ItemMeta meta=null;
-        if(item.getAmount()==1){
-            meta=item.getItemMeta();
-            tar=ItemStorageCache.get(item,meta,slot,null);
-        }
-        //get no yet
-        if(tar==null){
-            if(mod==Settings.INPUT){
-                tar= new ItemPusher(item);
-            }else{
-                //keep an eye on it
-                tar= new ItemPusher(item,item.getMaxStackSize());
-            }
-            if(meta!=null){//make a convienience
-                tar.setMeta(meta);
-            }
-        }
-        return tar;
-    });
+    public static final ItemPusherProvider SINGULARITY_PROVIDER=FinalFeature.FINAL_READER;
     //after start,load recipeType from config
     public void registerRecipeList(){
         craftType=BW_LIST.toArray(new RecipeType[BW_LIST.size()]);

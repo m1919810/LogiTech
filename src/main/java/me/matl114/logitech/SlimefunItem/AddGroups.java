@@ -83,6 +83,28 @@ public class AddGroups {
     public static final ItemGroup ENERGY= new DummyItemGroup(AddUtils.getNameKey("energy"),AddItem.ENERGY);
 
     public static final ItemGroup FUNCTIONAL=new DummyItemGroup(AddUtils.getNameKey("functional"),AddItem.FUNCTIONAL);
+    public static ItemGroup UPDATELOG=new CustomItemGroup(AddUtils.getNameKey("log"),AddUtils.colorful("更新日志"),AddItem.UPDATELOG,54,36,new LinkedHashMap<>()) {
+        @Override
+        protected void init(MenuFactory factory) {
+            factory.addInventory(0,AddUtils.getInfoShow("&f更新日志","&7此页为简易的更新日志","&7你或许可以找到你想要的新特性"));
+            factory.addInventory(1,AddUtils.getInfoShow("&f2024.8.28",
+                    "&7创建日志",
+                    "&7创建新的终极机器用于测试",
+                    "&7大型配方展示组增加历史记录",
+                    "&7修复模拟合成台不显示黑名单的bug",
+                    "&7修复原版配方读取,将矿辞读为等价物品组")
+            );
+            factory.addInventory(2,AddUtils.getInfoShow("&f2024.8.29",
+                    "&7"
+                    )
+            );
+        }
+
+        @Override
+        protected void addGuideRelated(ChestMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int pages) {
+
+        }
+    };
     public static ItemGroup BUGCRAFTER=new CustomItemGroup(bugcrafterId,AddUtils.colorful(AddUtils.ADDON_NAME),AddItem.ALLBIGRECIPES,54,36,new LinkedHashMap<>()) {
         public PlayerHistoryRecord<CustomMenu> historyHandler=new PlayerHistoryRecord<CustomMenu>() {
             HashMap<UUID,List<CustomMenu>> records=new HashMap<>();
@@ -228,6 +250,7 @@ public class AddGroups {
                     put(23,ADVANCED);
                     put(24,SINGULARITY);
                     put(31,BEYOND);
+                    put(36,UPDATELOG);
                 }}
             ){
         public MenuFactory MACHINEMENU=null;

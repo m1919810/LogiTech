@@ -60,9 +60,12 @@ public class ChipBiConsumer extends AbstractMachine {
                 AddUtils.getInfoShow("&f机制",
                         "&7机器可以进行 且 或 异或 三种位运算",
                         "&7将所需物品插入指定槽位即可消耗电力运算"),null,
-                AddUtils.getInfoShow("&f且","&7插入%s进行且操作".formatted(Language.get("Items.TRUE_.Name"))),null,
-                AddUtils.getInfoShow("&f或","&7插入%s进行或操作".formatted(Language.get("Items.FALSE_.Name"))),null,
-                AddUtils.getInfoShow("&f异或","&7插入%s进行异或操作".formatted(Language.get("Items.LOGIC.Name"))),null
+                AddUtils.getInfoShow("&f且","&7插入%s进行且操作".formatted(Language.get("Items.TRUE_.Name")),
+                        "&7运算规则:","&7依次对两个芯片的对应01位进行'&&'运算","&8⇨ &70&&1=1&&0=0&&0=0","&8⇨ &71&&1=1"),null,
+                AddUtils.getInfoShow("&f或","&7插入%s进行或操作".formatted(Language.get("Items.FALSE_.Name")),
+                        "&7运算规则:","&7依次对两个芯片的对应01位进行'|'运算","&8⇨ &70|1=1|0=1|1=1","&8⇨ &70|0=0"),null,
+                AddUtils.getInfoShow("&f异或","&7插入%s进行异或操作".formatted(Language.get("Items.LOGIC.Name")),
+                        "&7运算规则:","&7依次对两个芯片的对应01位进行'&'运算","&8⇨ &70^1=1^0=1","&8⇨ &70^0=1^1=0"),null
         ));
     }
     protected Material ChipMaterial=AddItem.CHIP.getType();

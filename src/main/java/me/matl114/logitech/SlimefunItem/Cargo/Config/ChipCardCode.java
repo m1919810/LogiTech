@@ -99,9 +99,8 @@ public class ChipCardCode {
         List<String> lore =meta.hasLore()? meta.getLore():new ArrayList<>();
         //lore.re
         int size=lore.size();
-        int len=Math.min(2,size);
+        int len=Math.min(1,size);
         lore.subList(size-len,size).clear();
-        lore.add(LORE_DISPLAY_PREFIX);
         lore.add(AddUtils.concat(LORE_MATCH, MathUtils.toBinaryCodeForce(code)));
         meta.setLore(lore);
     }

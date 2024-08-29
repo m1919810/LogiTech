@@ -23,9 +23,12 @@ import java.util.*;
 public class SMGenerator extends AbstractTransformer  {
 
     private final int INFO_SLOT = 0;
+    private final int[] BORDER=new int[]{
+            9
+    };
     private final int[] OUTPUT_BORDER = {};
     private final int[] INPUT_SLOT    = {};
-    private final int[] OUTPUT_SLOTS = {1,2, 3, 4, 5, 6, 7,8};
+    private final int[] OUTPUT_SLOTS = {1,2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14,15,16,17};
 
     public SMGenerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                        int time, int energybuffer,int energyConsumption,Object... outputs_w) {
@@ -45,8 +48,9 @@ public class SMGenerator extends AbstractTransformer  {
         super.addInfo(stack);
     }
     public void constructMenu(BlockMenuPreset preset){
-        preset.setSize(9);
+        preset.setSize(18);
         preset.addItem(INFO_SLOT,this.INFO_WORKING.clone(), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(BORDER[0],ChestMenuUtils.getBackground(),ChestMenuUtils.getEmptyClickHandler());
     }
     public int[] getInputSlots(){
         return INPUT_SLOT;

@@ -74,6 +74,8 @@ public class AddItem {
             Language.get("Groups.ENERGY.Name"),Language.getList("Groups.ENERGY.Lore"));
     public static final ItemStack FUNCTIONAL=AddUtils.themed(Material.STRUCTURE_VOID, AddUtils.Theme.CATEGORY2,
             Language.get("Groups.FUNCTIONAL.Name"),Language.getList("Groups.FUNCTIONAL.Lore"));
+    public static final ItemStack UPDATELOG=AddUtils.themed(Material.WRITABLE_BOOK,AddUtils.Theme.NONE,
+            Language.get("Groups.UPDATELOG.Name"), Language.getList("Groups.UPDATELOG.Lore"));
     //feat
     public static final ItemStack FEAT1=AddUtils.themed(Material.BOOK, AddUtils.Theme.NONE,
             Language.get("Groups.FEAT1.Name"),Language.getList("Groups.FEAT1.Lore"));
@@ -439,10 +441,12 @@ public class AddItem {
             AddUtils.themed("ANTI_GRAVITY_ITEM",new ItemStack(Material.NETHERITE_INGOT),AddUtils.Theme.ITEM1,"反重力装置","测试测试");
     public static final SlimefunItemStack WORKBENCH1=
             AddUtils.themed("WORKBENCH1",new ItemStack(Material.ENCHANTING_TABLE),AddUtils.Theme.BENCH1,"测试工作站","测试测试");
+    //final
     public static final SlimefunItemStack FINAL_MANUAL=
             AddUtils.themed("FINAL_MANUAL",new ItemStack(Material.REINFORCED_DEEPSLATE),AddUtils.Theme.MANUAL1,"测试终极快捷","测试测试");
 
-
+    public static final SlimefunItemStack FINAL_STACKMACHINE=AddUtils.themed("FINAL_STACKMACHINE",Material.BLAST_FURNACE,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.FINAL_STACKMACHINE.Name"),Language.getList("Machines.FINAL_STACKMACHINE.Lore"));
 
     public static final SlimefunItemStack TESTPART=AddUtils.themed("TEST_MPART",Material.OBSIDIAN,AddUtils.Theme.MACHINE1,"测试多方块部件","测试测试");
     public static final SlimefunItemStack TESTCORE=AddUtils.themed("TEST_MCORE",Material.IRON_BLOCK,AddUtils.Theme.MACHINE1,"测试多方块核心","测试测试");

@@ -7,10 +7,13 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Language;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Cargo.Config.ChipCardCode;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.MathUtils;
 import me.matl114.logitech.Utils.Settings;
+import me.matl114.logitech.Utils.Utils;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Material;
@@ -18,7 +21,6 @@ import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-//TODO 正在开发
 
 public class ChipCopier extends AbstractSyncTickCargo{
     protected final int[] BORDER=new int[]{
@@ -53,6 +55,21 @@ public class ChipCopier extends AbstractSyncTickCargo{
     }
     public ChipCopier(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
+        setDisplayRecipes(
+                Utils.list(AddUtils.getInfoShow("&f机制",
+                                "&7这是一个同步货运机器,属于[CHIP_SYNC]组",
+                                "&7位于同组的机器将共享同一个ticker计数器",
+                                "&7机器用该计数器数值顺序读取%s中记录的01码".formatted(Language.get("Items.CHIP.Name")),
+                                "&7具体地,机器会读取01码的第<ticker>(mod32)位",
+                                "&7机器根据读取结果是0/1会执行相应的行为"
+                        ),null,
+                        AddUtils.getInfoShow("&f机制",
+                                "&7机器拥有一个样板芯片槽和一个输入/输出槽",
+                                "&7机器会尝试读取样本槽中的01码",
+                                "&7机器会从输入/输出槽中读取目标芯片",
+                                "&7机器会尝试复刻当前读取的数据到目标芯片的对应01位上"),null
+                )
+        );
     }
     public ItemStack getInfoItem( int tickCount){
         int ticks=tickCount%32;
@@ -90,26 +107,40 @@ public class ChipCopier extends AbstractSyncTickCargo{
 
     }
     public void syncTick(Block b, BlockMenu inv, SlimefunBlockData data, int synTickCount){
+        if(inv.hasViewer()){
+            inv.replaceExistingItem(STATUS_SLOT,getInfoItem(synTickCount%32));
+            updateMenu(inv,b,Settings.RUN);
+        }
         ItemStack it1=inv.getItemInSlot(SAMPLE_SLOT[0]);
         if(it1==null)return;
         ItemStack it2=inv.getItemInSlot(SLOTS[0]);
-        if(it2==null)return;
+        if(it2==null||it2.getAmount()!=1)return;
         ItemMeta meta1=it1.getItemMeta();
         if(meta1!=null&& ChipCardCode.isConfig(meta1)){
             ItemMeta meta2=it2.getItemMeta();
+            final int syncTick=synTickCount%32;
+            //获取meta2副本之后直接开启异步计算
+            Schedules.launchSchedules(()->{
             if(meta2!=null&&ChipCardCode.isConfig(meta2)){
                 int code1=ChipCardCode.getConfig(meta1);
                 int code2=ChipCardCode.getConfig(meta2);
-                synTickCount=synTickCount%32;
-                int pos= code1&MathUtils.getBitPos(synTickCount);
+                int pos= code1&MathUtils.getBitPos(syncTick);
                 int pos2=code1&pos;
+                int tar;
                 if(pos2==0){
-                    ChipCardCode.setConfig(meta2, code2&(~pos));
+                    tar=code2&(~pos);
                 }else{
-                    ChipCardCode.setConfig(meta2, code2|pos);
+                    tar=code2|pos;
                 }
-                it2.setItemMeta(meta2);
-            }
+                if(tar!=code2){
+                    ChipCardCode.setConfigCode(meta2,tar);
+                    ChipCardCode.updateConfigCodeDisplay(meta2,tar);
+                    //防止异步导致数量不符 如果有数量更改则直接删除
+
+                    if(it2.getAmount()==1)
+                    it2.setItemMeta(meta2);
+                }
+            }},0,false,0);
         }
     }
     public void onBreak(BlockBreakEvent e,BlockMenu inv){
@@ -117,5 +148,9 @@ public class ChipCopier extends AbstractSyncTickCargo{
         if(inv!=null){
             inv.dropItems(inv.getLocation(),SAMPLE_SLOT);
         }
+    }
+    public void preRegister(){
+        super.preRegister();
+        this.addItemHandler((BlockTicker) CHIP_SYNC);
     }
 }

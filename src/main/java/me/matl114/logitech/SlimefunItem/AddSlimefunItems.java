@@ -487,7 +487,7 @@ public class AddSlimefunItems {
                     null,AddItem.ABSTRACT_INGOT,AddItem.TRUE_,AddItem.FALSE_,AddItem.ABSTRACT_INGOT,null,
                     AddItem.ABSTRACT_INGOT,AddItem.LBOOLIZER,AddItem.LENGINE,AddItem.LENGINE,AddItem.LBOOLIZER,AddItem.ABSTRACT_INGOT,
                     AddItem.ABSTRACT_INGOT,AddItem.LBOOLIZER,AddItem.LBOOLIZER,AddItem.LBOOLIZER,AddItem.LBOOLIZER,AddItem.ABSTRACT_INGOT,
-                    AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT), 15_000,1_000,10_000)
+                    AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT), 15_000,1_250,10_000)
             .register();
     public static final  SlimefunItem ARC_REACTOR=new EGenerator(AddGroups.ENERGY, AddItem.ARC_REACTOR,BugCrafter.TYPE,
             recipe(null,null,null,null,null,null,
@@ -509,7 +509,12 @@ public class AddSlimefunItems {
                     AddItem.LOGIC,setC(AddItem.LPLATE,2),AddItem.LSCHEDULER,setC(AddItem.LCRAFT,2),setC(AddItem.LPLATE,2),AddItem.LOGIC,
                     AddItem.LFIELD,AddItem.LMOTOR,setC(AddItem.LPLATE,2),setC(AddItem.LPLATE,2),AddItem.LDIGITIZER,AddItem.LFIELD,
                     AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,AddItem.LOGIC,AddItem.LOGIC,AddItem.LFIELD,AddItem.STAR_GOLD_INGOT)
-            , Material.STONE,12,2500,25_000,new HashSet<>(){{add(AddDepends.INFINITYWORKBENCH_TYPE);}})
+            , Material.NETHER_STAR,12,2500,25_000,new HashSet<>(){{
+                if(AddDepends.INFINITYWORKBENCH_TYPE!=null)
+                    add(AddDepends.INFINITYWORKBENCH_TYPE);
+                if(AddDepends.VOIDHARVEST!=null)
+                    add(AddDepends.VOIDHARVEST);
+            }})
             .register();
     public static final  SlimefunItem STAR_SMELTERY=new AEMachine(AddGroups.ADVANCED, AddItem.STAR_SMELTERY,BugCrafter.TYPE,
             recipe(AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,
@@ -576,9 +581,9 @@ public class AddSlimefunItems {
             AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),Material.IRON_PICKAXE,
             2_000,2_000_000,1.0)
             .register();
-    //FIXME 增加介绍，回去测试
     //FIXME 回去继续开发新特性！
     //FIXME 增加最终机器 先创建
+    //
     public static final  SlimefunItem ADVANCED_CHIP_MAKER=new ChipCopier(AddGroups.ADVANCED, AddItem.ADVANCED_CHIP_MAKER,RecipeType.NULL,
             recipe(null,AddItem.REINFORCED_CHIP_INGOT,AddItem.CHIP_MAKER,AddItem.CHIP_MAKER,AddItem.REINFORCED_CHIP_INGOT,null,
                     null,AddItem.REINFORCED_CHIP_INGOT,AddItem.CHIP_MAKER,AddItem.CHIP_MAKER,AddItem.REINFORCED_CHIP_INGOT,null,
@@ -615,7 +620,7 @@ public class AddSlimefunItems {
                     AddItem.LFIELD,AddItem.ABSTRACT_INGOT,setC(AddItem.LBOOLIZER,47),setC(AddItem.LOGIGATE,31),AddItem.ABSTRACT_INGOT,AddItem.LFIELD,
                     AddItem.LFIELD,AddItem.ABSTRACT_INGOT,setC(AddItem.LOGIGATE,33),setC(AddItem.NOLOGIC,63),AddItem.ABSTRACT_INGOT,AddItem.LFIELD,
                     AddItem.TRUE_,AddItem.LFIELD,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LFIELD,AddItem.TRUE_,
-                    null,AddItem.FALSE_,AddItem.LFIELD,AddItem.LFIELD,AddItem.FALSE_,null), 7, 114514, 256,
+                    null,AddItem.FALSE_,AddItem.LFIELD,AddItem.LFIELD,AddItem.FALSE_,null), 6, 114514, 256,
             new LinkedHashMap<>(){{
                 put(mkl(AddItem.TRUE_),mkl(setC(AddItem.TRUE_,114514)));
                 put(mkl(AddItem.FALSE_),mkl(setC(AddItem.FALSE_,1919810)));
@@ -696,7 +701,7 @@ public class AddSlimefunItems {
                             AddItem.DIMENSIONAL_SHARD,3,
                             AddItem.STAR_GOLD,1
                     )
-            ),0.7),
+            ),0.8),
             new ProbItemStack(
             AddUtils.randItemStackFactory(
                     mkMp(
@@ -757,7 +762,7 @@ public class AddSlimefunItems {
 
             }})
             .register();
-    public static final SlimefunItem ENDDUPE_MG=new MMGenerator(AddGroups.VANILLA, AddItem.ENDDUPE_MG,RecipeType.ENHANCED_CRAFTING_TABLE,
+    public static final SlimefunItem ENDDUPE_MG=new MMGenerator(AddGroups.VANILLA, AddItem.ENDDUPE_MG,BugCrafter.TYPE,
             recipe(null,"SAND","ANVIL","ANVIL","SAND",null,
                     null,AddItem.REDSTONE_ENGINE,"END_PORTAL_FRAME","END_PORTAL_FRAME",AddItem.REDSTONE_ENGINE,null,
                     "OBSERVER",AddItem.REDSTONE_ENGINE,"END_PORTAL_FRAME","END_PORTAL_FRAME",AddItem.REDSTONE_ENGINE,"OBSERVER",
@@ -826,6 +831,8 @@ public class AddSlimefunItems {
     //红石控制的货运
     //芯片控制的货运
     //红石tnt生成器
+    //终极机器 物质重构器
+    //终极机器 逆机器
 
 
     //multiblock
@@ -1312,7 +1319,10 @@ public class AddSlimefunItems {
             }
             .register();
 
-
+    //final
+    public static final  SlimefunItem FINAL_STACKMACHINE=new FinalStackMachine(AddGroups.BEYOND, AddItem.FINAL_STACKMACHINE,RecipeType.NULL,
+            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")), Material.STONE,100,20_000_000,32)
+            .register();
 
 
 

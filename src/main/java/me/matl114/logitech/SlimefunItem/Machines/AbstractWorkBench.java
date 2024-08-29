@@ -161,17 +161,20 @@ public abstract class AbstractWorkBench extends AbstractMachine {
 
     }
     public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow){
-        return flow==ItemTransportFlow.WITHDRAW?getOutputSlots():new int[0];
+        return flow==ItemTransportFlow.WITHDRAW?getOutputSlots():getInputSlots();
     }
     public int[] getSlotsAccessedByItemTransportPlus(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item){
-        if(item.getMaxStackSize()==1||flow==ItemTransportFlow.WITHDRAW){
-            return getSlotsAccessedByItemTransport(flow);
-        }else{
+        if(flow==ItemTransportFlow.WITHDRAW){
+            return getOutputSlots();
+        }else if(item==null||item.getMaxStackSize()<=1){
+            return getInputSlots();
+        }
+        else{
             List<Integer> input_slots=new ArrayList<Integer>();
             int[] input=getInputSlots();
             for (int i=0;i<input.length;i++){
                 if(menu.getItemInSlot(input[i])!=null){
-                    input_slots.add(i);
+                    input_slots.add(input[i]);
                 }
             }
             int[] array = new int[input_slots.size()];

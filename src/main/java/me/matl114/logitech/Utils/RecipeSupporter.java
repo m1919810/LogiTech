@@ -379,18 +379,19 @@ public class RecipeSupporter {
             if(stack.isEmpty()){
                 throw  new IllegalArgumentException("illegal config format %s".formatted(AddUtils.concat(itemPath,".")));
             }
+            String weightPath=AddUtils.concat(fatherPath,".weight");
+            List<Integer> weights=new ArrayList<>(stack.size());
+            keys=config.getKeys(weightPath);
+            Debug.debug(weightPath);
+            Debug.debug(keys);
+            for(String key:keys){
+                Debug.debug(key);
+                weights.add(config.getInt(AddUtils.concat(weightPath,".",key)));
+            }
             if(s.startsWith("eq")){//input eq
-                return AddUtils.equalItemStackFactory(stack);
+                return AddUtils.equalItemStackFactory(stack,weights.get(0));
             }else{
-                String weightPath=AddUtils.concat(fatherPath,".weight");
-                List<Integer> weights=new ArrayList<>(stack.size());
-                keys=config.getKeys(weightPath);
-                Debug.debug(weightPath);
-                Debug.debug(keys);
-                for(String key:keys){
-                    Debug.debug(key);
-                    weights.add(config.getInt(AddUtils.concat(weightPath,".",key)));
-                }
+
                 if(s.startsWith("ra")){
                     return AddUtils.randItemStackFactory(stack,weights);
                 }else if(s.startsWith("rp")){
@@ -623,24 +624,47 @@ public class RecipeSupporter {
         Iterator<Recipe> recipeIterator = PLUGIN.getJavaPlugin().getServer().recipeIterator();
         while (recipeIterator.hasNext()) {
             Recipe next = recipeIterator.next();
-            if (next instanceof ShapedRecipe) {
-                Set<Map.Entry<Character, ItemStack>> entries = ((ShapedRecipe) next).getIngredientMap().entrySet();
-                List<ItemStack> input = new ArrayList<>(entries.size());
-                for (Map.Entry<Character, ItemStack> entry : entries) {
-                    input.add(entry.getValue());
+            if (next instanceof ShapedRecipe sr) {
+                String[] shape=sr.getShape();
+                int len1=shape.length;
+                int len2=3*len1;
+                Map<Character, RecipeChoice> itm=sr.getChoiceMap();
+                ItemStack[] inputs=new ItemStack[len2];
+                for (int i=0;i<len1;++i){
+                    int len3=shape[i].length();
+                    for(int j=0;j<len3;++j){
+                        RecipeChoice rc=itm.get(shape[i].charAt(j));
+                        if(rc==null){
+                            inputs[3*i+j]=null;
+                        }
+                        else if(rc instanceof RecipeChoice.MaterialChoice mc){
+                            inputs[3*i+j]=AddUtils.equalItemStackFactory(mc.getChoices());
+                        }else {
+                            inputs[3*i+j]=AddItem.RESOLVE_FAILED;
+                            Debug.logger(rc.getClass().getName());
+                        }
+                    }
                 }
-                PROVIDED_SHAPED_RECIPES.get(BukkitUtils.VANILLA_CRAFTTABLE).add(MachineRecipeUtils.shapeFrom(-1,input.toArray(new ItemStack[0]),Utils.array(next.getResult())));
-                PROVIDED_UNSHAPED_RECIPES.get(BukkitUtils.VANILLA_CRAFTTABLE).add(MachineRecipeUtils.stackFrom(-1,input.toArray(new ItemStack[0]),Utils.array(next.getResult())));
+
+                PROVIDED_SHAPED_RECIPES.get(BukkitUtils.VANILLA_CRAFTTABLE).add(MachineRecipeUtils.shapeFrom(-1,inputs,Utils.array(next.getResult())));
+                PROVIDED_UNSHAPED_RECIPES.get(BukkitUtils.VANILLA_CRAFTTABLE).add(MachineRecipeUtils.stackFrom(-1,inputs,Utils.array(next.getResult())));
 
             } else if (next instanceof ShapelessRecipe slr) {
-                //TODO 将物品输入转为等价物品组
                 List< RecipeChoice> choice= slr.getChoiceList();
-                List<ItemStack> inputs;
                 int len=choice.size();
-
-                List<ItemStack> input = ((ShapelessRecipe) next).getIngredientList();
-                PROVIDED_SHAPED_RECIPES.get(BukkitUtils.VANILLA_CRAFTTABLE).add(MachineRecipeUtils.shapeFrom(-1,input.toArray(new ItemStack[input.size()]),Utils.array(next.getResult())));
-                PROVIDED_UNSHAPED_RECIPES.get(BukkitUtils.VANILLA_CRAFTTABLE).add(MachineRecipeUtils.stackFrom(-1,input.toArray(new ItemStack[input.size()]),Utils.array(next.getResult())));
+                ItemStack[] inputs=new ItemStack[len];
+                for(int i=0;i<len;++i){
+                    RecipeChoice rc=choice.get(i);
+                    if(rc instanceof RecipeChoice.MaterialChoice mc){
+                        inputs[i]=AddUtils.equalItemStackFactory(mc.getChoices());
+                    }else{
+                        inputs[i]=AddItem.RESOLVE_FAILED;
+                        Debug.logger(rc.getClass().getName());
+                    }
+                }
+               // List<ItemStack> input = ((ShapelessRecipe) next).getIngredientList();
+                PROVIDED_SHAPED_RECIPES.get(BukkitUtils.VANILLA_CRAFTTABLE).add(MachineRecipeUtils.shapeFrom(-1,inputs,Utils.array(next.getResult())));
+                PROVIDED_UNSHAPED_RECIPES.get(BukkitUtils.VANILLA_CRAFTTABLE).add(MachineRecipeUtils.stackFrom(-1,inputs,Utils.array(next.getResult())));
             }else if(next instanceof FurnaceRecipe recipe) {
                 RecipeChoice choice =recipe.getInputChoice();
 

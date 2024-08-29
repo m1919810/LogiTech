@@ -64,6 +64,8 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
      * @param saveSlot
      * @return
      */
+    //FIXME 尝试把lore修改变成尝试lore修改 并且放入异步
+    //首先要保证数据安全!
     public static ItemStorageCache getOrCreate(ItemStack source, ItemMeta sourceMeta, int saveSlot){
         return getOrCreate(source, sourceMeta, saveSlot,null);
     }

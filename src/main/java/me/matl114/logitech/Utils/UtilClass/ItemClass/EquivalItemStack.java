@@ -1,17 +1,19 @@
 package me.matl114.logitech.Utils.UtilClass.ItemClass;
 
+import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedException;
 import me.matl114.logitech.Utils.CraftUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
-public class EquivalItemStack extends ItemStack implements MultiItemStack {
+public class EquivalItemStack extends ItemStack implements MultiItemStack ,EqualInItem{
     public ItemStack[] itemList;
     public ItemCounter[] counterList;
     public Double[] itemWeight;
     public double[] weightSum;
     public int sum;
+    protected int eamount=1;
     public EquivalItemStack(HashMap<ItemStack ,Integer> itemSettings) {
         super(Material.STONE);
         this.sum=itemSettings.keySet().size();
@@ -41,6 +43,9 @@ public class EquivalItemStack extends ItemStack implements MultiItemStack {
                 items.add(itemList[i].clone());
             }
         }
+        for(int i=0;i<items.size();i++) {
+            items.get(i).setAmount(this.eamount);
+        }
 
         return items;
     }
@@ -68,5 +73,14 @@ public class EquivalItemStack extends ItemStack implements MultiItemStack {
             }
         }
         return false;
+    }
+    public void setEqualAmount(int t){
+        this.eamount=t;
+    }
+    public int getAmount(){
+        return this.eamount;
+    }
+    public void setAmount(int t){
+        throw new NotImplementedException("this method shoudln't be called");
     }
 }

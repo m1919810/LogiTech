@@ -45,12 +45,12 @@ public class MachineRecipeUtils {
         for(int i = 0; i < items.length; i++){
             ItemStack a = items[i];
             if(a==null)continue;
-            if(a instanceof AbstractItemStack){
-                stacks.add(ItemCounter.get(a));
+            ItemCounter ac=ItemCounter.get(a);
+            if(a instanceof RandOutItem){
+                stacks.add(ac);
                 continue;
             }
             __flag=false;
-
             for(ItemCounter stack : stacks){
                 if(CraftUtils.matchItemStack(a,stack,true)){
                     stack.addAmount(a.getAmount());
@@ -59,7 +59,7 @@ public class MachineRecipeUtils {
                 }
             }
             if(__flag==false){
-                stacks.add(ItemCounter.get(a));
+                stacks.add(ac);
             }
         }
         ItemStack[] result = new ItemStack[stacks.size()];
@@ -67,6 +67,15 @@ public class MachineRecipeUtils {
         for(ItemCounter stack : stacks){
             if(stack.getItem() instanceof RandOutItem){
                 result[cnt] = stack.getItem();
+            }else if(stack.getItem() instanceof EqualInItem ei){
+                if(stack.getItem() instanceof EquivalItemStack eqi){
+                    result[cnt] = AddUtils.equalItemStackFactory(eqi.getItemStacks(),stack.getAmount());
+                }
+                else{
+                    //no other equalInItem till now
+                    result[cnt] = stack.getItem().clone();
+                    result[cnt].setAmount(stack.getAmount());
+                }
             }
             else {
                 result[cnt] = stack.getItem().clone();

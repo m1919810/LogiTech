@@ -415,7 +415,6 @@ public class AddUtils {
         if(a instanceof ItemStack){
             return  (ItemStack) a;
         }else if(a instanceof SlimefunItem){
-            Debug.logger("clone slimefunItem");
             return ((SlimefunItem) a).getItem().clone();
         }else if(a instanceof  Material){
             return  new ItemStack((Material) a);
@@ -668,18 +667,29 @@ public class AddUtils {
         return new ProbItemStack(it,((double)prob)/100 );
     }
     public static <T extends Object> ItemStack equalItemStackFactory(List<T> list){
-            LinkedHashMap<ItemStack,Integer> c=new LinkedHashMap<>();
-            for(Object o:list){
-                if(o!=null){
-                    ItemStack o_=AddUtils.resolveItem(o);
-                    if(o_!=null){
-                        c.put(o_,1);
-                    }
-                    else return null;
-                }else return null;
-            }
+        return equalItemStackFactory(list,1);
+    }
+    public static <T extends Object> ItemStack equalItemStackFactory(List<T> list,int t){
+        if(list.isEmpty())return null;
+        if(list.size()==1){
+           ItemStack it= AddUtils.resolveItem(list.get(0));
+           it.setAmount(t);
+           return it;
+        }
+        LinkedHashMap<ItemStack,Integer> c=new LinkedHashMap<>();
+        for(Object o:list){
+            if(o!=null){
+                ItemStack o_=AddUtils.resolveItem(o);
+                if(o_!=null){
+                    c.put(o_,1);
+                }
+                else return null;
+            }else return null;
+        }
 
-            return (ItemStack)new EquivalItemStack(c);
+        EquivalItemStack it= new EquivalItemStack(c);
+        it.setEqualAmount(t);
+        return it;
     }
 
     /**

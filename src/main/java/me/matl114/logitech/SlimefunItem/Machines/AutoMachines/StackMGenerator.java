@@ -229,6 +229,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
     public List<MachineRecipe> getMachineRecipes(Block b, BlockMenu inv){
         return getMachineRecipes(DataCache.safeLoadBlock(inv.getLocation()));
     }
+    //FIXME 优化逻辑以减少对机器数据的读取
     public List<MachineRecipe> getMachineRecipes(SlimefunBlockData data){
         int index= MultiCraftType.getRecipeTypeIndex(data);
         if(index>=0&&index<getListSize()){

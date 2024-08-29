@@ -29,10 +29,7 @@ import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class SpecialCrafter extends AbstractProcessor implements RecipeLock, ImportRecipes {
     public List<ItemStack> displayedMemory;
@@ -69,6 +66,7 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock, Imp
                              Material progressItem,int ticks, int energyConsumption, int energyBuffer,HashSet<RecipeType> blackList){
         super(category,item,recipeType,recipe,progressItem,energyConsumption,energyBuffer,null);
         this.BW_LIST=blackList;
+        Debug.debug(this.BW_LIST);
         this.publicTime=ticks;
         SchedulePostRegister.addPostRegisterTask(()->{
             getCraftTypes();
@@ -91,8 +89,11 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock, Imp
             }
             craftType=new RecipeType[types.size()];
             int cnt=0;
+            Debug.debug(BW_LIST);
             for(RecipeType e :types.values()){
+                Debug.debug(e.getKey());
                 if(BW_LIST.contains(e)){//黑名单
+                    Debug.debug(e.getKey());
                     continue;
                 }
                 craftType[cnt]=e;
@@ -304,6 +305,7 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock, Imp
     public int[] getSlotsAccessedByItemTransportPlus(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
         if (flow == ItemTransportFlow.WITHDRAW) return getOutputSlots();
         int [] inputSlots=getInputSlots();
+        if(item==null||item.getType().isAir())return inputSlots;
         MachineRecipe now=getRecordRecipe(((BlockMenu)menu).getLocation());
         if(now==null){
             return new int[0];
@@ -334,9 +336,12 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock, Imp
     }
     public List<ItemStack> _getDisplayRecipes(){
         return new ArrayList<>(){{
-            for(SlimefunItem item : RecipeSupporter.CUSTOM_RECIPETYPES.keySet()){
+            for(Map.Entry<SlimefunItem,RecipeType> e: RecipeSupporter.CUSTOM_RECIPETYPES.entrySet()){
+                if(BW_LIST.contains(e.getValue())){
+                    continue;
+                }
                 add(AddUtils.getInfoShow("&f支持的机器","&7将机器插入指定槽位以进行合成"));
-                add(new DisplayItemStack(item.getItem()));
+                add(new DisplayItemStack(e.getKey().getItem()));
             }
         }};
     }

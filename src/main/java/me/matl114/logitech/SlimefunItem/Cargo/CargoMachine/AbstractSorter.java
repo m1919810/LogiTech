@@ -6,12 +6,10 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Language;
-import me.matl114.logitech.SlimefunItem.Cargo.Config.CargoConfigCard;
 import me.matl114.logitech.SlimefunItem.Cargo.Config.ChipControllable;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.CargoConfigs;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
-import me.matl114.logitech.Utils.UtilClass.TickerClass.SyncBlockTick;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
@@ -24,31 +22,31 @@ import org.bukkit.inventory.ItemStack;
 import javax.annotation.Nonnull;
 
 public abstract class AbstractSorter extends AbstractSyncTickCargo implements  ChipControllable {
-    public static SyncBlockTick SORTER_SYNC =new SyncBlockTick();
 
     public AbstractSorter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,int divideAmount){
         super(itemGroup, item, recipeType, recipe);
         setDisplayRecipes(
                 Utils.list(AddUtils.getInfoShow("&f机制",
                                 "&7这是一个同步货运机器,属于[CHIP_SYNC]组",
-                                "&7位于同组的机器共享同一个ticker计数器",
-                                "&7机器用该计数器顺序读取%s中记录的01码".formatted(Language.get("Items.CHIP.Name")),
-                                "&7机器会读取01码的第<ticker>%32位",
-                                "&7机器根据读取结果的不同会执行不同的行为"
+                                "&7位于同组的机器将共享同一个ticker计数器",
+                                "&7机器用该计数器数值顺序读取%s中记录的01码".formatted(Language.get("Items.CHIP.Name")),
+                                "&7具体地,机器会读取01码的第<ticker>(mod32)位",
+                                "&7机器根据读取结果是0/1会执行相应的行为"
                         ),null,
                         AddUtils.getInfoShow("&f机制",
                                 "&7机器拥有%d个输入槽位以及%d个输入白名单槽".formatted(divideAmount,divideAmount),
-                                "&7白名单槽会对智能货运机器或者其他附属货运进行限制",
-                                "&7其中,白名单槽不放物品代表对应槽位匹配任意输入",
-                                "&7其中,白名单槽放物品代表对应槽位匹配该物品的输入",
+                                "&7你将会在界面中看见用彩色玻璃板标出的槽位序号",
+                                "&7白名单槽会对货运的输入流进行限制",
+                                "&7其中,白名单槽不放物品代表对应槽位允许任意输入",
+                                "&7其中,白名单槽放物品代表对应槽位运行相同的物品的输入",
                                 "&ePS:网络附属和原版货运会接受该限制"),null,
                         AddUtils.getInfoShow("&f机制",
                                 "&7机器会选中一个输入槽",
-                                "&7每个tick机器将该槽位物品转移至输出槽",
+                                "&7在公共ticker计数器<ticker>(mod32)=0时,机器一定会选择第0槽位",
+                                "&7每个tick机器将选中槽位的物品转移至输出槽",
                                 "&7玩家可以使用%s控制机器选择输入槽".formatted(Language.get("Items.CHIP.Name")),
-                                "&e当机器读取到01码中的1时会顺时针选择至下一个输入槽位",
-                                "&e当机器读取到01码中的0时会保持选择当前槽位不动",
-                                "&c当机器读取至01码最后一位后会重置选择的槽位至第一个输入槽,并重头读取"
+                                "&e当机器读取到01码中的1时会选择至下一个输入槽位,若已经为最后一槽则循环至第0槽",
+                                "&e当机器读取到01码中的0时会保持选择当前槽位不动"
                         ),null
                 )
         );
@@ -131,7 +129,7 @@ public abstract class AbstractSorter extends AbstractSyncTickCargo implements  C
     public void preRegister(){
         super.preRegister();
         //shared ticker
-        this.addItemHandler((BlockTicker) SORTER_SYNC);
+        this.addItemHandler((BlockTicker) CHIP_SYNC);
     }
     public void onBreak(BlockBreakEvent e, BlockMenu inv){
         super.onBreak(e, inv);
