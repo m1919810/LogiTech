@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.SlimefunItem.AddItem;
+import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
@@ -45,6 +46,8 @@ public class BoolGenerator extends AbstractProcessor {
                 AddUtils.getInfoShow("&f生成机制","&7当任两输入槽内物品全部不同时候,生成%s".formatted(Language.get("Items.FALSE_.Name"))),AddItem.FALSE_,
                 AddUtils.getInfoShow("&f生成机制","&7当配方匹配时,槽位依次消耗min(槽位物品数,%s)个物品".formatted(inputCost) ),null));
         this.machineRecipes=new ArrayList<>();
+        this.machineRecipes.add(MachineRecipeUtils.stackFrom(tick,new ItemStack[0],new ItemStack[]{AddSlimefunItems.setC( AddItem.TRUE_,3)}));
+        this.machineRecipes.add(MachineRecipeUtils.stackFrom(tick,new ItemStack[0],new ItemStack[]{AddSlimefunItems.setC( AddItem.FALSE_,3)}));
         AddUtils.addGlow(this.getProgressBar());
     }
     public void constructMenu(BlockMenuPreset preset) {
@@ -98,7 +101,7 @@ public class BoolGenerator extends AbstractProcessor {
         MachineRecipe result;
         if(lastResult){
             //全相等的,输出
-            result= getMachineRecipes().get(1);
+            result= getMachineRecipes().get(0);
         }else{
             //现在it1与it2 it3 it4均不同，比较it2，it3，it4
             for(int var2 = 1; var2 < 3; ++var2) {
@@ -109,7 +112,7 @@ public class BoolGenerator extends AbstractProcessor {
                     }
                 }
             }
-            result= getMachineRecipes().get(2);
+            result= getMachineRecipes().get(1);
             //通过了全部不同的检验
         }
         ItemConsumer[] outCon=CraftUtils.countOneOutput(inv,output,result);

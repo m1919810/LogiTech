@@ -85,7 +85,7 @@ public class AddSlimefunItems {
     protected static <T extends Object,Z extends Object> Pair<T,Z> pair(T v1,Z v2){
         return new Pair(v1,v2);
     }
-    protected static ItemStack setC(ItemStack it,int amount){
+    public static ItemStack setC(ItemStack it,int amount){
         return new CustomItemStack(it,amount);
     }
     protected static ItemStack[] nullRecipe(){
