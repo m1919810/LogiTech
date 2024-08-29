@@ -95,7 +95,7 @@ public class AddGroups {
                     "&7修复原版配方读取,将矿辞读为等价物品组")
             );
             factory.addInventory(2,AddUtils.getInfoShow("&f2024.8.29",
-                    "&7"
+                    "&7修改部分描述"
                     )
             );
         }
