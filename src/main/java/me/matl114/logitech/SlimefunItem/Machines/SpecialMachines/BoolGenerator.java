@@ -127,6 +127,7 @@ public class BoolGenerator extends AbstractProcessor {
             return null;
         }
     }
+
     @Override
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         SimpleCraftingOperation currentOperation = (SimpleCraftingOperation)this.processor.getOperation(b);
