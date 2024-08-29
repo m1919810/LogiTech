@@ -7,6 +7,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Language;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Cargo.Config.ChipCardCode;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
@@ -90,6 +91,7 @@ public class ChipBiConsumer extends AbstractMachine {
             preset.addItem(INFO_SLOT[i],INFO_ITEM[i],ChestMenuUtils.getEmptyClickHandler());
         }
     }
+    //FIXME 修改lore修改 至异步 并测试保证其安全性
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         ItemStack it=inv.getItemInSlot(INPUT_SLOT[0]);
         ItemStack it2=inv.getItemInSlot(INPUT_SLOT[1]);
@@ -108,18 +110,24 @@ public class ChipBiConsumer extends AbstractMachine {
         ItemMeta meta=it.getItemMeta();
         ItemMeta meta3=it3.getItemMeta();
         if(ChipCardCode.isConfig(meta)&&ChipCardCode.isConfig(meta3)){
-            inv.replaceExistingItem(OUTPUT_SLOT[0], AddItem.CHIP);
             it.setAmount(it.getAmount()-1);
             it2.setAmount(it2.getAmount()-1);
             it3.setAmount(it3.getAmount()-1);
+            final int indexer=index;
+            Schedules.launchSchedules(()->{
+            ItemStack itout=AddItem.CHIP.clone();
             int code=ChipCardCode.getConfig(meta);
             int code2=ChipCardCode.getConfig(meta3);
-            switch(index){
+            switch(indexer){
                 case 0:code=code&code2;break;
                 case 1:code=code|code2;break;
                 case 2:code=code^code2;break;
             }
-            inv.getItemInSlot(OUTPUT_SLOT[0]).setItemMeta(ChipCardCode.getCard(code));
+            itout.setItemMeta(ChipCardCode.getCard(code));
+            if(inv.getItemInSlot(OUTPUT_SLOT[0])==null){
+                inv.replaceExistingItem(OUTPUT_SLOT[0],itout,false);
+            }
+            },0,false,0);
         }
     }
     int[] CHIP_SLOT=new int[]{

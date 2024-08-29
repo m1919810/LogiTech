@@ -27,22 +27,29 @@ public class ChipCardCode {
     public static ItemMeta meta=AddItem.CHIP.getItemMeta();
     public final static ItemStack CHIP_0=((Supplier<ItemStack>)()->{
         ItemStack stack=AddItem.CHIP.clone();
-        stack.setItemMeta(getCard(0));
+        stack.setItemMeta(createCard(0));
         return stack;
     }).get();
+    public final static ItemMeta chip0meta=CHIP_0.getItemMeta();
     public final static ItemStack CHIP_1=((Supplier<ItemStack>)()->{
         ItemStack stack=AddItem.CHIP.clone();
-        stack.setItemMeta(getCard(1));
+        stack.setItemMeta(createCard(1));
         return stack;
     }).get();
     public final static ItemStack CHIP_FINAL=((Supplier<ItemStack>)()->{
         ItemStack stack=AddItem.CHIP.clone();
-        stack.setItemMeta(getCard(1431655765));
+        stack.setItemMeta(createCard(1431655765));
         return stack;
     }).get();
-    public static ItemMeta getCard(int code){
+    private static ItemMeta createCard(int code){
         ItemMeta it=meta.clone();
         setConfig(it,code);
+        return it;
+    }
+    public static ItemMeta getCard(int code){
+        ItemMeta it=chip0meta.clone();
+        setConfigCode(it,code);
+        updateConfigCodeDisplay(it,code);
         return it;
     }
     public static boolean isConfig(ItemMeta meta) {

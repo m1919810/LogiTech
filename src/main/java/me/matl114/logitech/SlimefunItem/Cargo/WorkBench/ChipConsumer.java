@@ -7,6 +7,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Language;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Blocks.AbstractBlock;
 import me.matl114.logitech.SlimefunItem.Cargo.Config.ChipCardCode;
@@ -107,16 +108,28 @@ public class ChipConsumer extends AbstractMachine {
         if(index==-1){return;}
         ItemMeta meta=it.getItemMeta();
         if(ChipCardCode.isConfig(meta)){
-            inv.replaceExistingItem(OUTPUT_SLOT[0],AddItem.CHIP);
             it.setAmount(it.getAmount()-1);
             it2.setAmount(it2.getAmount()-1);
-            int code=ChipCardCode.getConfig(meta);
-            switch(index){
-                case 0:code=~code;break;
-                case 1:code=code<<1;break;
-                case 2:code=code>>1;break;
-            }
-            inv.getItemInSlot(OUTPUT_SLOT[0]).setItemMeta(ChipCardCode.getCard(code));
+            final int indexer=index;
+            Schedules.launchSchedules(()-> {
+                ItemStack itout = AddItem.CHIP.clone();
+                int code = ChipCardCode.getConfig(meta);
+                switch (indexer) {
+                    case 0:
+                        code = ~code;
+                        break;
+                    case 1:
+                        code = code << 1;
+                        break;
+                    case 2:
+                        code = code >> 1;
+                        break;
+                }
+                itout.setItemMeta(ChipCardCode.getCard(code));
+                if(inv.getItemInSlot(OUTPUT_SLOT[0])==null){
+                    inv.replaceExistingItem(OUTPUT_SLOT[0], itout,false);
+                }
+            },0,false,0);
         }
     }
     int[] CHIP_SLOT=new int[]{

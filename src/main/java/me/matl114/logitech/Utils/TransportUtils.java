@@ -214,7 +214,7 @@ public class TransportUtils {
             }
         }return false;
     }
-    //FIXME performance badly when lots of MAXSIZE item in target slot,try mark
+
     public static void transportItemGreedy(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,
                                            boolean isnull,boolean lazy,boolean whitlist, HashSet<ItemStack> blacklist, int translimit,
                                            ItemPusherProvider provider){
@@ -332,7 +332,7 @@ public class TransportUtils {
 
 
 
-    //FIXME performance badly when lots of MAXSIZE item in target slot,try mark
+
     public static void transportItemGreedy_2_workspace(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,
                                            boolean isnull,boolean lazy,boolean whitlist, HashSet<ItemStack> blacklist, int translimit,
                                            ItemPusherProvider provider){
@@ -438,13 +438,13 @@ public class TransportUtils {
 //                            }//匹配，空的或者使用历史记录
 //                            else if(toRecord[index]!=0){//使用历史记录
 //                                translimit=toPusher.transportFrom(fromPusher,translimit);
-//                                //TODO 将update改到不同的地方 不要做存储
+//
 //                                toPusher.updateMenu(to);
 //                                fromPusher.updateMenu(from);
 //                                //直接转运,不修改历史记录
 //                            }else if(CraftUtils.matchItemCounter(fromPusher,toPusher,false)){//没有历史记录.新的,要match
 //                                translimit=toPusher.transportFrom(fromPusher,translimit);
-//                                //TODO 将update改到不同的地方 不要做存储
+//                                // 将update改到不同的地方 不要做存储
 //                                toPusher.updateMenu(to);
 //                                fromPusher.updateMenu(from);
 //                                //物品匹配,进行转运，记录历史记录
@@ -557,11 +557,11 @@ public class TransportUtils {
                         }
                         toPusher.updateMenu(to);
                         fromPusher.updateMenu(from);
-                        //FIXME 非空逻辑有问题 需要在获取槽位的时候剔除掉
+                        //FME 非空逻辑有问题 需要在获取槽位的时候剔除掉
                     }else {
                         if(CraftUtils.matchItemCounter(fromPusher,toPusher,false)){//如果匹配
                             translimit=toPusher.transportFrom(fromPusher,translimit);
-                            //TODO 将update改到不同的地方 不要做存储
+                            //DO 将update改到不同的地方 不要做存储
                             toPusher.updateMenu(to);
                             fromPusher.updateMenu(from);
                         }
@@ -663,11 +663,11 @@ public class TransportUtils {
                         }
                         toPusher.updateMenu(to);
                         fromPusher.updateMenu(from);
-                        //FIXME 非空逻辑有问题 需要在获取槽位的时候剔除掉
+                        //E 非空逻辑有问题 需要在获取槽位的时候剔除掉
                     }else {
                         if(CraftUtils.matchItemCounter(fromPusher,toPusher,false)){//如果匹配
                             translimit=toPusher.transportFrom(fromPusher,translimit);
-                            //TODO 将update改到不同的地方 不要做存储
+                            //TO 将update改到不同的地方 不要做存储
                             toPusher.updateMenu(to);
                             fromPusher.updateMenu(from);
                         }
@@ -700,11 +700,11 @@ public class TransportUtils {
         int[] toCacheIndex=new int[len2];
         int indexLen=0;
         ItemStack stack;
-        //TODO what if we do loop on outputslot first
-        //TODO 调整for顺序 将输出作为主循环 输入作为
-        //TODO 这样output槽可以不生成cache？ 其实我觉得生成的也没啥
-        //TODO 增加一个动态迭代器 或者动态获取的什么玩意
-        //TODO 还是先整个最简单的
+        //TOO what if we do loop on outputslot first
+        //TDO 调整for顺序 将输出作为主循环 输入作为
+        //TDO 这样output槽可以不生成cache？ 其实我觉得生成的也没啥
+        //TDO 增加一个动态迭代器 或者动态获取的什么玩意
+        //TDO 还是先整个最简单的
         for(int i=0;i<len2;++i){
             stack=to.getItemInSlot(toSlot[i]);
             //如果是空 则大概率要考虑这玩意
@@ -753,11 +753,11 @@ public class TransportUtils {
                         }
                         toPusher.updateMenu(to);
                         fromPusher.updateMenu(from);
-                        //FIXME 非空逻辑有问题 需要在获取槽位的时候剔除掉
+                        // 非空逻辑有问题 需要在获取槽位的时候剔除掉
                     }else {
                         if(CraftUtils.matchItemCounter(fromPusher,toPusher,false)){//如果匹配
                             translimit=toPusher.transportFrom(fromPusher,translimit);
-                            //TODO 将update改到不同的地方 不要做存储
+                            //T 将update改到不同的地方 不要做存储
                             toPusher.updateMenu(to);
                             fromPusher.updateMenu(from);
                         }

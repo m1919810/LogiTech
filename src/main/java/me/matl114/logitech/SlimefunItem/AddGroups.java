@@ -318,16 +318,74 @@ public class AddGroups {
 
 
             factory.addInventory(40,info1);
-            factory.addInventory(56,h1);
-            factory.addInventory(57,h2);
-            factory.addInventory(58,h3);
-            factory.addInventory(59,h4);
-            factory.addInventory(60,h5);
-            factory.addInventory(63,h6);
+            factory.addInventory(56, h1,(cm)-> new ChestMenu.MenuClickHandler() {
+                boolean has=false;
+                @Override
+                public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+                    if(!has&&itemStack!=null){has=true;itemStack.setItemMeta(s1);}
+                    return false;
+                }
+            });
+            factory.addInventory(57, h2,(cm)-> new ChestMenu.MenuClickHandler() {
+                boolean has=false;
+                @Override
+                public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+                    if(!has&&itemStack!=null){has=true;itemStack.setItemMeta(s2);}
+                    return false;
+                }
+            });
+            factory.addInventory(58, h3,(cm)-> new ChestMenu.MenuClickHandler() {
+                boolean has=false;
+                @Override
+                public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+                    if(!has&&itemStack!=null){has=true;itemStack.setItemMeta(s3);}
+                    return false;
+                }
+            });
+            factory.addInventory(59, h4,(cm)-> new ChestMenu.MenuClickHandler() {
+                boolean has=false;
+                @Override
+                public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+                    if(!has&&itemStack!=null){has=true;itemStack.setItemMeta(s4);}
+                    return false;
+                }
+            });
+            factory.addInventory(60, h5,(cm)-> new ChestMenu.MenuClickHandler() {
+                boolean has=false;
+                @Override
+                public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+                    if(!has&&itemStack!=null){
+                        has=true;itemStack.setItemMeta(s5);
+                        AddUtils.sendMessage(player,"&eTmatsuki_rui就是纯纯的____");
+                        if(AddUtils.standardRandom()<0.3){
+                            AddUtils.forceGive(player,head.clone(),AddUtils.random(4));
+                        }
+                        PlayerEffects.grantEffect(CustomEffects.WRONG_BUTTON,player,1,1);
+                    }
+                    return false;
+                }
+            });
+            factory.addInventory(63, h6,(cm)-> new ChestMenu.MenuClickHandler() {
+                boolean has=false;
+                @Override
+                public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+                    if(!has&&itemStack!=null){has=true;itemStack.setItemMeta(s6);}
+                    return false;
+                }
+            });
             this.s7metas=new ItemMeta[6];
             String continueStr="&7点击继续";
             ItemStack it=new CustomItemStack(AddItem.MATL114,AddUtils.color("你觉得..."),continueStr);
-            factory.addInventory(71,it);
+            factory.addInventory(71,it,(cm)->new ChestMenu.MenuClickHandler() {
+                int index=0;
+                @Override
+                public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+                    if(itemStack!=null)
+                        itemStack.setItemMeta(s7metas[index]);
+                    index=(index+1)%5;
+                    return false;
+                }
+            });
             it=new CustomItemStack(AddItem.MATL114,AddUtils.color("我能在患有痴呆症的情况下完成逻辑工艺的编写吗?"),continueStr);
             s7metas[0]=it.getItemMeta();
             it=new CustomItemStack(AddItem.MATL114,AddUtils.color("这能被完成么,这可能完成么?"),continueStr);
@@ -339,12 +397,12 @@ public class AddGroups {
             it=new CustomItemStack(AddItem.MATL114,AddUtils.color("今年我要进行一项从未有人达成过的挑战"),continueStr);
             s7metas[4]=it.getItemMeta();
         }
-        final ItemStack s1=new CustomItemStack(CustomHead.getHead("fd524332cdb381c9e51f77d4cec9bc6d4d1c5bdec1499d206d8383e9176bdfb0"),AddUtils.color("haiman"),"&7haiman科技作者","&7海曼科技会为你提供足够的物质支持");
-        final ItemStack s2=new CustomItemStack(CustomHead.getHead("a9b046531a6182de634d6fed1f3b4f885ee99bfe2bc0c1684f7b97d396c2059f"),AddUtils.color("mmmjjkx"),"&7rsc开发者","&3纯大蛇\uD83D\uDE0B");
-        final ItemStack s3=new CustomItemStack(Material.REPEATING_COMMAND_BLOCK,AddUtils.color("tinalness"),"&7大香蕉的本质是命令方块\uD83D\uDE0B(确信","&7但是你或许会需要他的网络拓展");
-        final ItemStack s4=new CustomItemStack(CustomHead.SUPPORT.getItem(),AddUtils.color("HgTlPbBi"),"&7逻辑工艺的支持者","&7提出了很多有用的点子");
-        final ItemStack s5=new CustomItemStack(CustomHead.getHead("8e434215b5616bf37dccbacdb240bd16de59507e62a5371ceca80327b398e65"),AddUtils.color("Tmatsuki_rui"),"&7凉城服的祸源","&7纯傻逼,给爷死啊\uD83D\uDE21");
-        final ItemStack s6=new CustomItemStack(CustomHead.BUSHIGEMEN.getItem(),"  ","&7看得出你的视力很好","&7所以一定要仔细阅读","&7版本说明与机器说明哦");
+        final ItemMeta s1=new CustomItemStack(CustomHead.getHead("fd524332cdb381c9e51f77d4cec9bc6d4d1c5bdec1499d206d8383e9176bdfb0"),AddUtils.color("haiman"),"&7haiman科技作者","&7海曼科技会为你提供足够的物质支持").getItemMeta();
+        final ItemMeta s2=new CustomItemStack(CustomHead.getHead("a9b046531a6182de634d6fed1f3b4f885ee99bfe2bc0c1684f7b97d396c2059f"),AddUtils.color("mmmjjkx"),"&7rsc开发者","&3纯大蛇\uD83D\uDE0B").getItemMeta();
+        final ItemMeta s3=new CustomItemStack(Material.REPEATING_COMMAND_BLOCK,AddUtils.color("tinalness"),"&7大香蕉的本质是命令方块\uD83D\uDE0B(确信","&7但是你或许会需要他的网络拓展").getItemMeta();
+        final ItemMeta s4=new CustomItemStack(CustomHead.SUPPORT.getItem(),AddUtils.color("HgTlPbBi"),"&7逻辑工艺的支持者","&7提出了很多有用的点子").getItemMeta();
+        final ItemMeta s5=new CustomItemStack(CustomHead.getHead("8e434215b5616bf37dccbacdb240bd16de59507e62a5371ceca80327b398e65"),AddUtils.color("Tmatsuki_rui"),"&7凉城服的祸源","&7纯傻逼,给爷死啊\uD83D\uDE21").getItemMeta();
+        final ItemMeta s6=new CustomItemStack(CustomHead.BUSHIGEMEN.getItem(),"  ","&7看得出你的视力很好","&7所以一定要仔细阅读","&7版本说明与机器说明哦").getItemMeta();
         final ItemStack head=new CustomItemStack(Material.PLAYER_HEAD,AddUtils.color("逝者的头颅"));
         ItemMeta[] s7metas;
         //used to set GUIDE based handlers,an interface to adapt CustomMenu menus
@@ -365,58 +423,8 @@ public class AddGroups {
                     })).open(player1);
                     return false;
                 }));
-//                menu.addMenuClickHandler(36,(((player1, i1, itemStack1, clickAction) -> {
-//                    getBugCrafterMenu().build().setBackHandler(((player, i, itemStack, clickAction1) -> {
-//                        this.openPage(player1,profile,mode,page);
-//                        return false;
-//                    })).open(player1);
-//                    return false;
-//                })));
             }else if(page==2){
-                menu.addMenuClickHandler(29,((player, i, itemStack, clickAction) -> {
-                    menu.replaceExistingItem(29,s1);
-                    menu.addMenuClickHandler(29,ChestMenuUtils.getEmptyClickHandler());
-                    return false;
-                }));
-                menu.addMenuClickHandler(30,((player, i, itemStack, clickAction) -> {
-                    menu.replaceExistingItem(30,s2);
-                    menu.addMenuClickHandler(30,ChestMenuUtils.getEmptyClickHandler());
-                    return false;
-                }));
-                menu.addMenuClickHandler(31,((player, i, itemStack, clickAction) -> {
-                    menu.replaceExistingItem(31,s3);
-                    menu.addMenuClickHandler(31,ChestMenuUtils.getEmptyClickHandler());
-                    return false;
-                }));
-                menu.addMenuClickHandler(32,((player, i, itemStack, clickAction) -> {
-                    menu.replaceExistingItem(32,s4);
-                    menu.addMenuClickHandler(32,ChestMenuUtils.getEmptyClickHandler());
-                    return false;
-                }));
-                menu.addMenuClickHandler(33,((player, i, itemStack, clickAction) -> {
-                    menu.replaceExistingItem(33,s5);
-                    menu.addMenuClickHandler(33,ChestMenuUtils.getEmptyClickHandler());
-                    AddUtils.sendMessage(player,"&eTmatsuki_rui就是纯纯的____");
-                    if(AddUtils.standardRandom()<0.3){
-                        AddUtils.forceGive(player,head.clone(),AddUtils.random(4));
-                    }
-                    PlayerEffects.grantEffect(CustomEffects.WRONG_BUTTON,player,1,1);
-                    return false;
-                }));
-                menu.addMenuClickHandler(36,((player, i, itemStack, clickAction) -> {
-                    menu.replaceExistingItem(36,s6);
-                    menu.addMenuClickHandler(36,ChestMenuUtils.getEmptyClickHandler());
-                    return false;
-                }));
-                menu.addMenuClickHandler(44, new ChestMenu.MenuClickHandler() {
-                    int index=0;
-                    @Override
-                    public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
-                        itemStack.setItemMeta(s7metas[index]);
-                        index=(index+1)%5;
-                        return false;
-                    }
-                });
+
             }
         }
     };

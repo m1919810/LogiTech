@@ -360,6 +360,7 @@ public class RecipeSupporter {
             }
         }
     }
+    //FIXME eq item read failed
     public static ItemStack loadItemStack(Config config,String fatherPath){
 
         if( !config.contains(AddUtils.concat(fatherPath,".type"))){
@@ -389,7 +390,7 @@ public class RecipeSupporter {
                 weights.add(config.getInt(AddUtils.concat(weightPath,".",key)));
             }
             if(s.startsWith("eq")){//input eq
-                return AddUtils.equalItemStackFactory(stack,weights.get(0));
+                return AddUtils.equalItemStackFactory(stack,weights.isEmpty()?1:weights.get(0));
             }else{
 
                 if(s.startsWith("ra")){
@@ -415,8 +416,7 @@ public class RecipeSupporter {
             }
         }catch(Throwable e1){
             Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: error item format in %s".formatted(fatherPath));
-            if(MyAddon.testmode())
-                e1.printStackTrace();
+            Debug.debug(e1);
             return AddItem.RESOLVE_FAILED.clone();
         }
     }

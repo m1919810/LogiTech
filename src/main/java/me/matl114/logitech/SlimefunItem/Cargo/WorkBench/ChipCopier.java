@@ -1,4 +1,4 @@
-package me.matl114.logitech.SlimefunItem.Cargo.CargoMachine;
+package me.matl114.logitech.SlimefunItem.Cargo.WorkBench;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.Schedule.Schedules;
+import me.matl114.logitech.SlimefunItem.Cargo.CargoMachine.AbstractSyncTickCargo;
 import me.matl114.logitech.SlimefunItem.Cargo.Config.ChipCardCode;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.MathUtils;
@@ -22,7 +23,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class ChipCopier extends AbstractSyncTickCargo{
+public class ChipCopier extends AbstractSyncTickCargo {
     protected final int[] BORDER=new int[]{
             3,4,5,12,14,21,22,23
     };

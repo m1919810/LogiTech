@@ -210,7 +210,6 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
     }
 
 
-    //FIXME 面对不同物品属于同一物品组 搜索成功但合成失败
     public void craft(BlockMenu inv,int limit){
         Location  loc=inv.getLocation();
 

@@ -3,10 +3,8 @@ package me.matl114.logitech.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators.BioGenerator;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Language;
@@ -21,13 +19,12 @@ import me.matl114.logitech.SlimefunItem.Blocks.MultiPart;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockTypes;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiCoreTest;
 import me.matl114.logitech.SlimefunItem.Cargo.CargoMachine.BiSorter;
-import me.matl114.logitech.SlimefunItem.Cargo.CargoMachine.ChipCopier;
+import me.matl114.logitech.SlimefunItem.Cargo.WorkBench.ChipCopier;
 import me.matl114.logitech.SlimefunItem.Cargo.CargoMachine.OctaSorter;
 import me.matl114.logitech.SlimefunItem.Cargo.CargoMachine.QuarSorter;
 import me.matl114.logitech.SlimefunItem.Cargo.Config.ChipCard;
 import me.matl114.logitech.SlimefunItem.Cargo.Config.ChipCardCode;
 import me.matl114.logitech.SlimefunItem.Cargo.Config.ConfigCard;
-import me.matl114.logitech.SlimefunItem.Cargo.TestStorageUnit2;
 import me.matl114.logitech.SlimefunItem.Cargo.Transportation.LineCargo;
 import me.matl114.logitech.SlimefunItem.Cargo.Transportation.RemoteCargo;
 import me.matl114.logitech.SlimefunItem.Cargo.Transportation.AdjacentCargo;
@@ -46,17 +43,13 @@ import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.ManualMachine;
 import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.MultiBlockManual;
 import me.matl114.logitech.SlimefunItem.Machines.SpecialMachines.*;
 import me.matl114.logitech.SlimefunItem.Machines.WorkBenchs.BugCrafter;
-import me.matl114.logitech.SlimefunItem.Machines.WorkBenchs.TestWorkBench;
 import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.InputPort;
 import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.OutputPort;
 import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.Singularity;
 import me.matl114.logitech.SlimefunItem.Cargo.TestStorageUnit;
 import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.EqProRandomStack;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ProbItemStack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
@@ -581,7 +574,6 @@ public class AddSlimefunItems {
             AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),Material.IRON_PICKAXE,
             2_000,2_000_000,1.0)
             .register();
-    //FIXME 回去继续开发新特性！
     //FIXME 增加最终机器 先创建
     //
     public static final  SlimefunItem ADVANCED_CHIP_MAKER=new ChipCopier(AddGroups.ADVANCED, AddItem.ADVANCED_CHIP_MAKER,RecipeType.NULL,
@@ -822,10 +814,10 @@ public class AddSlimefunItems {
     //更多的智能货运
     //垃圾提 ok
     //终极路线
-    //高级芯片之类的?
-    //补充说明 堆叠机器
-    //正反发电机
-    //方舟反应堆
+    //高级芯片之类的? 高级芯片机 ok
+    //补充说明 堆叠机器 ok
+    //正反发电机 ok
+    //方舟反应堆 ok
     //百度
     //吃掉实体
     //红石控制的货运
