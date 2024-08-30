@@ -12,7 +12,7 @@ public class SyncBlockTick extends BlockTicker {
     public interface SyncTickers{
         public void syncTick(Block b, BlockMenu inv,SlimefunBlockData data,int synTickCount);
     }
-    int tickCount=0;
+    protected int tickCount=0;
     public SyncBlockTick(){
 
     }

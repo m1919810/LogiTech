@@ -2,6 +2,7 @@ package me.matl114.logitech.SlimefunItem.Cargo.CargoMachine;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import me.matl114.logitech.SlimefunItem.Blocks.AbstractBlock;
@@ -17,7 +18,14 @@ import org.bukkit.inventory.ItemStack;
  */
 public abstract class AbstractSyncTickCargo extends AbstractBlock implements SyncBlockTick.SyncTickers {
     public static SyncBlockTick CARGO_SYNC_INSTANCE =new SyncBlockTick();
-    public static SyncBlockTick CHIP_SYNC =new SyncBlockTick();
+    public static SyncBlockTick CHIP_SYNC =new SyncBlockTick(){
+        public void tick(Block b, SlimefunItem item, SlimefunBlockData data) {
+            if(this.tickCount%2==0)return;
+            if(item instanceof SyncTickers){
+                ((SyncTickers)item).syncTick(b,data.getBlockMenu(),data,this.tickCount/2);
+            }
+        }
+    };
 
     public AbstractSyncTickCargo(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);

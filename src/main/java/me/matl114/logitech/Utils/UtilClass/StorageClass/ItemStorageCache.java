@@ -110,7 +110,11 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
         if(type!=null) {
             //has storage ,load storage
             ItemStack stored=type.getStorageContent(sourceMeta);
+            if(stored==null){
+                return null;
+            }
             ItemStorageCache tmp= new ItemStorageCache(stored,source,sourceMeta,saveSlot,type);
+
             tmp.setAmount(type.getStorageAmount(sourceMeta));
             tmp.storageAmount=tmp.getAmount();
             return tmp;

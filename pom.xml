@@ -130,6 +130,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.github.SlimefunGuguProject</groupId>
+            <artifactId>Networks</artifactId>
+            <version>1514bf728b</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>5.7.2</version>

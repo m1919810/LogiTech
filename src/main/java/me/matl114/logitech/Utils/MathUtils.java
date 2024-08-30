@@ -1,5 +1,6 @@
 package me.matl114.logitech.Utils;
 
+import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
 public class MathUtils {
@@ -192,5 +193,10 @@ public class MathUtils {
         code=maskToN(code,to);
         int tmp = code - ((code >>1) &033333333333) - ((code >>2) &011111111111);
         return ((tmp + (tmp >>3)) &030707070707) %63;
+    }
+    public static int fromLong(@Nonnull Long a){
+        if(a>Integer.MAX_VALUE){
+            return Integer.MAX_VALUE;
+        }else return a.intValue();
     }
 }

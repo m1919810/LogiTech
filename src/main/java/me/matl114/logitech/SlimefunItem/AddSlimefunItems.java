@@ -328,7 +328,7 @@ public class AddSlimefunItems {
                 put(Biome.END_BARRENS,1);
             }}).registerGeo();
     public static final SlimefunItem STAR_GOLD_INGOT=new MaterialItem(AddGroups.MATERIAL,AddItem.STAR_GOLD_INGOT,RecipeType.SMELTERY,
-            recipe(setC(AddItem.STAR_GOLD,11),setC(AddItem.DIMENSIONAL_SHARD,2)),null)
+            recipe(setC(AddItem.STAR_GOLD,7),setC(AddItem.DIMENSIONAL_SHARD,9)),null)
             .register();
 
     public static final SlimefunItem WORLD_FEAT=new MaterialItem(AddGroups.MATERIAL,AddItem.WORLD_FEAT,BugCrafter.TYPE,
@@ -452,14 +452,14 @@ public class AddSlimefunItems {
                     AddItem.END_FEAT,AddItem.DIMENSIONAL_SHARD,AddItem.END_FEAT,
                     AddItem.ABSTRACT_INGOT,AddItem.LENGINE,AddItem.ABSTRACT_INGOT), Material.STONE,324,2_000,
             mkMp(
-                    mkP(mkl(setC(AddItem.END_FEAT,4),"64END_STONE"),mkl("END_PORTAL_FRAME")),90,
-                        mkP(mkl(AddItem.STAR_GOLD,"3END_PORTAL_FRAME"),mkl(AddItem.PORTAL_FRAME)),16,
-                        mkP(mkl(AddItem.STAR_GOLD_INGOT,"16QUARTZ_BLOCK"),mkl(AddItem.SOLAR_REACTOR_FRAME)),16,
-                        mkP(mkl(setC(AddItem.LPLATE,2),"16GLASS"),mkl(AddItem.SOLAR_REACTOR_GLASS)),16,
-                        mkP(mkl(AddItem.STACKFRAME,AddItem.TRUE_),mkl(AddItem.STACKMACHINE)),16,
-                        mkP(mkl(setC(AddItem.SPACE_PLATE,3),AddItem.MASS_CORE),mkl(setC(AddItem.TRANSMUTATOR_FRAME,8))),16,
-                        mkP(mkl(AddItem.SPACE_PLATE,setC(AddItem.LFIELD,64)),mkl(setC(AddItem.TRANSMUTATOR_GLASS,7))),16,
-                        mkP(mkl(setC(AddItem.ATOM_INGOT,32),AddItem.PAGOLD),mkl(setC(AddItem.TRANSMUTATOR_ROD,8))),16
+                    mkP(mkl(setC(AddItem.END_FEAT,4),"64END_STONE"),mkl("END_PORTAL_FRAME")),45,
+                        mkP(mkl(AddItem.STAR_GOLD,"3END_PORTAL_FRAME"),mkl(AddItem.PORTAL_FRAME)),6,
+                        mkP(mkl(AddItem.STAR_GOLD_INGOT,"16QUARTZ_BLOCK"),mkl(AddItem.SOLAR_REACTOR_FRAME)),6,
+                        mkP(mkl(setC(AddItem.LPLATE,2),"16GLASS"),mkl(AddItem.SOLAR_REACTOR_GLASS)),6,
+                        mkP(mkl(AddItem.STACKFRAME,AddItem.TRUE_),mkl(AddItem.STACKMACHINE)),6,
+                        mkP(mkl(setC(AddItem.SPACE_PLATE,3),AddItem.MASS_CORE),mkl(setC(AddItem.TRANSMUTATOR_FRAME,8))),6,
+                        mkP(mkl(AddItem.SPACE_PLATE,setC(AddItem.LFIELD,64)),mkl(setC(AddItem.TRANSMUTATOR_GLASS,7))),6,
+                        mkP(mkl(setC(AddItem.ATOM_INGOT,32),AddItem.PAGOLD),mkl(setC(AddItem.TRANSMUTATOR_ROD,8))),6
             ))
             .register();
     public static final  SlimefunItem LVOID_GENERATOR=new TestGenerator(AddGroups.ENERGY, AddItem.LVOID_GENERATOR,BugCrafter.TYPE,
@@ -549,8 +549,8 @@ public class AddSlimefunItems {
                     AddItem.LPLATE,AddItem.LBOOLIZER,AddItem.LSCHEDULER,AddItem.LSCHEDULER,AddItem.LBOOLIZER,AddItem.LPLATE,
                     AddItem.LPLATE,AddItem.LPLATE,AddItem.LPLATE,AddItem.LPLATE,AddItem.LPLATE,AddItem.LPLATE), Material.POTATO,0,0,
             mkMp(
-                mkP(mkl(setC(AddItem.CHIP_INGOT,5),AddItem.EXISTE),mkl( ChipCardCode.CHIP_0)),4,
-                    mkP(mkl(setC(AddItem.CHIP_INGOT,5),AddItem.UNIQUE),mkl( ChipCardCode.CHIP_1)),4,
+                mkP(mkl(setC(AddItem.CHIP_INGOT,3),AddItem.EXISTE),mkl( ChipCardCode.CHIP_0)),4,
+                    mkP(mkl(setC(AddItem.CHIP_INGOT,3),AddItem.UNIQUE),mkl( ChipCardCode.CHIP_1)),4,
                     mkP(mkl(AddItem.LSCHEDULER,ChipCardCode.CHIP_FINAL),mkl(CHIP_CORE)),4
             )).register();
 
@@ -577,7 +577,7 @@ public class AddSlimefunItems {
             .register();
     //FIXME 增加最终机器 先创建
     //
-    public static final  SlimefunItem ADVANCED_CHIP_MAKER=new ChipCopier(AddGroups.ADVANCED, AddItem.ADVANCED_CHIP_MAKER,RecipeType.NULL,
+    public static final  SlimefunItem ADVANCED_CHIP_MAKER=new ChipCopier(AddGroups.ADVANCED, AddItem.ADVANCED_CHIP_MAKER,BugCrafter.TYPE,
             recipe(null,AddItem.REINFORCED_CHIP_INGOT,AddItem.CHIP_MAKER,AddItem.CHIP_MAKER,AddItem.REINFORCED_CHIP_INGOT,null,
                     null,AddItem.REINFORCED_CHIP_INGOT,AddItem.CHIP_MAKER,AddItem.CHIP_MAKER,AddItem.REINFORCED_CHIP_INGOT,null,
                     AddItem.HGTLPBBI,AddItem.SPACE_PLATE,AddItem.LASER,AddItem.LASER,AddItem.SPACE_PLATE,AddItem.HGTLPBBI,
@@ -851,7 +851,7 @@ public class AddSlimefunItems {
             mkMp(mkP(   mkl(AddItem.METAL_CORE)  ,
 
                             mkl(
-                                    setC(AddItem.STAR_GOLD,64),
+                                    setC(AddItem.STAR_GOLD_INGOT,12),
                                     AddUtils.probItemStackFactory( AddItem.LSINGULARITY,73),
                                     AddUtils.randAmountItemFactory(AddItem.STAR_GOLD,39,127),
                                     AddUtils.randAmountItemFactory(AddItem.ATOM_INGOT,63,99),
@@ -868,6 +868,7 @@ public class AddSlimefunItems {
                             mkl(
                                     setC(AddItem.ABSTRACT_INGOT,64),
                                     AddUtils.probItemStackFactory( AddItem.LSINGULARITY,12),
+                                    AddUtils.randAmountItemFactory(AddItem.DIMENSIONAL_SHARD,99,127),
                                     AddUtils.randAmountItemFactory(AddItem.STAR_GOLD,83,127),
                                     AddUtils.randAmountItemFactory(AddItem.ATOM_INGOT,37,51),
 
@@ -883,6 +884,7 @@ public class AddSlimefunItems {
                             mkl(
                                     setC(AddItem.BUG,64),
                                     AddUtils.probItemStackFactory( AddItem.LSINGULARITY,97),
+                                    AddUtils.randAmountItemFactory(AddItem.DIMENSIONAL_SHARD,73,127),
                                     AddUtils.randAmountItemFactory(AddItem.STAR_GOLD,39,63),
                                     AddUtils.randAmountItemFactory(AddItem.ATOM_INGOT,12,39),
 
@@ -898,7 +900,7 @@ public class AddSlimefunItems {
                             mkl(
                                     setC(AddItem.LPLATE,64),
                                     setC( AddItem.LSINGULARITY,2),
-                                    AddUtils.randAmountItemFactory(AddItem.STAR_GOLD,103,127),
+                                    AddUtils.randAmountItemFactory(AddItem.STAR_GOLD_INGOT,3,12),
                                     AddUtils.randAmountItemFactory(AddItem.ATOM_INGOT,92,127)
                             )
 
@@ -1245,31 +1247,22 @@ public class AddSlimefunItems {
             recipe("TRASH_CAN_BLOCK",AddItem.LOGIC,"TRASH_CAN_BLOCK",AddItem.LOGIC,"COAL_GENERATOR",AddItem.LOGIC,
                     "TRASH_CAN_BLOCK",AddItem.LOGIC,"TRASH_CAN_BLOCK"))
             .register();
-    public static final SlimefunItem SIMPLE_CARGO=new AdjacentCargo(AddGroups.CARGO,AddItem.SIMPLE_CARGO,BugCrafter.TYPE,
-            recipe(AddItem.PARADOX,AddItem.PARADOX,"HOPPER","HOPPER",AddItem.PARADOX,AddItem.PARADOX,
-                    AddItem.PARADOX,null,"CARGO_NODE","CARGO_NODE",null,AddItem.PARADOX,
-                    AddItem.PARADOX,null,AddItem.CARGO_PART,AddItem.ABSTRACT_INGOT,null,AddItem.PARADOX,
-                    AddItem.PARADOX,null,AddItem.BUG,AddItem.CARGO_PART,null,AddItem.PARADOX,
-                    AddItem.PARADOX,null,"CARGO_NODE","CARGO_NODE",null,AddItem.PARADOX,
-                    AddItem.PARADOX,AddItem.PARADOX,"HOPPER","HOPPER",AddItem.PARADOX,AddItem.PARADOX),
+    public static final SlimefunItem SIMPLE_CARGO=new AdjacentCargo(AddGroups.CARGO,AddItem.SIMPLE_CARGO,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(AddItem.PARADOX,"HOPPER",AddItem.PARADOX,
+                    AddItem.PARADOX,AddItem.CARGO_PART ,AddItem.PARADOX,
+                    AddItem.PARADOX,AddItem.PARADOX,AddItem.PARADOX),
             list(AddUtils.getInfoShow("&f机制","")))
             .register();
-    public static final SlimefunItem REMOTE_CARGO=new RemoteCargo(AddGroups.CARGO,AddItem.REMOTE_CARGO,BugCrafter.TYPE,
-            recipe(AddItem.PARADOX,AddItem.PARADOX,AddItem.HYPER_LINK,AddItem.HYPER_LINK,AddItem.PARADOX,AddItem.PARADOX,
-                    AddItem.PARADOX,null,"CARGO_NODE","CARGO_NODE",null,AddItem.PARADOX,
-                    AddItem.PARADOX,null,AddItem.CARGO_PART,AddItem.ABSTRACT_INGOT,null,AddItem.PARADOX,
-                    AddItem.PARADOX,null,AddItem.BUG,AddItem.CARGO_PART,null,AddItem.PARADOX,
-                    AddItem.PARADOX,null,"CARGO_NODE","CARGO_NODE",null,AddItem.PARADOX,
-                    AddItem.PARADOX,AddItem.PARADOX,"HOPPER","HOPPER",AddItem.PARADOX,AddItem.PARADOX),
+    public static final SlimefunItem REMOTE_CARGO=new RemoteCargo(AddGroups.CARGO,AddItem.REMOTE_CARGO,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(AddItem.PARADOX,AddItem.HYPER_LINK,AddItem.PARADOX
+                    ,"CARGO_NODE",AddItem.CARGO_PART,"CARGO_NODE",
+                    AddItem.PARADOX,AddItem.PARADOX,AddItem.PARADOX),
             null)
             .register();
-    public static final SlimefunItem LINE_CARGO=new LineCargo(AddGroups.CARGO,AddItem.LINE_CARGO,BugCrafter.TYPE,
-            recipe(AddItem.PARADOX,AddItem.PARADOX,AddItem.LBOOLIZER,AddItem.LBOOLIZER,AddItem.PARADOX,AddItem.PARADOX,
-                    AddItem.PARADOX,null,"GPS_TRANSMITTER_2","GPS_TRANSMITTER_2",null,AddItem.PARADOX,
-                    AddItem.PARADOX,null,AddItem.CARGO_PART,AddItem.CARGO_PART,null,AddItem.PARADOX,
-                    AddItem.PARADOX,null,AddItem.LDIGITIZER,AddItem.CARGO_PART,null,AddItem.PARADOX,
-                    AddItem.PARADOX,null,"CARGO_NODE","CARGO_NODE",null,AddItem.PARADOX,
-                    AddItem.PARADOX,AddItem.PARADOX,"HOPPER","HOPPER",AddItem.PARADOX,AddItem.PARADOX),null)
+    public static final SlimefunItem LINE_CARGO=new LineCargo(AddGroups.CARGO,AddItem.LINE_CARGO,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(AddItem.PARADOX,AddItem.LBOOLIZER,AddItem.PARADOX,
+                    "GPS_TRANSMITTER_2",AddItem.CARGO_PART,"GPS_TRANSMITTER_2",
+                    AddItem.PARADOX,AddItem.LDIGITIZER,AddItem.PARADOX),null)
             .register();
     public static final  SlimefunItem BISORTER=new BiSorter(AddGroups.CARGO, AddItem.BISORTER,BugCrafter.TYPE,
             recipe(null,null,null,null,null,null,
@@ -1291,7 +1284,7 @@ public class AddSlimefunItems {
             recipe(null,null,null,null,null,null,
                     null,AddItem.PARADOX,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.PARADOX,null,
                     setC(AddItem.PARADOX,2),"HOPPER",setC(AddItem.LBOOLIZER,4),AddItem.LSCHEDULER,"HOPPER",setC(AddItem.PARADOX,2),
-                    setC(AddItem.PARADOX,2),AddItem.LENGINE,AddItem.QUARSORTER,setC(AddItem.LBOOLIZER,4),AddItem.LENGINE,setC(AddItem.PARADOX,2),
+                    setC(AddItem.PARADOX,2),"HOPPER",AddItem.QUARSORTER,setC(AddItem.LBOOLIZER,4),"HOPPER",setC(AddItem.PARADOX,2),
                     null,AddItem.PARADOX,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.PARADOX,null))
             .register();
 

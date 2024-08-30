@@ -7,9 +7,8 @@ import io.github.sefiraat.networks.utils.datatypes.PersistentQuantumStorageType;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedException;
 import me.matl114.logitech.SlimefunItem.AddDepends;
-import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.StorageType;
-import me.matl114.logitech.Utils.CraftUtils;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -45,16 +44,19 @@ public class NetworksAdaptQuantumStorage extends StorageType {
         return AddDepends.NETWORKSQUANTUMSTORAGE.isInstance(item);
     }
     public QuantumCache getQuantumCache(ItemMeta meta) {
-        return DataTypeMethods.getCustom(meta, AddDepends.NTWQUANTUMKEY, PersistentQuantumStorageType.TYPE);
+       QuantumCache cache= DataTypeMethods.getCustom(meta, AddDepends.NTWQUANTUMKEY, PersistentQuantumStorageType.TYPE);
+       if(cache==null){
+       }
+       return cache;
     }
     @Override
     public int getStorageMaxSize(ItemMeta meta) {
         QuantumCache cache= getQuantumCache(meta);
+        if(cache==null){return 0;}
         Method amount=NetWorkQuantumMethod. getLimitMethod(cache);
         try{
             return (Integer)amount.invoke(cache);
         }catch (Throwable e){
-            Debug.debug("failed setStorageMaxSize");
             return 0;
         }
     }
@@ -70,11 +72,11 @@ public class NetworksAdaptQuantumStorage extends StorageType {
     @Override
     public void setStorageAmount(ItemMeta meta, int amount) {
         QuantumCache cache=getQuantumCache(meta);
+        if(cache==null){return;}
         Method set=NetWorkQuantumMethod.getSetAmountMethod(cache);
         try{
             set.invoke(cache, amount);
         }catch (Throwable e){
-            Debug.debug("failed setStorageAmount");
             return ;
         }
         DataTypeMethods.setCustom(meta,Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE,cache);
@@ -83,11 +85,12 @@ public class NetworksAdaptQuantumStorage extends StorageType {
     @Override
     public int getStorageAmount(ItemMeta meta) {
         QuantumCache cache= getQuantumCache(meta);
+        if(cache==null){return 0;}
         Method amount=NetWorkQuantumMethod. getAmountMethod(cache);
         try{
-            return (Integer)amount.invoke(cache);
+            Object res= amount.invoke(cache);
+            return res instanceof Long r? MathUtils.fromLong(r) : (Integer) res;
         }catch (Throwable e){
-            Debug.debug("failed storageAmount");
             return 0;
         }
     }
@@ -95,11 +98,12 @@ public class NetworksAdaptQuantumStorage extends StorageType {
     @Override
     public ItemStack getStorageContent(ItemMeta meta) {
         QuantumCache cache= getQuantumCache(meta);
+        if(cache==null){
+            return null;}
         Method getItem=NetWorkQuantumMethod.getItemStackMethod(cache);
         try{
-               return (ItemStack) getItem.invoke(meta);
+               return (ItemStack) getItem.invoke(cache);
         }catch (Throwable e){
-            Debug.debug("failed getContent");
             return null;
         }
     }
@@ -112,6 +116,7 @@ public class NetworksAdaptQuantumStorage extends StorageType {
     @Override
     public void updateStorageDisplay(ItemMeta meta, ItemStack item, int amount) {
         var cache=getQuantumCache(meta);
+        if(cache==null){return;}
         try{
             Method set=NetWorkQuantumMethod.getSetItemStackMethod(cache);
             set.invoke(cache, item);
@@ -120,7 +125,6 @@ public class NetworksAdaptQuantumStorage extends StorageType {
             set=NetWorkQuantumMethod.getUpdateMetaLore(cache);
             set.invoke(cache, meta);
         }catch (Throwable e){
-            Debug.debug("failed updateStorageDisplay");
         }
 
     }
@@ -128,6 +132,7 @@ public class NetworksAdaptQuantumStorage extends StorageType {
     @Override
     public void updateStorageAmountDisplay(ItemMeta meta, int amount) {
         var cache=getQuantumCache(meta);
+        if(cache==null){return;}
         Method set;
         try{
             set=NetWorkQuantumMethod.getSetAmountMethod(cache);

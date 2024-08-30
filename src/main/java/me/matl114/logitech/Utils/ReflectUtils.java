@@ -64,4 +64,19 @@ public class ReflectUtils {
         return null;
 
     }
+    public static    void printAllDeclared(Class clazz,Settings mod){
+        if(mod==Settings.FIELD){
+            Field[] fields=clazz.getDeclaredFields();
+            for(Field f:fields){
+                f.setAccessible(true);
+                Debug.logger(f.getName());
+            }
+        }else {
+            Method[] methods= clazz.getDeclaredMethods();
+            for(Method m:methods){
+                m.setAccessible(true);
+                Debug.logger(m.getName());
+            }
+        }
+    }
 }

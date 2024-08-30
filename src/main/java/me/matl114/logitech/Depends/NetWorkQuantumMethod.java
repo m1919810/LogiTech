@@ -37,7 +37,7 @@ public class NetWorkQuantumMethod {
                 getLimit=t.getClass().getDeclaredMethod("getLimit");
                 getLimit.setAccessible(true);
             }catch(NoSuchMethodException e){
-                Debug.debug("invoke failed amount");
+                Debug.debug("invoke failed limit");
                 hasFailedLimit=true;
             }
         }
@@ -49,7 +49,7 @@ public class NetWorkQuantumMethod {
                 setAmount=t.getClass().getDeclaredMethod("setAmount",int.class);
                 setAmount.setAccessible(true);
             }catch(NoSuchMethodException e){
-                Debug.debug("invoke failed amount");
+                Debug.debug("invoke failed setamount");
                 hasFailedset=true;
             }
         }
@@ -58,10 +58,15 @@ public class NetWorkQuantumMethod {
     public static Method getItemStackMethod(Object t){
         if(getItemStack==null&&!hasFailedgetItemStack){
             try{
-                getItemStack=t.getClass().getDeclaredMethod("getItemStack");
+                getItemStack=t.getClass().getSuperclass().getDeclaredMethod("getItemStack");
                 getItemStack.setAccessible(true);
             }catch(NoSuchMethodException e){
-                Debug.debug("invoke failed amount");
+                Debug.debug("invoke failed getItemStack");
+                Debug.debug(t.getClass().getSuperclass().getName());
+                Method[] a=t.getClass().getSuperclass().getDeclaredMethods();
+                for(Method m:a){
+                    Debug.debug(m.getName());
+                }
                 hasFailedgetItemStack=true;
             }
         }
@@ -73,7 +78,7 @@ public class NetWorkQuantumMethod {
                 setItemStack=t.getClass().getDeclaredMethod("setItemStack",ItemStack.class);
                 getItemStack.setAccessible(true);
             }catch(NoSuchMethodException e){
-                Debug.debug("invoke failed amount");
+                Debug.debug("invoke failed setItemStack");
                 hasFailedsetItemStack=true;
             }
         }
@@ -85,7 +90,7 @@ public class NetWorkQuantumMethod {
                 updateMetaLore=t.getClass().getDeclaredMethod("updateMetaLore", ItemMeta.class);
                 updateMetaLore.setAccessible(true);
             }catch (NoSuchMethodException e){
-                Debug.debug("invoke failed amount");
+                Debug.debug("invoke failed updateMetaLore");
                 hasFailedupdateMetaLore=true;
             }
         }

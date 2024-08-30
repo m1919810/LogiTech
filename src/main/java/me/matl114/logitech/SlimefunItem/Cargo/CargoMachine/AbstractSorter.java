@@ -29,6 +29,7 @@ public abstract class AbstractSorter extends AbstractSyncTickCargo implements  C
                 Utils.list(AddUtils.getInfoShow("&f机制",
                                 "&7这是一个同步货运机器,属于[CHIP_SYNC]组",
                                 "&7位于同组的机器将共享同一个ticker计数器",
+                                "&7出于对时序安全性的保障,&c每1s该计数器+1并让机器工作一次",
                                 "&7机器用该计数器数值顺序读取%s中记录的01码".formatted(Language.get("Items.CHIP.Name")),
                                 "&7具体地,机器会读取01码的第<ticker>(mod32)位",
                                 "&7机器根据读取结果是0/1会执行相应的行为"
