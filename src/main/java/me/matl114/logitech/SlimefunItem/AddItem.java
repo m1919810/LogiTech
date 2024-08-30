@@ -349,21 +349,22 @@ public class AddItem {
             Language.get("Items.CARGO_PART.Name"),Language.getList("Items.CARGO_PART.Lore"));
     public static final SlimefunItemStack CARGO_CONFIG=AddUtils.themed("CARGO_CONFIG",Material.TIDE_ARMOR_TRIM_SMITHING_TEMPLATE,AddUtils.Theme.ITEM1,
             Language.get("Items.CARGO_CONFIG.Name"),Language.getList("Items.CARGO_CONFIG.Lore"));
-    public static final SlimefunItemStack CARGO_CONFIGURATOR=AddUtils.themed("CARGO_CONFIGURATOR",Material.JUKEBOX,AddUtils.Theme.MACHINE1,
+    public static final SlimefunItemStack CARGO_CONFIGURATOR=AddUtils.themed("CARGO_CONFIGURATOR",Material.JUKEBOX,AddUtils.Theme.CARGO1,
             Language.get("Items.CARGO_CONFIGURATOR.Name"),Language.getList("Items.CARGO_CONFIGURATOR.Lore"));
-    public static final SlimefunItemStack SIMPLE_CARGO=AddUtils.themed("SIMPLE_CARGO",Material.TARGET,AddUtils.Theme.MACHINE1,
+    public static final SlimefunItemStack SIMPLE_CARGO=AddUtils.themed("SIMPLE_CARGO",Material.TARGET,AddUtils.Theme.CARGO1,
             Language.get("Cargo.SIMPLE_CARGO.Name"),Language.getList("Cargo.SIMPLE_CARGO.Lore"));
-    public static final SlimefunItemStack REMOTE_CARGO=AddUtils.themed("REMOTE_CARGO",Material.CALIBRATED_SCULK_SENSOR,AddUtils.Theme.MACHINE1,
+    public static final SlimefunItemStack REMOTE_CARGO=AddUtils.themed("REMOTE_CARGO",Material.CALIBRATED_SCULK_SENSOR,AddUtils.Theme.CARGO1,
             Language.get("Cargo.REMOTE_CARGO.Name"),Language.getList("Cargo.REMOTE_CARGO.Lore"));
-    public static final SlimefunItemStack LINE_CARGO=AddUtils.themed("LINE_CARGO",Material.OBSERVER,AddUtils.Theme.MACHINE1,
+    public static final SlimefunItemStack LINE_CARGO=AddUtils.themed("LINE_CARGO",Material.OBSERVER,AddUtils.Theme.CARGO1,
             Language.get("Cargo.LINE_CARGO.Name"),Language.getList("Cargo.LINE_CARGO.Lore"));
-    public static final SlimefunItemStack BISORTER=AddUtils.themed("BISORTER",Material.VERDANT_FROGLIGHT,AddUtils.Theme.MACHINE1,
+    public static final SlimefunItemStack BISORTER=AddUtils.themed("BISORTER",Material.VERDANT_FROGLIGHT,AddUtils.Theme.CARGO1,
             Language.get("Cargo.BISORTER.Name"),Language.getList("Cargo.BISORTER.Lore"));
-    public static final SlimefunItemStack QUARSORTER=AddUtils.themed("QUARSORTER",Material.PEARLESCENT_FROGLIGHT,AddUtils.Theme.MACHINE1,
+    public static final SlimefunItemStack QUARSORTER=AddUtils.themed("QUARSORTER",Material.PEARLESCENT_FROGLIGHT,AddUtils.Theme.CARGO1,
             Language.get("Cargo.QUARSORTER.Name"),Language.getList("Cargo.QUARSORTER.Lore"));
-    public static final SlimefunItemStack OCTASORTER=AddUtils.themed("OCTASORTER",Material.OCHRE_FROGLIGHT,AddUtils.Theme.ITEM1,
+    public static final SlimefunItemStack OCTASORTER=AddUtils.themed("OCTASORTER",Material.OCHRE_FROGLIGHT,AddUtils.Theme.CARGO1,
             Language.get("Cargo.OCTASORTER.Name"),Language.getList("Cargo.OCTASORTER.Lore"));
-
+    public static final SlimefunItemStack ADV_TRASH=AddUtils.themed("ADV_TRASH",CustomHead.FIRE_GENERATOR.getItem(), AddUtils.Theme.CARGO1,
+            Language.get("Cargo.ADV_TRASH.Name"),Language.getList("Cargo.ADV_TRASH.Lore"));
     //multiblock
     public static final SlimefunItemStack PORTAL_CORE=AddUtils.themed("PORTAL_CORE",Material.CRYING_OBSIDIAN,AddUtils.Theme.MULTIBLOCK1,
             Language.get("MultiBlock.PORTAL_CORE.Name"),Language.getList("MultiBlock.PORTAL_CORE.Lore"));

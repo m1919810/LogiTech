@@ -8,6 +8,7 @@ import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Blocks.AbstractBlock;
 import me.matl114.logitech.SlimefunItem.Cargo.AbstractCargo;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
+import me.matl114.logitech.Utils.Debug;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -17,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
-//TODO 未创建实例
+
 public class TrashCan extends AbstractMachine {
     protected final int[] INPUT_SLOTS= IntStream.rangeClosed(0, 53).toArray();
     protected final int[] OUTPUT_SLOTS= new int[0];
@@ -40,12 +41,13 @@ public class TrashCan extends AbstractMachine {
 
     }
     public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int ticker) {
-        Schedules.launchSchedules(()->{
+        //Schedules.launchSchedules(()->{
             int[] slots=getInputSlots();
+            ItemStack it;
             for(int i=0; i<slots.length; i++){
                 if(menu.getItemInSlot(slots[i])==null)break;
                 menu.replaceExistingItem(slots[i],null,false);
             }
-        },0,false,0);
+        //},0,false,0);
     }
 }

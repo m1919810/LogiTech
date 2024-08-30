@@ -10,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.chat.ChatInput;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Items.CustomHead;
+import me.matl114.logitech.Listeners.Listeners.PlayerQuiteListener;
 import me.matl114.logitech.Schedule.PersistentEffects.AbstractEffect;
 import me.matl114.logitech.Schedule.PersistentEffects.CustomEffects;
 import me.matl114.logitech.Schedule.PersistentEffects.PlayerEffects;
@@ -95,7 +96,17 @@ public class AddGroups {
                     "&7修复原版配方读取,将矿辞读为等价物品组")
             );
             factory.addInventory(2,AddUtils.getInfoShow("&f2024.8.29",
-                    "&7修改部分描述"
+                    "&7修改部分描述",
+                    "&7修复了自定义菜单历史记录bug",
+                    "&7平衡性调整",
+                    "&7修改了等价物品组配置的读取方式",
+                    "&7修改了语言文件读取方式,并研发了自动提取字符串脚本",
+                    "&7研发出乱码科技的英文版\"乱翻科技\"",
+                    "&7我没有痴呆症"
+                    )
+            );
+            factory.addInventory(3,AddUtils.getInfoShow("&f2024.8.30",
+                            "&7"
                     )
             );
         }
@@ -108,6 +119,14 @@ public class AddGroups {
     public static ItemGroup BUGCRAFTER=new CustomItemGroup(bugcrafterId,AddUtils.colorful(AddUtils.ADDON_NAME),AddItem.ALLBIGRECIPES,54,36,new LinkedHashMap<>()) {
         public PlayerHistoryRecord<CustomMenu> historyHandler=new PlayerHistoryRecord<CustomMenu>() {
             HashMap<UUID,List<CustomMenu>> records=new HashMap<>();
+            {
+                PlayerQuiteListener.addHandler((playerQuiteListener)->{
+                    UUID uid=playerQuiteListener.getPlayer().getUniqueId();
+                    synchronized(records) {
+                        records.remove(uid);
+                    }
+                });
+            }
             public  CustomMenu getRecord(Player player){
                 UUID uuid=player.getUniqueId();
                 synchronized(records){

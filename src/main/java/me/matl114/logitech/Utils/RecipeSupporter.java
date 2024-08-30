@@ -360,7 +360,6 @@ public class RecipeSupporter {
             }
         }
     }
-    //FIXME eq item read failed
     public static ItemStack loadItemStack(Config config,String fatherPath){
 
         if( !config.contains(AddUtils.concat(fatherPath,".type"))){

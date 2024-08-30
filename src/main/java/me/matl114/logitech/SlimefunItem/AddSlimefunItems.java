@@ -19,6 +19,7 @@ import me.matl114.logitech.SlimefunItem.Blocks.MultiPart;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockTypes;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiCoreTest;
 import me.matl114.logitech.SlimefunItem.Cargo.CargoMachine.BiSorter;
+import me.matl114.logitech.SlimefunItem.Cargo.CargoMachine.TrashCan;
 import me.matl114.logitech.SlimefunItem.Cargo.WorkBench.ChipCopier;
 import me.matl114.logitech.SlimefunItem.Cargo.CargoMachine.OctaSorter;
 import me.matl114.logitech.SlimefunItem.Cargo.CargoMachine.QuarSorter;
@@ -374,8 +375,8 @@ public class AddSlimefunItems {
             AddUtils.formatInfoRecipe(AddItem.SEQ_CONSTRUCTOR,Language.get("Machines.SEQ_CONSTRUCTOR.Name")),null)
             .register();
     public static final SlimefunItem SPACE_PLATE=new MaterialItem(AddGroups.MATERIAL,AddItem.SPACE_PLATE,STARSMELTERY,
-            recipe(setC(AddItem.STAR_GOLD_INGOT,64),setC(AddItem.PARADOX,64),
-                    setC(AddItem.ATOM_INGOT,64),setC(AddItem.LFIELD,64),setC(AddItem.REINFORCED_CHIP_INGOT,2)
+            recipe(setC(AddItem.STAR_GOLD_INGOT,24),setC(AddItem.PARADOX,64),
+                    setC(AddItem.ATOM_INGOT,24),setC(AddItem.LFIELD,24),setC(AddItem.REINFORCED_CHIP_INGOT,2)
                     ),null)
             .register();
     public static final SlimefunItem VIRTUAL_SPACE=new MaterialItem(AddGroups.MATERIAL,AddItem.VIRTUAL_SPACE,BugCrafter.TYPE,
@@ -548,9 +549,9 @@ public class AddSlimefunItems {
                     AddItem.LPLATE,AddItem.LBOOLIZER,AddItem.LSCHEDULER,AddItem.LSCHEDULER,AddItem.LBOOLIZER,AddItem.LPLATE,
                     AddItem.LPLATE,AddItem.LPLATE,AddItem.LPLATE,AddItem.LPLATE,AddItem.LPLATE,AddItem.LPLATE), Material.POTATO,0,0,
             mkMp(
-                mkP(mkl(setC(AddItem.CHIP_INGOT,5),AddItem.EXISTE),mkl( ChipCardCode.CHIP_0)),8,
-                    mkP(mkl(setC(AddItem.CHIP_INGOT,5),AddItem.UNIQUE),mkl( ChipCardCode.CHIP_1)),8,
-                    mkP(mkl(AddItem.LSCHEDULER,ChipCardCode.CHIP_FINAL),mkl(CHIP_CORE)),8
+                mkP(mkl(setC(AddItem.CHIP_INGOT,5),AddItem.EXISTE),mkl( ChipCardCode.CHIP_0)),4,
+                    mkP(mkl(setC(AddItem.CHIP_INGOT,5),AddItem.UNIQUE),mkl( ChipCardCode.CHIP_1)),4,
+                    mkP(mkl(AddItem.LSCHEDULER,ChipCardCode.CHIP_FINAL),mkl(CHIP_CORE)),4
             )).register();
 
     public static final SlimefunItem CHIP_CONSUMER=new ChipConsumer(AddGroups.ADVANCED,AddItem.CHIP_CONSUMER,BugCrafter.TYPE,
@@ -663,13 +664,13 @@ public class AddSlimefunItems {
             ),20,6_000,1_200,
             AddUtils.randItemStackFactory(
                     mkMp(
-                            "64END_STONE",240,
-                            "4OBSIDIAN",80,
-                            "4CHORUS_FLOWER",40,
-                            "2SHULKER_SHELL",15,
-                            "DRAGON_BREATH",15,
-                            AddItem.DIMENSIONAL_SHARD,8,
-                            AddItem.STAR_GOLD,2
+                            "64END_STONE",200,
+                            "4OBSIDIAN",60,
+                            "4CHORUS_FLOWER",50,
+                            "2SHULKER_SHELL",25,
+                            "DRAGON_BREATH",25,
+                            AddItem.DIMENSIONAL_SHARD,32,
+                            AddItem.STAR_GOLD,8
                     )
             ))
             .register();
@@ -687,13 +688,13 @@ public class AddSlimefunItems {
                             "64NETHERRACK",1
                     )
             ),
-            new ProbItemStack(
+
             AddUtils.randItemStackFactory(
                     mkMp(
                             AddItem.DIMENSIONAL_SHARD,3,
                             AddItem.STAR_GOLD,1
                     )
-            ),0.8),
+            ),
             new ProbItemStack(
             AddUtils.randItemStackFactory(
                     mkMp(
@@ -1239,6 +1240,10 @@ public class AddSlimefunItems {
                     AddItem.CHIP_INGOT,setC(AddItem.ABSTRACT_INGOT,2),"CARTOGRAPHY_TABLE","SMITHING_TABLE",setC(AddItem.ABSTRACT_INGOT,2),AddItem.CHIP_INGOT,
                     AddItem.PARADOX,"HOPPER",setC(AddItem.ABSTRACT_INGOT,2),setC(AddItem.ABSTRACT_INGOT,2),"HOPPER",AddItem.PARADOX,
                     setC(AddItem.BUG,3),AddItem.PARADOX,AddItem.CHIP_INGOT,AddItem.CHIP_INGOT,AddItem.PARADOX,setC(AddItem.BUG,3)))
+            .register();
+    public static final SlimefunItem ADV_TRASH=new TrashCan(AddGroups.CARGO,AddItem.ADV_TRASH,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe("TRASH_CAN_BLOCK",AddItem.LOGIC,"TRASH_CAN_BLOCK",AddItem.LOGIC,"COAL_GENERATOR",AddItem.LOGIC,
+                    "TRASH_CAN_BLOCK",AddItem.LOGIC,"TRASH_CAN_BLOCK"))
             .register();
     public static final SlimefunItem SIMPLE_CARGO=new AdjacentCargo(AddGroups.CARGO,AddItem.SIMPLE_CARGO,BugCrafter.TYPE,
             recipe(AddItem.PARADOX,AddItem.PARADOX,"HOPPER","HOPPER",AddItem.PARADOX,AddItem.PARADOX,

@@ -1,6 +1,7 @@
 package me.matl114.logitech;
 
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
+import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Debug;
 
 import java.util.*;
@@ -24,15 +25,25 @@ public class Language {
         Set<String> keys=cfg.getKeys(LANGUAGE_NAMESPACE);
         if(keys.isEmpty()) return false;
         for (String ns : keys) {
-            Set<String> val=cfg.getKeys(String.join(".", LANGUAGE_NAMESPACE,ns));
-            for (String key : val) {
-                String namespaceKeyName=String.join(".", ns,key,"Name");
-                String namespaceKeyLore=String.join(".", ns,key,"Lore");
-                LANGUAGE.put(namespaceKeyName,cfg.getValue(String.join(".", LANGUAGE_NAMESPACE,namespaceKeyName)));
-                LANGUAGE.put(namespaceKeyLore,cfg.getValue(String.join(".", LANGUAGE_NAMESPACE,namespaceKeyLore)));
+            loadRecursively(cfg,ns);
+        }
+        Debug.logger(Language.get("Language.0"));
+        return true;
+    }
+    public static void loadRecursively(Config config,String path){
+        Set<String> keys=config.getKeys(String.join( ".", LANGUAGE_NAMESPACE,path));
+        for (String key : keys) {
+            String nextPath=path+"."+key;
+            if(key.endsWith("lan")){
+                LANGUAGE.put(path,config.getValue(String.join(".", LANGUAGE_NAMESPACE,nextPath)));
+            }else if(key.endsWith("key")||key.endsWith("enable")){
+
+            }else if(key.endsWith("Lore")||key.endsWith("Name")){
+                LANGUAGE.put(AddUtils.concat(path,".",key),config.getValue(String.join(".", LANGUAGE_NAMESPACE,path,key)));
+            }
+            else {
+                loadRecursively(config,nextPath);
             }
         }
-        Debug.logger("语言文件加载完毕");
-        return true;
     }
 }

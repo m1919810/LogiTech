@@ -1,16 +1,24 @@
 package me.matl114.logitech.Depends;
 
 import me.matl114.logitech.Utils.Debug;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.lang.reflect.Method;
 
 public class NetWorkQuantumMethod {
     static Method getAmount=null;
-    static  Boolean hasFailedAmount=false;
+    static  boolean hasFailedAmount=false;
     static Method getLimit=null;
-    static Boolean hasFailedLimit=false;
+    static boolean hasFailedLimit=false;
     static Method setAmount=null;
-    static Boolean hasFailedset=false;
+    static boolean hasFailedset=false;
+    static Method getItemStack=null;
+    static boolean hasFailedgetItemStack=false;
+    static Method setItemStack=null;
+    static boolean hasFailedsetItemStack=false;
+    static Method updateMetaLore=null;
+    static boolean hasFailedupdateMetaLore=false;
     public static Method getAmountMethod(Object t){
         if(getAmount==null&&!hasFailedAmount){
             try{
@@ -46,5 +54,41 @@ public class NetWorkQuantumMethod {
             }
         }
         return setAmount;
+    }
+    public static Method getItemStackMethod(Object t){
+        if(getItemStack==null&&!hasFailedgetItemStack){
+            try{
+                getItemStack=t.getClass().getDeclaredMethod("getItemStack");
+                getItemStack.setAccessible(true);
+            }catch(NoSuchMethodException e){
+                Debug.debug("invoke failed amount");
+                hasFailedgetItemStack=true;
+            }
+        }
+        return getItemStack;
+    }
+    public static Method getSetItemStackMethod(Object t){
+        if(setItemStack==null&&!hasFailedsetItemStack){
+            try {
+                setItemStack=t.getClass().getDeclaredMethod("setItemStack",ItemStack.class);
+                getItemStack.setAccessible(true);
+            }catch(NoSuchMethodException e){
+                Debug.debug("invoke failed amount");
+                hasFailedsetItemStack=true;
+            }
+        }
+        return setItemStack;
+    }
+    public static Method getUpdateMetaLore(Object t){
+        if(updateMetaLore==null&&!hasFailedupdateMetaLore){
+            try {
+                updateMetaLore=t.getClass().getDeclaredMethod("updateMetaLore", ItemMeta.class);
+                updateMetaLore.setAccessible(true);
+            }catch (NoSuchMethodException e){
+                Debug.debug("invoke failed amount");
+                hasFailedupdateMetaLore=true;
+            }
+        }
+        return updateMetaLore;
     }
 }

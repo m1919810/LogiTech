@@ -20,6 +20,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 public class CraftUtils {
+    //TODO 仔细检查
     private static final HashSet<Material> COMPLEX_MATERIALS = new HashSet<>(){{
         add(Material.AXOLOTL_BUCKET);
         add(Material.WRITABLE_BOOK);
@@ -127,12 +128,14 @@ public class CraftUtils {
         if(a==null)return null;
         if (a instanceof RandOutItem ro) {
             // return new ItemConsumer(a.clone());
+            //当物品是随机输出物品时候,取其中的随机实例
             return ItemConsumer.get(ro.getInstance());
         }
         return ItemConsumer.get(a);
     }
     public static ItemCounter getCounter(ItemStack a){
         if(a==null)return null;
+        //用于比较和
         return ItemCounter.get(a);
     }
 
@@ -144,6 +147,7 @@ public class CraftUtils {
     public static ItemGreedyConsumer getGreedyConsumer(ItemStack a){
         if(a==null)return null;
         if (a instanceof RandOutItem ro) {
+            //当物品是随机输出物品时候,取其中的随机实例
             // return new ItemConsumer(a.clone());
             return ItemGreedyConsumer.get(ro.getInstance());
         }
@@ -703,6 +707,7 @@ public class CraftUtils {
         int len= slotCounters.length;
         ItemPusher itp=null;
         ItemGreedyConsumer outputItem;
+        boolean hasChanged=false;
         for(int i=0;i<len;++i) {
             outputItem=slotCounters[i];
             //consume mode
@@ -711,32 +716,23 @@ public class CraftUtils {
                 if(!itp.isDirty()){
                     if(itp.getItem()==null){
                         itp.setFrom(outputItem);
+                        //needs this push ,because the source of outputItem
                         outputItem.push(itp);
-//                        itp.grab(outputItem);
-//                        outputItem.addRelate(itp);
+                        itp.updateMenu(inv);
+                        itp.setDirty(true);
+                        hasChanged=true;
+
                     }else if (itp.getAmount()==itp.getMaxStackCnt()){
                         continue;
                     }
                     else if(matchItemCounter(outputItem,itp,false)){
-                        outputItem.push(itp);
-//                        itp.grab(outputItem);
-//                        outputItem.addRelate(itp);
+                         outputItem.push(itp);
+                         itp.updateMenu(inv);
+                         itp.setDirty(true);
+                         hasChanged=true;
                     }
                     if(outputItem.getMatchAmount()<=0)break;
                 }
-            }
-        }
-        boolean hasChanged=false;
-        for(int i=0;i<len;++i) {
-//            itp=slotCounters2.get(i);
-//            if(itp.isDirty()){
-//                hasChanged=true;
-//                itp.updateMenu(inv);
-//            }
-            outputItem=slotCounters[i];
-            outputItem.updateItems(inv,Settings.PUSH);
-            if(outputItem.isDirty()){
-                hasChanged=true;
             }
         }
         return hasChanged;

@@ -1,13 +1,12 @@
 package me.matl114.logitech.Listeners;
 
 
-import me.matl114.logitech.Listeners.Listeners.BlockMenuRedirect;
-import me.matl114.logitech.Listeners.Listeners.MilkListener;
-import me.matl114.logitech.Listeners.Listeners.PortalTeleport;
-import me.matl114.logitech.Listeners.Listeners.PotionClearOnDeath;
+import me.matl114.logitech.Listeners.Listeners.*;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
+
+import java.util.List;
 
 public class ListenerManager {
     public static void registerListeners(Plugin plugin,PluginManager manager){
@@ -18,6 +17,7 @@ public class ListenerManager {
         register(MULTIBLOCK_REDIRECT);
         register(PORTAL_REDIRECT);
         register(POTION_CLEAR_DEATH);
+        register(PLAYER_QUIT_HANDLER);
     }
     public static Plugin plugin;
     public static PluginManager manager;
@@ -29,4 +29,5 @@ public class ListenerManager {
     public static final Listener MULTIBLOCK_REDIRECT=new BlockMenuRedirect();
     public static final Listener PORTAL_REDIRECT=new PortalTeleport();
     public static final Listener POTION_CLEAR_DEATH=new PotionClearOnDeath();
+    public static final Listener PLAYER_QUIT_HANDLER=new PlayerQuiteListener();
 }

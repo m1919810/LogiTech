@@ -62,11 +62,11 @@ public class ChipBiConsumer extends AbstractMachine {
                         "&7机器可以进行 且 或 异或 三种位运算",
                         "&7将所需物品插入指定槽位即可消耗电力运算"),null,
                 AddUtils.getInfoShow("&f且","&7插入%s进行且操作".formatted(Language.get("Items.TRUE_.Name")),
-                        "&7运算规则:","&7依次对两个芯片的对应01位进行'&&'运算","&8⇨ &70&&1=1&&0=0&&0=0","&8⇨ &71&&1=1"),null,
+                        "&7运算规则:","&7依次对两个芯片的对应01位进行'&&'运算","&8⇨ &70&&1=1&&0=0&&0=0","&8⇨ &71&&1=1"),AddItem.TRUE_,
                 AddUtils.getInfoShow("&f或","&7插入%s进行或操作".formatted(Language.get("Items.FALSE_.Name")),
-                        "&7运算规则:","&7依次对两个芯片的对应01位进行'|'运算","&8⇨ &70|1=1|0=1|1=1","&8⇨ &70|0=0"),null,
+                        "&7运算规则:","&7依次对两个芯片的对应01位进行'|'运算","&8⇨ &70|1=1|0=1|1=1","&8⇨ &70|0=0"),AddItem.FALSE_,
                 AddUtils.getInfoShow("&f异或","&7插入%s进行异或操作".formatted(Language.get("Items.LOGIC.Name")),
-                        "&7运算规则:","&7依次对两个芯片的对应01位进行'&'运算","&8⇨ &70^1=1^0=1","&8⇨ &70^0=1^1=0"),null
+                        "&7运算规则:","&7依次对两个芯片的对应01位进行'&'运算","&8⇨ &70^1=1^0=1","&8⇨ &70^0=1^1=0"),AddItem.LOGIC
         ));
     }
     protected Material ChipMaterial=AddItem.CHIP.getType();
@@ -91,7 +91,6 @@ public class ChipBiConsumer extends AbstractMachine {
             preset.addItem(INFO_SLOT[i],INFO_ITEM[i],ChestMenuUtils.getEmptyClickHandler());
         }
     }
-    //FIXME 修改lore修改 至异步 并测试保证其安全性
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         ItemStack it=inv.getItemInSlot(INPUT_SLOT[0]);
         ItemStack it2=inv.getItemInSlot(INPUT_SLOT[1]);

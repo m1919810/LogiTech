@@ -24,7 +24,7 @@ public class NetworksAdaptQuantumStorage extends StorageType {
     public boolean isStorage(ItemMeta meta) {
         return  (DataTypeMethods.hasCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE));
     }
-
+    //TODO 继续完成对网络存储的反射方法表 脱离依赖
     @Override
     public boolean canStorage(ItemMeta meta) {
         if(AddDepends.NETWORKSQUANTUMSTORAGE==null){
@@ -54,6 +54,7 @@ public class NetworksAdaptQuantumStorage extends StorageType {
         try{
             return (Integer)amount.invoke(cache);
         }catch (Throwable e){
+            Debug.debug("failed setStorageMaxSize");
             return 0;
         }
     }
@@ -69,7 +70,13 @@ public class NetworksAdaptQuantumStorage extends StorageType {
     @Override
     public void setStorageAmount(ItemMeta meta, int amount) {
         QuantumCache cache=getQuantumCache(meta);
-        cache.setAmount(amount);
+        Method set=NetWorkQuantumMethod.getSetAmountMethod(cache);
+        try{
+            set.invoke(cache, amount);
+        }catch (Throwable e){
+            Debug.debug("failed setStorageAmount");
+            return ;
+        }
         DataTypeMethods.setCustom(meta,Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE,cache);
     }
 
@@ -80,13 +87,21 @@ public class NetworksAdaptQuantumStorage extends StorageType {
         try{
             return (Integer)amount.invoke(cache);
         }catch (Throwable e){
+            Debug.debug("failed storageAmount");
             return 0;
         }
     }
 
     @Override
     public ItemStack getStorageContent(ItemMeta meta) {
-        return getQuantumCache(meta).getItemStack();
+        QuantumCache cache= getQuantumCache(meta);
+        Method getItem=NetWorkQuantumMethod.getItemStackMethod(cache);
+        try{
+               return (ItemStack) getItem.invoke(meta);
+        }catch (Throwable e){
+            Debug.debug("failed getContent");
+            return null;
+        }
     }
 
     @Override
@@ -97,15 +112,30 @@ public class NetworksAdaptQuantumStorage extends StorageType {
     @Override
     public void updateStorageDisplay(ItemMeta meta, ItemStack item, int amount) {
         var cache=getQuantumCache(meta);
-        cache.setItemStack(item);
-        cache.setAmount(amount);
-        cache.updateMetaLore(meta);
+        try{
+            Method set=NetWorkQuantumMethod.getSetItemStackMethod(cache);
+            set.invoke(cache, item);
+            set=NetWorkQuantumMethod.getSetAmountMethod(cache);
+            set.invoke(cache, amount);
+            set=NetWorkQuantumMethod.getUpdateMetaLore(cache);
+            set.invoke(cache, meta);
+        }catch (Throwable e){
+            Debug.debug("failed updateStorageDisplay");
+        }
+
     }
 
     @Override
     public void updateStorageAmountDisplay(ItemMeta meta, int amount) {
         var cache=getQuantumCache(meta);
-        cache.setAmount(amount);
-        cache.updateMetaLore(meta);
+        Method set;
+        try{
+            set=NetWorkQuantumMethod.getSetAmountMethod(cache);
+            set.invoke(cache, amount);
+            set=NetWorkQuantumMethod.getUpdateMetaLore(cache);
+            set.invoke(cache, meta);
+        }catch (Throwable e){
+            Debug.debug("failed updateStorageDisplay");
+        }
     }
 }
