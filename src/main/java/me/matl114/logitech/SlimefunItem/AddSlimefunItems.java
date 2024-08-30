@@ -503,7 +503,7 @@ public class AddSlimefunItems {
                     AddItem.LOGIC,setC(AddItem.LPLATE,2),AddItem.LSCHEDULER,setC(AddItem.LCRAFT,2),setC(AddItem.LPLATE,2),AddItem.LOGIC,
                     AddItem.LFIELD,AddItem.LMOTOR,setC(AddItem.LPLATE,2),setC(AddItem.LPLATE,2),AddItem.LDIGITIZER,AddItem.LFIELD,
                     AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,AddItem.LOGIC,AddItem.LOGIC,AddItem.LFIELD,AddItem.STAR_GOLD_INGOT)
-            , Material.NETHER_STAR,12,2500,25_000,new HashSet<>(){{
+            , Material.NETHER_STAR,12,800,20_000,new HashSet<>(){{
                 if(AddDepends.INFINITYWORKBENCH_TYPE!=null)
                     add(AddDepends.INFINITYWORKBENCH_TYPE);
                 if(AddDepends.VOIDHARVEST!=null)
@@ -516,7 +516,7 @@ public class AddSlimefunItems {
                     AddItem.STAR_GOLD_INGOT,AddItem.LMOTOR,"CARBONADO_EDGED_FURNACE","CARBONADO_EDGED_FURNACE",AddItem.LMOTOR,AddItem.STAR_GOLD_INGOT,
                     AddItem.STAR_GOLD_INGOT,AddItem.LMOTOR,"CARBONADO_EDGED_FURNACE","CARBONADO_EDGED_FURNACE",AddItem.LMOTOR,AddItem.STAR_GOLD_INGOT,
                     AddItem.STAR_GOLD_INGOT,setC(AddItem.LPLATE,2),"2ELECTRIC_SMELTERY_2","2ELECTRIC_SMELTERY_2",setC(AddItem.LPLATE,2),AddItem.STAR_GOLD_INGOT,
-                    AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.LFIELD), Material.STONE,36_000,180_000,
+                    AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.LFIELD), Material.STONE,18_000,180_000,
            120,AddSlimefunItems.STARSMELTERY)
             .register();
     public static final  SlimefunItem SEQ_CONSTRUCTOR=new SequenceConstructor(AddGroups.BASIC, AddItem.SEQ_CONSTRUCTOR,BugCrafter.TYPE,
@@ -594,7 +594,7 @@ public class AddSlimefunItems {
     public static final SlimefunItem MAGIC_STONE=new SMGenerator(AddGroups.GENERATORS, AddItem.MAGIC_STONE,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("DIAMOND_PICKAXE","LAVA_BUCKET","DIAMOND_PICKAXE",
                     "PISTON",AddItem.LOGIGATE,"PISTON",
-                    "COBALT_PICKAXE","WATER_BUCKET","COBALT_PICKAXE"),18,1000,33,
+                    "COBALT_PICKAXE","WATER_BUCKET","COBALT_PICKAXE"),18,1000,66,
             AddUtils.randItemStackFactory(
                     mkMp("2COBBLESTONE",72,
                             "3COAL",7,
@@ -624,16 +624,16 @@ public class AddSlimefunItems {
             recipe(AddItem.ABSTRACT_INGOT,AddItem.MAGIC_STONE,AddItem.ABSTRACT_INGOT,
                     AddItem.UNIQUE,AddItem.LENGINE,AddItem.EXISTE
                     ,AddItem.WORLD_FEAT,AddItem.MAGIC_STONE,AddItem.WORLD_FEAT
-            ),18,2_500,500,
+            ),16,2_500,400,
             AddUtils.randItemStackFactory(
-                    mkMp("8COBBLESTONE",50,
-                            "4COAL",8,
-                            "4REDSTONE",8,
-                            "3IRON_INGOT",8,
-                            "8LAPIS_LAZULI",8,
-                            "2GOLD_INGOT",8,
-                            "DIAMOND",5,
-                            "EMERALD",5
+                    mkMp("8COBBLESTONE",40,
+                            "4COAL",9,
+                            "4REDSTONE",9,
+                            "3IRON_INGOT",9,
+                            "8LAPIS_LAZULI",9,
+                            "2GOLD_INGOT",9,
+                            "DIAMOND",8,
+                            "EMERALD",7
                     )
             ))
             .register();
@@ -642,11 +642,11 @@ public class AddSlimefunItems {
                     null,AddItem.LPLATE,AddItem.OVERWORLD_MINER,AddItem.OVERWORLD_MINER,AddItem.LPLATE,null,
                     null,AddItem.LPLATE,AddItem.LENGINE,AddItem.LENGINE,AddItem.LPLATE,null,
                     null,AddItem.NETHER_FEAT,"ENERGIZED_CAPACITOR","ENERGIZED_CAPACITOR",AddItem.NETHER_FEAT,null
-                  ),20,3_000,800,
+                  ),16,3_000,600,
             AddUtils.randItemStackFactory(
                     mkMp(
-                            "32NETHERRACK",50,
-                            "10QUARTZ",15,
+                            "32NETHERRACK",40,
+                            "10QUARTZ",25,
                             "4MAGMA_BLOCK",10,
                             "16BLACKSTONE",8,
                             "16BASALT",8,
@@ -661,14 +661,14 @@ public class AddSlimefunItems {
                     null,AddItem.LPLATE,AddItem.NETHER_MINER,AddItem.NETHER_MINER,AddItem.LPLATE,null,
                     null,AddItem.LPLATE,"ENERGIZED_CAPACITOR","ENERGIZED_CAPACITOR",AddItem.LPLATE,null,
                     AddItem.END_FEAT,AddItem.LENGINE,AddItem.END_FEAT,AddItem.END_FEAT,AddItem.LENGINE,AddItem.END_FEAT
-            ),20,6_000,1_200,
+            ),16,6_000,1000,
             AddUtils.randItemStackFactory(
                     mkMp(
-                            "64END_STONE",200,
-                            "4OBSIDIAN",60,
-                            "4CHORUS_FLOWER",50,
-                            "2SHULKER_SHELL",25,
-                            "DRAGON_BREATH",25,
+                            "64END_STONE",150,
+                            "4OBSIDIAN",100,
+                            "4CHORUS_FLOWER",40,
+                            "2SHULKER_SHELL",35,
+                            "DRAGON_BREATH",35,
                             AddItem.DIMENSIONAL_SHARD,32,
                             AddItem.STAR_GOLD,8
                     )
@@ -680,7 +680,7 @@ public class AddSlimefunItems {
                     AddItem.LFIELD,null,AddItem.END_MINER,AddItem.END_MINER,null,AddItem.LFIELD,
                     AddItem.LFIELD,null,AddItem.END_MINER,AddItem.END_MINER,null,AddItem.LFIELD,
                     AddItem.STAR_GOLD_INGOT,AddItem.LIOPORT,AddItem.LENGINE,AddItem.LENGINE,AddItem.LIOPORT,AddItem.STAR_GOLD_INGOT,
-                    "GPS_TRANSMITTER_4",AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,"GPS_TRANSMITTER_4"),12,18_000,3_600,
+                    "GPS_TRANSMITTER_4",AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,"GPS_TRANSMITTER_4"),10,18_000,1_800,
             AddUtils.randItemStackFactory(
                     mkMp(
                             "64COBBLESTONE",1,
@@ -695,7 +695,6 @@ public class AddSlimefunItems {
                             AddItem.STAR_GOLD,1
                     )
             ),
-            new ProbItemStack(
             AddUtils.randItemStackFactory(
                     mkMp(
                             "8COAL",8,
@@ -706,9 +705,9 @@ public class AddSlimefunItems {
                             "8DIAMOND",8,
                             "8EMERALD",8,
                             "16QUARTZ",8,
-                            "8ANCIENT_DEBRIS",1
+                            "4ANCIENT_DEBRIS",8
                     )
-            ),0.2))
+            ))
             .register();
     public static final SlimefunItem REDSTONE_MG=new SMGenerator(AddGroups.VANILLA, AddItem.REDSTONE_MG,BugCrafter.TYPE,
             recipe(null,"REDSTONE_BLOCK","REDSTONE_BLOCK","REDSTONE_BLOCK","REDSTONE_BLOCK",null,
@@ -716,7 +715,7 @@ public class AddSlimefunItems {
                     "REDSTONE_BLOCK",AddItem.ABSTRACT_INGOT,setC(AddItem.REDSTONE_ENGINE,2),setC(AddItem.REDSTONE_ENGINE,2),AddItem.ABSTRACT_INGOT,"REDSTONE_BLOCK",
                     "REDSTONE_BLOCK",AddItem.ABSTRACT_INGOT,setC(AddItem.REDSTONE_ENGINE,2),setC(AddItem.REDSTONE_ENGINE,2),AddItem.ABSTRACT_INGOT,"REDSTONE_BLOCK",
                     "REDSTONE_BLOCK",setC(AddItem.NOLOGIC,4),AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,setC(AddItem.NOLOGIC,4),"REDSTONE_BLOCK",
-                    null,"REDSTONE_BLOCK","REDSTONE_BLOCK","REDSTONE_BLOCK","REDSTONE_BLOCK",null),5,10000,617,
+                    null,"REDSTONE_BLOCK","REDSTONE_BLOCK","REDSTONE_BLOCK","REDSTONE_BLOCK",null),5,10000,250,
             AddUtils.randItemStackFactory(
                     mkMp("REDSTONE_TORCH",16,"OBSERVER",16,"PISTON",16,"STICKY_PISTON",16,"REPEATER",16,"COMPARATOR",16,"LEVER",16,"NOTE_BLOCK",16,"REDSTONE_LAMP",16,
                             AddUtils.randItemStackFactory(mkMp("SLIME_BALL",26,"HONEY_BLOCK",3,"TNT",2,"REDSTONE",1)),16)
@@ -728,7 +727,7 @@ public class AddSlimefunItems {
                     "TRIPWIRE_HOOK",AddItem.REDSTONE_ENGINE,"RAIL","ACTIVATOR_RAIL",AddItem.REDSTONE_ENGINE,"TRIPWIRE_HOOK",
                     "WHITE_CARPET",AddItem.REDSTONE_ENGINE,"POWERED_RAIL","DETECTOR_RAIL",AddItem.REDSTONE_ENGINE,"WHITE_CARPET",
                     "WHITE_CARPET","STICKY_PISTON","OBSERVER","OBSERVER","STICKY_PISTON","WHITE_CARPET",
-                    null,"WHITE_CARPET","WHITE_CARPET","WHITE_CARPET","WHITE_CARPET",null),2,1000,233,
+                    null,"WHITE_CARPET","WHITE_CARPET","WHITE_CARPET","WHITE_CARPET",null),2,1000,116,
             new LinkedHashMap<>(){{
                 put(mkl("STRING"),mkl("STRING"));
                 put(mkl("RAIL"),mkl("RAIL"));
@@ -761,7 +760,7 @@ public class AddSlimefunItems {
                     "OBSERVER",AddItem.REDSTONE_ENGINE,"END_PORTAL_FRAME","END_PORTAL_FRAME",AddItem.REDSTONE_ENGINE,"OBSERVER",
                     "OBSERVER",AddItem.DUPE_MG,"END_PORTAL_FRAME","END_PORTAL_FRAME",AddItem.DUPE_MG,"OBSERVER",
                     "END_STONE",AddItem.LFIELD,setC(AddItem.DIMENSIONAL_SHARD,2),setC(AddItem.DIMENSIONAL_SHARD,2),AddItem.LFIELD,"END_STONE",
-                    null,"END_STONE",AddItem.LFIELD,AddItem.LFIELD,"END_STONE",null),3,1000,233,
+                    null,"END_STONE",AddItem.LFIELD,AddItem.LFIELD,"END_STONE",null),3,1000,116,
             new LinkedHashMap<>(){{
                 put(mkl("SAND"),mkl("SAND"));
                 put(mkl("ANVIL"),mkl("ANVIL"));
@@ -848,7 +847,7 @@ public class AddSlimefunItems {
                     AddItem.STAR_GOLD_INGOT,"2GPS_TRANSMITTER_4",AddItem.MASS_CORE,AddItem.TECH_CORE,"2GPS_TRANSMITTER_4",AddItem.STAR_GOLD_INGOT,
                     AddItem.STAR_GOLD_INGOT,AddItem.METAL_CORE,AddItem.CHIP_CORE,AddItem.CHIP_CORE,AddItem.SMELERY_CORE,AddItem.STAR_GOLD_INGOT,
                     AddItem.LPLATE,AddItem.STAR_GOLD_INGOT,AddItem.LENGINE,AddItem.LENGINE,AddItem.STAR_GOLD_INGOT,AddItem.LPLATE)
-            ,"solar.core",MultiBlockTypes.SOLAR_TYPE,100_000,2_000_000,
+            ,"solar.core",MultiBlockTypes.SOLAR_TYPE,80_000,2_000_000,
             mkMp(mkP(   mkl(AddItem.METAL_CORE)  ,
 
                             mkl(
@@ -935,7 +934,8 @@ public class AddSlimefunItems {
                     AddItem.SPACE_PLATE,setC(AddItem.PAGOLD,4),"16NUCLEAR_REACTOR","16NUCLEAR_REACTOR",setC(AddItem.PAGOLD,4),AddItem.SPACE_PLATE,
                     AddItem.SPACE_PLATE,setC(AddItem.PAGOLD,4),"16NUCLEAR_REACTOR","16NUCLEAR_REACTOR",setC(AddItem.PAGOLD,4),AddItem.SPACE_PLATE,
                     AddItem.TRANSMUTATOR_ROD,setC(AddItem.CHIP_CORE,2),setC(AddItem.BISILVER,3),setC(AddItem.BISILVER,3),setC(AddItem.CHIP_CORE,2),AddItem.TRANSMUTATOR_ROD,
-                    AddItem.METAL_CORE,AddItem.TRANSMUTATOR_ROD,AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,AddItem.TRANSMUTATOR_ROD,AddItem.SMELERY_CORE), "nuclear.core",MultiBlockTypes.NUCLEAR_REACTOR,1_000_000,20_000_000,
+                    AddItem.METAL_CORE,AddItem.TRANSMUTATOR_ROD,AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,AddItem.TRANSMUTATOR_ROD,AddItem.SMELERY_CORE), "nuclear.core",
+            MultiBlockTypes.NUCLEAR_REACTOR,750_000,20_000_000,
             mkMp(mkP(   mkl(setC(AddItem.ATOM_INGOT,64) )  ,
                         mkl(
                                 setC(AddItem.ATOM_INGOT,128),
