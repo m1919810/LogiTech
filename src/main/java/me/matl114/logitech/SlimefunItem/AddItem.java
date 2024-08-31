@@ -269,7 +269,8 @@ public class AddItem {
             Language.get("Machines.ARC_REACTOR.Name"),Language.getList("Machines.ARC_REACTOR.Lore"));
     public static final SlimefunItemStack ADVANCED_CHIP_MAKER=AddUtils.themed("ADVANCED_CHIP_MAKER",Material.CHISELED_BOOKSHELF,AddUtils.Theme.MACHINE1,
             Language.get("Machines.ADVANCED_CHIP_MAKER.Name"),Language.getList("Machines.ADVANCED_CHIP_MAKER.Lore"));
-
+    public static final SlimefunItemStack CHIP_REACTOR=AddUtils.themed("CHIP_REACTOR",Material.JUKEBOX,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.CHIP_REACTOR.Name"),Language.getList("Machines.CHIP_REACTOR.Lore"));
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Manuals.MANUAL_CORE.Name"),Language.getList("Manuals.MANUAL_CORE.Lore"));
@@ -365,6 +366,20 @@ public class AddItem {
             Language.get("Cargo.OCTASORTER.Name"),Language.getList("Cargo.OCTASORTER.Lore"));
     public static final SlimefunItemStack ADV_TRASH=AddUtils.themed("ADV_TRASH",CustomHead.FIRE_GENERATOR.getItem(), AddUtils.Theme.CARGO1,
             Language.get("Cargo.ADV_TRASH.Name"),Language.getList("Cargo.ADV_TRASH.Lore"));
+    public static final SlimefunItemStack STORAGE_OPERATOR=AddUtils.themed("STORAGE_OPERATOR",Material.CARTOGRAPHY_TABLE,AddUtils.Theme.CARGO1,
+            Language.get("Cargo.STORAGE_OPERATOR.Name"),Language.getList("Cargo.STORAGE_OPERATOR.Lore"));
+    public static final SlimefunItemStack ADV_ADJACENT_CARGO=AddUtils.themed("ADV_ADJACENT_CARGO",Material.TARGET,AddUtils.Theme.CARGO1,
+            Language.get("Cargo.ADV_ADJACENT_CARGO.Name"),Language.getList("Cargo.ADV_ADJACENT_CARGO.Lore"));
+    public static final SlimefunItemStack ADV_REMOTE_CARGO=AddUtils.themed("ADV_REMOTE_CARGO",Material.CALIBRATED_SCULK_SENSOR,AddUtils.Theme.CARGO1,
+            Language.get("Cargo.ADV_REMOTE_CARGO.Name"),Language.getList("Cargo.ADV_REMOTE_CARGO.Lore"));
+    public static final SlimefunItemStack ADV_LINE_CARGO=AddUtils.themed("ADV_LINE_CARGO",Material.OBSERVER,AddUtils.Theme.CARGO1,
+            Language.get("Cargo.ADV_LINE_CARGO.Name"),Language.getList("Cargo.ADV_LINE_CARGO.Lore"));
+    public static final SlimefunItemStack REDSTONE_ADJACENT_CARGO=AddUtils.themed("REDSTONE_ADJACENT_CARGO",Material.REDSTONE_LAMP,AddUtils.Theme.CARGO1,
+            Language.get("Cargo.REDSTONE_ADJACENT_CARGO.Name"),Language.getList("Cargo.REDSTONE_ADJACENT_CARGO.Lore"));
+    public static final SlimefunItemStack CHIP_ADJ_CARGO=AddUtils.themed("CHIP_ADJ_CARGO",Material.SHROOMLIGHT,AddUtils.Theme.CARGO1,
+            Language.get("Cargo.CHIP_ADJ_CARGO.Name"),Language.getList("Cargo.CHIP_ADJ_CARGO.Lore"));
+    public static final SlimefunItemStack RESETTER=AddUtils.themed("RESETTER",Material.FLETCHING_TABLE,AddUtils.Theme.CARGO1,
+            Language.get("Cargo.RESETTER.Name"),Language.getList("Cargo.RESETTER.Lore"));
     //multiblock
     public static final SlimefunItemStack PORTAL_CORE=AddUtils.themed("PORTAL_CORE",Material.CRYING_OBSIDIAN,AddUtils.Theme.MULTIBLOCK1,
             Language.get("MultiBlock.PORTAL_CORE.Name"),Language.getList("MultiBlock.PORTAL_CORE.Lore"));
@@ -486,5 +501,8 @@ public class AddItem {
         add(STACKFRAME);
         add(MULTIBLOCK_MANUAL);
         add(ADVANCED_CHIP_MAKER);
+        add(ADV_ADJACENT_CARGO);
+        add(ADV_REMOTE_CARGO);
+        add(ADV_LINE_CARGO);
     }};
 }

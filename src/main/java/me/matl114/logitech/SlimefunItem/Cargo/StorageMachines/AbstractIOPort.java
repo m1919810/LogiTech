@@ -25,6 +25,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.Set;
 
 public abstract class AbstractIOPort extends AbstractMachine {
     public AbstractIOPort(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
@@ -43,6 +44,15 @@ public abstract class AbstractIOPort extends AbstractMachine {
     }
     public abstract int getStorageSlot();
     public abstract int getDisplaySlot();
+    public void updateMenu(BlockMenu inv, Block b, Settings mod){
+        Location loc = inv.getLocation();
+        ItemStorageCache cache= ItemStorageCache.getCache(loc);
+        if(cache!=null){
+            cache.setPersistent(false);
+            cache.updateMenu(inv);
+            cache.setPersistent(true);
+        }
+    }
     public void process(Block b, BlockMenu menu, SlimefunBlockData data){
         //先确认存储cache
         ItemStack stack=menu.getItemInSlot(getStorageSlot());
@@ -88,12 +98,13 @@ public abstract class AbstractIOPort extends AbstractMachine {
         TransportUtils.cacheTransportation(menu,cachelst,menu,getOutputSlots(), Settings.OUTPUT);
         cache.updateMenu(menu);
     }
+
     public void onBreak(BlockBreakEvent e, BlockMenu menu) {
         Location loc = menu.getLocation();
         ItemStorageCache cache= ItemStorageCache.removeCache(loc);
         if(cache!=null){
-        cache.setPersistent(false);
-        cache.updateMenu(menu);
+            cache.setPersistent(false);
+            cache.updateMenu(menu);
         }
         menu.dropItems(loc,getStorageSlot());
         //

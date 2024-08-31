@@ -72,7 +72,7 @@ public class ChipReactor extends AbstractEnergyProcessor {
         AddUtils.addGlow(this.processor.getProgressBar());
         this.setDisplayRecipes(Utils.list(
                 AddUtils.getInfoShow("&f机制","&7当插入%s时".
-                        formatted(Language.get("Items.CHIP.Name")),"&7机器读取其中二进制码对应数字","&7并按%f倍率发电%d秒".formatted(this.multiple,this.time)),
+                        formatted(Language.get("Items.CHIP.Name")),"&7机器读取其中二进制码对应数字","&7并按%f倍率发电%dtick".formatted(this.multiple,this.time)),
                 example
         ));
     }

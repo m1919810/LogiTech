@@ -23,41 +23,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
 import java.util.List;
-//TODO 正在开发
 
-public class AdjacentCargoPlus extends AbstractCargo {
-    protected final int[] BORDER=new int[]{
-            0,1,2,6,7,8,9,11,15,17,18,19,20,24,25,26
-    };
-    protected final int[] BWSLOT=new int[]{
-            12,13,14,21,22,23
-    };
-    protected final int[] INFO_SLOT=new int[]{
-            3,5
-    };
-    protected final ItemStack[] INFO_ITEM=new ItemStack[]{
-            new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&b机制",
-                    "&7在左侧配置源方方块邻接方向","&7在中间的槽位插入[%s]".formatted(Language.get("Items.CARGO_CONFIG.Name")),"&7在下方放入黑/白名单物品",
-                    "&e机器将从源方方块向目标方块进行传输","&c警告:当你设置两方块相同时,请不要让他们操作同样的槽位,否则后果自负"),
-            new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&b机制",
-                    "&7在右侧配置目标方块邻接方向","&7在中间的槽位插入[%s]".formatted(Language.get("Items.CARGO_CONFIG.Name")),"&7在下方放入黑/白名单物品",
-                    "&e机器将从源方方块向目标方块进行传输","&c警告:当你设置两方块相同时,请不要让他们操作同样的槽位,否则后果自负")
-    };
-    protected final int[] DIRECTION_SLOT=new int[]{
-            10,16
-    };
-    public int[] getBWListSlot(){
-        return BWSLOT;
-    }
-    public int[] getInputSlots(){
-        return new int[0];
-    }
-    public int[] getOutputSlots(){
-        return new int[0];
-    }
-    public int getConfigSlot(){
-        return 4;
-    }
+public class AdjacentCargoPlus extends AdjacentCargo {
     public AdjacentCargoPlus(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, List<ItemStack> displayList) {
         super(itemGroup, item, recipeType, recipe, displayList);
         setDisplayRecipes(
@@ -72,34 +39,6 @@ public class AdjacentCargoPlus extends AbstractCargo {
                                 "&7本机器可以选择与其相邻的方块参与传输"),null
                 )
         );
-    }
-    public void constructMenu(BlockMenuPreset preset){
-        int[] border=BORDER;
-        int len=border.length;
-        for (int i=0;i<len;++i){
-            preset.addItem(border[i], ChestMenuUtils.getBackground(),ChestMenuUtils.getEmptyClickHandler());
-        }
-        border=INFO_SLOT;
-        len=border.length;
-        for (int i=0;i<len;++i){
-            preset.addItem(INFO_SLOT[i],INFO_ITEM[i],ChestMenuUtils.getEmptyClickHandler());
-        }
-    }
-    public void newMenuInstance(BlockMenu inv, Block b){
-        inv.addMenuOpeningHandler((player -> {
-            updateMenu(inv,b, Settings.RUN);
-        }));
-        inv.addMenuCloseHandler(player -> {
-            updateMenu(inv,b,Settings.RUN);
-        });
-        inv.addMenuClickHandler(DIRECTION_SLOT[0],getDirectionHandler("from_dir",inv));
-        inv.addMenuClickHandler(DIRECTION_SLOT[1],getDirectionHandler("to_dir",inv));
-        updateMenu(inv,b, Settings.INIT);
-    }
-    public void updateMenu(BlockMenu inv ,Block b,Settings mod){
-        loadConfig(inv,b);
-        updateDirectionSlot("from_dir",inv,DIRECTION_SLOT[0]);
-        updateDirectionSlot("to_dir",inv,DIRECTION_SLOT[1]);
     }
     public void cargoTask(Block b, BlockMenu menu, SlimefunBlockData data, int configCode){
         Location loc=menu.getLocation();
@@ -122,6 +61,6 @@ public class AdjacentCargoPlus extends AbstractCargo {
                 bwset.add(it);
             }
         }
-        TransportUtils.transportItemGeneral(from,to,configCode,bwset);
+        TransportUtils.transportItemSmarter(from,to,configCode,bwset);
     }
 }

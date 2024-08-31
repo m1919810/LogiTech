@@ -55,7 +55,7 @@ public class SpecialCrafter extends AbstractProcessor implements RecipeLock, Imp
     protected RecipeType[] craftType;
     protected final HashSet<RecipeType> BW_LIST;
     protected final ItemStack PARSE_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&e点击解析配方",
-            "&b机制:","&6将配方表输出的物品(若有多个则第一个)置于下方第一个槽位","&6将配方表所使用的特殊工作台置于下方第二个槽位","&6右键本槽位,或者开关容器界面,配方将被解析","&6机器将按照解析出的指定配方合成");
+            "&b机制:","&6将配方表输出的物品(若有多个则第一个)，","&e置于下方第一个槽位","&6将合成该物品所使用的特殊工作台(工作站)","&e置于下方第二个槽位","&6右键本槽位,或者开关容器界面,配方将被解析","&6机器将按照解析出的指定配方合成");
     protected final ItemStack DISPLAY_BKGROUND=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE," ");
     protected final ItemStack DISPLAY_DEFAULT_BKGROUND=new CustomItemStack(Material.RED_STAINED_GLASS_PANE," ");
     public SpecialCrafter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,

@@ -84,6 +84,7 @@ public class MultiIOPort extends AbstractTransportor implements MultiBlockPart {
     public int[] getSlotsAccessedByItemTransportPlus(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
         if(CONFIG_SYMM){
             if(flow==ItemTransportFlow.INSERT){
+                if(item==null||item.getType().isAir())return getInputSlots();
                 int[] slots=getInputSlots();
                 for(int i=0;i<getInputSlots().length;++i){
                    ItemStack it=menu.getItemInSlot(slots[i]);

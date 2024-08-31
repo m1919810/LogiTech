@@ -430,15 +430,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
         //覆盖父类 让process中不扣电
         //转到我的ticker里扣
     }
-    public void onBreak(BlockBreakEvent e,BlockMenu menu){
-        if(menu!=null){
-            Location l = menu.getLocation();
-            menu.dropItems(l, this.getInputSlots());
-            menu.dropItems(l, this.getOutputSlots());
-        }
-        //禁止了父类的关闭processor的操作，改为在MultiBlockBreak中关闭
-        //合理性:只有多方块完整的时候才能进行processor,在破坏多方块的时候会取消processor
-    }
+
     public void preRegister(){
 
         super.preRegister();

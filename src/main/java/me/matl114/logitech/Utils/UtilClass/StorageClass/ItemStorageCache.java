@@ -30,15 +30,23 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
     protected ItemMeta sourceMeta;
     protected boolean persistent=false;
     protected int storageAmount;
+    private static byte[] lock=new byte[0];
     public static final HashMap<Location, ItemStorageCache> cacheMap=new HashMap<>();
     public static void setCache(Location loc, ItemStorageCache cache) {
-        cacheMap.put(loc,cache);
+        synchronized(lock){
+            cacheMap.put(loc,cache);
+
+        }
     }
     public static ItemStorageCache getCache(Location loc) {
-        return cacheMap.get(loc);
+        synchronized(lock){
+            return cacheMap.get(loc);
+        }
     }
     public static ItemStorageCache removeCache(Location loc) {
-        return cacheMap.remove(loc);
+        synchronized(lock){
+            return cacheMap.remove(loc);
+        }
     }
     static {
         ScheduleSave.addFinalTask(
@@ -203,7 +211,6 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
     }
 
     public void updateMenu(@Nonnull BlockMenu menu){
-        long a=System.nanoTime();
         if (dirty&&getItem()!=null&&!getItem().getType().isAir()){
 
             updateItemStack();
@@ -216,12 +223,10 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
 
         //不是persistent 将物品的clone进行替换// 和保存有关
         }
-        long b=System.nanoTime();
         if(!persistent&&slot>=0){
             //not work?
             source= MenuUtils.syncSlot(menu,slot,source);
         }
-        long e=System.nanoTime();
     }
     public void syncData(){
         if(!wasNull){

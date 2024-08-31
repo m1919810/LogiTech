@@ -1,6 +1,7 @@
 package me.matl114.logitech.Utils;
 
 import me.matl114.logitech.MyAddon;
+import org.bukkit.inventory.meta.Repairable;
 
 import java.util.logging.Logger;
 

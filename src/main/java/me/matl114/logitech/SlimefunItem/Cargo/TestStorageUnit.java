@@ -121,32 +121,17 @@ public class TestStorageUnit extends AbstractMachine {
         return new ArrayList<MachineRecipe>();
     }
     public void process(Block b, BlockMenu menu, SlimefunBlockData data){
-//        Location loc=b.getLocation().clone().add(0,2,0);
-//        BlockMenu inv=StorageCacheUtils.getMenu(loc);
-//
-//        if(inv!=null){
-//            int configCode=73728;
-//            TransportUtils.transportItemGeneral(menu,inv,configCode,null);
-//        }
-//        ItemStack it=new ItemStack(Material.COBBLESTONE);
-//        menu.replaceExistingItem(1,it);
-//        it.setAmount(10);
-        //Debug.logger("check amount " ,menu.getItemInSlot(1).getAmount());
-        for(int i=0;i<3;++i){
-            final int s=i;
-            Schedules.launchSchedules(()->{
-                try{
-                    Thread.sleep(100);
-                }catch (Throwable e){
-
-                }
-                Debug.logger("sync test on loc ",s);
-            },0,true,0);
+        Block c=b.getRelative(BlockFace.UP);
+        if (c!=null){
+            Debug.logger(c.getType());
+            if(!c.getType().isAir()){
+                Debug.logger(c.getBlockData());
+                Debug.logger(c.getBlockData().getClass());
+            }
         }
-        Debug.logger("sync task launched");
     }
     public boolean isSync(){
-        return false;
+        return true;
     }
 
 }

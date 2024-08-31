@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.SlimefunItem.Cargo.Config.ChipControllable;
 import me.matl114.logitech.Utils.*;
@@ -61,6 +62,7 @@ public abstract class AbstractSorter extends AbstractSyncTickCargo implements  C
         });
         updateMenu(blockMenu,block,Settings.INIT);
         blockMenu.replaceExistingItem(getInfoSlot(),getInfoOffItem(0));
+        blockMenu.addMenuClickHandler(getInfoSlot(), ChestMenuUtils.getEmptyClickHandler());
     }
     public void updateMenu(BlockMenu blockMenu, Block block, Settings mod){
         loadChipCommand(blockMenu);

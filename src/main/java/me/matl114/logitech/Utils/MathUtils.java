@@ -189,6 +189,9 @@ public class MathUtils {
         int maskN =mask[n];
         return code&maskN;
     }
+    public static int getBit(int code,int pos){
+        return (code&POW[pos])==0?0:1;
+    }
     public static int bitCount(int code,int to){
         code=maskToN(code,to);
         int tmp = code - ((code >>1) &033333333333) - ((code >>2) &011111111111);
