@@ -27,7 +27,6 @@ import org.bukkit.inventory.ItemStack;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-//TODO 待开发
 public class ChipAdjacentCargo extends AdjacentCargo implements ChipControllable, SyncBlockTick.SyncTickers {
     public ChipAdjacentCargo(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, List<ItemStack> displayList){
         super(itemGroup, item, recipeType, recipe,displayList);

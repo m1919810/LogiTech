@@ -1,10 +1,17 @@
 package me.matl114.logitech.Depends;
 
+import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.Utils.Debug;
+import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.annotation.Nonnull;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NetWorkQuantumMethod {
     static Method getAmount=null;
@@ -19,12 +26,16 @@ public class NetWorkQuantumMethod {
     static boolean hasFailedsetItemStack=false;
     static Method updateMetaLore=null;
     static boolean hasFailedupdateMetaLore=false;
+    static Map  NetworkCacheMap=null;
+    static boolean hasFailedCachemap=false;
+    static Method syncBlock=null;
+    static boolean hasFailedSyncBlock=false;
     public static Method getAmountMethod(Object t){
         if(getAmount==null&&!hasFailedAmount){
             try{
                 getAmount=t.getClass().getDeclaredMethod("getAmount");
                 getAmount.setAccessible(true);
-            }catch(NoSuchMethodException e){
+            }catch(Throwable e){
                 Debug.debug("invoke failed amount");
                 hasFailedAmount=true;
             }
@@ -36,7 +47,7 @@ public class NetWorkQuantumMethod {
             try{
                 getLimit=t.getClass().getDeclaredMethod("getLimit");
                 getLimit.setAccessible(true);
-            }catch(NoSuchMethodException e){
+            }catch(Throwable e){
                 Debug.debug("invoke failed limit");
                 hasFailedLimit=true;
             }
@@ -48,7 +59,7 @@ public class NetWorkQuantumMethod {
             try{
                 setAmount=t.getClass().getDeclaredMethod("setAmount",int.class);
                 setAmount.setAccessible(true);
-            }catch(NoSuchMethodException e){
+            }catch(Throwable e){
                 Debug.debug("invoke failed setamount");
                 hasFailedset=true;
             }
@@ -60,7 +71,7 @@ public class NetWorkQuantumMethod {
             try{
                 getItemStack=t.getClass().getSuperclass().getDeclaredMethod("getItemStack");
                 getItemStack.setAccessible(true);
-            }catch(NoSuchMethodException e){
+            }catch(Throwable e){
                 Debug.debug("invoke failed getItemStack");
                 Debug.debug(t.getClass().getSuperclass().getName());
                 Method[] a=t.getClass().getSuperclass().getDeclaredMethods();
@@ -77,7 +88,7 @@ public class NetWorkQuantumMethod {
             try {
                 setItemStack=t.getClass().getDeclaredMethod("setItemStack",ItemStack.class);
                 getItemStack.setAccessible(true);
-            }catch(NoSuchMethodException e){
+            }catch(Throwable e){
                 Debug.debug("invoke failed setItemStack");
                 hasFailedsetItemStack=true;
             }
@@ -89,11 +100,38 @@ public class NetWorkQuantumMethod {
             try {
                 updateMetaLore=t.getClass().getDeclaredMethod("updateMetaLore", ItemMeta.class);
                 updateMetaLore.setAccessible(true);
-            }catch (NoSuchMethodException e){
+            }catch (Throwable e){
                 Debug.debug("invoke failed updateMetaLore");
                 hasFailedupdateMetaLore=true;
             }
         }
         return updateMetaLore;
+    }
+    //TODO  get cache map
+    public static Map getCacheMap(SlimefunItem itemInstance){
+        if(NetworkCacheMap==null&&!hasFailedCachemap){
+            try{
+                Field field= itemInstance.getClass().getDeclaredField("CACHES");
+                field.setAccessible(true);
+                NetworkCacheMap=(Map)field.get(itemInstance);
+            }catch (Throwable e){
+                Debug.debug("invoke failed getCacheMap");
+                hasFailedCachemap=true;
+            }
+        }
+        return NetworkCacheMap;
+    }
+    public static Method getSyncBlock(SlimefunItem itemInstance){
+        if(syncBlock==null&&!hasFailedSyncBlock){
+            try{
+                syncBlock=itemInstance.getClass().getDeclaredMethod("syncBlock", Location.class, QuantumCache.class);
+                syncBlock.setAccessible(true);
+
+            }catch(Throwable e){
+                Debug.debug("invoke failed SyncBlock");
+                hasFailedSyncBlock=true;
+            }
+        }
+        return syncBlock;
     }
 }

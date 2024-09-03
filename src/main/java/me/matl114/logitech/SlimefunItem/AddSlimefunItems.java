@@ -7,7 +7,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.storage.Storage;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Schedule.PersistentEffects.RadiationRegion;
@@ -39,10 +38,9 @@ import me.matl114.logitech.SlimefunItem.Machines.SpecialMachines.*;
 import me.matl114.logitech.SlimefunItem.Machines.WorkBenchs.BugCrafter;
 import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.InputPort;
 import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.OutputPort;
-import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.Singularity;
+import me.matl114.logitech.SlimefunItem.Items.Singularity;
 import me.matl114.logitech.SlimefunItem.Cargo.TestStorageUnit;
 import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ProbItemStack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -269,7 +267,7 @@ public class AddSlimefunItems {
 
     //alloy
     public static final SlimefunItem CHIP_INGOT=new MaterialItem(AddGroups.MATERIAL,AddItem.CHIP_INGOT,RecipeType.SMELTERY,
-            recipe("12SILVER_INGOT","6REINFORCED_ALLOY_INGOT","16COPPER_INGOT",
+            recipe("8SILVER_INGOT","6REINFORCED_ALLOY_INGOT","10IRON_INGOT",
                     new CustomItemStack(SlimefunItems.COPPER_INGOT,12),"6SILICON","16ALUMINUM_INGOT"))
             .register();
     public static final SlimefunItem ABSTRACT_INGOT=new MaterialItem(AddGroups.MATERIAL,AddItem.ABSTRACT_INGOT,RecipeType.SMELTERY,
@@ -562,7 +560,7 @@ public class AddSlimefunItems {
                     AddItem.CHIP_INGOT,AddItem.LFIELD,setC(AddItem.LOGIGATE,16),AddItem.LDIGITIZER,AddItem.LFIELD,AddItem.CHIP_INGOT,
                     AddItem.CHIP_INGOT,AddItem.LFIELD,AddItem.LDIGITIZER,setC(AddItem.LOGIGATE,16),AddItem.LFIELD,AddItem.CHIP_INGOT,
                     AddItem.ABSTRACT_INGOT,setC(AddItem.LBOOLIZER,64),AddItem.LFIELD,AddItem.LFIELD,setC(AddItem.LBOOLIZER,64),AddItem.ABSTRACT_INGOT,
-                    AddItem.LENGINE,AddItem.ABSTRACT_INGOT,AddItem.CHIP_INGOT,AddItem.CHIP_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LENGINE),4_000,1_000)
+                    AddItem.LENGINE,AddItem.ABSTRACT_INGOT,AddItem.CHIP_INGOT,AddItem.CHIP_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LENGINE),4_000,500)
             .register();
 
     public static final  SlimefunItem CHIP_BICONSUMER=new ChipBiConsumer(AddGroups.ADVANCED, AddItem.CHIP_BICONSUMER,BugCrafter.TYPE,
@@ -571,7 +569,7 @@ public class AddSlimefunItems {
                     AddItem.LPLATE,AddItem.LFIELD,setC(AddItem.LOGIGATE,16),setC(AddItem.UNIQUE,2),AddItem.LFIELD,AddItem.LPLATE,
                     AddItem.LPLATE,AddItem.LFIELD,setC(AddItem.EXISTE,2),setC(AddItem.LOGIGATE,16),AddItem.LFIELD,AddItem.LPLATE,
                     AddItem.ABSTRACT_INGOT,setC(AddItem.LDIGITIZER,2),AddItem.LFIELD,AddItem.LFIELD,setC(AddItem.LDIGITIZER,2),AddItem.ABSTRACT_INGOT,
-                    AddItem.LENGINE,AddItem.ABSTRACT_INGOT,AddItem.LPLATE,AddItem.LPLATE,AddItem.ABSTRACT_INGOT,AddItem.LENGINE),8_000,2_500)
+                    AddItem.LENGINE,AddItem.ABSTRACT_INGOT,AddItem.LPLATE,AddItem.LPLATE,AddItem.ABSTRACT_INGOT,AddItem.LENGINE),8_000,1_000)
             .register();
     public static final SlimefunItem STACKMACHINE=new StackMachine(AddGroups.ADVANCED,AddItem.STACKMACHINE,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),Material.IRON_PICKAXE,
@@ -1317,7 +1315,15 @@ public class AddSlimefunItems {
             recipe("CRAFTING_TABLE",AddItem.ABSTRACT_INGOT,"CRAFTING_TABLE",AddItem.ABSTRACT_INGOT,"TRASH_CAN_BLOCK",AddItem.ABSTRACT_INGOT,
                     "CRAFTING_TABLE",AddItem.ABSTRACT_INGOT,"CRAFTING_TABLE"))
             .register();
-
+    public static final SlimefunItem STORAGE_SINGULARITY=new Singularity(AddGroups.SINGULARITY, AddItem.STORAGE_SINGULARITY, RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(AddItem.ABSTRACT_INGOT,AddItem.PARADOX,AddItem.ABSTRACT_INGOT,
+            AddItem.PARADOX,"CHEST",AddItem.PARADOX,
+            AddItem.ABSTRACT_INGOT,AddItem.PARADOX,AddItem.ABSTRACT_INGOT))
+            .register();
+    public static final SlimefunItem QUANTUM_LINK=new QuantumLink(AddGroups.SINGULARITY,AddItem.QUANTUM_LINK,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(AddItem.PARADOX,AddItem.DIMENSIONAL_SHARD,AddItem.PARADOX,AddItem.DIMENSIONAL_SHARD,AddItem.LSINGULARITY,AddItem.DIMENSIONAL_SHARD,
+                    AddItem.ABSTRACT_INGOT,AddItem.BUG,AddItem.ABSTRACT_INGOT))
+            .register();
 
 
 
@@ -1446,7 +1452,7 @@ public class AddSlimefunItems {
 //            1919,810,RecipeType.MOB_DROP));
 //    public static final  SlimefunItem AUTOSMELTING1=register(new AdvanceCrafter(AddGroups.MATERIAL, AddItem.AUTOSMELTING1,RecipeType.NULL,AddUtils.NULL_RECIPE.clone(),
 //            Material.FLINT_AND_STEEL,1919,810,RecipeType.SMELTERY));
-    public static final SlimefunItem STORAGE_SINGULARITY=register(new Singularity(AddGroups.MATERIAL, AddItem.STORAGE_SINGULARITY,RecipeType.NULL,AddUtils.NULL_RECIPE));
+
 
     public static final SlimefunItem INPORT=register(new InputPort(AddGroups.MATERIAL, AddItem.INPORT,RecipeType.NULL,AddUtils.NULL_RECIPE,0,0));
 

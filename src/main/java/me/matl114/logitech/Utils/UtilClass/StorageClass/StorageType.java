@@ -5,6 +5,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.function.Predicate;
 
 public abstract class StorageType {
     protected StorageType(){
@@ -23,8 +25,11 @@ public abstract class StorageType {
      * @return
      */
     public static StorageType getStorageType(ItemMeta meta){
+        return getStorageType(meta,(storageType -> true));
+    }
+    public static StorageType getStorageType(ItemMeta meta, Predicate<StorageType> filter){
         for(StorageType type : storageTypes){
-            if(type.isStorage(meta)){
+            if(filter.test(type)&&type.isStorage(meta)){
                 return type;
             }
         }return null;
@@ -38,9 +43,12 @@ public abstract class StorageType {
      * @return
      */
     public static StorageType getPossibleStorageType(ItemMeta meta){
+        return getPossibleStorageType(meta,(storageType -> true));
+    }
+    public static StorageType getPossibleStorageType(ItemMeta meta, Predicate<StorageType> filter){
         if(meta==null)return null;
         for(StorageType type : storageTypes){
-            if(type.canStorage(meta)){
+            if(filter.test(type)  &&type.canStorage(meta)){
                 return type;
             }
         }return null;
@@ -53,22 +61,45 @@ public abstract class StorageType {
      * @return
      */
     public static StorageType getPossibleStorageType(SlimefunItem meta){
+        return getPossibleStorageType(meta,(storageType -> true));
+    }
+    public static StorageType getPossibleStorageType(SlimefunItem meta, Predicate<StorageType> filter){
         if(meta==null)return null;
         for(StorageType type : storageTypes){
-            if(type.canStorage(meta)){
+            if(filter.test(type)&&  type.canStorage(meta)){
                 return type;
             }
         }return null;
     }
+    public static boolean disableStorageType(StorageType storageType){
+        return storageTypes.remove(storageType);
+    }
+    public static Iterator<StorageType> getStorageTypes(){
+        return storageTypes.iterator();
+    }
+
+    /**
+     *asked when there are storage of sth
+     * @param meta
+     * @return
+     */
     public abstract boolean isStorage(ItemMeta meta);
+
+    /**
+     * asked when no storage exists but may storage sth
+     * @param meta
+     * @return
+     */
     public abstract boolean canStorage(ItemMeta meta);
     public abstract boolean canStorage(SlimefunItem item);
     public abstract void setStorage(ItemMeta meta, ItemStack content);
     public abstract ItemStack getStorageContent(ItemMeta meta);
     public abstract void clearStorage(ItemMeta meta);
     public abstract int getStorageAmount(ItemMeta meta);
-    public abstract void setStorageAmount(ItemMeta meta, int amount);
     public abstract int getStorageMaxSize(ItemMeta meta);
-    public abstract void updateStorageAmountDisplay(ItemMeta meta, int amount);
-    public abstract void updateStorageDisplay(ItemMeta meta,ItemStack item, int amount);
+    public abstract void onStorageAmountWrite(ItemMeta meta, int amount);
+    public abstract void onStorageDisplayWrite(ItemMeta meta, int amount);
+    public boolean isStorageProxy(){
+        return false;
+    }
 }

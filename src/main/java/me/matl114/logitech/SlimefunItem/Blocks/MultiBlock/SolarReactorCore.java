@@ -93,7 +93,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
         });
         this.PROCESSOR_SLOT=31;
     }
-
+//FIXME 未知原因导致投影未被销毁
     public void onMultiBlockDisable(Location loc,AbstractMultiBlockHandler handler){
         removeEffect(loc);
         SimpleCraftingOperation op=SolarReactorCore.this.processor.getOperation(loc);

@@ -113,6 +113,7 @@ public class ChipBiConsumer extends AbstractMachine {
             it2.setAmount(it2.getAmount()-1);
             it3.setAmount(it3.getAmount()-1);
             final int indexer=index;
+            progressorCost(b,inv);
             Schedules.launchSchedules(()->{
             ItemStack itout=AddItem.CHIP.clone();
             int code=ChipCardCode.getConfig(meta);

@@ -84,7 +84,7 @@ public class BoolGenerator extends AbstractProcessor {
     protected Pair<MachineRecipe, ItemConsumer[]> findNextRecipe(BlockMenu inv, int[] input, int[] output){
         ItemPusher[] inputs=new ItemPusher[4];
         for(int var2 = 0; var2 < 4; ++var2) {
-            inputs[var2]=CraftUtils.getpusher.get(Settings.INPUT,inv,input[var2]);
+            inputs[var2]=CraftUtils.getpusher.getPusher(Settings.INPUT,inv,input[var2]);
 
             if(inputs[var2]==null){
                 return null;

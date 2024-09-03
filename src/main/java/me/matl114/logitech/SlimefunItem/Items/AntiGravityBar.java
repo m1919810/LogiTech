@@ -15,7 +15,7 @@ public class AntiGravityBar extends CustomSlimefunItem {
         super(itemGroup, item, recipeType, recipe);
     }
     public boolean onItemClick(PlayerRightClickEvent e){
-        e.getPlayer().setGravity(false);
+
         PlayerEffects.grantEffect(CustomEffects.ANTI_GRAVITY,e.getPlayer(),1,10);
         return false;
     }

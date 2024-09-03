@@ -1,7 +1,7 @@
 package me.matl114.logitech.SlimefunItem.Cargo.Singularity;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.Singularity;
+import me.matl114.logitech.SlimefunItem.Items.Singularity;
 import me.matl114.logitech.Utils.UtilClass.PdcClass.AbstractStorageType;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.StorageType;
 import me.matl114.logitech.Utils.AddUtils;
@@ -88,10 +88,10 @@ public class SingularityStorage extends StorageType {
             return 0;
         }
     }
-    public void setStorageAmount(ItemMeta meta, int amount) {
+    public void onStorageAmountWrite(ItemMeta meta, int amount) {
         meta.getPersistentDataContainer().set(KEY_AMOUNT, PersistentDataType.INTEGER,amount);
     }
-    public void updateStorageAmountDisplay(ItemMeta meta, int amount) {
+    public void onStorageDisplayWrite(ItemMeta meta, int amount) {
 
         List<String> lore =meta.hasLore()? meta.getLore():new ArrayList<>();
         if(lore.size()>0){
@@ -103,6 +103,7 @@ public class SingularityStorage extends StorageType {
         meta.setLore(lore);
 
     }
+
     public void updateStorageDisplay(ItemMeta meta,ItemStack item, int amount){
 
     }

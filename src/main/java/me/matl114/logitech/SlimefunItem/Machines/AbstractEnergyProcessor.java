@@ -130,6 +130,7 @@ public abstract class AbstractEnergyProcessor extends AbstractEnergyProvider imp
     public int getGeneratedOutput(@Nonnull Location l, @Nonnull SlimefunBlockData data){
 
         BlockMenu inv= StorageCacheUtils.getMenu(l);
+        //增加电力检测
         if(inv!=null&&conditionHandle(null,inv)){
             EnergyProviderOperation currentOperation = (EnergyProviderOperation)this.processor.getOperation(l);
             ItemConsumer[] fastCraft=null;

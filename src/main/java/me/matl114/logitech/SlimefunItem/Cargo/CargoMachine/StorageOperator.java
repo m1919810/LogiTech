@@ -23,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.IntFunction;
 
 public class StorageOperator extends AbstractMachine {
     protected final int[] BORDER=new int[]{
@@ -109,9 +110,10 @@ public class StorageOperator extends AbstractMachine {
                 AddUtils.sendMessage(player,"&c输出槽必须为空!");
                 return false;
             }
-            ItemPusher pusher1= FinalFeature.FINAL_READER.get(Settings.INPUT,it1,INPUT_SLOT[0]);
+            IntFunction<ItemPusher> pusherIntFunction=FinalFeature.STORAGE_READER.getMenuInstance(Settings.INPUT,inv,new ItemStack[]{it1,it2},INPUT_SLOT);
+            ItemPusher pusher1= pusherIntFunction.apply(0);             // FinalFeature.STORAGE_READER.get(Settings.INPUT,it1,INPUT_SLOT[0]);
             if(pusher1==null){AddUtils.sendMessage(player,"&c输入槽1的物品为无效存储");return false;}
-            ItemPusher pusher2= FinalFeature.FINAL_READER.get(Settings.INPUT,it2,INPUT_SLOT[1]);
+            ItemPusher pusher2= pusherIntFunction.apply(1);            //FinalFeature.STORAGE_READER.get(Settings.INPUT,it2,INPUT_SLOT[1]);
             if(pusher2==null){  AddUtils.sendMessage(player,"&c输入槽2的物品为无效存储");return false;}
             if(!CraftUtils.matchItemCounter(pusher1,pusher2,true)){
                 AddUtils.sendMessage(player,"&c存储内的物品类型不匹配!");

@@ -21,6 +21,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -48,30 +49,53 @@ public abstract class AbstractIOPort extends AbstractMachine {
         Location loc = inv.getLocation();
         ItemStorageCache cache= ItemStorageCache.getCache(loc);
         if(cache!=null){
-            cache.setPersistent(false);
+            //更新lore不需要setPersistent 因为hasViewer就可以
             cache.updateMenu(inv);
-            cache.setPersistent(true);
+            if(cache.getItem()!=null&&getDisplaySlot()>=0){
+                ItemStack tmp=AddUtils.addLore(cache.getItem(),ITEM_DISPLAY_INFO_1);
+                inv.replaceExistingItem(getDisplaySlot(),tmp );
+            }
         }
+
     }
+    public void newMenuInstance(BlockMenu inv,Block b){
+        inv.addMenuOpeningHandler(player -> {
+            updateMenu(inv,b,Settings.RUN);
+        });
+        inv.addMenuCloseHandler(player -> {
+            updateMenu(inv,b,Settings.RUN);
+        });
+
+    }
+    //TODO 修理更新不及时bug,增加兼容 增加存储兼容
     public void process(Block b, BlockMenu menu, SlimefunBlockData data){
         //先确认存储cache
         ItemStack stack=menu.getItemInSlot(getStorageSlot());
         Location loc = b.getLocation();
-        //如果没有放奇点 则立刻就要清除当前cache
+        //如果没有放存储 则立刻就要清除当前cache
         if(stack == null||stack.getAmount()!=1){
-            ItemStorageCache.removeCache(loc);
+            ItemStorageCache cache= ItemStorageCache.removeCache(loc);
+            if(cache!=null){
+                //同步 如果他真的被拿走了 但是一般来说这是不可能的事情
+                cache.updateItemStack();
+                cache.updateStorage();
+            }
             if(menu.hasViewer()&&getDisplaySlot()>=0){
                 menu.replaceExistingItem(getDisplaySlot(),ITEM_DISPLAY_NULL );
             }
             return;
         }
-        //现在是有奇点在的 尝试
+        //现在 有存储在的 尝试找到cache
         ItemStorageCache cache= ItemStorageCache.getCache(loc);
-        //cache不存在或者cache和现在的奇点记录的不同
-        if(cache == null||!cache.keepRelated(stack)){
-            //Debug.logger("[AbstractIOPort] create new cache");
-            SlimefunItem type=SlimefunItem.getByItem(stack);
-            cache=ItemStorageCache.getOrCreate(stack,stack.getItemMeta(),getStorageSlot(), Storages.SINGULARITY);
+        //cache不存在或者    cache和现在的奇点记录的不同 记录不同只有可能是玩家替换,这时候是因为
+        if(cache == null||(menu.hasViewer()&&!cache.keepRelated(stack))){
+            //对不上了自然要丢掉废弃的
+            //FIXME ban remote bind,that's not persistent* yee we need a persistent() method
+
+            ItemStorageCache.removeCache(loc);
+            //TODO not support proxy yet
+            cache=ItemStorageCache.getOrCreate(stack,stack.getItemMeta(),getStorageSlot(),i->!i.isStorageProxy());
+            //cache=ItemStorageCache.getOrCreate(stack,stack.getItemMeta(),getStorageSlot(), Storages.SINGULARITY);
             if(cache==null){
                 return;
             }
@@ -84,19 +108,13 @@ public abstract class AbstractIOPort extends AbstractMachine {
 
             }
         }
-        //更新
-        if(menu.hasViewer()&&getDisplaySlot()>=0){
-            if(cache.getItem()!=null){
-            ItemStack tmp=AddUtils.addLore(cache.getItem(),ITEM_DISPLAY_INFO_1);
-            menu.replaceExistingItem(getDisplaySlot(),tmp );
-            }
-        }
-        //Debug.logger("sync success! time cost"+(e-a));
-        //现在是100%同步的了,但是可能是null
         ItemPusher[] cachelst=new ItemPusher[]{cache};
         TransportUtils.cacheTransportation(menu,cachelst,menu,getInputSlots(), Settings.INPUT);
         TransportUtils.cacheTransportation(menu,cachelst,menu,getOutputSlots(), Settings.OUTPUT);
         cache.updateMenu(menu);
+        if(menu.hasViewer()){
+            updateMenu(menu,b,Settings.RUN);
+        }
     }
 
     public void onBreak(BlockBreakEvent e, BlockMenu menu) {

@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.IntFunction;
 
 public abstract class AbstractSequenceProcessor extends AbstractMachine implements MachineProcessHolder<SequenceCraftingOperation> {
     protected final int[] BORDER=new int[]{
@@ -171,8 +172,9 @@ public abstract class AbstractSequenceProcessor extends AbstractMachine implemen
             if(fastNext.getAmount()>0){
                 int[] slots=getInputSlots();
                 ItemPusher[] inputers=new ItemPusher[slots.length];
+                IntFunction<ItemPusher> pusherIntFunction= CRAFT_PROVIDER.getMenuInstance(Settings.INPUT,inv,slots);
                 for(int i=0;i<slots.length;i++){
-                    inputers[i]=CRAFT_PROVIDER.get(Settings.INPUT,inv,slots[i]);
+                    inputers[i]=pusherIntFunction.apply(i) ;      //CRAFT_PROVIDER.get(Settings.INPUT,inv,slots[i]);
                 }
                 if(!CraftUtils.matchSequenceRecipeTarget(inputers,fastNext)){
                     //没有更改 触发清除，清除输入槽内全部物品

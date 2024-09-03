@@ -65,6 +65,7 @@ public class ScheduleEffects {
         Player p = e.getEntity();
         synchronized (lock){
             HashMap<AbstractEffect,PlayerEffects> effects = EFFECTS.get(p.getUniqueId());
+            if(effects==null)return;
             Set<AbstractEffect> effectSet = effects.keySet();
             for(AbstractEffect effect : effectSet) {
                 PlayerEffects eff= effects.get(effect);

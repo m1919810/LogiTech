@@ -217,7 +217,7 @@ public abstract class AbstractWorkBench extends AbstractMachine {
                 int recipeCount=itcs[slot].getAmount();
                 if(i==0){
                     //获取当前槽位的东西
-                    itps[slot]=CraftUtils.getpusher.get(Settings.OUTPUT,menu,inputs[slot]);
+                    itps[slot]=CraftUtils.getpusher.getPusher(Settings.OUTPUT,menu,inputs[slot]);
                     //不匹配，即非空且不match，就没有下次了
                     if(!itps[slot].isNull()&&!CraftUtils.matchItemCounter(itps[slot],itcs[slot],false)) {
                         break;

@@ -5,6 +5,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nonnull;
+
 /**
  * used to cal num when push item, consume-only, it will not push item when unionSum
  */
@@ -51,7 +53,7 @@ public class ItemPusher extends ItemCounter {
      * this arguments has no meaning ,just a formated argument
      * @param menu
      */
-    public void updateMenu( BlockMenu menu){
+    public void updateMenu(@Nonnull BlockMenu menu){
         if(dirty){
             updateItemStack();
 

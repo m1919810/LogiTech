@@ -115,14 +115,51 @@ public class AddGroups {
                     "&7大家一定要小心谨慎,少得痴呆症"
                     )
             );
-            factory.addInventory(4,AddUtils.getInfoShow("&f2024.8.30",
+            factory.addInventory(4,AddUtils.getInfoShow("&f&m2024.8.30 &r&f2024.8.31",
                             "&7增加了可调节的货运机器",
                             "&7开始研发逻辑奇点部分的机器",
                             "&7发现远古测试机器的bug",
                             "&7中午出门把身份证丢了,晦气",
                             "&7下午治疗身份证去了,没更新痴呆症",
                             "&7大家一定要小心谨慎,少得身份症",
-                        "&7"
+                             "&7晚上和haiman整了SlimefunEssentials",
+                            "&7JEI十分的强劲,我觉得我都不用写搜索了"
+                    )
+            );
+            factory.addInventory(5,AddUtils.getInfoShow("&f2024.9.1",
+                            "&7修复薯片核心配方无法原版自动化",
+                    "&7到处转转,学会怎么上传头颅",
+                    "&7完成终极机制之远程接入存储,但是出现了小的bug",
+                    "&7修一个小bug 花费了我好久。实际上这是我算法架构的问题",
+                    "&7但是我还是尝试了若干方案之后,最终决定这么搞,希望不会炸",
+                    "&7经过了亿点重构,准备开始测试了,希望人没事"
+                    )
+            );
+            factory.addInventory(6,AddUtils.getInfoShow("&f2024.9.1",
+                            "&7今天是几号来着",
+                    "&7方案全部无效",
+                    "&7新特性不能就这么寄了",
+                    "&7躺下睡觉吧还是"
+                    )
+            );
+            factory.addInventory(7,AddUtils.getInfoShow("&f2024.9.3",
+                            "&7哈哈哈哈哈哈哈哈",
+                    "&7终于想到一个方法了",
+                    "&7既然他提供超过两个引用会寄,那我就要根据menu和slots为单位控制产生的引用数",
+                    "&7不要再对引用位置做无所谓的控制,这没有必要",
+                    "&7只要将cache生成器包装入一个方法 然后在方法里狠狠注入检测代码就可以了!",
+                    "&7我他娘的还真是小机灵鬼",
+                    "&7开干",
+                    "&7终于,,,修好了!"
+                    )
+            );
+            factory.addInventory(8,AddUtils.getInfoShow("&f2024.9.3",
+                            "&7我一定是记错日期了,不然为什么一觉醒来日期没变呢",
+                    "&7继续完善存储链接体系",
+                    "&7应广大玩家要求,修改逻辑反应堆为运行中不销耗布尔组件,只在搜索阶段消耗",
+                    "&7发现配方搜素算法一个cache未及时同步的bug",
+                    "&7好在在新测试员的帮助下很快解决.",
+                    "&7比Tmatsuki_rui能干多了."
                     )
             );
         }
@@ -347,7 +384,7 @@ public class AddGroups {
             ItemStack h1=new CustomItemStack(CustomHead.getHead("fd524332cdb381c9e51f77d4cec9bc6d4d1c5bdec1499d206d8383e9176bdfb0"),AddUtils.color("haiman"),"&7点击查看详情");
             ItemStack h2=new CustomItemStack(CustomHead.getHead("a9b046531a6182de634d6fed1f3b4f885ee99bfe2bc0c1684f7b97d396c2059f"),AddUtils.color("mmmjjkx"),"&7点击查看详情");
             ItemStack h3=new CustomItemStack(CustomHead.getHead("7e224b7fb1e9dc78b2abb6a3fbf726b1d7159d08599b2c02b7bf1ad396285da6"),AddUtils.color("tinalness"),"&7点击查看详情");
-            ItemStack h4=new CustomItemStack(CustomHead.SUPPORT.getItem(),AddUtils.color("HgTlPbBi"),"&7点击查看详情");
+            ItemStack h4=new CustomItemStack(CustomHead.SUPPORTER2.getItem(),AddUtils.color("HgTlPbBi"),"&7点击查看详情");
             ItemStack h5=new CustomItemStack(CustomHead.getHead("8e434215b5616bf37dccbacdb240bd16de59507e62a5371ceca80327b398e65"),AddUtils.color("Tmatsuki_rui"),"&7点击查看详情");
             ItemStack h6=new CustomItemStack(AddItem.MATL114,"  ","&8..?");
 
@@ -435,7 +472,7 @@ public class AddGroups {
         final ItemMeta s1=new CustomItemStack(CustomHead.getHead("fd524332cdb381c9e51f77d4cec9bc6d4d1c5bdec1499d206d8383e9176bdfb0"),AddUtils.color("haiman"),"&7haiman科技作者","&7海曼科技会为你提供足够的物质支持").getItemMeta();
         final ItemMeta s2=new CustomItemStack(CustomHead.getHead("a9b046531a6182de634d6fed1f3b4f885ee99bfe2bc0c1684f7b97d396c2059f"),AddUtils.color("mmmjjkx"),"&7rsc开发者","&3纯大蛇\uD83D\uDE0B").getItemMeta();
         final ItemMeta s3=new CustomItemStack(Material.REPEATING_COMMAND_BLOCK,AddUtils.color("tinalness"),"&7大香蕉的本质是命令方块\uD83D\uDE0B(确信","&7但是你或许会需要他的网络拓展").getItemMeta();
-        final ItemMeta s4=new CustomItemStack(CustomHead.SUPPORT.getItem(),AddUtils.color("HgTlPbBi"),"&7逻辑工艺的支持者","&7提出了很多有用的点子").getItemMeta();
+        final ItemMeta s4=new CustomItemStack(CustomHead.SUPPORTER2.getItem(),AddUtils.color("HgTlPbBi"),"&7逻辑工艺的支持者","&7提出了很多有用的点子").getItemMeta();
         final ItemMeta s5=new CustomItemStack(CustomHead.getHead("8e434215b5616bf37dccbacdb240bd16de59507e62a5371ceca80327b398e65"),AddUtils.color("Tmatsuki_rui"),"&7凉城服的祸源","&7纯傻逼,给爷死啊\uD83D\uDE21").getItemMeta();
         final ItemMeta s6=new CustomItemStack(CustomHead.BUSHIGEMEN.getItem(),"  ","&7看得出你的视力很好","&7所以一定要仔细阅读","&7版本说明与机器说明哦").getItemMeta();
         final ItemStack head=new CustomItemStack(Material.PLAYER_HEAD,AddUtils.color("逝者的头颅"));

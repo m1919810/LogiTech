@@ -202,4 +202,12 @@ public class MathUtils {
             return Integer.MAX_VALUE;
         }else return a.intValue();
     }
+    public static int safeAdd(int a,int b){
+        int x=a+b;
+        if ((x^a) < 0 && (x^b) < 0){
+            return Integer.MAX_VALUE;
+        }
+        return x;
+
+    }
 }

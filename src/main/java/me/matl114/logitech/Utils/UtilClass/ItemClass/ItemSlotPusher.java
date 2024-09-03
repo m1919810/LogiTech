@@ -57,12 +57,7 @@ public class ItemSlotPusher extends ItemPusher {
     public int getMaxStackCnt() {
         return maxStackCnt;
     }
-    public ItemMeta getItemMeta(){
-        if(item==null){
-            return null;
-        }
-        return super.getMeta();
-    }
+
     //sync data need blockmenu
     public void updateMenu(@Nonnull BlockMenu menu){
         if(dirty&&getItem()!=null&&!getItem().getType().isAir()){
@@ -81,7 +76,7 @@ public class ItemSlotPusher extends ItemPusher {
 
         }
     }
-    protected void updateItemStack(){
+    public void updateItemStack(){
         if(getItem()!=null){
             super.updateItemStack();
         }

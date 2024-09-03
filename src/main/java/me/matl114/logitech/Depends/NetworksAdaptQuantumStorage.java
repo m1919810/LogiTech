@@ -23,25 +23,29 @@ public class NetworksAdaptQuantumStorage extends StorageType {
     public boolean isStorage(ItemMeta meta) {
         return  (DataTypeMethods.hasCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE));
     }
-    //TODO 继续完成对网络存储的反射方法表 脱离依赖
     @Override
     public boolean canStorage(ItemMeta meta) {
-        if(AddDepends.NETWORKSQUANTUMSTORAGE==null){
-            return false;
-        }
-        String id=CraftUtils.parseSfId(meta);
-        if(id==null){
-            return false;
-        }
-        return AddDepends.NETWORKSQUANTUMSTORAGE.isInstance(SlimefunItem.getById(id));
+        //我们不帮网络存储设置类型 。
+        //该方法只在设置类型的时候被调用
+        return false;
+//        if(AddDepends.NETWORKSQUANTUMSTORAGE==null){
+//            return false;
+//        }
+//        String id=CraftUtils.parseSfId(meta);
+//        if(id==null){
+//            return false;
+//        }
+//        return AddDepends.NETWORKSQUANTUMSTORAGE.isInstance(SlimefunItem.getById(id));
     }
 
     @Override
     public boolean canStorage(SlimefunItem item) {
-        if(AddDepends.NETWORKSQUANTUMSTORAGE==null){
-            return false;
-        }
-        return AddDepends.NETWORKSQUANTUMSTORAGE.isInstance(item);
+        //我们不帮网络存储设置类型 。
+        return false;
+//        if(AddDepends.NETWORKSQUANTUMSTORAGE==null){
+//            return false;
+//        }
+//        return AddDepends.NETWORKSQUANTUMSTORAGE.isInstance(item);
     }
     public QuantumCache getQuantumCache(ItemMeta meta) {
        QuantumCache cache= DataTypeMethods.getCustom(meta, AddDepends.NTWQUANTUMKEY, PersistentQuantumStorageType.TYPE);
@@ -49,48 +53,67 @@ public class NetworksAdaptQuantumStorage extends StorageType {
        }
        return cache;
     }
-    @Override
-    public int getStorageMaxSize(ItemMeta meta) {
-        QuantumCache cache= getQuantumCache(meta);
+    public int getStorageMaxSize(QuantumCache cache){
         if(cache==null){return 0;}
         Method amount=NetWorkQuantumMethod. getLimitMethod(cache);
         try{
             return (Integer)amount.invoke(cache);
         }catch (Throwable e){
+            Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_STORAGE, STORAGE TYPE DISABLED");
+            Debug.logger(e);
+            disableStorageType(this);
             return 0;
         }
+    }
+    @Override
+    public int getStorageMaxSize(ItemMeta meta) {
+        QuantumCache cache= getQuantumCache(meta);
+        return getStorageMaxSize(cache);
     }
 
     @Override
     public void setStorage(ItemMeta meta, ItemStack content) {
+        //我们不帮网络存储设置类型 。
 //        DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, cache);
 //        cache.addMetaLore(itemMeta);
 //        itemToDrop.setItemMeta(itemMeta);
         throw new NotImplementedException("NetworkQuantumStorage's content shouldn't be set in this method");
     }
 
-    @Override
-    public void setStorageAmount(ItemMeta meta, int amount) {
-        QuantumCache cache=getQuantumCache(meta);
+    public void setAmount(QuantumCache cache, int amount) {
         if(cache==null){return;}
         Method set=NetWorkQuantumMethod.getSetAmountMethod(cache);
         try{
             set.invoke(cache, amount);
         }catch (Throwable e){
+            Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_STORAGE, STORAGE TYPE DISABLED");
+            Debug.logger(e);
+            disableStorageType(this);
             return ;
         }
+    }
+    @Override
+    public void onStorageAmountWrite(ItemMeta meta, int amount) {
+        QuantumCache cache=getQuantumCache(meta);
+        setAmount(cache, amount);
         DataTypeMethods.setCustom(meta,Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE,cache);
     }
 
     @Override
     public int getStorageAmount(ItemMeta meta) {
         QuantumCache cache= getQuantumCache(meta);
+        return getStorageAmount(cache);
+    }
+    public int getStorageAmount(QuantumCache cache){
         if(cache==null){return 0;}
         Method amount=NetWorkQuantumMethod. getAmountMethod(cache);
         try{
             Object res= amount.invoke(cache);
             return res instanceof Long r? MathUtils.fromLong(r) : (Integer) res;
         }catch (Throwable e){
+            Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_STORAGE, STORAGE TYPE DISABLED");
+            Debug.logger(e);
+            disableStorageType(this);
             return 0;
         }
     }
@@ -98,12 +121,18 @@ public class NetworksAdaptQuantumStorage extends StorageType {
     @Override
     public ItemStack getStorageContent(ItemMeta meta) {
         QuantumCache cache= getQuantumCache(meta);
+        return getStorageContent(cache);
+    }
+    public ItemStack getStorageContent(QuantumCache cache){
         if(cache==null){
             return null;}
         Method getItem=NetWorkQuantumMethod.getItemStackMethod(cache);
         try{
-               return (ItemStack) getItem.invoke(cache);
+            return (ItemStack) getItem.invoke(cache);
         }catch (Throwable e){
+            Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_STORAGE, STORAGE TYPE DISABLED");
+            Debug.logger(e);
+            disableStorageType(this);
             return null;
         }
     }
@@ -113,34 +142,20 @@ public class NetworksAdaptQuantumStorage extends StorageType {
         throw new NotImplementedException("NetworkQuantumStorage's content shouldn't be cleared in this method");
     }
 
-    @Override
-    public void updateStorageDisplay(ItemMeta meta, ItemStack item, int amount) {
-        var cache=getQuantumCache(meta);
-        if(cache==null){return;}
-        try{
-            Method set=NetWorkQuantumMethod.getSetItemStackMethod(cache);
-            set.invoke(cache, item);
-            set=NetWorkQuantumMethod.getSetAmountMethod(cache);
-            set.invoke(cache, amount);
-            set=NetWorkQuantumMethod.getUpdateMetaLore(cache);
-            set.invoke(cache, meta);
-        }catch (Throwable e){
-        }
 
-    }
 
     @Override
-    public void updateStorageAmountDisplay(ItemMeta meta, int amount) {
+    public void onStorageDisplayWrite(ItemMeta meta, int amount) {
         var cache=getQuantumCache(meta);
         if(cache==null){return;}
         Method set;
         try{
-            set=NetWorkQuantumMethod.getSetAmountMethod(cache);
-            set.invoke(cache, amount);
             set=NetWorkQuantumMethod.getUpdateMetaLore(cache);
             set.invoke(cache, meta);
         }catch (Throwable e){
-            Debug.debug("failed updateStorageDisplay");
+            Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_STORAGE, STORAGE TYPE DISABLED");
+            Debug.logger(e);
+            disableStorageType(this);
         }
     }
 }

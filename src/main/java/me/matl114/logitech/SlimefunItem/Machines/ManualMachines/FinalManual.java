@@ -4,29 +4,23 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.SlimefunItem.Machines.*;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
-import me.matl114.logitech.Utils.UtilClass.StorageClass.ItemStorageCache;
 import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemSlotPusher;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Slime;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
@@ -78,7 +72,7 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
         this.CRAFT_PROVIDER=SINGULARITY_PROVIDER;
 
     }
-    public static final ItemPusherProvider SINGULARITY_PROVIDER=FinalFeature.FINAL_READER;
+    public static final ItemPusherProvider SINGULARITY_PROVIDER=FinalFeature.STORAGE_AND_LOCPROXY_READER;
     //after start,load recipeType from config
     public void registerRecipeList(){
         craftType=BW_LIST.toArray(new RecipeType[BW_LIST.size()]);
@@ -192,33 +186,24 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
         );
         menu.addMenuClickHandler(ONE_SLOT,
                 (player, i, itemStack, clickAction)->{
-                    if(SecurityUtils.lock(player,SecurityUtils.Lock.MenuClickLock)){
-                        int limit=1;
-                        if(clickAction.isRightClicked()){
-                            limit=64;
-                        }
-                        craft(menu,limit);
-                        FinalManual.this.tick(block,menu,1);
-                        SecurityUtils.unlock(player,SecurityUtils.Lock.MenuClickLock);
-                    }else {
-                        player.sendMessage(ChatColors.color("&e您点的太快了,请您消停会"));
+                    int limit=1;
+                    if(clickAction.isRightClicked()){
+                        limit=64;
                     }
+                    craft(menu,limit);
+                    FinalManual.this.tick(block,menu,1);
+
                     return false;
                 }
         );
         menu.addMenuClickHandler(MUL_SLOT,
                 (player, i, itemStack, clickAction)->{
-                    if(SecurityUtils.lock(player,SecurityUtils.Lock.MenuClickLock)){
-                        int limit=3456;
-                        if(clickAction.isRightClicked()){
-                            limit=9_999_999;
-                        }
-                        craft(menu,limit);
-                        FinalManual.this.tick(block,menu,1);
-                        SecurityUtils.unlock(player,SecurityUtils.Lock.MenuClickLock);
-                    }else {
-                        player.sendMessage(ChatColors.color("&e您点的太快了,请您消停会"));
+                    int limit=3456;
+                    if(clickAction.isRightClicked()){
+                        limit=9_999_999;
                     }
+                    craft(menu,limit);
+                    FinalManual.this.tick(block,menu,1);
                     return false;
                 }
         );
@@ -240,6 +225,7 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
         );
         updateMenu(menu,block,Settings.INIT);
     }
+    //FIXME 莫名奇妙的跳走问题
     public void updateMenu(BlockMenu inv,Block block,Settings mod){
         if(mod==Settings.INIT){
             orderSearchRecipe(inv,Settings.SEQUNTIAL);
@@ -342,10 +328,12 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
 //        CraftUtils.multiUpdateInputMenu(results.getFirstValue(),inv);
 //        CraftUtils.multiUpdateOutputMenu(results.getSecondValue(),inv);
 //    }
+    boolean test= MyAddon.testmode();
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         //only works when has viewer.
-        if(inv!=null&&inv.hasViewer()){
+        if(inv!=null&&(inv.hasViewer())){
             Location  loc=inv.getLocation();
+            //FIXME 同一个输入槽运行结果可能不同
             MachineRecipe getRecipe=CraftUtils.matchNextRecipe(inv,getInputSlots(),getMachineRecipes(b,inv),true,Settings.SEQUNTIAL,SINGULARITY_PROVIDER);
             if(getRecipe==null){
                 DataCache.setLastRecipe(loc,-1);

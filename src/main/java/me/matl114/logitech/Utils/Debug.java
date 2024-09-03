@@ -9,6 +9,7 @@ public class Debug {
     public  static Logger log = Logger.getLogger(AddUtils.ADDON_ID);
     public static Logger testlog=Logger.getLogger("TEST");
     public  static boolean debug = MyAddon.testmode();
+    public static boolean start=false;
     public static boolean pos=false;
     public static  void logger(String message) {
         log.info(message);
@@ -31,6 +32,11 @@ public class Debug {
         }
         logger(msg);
     }
+    public static void logger(Throwable t) {
+
+        t.printStackTrace();
+
+    }
     public static void debug(Object ...msgs) {
         String msg="";
         for(Object m : msgs){
@@ -41,6 +47,11 @@ public class Debug {
     public static void debug(Throwable t) {
         if( MyAddon.testmode()){
             t.printStackTrace();
+        }
+    }
+    public static void test(Object ...msgs) {
+        if(start){
+            logger(msgs);
         }
     }
 }

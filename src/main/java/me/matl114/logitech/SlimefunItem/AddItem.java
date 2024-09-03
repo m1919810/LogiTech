@@ -163,7 +163,7 @@ public class AddItem {
             Language.get("Items.THALLIUM.Name"),Language.getList("Items.THALLIUM.Lore"));
     public static final SlimefunItemStack HYDRAGYRUM=AddUtils.themed("HYDRAGYRUM",Material.PRISMARINE_CRYSTALS,AddUtils.Theme.ITEM1,
             Language.get("Items.HYDRAGYRUM.Name"),Language.getList("Items.HYDRAGYRUM.Lore"));
-    public static final SlimefunItemStack HGTLPBBI=AddUtils.themed("HGTLPBBI",CustomHead.SUPPORT.getItem(), AddUtils.Theme.ITEM1,
+    public static final SlimefunItemStack HGTLPBBI=AddUtils.themed("HGTLPBBI",CustomHead.SUPPORTER2.getItem(), AddUtils.Theme.ITEM1,
             Language.get("Items.HGTLPBBI.Name"),Language.getList("Items.HGTLPBBI.Lore"));
     public static final SlimefunItemStack DIMENSIONAL_SHARD=AddUtils.themed("DIMENSIONAL_SHARD",Material.PRISMARINE_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Items.DIMENSIONAL_SHARD.Name"),Language.getList("Items.DIMENSIONAL_SHARD.Lore"));
@@ -380,6 +380,12 @@ public class AddItem {
             Language.get("Cargo.CHIP_ADJ_CARGO.Name"),Language.getList("Cargo.CHIP_ADJ_CARGO.Lore"));
     public static final SlimefunItemStack RESETTER=AddUtils.themed("RESETTER",Material.FLETCHING_TABLE,AddUtils.Theme.CARGO1,
             Language.get("Cargo.RESETTER.Name"),Language.getList("Cargo.RESETTER.Lore"));
+    public static final SlimefunItemStack STORAGE_SINGULARITY= AddUtils.themed("STORAGE_SINGULARITY",Material.NETHER_STAR,AddUtils.Theme.ITEM1,
+            Language.get("Cargo.STORAGE_SINGULARITY.Name"),Language.getList("Cargo.STORAGE_SINGULARITY.Lore"));
+    public static final SlimefunItemStack QUANTUM_LINK=AddUtils.themed("QUANTUM_LINK",Material.NETHER_STAR,AddUtils.Theme.ITEM1,
+            Language.get("Cargo.QUANTUM_LINK.Name"),Language.getList("Cargo.QUANTUM_LINK.Lore"));
+
+
     //multiblock
     public static final SlimefunItemStack PORTAL_CORE=AddUtils.themed("PORTAL_CORE",Material.CRYING_OBSIDIAN,AddUtils.Theme.MULTIBLOCK1,
             Language.get("MultiBlock.PORTAL_CORE.Name"),Language.getList("MultiBlock.PORTAL_CORE.Lore"));
@@ -437,8 +443,7 @@ public class AddItem {
             AddUtils.themed("AUTOCRAFT_SMELT",new ItemStack(Material.FURNACE),AddUtils.Theme.MANUAL1,"测试AutoCraft","冶炼炉");
     public static final SlimefunItemStack AUTO_INF=
             AddUtils.themed("AUTOCRAFT_INF",new ItemStack(Material.RESPAWN_ANCHOR),AddUtils.Theme.MANUAL1,"测试定向合成机","无尽工作台");
-    public static final SlimefunItemStack STORAGE_SINGULARITY=
-            AddUtils.themed("STORAGE_SINGULARITY",new ItemStack(Material.NETHER_STAR),AddUtils.Theme.CARGO1,"存储奇点","将物品压缩成奇点...");
+
     public static final SlimefunItemStack INPORT=
             AddUtils.themed("INPORT",new ItemStack(Material.END_STONE),AddUtils.Theme.CARGO1,"存入接口","较快的将物品存入奇点...");
     public static final SlimefunItemStack OUTPORT=

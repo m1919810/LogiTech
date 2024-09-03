@@ -47,6 +47,7 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
     @Override
     public void onEnable() {
         instance =this;
+
         manager=getServer().getPluginManager();
         // 从 config.yml 中读取插件配置
         Config cfg = new Config(this);

@@ -16,10 +16,10 @@ public class FinalStackMachine extends StackMachine{
                         Material progressItem, int energyConsumption, int energyBuffer, double efficiency) {
         super(category, item, recipeType, recipe, progressItem, energyConsumption, energyBuffer, efficiency);
         AddUtils.addGlow(getProgressBar());
-        this.CRAFT_PROVIDER= FinalFeature.FINAL_READER;
+        this.CRAFT_PROVIDER= FinalFeature.STORAGE_READER;
     }
     public int getCraftLimit(Block b, BlockMenu inv){
 
-        return (int)(this.efficiency*this.CRAFT_PROVIDER.get(Settings.OUTPUT,inv,this.MACHINE_SLOT).getAmount());
+        return (int)(this.efficiency*this.CRAFT_PROVIDER.getPusher(Settings.OUTPUT,inv,this.MACHINE_SLOT).getAmount());
     }
 }

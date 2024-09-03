@@ -18,9 +18,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.function.IntFunction;
 
 public class CraftUtils {
     //TODO 仔细检查
+    //TODO 针对proxy的解决方案 将PusherProvider的get抽象为IntFunction 单一进程的输入/输出方各共用一个IntFunction,在其中增加对proxy location的检测
     private static final HashSet<Material> COMPLEX_MATERIALS = new HashSet<>(){{
         add(Material.AXOLOTL_BUCKET);
         add(Material.WRITABLE_BOOK);
@@ -71,7 +73,6 @@ public class CraftUtils {
             CRAFTLORE.setAccessible(true);
             CRAFTDISPLAYNAME.setAccessible(true);
             INVOKE_SUCCESS=true;
-            //Debug.logger("INVOKE META SUCCESS");
         }catch (Throwable e){
             Debug.logger("INVOKE META FAILED,PLEASE CHECK LOGGER!!!!!!");
             INVOKE_SUCCESS=false;
@@ -93,22 +94,39 @@ public class CraftUtils {
             //CRAFTMETA=NMSITEMCLASS.getDeclaredField("meta");
 //            Field[] fields= NMSITEMCLASS.getDeclaredFields();
 //            for(int i=0;i<fields.length;++i){
-//                Debug.debug(fields[i].getName());
 //            }
             ITEMSTACKMETA=DEFAULT_ITEMSTACK.getClass().getDeclaredField("meta");
             ITEMSTACKMETA.setAccessible(true);
             INVOKE_STACK_SUCCESS=true;
-            //Debug.logger("INVOKE META SUCCESS");
         }catch (Throwable e){
             Debug.logger("INVOKE STACK FAILED,PLEASE CHECK LOGGER!!!!!!");
             INVOKE_STACK_SUCCESS=false;
-            Debug.debug(e);
+            Debug.logger(e);
             Debug.logger("DISABLING RELEVENT FEATURE");
 
         }
     }
     public static void setup(){
 
+    }
+
+    /**
+     * if item a and item b both craftItemStack check if handled item match
+     * @param a
+     * @param b
+     * @return
+     */
+    public static boolean sameCraftItem(ItemStack a, ItemStack b){
+        if(!INVOKE_SUCCESS){
+            return false;
+        }
+        if(CRAFTITEMSTACKCLASS.isInstance(a)&&CRAFTITEMSTACKCLASS.isInstance(b)){
+            try{
+                return CRAFTHANDLER.get(a)==(CRAFTHANDLER.get(b));
+            }catch (Throwable e){
+                return false;
+            }
+        }else return false;
     }
     @Nullable
     public static String parseSfId(ItemStack item) {
@@ -166,25 +184,26 @@ public class CraftUtils {
             return ItemSlotPusher.get(it,slot);
         }
     };
-    public static ItemPusher getSlotPusher(BlockMenu inv,int slot){
-        return getpusher.get(Settings.OUTPUT,inv,slot);
-    }
+//    public static ItemPusher getSlotPusher(BlockMenu inv,int slot){
+//        return getpusher.get(Settings.OUTPUT,inv,slot);
+//    }
     public static ItemPusher getPusher(ItemStack it){
         return  ItemPusher.get(it);
     }
-    public static ItemPusher getPusher(BlockMenu inv,int slot){
-        return getpusher.get(Settings.INPUT,inv,slot);
-    }
+//    public static ItemPusher getPusher(BlockMenu inv,int slot){
+//        return getpusher.get(Settings.INPUT,inv,slot);
+//    }
     public static void clearAmount(ItemPusher ... counters){
         for (int i =0;i<counters.length;++i){
             counters[i].setAmount(0);
             //this is safe,I said it
-            counters[i].updateMenu(null);
+            counters[i].updateItemStack();
         }
     }
     /**
      * builtin Method for developments
      */
+
     public static ItemConsumer[] matchRecipe(List<ItemPusher> slotCounters, MachineRecipe recipe){
         int len2=slotCounters.size();
         ItemStack[] recipeInput = recipe.getInput();
@@ -193,19 +212,22 @@ public class CraftUtils {
         ItemConsumer[] result=new ItemConsumer[cnt];
         ItemConsumer results;
         ItemPusher itemCounter2;
+        final boolean[] visited=new boolean[len2];
         for(int i=0;i<cnt;++i) {
             result[i]=getConsumer(recipeInput[i]);
             results=result[i];
             for(int j=0;j<len2;++j) {
                 itemCounter2=slotCounters.get(j);
                 if(itemCounter2==null)continue;
-                if(i==0){
+                if(!visited[j]){
+                    //FIXME sync data may not be in this place
                     itemCounter2.syncData();
+                    visited[j]=true;
                 }
-                if(itemCounter2.isDirty()){
+                else if(itemCounter2.isDirty()){
                     continue;
                 }
-                else if(CraftUtils.matchItemCounter(results,itemCounter2,false)){
+                if(CraftUtils.matchItemCounter(results,itemCounter2,false)){
                     results.consume(itemCounter2);
                     if(results.getAmount()<=0)break;
                 }
@@ -224,6 +246,7 @@ public class CraftUtils {
      * @param recipe
      * @return
      */
+
     public static ItemGreedyConsumer[] matchMultiRecipe(List<ItemPusher> slotCounters, MachineRecipe recipe,int maxMatchCount){
         int len2=slotCounters.size();
         ItemStack[] recipeInput = recipe.getInput();
@@ -233,6 +256,7 @@ public class CraftUtils {
         //模拟时间加速 减少~
         maxMatchCount=calMaxCraftAfterAccelerate(maxMatchCount,recipe.getTicks());
         int maxAmount;
+        final  boolean[] visited =new boolean[len2];
         for(int i=0;i<cnt;++i) {
             ItemGreedyConsumer itemCounter=getGreedyConsumer(recipeInput[i]);
             maxAmount=itemCounter.getAmount()*maxMatchCount;
@@ -240,13 +264,15 @@ public class CraftUtils {
 
                 ItemPusher itemCounter2=slotCounters.get(j);
                 if(itemCounter2==null)continue;
-                if(i==0){
+                if(!visited[j]){
+                    //FIXME sync data may not be in this place
                     itemCounter2.syncData();
+                    visited[j]=true;
                 }
-                if(itemCounter2.isDirty()){
+                else if(itemCounter2.isDirty()){
                     continue;
                 }
-                else if(CraftUtils.matchItemCounter(itemCounter,itemCounter2,false)){
+                if(CraftUtils.matchItemCounter(itemCounter,itemCounter2,false)){
                     itemCounter.consume(itemCounter2);
                     if(itemCounter.getMatchAmount()>=maxAmount)break;
                 }
@@ -267,6 +293,7 @@ public class CraftUtils {
      * @param recipe
      * @return
      */
+
     public static ItemConsumer[] countOneOutput(BlockMenu inv , int[] output, MachineRecipe recipe){
         return countOneOutput(inv,output,recipe,getpusher);
     }
@@ -275,7 +302,7 @@ public class CraftUtils {
         ItemStack[] recipeInput = recipe.getOutput();
         int cnt = recipeInput.length;
         ItemConsumer[] result = new ItemConsumer[cnt];
-        DynamicArray<ItemPusher> slotCounters=new DynamicArray<>(ItemPusher[]::new,len2,(i)->(pusher.get(Settings.OUTPUT,inv,output[i])));
+        DynamicArray<ItemPusher> slotCounters=new DynamicArray<>(ItemPusher[]::new,len2,pusher.getMenuInstance(Settings.OUTPUT,inv,output));
         for(int i=0;i<cnt;++i) {
             result[i]=getConsumer(recipeInput[i]);
             for(int j=0;j<len2;++j) {
@@ -307,6 +334,7 @@ public class CraftUtils {
      * @param recipe
      * @return
      */
+
     public static Pair<ItemConsumer[],ItemConsumer[]> countOneRecipe(BlockMenu inv,int[] input,int[] output,MachineRecipe recipe){
         return countOneRecipe(inv,input,output,recipe,getpusher);
     }
@@ -314,7 +342,7 @@ public class CraftUtils {
         int len=input.length;
         ItemStack[] recipeIn=recipe.getInput();
         int cnt=recipeIn.length;
-        DynamicArray<ItemPusher> inputs=new DynamicArray<>(ItemPusher[]::new,len,(i)->pusher.get(Settings.INPUT,inv,input[i]));
+        DynamicArray<ItemPusher> inputs=new DynamicArray<>(ItemPusher[]::new,len,pusher.getMenuInstance(Settings.INPUT,inv,input));
 
         ItemConsumer[] inputInfo=matchRecipe(inputs,recipe);
         if(inputInfo!=null){
@@ -334,35 +362,39 @@ public class CraftUtils {
      * @param limit
      * @return
      */
+
     public static Pair<ItemGreedyConsumer[],ItemGreedyConsumer[]> countMultiRecipe( BlockMenu inv,int[] input,int[] output, MachineRecipe recipe, int limit) {
         return countMultiRecipe(inv,input,output,recipe,limit,getpusher);
     }
     public static Pair<ItemGreedyConsumer[],ItemGreedyConsumer[]> countMultiRecipe( BlockMenu inv,int[] input,int[] output, MachineRecipe recipe, int limit,ItemPusherProvider pusher){
         int len=input.length;
         ItemStack[] recipeInput = recipe.getInput();
-        DynamicArray<ItemPusher> inputCounters=new DynamicArray<>(ItemPusher[]::new,len,(i)->pusher.get(Settings.INPUT,inv,input[i]));
+        DynamicArray<ItemPusher> inputCounters=new DynamicArray<>(ItemPusher[]::new,len,pusher.getMenuInstance(Settings.INPUT,inv,input));
         int cnt=recipeInput.length;
 
         ItemGreedyConsumer[] recipeCounter=new ItemGreedyConsumer[cnt];
         int maxAmount=limit;
+        final boolean[] visited=new boolean[len];
         for(int i=0;i<cnt;++i) {
             recipeCounter[i]=getGreedyConsumer(recipeInput[i]);
             for(int j=0;j<len;++j) {
                 ItemPusher  itemCounter2=inputCounters.get(j);
                 if(itemCounter2==null)continue;
-                if(i==0){
+                if(!visited[j]){
+                    //FIXME sync data may not be in this place
                     itemCounter2.syncData();
+                    visited[j]=true;
                 }
-                if(itemCounter2.isDirty()){
+                else if(itemCounter2.isDirty()){
                     //如果该counter已经被人绑定了 就跳过
                     continue;
                 }
-                else if(CraftUtils.matchItemCounter(itemCounter2,recipeCounter[i],false)){
+                if(CraftUtils.matchItemCounter(itemCounter2,recipeCounter[i],false)){
                     //如果匹配 将其加入...list,并算入matchCnt
                     recipeCounter[i].addRelate(itemCounter2);
                     recipeCounter[i].addMatchAmount(itemCounter2.getAmount());
+                    if(recipeCounter[i].getStackNum()>=maxAmount)break;
                 }
-                if(recipeCounter[i].getStackNum()>=maxAmount)break;
             }
             int stackAmount=recipeCounter[i].getStackNum();
             if(stackAmount>=maxAmount)continue;
@@ -385,6 +417,7 @@ public class CraftUtils {
      * @param limit
      * @return
      */
+
     public static ItemGreedyConsumer[] countMultiOutput(ItemGreedyConsumer[] inputInfo, BlockMenu inv, int[] output, MachineRecipe recipe, int limit){
         return countMultiOutput(inputInfo,inv,output,recipe,limit,getpusher);
     }
@@ -402,8 +435,7 @@ public class CraftUtils {
     public static  ItemGreedyConsumer[] countMultiOutput(ItemGreedyConsumer[] inputInfo, BlockMenu inv, int[] output, MachineRecipe recipe, int limit,ItemPusherProvider pusher){
 
         int len2=output.length;
-        DynamicArray<ItemPusher> outputCounters=new DynamicArray<>(ItemPusher[]::new,len2,(i)->(pusher.get(Settings.OUTPUT,inv,output[i])));
-        int outputSlotpointer=0;
+        DynamicArray<ItemPusher> outputCounters=new DynamicArray<>(ItemPusher[]::new,len2,pusher.getMenuInstance(Settings.OUTPUT,inv,output));
         ItemStack[] recipeOutput = recipe.getOutput();
         int cnt2=recipeOutput.length;
         ItemGreedyConsumer[] recipeCounter2=new ItemGreedyConsumer[cnt2];
@@ -416,7 +448,7 @@ public class CraftUtils {
         else if (cnt2==1){
             recipeCounter2[0]=getGreedyConsumer(recipeOutput[0]);
                 for(int i=0;i<len2;++i) {
-                    ItemPusher itemCounter=pusher.get(Settings.OUTPUT,inv,output[i]);
+                    ItemPusher itemCounter=outputCounters.get(i);
                     if(itemCounter.getItem()==null){
                         itemCounter.setFrom(recipeCounter2[0]);
                         recipeCounter2[0].addRelate(itemCounter);
@@ -432,7 +464,11 @@ public class CraftUtils {
                     if(recipeCounter2[0].getStackNum()>=maxAmount2){
                         break;
                     }
-                }
+                }//FIXME 输出太多导致溢出
+
+
+
+
                  maxAmount2=Math.min(recipeCounter2[0].getStackNum(),maxAmount2);
                 if(maxAmount2<=0){return null;}
         }
@@ -536,6 +572,7 @@ public class CraftUtils {
                     break;
                 }
             }
+            //FIXME 和上面合并 防止溢出
             maxAmount2=Math.min(recipeCounter2[0].getStackNum(),maxAmount2);
 
             if(maxAmount2<=0){return null;}
@@ -633,7 +670,7 @@ public class CraftUtils {
     }
     public static boolean forcePush( ItemConsumer[] slotCounters, BlockMenu inv,int[] slots,ItemPusherProvider pusher){
        // ItemPusher[] slotCounters2=new ItemPusher[slots.length];
-        DynamicArray<ItemPusher> slotCounters2=new DynamicArray<>(ItemPusher[]::new,slots.length,(i)->(pusher.get(Settings.OUTPUT,inv,slots[i])));
+        DynamicArray<ItemPusher> slotCounters2=new DynamicArray<>(ItemPusher[]::new,slots.length,pusher.getMenuInstance(Settings.OUTPUT,inv,slots));
         ItemConsumer outputItem;
         ItemPusher itemCounter;
         boolean hasChanged=false;
@@ -703,7 +740,7 @@ public class CraftUtils {
         return multiForcePush(slotCounters,inv,slots,getpusher);
     }
     public static boolean multiForcePush(ItemGreedyConsumer[] slotCounters, BlockMenu inv,int[] slots,ItemPusherProvider pusher){
-        DynamicArray<ItemPusher> slotCounters2=new DynamicArray<>(ItemPusher[]::new,slots.length,(i)->(pusher.get(Settings.OUTPUT,inv,slots[i])));
+        DynamicArray<ItemPusher> slotCounters2=new DynamicArray<>(ItemPusher[]::new,slots.length,pusher.getMenuInstance(Settings.OUTPUT,inv,slots));
         int len= slotCounters.length;
         ItemPusher itp=null;
         ItemGreedyConsumer outputItem;
@@ -817,7 +854,7 @@ public class CraftUtils {
             default: delta=1;break;
         }
         int len = slots.length;
-        final DynamicArray<ItemPusher> slotCounter=new DynamicArray<>(ItemPusher[]::new,len,(i)->(pusher.get(Settings.INPUT,inv,slots[i])));
+        final DynamicArray<ItemPusher> slotCounter=new DynamicArray<>(ItemPusher[]::new,len,pusher.getMenuInstance(Settings.INPUT,inv,slots));
         int recipeAmount=recipes.size();
         if(recipeAmount<=0){
             return null;
@@ -902,7 +939,7 @@ public class CraftUtils {
         }
         int len = slots.length;
         //final ArrayList<ItemPusher> slotCounter=new ArrayList<>(len);
-        final DynamicArray<ItemPusher> slotCounter=new DynamicArray<>(ItemPusher[]::new,len,(i)->(pusher.get(Settings.INPUT,inv,slots[i])));
+        final DynamicArray<ItemPusher> slotCounter=new DynamicArray<>(ItemPusher[]::new,len,pusher.getMenuInstance(Settings.INPUT,inv,slots));
         int recipeAmount=recipes.size();
         if(recipeAmount<=0){
             return null;
@@ -927,6 +964,7 @@ public class CraftUtils {
         for(;__iter<recipeAmount&&__iter>=0;__iter+=delta){
             checkRecipe=recipes.get(__iter);
             if(matchRecipe(slotCounter,checkRecipe)!=null) {
+
                 if(useHistory) {
                     DataCache.setLastRecipe(inv.getLocation(),__iter);
                 }
@@ -979,7 +1017,7 @@ public class CraftUtils {
                 slotNotNull.add(it);
             }
         }
-        DynamicArray<ItemPusher> slotCounter=new DynamicArray<>(ItemPusher[]::new,slotNotNull.size(),(i -> pusher.get(Settings.INPUT,slotNotNull.get(i),-1)));
+        DynamicArray<ItemPusher> slotCounter=new DynamicArray<>(ItemPusher[]::new,slotNotNull.size(),pusher.getMenuInstance(Settings.INPUT,inv,slotNotNull));
         int recipeAmount=recipes.size();
         if(recipeAmount<=0){
             return null;
@@ -1291,8 +1329,9 @@ public class CraftUtils {
         }
         int len=inputs.length;
         ItemPusher[] inputCounters=new ItemPusher[len];
+        IntFunction<ItemPusher> pusherFunc=pusher.getMenuInstance(Settings.INPUT,inv,inputs);
         for(int i=0;i<len;++i){
-            inputCounters[i]=pusher.get(Settings.INPUT,inv,inputs[i]);
+            inputCounters[i]=pusherFunc.apply(i);
         }
         if(len==0)return null;
         int recipeAmount=recipes.size();
@@ -1384,9 +1423,7 @@ public class CraftUtils {
 //            return false;
 //        }
         //match display name
-        if(!(!meta1.hasDisplayName() || matchDisplayNameOnInvoke(meta1,meta2))) {
-            return false;
-        }
+
         //check important metas
         if(canQuickEscapeMetaVariant(meta1,meta2)){
             return false;
@@ -1395,11 +1432,31 @@ public class CraftUtils {
         if (!meta1.getPersistentDataContainer().equals(meta2.getPersistentDataContainer())) {
             return false;
         }
-        //stop check if not strict like itemmatch in recipeFinder and consumer
-        if(!strictCheck)return true;
-        //check special meta
-//        if(INVOKE_SUCCESS)
-//        return meta1.equals(meta2);
+        if(!strictCheck){
+            //如果非严格并且是sfid物品比较
+            final Optional<String> optionalStackId1 = Slimefun.getItemDataService().getItemData(meta1);
+            final Optional<String> optionalStackId2 = Slimefun.getItemDataService().getItemData(meta2);
+            if (optionalStackId1.isPresent() != optionalStackId2.isPresent()) {
+                return false;
+            }
+            if (optionalStackId1.isPresent()) {
+                return optionalStackId1.get().equals(optionalStackId2.get());
+            }
+        }
+        //不然则全非sf物品
+        if(COMPLEX_MATERIALS.contains(stack1.getType())){
+            if(canQuickEscapeMaterialVariant(meta1,meta2)){
+                return false;
+            }
+        }
+        //如果非严格且名字相同旧返回，反之则继续
+        if(!(!meta1.hasDisplayName() || matchDisplayNameOnInvoke(meta1,meta2))) {
+            return false;
+        }else {
+            if(!strictCheck){
+                return true;
+            }
+        }
         if(!meta1.hasLore()||!meta2.hasLore()){
             return meta1.hasLore()==meta2.hasLore();
         }
@@ -1407,11 +1464,7 @@ public class CraftUtils {
             return false;
         }
 
-        if(COMPLEX_MATERIALS.contains(stack1.getType())){
-            if(canQuickEscapeMaterialVariant(meta1,meta2)){
-                return false;
-            }
-        }
+
         // Make sure enchantments match
         if (!meta1.getEnchants().equals(meta2.getEnchants())) {
             return false;
@@ -1434,12 +1487,9 @@ public class CraftUtils {
         try{
             Object lore1= (CRAFTLORE.get(meta1));
             Object  lore2= (CRAFTLORE.get(meta2));
-            //Debug.logger("invoke time cost "+(System.nanoTime()-a));
 
             return  Objects.equals(lore1,lore2);
-            //Debug.logger("compare time cost "+(c-b));
         }catch (Throwable e){
-            //Debug.logger("FAILED TO INVOKE ITEMMETA");r
             return matchLore(meta1.getLore(),meta2.getLore(),false);
         }
     }

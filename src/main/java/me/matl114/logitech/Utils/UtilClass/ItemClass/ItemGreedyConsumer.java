@@ -1,6 +1,7 @@
 package me.matl114.logitech.Utils.UtilClass.ItemClass;
 
 import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.Utils.MathUtils;
 import me.matl114.logitech.Utils.Settings;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
@@ -67,7 +68,7 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
      * @param matchAmount
      */
     public void addMatchAmount(int matchAmount) {
-        this.matchAmount += matchAmount;
+        this.matchAmount = MathUtils.safeAdd(this.matchAmount, matchAmount);
         dirty=true;
     }
     public void setMatchAmount(int matchAmount) {
@@ -84,6 +85,7 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
     }
 
     public void setStackNum(int stackNum){
+        //TODO may overflow ,but actually we don't care about this shit
         matchAmount = stackNum*cnt  ;
     }
     public void addRelate(ItemPusher target){
@@ -96,7 +98,7 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
      * @param other
      */
     public void consume(ItemPusher other){
-        matchAmount += other.getAmount();
+        this.matchAmount = MathUtils.safeAdd(this.matchAmount, other.getAmount());
         addRelate(other);
     }
 
@@ -107,6 +109,7 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
     public void push(ItemPusher target){
         int tmp=cnt;
         cnt=matchAmount;
+        //safe ,will not overflow
         target.grab(this);
         matchAmount=cnt;
         cnt=tmp;
@@ -119,10 +122,9 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
      */
     public void grab(ItemPusher target){
         int tmp=cnt;
-        cnt=matchAmount;
-        super.grab(target);
-        matchAmount=cnt;
-        cnt=tmp;
+        cnt=MathUtils.safeAdd(target.getAmount(),tmp);
+        dirty=true;
+        target.addAmount(tmp-cnt);
     }
 
     /**

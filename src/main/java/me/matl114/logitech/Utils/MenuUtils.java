@@ -18,6 +18,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.permissions.Permission;
 
 import javax.annotation.Nullable;
 import java.awt.*;
@@ -91,6 +92,18 @@ public class MenuUtils {
     public static ItemStack getBackButton( String... lore) {
         return new CustomItemStack(BACK_BUTTON, "&7⇦ " +"返回", lore);
     }
+    //TODO add permission check to handler
+    public static ChestMenu.MenuClickHandler getPermissionedHandler(ChestMenu.MenuClickHandler handler, Permission permission){
+        return handler;
+    }
+
+
+
+
+
+
+
+
     //3x3配方表的显示
     public static final MenuPreset SIMPLE_MENU=new MenuPreset(54,9,9)
             .addItem(BACK_BUTTON,1)

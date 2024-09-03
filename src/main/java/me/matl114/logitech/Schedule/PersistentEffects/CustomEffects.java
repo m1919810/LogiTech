@@ -17,15 +17,19 @@ public class CustomEffects {
 
     }
     public static AbstractEffect ANTI_GRAVITY= new AbstractEffect("ANTIGRAVITY") {
+        public void aquireEffect(Player p,int level) {
+            p.setAllowFlight(true);
+
+            p.setGravity(false);
+        }
         public void removeEffect(Player p,int level) {
+           // p.setGravity(true);
+            p.setAllowFlight(false);
             p.setGravity(true);
-            p.setCustomNameVisible(true);
         }
         public void tickEffect(Player p,int level) {
         }
-        public void aquireEffect(Player p,int level) {
-            p.setGravity(false);
-        }
+
     };
     public static AbstractEffect SOLAR_BURN= new AbstractEffect("SOLAR_BURN") {
         public void removeEffect(Player p,int level) {

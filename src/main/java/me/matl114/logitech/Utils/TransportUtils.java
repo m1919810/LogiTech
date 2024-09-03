@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.function.IntFunction;
 
 public class TransportUtils {
     public static final ItemStack AIR = new ItemStack(Material.AIR);
@@ -44,7 +45,7 @@ public class TransportUtils {
         ItemPusher tarCounter2;
         ItemPusher[] tarCounter=new ItemPusher[len];
         int len2=cachelst.length;
-
+        IntFunction<ItemPusher> fromPusherFunc=provider.getMenuInstance(Settings.INPUT,menu,slots);
         for(int j=0;j<len2;++j){
             ItemPusher cache=cachelst[j];
             if(cache==null){
@@ -52,7 +53,7 @@ public class TransportUtils {
             }
             for(int i=0;i<len;i++){
                 if(tarCounter[i]==null){
-                    tarCounter[i]=provider.get(Settings.OUTPUT,menu,slots[i]);
+                    tarCounter[i]=fromPusherFunc.apply(i);  //provider.get(Settings.OUTPUT,menu,slots[i]);
                 }
                 tarCounter2=tarCounter[i];
                 //quick pass
@@ -86,8 +87,9 @@ public class TransportUtils {
         ItemPusher tarCounter2;
         ItemPusher[] tarCounter=new ItemPusher[len];
         int len2=cachelst.length;
+        IntFunction<ItemPusher> fromPusherFunc=provider.getMenuInstance(Settings.INPUT,menu,slots);
         for(int j=0;j<len;++j){
-            tarCounter[j]=provider.get(Settings.INPUT,menu,slots[j]);
+            tarCounter[j]=fromPusherFunc.apply(j);  //provider.get(Settings.INPUT,menu,slots[j]);
         }
         for(int j=0;j<len2;++j){
             ItemPusher cache=cachelst[j];
@@ -135,7 +137,6 @@ public class TransportUtils {
             }
         }
     }
-    //TODO 增加transportItemClever 兼容输入槽
     public static void transportItemGeneral(BlockMenu from, BlockMenu to, int ConfigCode, HashSet<ItemStack> bwlist){
         transportItem(from,to,ConfigCode,false,bwlist,CraftUtils.getpusher);
     }
@@ -214,7 +215,7 @@ public class TransportUtils {
             }
         }return false;
     }
-
+/**
     public static void transportItemGreedy(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,
                                            boolean isnull,boolean lazy,boolean whitlist, HashSet<ItemStack> blacklist, int translimit,
                                            ItemPusherProvider provider){
@@ -329,10 +330,13 @@ public class TransportUtils {
         dynamicUpdatePushers(toCache,to);
         dynamicUpdatePushers(fromCache,from);
     }
+**/
+/**
+ *
+ */
 
 
-
-
+/**
     public static void transportItemGreedy_2_workspace(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,
                                            boolean isnull,boolean lazy,boolean whitlist, HashSet<ItemStack> blacklist, int translimit,
                                            ItemPusherProvider provider){
@@ -483,8 +487,8 @@ public class TransportUtils {
         //dynamicUpdatePushers(toCache,to);
         //dynamicUpdatePushers(fromCache,from);
     }
+**/
 
-    //#TODO GREAT IMPROVEMENT
 
     /**
      * second version of transportGreedy, greate improvement of fullsize destination transportation
@@ -522,15 +526,16 @@ public class TransportUtils {
         }
         //我那么大一个输出槽呢？
         if(indexLen<=0)return;
-        DynamicArray<ItemPusher> toCache=new DynamicArray<>(ItemPusher[]::new,indexLen,(i)->(provider.get(Settings.OUTPUT,to,toCacheIndex[i])));
+        DynamicArray<ItemPusher> toCache=new DynamicArray<>(ItemPusher[]::new,indexLen,provider.getMenuInstance(Settings.OUTPUT,to,toCacheIndex));
         boolean[] toRecord=new boolean[indexLen];
         ItemPusher fromPusher ;
         ItemPusher toPusher;
         int fromAmount;
         int maxSizeSlotTill=0;
+        IntFunction<ItemPusher> fromPusherFunc=provider.getMenuInstance(Settings.INPUT,from,fromSlot);
         loop:
         for(int i=0;i<len;++i){
-            fromPusher=provider.get(Settings.INPUT,from,fromSlot[i]);
+            fromPusher=fromPusherFunc.apply(i);
             if(fromPusher==null||(inbwlist(blacklist,fromPusher)^whitlist)){
                 continue;
             }
@@ -623,16 +628,18 @@ public class TransportUtils {
         }
         //我那么大一个输出槽呢？
         if(indexLen<=0)return;
-        DynamicArray<ItemPusher> toCache=new DynamicArray<>(ItemPusher[]::new,indexLen,(i)->(provider.get(Settings.OUTPUT,to,toCacheIndex[i])));
+        DynamicArray<ItemPusher> toCache=new DynamicArray<>(ItemPusher[]::new,indexLen,provider.getMenuInstance(Settings.OUTPUT,to,toCacheIndex));
         boolean[] toRecord=new boolean[indexLen];
         ItemPusher fromPusher ;
         ItemPusher toPusher;
         int fromAmount;
         int[] restrictedInsertSlot;
         int index;
+        IntFunction<ItemPusher> fromPusherFunc=provider.getMenuInstance(Settings.INPUT,from,fromSlot);
+
         loop:
         for(int i=0;i<len;++i){
-            fromPusher=provider.get(Settings.INPUT,from,fromSlot[i]);
+            fromPusher=fromPusherFunc.apply(i);       //  provider.get(Settings.INPUT,from,fromSlot[i]);
             if(fromPusher==null||(inbwlist(blacklist,fromPusher)^whitlist)){
                 continue;
             }
@@ -720,14 +727,15 @@ public class TransportUtils {
         }
         //我那么大一个输出槽呢？
         if(indexLen<=0)return;
-        DynamicArray<ItemPusher> toCache=new DynamicArray<>(ItemPusher[]::new,indexLen,(i)->(provider.get(Settings.OUTPUT,to,toCacheIndex[i])));
+        DynamicArray<ItemPusher> toCache=new DynamicArray<>(ItemPusher[]::new,indexLen,provider.getMenuInstance(Settings.OUTPUT,to,toCacheIndex));
         boolean[] toRecord=new boolean[indexLen];
         ItemPusher fromPusher ;
         ItemPusher toPusher;
         int fromAmount;
+        IntFunction<ItemPusher> fromPusherFunc=provider.getMenuInstance(Settings.INPUT,from,fromSlot);
         loop:
         for(int i=0;i<len;++i){
-            fromPusher=provider.get(Settings.INPUT,from,fromSlot[i]);
+            fromPusher=fromPusherFunc.apply(i);
             if(fromPusher==null||(inbwlist(blacklist,fromPusher)^whitlist)){
                 continue;
             }
@@ -795,9 +803,11 @@ public class TransportUtils {
         //如果是黑名单物品则会被设置为-1,null会被设置为-2
         int len2=toSlot.length;
         int transSlot=Math.min(len2,len);
+        IntFunction<ItemPusher> fromPusherFunc=provider.getMenuInstance(Settings.INPUT,from,fromSlot);
+        IntFunction<ItemPusher> toPusherFunc=provider.getMenuInstance(Settings.OUTPUT,to,toSlot);
         for(int i=0;i<transSlot;++i){
-            ItemPusher fromCache=provider.get(Settings.INPUT,from,fromSlot[i]);
-            ItemPusher toCache=provider.get(Settings.OUTPUT,to,toSlot[i]);
+            ItemPusher fromCache=fromPusherFunc.apply(i);//provider.get(Settings.INPUT,from,fromSlot[i]);
+            ItemPusher toCache=toPusherFunc.apply(i);   //provider.get(Settings.OUTPUT,to,toSlot[i]);
             if(fromCache==null||(inbwlist(blacklist,fromCache)^whitlist)){
                 continue;
             }

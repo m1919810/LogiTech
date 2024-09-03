@@ -71,9 +71,10 @@ public class LogicReactor extends AbstractProcessor {
         recipes.add(null);
         recipes.add(AddUtils.getInfoShow("&f机制",
                 "&7机器还有一个&c正常输入槽&7,用于输入 %s ".formatted(Language.get("Items.LOGIGATE.Name")),
-                "&7当机器为空闲,四对布尔输入槽&c非空&7且满足右侧某条件时",
+                "&7当机器为空闲,四对布尔输入槽&c非空&7且满足右侧某个输入条件时",
                 "&7才会尝试消耗正常输入槽内的 %s 进行合成".formatted(Language.get("Items.LOGIGATE.Name")),
-                "&7警告:当机器合成进行时,四对布尔输入槽内的物品会被&c清空&7!",
+                "&7警告:当机器尝试匹配输入条件进行合成时,四对布尔输入槽内的物品会被&c清空&7!",
+                "&7指示:当机器在合成进程中运行时,四对布尔输入槽内的物品不会被&c清空!",
                 "&7指示:不过玩家使用普通货运输入时,布尔槽位只会被输入布尔组件",
                 "&7指示:你可以关闭机器来停止布尔组件的消耗"
                 ));
@@ -129,8 +130,9 @@ public class LogicReactor extends AbstractProcessor {
         int code1=0;
         int code2=0;
         int cnt=0;
+        ItemStack it;
         for (int i=0;i<4;++i){
-            ItemStack it=inv.getItemInSlot(inputs[i]);
+            it=inv.getItemInSlot(inputs[i]);
             if (it!=null){
 
                 if(CraftUtils.matchItemStack(it, AddItem.TRUE_,false)){
@@ -145,7 +147,7 @@ public class LogicReactor extends AbstractProcessor {
             }else  cnt=-64;
         }
         for (int i=4;i<8;++i){
-            ItemStack it=inv.getItemInSlot(inputs[i]);
+            it=inv.getItemInSlot(inputs[i]);
             if (it!=null){
                 if(CraftUtils.matchItemStack(it, AddItem.TRUE_,false)){
                     code2=2*code2+1;
@@ -180,6 +182,7 @@ public class LogicReactor extends AbstractProcessor {
             return false;
         }else return super.conditionHandle(b,menu);
     }
+    //TODO update运行状态的槽位
     protected Pair<MachineRecipe, ItemConsumer[]> findNextRecipe(BlockMenu inv,int[] inputs,int[] outputs,int code){
         ItemStack iv=inv.getItemInSlot(inputs[0]);
         if(iv!=null&&CraftUtils.matchItemStack(iv, AddItem.LOGIGATE,false)){
@@ -202,8 +205,8 @@ public class LogicReactor extends AbstractProcessor {
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         SimpleCraftingOperation currentOperation = (SimpleCraftingOperation)this.processor.getOperation(b);
         ItemConsumer[] fastCraft=null;
-        int code=checkLogic(inv,BOOL_SLOT);
         if(currentOperation==null){
+            int code=checkLogic(inv,BOOL_SLOT);
             Pair<MachineRecipe, ItemConsumer[]> nextP = findNextRecipe(inv,COMMON_SLOT,getOutputSlots(),code);
             if (nextP != null) {
 
@@ -213,13 +216,13 @@ public class LogicReactor extends AbstractProcessor {
                     currentOperation = new SimpleCraftingOperation(outputInfo,next.getTicks());
                     this.processor.startOperation(b, currentOperation);
                 }
-                else if(next.getTicks()<=0){
+                else {
                     fastCraft = nextP.getSecondValue();
                 }
             }else{//if currentOperation ==null return  , cant find nextRecipe
                 if(inv.hasViewer()){
                     for(int var4 = 0; var4 <PROCESSOR_SLOT.length; ++var4) {
-                        inv.addItem(PROCESSOR_SLOT[var4],MenuUtils.PROCESSOR_NULL );
+                        inv.replaceExistingItem(PROCESSOR_SLOT[var4],MenuUtils.PROCESSOR_NULL );
                     }
                 }
                 return ;
@@ -234,7 +237,7 @@ public class LogicReactor extends AbstractProcessor {
             CraftUtils.forcePush(var4,inv,getOutputSlots());
             if(inv.hasViewer()){
                 for(int var5 = 0; var5 <PROCESSOR_SLOT.length; ++var5) {
-                    inv.addItem(PROCESSOR_SLOT[var5],MenuUtils.PROCESSOR_NULL );
+                    inv.replaceExistingItem(PROCESSOR_SLOT[var5],MenuUtils.PROCESSOR_NULL );
                 }
             }
             this.processor.endOperation(b);

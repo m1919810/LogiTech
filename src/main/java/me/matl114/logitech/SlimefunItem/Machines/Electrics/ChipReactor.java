@@ -76,21 +76,24 @@ public class ChipReactor extends AbstractEnergyProcessor {
                 example
         ));
     }
+    public void addInfo(ItemStack stack){
+        stack.setItemMeta(AddUtils.capacitorInfoAdd(stack,this.energybuffer).getItemMeta());
+    }
     public void constructMenu(BlockMenuPreset preset){
         int[] border=BORDER;
         int len= border.length;
         for (int i=0;i<len;i++){
-            preset.addItem(len, ChestMenuUtils.getBackground(),ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(border[i], ChestMenuUtils.getBackground(),ChestMenuUtils.getEmptyClickHandler());
         }
         border=INPUT_BORDER;
         len= border.length;
         for (int i=0;i<len;i++){
-            preset.addItem(len, ChestMenuUtils.getInputSlotTexture(),ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(border[i], ChestMenuUtils.getInputSlotTexture(),ChestMenuUtils.getEmptyClickHandler());
         }
         border=OUTPUT_BORDER;
         len= border.length;
         for (int i=0;i<len;i++){
-            preset.addItem(len, ChestMenuUtils.getOutputSlotTexture(),ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(border[i], ChestMenuUtils.getOutputSlotTexture(),ChestMenuUtils.getEmptyClickHandler());
         }
 
         preset.addItem(INFO_SLOT,INFO_ITEM,ChestMenuUtils.getEmptyClickHandler());
@@ -100,7 +103,8 @@ public class ChipReactor extends AbstractEnergyProcessor {
     }
     public int getGeneratedOutput(@Nonnull Location l, @Nonnull SlimefunBlockData data){
         BlockMenu inv=data.getBlockMenu();
-        if(inv!=null){
+        //增加电力检测
+        if(inv!=null&&conditionHandle(null,inv)){
             EnergyProviderOperation currentOperation=processor.getOperation(l);
             if(currentOperation==null){
                 ItemStack it= inv.getItemInSlot(INPUT_SLOTS[0]);
@@ -111,41 +115,41 @@ public class ChipReactor extends AbstractEnergyProcessor {
                         currentOperation=new EnergyProviderOperation(new ItemConsumer[0],this.time,(int)(code*multiple));
                         processor.startOperation(l,currentOperation);
                         it.setAmount(it.getAmount()-1);
-                        if(inv.hasViewer()){
-                            inv.replaceExistingItem(INFO_SLOT,AddUtils.addLore(this.INFO_ITEM,
-                                    AddUtils.concat("&7当前发电: ",String.valueOf(currentOperation.getEnergy()),"J/t")));
-                        }
-                        return code;
                     }
                 }
+
+            }
+            if(currentOperation==null){
                 if(inv.hasViewer()){
                     inv.replaceExistingItem(INFO_SLOT,AddUtils.addLore(this.INFO_ITEM,
                             AddUtils.concat("&7当前不在发电")));
+
+                    inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
                 }
                 return 0;
-            }else{
-                if(currentOperation.isFinished()){
-                    ItemConsumer[] var4=currentOperation.getResults();
-                    CraftUtils.forcePush(var4,inv,getOutputSlots(),CRAFT_PROVIDER);
-                    if(inv.hasViewer()){
-                        inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
-                    }
-                    this.processor.endOperation(l);
-                }
-                else{
-                    if(inv.hasViewer()){
-                        this.processor.updateProgressBar(inv, PROCESSOR_SLOT, currentOperation);
-
-                    }
-                    currentOperation.addProgress(1);
-
-                }
-                if(inv.hasViewer()){
-                    inv.replaceExistingItem(INFO_SLOT,AddUtils.addLore(this.INFO_ITEM,
-                            AddUtils.concat("&7当前发电: ",String.valueOf(currentOperation.getEnergy()),"J/t")));
-                }
-                return currentOperation.getEnergy();
             }
+            if(currentOperation.isFinished()){
+                ItemConsumer[] var4=currentOperation.getResults();
+                CraftUtils.forcePush(var4,inv,getOutputSlots(),CRAFT_PROVIDER);
+                if(inv.hasViewer()){
+                    inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
+                }
+                this.processor.endOperation(l);
+            }
+            else{
+                if(inv.hasViewer()){
+                    this.processor.updateProgressBar(inv, PROCESSOR_SLOT, currentOperation);
+
+                }
+                currentOperation.addProgress(1);
+
+            }
+            if(inv.hasViewer()){
+                inv.replaceExistingItem(INFO_SLOT,AddUtils.addLore(this.INFO_ITEM,
+                        AddUtils.concat("&7当前发电: ",String.valueOf(currentOperation.getEnergy()),"J/t")));
+            }
+            return currentOperation.getEnergy();
+
         }else return 0;
     }
 }

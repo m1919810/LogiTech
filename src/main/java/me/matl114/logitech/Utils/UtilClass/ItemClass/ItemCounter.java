@@ -139,7 +139,7 @@ public class ItemCounter implements Cloneable{
     /**
      * update amount of real itemstack ,or amount of real storage.etc
      */
-    protected void updateItemStack(){
+    public void updateItemStack(){
         if(dirty){
 
             item.setAmount(cnt);
