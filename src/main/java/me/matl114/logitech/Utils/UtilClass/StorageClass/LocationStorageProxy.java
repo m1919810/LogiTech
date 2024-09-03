@@ -17,8 +17,6 @@ import java.util.HashMap;
 public class LocationStorageProxy extends ItemStorageCache {
     //FIXME hashmap访问严防并发
     //FIXME 严防自我调用
-    public static  HashMap<Location,LocationStorageProxy> proxyAccess=new HashMap<>();
-    public static byte[] maplock=new byte[0];
     ItemStorageCache handle;
     Location source;
     LocationProxy type;
@@ -30,21 +28,7 @@ public class LocationStorageProxy extends ItemStorageCache {
     //所以
     //不如就创建一个对象 其他的只会获得其引用！
     boolean lock=false;
-    public static LocationStorageProxy getProxy(Location loc) {
-        synchronized(maplock){
-            return proxyAccess.get(loc);
-        }
-    }
-    public static void setProxy(Location loc, LocationStorageProxy proxy) {
-        synchronized(maplock){
-            proxyAccess.put(loc,proxy);
-        }
-    }
-    public static LocationStorageProxy removeProxy(Location loc) {
-        synchronized(maplock){
-            return proxyAccess.remove(loc);
-        }
-    }
+
 //    public static LocationStorageProxy get(Location loc,LocationProxy type) {
 //        LocationStorageProxy proxy = getProxy(loc);
 //        //不存在历史记录

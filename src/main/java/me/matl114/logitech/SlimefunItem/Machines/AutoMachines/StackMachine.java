@@ -13,9 +13,13 @@ import me.matl114.logitech.SlimefunItem.Machines.AbstractAdvancedProcessor;
 import me.matl114.logitech.SlimefunItem.Machines.MultiCraftType;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomMenu;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.DataMenuClickHandler;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -23,6 +27,7 @@ import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -78,6 +83,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
             MACHINE_LIST_MENU=MenuUtils.createMachineListDisplay(getMachineList(),null).setBack(1);
         });
     }
+    protected ItemPusherProvider MACHINE_PROVIDER=CraftUtils.getpusher;
     public StackMachine(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                         Material progressItem, int energyConsumption, int energyBuffer,double efficiency) {
         super(category, item, recipeType, recipe, progressItem, energyConsumption, energyBuffer, null);
@@ -201,6 +207,33 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
 
         updateMenu(inv,block,Settings.INIT);
     }
+    public DataMenuClickHandler createDataHolder(){
+        return new DataMenuClickHandler() {
+            //0 为 数量 1 为 电力
+            int[] intdata=new int[2];
+            public int getInt(int i){
+                return intdata[i];
+            }
+            public void setInt(int i, int val){
+                intdata[i]=val;
+            }
+            @Override
+            public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+                return false;
+            }
+        };
+    }
+    public final int DATA_SLOT=4;
+    public DataMenuClickHandler getDataHolder(Block b, BlockMenu inv){
+        ChestMenu.MenuClickHandler handler=inv.getMenuClickHandler(DATA_SLOT);
+        if(handler instanceof DataMenuClickHandler dh){return dh;}
+        else{
+            DataMenuClickHandler dh=createDataHolder();
+            inv.addMenuClickHandler(DATA_SLOT,dh);
+            updateMenu(inv,b,Settings.RUN);
+            return dh;
+        }
+    }
     //FIXME 优化逻辑以减少对机器数据的读取
     public int getCraftLimit(Block b,BlockMenu inv){
        return (int)(this.efficiency*inv.getItemInSlot(MACHINE_SLOT).getAmount());
@@ -208,7 +241,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
     public int getCraftLimit(SlimefunBlockData data){ return this.efficiency* data.getBlockMenu().getItemInSlot(MACHINE_SLOT).getAmount(); }
     public void updateMenu(BlockMenu inv, Block block, Settings mod){
         SlimefunBlockData data=DataCache.safeLoadBlock(inv.getLocation());
-        ItemPusher it=this.CRAFT_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT);
+        ItemPusher it=this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT);
         int index=MultiCraftType.getRecipeTypeIndex(data);
         if(it!=null){
             SlimefunItem sfitem=SlimefunItem.getByItem(it.getItem());

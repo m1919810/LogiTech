@@ -7,6 +7,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import me.matl114.logitech.Language;
+import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.Utils.Settings;
 import me.matl114.logitech.Utils.TransportUtils;
@@ -15,6 +17,7 @@ import me.matl114.logitech.SlimefunItem.Cargo.Storages;
 import me.matl114.logitech.Utils.AddUtils;
 
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
+import me.matl114.logitech.Utils.Utils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -29,9 +32,32 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class AbstractIOPort extends AbstractMachine {
-    public AbstractIOPort(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
-                            int energybuffer, int energyConsumption){
-        super(category, item, recipeType, recipe, energybuffer, energyConsumption);
+    public AbstractIOPort(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe){
+        super(category, item, recipeType, recipe,0,0);
+        this.setDisplayRecipes(
+                Utils.list(
+                        AddUtils.getInfoShow(
+                                "&7机制 - &e存储性方块",
+                                "&7该方块为存储性方块",
+                                "提供一个特殊的存储槽,用于承载和交互存储类物品",
+                                "&7本交互接口支持的存储类物品:",
+                                "&7- 逻辑工艺 概念奇点",
+                                "&7- 网络(拓展) 量子存储系列",
+                                "&7作为存储性方块,该方块可以被[%s]绑定".formatted(Language.get("Cargo.QUANTUM_LINK.Name"))
+
+                        )   ,null,
+                        AddUtils.getInfoShow(
+                                "&7机制 - &e交互存储",
+                                "&7该方块可以用于设置存储类物品的种类",
+                                "&7将空的&c存储类物品&7置于其中指定存储槽中",
+                                "&7在输入槽内放入物品即可设置存储种类",
+                                "&7当存储槽中的存储物品已设置物品种类,",
+                                "&7该机器会尝试将输入槽中的物品输入存储,",
+                                "&7该机器会尝试将物品从存储输出至输出槽",
+                                "&7注明: &e网络量子系列不支持空存储设置存储种类"
+                        )
+             )
+        );
     }
     public static final String ITEM_DISPLAY_INFO_1="&8奇点中存储的物品样式";
     public static final ItemStack ITEM_DISPLAY_NULL=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&c未检测到物品存储!");
@@ -50,6 +76,7 @@ public abstract class AbstractIOPort extends AbstractMachine {
         ItemStorageCache cache= ItemStorageCache.getCache(loc);
         if(cache!=null){
             //更新lore不需要setPersistent 因为hasViewer就可以
+            cache.setSave(true);
             cache.updateMenu(inv);
             if(cache.getItem()!=null&&getDisplaySlot()>=0){
                 ItemStack tmp=AddUtils.addLore(cache.getItem(),ITEM_DISPLAY_INFO_1);
@@ -67,7 +94,7 @@ public abstract class AbstractIOPort extends AbstractMachine {
         });
 
     }
-    //TODO 修理更新不及时bug,增加兼容 增加存储兼容
+    //TODO 希望不会有bug
     public void process(Block b, BlockMenu menu, SlimefunBlockData data){
         //先确认存储cache
         ItemStack stack=menu.getItemInSlot(getStorageSlot());
@@ -90,10 +117,9 @@ public abstract class AbstractIOPort extends AbstractMachine {
         //cache不存在或者    cache和现在的奇点记录的不同 记录不同只有可能是玩家替换,这时候是因为
         if(cache == null||(menu.hasViewer()&&!cache.keepRelated(stack))){
             //对不上了自然要丢掉废弃的
-            //FIXME ban remote bind,that's not persistent* yee we need a persistent() method
 
             ItemStorageCache.removeCache(loc);
-            //TODO not support proxy yet
+            //don't support proxy ,that's a nightmare
             cache=ItemStorageCache.getOrCreate(stack,stack.getItemMeta(),getStorageSlot(),i->!i.isStorageProxy());
             //cache=ItemStorageCache.getOrCreate(stack,stack.getItemMeta(),getStorageSlot(), Storages.SINGULARITY);
             if(cache==null){
@@ -104,7 +130,7 @@ public abstract class AbstractIOPort extends AbstractMachine {
                 //设置为长期存在的 不会实时clone保存
                 cache.updateMenu(menu);
                 cache.setPersistent(true);
-                ItemStorageCache.setCache(loc, cache);
+                ItemStorageCache.setCache(menu, cache);
 
             }
         }
@@ -121,7 +147,7 @@ public abstract class AbstractIOPort extends AbstractMachine {
         Location loc = menu.getLocation();
         ItemStorageCache cache= ItemStorageCache.removeCache(loc);
         if(cache!=null){
-            cache.setPersistent(false);
+            cache.setSave(true);
             cache.updateMenu(menu);
         }
         menu.dropItems(loc,getStorageSlot());

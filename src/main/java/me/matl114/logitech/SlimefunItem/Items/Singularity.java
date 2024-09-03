@@ -13,7 +13,6 @@ public class Singularity extends ItemNotPlaceable {
         super(itemGroup, item, recipeType, recipe);
         this.setDisplayRecipes(
                 Utils.list(
-                        //TODO 写完描述
                         AddUtils.getInfoShow("&f机制 - &c终极合成",
                                 "&c特性 ",
                                 "&7终极合成是本附属某些终极机器中的机制",
@@ -23,19 +22,12 @@ public class Singularity extends ItemNotPlaceable {
                                 "&7该物品是终极机器支持的物品之一"),
                         null,
                         AddUtils.getInfoShow("&7机制 -&c 物品存储",
-                                "&7本物品可以类似%s一样绑定某个方块".formatted(Language.get("Items.HYPER_LINK.Name")),
-                                "&7若该方块是支持的存储性方块,则该物品会与此存储建立纠缠链接",
+                                "&7本物品可以存储某种物品",
+                                "&7本物品的最大存储量为2147483647",
                                 "&7当该物品被放入终极机器的槽位中时,",
-                                "&7可以代理绑定的存储中的物品&e直接参与合成!",
-                                "&7产出的物品也可以通过它&e直接进入绑定的存储!",
-                                "&7支持的存储性方块:",
-                                "&7逻辑工艺 存储接口系列",
-                                "&7网络(拓展) 量子存储系列"),null,
-                        AddUtils.getInfoShow("&7机制 -&c 物品记录",
-                                "&7当绑定了存储后","&7该物品的描述上会显示该绑定存储中的物品类型",
-                                "&7当你右键该物品时,该显示将被更新为当前的绑定存储的物品类型",
-                                "&7除此之外,该物品描述将不会更新,也不会影响其参与合成",
-                                "&7参与合成时所代理的存储只与存储位置有关,与描述无关"),null
+                                "&7可以代理其内部存储的物品&e直接参与合成!",
+                                "&7产出的物品也可以&e直接进入内部存储的物品中!",
+                                "&e本物品需要奇点交互接口才可以进行数量操作和种类设置:"),null
                 )
         );
     }

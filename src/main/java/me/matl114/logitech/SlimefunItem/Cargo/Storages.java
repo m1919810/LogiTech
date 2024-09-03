@@ -3,6 +3,7 @@ package me.matl114.logitech.SlimefunItem.Cargo;
 import me.matl114.logitech.Depends.NetworksQuantumProxy;
 import me.matl114.logitech.SlimefunItem.AddDepends;
 import me.matl114.logitech.Depends.NetworksAdaptQuantumStorage;
+import me.matl114.logitech.SlimefunItem.Cargo.Singularity.SingularityProxy;
 import me.matl114.logitech.SlimefunItem.Cargo.Singularity.SingularityStorage;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.StorageType;
@@ -35,6 +36,6 @@ public class Storages {
         }
         return null;
     })).get();
-    //TODO 增加自身storage的proxy
+    public static final StorageType SINGULARITY_PROXY=new SingularityProxy();
 
 }

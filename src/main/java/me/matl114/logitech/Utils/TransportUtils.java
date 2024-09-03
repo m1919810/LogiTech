@@ -45,7 +45,7 @@ public class TransportUtils {
         ItemPusher tarCounter2;
         ItemPusher[] tarCounter=new ItemPusher[len];
         int len2=cachelst.length;
-        IntFunction<ItemPusher> fromPusherFunc=provider.getMenuInstance(Settings.INPUT,menu,slots);
+        IntFunction<ItemPusher> fromPusherFunc=provider.getMenuInstance(Settings.OUTPUT,menu,slots);
         for(int j=0;j<len2;++j){
             ItemPusher cache=cachelst[j];
             if(cache==null){

@@ -30,9 +30,8 @@ public class InputPort extends AbstractIOPort {
     }
     protected static int INFO_SLOT=7;
 
-    public InputPort(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
-                          int energybuffer, int energyConsumption){
-        super(category, item, recipeType, recipe, energybuffer, energyConsumption);
+    public InputPort(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe){
+        super(category, item, recipeType, recipe);
     }
 
     @Override

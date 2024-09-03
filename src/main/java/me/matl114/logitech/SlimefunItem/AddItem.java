@@ -384,8 +384,12 @@ public class AddItem {
             Language.get("Cargo.STORAGE_SINGULARITY.Name"),Language.getList("Cargo.STORAGE_SINGULARITY.Lore"));
     public static final SlimefunItemStack QUANTUM_LINK=AddUtils.themed("QUANTUM_LINK",Material.NETHER_STAR,AddUtils.Theme.ITEM1,
             Language.get("Cargo.QUANTUM_LINK.Name"),Language.getList("Cargo.QUANTUM_LINK.Lore"));
-
-
+    public static final SlimefunItemStack INPORT=AddUtils.themed("INPORT",Material.END_STONE,AddUtils.Theme.MACHINE1,
+            Language.get("Cargo.INPORT.Name"),Language.getList("Cargo.INPORT.Lore"));
+    public static final SlimefunItemStack OUTPORT=AddUtils.themed("OUTPORT",Material.END_STONE,AddUtils.Theme.MACHINE1,
+            Language.get("Cargo.OUTPORT.Name"),Language.getList("Cargo.OUTPORT.Lore"));
+    public static final SlimefunItemStack IOPORT=AddUtils.themed("IOPORT",Material.PURPUR_PILLAR,AddUtils.Theme.ITEM1,
+            Language.get("Items.IOPORT.Name"),Language.getList("Cargo.IOPORT.Lore"));
     //multiblock
     public static final SlimefunItemStack PORTAL_CORE=AddUtils.themed("PORTAL_CORE",Material.CRYING_OBSIDIAN,AddUtils.Theme.MULTIBLOCK1,
             Language.get("MultiBlock.PORTAL_CORE.Name"),Language.getList("MultiBlock.PORTAL_CORE.Lore"));
@@ -444,10 +448,10 @@ public class AddItem {
     public static final SlimefunItemStack AUTO_INF=
             AddUtils.themed("AUTOCRAFT_INF",new ItemStack(Material.RESPAWN_ANCHOR),AddUtils.Theme.MANUAL1,"测试定向合成机","无尽工作台");
 
-    public static final SlimefunItemStack INPORT=
-            AddUtils.themed("INPORT",new ItemStack(Material.END_STONE),AddUtils.Theme.CARGO1,"存入接口","较快的将物品存入奇点...");
-    public static final SlimefunItemStack OUTPORT=
-            AddUtils.themed("OUTPORT",new ItemStack(Material.END_STONE),AddUtils.Theme.CARGO1,"取出接口","较快的将物品取出奇点...");
+//    public static final SlimefunItemStack INPORT=
+//            AddUtils.themed("INPORT",new ItemStack(Material.END_STONE),AddUtils.Theme.CARGO1,"存入接口","较快的将物品存入奇点...");
+//    public static final SlimefunItemStack OUTPORT=
+//            AddUtils.themed("OUTPORT",new ItemStack(Material.END_STONE),AddUtils.Theme.CARGO1,"取出接口","较快的将物品取出奇点...");
     public static final SlimefunItemStack TESTUNIT1=
             AddUtils.themed("TESTUNIT1",new ItemStack(Material.GLASS),AddUtils.Theme.CARGO1,"测试存储单元","啥用都没");
     public static final SlimefunItemStack TESTUNIT2=

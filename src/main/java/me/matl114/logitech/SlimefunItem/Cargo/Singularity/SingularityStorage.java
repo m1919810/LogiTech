@@ -23,7 +23,7 @@ public class SingularityStorage extends StorageType {
     public final static String AMOUNT_DISPLAY_PREFIX=AddUtils.resolveColor("&x&E&B&3&3&E&B压缩数量: &f");
     public final static NamespacedKey KEY_ITEM = AddUtils.getNameKey("sin_item");
     public final static NamespacedKey KEY_AMOUNT = AddUtils.getNameKey("sin_amount");
-    protected static final int MAX_AMOUNT=2147483000;
+    protected static final int MAX_AMOUNT=2147483647;
     public boolean isStorage(ItemMeta meta) {
         return meta.getPersistentDataContainer().has(KEY_AMOUNT)&&meta.getPersistentDataContainer().has(KEY_ITEM);
     }

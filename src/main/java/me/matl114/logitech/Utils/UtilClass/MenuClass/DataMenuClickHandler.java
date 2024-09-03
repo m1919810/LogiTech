@@ -29,10 +29,12 @@ public interface DataMenuClickHandler extends ChestMenu.MenuClickHandler {
     default void setLocation(int val, Location val2){
 
     }
-    default <T extends Object> T getObject(int val, Class<T> val2){
+    default Object getObject(int val){
         return null;
     }
-    default <T extends Object> void setObject(int val, T val2){
+    default void setObject(int val,Object val2){
 
     }
+
+
 }

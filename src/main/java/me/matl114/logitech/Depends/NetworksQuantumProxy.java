@@ -55,7 +55,10 @@ public class NetworksQuantumProxy extends NetworksAdaptQuantumStorage implements
     public void updateLocation(Location loc){
         Method method=NetWorkQuantumMethod.getSyncBlock(INSTANCE);
         try{
-            method.invoke(null,loc,(QuantumCache)cacheMap.get(loc));
+            QuantumCache cache=(QuantumCache)cacheMap.get(loc);
+            if(cache!=null){
+                method.invoke(null,loc,cache);
+            }
         }catch(Throwable e){
             Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_PROXY, STORAGE TYPE DISABLED");
             Debug.logger(e);

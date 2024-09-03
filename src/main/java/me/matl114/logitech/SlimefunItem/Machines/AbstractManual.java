@@ -226,10 +226,8 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
                 CraftUtils.countMultiRecipe(inv,getInputSlots(),getOutputSlots(),recordRecipe,limit,CRAFT_PROVIDER);
         //输出满了会返回null
         if(results==null){
-            Debug.logger("result null");
             return;
         }
-        Debug.logger(CraftUtils.calMaxCraftTime(results.getSecondValue(),limit));
         if(this.energyConsumption>0){
             int craftTime=CraftUtils.calMaxCraftTime(results.getSecondValue(),limit);
             this.removeCharge(loc,craftTime*this.energyConsumption);

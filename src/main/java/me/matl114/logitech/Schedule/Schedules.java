@@ -17,7 +17,7 @@ public class Schedules {
                 ScheduleSave.onPeriodicSave();
             }
         };
-        int periodAutoSave=5 * 60 * 20;
+        int periodAutoSave=3 * 60 * 20;//三分钟保存一次
         autoSaveThread.runTaskTimerAsynchronously(plugin, periodAutoSave, periodAutoSave);
 
         effectThread = new BukkitRunnable() {

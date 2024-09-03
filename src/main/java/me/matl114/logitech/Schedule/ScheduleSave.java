@@ -1,5 +1,7 @@
 package me.matl114.logitech.Schedule;
 
+import me.matl114.logitech.Utils.Debug;
+
 import java.util.HashSet;
 
 public class ScheduleSave {
@@ -22,6 +24,7 @@ public class ScheduleSave {
         for (Runnable task : PERIODIC_SAVES) {
             task.run();
         }
+        //Debug.logger("阶段性数据保存成功!");
         return;
     }
 

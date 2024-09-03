@@ -19,6 +19,7 @@ import me.matl114.logitech.SlimefunItem.Blocks.MultiPart;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockTypes;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiCoreTest;
 import me.matl114.logitech.SlimefunItem.Cargo.CargoMachine.*;
+import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.IOPort;
 import me.matl114.logitech.SlimefunItem.Cargo.Transportation.*;
 import me.matl114.logitech.SlimefunItem.Cargo.WorkBench.ChipCopier;
 import me.matl114.logitech.SlimefunItem.Cargo.Config.ChipCard;
@@ -293,7 +294,7 @@ public class AddSlimefunItems {
                     "24LEAD_INGOT",setC(AddItem.BISILVER,12)),null)
             .register();
     public static final SlimefunItem REINFORCED_CHIP_INGOT=new MaterialItem(AddGroups.MATERIAL,AddItem.REINFORCED_CHIP_INGOT,AddSlimefunItems.STARSMELTERY,
-            recipe(setC(AddItem.STAR_GOLD_INGOT,16),setC(AddItem.CHIP_INGOT,32),
+            recipe(setC(AddItem.STAR_GOLD_INGOT,10),setC(AddItem.CHIP_INGOT,16),
                     setC(AddItem.ATOM_INGOT,13),setC(AddItem.PAGOLD,4),
                     setC(AddItem.CADMIUM_INGOT,4),setC(AddItem.BISILVER,3)
                     ),null)
@@ -371,12 +372,13 @@ public class AddSlimefunItems {
                     ),null)
             .register();
     public static final SlimefunItem VIRTUAL_SPACE=new MaterialItem(AddGroups.MATERIAL,AddItem.VIRTUAL_SPACE,BugCrafter.TYPE,
-            recipe(AddItem.SPACE_PLATE,setC(AddItem.BISILVER,3),AddItem.LMOTOR,AddItem.LMOTOR,setC(AddItem.BISILVER,3),AddItem.SPACE_PLATE,
-                    setC(AddItem.BISILVER,3),AddItem.LDIGITIZER,setC(AddItem.PAGOLD,4),setC(AddItem.PAGOLD,4),AddItem.LDIGITIZER,setC(AddItem.BISILVER,3),
-                    "GPS_TRANSMITTER_4",setC(AddItem.PAGOLD,4),AddItem.LSINGULARITY,AddItem.LSINGULARITY,setC(AddItem.PAGOLD,4),"GPS_TRANSMITTER_4",
-                    AddItem.LIOPORT,setC(AddItem.PAGOLD,4),AddItem.CHIP_CORE,AddItem.CHIP_CORE,setC(AddItem.PAGOLD,4),AddItem.LIOPORT,
-                    setC(AddItem.BISILVER,3),AddItem.LDIGITIZER,setC(AddItem.PAGOLD,4),setC(AddItem.PAGOLD,4),AddItem.LDIGITIZER,setC(AddItem.BISILVER,3),
-                    AddItem.SPACE_PLATE,setC(AddItem.BISILVER,3),setC(AddItem.ATOM_INGOT,8),setC(AddItem.ATOM_INGOT,8),setC(AddItem.BISILVER,3),AddItem.SPACE_PLATE),null)
+            recipe(AddItem.SPACE_PLATE,AddItem.BISILVER,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.BISILVER,AddItem.SPACE_PLATE,
+                    AddItem.BISILVER,AddItem.LDIGITIZER,AddItem.PAGOLD,AddItem.PAGOLD,AddItem.LDIGITIZER,AddItem.BISILVER,
+                    "GPS_TRANSMITTER_4",AddItem.PAGOLD,AddItem.LSINGULARITY,AddItem.LSINGULARITY,AddItem.PAGOLD,"GPS_TRANSMITTER_4",
+                    AddItem.LIOPORT,AddItem.PAGOLD,AddItem.CHIP_CORE,AddItem.CHIP_CORE,AddItem.PAGOLD,AddItem.LIOPORT,
+                    AddItem.BISILVER,AddItem.LDIGITIZER,AddItem.PAGOLD,AddItem.PAGOLD,AddItem.LDIGITIZER,AddItem.BISILVER,
+                    AddItem.SPACE_PLATE,AddItem.BISILVER,setC(AddItem.ATOM_INGOT,8),setC(AddItem.ATOM_INGOT,8),AddItem.BISILVER,AddItem.SPACE_PLATE),null)
+            .setOutput(setC(AddItem.VIRTUAL_SPACE,8))
             .register();
 
     public static final SlimefunItem REDSTONE_ENGINE=new MaterialItem(AddGroups.VANILLA,AddItem.REDSTONE_ENGINE,BugCrafter.TYPE,
@@ -405,13 +407,13 @@ public class AddSlimefunItems {
             .register();
 
     public static final SlimefunItem STACKFRAME=new MaterialItem(AddGroups.MATERIAL,AddItem.STACKFRAME,BugCrafter.TYPE,
-            recipe(AddItem.LDIGITIZER,AddItem.PDCECDMD,AddItem.BISILVER,AddItem.BISILVER,AddItem.PDCECDMD,AddItem.LSCHEDULER,
-                    AddItem.PDCECDMD,AddItem.HGTLPBBI,AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,AddItem.HGTLPBBI,AddItem.PDCECDMD,
-                    AddItem.BISILVER,AddItem.SPACE_PLATE,setC(AddItem.CHIP_CORE,4),AddItem.MOLYBDENUM,AddItem.SPACE_PLATE,AddItem.BISILVER,
-                    AddItem.BISILVER,AddItem.SPACE_PLATE,AddItem.VIRTUAL_SPACE,setC(AddItem.CHIP_CORE,4),AddItem.SPACE_PLATE,AddItem.BISILVER,
-                    AddItem.PDCECDMD,AddItem.HGTLPBBI,AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,AddItem.HGTLPBBI,AddItem.PDCECDMD,
-                    AddItem.LCRAFT,AddItem.PDCECDMD,AddItem.BISILVER,AddItem.BISILVER,AddItem.PDCECDMD,AddItem.LIOPORT),null)
-            .setOutput(setC(AddItem.STACKFRAME,32)).register();
+            recipe(AddItem.SPACE_PLATE,AddItem.BISILVER,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.BISILVER,AddItem.SPACE_PLATE,
+                    AddItem.BISILVER,AddItem.LDIGITIZER,AddItem.PAGOLD,AddItem.PAGOLD,AddItem.LDIGITIZER,AddItem.BISILVER,
+                    "GPS_TRANSMITTER_4",AddItem.PAGOLD,AddItem.LSINGULARITY,AddItem.LSINGULARITY,AddItem.PAGOLD,"GPS_TRANSMITTER_4",
+                    AddItem.LIOPORT,AddItem.PAGOLD,AddItem.CHIP_CORE,AddItem.CHIP_CORE,AddItem.PAGOLD,AddItem.LIOPORT,
+                    AddItem.BISILVER,AddItem.LDIGITIZER,AddItem.PAGOLD,AddItem.PAGOLD,AddItem.LDIGITIZER,AddItem.BISILVER,
+                    AddItem.SPACE_PLATE,AddItem.BISILVER,setC(AddItem.ATOM_INGOT,8),setC(AddItem.ATOM_INGOT,8),AddItem.BISILVER,AddItem.SPACE_PLATE),null)
+            .setOutput(setC(AddItem.STACKFRAME,39)).register();
     public static final SlimefunItem LASER=new MaterialItem(AddGroups.ADVANCED,AddItem.LASER,BugCrafter.TYPE,
             recipe(AddItem.HYDRAGYRUM,AddItem.MOLYBDENUM,AddItem.BORON,AddItem.BORON,AddItem.MOLYBDENUM,AddItem.HYDRAGYRUM,
                     AddItem.ANTIMONY_INGOT,AddItem.BORON,AddItem.MOLYBDENUM,AddItem.MOLYBDENUM,AddItem.BORON,AddItem.ANTIMONY_INGOT,
@@ -448,8 +450,8 @@ public class AddSlimefunItems {
                         mkP(mkl(AddItem.STAR_GOLD_INGOT,"16QUARTZ_BLOCK"),mkl(AddItem.SOLAR_REACTOR_FRAME)),6,
                         mkP(mkl(setC(AddItem.LPLATE,2),"16GLASS"),mkl(AddItem.SOLAR_REACTOR_GLASS)),6,
                         mkP(mkl(AddItem.STACKFRAME,AddItem.TRUE_),mkl(AddItem.STACKMACHINE)),6,
-                        mkP(mkl(setC(AddItem.SPACE_PLATE,3),AddItem.MASS_CORE),mkl(setC(AddItem.TRANSMUTATOR_FRAME,8))),6,
-                        mkP(mkl(AddItem.SPACE_PLATE,setC(AddItem.LFIELD,64)),mkl(setC(AddItem.TRANSMUTATOR_GLASS,7))),6,
+                        mkP(mkl(setC(AddItem.SPACE_PLATE,2),AddItem.MASS_CORE),mkl(setC(AddItem.TRANSMUTATOR_FRAME,9))),6,
+                        mkP(mkl(AddItem.SPACE_PLATE,setC(AddItem.LFIELD,24)),mkl(setC(AddItem.TRANSMUTATOR_GLASS,7))),6,
                         mkP(mkl(setC(AddItem.ATOM_INGOT,32),AddItem.PAGOLD),mkl(setC(AddItem.TRANSMUTATOR_ROD,8))),6
             ))
             .register();
@@ -575,7 +577,6 @@ public class AddSlimefunItems {
             AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),Material.IRON_PICKAXE,
             2_000,2_000_000,1.0)
             .register();
-    //FIXME 增加最终机器 先创建
     //
     public static final  SlimefunItem ADVANCED_CHIP_MAKER=new ChipCopier(AddGroups.ADVANCED, AddItem.ADVANCED_CHIP_MAKER,BugCrafter.TYPE,
             recipe(null,AddItem.REINFORCED_CHIP_INGOT,AddItem.CHIP_MAKER,AddItem.CHIP_MAKER,AddItem.REINFORCED_CHIP_INGOT,null,
@@ -754,6 +755,7 @@ public class AddSlimefunItems {
 
             }})
             .register();
+    //TODO 增加更多的物品 增多产量
     public static final SlimefunItem ENDDUPE_MG=new MMGenerator(AddGroups.VANILLA, AddItem.ENDDUPE_MG,BugCrafter.TYPE,
             recipe(null,"SAND","ANVIL","ANVIL","SAND",null,
                     null,AddItem.REDSTONE_ENGINE,"END_PORTAL_FRAME","END_PORTAL_FRAME",AddItem.REDSTONE_ENGINE,null,
@@ -767,16 +769,16 @@ public class AddSlimefunItems {
                 put(mkl("CHIPPED_ANVIL"),mkl("CHIPPED_ANVIL"));
                 put(mkl("DAMAGED_ANVIL"),mkl("DAMAGED_ANVIL"));
                 put(mkl("GRAVEL"),mkl("GRAVEL"));
-                put(mkl(Material.BLUE_CONCRETE_POWDER),mkl(Material.BLUE_CONCRETE_POWDER));
-                put(mkl(Material.RED_CONCRETE_POWDER),mkl(Material.RED_CONCRETE_POWDER));
-                put(mkl(Material.YELLOW_CONCRETE_POWDER),mkl(Material.YELLOW_CONCRETE_POWDER));
-                put(mkl(Material.WHITE_CONCRETE_POWDER),mkl(Material.WHITE_CONCRETE_POWDER));
-                put(mkl(Material.BROWN_CONCRETE_POWDER),mkl(Material.BROWN_CONCRETE_POWDER));
-                put(mkl(Material.LIME_CONCRETE_POWDER),mkl(Material.LIME_CONCRETE_POWDER));
-                put(mkl(Material.GREEN_CONCRETE_POWDER),mkl(Material.GREEN_CONCRETE_POWDER));
-                put(mkl(Material.LIGHT_BLUE_CONCRETE_POWDER),mkl(Material.LIGHT_BLUE_CONCRETE_POWDER));
-                put(mkl(Material.MAGENTA_CONCRETE_POWDER),mkl(Material.MAGENTA_CONCRETE_POWDER));
-                put(mkl(Material.GRAY_CONCRETE_POWDER),mkl(Material.GRAY_CONCRETE_POWDER));
+                put(mkl(Material.BLUE_CONCRETE_POWDER),mkl("BLUE_CONCRETE_POWDER"));
+                put(mkl(Material.RED_CONCRETE_POWDER),mkl("RED_CONCRETE_POWDER"));
+                put(mkl(Material.YELLOW_CONCRETE_POWDER),mkl("YELLOW_CONCRETE_POWDER"));
+                put(mkl(Material.WHITE_CONCRETE_POWDER),mkl("WHITE_CONCRETE_POWDER"));
+                put(mkl(Material.BROWN_CONCRETE_POWDER),mkl("BROWN_CONCRETE_POWDER"));
+                put(mkl(Material.LIME_CONCRETE_POWDER),mkl("LIME_CONCRETE_POWDER"));
+                put(mkl(Material.GREEN_CONCRETE_POWDER),mkl("GREEN_CONCRETE_POWDER"));
+                put(mkl(Material.LIGHT_BLUE_CONCRETE_POWDER),mkl("LIGHT_BLUE_CONCRETE_POWDER"));
+                put(mkl(Material.MAGENTA_CONCRETE_POWDER),mkl("MAGENTA_CONCRETE_POWDER"));
+                put(mkl(Material.GRAY_CONCRETE_POWDER),mkl("GRAY_CONCRETE_POWDER"));
                 put(mkl(Material.BLACK_CONCRETE_POWDER),mkl(Material.BLACK_CONCRETE_POWDER));
                 put(mkl(Material.PURPLE_CONCRETE_POWDER),mkl(Material.PURPLE_CONCRETE_POWDER));
                 put(mkl(Material.ORANGE_CONCRETE_POWDER),mkl(Material.ORANGE_CONCRETE_POWDER));
@@ -810,6 +812,7 @@ public class AddSlimefunItems {
             .register();
 
     //TODO register recips
+    //TODO 平衡性调整
     //发电机 123
     //更多的智能货运
     //垃圾提 ok
@@ -825,7 +828,8 @@ public class AddSlimefunItems {
     //红石tnt生成器
     //终极机器 物质重构器
     //终极机器 逆机器
-
+    //,物质重构机，小型多方块结构 射线 出逻辑核心
+    //最终发展路线 。快捷->圆石生成器->逻辑核心->概念同化体->终极堆叠,逆机器
 
     //multiblock
     public static final SlimefunItem PORTAL_CORE=new PortalCore(AddGroups.SPACE,AddItem.PORTAL_CORE,BugCrafter.TYPE,
@@ -1269,8 +1273,7 @@ public class AddSlimefunItems {
                     null,AddItem.PARADOX,AddItem.CARGO_PART,AddItem.CARGO_PART,AddItem.PARADOX,null,
                     setC(AddItem.PARADOX,2),AddItem.LBOOLIZER,AddItem.LOGIGATE,"HOPPER",AddItem.LBOOLIZER,setC(AddItem.PARADOX,2),
                     setC(AddItem.PARADOX,2),AddItem.LBOOLIZER,AddItem.LSCHEDULER,AddItem.LOGIGATE,AddItem.LBOOLIZER,setC(AddItem.PARADOX,2),
-                    null,AddItem.PARADOX,AddItem.CARGO_PART,AddItem.CARGO_PART,AddItem.PARADOX,null,
-                    null,null,null,null,null,null))
+                    null,AddItem.PARADOX,AddItem.CARGO_PART,AddItem.CARGO_PART,AddItem.PARADOX,null))
             .register();
     public static final SlimefunItem QUARSORTER=new QuarSorter(AddGroups.CARGO,AddItem.QUARSORTER,BugCrafter.TYPE,
             recipe(null,null,null,null,null,null,
@@ -1324,9 +1327,30 @@ public class AddSlimefunItems {
             recipe(AddItem.PARADOX,AddItem.DIMENSIONAL_SHARD,AddItem.PARADOX,AddItem.DIMENSIONAL_SHARD,AddItem.LSINGULARITY,AddItem.DIMENSIONAL_SHARD,
                     AddItem.ABSTRACT_INGOT,AddItem.BUG,AddItem.ABSTRACT_INGOT))
             .register();
-
-
-
+    public static final  SlimefunItem INPORT=new InputPort(AddGroups.SINGULARITY, AddItem.INPORT,BugCrafter.TYPE,
+            recipe(null,null,null,null,null,null,
+                    null,AddItem.PARADOX,"CHEST","CHEST",AddItem.PARADOX,null,
+                    null,"CHEST",AddItem.UNIQUE,AddItem.EXISTE,"CHEST",null,
+                    null,"CHEST",AddItem.LOGIC,AddItem.NOLOGIC,"CHEST",null,
+                    null,AddItem.PARADOX,"CHEST","CHEST",AddItem.PARADOX,null
+                    ))
+            .register();
+    public static final  SlimefunItem OUTPORT=new OutputPort(AddGroups.SINGULARITY, AddItem.OUTPORT,BugCrafter.TYPE,
+            recipe(null,null,null,null,null,null,
+                    null,AddItem.ABSTRACT_INGOT,"CHEST","CHEST",AddItem.ABSTRACT_INGOT,null,
+                    null,"CHEST",AddItem.EXISTE,AddItem.UNIQUE,"CHEST",null,
+                    null,"CHEST",AddItem.NOLOGIC,AddItem.LOGIC,"CHEST",null,
+                    null,AddItem.ABSTRACT_INGOT,"CHEST","CHEST",AddItem.ABSTRACT_INGOT,null
+                    ))
+            .register();
+    public static final SlimefunItem IOPORT=new IOPort(AddGroups.SINGULARITY,AddItem.IOPORT,BugCrafter.TYPE,
+            recipe(null,null,null,null,null,null,
+                    null,AddItem.ABSTRACT_INGOT,"CHEST","CHEST",AddItem.ABSTRACT_INGOT,null,
+                    null,"CHEST",AddItem.PARADOX,AddItem.PARADOX,"CHEST",null,
+                    null,"CHEST",AddItem.PARADOX,AddItem.PARADOX,"CHEST",null,
+                    null,AddItem.ABSTRACT_INGOT,"CHEST","CHEST",AddItem.ABSTRACT_INGOT,null
+            ))
+            .register();
 
 
 
@@ -1454,9 +1478,9 @@ public class AddSlimefunItems {
 //            Material.FLINT_AND_STEEL,1919,810,RecipeType.SMELTERY));
 
 
-    public static final SlimefunItem INPORT=register(new InputPort(AddGroups.MATERIAL, AddItem.INPORT,RecipeType.NULL,AddUtils.NULL_RECIPE,0,0));
-
-    public static final SlimefunItem OUTPORT=register(new OutputPort(AddGroups.MATERIAL, AddItem.OUTPORT,RecipeType.NULL,AddUtils.NULL_RECIPE,0,0));
+//    public static final SlimefunItem INPORT=register(new InputPort(AddGroups.MATERIAL, AddItem.INPORT,RecipeType.NULL,AddUtils.NULL_RECIPE,0,0));
+//
+//    public static final SlimefunItem OUTPORT=register(new OutputPort(AddGroups.MATERIAL, AddItem.OUTPORT,RecipeType.NULL,AddUtils.NULL_RECIPE,0,0));
 
     public static final SlimefunItem TESTUNIT1=register(new TestStorageUnit(AddGroups.FUNCTIONAL, AddItem.TESTUNIT1,RecipeType.NULL,AddUtils.NULL_RECIPE,0,0));
 //
