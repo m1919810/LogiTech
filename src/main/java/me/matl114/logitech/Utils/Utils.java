@@ -2,15 +2,17 @@ package me.matl114.logitech.Utils;
 
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Utils {
     public static void log(String... message) {
         Debug.logger(String.join(" ", message));
     }
     public static <T extends Object> List<T> list(T... objs) {
-        return Arrays.asList(objs);
+        return Arrays.stream(objs).collect(Collectors.toCollection(ArrayList::new));
     }
     public static <T extends Object> T[] array(T... objs) {
         return objs;

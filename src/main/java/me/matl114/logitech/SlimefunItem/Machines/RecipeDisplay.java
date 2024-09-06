@@ -8,6 +8,7 @@ import me.matl114.logitech.Utils.UtilClass.ItemClass.MultiItemStack;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.RandAmountStack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.inventory.ItemStack;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 public interface RecipeDisplay extends RecipeDisplayItem {
     List<MachineRecipe> provideDisplayRecipe();
     default List<ItemStack> getDisplayRecipes() {
-        return this._getDisplayRecipes();
+        return this._getDisplayRecipes(new ArrayList<>());
     }
     static ItemStack addRecipeInfo(ItemStack stack, Settings settings,int index,Double pro,int time){
         List<String> lore = new ArrayList<>();
@@ -62,13 +63,18 @@ public interface RecipeDisplay extends RecipeDisplayItem {
         }
         return stack;
     }
-    default List<ItemStack> _getDisplayRecipes() {
+    default List<ItemStack> _getDisplayRecipes(List<ItemStack> displayRecipe) {
+
+        if(displayRecipe==null||displayRecipe.isEmpty()){
+            displayRecipe=new ArrayList<>();
+        }
+        ArrayList<ItemStack> displayRecipes = new ArrayList<>(displayRecipe);
         List<MachineRecipe> recipes = provideDisplayRecipe();
         if(recipes==null||recipes.isEmpty()){
-            return new ArrayList<>();
+            return  displayRecipes;
         }
-        ArrayList<ItemStack> displayRecipes = new ArrayList<>() {
-        };
+        if(displayRecipes.size()%2==1)
+            displayRecipes.add(null);
 
         for (int i = 0; i < recipes.size(); i++) {
 

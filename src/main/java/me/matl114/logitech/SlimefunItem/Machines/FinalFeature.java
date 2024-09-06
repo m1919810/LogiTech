@@ -1,6 +1,7 @@
 package me.matl114.logitech.SlimefunItem.Machines;
 
 import me.matl114.logitech.Utils.CraftUtils;
+import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.Settings;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
@@ -70,17 +71,28 @@ public class FinalFeature {
         public IntFunction<ItemPusher> getMenu(Settings settings, BlockMenu inv, IntFunction<ItemStack> stackFunction, int[] slots){
             return new IntFunction<ItemPusher>() {
                 HashSet<Location> proxyLocation;
-                @Override
+                public ItemPusher apply2(int slot){
+                    long a,b;
+                    a=System.nanoTime();
+                    ItemPusher tar=apply(slot);
+                    b=System.nanoTime();
+                    Debug.debug("apply menu time ",b-a," on slot ",slot,", amount ",tar.getAmount());
+                    return tar;
+
+                }
+
                 public ItemPusher apply(int slot) {
+
                     ItemPusher tar= get(settings,stackFunction.apply(slot),slots[slot]);
                     if(tar instanceof LocationStorageProxy lsp){
                         if(proxyLocation==null){
                             proxyLocation=new HashSet<>();
                         }
                         //禁止在一次模拟中制造超过两个连接
-                        Location loc=lsp.geProxytLocation();
+                        Location loc=lsp.getProxyLocation();
                         if(proxyLocation.contains(loc)){
                             //视为正常物品 不参与存储代理
+
                             return CraftUtils.getpusher.get(settings,stackFunction.apply(slot),slots[slot]);
                         }else {
                             proxyLocation.add(loc);

@@ -89,6 +89,16 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
         super(category, item, recipeType, recipe, progressItem, energyConsumption, energyBuffer, null);
         AddUtils.addGlow(getProgressBar());
         this.efficiency=(int)efficiency;
+        this.setDisplayRecipes(
+                Utils.list(
+                        AddUtils.getInfoShow("&f机制 - &c堆叠",
+                                "&7在界面的机器槽中放入机器",
+                                "&7堆叠机器会载入该机器的配方列表并进行进程",
+                                "&7机器槽中的机器数目决定并行处理数",
+                                "&7堆叠机器并行处理数=<机器数>*<工作效率>",
+                                "&7堆叠机器耗电量=<机器数>*<机器耗电量>"),null
+                )
+        );
 
     }
     public void addInfo(ItemStack stack){
@@ -234,15 +244,22 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
             return dh;
         }
     }
-    //FIXME 优化逻辑以减少对机器数据的读取
-    public int getCraftLimit(Block b,BlockMenu inv){
-       return (int)(this.efficiency*inv.getItemInSlot(MACHINE_SLOT).getAmount());
+
+    public final int getCraftLimit(Block b,BlockMenu inv){
+       return (this.efficiency*getDataHolder(b,inv).getInt(0));
     }
-    public int getCraftLimit(SlimefunBlockData data){ return this.efficiency* data.getBlockMenu().getItemInSlot(MACHINE_SLOT).getAmount(); }
+    public void progressorCost(Block b, BlockMenu inv){
+        DataMenuClickHandler dh=getDataHolder(b,inv);
+        int charge=dh.getInt(1);
+        int machineCnt=dh.getInt(0);
+        int consumption=Math.min(charge*machineCnt ,this.energybuffer);
+        this.removeCharge(inv.getLocation(),consumption);
+    }
     public void updateMenu(BlockMenu inv, Block block, Settings mod){
         SlimefunBlockData data=DataCache.safeLoadBlock(inv.getLocation());
         ItemPusher it=this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT);
         int index=MultiCraftType.getRecipeTypeIndex(data);
+        DataMenuClickHandler db=this.getDataHolder(block,inv);
         if(it!=null){
             SlimefunItem sfitem=SlimefunItem.getByItem(it.getItem());
             if(sfitem!=null){
@@ -254,6 +271,10 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
                 }
                 if(sfitem==historyMachine){
                     //和历史机器一样
+                    //设置当前数量
+                    db.setInt(0,it.getAmount());
+                    int charge=getEnergy(index);
+                    db.setInt(1,charge==-1?energyConsumption:charge);
                     return;
                 }else {
                     int size=getListSize();
@@ -263,7 +284,9 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
                             //是该机器,设置下标，都不用查了 肯定不一样
                             MultiCraftType.forceSetRecipeTypeIndex(data,i);
                             int charge=getEnergy(i);
-                            DataCache.setCustomData(data,"mae",charge==-1?energyConsumption:charge);
+                          //  DataCache.setCustomData(data,"mae",charge==-1?energyConsumption:charge);
+                            db.setInt(0,it.getAmount());
+                            db.setInt(1,charge==-1?energyConsumption:charge);
                             return;
                         }
                     }
@@ -272,16 +295,10 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
         }
         if(index!=-1)//即将变成-1,不一样才变,不用重复查询
             MultiCraftType.forceSetRecipeTypeIndex(data,-1);
-            DataCache.setCustomData(data,"mae",0);
+        db.setInt(0,0);
+        db.setInt(1,0);
     }
-    public void progressorCost(Block b, BlockMenu inv){
-        Location loc=inv.getLocation();
-        int charge=DataCache.getCustomData(loc,"mae",energyConsumption);
-        int craftLimit=getCraftLimit(b,inv);
-        int consumption=(int)(Math.min((craftLimit*charge)/efficiency,this.energybuffer));
-        this.removeCharge(loc,consumption);
-    }
-    //TODO 存关键的临时数据到menuclickHandler里！
+
     public void tick(Block b, @Nullable BlockMenu inv, SlimefunBlockData data, int tickCount){
         //首先 加载
         if(inv.hasViewer()){
@@ -289,21 +306,24 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
         }
         int index=MultiCraftType.getRecipeTypeIndex(data);
         if(index>=0&&index<getListSize()){//有效机器
-            int charge=DataCache.getCustomData(data,"mae",energyConsumption);
-            int craftLimit=getCraftLimit(b,inv);
-            int consumption=(int)(Math.min((craftLimit*charge)/efficiency,this.energybuffer));
+            DataMenuClickHandler db=this.getDataHolder(b,inv);
+            int charge=db.getInt(1);
+            int craftLimit=db.getInt(0);
+            int consumption=Math.min(craftLimit*charge,this.energybuffer);
             int energy=this.getCharge(inv.getLocation(),data);
             if(energy>consumption){
                 if(inv.hasViewer()){
-                    inv.replaceExistingItem(MINFO_SLOT,getInfoItem(craftLimit,consumption,energy,this.efficiency,
-                            ItemStackHelper.getDisplayName(this.CRAFT_PROVIDER.getPusher(Settings.OUTPUT,inv,this.MACHINE_SLOT).getItem())));
+                    DataMenuClickHandler dh=getDataHolder(b,inv);
+                    inv.replaceExistingItem(MINFO_SLOT,getInfoItem(craftLimit*efficiency,consumption,energy,this.efficiency,
+                            ItemStackHelper.getDisplayName(this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT).getItem())));
                 }
                 process(b,inv,data);
             }else {
                 //没电
                 if(inv.hasViewer()){
-                    inv.replaceExistingItem(MINFO_SLOT,getInfoOffItem(craftLimit,consumption,energy,
-                            ItemStackHelper.getDisplayName(this.CRAFT_PROVIDER.getPusher(Settings.OUTPUT,inv,this.MACHINE_SLOT).getItem())));
+                    DataMenuClickHandler dh=getDataHolder(b,inv);
+                    inv.replaceExistingItem(MINFO_SLOT,getInfoOffItem(craftLimit*efficiency,consumption,energy,
+                            ItemStackHelper.getDisplayName(this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT).getItem())));
                 }
             }
 

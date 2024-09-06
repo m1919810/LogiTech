@@ -11,11 +11,16 @@ import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.MachineRecipeUtils;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.DataMenuClickHandler;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -35,6 +40,8 @@ public abstract  class AbstractTransformer extends AbstractMachine {
             "&a工作中");
     public final ItemStack INFO_NULL= new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,
             "&6空闲中");
+    public final int[] INPUT=new int[0];
+
     public AbstractTransformer(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                              int time,  int energybuffer,int energyConsumption,
                                LinkedHashMap<Object ,Integer> customRecipes){
@@ -59,8 +66,8 @@ public abstract  class AbstractTransformer extends AbstractMachine {
         }
 
     }
-    public List<ItemStack> _getDisplayRecipes() {
-        List<ItemStack> list= super._getDisplayRecipes();
+    public List<ItemStack> _getDisplayRecipes(List<ItemStack> list2) {
+        List<ItemStack> list= super._getDisplayRecipes(list2);
         if(!list.isEmpty()&&list.get(0)==null){
             list.set(0,new DisplayItemStack(
                     new CustomItemStack(
@@ -74,23 +81,68 @@ public abstract  class AbstractTransformer extends AbstractMachine {
     public List<MachineRecipe> getMachineRecipes() {
         return machineRecipes;
     }
-
+    public void newMenuInstance(BlockMenu inv,Block b){
+        inv.addMenuOpeningHandler((player -> {
+            updateMenu(inv,b,Settings.RUN);
+        }));
+        inv.addMenuCloseHandler(player -> updateMenu(inv,b,Settings.RUN));
+        updateMenu(inv,b,Settings.INIT);
+    }
+    public void updateMenu(BlockMenu inv,Block b,Settings mod){
+        if( CraftUtils.matchNextRecipe(inv, getInputSlots(),getMachineRecipes(DataCache.safeLoadBlock(inv.getLocation())),
+                //不许用高级的 你是多有病才能在不消耗的槽里面塞存储
+                true, Settings.SEQUNTIAL,CraftUtils.getpusher)==null){
+            DataCache.setLastRecipe(inv.getLocation(),-1);
+        }
+    }
+    public DataMenuClickHandler createDataHolder(){
+        return new DataMenuClickHandler() {
+            //0 为 数量 1 为 电力
+            int tick=0;
+            public int getInt(int i){
+                return tick;
+            }
+            public void setInt(int i, int val){
+                tick=val;
+            }
+            @Override
+            public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+                return false;
+            }
+        };
+    }
+    public final int DATA_SLOT=0;
+    public DataMenuClickHandler getDataHolder(Block b, BlockMenu inv){
+        ChestMenu.MenuClickHandler handler=inv.getMenuClickHandler(DATA_SLOT);
+        if(handler instanceof DataMenuClickHandler dh){return dh;}
+        else{
+            DataMenuClickHandler dh=createDataHolder();
+            inv.addMenuClickHandler(DATA_SLOT,dh);
+            updateMenu(inv,b,Settings.RUN);
+            return dh;
+        }
+    }
     public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int ticker) {
-        int tick=DataCache.getCustomData(data,"tick",-1);
-        //long f=System.nanoTime();
+        DataMenuClickHandler dh=getDataHolder(b,menu);
+        int tick=dh.getInt(0);
+        boolean hasViewer=menu.hasViewer();
+        if(hasViewer){
+            updateMenu(menu,b,Settings.RUN);
+        }
        if(conditionHandle(b,menu)){
-           if(tick==-1&&menu.hasViewer()){
+           if(tick==-1&&hasViewer){
                menu.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_WORKING);
            }
-          // long a=System.nanoTime();
-           //long s=System.nanoTime();
            progressorCost(b,menu);
            if(tick<=0){
-               MachineRecipe nextP = CraftUtils.matchNextRecipe(menu, getInputSlots(),getMachineRecipes(data),
-                       true, Settings.SEQUNTIAL,CRAFT_PROVIDER);
-               if (nextP != null) {
+               //
+               List<MachineRecipe> lst=getMachineRecipes(data);
+               int len=lst.size();
+               int index=DataCache.getLastRecipe(data);
+               if(index>=0&& index<len){
+                   MachineRecipe nextP= lst.get(index);
                    if (tick == 0){
-                       int maxMultiple = getCraftLimit(data);
+                       int maxMultiple = getCraftLimit(b,menu);
                        if (maxMultiple == 1) {
                            CraftUtils.pushItems(nextP.getOutput(), menu, getOutputSlots(), CRAFT_PROVIDER);
                        } else {
@@ -98,33 +150,29 @@ public abstract  class AbstractTransformer extends AbstractMachine {
                            CraftUtils.multiPushItems(nextP.getOutput(),menu, getOutputSlots(), maxMultiple, CRAFT_PROVIDER);
                        }
                     }
-                   DataCache.setCustomData(data,"tick",nextP.getTicks()-1);
+                   dh.setInt(0,nextP.getTicks()-1);
+               }else if(index!=-1){
+                   updateMenu(menu,b,Settings.RUN);
                }
-
            }else{
-               DataCache.setCustomData(data,"tick",tick-1);
+               dh.setInt(0,tick-1);
            }
 
-        }else if (tick!=-1&&menu.hasViewer()){
-           DataCache.setCustomData(data,"tick",-1);
-            menu.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_NULL);
+        }else if (tick!=-1){
+           dh.setInt(0,-1);
+           if(hasViewer)
+                menu.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_NULL);
         }
     }
     public int getCraftLimit(Block b, BlockMenu inv){
-        return 1;
-    }
-    public int getCraftLimit(SlimefunBlockData data){
         return 1;
     }
     public final void process(Block block, BlockMenu inv, SlimefunBlockData data){
 
 
     }
-    public int getPublicTick(){
-        return this.pubTick;
-    }
-    public void updatePublicTick(){
-        this.pubTick++;
+    public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
+        return flow == ItemTransportFlow.INSERT ? this.INPUT : this.getOutputSlots();
     }
     public boolean isSync(){
         return false;

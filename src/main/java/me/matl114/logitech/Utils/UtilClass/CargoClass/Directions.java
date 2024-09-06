@@ -27,6 +27,21 @@ public enum Directions {
     public Location relate(Location loc){
         return loc.clone().add(dx,dy,dz);
     }
+    public Location remote(Location loc,int dis){
+        return loc.clone().add(dis*dx,dis*dy,dis*dz);
+    }
+    public Location remote(Location loc,double dis){
+        return loc.clone().add(dis*dx,dis*dy,dis*dz);
+    }
+    public Location move(Location loc){
+        return move(loc,1);
+    }
+    public Location move(Location loc,int dis){
+        return loc.add(dis*dx,dis*dy,dis*dz);
+    }
+    public Location move(Location loc,double dis){
+        return loc.add(dis*dx,dis*dy,dis*dz);
+    }
     public String toString(){
         return nickname;
     }

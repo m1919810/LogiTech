@@ -40,8 +40,8 @@ public abstract  class AbstractMachine extends CustomSlimefunItem implements Tic
     public final  int energybuffer;
     public final int energyConsumption;
     public final EnergyNetComponentType energyNetComponent;
-    private Function<BlockMenu,Boolean> handleProcess;
-    private Consumer<BlockMenu> handlerProcessCost;
+    private Function<Location,Boolean> handleProcess;
+    private Consumer<Location> handlerProcessCost;
     /**
      * constructor of abstractMachines will keep Collections of MachineRecipes,will register energyNetwork params,
      * will set up menu by overriding constructMenu method
@@ -63,7 +63,7 @@ public abstract  class AbstractMachine extends CustomSlimefunItem implements Tic
         switch (this.energyNetComponent){
             case GENERATOR:
                 this.handleProcess = (inv) -> {
-                    if(this.getCapacity()>this.getCharge(inv.getLocation())+this.energyConsumption){
+                    if(this.getCapacity()>this.getCharge(inv)+this.energyConsumption){
                         return true;
                     }else return false;
                 };
@@ -73,12 +73,12 @@ public abstract  class AbstractMachine extends CustomSlimefunItem implements Tic
                 break;
             case CONSUMER:
                 this.handleProcess =  (inv) -> {
-                    if(this.energyConsumption<this.getCharge(inv.getLocation())){
+                    if(this.energyConsumption<this.getCharge(inv)){
                         return true;
                     }else return false;
                 };
                 this.handlerProcessCost = (inv) -> {
-                    this.removeCharge(inv.getLocation(), this.energyConsumption);
+                    this.removeCharge(inv, this.energyConsumption);
                 };
                 break;
             case CAPACITOR:
@@ -152,7 +152,10 @@ public abstract  class AbstractMachine extends CustomSlimefunItem implements Tic
      * @return
      */
     public boolean conditionHandle(Block b,BlockMenu menu){
-        return this.handleProcess.apply(menu);
+        if(menu!=null)
+            return this.handleProcess.apply(menu.getLocation());
+        else
+            return this.handleProcess.apply(b.getLocation());
     }
     public void removeCharge(@Nonnull Location l, int charge){
         if(charge>0){
@@ -178,7 +181,10 @@ public abstract  class AbstractMachine extends CustomSlimefunItem implements Tic
      * @param menu
      */
     protected void progressorCost(Block b, BlockMenu menu) {
-        this.handlerProcessCost.accept(menu);
+        if(menu!=null)
+            this.handlerProcessCost.accept(menu.getLocation());
+        else
+            this.handlerProcessCost.accept(b.getLocation());
     }
 
     /**

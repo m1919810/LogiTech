@@ -62,38 +62,13 @@ public class SMGenerator extends AbstractTransformer  {
     public boolean isSync(){
         return false;
     }
-    public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int ticker) {
-        int tick=DataCache.getCustomData(data,"tick",-1);
-        //long f=System.nanoTime();
-        if(conditionHandle(b,menu)){
-            if(tick==-1&&menu.hasViewer()){
-                menu.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_WORKING);
-            }
-            // long a=System.nanoTime();
-            //long s=System.nanoTime();
-            progressorCost(b,menu);
-            if(tick<=0){
-                MachineRecipe nextP = getMachineRecipes().get(0);
-
-                if (tick == 0){
-                    int maxMultiple = getCraftLimit(data);
-                    if (maxMultiple == 1) {
-                        CraftUtils.pushItems(nextP.getOutput(), menu, getOutputSlots(), CRAFT_PROVIDER);
-                    } else {
-
-                        CraftUtils.multiPushItems(nextP.getOutput(),menu, getOutputSlots(), maxMultiple, CRAFT_PROVIDER);
-                    }
-                }
-                DataCache.setCustomData(data,"tick",nextP.getTicks()-1);
-
-            }else{
-                DataCache.setCustomData(data,"tick",tick-1);
-            }
-
-        }else if (tick!=-1&&menu.hasViewer()){
-            DataCache.setCustomData(data,"tick",-1);
-            menu.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_NULL);
+    public void updateMenu(BlockMenu inv,Block b,Settings mod){
+        if(mod==Settings.INIT){
+            DataCache.setLastRecipe(inv.getLocation(),0);
         }
+    }
+    public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int ticker) {
+        super.tick(b,menu,data,ticker);
     }
 
 }

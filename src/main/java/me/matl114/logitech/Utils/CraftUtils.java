@@ -21,8 +21,6 @@ import java.util.*;
 import java.util.function.IntFunction;
 
 public class CraftUtils {
-    //TODO 仔细检查
-    //TODO 针对proxy的解决方案 将PusherProvider的get抽象为IntFunction 单一进程的输入/输出方各共用一个IntFunction,在其中增加对proxy location的检测
     private static final HashSet<Material> COMPLEX_MATERIALS = new HashSet<>(){{
         add(Material.AXOLOTL_BUCKET);
         add(Material.WRITABLE_BOOK);
@@ -193,11 +191,15 @@ public class CraftUtils {
 //    public static ItemPusher getPusher(BlockMenu inv,int slot){
 //        return getpusher.get(Settings.INPUT,inv,slot);
 //    }
-    public static void clearAmount(ItemPusher ... counters){
+    public static void clearAmount(BlockMenu inv,ItemPusher ... counters){
+        ItemPusher ip;
         for (int i =0;i<counters.length;++i){
-            counters[i].setAmount(0);
+            ip=counters[i];
+            if (ip!=null){
+                ip.setAmount(0);
+                ip.updateMenu(inv);
+            }
             //this is safe,I said it
-            counters[i].updateItemStack();
         }
     }
     /**
@@ -220,7 +222,6 @@ public class CraftUtils {
                 itemCounter2=slotCounters.get(j);
                 if(itemCounter2==null)continue;
                 if(!visited[j]){
-                    //FIXME sync data may not be in this place
                     itemCounter2.syncData();
                     visited[j]=true;
                 }
@@ -265,7 +266,6 @@ public class CraftUtils {
                 ItemPusher itemCounter2=slotCounters.get(j);
                 if(itemCounter2==null)continue;
                 if(!visited[j]){
-                    //FIXME sync data may not be in this place
                     itemCounter2.syncData();
                     visited[j]=true;
                 }
@@ -381,7 +381,6 @@ public class CraftUtils {
                 ItemPusher  itemCounter2=inputCounters.get(j);
                 if(itemCounter2==null)continue;
                 if(!visited[j]){
-                    //FIXME sync data may not be in this place
                     itemCounter2.syncData();
                     visited[j]=true;
                 }
@@ -464,7 +463,7 @@ public class CraftUtils {
                     if(recipeCounter2[0].getStackNum()>=maxAmount2){
                         break;
                     }
-                }//FIXME 输出太多导致溢出
+                }
 
 
 
@@ -572,7 +571,6 @@ public class CraftUtils {
                     break;
                 }
             }
-            //FIXME 和上面合并 防止溢出
             maxAmount2=Math.min(recipeCounter2[0].getStackNum(),maxAmount2);
 
             if(maxAmount2<=0){return null;}
@@ -675,30 +673,54 @@ public class CraftUtils {
         ItemPusher itemCounter;
         boolean hasChanged=false;
         int len=slotCounters.length;
+        ItemStack previewItem;
         for(int i=0;i<len;++i) {
             outputItem=slotCounters[i];
             //consume mode
             outputItem.syncData();
+            int maxAmount=outputItem.getMaxStackCnt();
             for(int j=0;j<slots.length;++j) {
-                itemCounter=slotCounters2.get(j);
-                if(!itemCounter.isDirty()){
-                    if(itemCounter.getItem()==null){
-                        itemCounter.setFrom(outputItem);
-                        itemCounter.grab(outputItem);
-                        itemCounter.updateMenu(inv);
-                        itemCounter.setDirty(true);
-                        hasChanged=true;
-                    }else if (itemCounter.getAmount()==itemCounter.getMaxStackCnt()){
-                        continue;
+                previewItem=inv.getItemInSlot(slots[j]);
+                if(previewItem==null){
+                    //是空槽 绝对不可能是存储 直接上 不要创建缓存
+                    int amount=Math.min( outputItem.getAmount(),maxAmount);
+                    inv.replaceExistingItem(slots[j],outputItem.getItem(),false);
+                    previewItem=inv.getItemInSlot(slots[j]);
+                    if(previewItem!=null){
+                        //防止某些脑瘫push一些null
+                        previewItem.setAmount(amount);
                     }
-                    else if(matchItemCounter(outputItem,itemCounter,false)){
-                        itemCounter.grab(outputItem);
-                        itemCounter.updateMenu(inv);
-                        itemCounter.setDirty(true);
-                        hasChanged=true;
+                    outputItem.addAmount(-amount);
+                    hasChanged=true;
+                    //满槽 绝对不可能是存储，直接跳
+                    //至于为什么不用maxAmount 因为outputItem可以是不可堆叠物品，但是存储暂时还没有不可堆叠物品
+                    //如果以后有 在此处加上>1判断
+                }else if(previewItem.getAmount()==previewItem.getMaxStackSize()){
+                    continue;
+                }else{
+                    itemCounter=slotCounters2.get(j);
+                    if(!itemCounter.isDirty()){
+                        //可能是存储里的 或者是被覆写的maxCNT
+                        //FIXME 检测存储中是否可能存在空物品
+                        if(itemCounter.getItem()==null){
+                            //我们决定将这个分类留在这,为了安全性 毕竟谁也不知到之后会开发啥，不过显然 这玩意大概率是不会被调用的.
+                            itemCounter.setFrom(outputItem);
+                            itemCounter.grab(outputItem);
+                            itemCounter.updateMenu(inv);
+                            itemCounter.setDirty(true);
+                            hasChanged=true;
+                        } else if (itemCounter.getAmount()==itemCounter.getMaxStackCnt()){
+                            continue;
+                        }
+                        else if(matchItemCounter(outputItem,itemCounter,false)){
+                            itemCounter.grab(outputItem);
+                            itemCounter.updateMenu(inv);
+                            itemCounter.setDirty(true);
+                            hasChanged=true;
+                        }
                     }
-                    if(outputItem.getAmount()<=0)break;
                 }
+                if(outputItem.getAmount()<=0)break;
             }
         }
         return hasChanged;
@@ -745,31 +767,51 @@ public class CraftUtils {
         ItemPusher itp=null;
         ItemGreedyConsumer outputItem;
         boolean hasChanged=false;
+        ItemStack previewItem;
         for(int i=0;i<len;++i) {
             outputItem=slotCounters[i];
             //consume mode
             for(int j=0;j<slots.length;++j) {
-                itp=slotCounters2.get(j);
-                if(!itp.isDirty()){
-                    if(itp.getItem()==null){
-                        itp.setFrom(outputItem);
-                        //needs this push ,because the source of outputItem
-                        outputItem.push(itp);
-                        itp.updateMenu(inv);
-                        itp.setDirty(true);
-                        hasChanged=true;
+                previewItem=inv.getItemInSlot(slots[j]);
+                int maxAmount=outputItem.getMaxStackCnt();
+                if(previewItem==null){
+                    //多倍匹配用的是MatchAmount
+                    int amount=Math.min(outputItem.getMatchAmount(),maxAmount);
+                    inv.replaceExistingItem(slots[j],outputItem.getItem(),false);
+                    previewItem=inv.getItemInSlot(slots[j]);
+                    if(previewItem!=null){
+                        //防止某些脑瘫push一些null
+                        previewItem.setAmount(amount);
+                    }//多倍匹配用的是MatchAmount
+                    outputItem.addMatchAmount(-amount);
+                    hasChanged=true;
+                    //同上 不解释
+                }else if(previewItem.getAmount()==previewItem.getMaxStackSize()){
+                    continue;
+                }else{
+                    itp=slotCounters2.get(j);
+                    if(!itp.isDirty()){
+                        //FIXME 检查cachemap中的空存储是不是可能被读取进入?
+                        if(itp.getItem()==null){
+                            itp.setFrom(outputItem);
+                            //needs this push ,because the source of outputItem
+                            outputItem.push(itp);
+                            itp.updateMenu(inv);
+                            itp.setDirty(true);
+                            hasChanged=true;
 
-                    }else if (itp.getAmount()==itp.getMaxStackCnt()){
-                        continue;
+                        }else if (itp.getAmount()==itp.getMaxStackCnt()){
+                            continue;
+                        }
+                        else if(matchItemCounter(outputItem,itp,false)){
+                             outputItem.push(itp);
+                             itp.updateMenu(inv);
+                             itp.setDirty(true);
+                             hasChanged=true;
+                        }
                     }
-                    else if(matchItemCounter(outputItem,itp,false)){
-                         outputItem.push(itp);
-                         itp.updateMenu(inv);
-                         itp.setDirty(true);
-                         hasChanged=true;
-                    }
-                    if(outputItem.getMatchAmount()<=0)break;
                 }
+                if(outputItem.getMatchAmount()<=0)break;
             }
         }
         return hasChanged;
@@ -1320,7 +1362,7 @@ public class CraftUtils {
     /**
      * sequence CRAFT, match itemstack with the first
      */
-    public static Pair<MachineRecipe,ItemConsumer> findNextSequenceRecipe(BlockMenu inv,int[] inputs,List<MachineRecipe> recipes,boolean useHistory,Settings order,ItemPusherProvider pusher){
+    public static Pair<MachineRecipe,ItemConsumer> findNextSequenceRecipe(BlockMenu inv,int[] inputs,List<MachineRecipe> recipes,boolean useHistory,Settings order,ItemPusherProvider pusher,boolean clearInput){
         int delta;
         switch(order){
             case REVERSE:delta=-1;break;
@@ -1376,6 +1418,9 @@ public class CraftUtils {
                 }
                 return new Pair<>(checkRecipe,result);
             }
+        }
+        if(clearInput){
+            clearAmount(inv,inputCounters);
         }
         return null;
     }

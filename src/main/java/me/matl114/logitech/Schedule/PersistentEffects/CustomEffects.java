@@ -46,7 +46,7 @@ public class CustomEffects {
         }
         public void aquireEffect(Player p,int level) {
         }
-        public void onDeathEvent(PlayerDeathEvent e) {
+        public void onDeathEvent(PlayerDeathEvent e,int level) {
             e.setDeathMessage(AddUtils.resolveColor( "%s &6在超新星的烈焰中化为灰烬".formatted(e.getEntity().getName())));
         }
     };
@@ -70,7 +70,7 @@ public class CustomEffects {
         public void aquireEffect(Player p,int level) {
 
         }
-        public void onDeathEvent(PlayerDeathEvent e) {
+        public void onDeathEvent(PlayerDeathEvent e,int level) {
             e.setDeathMessage(AddUtils.resolveColor( "%s &6的身体被核辐射穿成了筛子".formatted(e.getEntity().getName())));
         }
     };
@@ -89,8 +89,33 @@ public class CustomEffects {
         public void tickEffect(Player p, int level) {
 
         }
-        public void onDeathEvent(PlayerDeathEvent e) {
-            e.setDeathMessage(AddUtils.resolveColor( "%s &6因选错了方向而被系统制裁".formatted(e.getEntity().getName())));
+        public void onDeathEvent(PlayerDeathEvent e,int level) {
+            if(level==1){
+                e.setDeathMessage(AddUtils.resolveColor( "%s &6因选错了方向而被系统制裁".formatted(e.getEntity().getName())));
+            }else if(level==2){
+                e.setDeathMessage(AddUtils.resolveColor( "%s &6因尝试学习刷物而被系统制裁".formatted(e.getEntity().getName())));
+            }
+        }
+    };
+    public static AbstractEffect LASER = new AbstractEffect("LASER") {
+        @Override
+        public void aquireEffect(Player p, int level) {
+
+        }
+
+        @Override
+        public void removeEffect(Player p, int level) {
+
+        }
+
+        @Override
+        public void tickEffect(Player p, int level) {
+            double d=p.getHealth();
+            d=Math.min(0,d-0.5*level*level);
+            p.setHealth(d);
+        }
+        public void onDeathEvent(PlayerDeathEvent e,int level) {
+            e.setDeathMessage(AddUtils.resolveColor( "%s &6被%d级的强力激光融化了".formatted(e.getEntity().getName(),level)));
         }
     };
 }

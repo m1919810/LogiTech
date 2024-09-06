@@ -3,9 +3,12 @@ package me.matl114.logitech.Utils;
 import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.BlockDataController;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.StorageType;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.matl114.logitech.MyAddon;
@@ -17,6 +20,7 @@ import org.bukkit.block.data.Orientable;
 import org.bukkit.block.structure.Mirror;
 import org.bukkit.block.structure.StructureRotation;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -35,6 +39,11 @@ public class WorldUtils {
     public static void setBlock(Block block, Material material) {
 
     }
+    /**
+     * this method no need to run sync
+     * @param loc
+     * @param force
+     */
     public static void removeSlimefunBlock(Location loc, boolean force) {
        if(force){
            CONTROLLER.removeBlock(loc);
@@ -74,7 +83,60 @@ public class WorldUtils {
     public static void moveSlimefunBlock(Location loc, boolean force) {
 
     }
-    public static boolean hasPermission(@Nonnull Player player, @Nonnull Block location, @Nonnull Interaction... interactions) {
+
+    /**
+     * put arg hasSync to decide whether to create new sunc thread
+     * @param loc
+     * @param player
+     * @param item
+     * @param material
+     * @param force
+     * @param hasSync
+     */
+    public static boolean createSlimefunBlock(Location loc,Player player,SlimefunItem item,Material material,boolean force,boolean hasSync){
+        Block block = loc.getBlock();
+        if(!force&&player!=null){
+            if (!item.canUse(player, false)) {
+                return false;
+            }
+            var placeEvent = new SlimefunBlockPlaceEvent(player, item.getItem(), block, item);
+            Bukkit.getPluginManager().callEvent(placeEvent);
+
+            if (placeEvent.isCancelled()) {
+                return false ;
+            }else if(!hasPermission(player,loc, Interaction.PLACE_BLOCK)){
+                return false ;
+            }
+        }
+        if(hasSync){
+            createSlimefunBlockSync(loc,player,item,material);
+        }else {
+            Schedules.launchSchedules(
+                    ()->    createSlimefunBlockSync(loc, player, item, material),0,true,0
+            );
+        }
+        return true;
+    }
+    /**
+     * this method must run sync
+     * @param loc
+     * @param item
+     * @param material
+     * @param force
+     */
+    public static void createSlimefunBlockSync(Location loc,Player player,SlimefunItem item,Material material) {
+        Block block=loc.getBlock();
+        if(StorageCacheUtils.getSfItem(loc)!=null){
+            CONTROLLER.removeBlock(loc);
+        }
+        block.setType(material);
+        if (Slimefun.getBlockDataService().isTileEntity(block.getType())) {
+            Slimefun.getBlockDataService().setBlockData(block, item.getId());
+        }
+        CONTROLLER.createBlock(loc, item.getId());
+    }
+    public static boolean hasPermission( Player player, @Nonnull Block location, @Nonnull Interaction... interactions) {
+        if(player==null)return true;
         for (Interaction interaction : interactions) {
             if (!Slimefun.getProtectionManager().hasPermission(player, location, interaction)) {
                 return false;
@@ -82,7 +144,8 @@ public class WorldUtils {
         }
         return true;
     }
-    public static boolean hasPermission(@Nonnull Player player, @Nonnull Location location, @Nonnull Interaction... interactions) {
+    public static boolean hasPermission( Player player, @Nonnull Location location, @Nonnull Interaction... interactions) {
+        if(player==null)return true;
         for (Interaction interaction : interactions) {
             if (!Slimefun.getProtectionManager().hasPermission(player, location, interaction)) {
                 return false;

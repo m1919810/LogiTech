@@ -1,7 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Cargo.WorkBench;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
@@ -22,7 +21,6 @@ import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.LinkedHashMap;
 
@@ -170,6 +168,6 @@ public class CargoConfigurator extends AbstractBlock {
     public void preRegister() {
         super.preRegister();
         this.registerBlockMenu(this);
-        this.handleMenu(this);
+        this.handleBlock(this);
     }
 }

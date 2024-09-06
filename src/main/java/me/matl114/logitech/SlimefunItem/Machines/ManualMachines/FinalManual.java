@@ -28,7 +28,8 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
     protected final int[] INPUT_SLOT = new int[]{3,4,5,6,7,8,12,13,14,15,16,17,21,22,23,24,25,26,30,31,32,33,34,35,39,40,41,42,43,44,48,49,50,51,52,53};
     protected final int[] OUTPUT_SLOT=new int[]{30,31,32,33,34,35,39,40,41,42,43,44,48,49,50,51,52,53,3,4,5,6,7,8,12,13,14,15,16,17,21,22,23,24,25,26};
     protected static final int RECIPE_ITEM_SLOT=0;
-    protected static final ItemStack INFO_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6配方匹配机制:"," ","&b点击左边图标切换合成类型","&b点击右边书本查看当前合成类型信息","&b在输入栏放入物品进行快捷合成");
+    protected static final ItemStack INFO_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6配方匹配机制:"," "
+            ,"&b点击左边图标切换合成类型","&b点击右边书本查看当前合成类型信息","&b在输入栏放入物品进行快捷合成");
     protected static final int INFO_SLOT=1;
     protected static final int RECIPEBOOK_SHOW_SLOT=2;
     protected static final ItemStack PREV=new CustomItemStack(Material.YELLOW_STAINED_GLASS_PANE,"&3搜索上一个配方");
@@ -42,9 +43,14 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
     protected static final ItemStack CRAFT_MUL=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,
             "&3批量合成","&6左键&b合成 &d3456次 &b当前物品","&6右键&b合成 &d9,999,999次 &b当前物品");
     protected static final int MUL_SLOT=20;
-    protected static final ItemStack INFO2_ITEM=new CustomItemStack(Material.BEACON,"&6合成机制: "+ AddUtils.colorful("概念合成"),
-            "","&b该快捷机器支持从非空的存储类物品中抽取材料","&b进行合成,并自动送入非空的存储类物品中","&c警告:请保证配方总输出数量小于2147483647",
-            "","","&b目前支持:","&7逻辑工艺: 奇点存储","&7网络(网络拓展): 量子存储");
+    protected static final ItemStack INFO2_ITEM=new CustomItemStack(Material.BEACON,"&6合成机制: "+ AddUtils.colorful("终极合成"),
+            "","&b该快捷机器可直接消耗存储类物品或者链接绑定的实体存储内的物品参与合成",
+            "&b产出的物品也可以直接地存入存储类物品或者链接绑定的实体存储",
+            "&c配方总输出数量最大会被限制至2147483647",
+            "","&b当前支持的物品:",
+            "&7逻辑工艺 概念奇点存储(存储类物品)",
+            "&7逻辑工艺 量子纠缠奇点(存储链接物品)",
+            "&7网络(拓展) 量子存储系列(存储类物品)");
     protected static final int INFO2_SLOT=19;
     protected static final ItemStack DISPLAY_BKGROUND=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE," ");
     protected static final ItemStack DISPLAY_DEFAULT_BKGROUND=new CustomItemStack(Material.RED_STAINED_GLASS_PANE," ");
@@ -60,7 +66,16 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
             add(RecipeType.SMELTERY);
             add(RecipeType.MAGIC_WORKBENCH);
             add(RecipeType.ANCIENT_ALTAR);
+            add(RecipeType.GRIND_STONE);
             add(RecipeType.ORE_CRUSHER);
+            add(RecipeType.ORE_WASHER);
+            add(RecipeType.GOLD_PAN);
+            add(RecipeType.COMPRESSOR);
+            add(RecipeType.PRESSURE_CHAMBER);
+            add(RecipeType.ARMOR_FORGE);
+            add(RecipeType.HEATED_PRESSURE_CHAMBER);
+            add(BukkitUtils.VANILLA_CRAFTTABLE);
+            add(BukkitUtils.VANILLA_FURNACE);
         }};
         SchedulePostRegister.addPostRegisterTask(
                 ()->{
@@ -70,6 +85,28 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
         );
         //启动奇点合成的支持
         this.CRAFT_PROVIDER=SINGULARITY_PROVIDER;
+        setDisplayRecipes(
+                Utils.list(
+                        AddUtils.getInfoShow(
+                                "&f机制 - &c终极合成",
+                                "&7机器的输入槽,输出槽均支持终极合成的特性",
+                                "&e可以直接消耗存储类物品或者链接绑定的实体存储内的物品参与合成",
+                                "&e产出的物品也可以直接地存入存储类物品或者链接绑定的实体存储",
+                                "&7当前支持的物品:",
+                                "&7逻辑工艺 概念奇点存储(存储类物品)",
+                                "&7逻辑工艺 量子纠缠奇点(存储链接物品)",
+                                "&7网络(拓展) 量子存储系列(存储类物品)",
+                                "&a建议:多使用量子纠缠奇点,可以大幅度减少卡顿!"
+                        ),null,
+                        AddUtils.getInfoShow(
+                                "&f机制 - &c无限级一键合成",
+                                "&7本机器最多支持一键合成9,999,999次",
+                                "&7\"终极合成\"的特性让它不再是空谈",
+                                "&7是时候让存储里的大批物品动起来了"
+
+                        )
+                )
+        );
 
     }
     public static final ItemPusherProvider SINGULARITY_PROVIDER=FinalFeature.STORAGE_AND_LOCPROXY_READER;
@@ -157,9 +194,12 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
                 ((player, i, itemStack, clickAction) -> {
                     Location loc=menu.getLocation();
                     int index=MultiCraftType.getRecipeTypeIndex(loc);
-                    if(index>=0&&index<getCraftTypes().length-1){
-                        MultiCraftType.forceSetRecipeTypeIndex(loc,index+1);
-                    }else{
+                    index+=clickAction.isRightClicked()?-1:1;
+                    if(index>=0&&index<=getCraftTypes().length-1){
+                        MultiCraftType.forceSetRecipeTypeIndex(loc,index);
+                    }else if(index<0){
+                        MultiCraftType.forceSetRecipeTypeIndex(loc,getCraftTypes().length-1);
+                    }else {
                         MultiCraftType.forceSetRecipeTypeIndex(loc,0);
                     }
                     FinalManual.this.updateMenu(menu,block,Settings.RUN);
@@ -225,7 +265,7 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
         );
         updateMenu(menu,block,Settings.INIT);
     }
-    //FIXME 莫名奇妙的跳走问题
+
     public void updateMenu(BlockMenu inv,Block block,Settings mod){
         if(mod==Settings.INIT){
             orderSearchRecipe(inv,Settings.SEQUNTIAL);
@@ -235,7 +275,8 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
         if(index_>=0){
             RecipeType rp=getCraftTypes()[index_];
             List<MachineRecipe> mRecipe=RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(rp);
-            inv.replaceExistingItem(RECIPE_ITEM_SLOT,AddUtils.addLore(RecipeSupporter.RECIPETYPE_ICON.get(rp),"&8点击切换配方类型"));
+            inv.replaceExistingItem(RECIPE_ITEM_SLOT,AddUtils.addLore(RecipeSupporter.RECIPETYPE_ICON.get(rp),
+                    "&8点击切换配方类型","&8左键顺时针切换","&8右键逆时针切换"));
 
             int index= DataCache.getLastRecipe(loc);
             int indexRecord=getNowRecordRecipe(loc);
@@ -333,7 +374,6 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
         //only works when has viewer.
         if(inv!=null&&(inv.hasViewer())){
             Location  loc=inv.getLocation();
-            //FIXME 同一个输入槽运行结果可能不同
             MachineRecipe getRecipe=CraftUtils.matchNextRecipe(inv,getInputSlots(),getMachineRecipes(b,inv),true,Settings.SEQUNTIAL,SINGULARITY_PROVIDER);
             if(getRecipe==null){
                 DataCache.setLastRecipe(loc,-1);

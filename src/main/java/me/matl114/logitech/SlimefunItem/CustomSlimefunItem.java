@@ -16,15 +16,16 @@ import java.util.List;
 
 public abstract class CustomSlimefunItem extends SlimefunItem implements RecipeDisplay {
     public List<ItemStack> displayedMemory;
+    public List<ItemStack> originalMemory;
     public CustomSlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         this(itemGroup, item, recipeType, recipe,new ArrayList<>());
     }
     public CustomSlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,List<ItemStack> displayInfo){
         super(itemGroup, item, recipeType, recipe);
         if (displayInfo != null) {
-            this.displayedMemory = displayInfo;
+            this.originalMemory = displayInfo;
         }else{
-            this.displayedMemory = new ArrayList<>();
+            this.originalMemory = new ArrayList<>();
         }
     }
     public void addInfo(ItemStack stack){
@@ -35,7 +36,7 @@ public abstract class CustomSlimefunItem extends SlimefunItem implements RecipeD
     }
     public final List<ItemStack> getDisplayRecipes() {
         if(displayedMemory==null||displayedMemory.isEmpty()) {
-            displayedMemory=_getDisplayRecipes();
+            displayedMemory=_getDisplayRecipes(originalMemory);
         }
         return displayedMemory;
     }
@@ -44,7 +45,14 @@ public abstract class CustomSlimefunItem extends SlimefunItem implements RecipeD
         return this;
     }
     public CustomSlimefunItem setDisplayRecipes(List<ItemStack> displayRecipes) {
-        this.displayedMemory = displayRecipes;
+        this.originalMemory = displayRecipes;
+        return this;
+    }
+    public CustomSlimefunItem addDisplayRecipe(ItemStack stack) {
+        if(originalMemory==null||originalMemory.isEmpty()) {
+            originalMemory = new ArrayList<>();
+        }
+        this.originalMemory.add(stack);
         return this;
     }
     public CustomSlimefunItem setOutput(Object obj){

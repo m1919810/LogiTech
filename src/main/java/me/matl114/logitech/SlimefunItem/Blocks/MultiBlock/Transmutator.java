@@ -26,6 +26,8 @@ import me.matl114.logitech.Utils.UtilClass.RecipeClass.MultiCraftingOperation;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.SimpleCraftingOperation;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -76,11 +78,12 @@ public class Transmutator extends MultiBlockAdvancedProcessor  {
     protected final ItemStack HALT_ITEM=new CustomItemStack(Material.BARRIER,"&c点击安全终止进程","&6不会引发熔毁");
     protected final int INFO_SLOT=22;
     protected final ItemStack INFO_ITEM=new CustomItemStack(Material.LIME_STAINED_GLASS_PANE,"&a机器状态信息","");
-    protected final int[] INPUT_SLOT=new int[]{18,36,20,29,38};
+    protected final int[] INPUT_SLOT=new int[]{20,29,38};
     protected final int[] COOLER_INPUT_SLOT=new int[]{18};
     protected final int[] NETHERICE_INPUT_SLOT=new int[]{36};
     protected final int[] COMMON_INPUT_SLOT=new int[]{20,29,38};
     protected final int[] OUTPUT_SLOT=new int[]{23,24,25,32,33,34,41,42,43};
+    protected final int[] ALL_INPUT_SLOT=new int[]{18,36,20,29,38};
     public int[] getInputSlots(){
         return INPUT_SLOT;
     }
@@ -410,6 +413,23 @@ public class Transmutator extends MultiBlockAdvancedProcessor  {
         }
         //禁止了父类的关闭processor的操作，改为在MultiBlockBreak中关闭
         //合理性:只有多方块完整的时候才能进行processor,在破坏多方块的时候会取消processor
+    }
+    public int[] getSlotsAccessedByItemTransportPlus(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item){
+        if(flow==ItemTransportFlow.WITHDRAW){
+            return getOutputSlots();
+        }
+        if(item==null||item.getType().isAir()){
+            return ALL_INPUT_SLOT;
+        }
+        if(item.getType()==Material.PLAYER_HEAD){
+            if(CraftUtils.matchItemStack(item,COOLER,false)){
+                return COOLER_INPUT_SLOT;
+            }
+            else {
+                return NETHERICE_INPUT_SLOT;
+            }
+        }
+        return getInputSlots();
     }
     public void preRegister(){
 

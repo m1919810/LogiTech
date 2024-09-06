@@ -31,7 +31,7 @@ public abstract class AbstractEffect {
     public boolean onDeathClear(){
         return true;
     }
-    public void onDeathEvent(PlayerDeathEvent e) {
+    public void onDeathEvent(PlayerDeathEvent e,int level) {
 
     }
 

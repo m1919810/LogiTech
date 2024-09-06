@@ -7,6 +7,7 @@ import io.github.sefiraat.networks.utils.datatypes.PersistentQuantumStorageType;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedException;
 import me.matl114.logitech.SlimefunItem.AddDepends;
+import me.matl114.logitech.SlimefunItem.Cargo.Storages;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.StorageType;
 import org.bukkit.inventory.ItemStack;
@@ -16,6 +17,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class NetworksAdaptQuantumStorage extends StorageType {
+    int ExceptionTimes=0;
     public NetworksAdaptQuantumStorage() {
         super();
     }
@@ -48,10 +50,22 @@ public class NetworksAdaptQuantumStorage extends StorageType {
 //        return AddDepends.NETWORKSQUANTUMSTORAGE.isInstance(item);
     }
     public QuantumCache getQuantumCache(ItemMeta meta) {
-       QuantumCache cache= DataTypeMethods.getCustom(meta, AddDepends.NTWQUANTUMKEY, PersistentQuantumStorageType.TYPE);
-       if(cache==null){
-       }
-       return cache;
+        try{
+           QuantumCache cache= DataTypeMethods.getCustom(meta, AddDepends.NTWQUANTUMKEY, PersistentQuantumStorageType.TYPE);
+           return cache;
+        }catch (Throwable e){
+            disableNetworkQuantum(e);
+            return null;
+        }
+    }
+    public void disableNetworkQuantum(Throwable e){
+        Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_STORAGE, STORAGE TYPE DISABLED");
+        Debug.logger(e);
+        ExceptionTimes++;
+        if(ExceptionTimes>60){
+            Storages.disableNetworkStorage();
+            disableStorageType(this);
+        }
     }
     public int getStorageMaxSize(QuantumCache cache){
         if(cache==null){return 0;}
@@ -59,9 +73,7 @@ public class NetworksAdaptQuantumStorage extends StorageType {
         try{
             return (Integer)amount.invoke(cache);
         }catch (Throwable e){
-            Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_STORAGE, STORAGE TYPE DISABLED");
-            Debug.logger(e);
-            disableStorageType(this);
+            disableNetworkQuantum(e);
             return 0;
         }
     }
@@ -82,13 +94,11 @@ public class NetworksAdaptQuantumStorage extends StorageType {
 
     public void setAmount(QuantumCache cache, int amount) {
         if(cache==null){return;}
-        Method set=NetWorkQuantumMethod.getSetAmountMethod(cache);
+            Method set=NetWorkQuantumMethod.getSetAmountMethod(cache);
         try{
             set.invoke(cache, amount);
         }catch (Throwable e){
-            Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_STORAGE, STORAGE TYPE DISABLED");
-            Debug.logger(e);
-            disableStorageType(this);
+            disableNetworkQuantum(e);
             return ;
         }
     }
@@ -111,9 +121,7 @@ public class NetworksAdaptQuantumStorage extends StorageType {
             Object res= amount.invoke(cache);
             return res instanceof Long r? MathUtils.fromLong(r) : (Integer) res;
         }catch (Throwable e){
-            Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_STORAGE, STORAGE TYPE DISABLED");
-            Debug.logger(e);
-            disableStorageType(this);
+            disableNetworkQuantum(e);
             return 0;
         }
     }
@@ -130,9 +138,7 @@ public class NetworksAdaptQuantumStorage extends StorageType {
         try{
             return (ItemStack) getItem.invoke(cache);
         }catch (Throwable e){
-            Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_STORAGE, STORAGE TYPE DISABLED");
-            Debug.logger(e);
-            disableStorageType(this);
+            disableNetworkQuantum(e);
             return null;
         }
     }
@@ -153,9 +159,7 @@ public class NetworksAdaptQuantumStorage extends StorageType {
             set=NetWorkQuantumMethod.getUpdateMetaLore(cache);
             set.invoke(cache, meta);
         }catch (Throwable e){
-            Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_STORAGE, STORAGE TYPE DISABLED");
-            Debug.logger(e);
-            disableStorageType(this);
+            disableNetworkQuantum(e);
         }
     }
 }

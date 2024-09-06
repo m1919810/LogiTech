@@ -10,14 +10,11 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
-import me.matl114.logitech.Utils.Settings;
-import me.matl114.logitech.Utils.TransportUtils;
+import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.ItemStorageCache;
 import me.matl114.logitech.SlimefunItem.Cargo.Storages;
-import me.matl114.logitech.Utils.AddUtils;
 
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
-import me.matl114.logitech.Utils.Utils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -30,7 +27,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Set;
-
+//TODO 实现 代理+货运
+//TODO 检查均衡性是否出问题
 public abstract class AbstractIOPort extends AbstractMachine {
     public AbstractIOPort(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe){
         super(category, item, recipeType, recipe,0,0);
@@ -75,9 +73,10 @@ public abstract class AbstractIOPort extends AbstractMachine {
         Location loc = inv.getLocation();
         ItemStorageCache cache= ItemStorageCache.getCache(loc);
         if(cache!=null){
-            //更新lore不需要setPersistent 因为hasViewer就可以
-            cache.setSave(true);
+            //保证newInstance的时候也会call到该方法
+            cache.setPersistent(false);
             cache.updateMenu(inv);
+            cache.setPersistent(true);
             if(cache.getItem()!=null&&getDisplaySlot()>=0){
                 ItemStack tmp=AddUtils.addLore(cache.getItem(),ITEM_DISPLAY_INFO_1);
                 inv.replaceExistingItem(getDisplaySlot(),tmp );
@@ -94,11 +93,17 @@ public abstract class AbstractIOPort extends AbstractMachine {
         });
 
     }
-    //TODO 希望不会有bug
+    public static int getStorageAmount(Location loc){
+        return DataCache.getCustomData(loc,"amt",-1);
+    }
+    public static void setStorageAmount(Location loc,int t){
+        DataCache.setCustomData(loc,"amt",t);
+    }
+
     public void process(Block b, BlockMenu menu, SlimefunBlockData data){
         //先确认存储cache
         ItemStack stack=menu.getItemInSlot(getStorageSlot());
-        Location loc = b.getLocation();
+        Location loc = menu.getLocation();
         //如果没有放存储 则立刻就要清除当前cache
         if(stack == null||stack.getAmount()!=1){
             ItemStorageCache cache= ItemStorageCache.removeCache(loc);
@@ -107,6 +112,8 @@ public abstract class AbstractIOPort extends AbstractMachine {
                 cache.updateItemStack();
                 cache.updateStorage();
             }
+            //删除cache后 物品record变为-1个
+            setStorageAmount(loc,-1);
             if(menu.hasViewer()&&getDisplaySlot()>=0){
                 menu.replaceExistingItem(getDisplaySlot(),ITEM_DISPLAY_NULL );
             }
@@ -115,18 +122,29 @@ public abstract class AbstractIOPort extends AbstractMachine {
         //现在 有存储在的 尝试找到cache
         ItemStorageCache cache= ItemStorageCache.getCache(loc);
         //cache不存在或者    cache和现在的奇点记录的不同 记录不同只有可能是玩家替换,这时候是因为
-        if(cache == null||(menu.hasViewer()&&!cache.keepRelated(stack))){
+        if(cache == null||(!cache.keepRelated(stack))){
             //对不上了自然要丢掉废弃的
+            int history=-1;
+            if(cache==null){//考虑是不是无cache到有cache 如果是之前没有cache但是有record 说明cache被某种神秘力量清理了，比如重启
+                //重启后未保存的数据进行恢复
+                history=getStorageAmount(loc);
+            }
 
             ItemStorageCache.removeCache(loc);
             //don't support proxy ,that's a nightmare
             cache=ItemStorageCache.getOrCreate(stack,stack.getItemMeta(),getStorageSlot(),i->!i.isStorageProxy());
             //cache=ItemStorageCache.getOrCreate(stack,stack.getItemMeta(),getStorageSlot(), Storages.SINGULARITY);
             if(cache==null){
+                if(history!=-1){
+                    setStorageAmount(loc,-1);
+                }
                 return;
             }
             else {
                 cache.setSaveSlot(getStorageSlot());
+                if(history!=-1){
+                    cache.setAmount(history);
+                }
                 //设置为长期存在的 不会实时clone保存
                 cache.updateMenu(menu);
                 cache.setPersistent(true);
@@ -147,7 +165,7 @@ public abstract class AbstractIOPort extends AbstractMachine {
         Location loc = menu.getLocation();
         ItemStorageCache cache= ItemStorageCache.removeCache(loc);
         if(cache!=null){
-            cache.setSave(true);
+            cache.setPersistent(false);
             cache.updateMenu(menu);
         }
         menu.dropItems(loc,getStorageSlot());

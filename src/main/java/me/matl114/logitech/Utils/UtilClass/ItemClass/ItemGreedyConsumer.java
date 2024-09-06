@@ -85,7 +85,7 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
     }
 
     public void setStackNum(int stackNum){
-        //TODO may overflow ,but actually we don't care about this shit
+        //TODO may overflow
         matchAmount = stackNum*cnt  ;
     }
     public void addRelate(ItemPusher target){

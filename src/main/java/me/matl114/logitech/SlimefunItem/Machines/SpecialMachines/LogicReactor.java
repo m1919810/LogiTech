@@ -7,6 +7,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import jdk.jshell.execution.Util;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
@@ -51,6 +52,24 @@ public class LogicReactor extends AbstractProcessor {
     public LogicReactor(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, Material progressItem, int tick) {
         super(category,item,recipeType,recipe,progressItem,400,4000,null);
         this.processorTick = tick;
+        this.setDisplayRecipes(
+                Utils.list(
+                        AddUtils.getInfoShow("&f机制",
+                                "&7该机器拥有四对布尔输入槽,分别在&c同一列&7由彩色的玻璃板标出",
+                                "&7这些槽位用于输入布尔组件,即 %s 和 %s".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),
+                                "&7只有这些槽位的物品满足一定机制时,合成才会尝试进行"),null,
+                        AddUtils.getInfoShow("&f机制",
+                                "&7机器还有一个&c正常输入槽&7,用于输入 %s ".formatted(Language.get("Items.LOGIGATE.Name")),
+                                "&7当机器为空闲,四对布尔输入槽&c非空&7且满足右侧某个输入条件时",
+                                "&7才会尝试消耗正常输入槽内的 %s 进行合成".formatted(Language.get("Items.LOGIGATE.Name")),
+                                "&7警告:当机器尝试匹配输入条件进行合成时,四对布尔输入槽内的物品会被&c清空&7!",
+                                "&7指示:当机器在合成进程中运行时,四对布尔输入槽内的物品不会被&c清空!",
+                                "&7指示:不过玩家使用普通货运输入时,布尔槽位只会被输入布尔组件",
+                                "&7指示:你可以关闭机器来停止布尔组件的消耗"
+                        ),null
+
+                )
+        );
         this.machineRecipes=new ArrayList<>(){{
             add(MachineRecipeUtils.FromMachine(AddUtils.formatInfoMachineRecipe(Utils.array(AddItem.LOGIC),tick,
                     "&7当四对输入槽物品均为同样的布尔组件时","&7将会尝试生成 %s".formatted(Language.get("Items.LOGIC.Name")))));
@@ -61,26 +80,6 @@ public class LogicReactor extends AbstractProcessor {
             add(MachineRecipeUtils.FromMachine(AddUtils.formatInfoMachineRecipe(Utils.array(AddItem.EXISTE),tick,
                     "&7当前三个材料的生成条件均不满足","&7将会尝试生成 %s".formatted(Language.get("Items.EXISTE.Name")))));
         }};
-    }
-    public List<ItemStack> _getDisplayRecipes(){
-        List<ItemStack> recipes=new ArrayList<>();
-        recipes.add(AddUtils.getInfoShow("&f机制",
-                "&7该机器拥有四对布尔输入槽,分别在&c同一列&7由彩色的玻璃板标出",
-                        "&7这些槽位用于输入布尔组件,即 %s 和 %s".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),
-                        "&7只有这些槽位的物品满足一定机制时,合成才会尝试进行"));
-        recipes.add(null);
-        recipes.add(AddUtils.getInfoShow("&f机制",
-                "&7机器还有一个&c正常输入槽&7,用于输入 %s ".formatted(Language.get("Items.LOGIGATE.Name")),
-                "&7当机器为空闲,四对布尔输入槽&c非空&7且满足右侧某个输入条件时",
-                "&7才会尝试消耗正常输入槽内的 %s 进行合成".formatted(Language.get("Items.LOGIGATE.Name")),
-                "&7警告:当机器尝试匹配输入条件进行合成时,四对布尔输入槽内的物品会被&c清空&7!",
-                "&7指示:当机器在合成进程中运行时,四对布尔输入槽内的物品不会被&c清空!",
-                "&7指示:不过玩家使用普通货运输入时,布尔槽位只会被输入布尔组件",
-                "&7指示:你可以关闭机器来停止布尔组件的消耗"
-                ));
-        recipes.add(null);
-        recipes.addAll(super._getDisplayRecipes());
-        return recipes;
     }
     public void constructMenu(BlockMenuPreset preset) {
         //空白背景 禁止点击
@@ -182,7 +181,6 @@ public class LogicReactor extends AbstractProcessor {
             return false;
         }else return super.conditionHandle(b,menu);
     }
-    //TODO update运行状态的槽位
     protected Pair<MachineRecipe, ItemConsumer[]> findNextRecipe(BlockMenu inv,int[] inputs,int[] outputs,int code){
         ItemStack iv=inv.getItemInSlot(inputs[0]);
         if(iv!=null&&CraftUtils.matchItemStack(iv, AddItem.LOGIGATE,false)){

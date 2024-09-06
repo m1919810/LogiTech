@@ -173,7 +173,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
     for(int i=-1;i<=1;++i){
         for(int j=-1;j<=1;++j){
             for(int k=-1;k<=1;++k){
-                if(i!=0||j!=0||k!=0){
+                if(i!=0||(j!=0&&j!=1)||k!=0){
                     add(new BlockVector(i,j,k));
                 }
             }
@@ -237,10 +237,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
         removeEffect(loc);
 
         AddUtils.broadCast("&e位于[%s,%.0f,%.0f,%.0f]的超新星模拟器即将爆炸,快跑!".formatted(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ()));
-        BlockMenu inv=StorageCacheUtils.getMenu(loc);
-        if(inv!=null){
-            inv.close();
-        }
+
         Location center=loc.clone();
         Schedules.launchSchedules(()->{
             loc.getWorld().createExplosion(loc,32,true,true);
@@ -256,6 +253,10 @@ public class SolarReactorCore extends MultiBlockProcessor {
             //防止重新构建
             MultiBlockService.deleteMultiBlock(center);
             //清除方块
+            BlockMenu inv=StorageCacheUtils.getMenu(loc);
+            if(inv!=null){
+                inv.close();
+            }
             WorldUtils.removeSlimefunBlock(center,true);
             center.getBlock().setType(Material.CRYING_OBSIDIAN);
             int len=handler.getSize();

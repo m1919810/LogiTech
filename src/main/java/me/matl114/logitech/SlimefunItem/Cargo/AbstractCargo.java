@@ -125,7 +125,7 @@ public abstract class AbstractCargo extends CustomSlimefunItem implements Recipe
         super.preRegister();
         registerTick(this);
         registerBlockMenu(this);
-        handleMenu(this);
+        handleBlock(this);
     }
     public void updateMenu(BlockMenu blockMenu, Block block, Settings mod){
         loadConfig(blockMenu,block);

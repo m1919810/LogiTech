@@ -20,7 +20,9 @@ import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.MultiBlockProcessor;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiCore;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
+import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.AEMachine;
 import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.EMachine;
+import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.MTMachine;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.EqProRandomStack;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ProbItemStack;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
@@ -966,7 +968,7 @@ public class RecipeSupporter {
             }
             else if(MachineRecipeUtils.isMachineRecipe(result)){
                 //剔除掉非AbstractProcessor的本附属机器
-                if(!(item instanceof AbstractMachine&&(!(item instanceof EMachine)))){
+                if(!(item instanceof AbstractMachine&&(!(item instanceof EMachine)&&!(item instanceof MTMachine)&&!(item instanceof AEMachine)))){
                     energyComsumption=tryGetMachineEnergy(item);
                     STACKMACHINE_LIST.put(item,energyComsumption);
                 }

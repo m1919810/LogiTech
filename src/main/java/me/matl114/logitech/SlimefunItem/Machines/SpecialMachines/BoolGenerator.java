@@ -94,7 +94,7 @@ public class BoolGenerator extends AbstractProcessor {
         boolean lastResult=CraftUtils.matchItemCounter(inputs[0],inputs[1],false);
         for(int var2 = 2; var2 < 4; ++var2) {
             if(lastResult!=CraftUtils.matchItemCounter(inputs[0],inputs[var2],false)){
-                CraftUtils.clearAmount(inputs);
+                CraftUtils.clearAmount(inv,inputs);
                 return null;
             }
         }
@@ -107,7 +107,7 @@ public class BoolGenerator extends AbstractProcessor {
             for(int var2 = 1; var2 < 3; ++var2) {
                 for(int var3 = var2+1; var3 < 4; ++var3) {
                     if(CraftUtils.matchItemCounter(inputs[var2],inputs[var3],false)){
-                        CraftUtils.clearAmount(inputs);
+                        CraftUtils.clearAmount(inv,inputs);
                         return null;
                     }
                 }

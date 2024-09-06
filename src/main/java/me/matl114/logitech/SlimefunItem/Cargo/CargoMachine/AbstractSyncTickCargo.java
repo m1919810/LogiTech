@@ -39,6 +39,6 @@ public abstract class AbstractSyncTickCargo extends AbstractBlock implements Syn
     public void preRegister(){
         super.preRegister();
         this.registerBlockMenu(this);
-        this.handleMenu(this);
+        this.handleBlock(this);
     }
 }

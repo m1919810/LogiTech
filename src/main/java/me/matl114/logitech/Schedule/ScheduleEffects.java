@@ -4,7 +4,9 @@ import me.matl114.logitech.Schedule.PersistentEffects.AbstractEffect;
 import me.matl114.logitech.Schedule.PersistentEffects.CustomEffects;
 import me.matl114.logitech.Schedule.PersistentEffects.PlayerEffects;
 import me.matl114.logitech.Utils.Debug;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
@@ -70,7 +72,7 @@ public class ScheduleEffects {
             for(AbstractEffect effect : effectSet) {
                 PlayerEffects eff= effects.get(effect);
                 if(eff!=null&&(!eff.isFinished())){
-                    eff.getType().onDeathEvent(e);
+                    eff.getType().onDeathEvent(e,eff.level);
                     if(eff.getType().onDeathClear()){
                         eff.finish();
                     }
@@ -133,6 +135,7 @@ public class ScheduleEffects {
     /**
      * 该runnable只能在Schedules的effect线程运行
      */
+
     public static void scheduleEffects(){
     HashMap<AbstractEffect,PlayerEffects> effects;
 

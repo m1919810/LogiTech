@@ -15,6 +15,7 @@ import me.matl114.logitech.Schedule.PersistentEffects.AbstractEffect;
 import me.matl114.logitech.Schedule.PersistentEffects.CustomEffects;
 import me.matl114.logitech.Schedule.PersistentEffects.PlayerEffects;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Machines.WorkBenchs.BugCrafter;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.*;
@@ -160,6 +161,29 @@ public class AddGroups {
                     "&7发现配方搜素算法一个cache未及时同步的bug",
                     "&7好在在新测试员的帮助下很快解决.",
                     "&7比Tmatsuki_rui能干多了."
+                    )
+            );
+            factory.addInventory(9,AddUtils.getInfoShow("&f2024.9.4",
+                            "&7一不小心忘了写了",
+                    "&7还能写啥呢",
+                    "&7修bug,完善终极科技线",
+                    "&7修复超新星不同步bug",
+                    "&7修复了存储缓存生成后dirty位错误的bug"
+                    )
+            );
+            factory.addInventory(10,AddUtils.getInfoShow("&f2024.9.5",
+                            "&7是时候给附属加一点强力的生产机器了",
+                    "&7不然都没人玩,成本太高了",
+                    "&7开发了多线程机器,虽然就是复制粘贴",
+                    "&7研究一下同化方块机制",
+                    "&7尝试优化push方法"
+                    )
+            );
+            factory.addInventory(11,AddUtils.getInfoShow("&f2024.9.6",
+                            "&7整了一些机器 想必玩家们会喜欢",
+                    "&7开发了一些数值比较好看的机器",
+                    "&7希望是这样的",
+                    "&7"
                     )
             );
         }
@@ -387,7 +411,7 @@ public class AddGroups {
             ItemStack h4=new CustomItemStack(CustomHead.SUPPORTER2.getItem(),AddUtils.color("HgTlPbBi"),"&7点击查看详情");
             ItemStack h5=new CustomItemStack(CustomHead.getHead("8e434215b5616bf37dccbacdb240bd16de59507e62a5371ceca80327b398e65"),AddUtils.color("Tmatsuki_rui"),"&7点击查看详情");
             ItemStack h6=new CustomItemStack(AddItem.MATL114,"  ","&8..?");
-
+            ItemStack h8=new CustomItemStack(CustomHead.BIG_SNAKE.getItem(),AddUtils.color("某不知名大蛇"),"&7年轻人,你想刷物么");
 
             factory.addInventory(40,info1);
             factory.addInventory(56, h1,(cm)-> new ChestMenu.MenuClickHandler() {
@@ -410,7 +434,9 @@ public class AddGroups {
                 boolean has=false;
                 @Override
                 public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
-                    if(!has&&itemStack!=null){has=true;itemStack.setItemMeta(s3);}
+                    if(!has&&itemStack!=null){has=true;
+                        itemStack.setType(Material.REPEATING_COMMAND_BLOCK);
+                        itemStack.setItemMeta(s3);}
                     return false;
                 }
             });
@@ -418,7 +444,9 @@ public class AddGroups {
                 boolean has=false;
                 @Override
                 public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
-                    if(!has&&itemStack!=null){has=true;itemStack.setItemMeta(s4);}
+                    if(!has&&itemStack!=null){
+                        has=true;
+                        itemStack.setItemMeta(s4);}
                     return false;
                 }
             });
@@ -442,6 +470,19 @@ public class AddGroups {
                 @Override
                 public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
                     if(!has&&itemStack!=null){has=true;itemStack.setItemMeta(s6);}
+                    return false;
+                }
+            });
+            factory.addInventory(67, h8,(cm)-> new ChestMenu.MenuClickHandler() {
+                boolean has=false;
+                @Override
+                public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+                    if(!has&&itemStack!=null){has=true;
+                        itemStack.setItemMeta(s8);
+                        Schedules.launchSchedules(()->{
+                            PlayerEffects.grantEffect(CustomEffects.WRONG_BUTTON,player,2,1);
+                        },100,true,0);
+                    }
                     return false;
                 }
             });
@@ -476,6 +517,7 @@ public class AddGroups {
         final ItemMeta s5=new CustomItemStack(CustomHead.getHead("8e434215b5616bf37dccbacdb240bd16de59507e62a5371ceca80327b398e65"),AddUtils.color("Tmatsuki_rui"),"&7凉城服的祸源","&7纯傻逼,给爷死啊\uD83D\uDE21").getItemMeta();
         final ItemMeta s6=new CustomItemStack(CustomHead.BUSHIGEMEN.getItem(),"  ","&7看得出你的视力很好","&7所以一定要仔细阅读","&7版本说明与机器说明哦").getItemMeta();
         final ItemStack head=new CustomItemStack(Material.PLAYER_HEAD,AddUtils.color("逝者的头颅"));
+        final ItemMeta s8=new CustomItemStack(CustomHead.BIG_SNAKE.getItem(),AddUtils.color("taitaia"),"&7刷物?你在想屁吃\uD83D\uDE0B").getItemMeta();
         ItemMeta[] s7metas;
         //used to set GUIDE based handlers,an interface to adapt CustomMenu menus
         public void addGuideRelated(ChestMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int page){

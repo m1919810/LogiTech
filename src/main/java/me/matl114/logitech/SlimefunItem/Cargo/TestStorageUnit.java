@@ -38,9 +38,6 @@ public class TestStorageUnit extends AbstractMachine {
     public TestStorageUnit(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                             int energybuffer, int energyConsumption){
         super(category,item , recipeType, recipe,energybuffer,energyConsumption);
-
-
-
     }
     public void addInfo(ItemStack item){
 

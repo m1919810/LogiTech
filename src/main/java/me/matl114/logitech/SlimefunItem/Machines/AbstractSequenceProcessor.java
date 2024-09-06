@@ -127,27 +127,16 @@ public abstract class AbstractSequenceProcessor extends AbstractMachine implemen
             return false;
         }));
     }
-    public void cleanInputs(BlockMenu inv){
-        int[] slots=getInputSlots();
-        for (int i=0;i<slots.length;++i){
-            inv.replaceExistingItem(slots[i],null);
-        }
-    }
-
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         SequenceCraftingOperation currentOperation = (SequenceCraftingOperation)this.processor.getOperation(b);
-
+        int clear=DataCache.getCustomData(data,"clean",0);
         if(currentOperation==null){
             Pair<MachineRecipe,ItemConsumer> nextP=   CraftUtils.findNextSequenceRecipe(inv,getInputSlots(),getMachineRecipes(),
-                    true,Settings.SEQUNTIAL,CRAFT_PROVIDER);
+                    true,Settings.SEQUNTIAL,CRAFT_PROVIDER,clear!=0);
             if(nextP==null){
                 if(inv.hasViewer()){
                     inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
                 }//满载清空
-                int clear=DataCache.getCustomData(data,"clean",0);
-                if(clear!=0){
-                    cleanInputs( inv);
-                }
                 return ;
             }else {
                 MachineRecipe next =nextP.getFirstValue();
@@ -178,9 +167,8 @@ public abstract class AbstractSequenceProcessor extends AbstractMachine implemen
                 }
                 if(!CraftUtils.matchSequenceRecipeTarget(inputers,fastNext)){
                     //没有更改 触发清除，清除输入槽内全部物品
-                    int clear=DataCache.getCustomData(data,"clean",0);
                     if(clear!=0){
-                        cleanInputs(inv);
+                        CraftUtils.clearAmount(inv,inputers);
                     }
                     //显然没动 也不需要刷新
                 }else {

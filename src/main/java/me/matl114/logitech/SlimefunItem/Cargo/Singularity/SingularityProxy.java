@@ -1,5 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Cargo.Singularity;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedException;
 import me.matl114.logitech.SlimefunItem.Items.Singularity;
@@ -9,6 +10,7 @@ import me.matl114.logitech.Utils.UtilClass.PdcClass.AbstractStorageType;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.ItemStorageCache;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.LocationProxy;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.StorageType;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -22,7 +24,7 @@ public class SingularityProxy extends StorageType implements LocationProxy {
     }
 
    // public final static
-    protected static final int MAX_AMOUNT=2147483000;
+    protected static final int MAX_AMOUNT=2147483647;
     public ItemStorageCache getCache(ItemMeta meta) {
 
         Location loc= getLocation(meta);
@@ -45,7 +47,7 @@ public class SingularityProxy extends StorageType implements LocationProxy {
         ItemStorageCache cache=ItemStorageCache.getCache(loc);
         if(cache!=null){
             cache.setAmount(amount);
-            cache.updateMenu(cache.getBlockMenu());
+            cache.updateItemStack();
         }
     }
     public int getMaxAmount(Location loc) {
@@ -60,8 +62,7 @@ public class SingularityProxy extends StorageType implements LocationProxy {
         ItemStorageCache cache=ItemStorageCache.getCache(loc);
         if(cache!=null){
             //do we actually need this?
-            cache.setSave(true);
-            cache.updateMenu(cache.getBlockMenu());
+            cache.syncLocation(loc);
         }
     }
     public boolean isStorage(ItemMeta meta) {

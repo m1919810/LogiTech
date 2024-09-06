@@ -4,6 +4,10 @@ import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedException;
 import me.matl114.logitech.MyAddon;
+import me.matl114.logitech.SlimefunItem.AddDepends;
+import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
+import me.matl114.logitech.SlimefunItem.Cargo.Storages;
+import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Debug;
@@ -23,8 +27,7 @@ public class NetworksQuantumProxy extends NetworksAdaptQuantumStorage implements
     public final Map cacheMap ;
     {
         if(INSTANCE==null){
-            Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_PROXY, STORAGE TYPE DISABLED");
-            disableStorageType(this);
+            disableNetworkQuantum(new Exception("SlimefunItem INSTANCE NTW_QUANTUN_STORAGE_1 not found!"));
             throw new  NotImplementedException("NetworksQuantumStorage Instance not found");
         }
         cacheMap=NetWorkQuantumMethod.getCacheMap(INSTANCE);
@@ -34,9 +37,18 @@ public class NetworksQuantumProxy extends NetworksAdaptQuantumStorage implements
         return getQuantumCache(meta)!=null;
     }
     public QuantumCache getQuantumCache(ItemMeta meta) {
-        Location loc=getLocation(meta);
-        if(loc==null) return null;
-        else return (QuantumCache)cacheMap.get(loc) ;
+        try{
+            Location loc=getLocation(meta);
+            if(loc==null) return null;
+            else {
+                Object obj=cacheMap.get(loc);
+                if(obj==null)return null;
+                return (QuantumCache)cacheMap.get(loc);
+            }
+        }catch (Throwable e){
+            disableNetworkQuantum(e);
+            return null;
+        }
     }
     public ItemStack getItemStack(Location loc) {
         return getStorageContent ((QuantumCache)cacheMap.get(loc) );
@@ -52,6 +64,15 @@ public class NetworksQuantumProxy extends NetworksAdaptQuantumStorage implements
     public void setAmount(Location loc,int amount){
         setAmount((QuantumCache)cacheMap.get(loc),amount);
     }
+    public  void disableNetworkQuantum(Throwable e){
+        Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_PROXY, STORAGE TYPE DISABLED");
+        Debug.logger(e);
+        ExceptionTimes++;
+        if(ExceptionTimes>60){
+            Storages.disableNetworkProxy();
+            disableStorageType(this);
+        }
+    }
     public void updateLocation(Location loc){
         Method method=NetWorkQuantumMethod.getSyncBlock(INSTANCE);
         try{
@@ -60,9 +81,7 @@ public class NetworksQuantumProxy extends NetworksAdaptQuantumStorage implements
                 method.invoke(null,loc,cache);
             }
         }catch(Throwable e){
-            Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_PROXY, STORAGE TYPE DISABLED");
-            Debug.logger(e);
-            disableStorageType(this);
+            disableNetworkQuantum(e);
             return;
         }
     }
@@ -76,9 +95,7 @@ public class NetworksQuantumProxy extends NetworksAdaptQuantumStorage implements
         try{
             set.invoke(cache, amount);
         }catch (Throwable e){
-            Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_PROXY, STORAGE TYPE DISABLED");
-            Debug.logger(e);
-            disableStorageType(this);
+            disableNetworkQuantum(e);
         }
         //DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE,cache);
     }

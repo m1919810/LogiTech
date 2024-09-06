@@ -10,14 +10,11 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Schedule.PersistentEffects.RadiationRegion;
-import me.matl114.logitech.SlimefunItem.Blocks.AbstractBlock;
+import me.matl114.logitech.SlimefunItem.Blocks.*;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.MultiIOPort;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.PortalCore;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.SolarReactorCore;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.Transmutator;
-import me.matl114.logitech.SlimefunItem.Blocks.MultiPart;
-import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockTypes;
-import me.matl114.logitech.SlimefunItem.Blocks.MultiCoreTest;
 import me.matl114.logitech.SlimefunItem.Cargo.CargoMachine.*;
 import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.IOPort;
 import me.matl114.logitech.SlimefunItem.Cargo.Transportation.*;
@@ -185,8 +182,8 @@ public class AddSlimefunItems {
     public static final SlimefunItem LCRAFT=new MaterialItem(AddGroups.MATERIAL,AddItem.LCRAFT,BugCrafter.TYPE,
             recipe(AddItem.EXISTE,AddItem.LFIELD,"CARGO_MOTOR","CARGO_MOTOR",AddItem.LFIELD, AddItem.EXISTE,
                     AddItem.LFIELD,"CRAFTER_SMART_PORT","2CRAFTING_MOTOR","2CRAFTING_MOTOR", "CRAFTER_SMART_PORT",AddItem.LFIELD,
-                    "CARGO_MOTOR","2CRAFTING_MOTOR","6VANILLA_AUTO_CRAFTER", AddItem.LOGIGATE,"2CRAFTING_MOTOR","CARGO_MOTOR",
-                    "CARGO_MOTOR","2CRAFTING_MOTOR", setC(AddItem.LENGINE,2),"5ENHANCED_AUTO_CRAFTER","2CRAFTING_MOTOR","CARGO_MOTOR",
+                    "CARGO_MOTOR","CRAFTING_MOTOR","6VANILLA_AUTO_CRAFTER", AddItem.LOGIGATE,"CRAFTING_MOTOR","CARGO_MOTOR",
+                    "CARGO_MOTOR","CRAFTING_MOTOR", setC(AddItem.LENGINE,1),"5ENHANCED_AUTO_CRAFTER","CRAFTING_MOTOR","CARGO_MOTOR",
                     AddItem.LFIELD, "CRAFTER_SMART_PORT","2CRAFTING_MOTOR","2CRAFTING_MOTOR","CRAFTER_SMART_PORT",AddItem.LFIELD,
                     AddItem.EXISTE,AddItem.LFIELD,"CARGO_MOTOR","CARGO_MOTOR",AddItem.LFIELD, AddItem.EXISTE),null)
             .register();
@@ -201,8 +198,8 @@ public class AddSlimefunItems {
     public static final SlimefunItem LMOTOR=new MaterialItem(AddGroups.MATERIAL,AddItem.LMOTOR,BugCrafter.TYPE,
             recipe(AddItem.NOLOGIC,AddItem.LFIELD,"HEATING_COIL","HEATING_COIL",AddItem.LFIELD,AddItem.NOLOGIC,
                     AddItem.LFIELD,"ELECTRIC_MOTOR",setC(AddItem.LBOOLIZER,2),setC(AddItem.LBOOLIZER,2),"ELECTRIC_MOTOR",AddItem.LFIELD,
-                    "HEATING_COIL",setC(AddItem.LBOOLIZER,2),"5BATTERY",AddItem.LOGIGATE,setC(AddItem.LBOOLIZER,2),"HEATING_COIL",
-                    "HEATING_COIL",setC(AddItem.LBOOLIZER,2),AddItem.LENGINE,"4BATTERY",setC(AddItem.LBOOLIZER,2),"HEATING_COIL",
+                    "HEATING_COIL",setC(AddItem.LBOOLIZER,1),"3BATTERY",AddItem.LOGIGATE,setC(AddItem.LBOOLIZER,1),"HEATING_COIL",
+                    "HEATING_COIL",setC(AddItem.LBOOLIZER,1),AddItem.LENGINE,"4BATTERY",setC(AddItem.LBOOLIZER,1),"HEATING_COIL",
                     AddItem.LFIELD,"ELECTRIC_MOTOR",setC(AddItem.LBOOLIZER,2),setC(AddItem.LBOOLIZER,2),"ELECTRIC_MOTOR",AddItem.LFIELD,
                     AddItem.NOLOGIC,AddItem.LFIELD,"HEATING_COIL","HEATING_COIL",AddItem.LFIELD,AddItem.NOLOGIC),null)
             .register();
@@ -275,27 +272,27 @@ public class AddSlimefunItems {
             recipe(AddItem.TRUE_,AddItem.EXISTE,AddItem.LOGIC,AddItem.NOLOGIC,AddItem.UNIQUE,AddItem.FALSE_))
             .register();
     public static final SlimefunItem BISILVER=new MaterialItem(AddGroups.MATERIAL,AddItem.BISILVER,STARSMELTERY,
-            recipe(setC(AddItem.BISMUTH_INGOT,6),setC(AddItem.PARADOX,8),"4SILVER_INGOT",
-                    "2BILLON_INGOT"),null)
+            recipe(setC(AddItem.BISMUTH_INGOT,12),setC(AddItem.PARADOX,24),"4SILVER_INGOT",
+                    "4BILLON_INGOT"),null)
             .register();
     public static final SlimefunItem PAGOLD=new MaterialItem(AddGroups.MATERIAL,AddItem.PAGOLD,STARSMELTERY,
-            recipe(setC(AddItem.PALLADIUM_INGOT,5),setC(AddItem.PARADOX,8),
-                    setC(AddItem.PLATINUM_INGOT,3),"7GOLD_22K"
+            recipe(setC(AddItem.PALLADIUM_INGOT,8),setC(AddItem.PARADOX,24),
+                    setC(AddItem.PLATINUM_INGOT,4),"7GOLD_22K"
                     ),null)
             .register();
 
     public static final SlimefunItem PDCECDMD=new MaterialItem(AddGroups.MATERIAL,AddItem.PDCECDMD,AddSlimefunItems.STARSMELTERY,
-            recipe("64PLUTONIUM",setC(AddItem.CERIUM,10),setC(AddItem.CADMIUM_INGOT,6),
-                    setC(AddItem.MENDELEVIUM,4)
+            recipe("64PLUTONIUM",setC(AddItem.CERIUM,18),setC(AddItem.CADMIUM_INGOT,16),
+                    setC(AddItem.MENDELEVIUM,12)
                     ),null)
             .register();
     public static final SlimefunItem HGTLPBBI=new MaterialItem(AddGroups.MATERIAL,AddItem.HGTLPBBI,AddSlimefunItems.STARSMELTERY,
-            recipe(setC(AddItem.HYDRAGYRUM,4),setC(AddItem.THALLIUM,6),
-                    "24LEAD_INGOT",setC(AddItem.BISILVER,12)),null)
+            recipe(setC(AddItem.HYDRAGYRUM,24),setC(AddItem.THALLIUM,32),
+                    "54LEAD_INGOT",setC(AddItem.BISILVER,8)),null)
             .register();
     public static final SlimefunItem REINFORCED_CHIP_INGOT=new MaterialItem(AddGroups.MATERIAL,AddItem.REINFORCED_CHIP_INGOT,AddSlimefunItems.STARSMELTERY,
             recipe(setC(AddItem.STAR_GOLD_INGOT,10),setC(AddItem.CHIP_INGOT,16),
-                    setC(AddItem.ATOM_INGOT,13),setC(AddItem.PAGOLD,4),
+                    setC(AddItem.ATOM_INGOT,31),setC(AddItem.PAGOLD,4),
                     setC(AddItem.CADMIUM_INGOT,4),setC(AddItem.BISILVER,3)
                     ),null)
             .register();
@@ -368,7 +365,7 @@ public class AddSlimefunItems {
             .register();
     public static final SlimefunItem SPACE_PLATE=new MaterialItem(AddGroups.MATERIAL,AddItem.SPACE_PLATE,STARSMELTERY,
             recipe(setC(AddItem.STAR_GOLD_INGOT,24),setC(AddItem.PARADOX,64),
-                    setC(AddItem.ATOM_INGOT,24),setC(AddItem.LFIELD,24),setC(AddItem.REINFORCED_CHIP_INGOT,2)
+                    setC(AddItem.ATOM_INGOT,64),setC(AddItem.LFIELD,36),setC(AddItem.REINFORCED_CHIP_INGOT,3)
                     ),null)
             .register();
     public static final SlimefunItem VIRTUAL_SPACE=new MaterialItem(AddGroups.MATERIAL,AddItem.VIRTUAL_SPACE,BugCrafter.TYPE,
@@ -403,7 +400,10 @@ public class AddSlimefunItems {
             AddUtils.formatInfoRecipe(AddItem.SOLAR_REACTOR,Language.get("MultiBlock.SOLAR_REACTOR.Name")),null)
             .register();
     public static final SlimefunItem LOGIC_CORE=new MaterialItem(AddGroups.MATERIAL,AddItem.LOGIC_CORE,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.SEQ_CONSTRUCTOR,Language.get("Machines.SEQ_CONSTRUCTOR.Name")),null)
+            AddUtils.formatInfoRecipe(AddItem.FINAL_SEQUENTIAL,Language.get("Machines.FINAL_SEQUENTIAL.Name")),null)
+            .register();
+    public static final SlimefunItem FINAL_FRAME=new AbstractBlock(AddGroups.MATERIAL,AddItem.FINAL_FRAME,RecipeType.NULL,
+            AddUtils.formatInfoRecipe(AddItem.FINAL_SEQUENTIAL,Language.get("Machines.FINAL_SEQUENTIAL.Name")))
             .register();
 
     public static final SlimefunItem STACKFRAME=new MaterialItem(AddGroups.MATERIAL,AddItem.STACKFRAME,BugCrafter.TYPE,
@@ -440,6 +440,40 @@ public class AddSlimefunItems {
                     AddItem.CHIP_INGOT,AddItem.BUG,AddItem.CHIP_INGOT,
                     AddItem.ABSTRACT_INGOT,"ENERGIZED_CAPACITOR",AddItem.ABSTRACT_INGOT),10_000,1_000,7)
             .register();
+    public static final  SlimefunItem FURNACE_FACTORY=new MTMachine(AddGroups.BASIC, AddItem.FURNACE_FACTORY,BugCrafter.TYPE,
+            recipe(AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,AddItem.NOLOGIC,AddItem.NOLOGIC,null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,"ELECTRIC_FURNACE","ELECTRIC_FURNACE",null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,"ELECTRIC_FURNACE","ELECTRIC_FURNACE",null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,AddItem.NOLOGIC,AddItem.NOLOGIC,null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LENGINE,AddItem.LENGINE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT),
+            AddUtils.addGlow( new ItemStack(Material.FLINT_AND_STEEL)),60,6_400,
+            ()->{
+                List<MachineRecipe> recipelist=new ArrayList<>();
+                List<MachineRecipe> rp=RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(BukkitUtils.VANILLA_FURNACE);
+                for (MachineRecipe rps:rp){
+                    recipelist.add(MachineRecipeUtils.stackFrom(1,rps.getInput(),rps.getOutput()));
+                }
+                return recipelist;
+            })
+            .register();
+    public static final  SlimefunItem SMELTRY=new AEMachine(AddGroups.BASIC, AddItem.SMELTRY,BugCrafter.TYPE,
+            recipe(AddItem.ABSTRACT_INGOT,setC(AddItem.STAR_GOLD_INGOT,2),AddItem.LMOTOR,AddItem.LMOTOR,setC(AddItem.STAR_GOLD_INGOT,2),AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,AddItem.NOLOGIC,AddItem.NOLOGIC,null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,"ELECTRIC_SMELTERY_2","ELECTRIC_SMELTERY_2",null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,"ELECTRIC_SMELTERY_2","ELECTRIC_SMELTERY_2",null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,AddItem.NOLOGIC,AddItem.NOLOGIC,null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,setC(AddItem.STAR_GOLD_INGOT,2),AddItem.LENGINE,AddItem.LENGINE,setC(AddItem.STAR_GOLD_INGOT,2),AddItem.ABSTRACT_INGOT),
+            Material.STONE,100,12_800,
+            ()->{
+                List<MachineRecipe> recipelist=new ArrayList<>();
+                List<MachineRecipe> rp=RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItem.getById("ELECTRIC_SMELTERY"));
+                for (MachineRecipe rps:rp){
+                    recipelist.add(MachineRecipeUtils.stackFrom(0,rps.getInput(),rps.getOutput()));
+                }
+                return recipelist;
+            })
+            .register();
     public static final  SlimefunItem ENDFRAME_MACHINE=new EMachine(AddGroups.VANILLA, AddItem.ENDFRAME_MACHINE,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.PARADOX,AddItem.LENGINE,AddItem.PARADOX,
                     AddItem.END_FEAT,AddItem.DIMENSIONAL_SHARD,AddItem.END_FEAT,
@@ -450,10 +484,61 @@ public class AddSlimefunItems {
                         mkP(mkl(AddItem.STAR_GOLD_INGOT,"16QUARTZ_BLOCK"),mkl(AddItem.SOLAR_REACTOR_FRAME)),6,
                         mkP(mkl(setC(AddItem.LPLATE,2),"16GLASS"),mkl(AddItem.SOLAR_REACTOR_GLASS)),6,
                         mkP(mkl(AddItem.STACKFRAME,AddItem.TRUE_),mkl(AddItem.STACKMACHINE)),6,
+                        mkP(mkl(AddItem.STACKFRAME,AddItem.FALSE_),mkl(AddItem.STACKMGENERATOR)),6,
+                        mkP(mkl(AddItem.STACKFRAME,"4ENERGY_REGULATOR"),mkl(AddItem.ENERGY_AMPLIFIER)),6,
                         mkP(mkl(setC(AddItem.SPACE_PLATE,2),AddItem.MASS_CORE),mkl(setC(AddItem.TRANSMUTATOR_FRAME,9))),6,
                         mkP(mkl(AddItem.SPACE_PLATE,setC(AddItem.LFIELD,24)),mkl(setC(AddItem.TRANSMUTATOR_GLASS,7))),6,
                         mkP(mkl(setC(AddItem.ATOM_INGOT,32),AddItem.PAGOLD),mkl(setC(AddItem.TRANSMUTATOR_ROD,8))),6
             ))
+            .register();
+
+    public static final  SlimefunItem DUST_EXTRACTOR=new MTMachine(AddGroups.BASIC, AddItem.DUST_EXTRACTOR,BugCrafter.TYPE,
+            recipe(AddItem.LPLATE,setC(AddItem.TECH_CORE,4),setC(AddItem.PAGOLD,2),setC(AddItem.PAGOLD,2),setC(AddItem.MASS_CORE,4),AddItem.LPLATE,
+                    AddItem.LPLATE,setC(AddItem.ATOM_INGOT,8),setC(AddItem.CHIP_CORE,2),setC(AddItem.CHIP_CORE,2),setC(AddItem.ATOM_INGOT,8),AddItem.LPLATE,
+                    AddItem.LPLATE,AddItem.LENGINE,"4ELECTRIC_ORE_GRINDER_3","4ELECTRIC_ORE_GRINDER_3",AddItem.LENGINE,AddItem.LPLATE,
+                    AddItem.LPLATE,AddItem.LIOPORT,"4ELECTRIC_GOLD_PAN_3","4ELECTRIC_GOLD_PAN_3",AddItem.LIOPORT,AddItem.LPLATE,
+                    AddItem.LPLATE,AddItem.LMOTOR,"4ELECTRIC_DUST_WASHER_3","4ELECTRIC_DUST_WASHER_3",AddItem.LMOTOR,AddItem.LPLATE,
+                    setC(AddItem.PAGOLD,2),setC(AddItem.TECH_CORE,4),setC(AddItem.PAGOLD,2),setC(AddItem.PAGOLD,2),setC(AddItem.MASS_CORE,4),setC(AddItem.PAGOLD,2)),
+            new ItemStack(Material.LANTERN),1800,86400,
+                mkMp(
+                        mkP(mkl("64COBBLESTONE"),mkl(AddUtils.randItemStackFactory(
+                                new LinkedHashMap<>(){{
+                                    put("64IRON_DUST",1);
+                                    put("64GOLD_DUST",1);
+                                    put("64COPPER_DUST",1);
+                                    put("64TIN_DUST",1);
+                                    put("64ZINC_DUST",1);
+                                    put("64ALUMINUM_DUST",1);
+                                    put("64SILVER_DUST",1);
+                                    put("64MAGNESIUM_DUST",1);
+                                    put("64LEAD_DUST",1);
+                                }}
+                        ))),0
+                )
+            )
+            .register();
+    public static final  SlimefunItem INGOT_FACTORY=new MTMachine(AddGroups.BASIC, AddItem.INGOT_FACTORY,BugCrafter.TYPE,
+            recipe(AddItem.LPLATE,setC(AddItem.METAL_CORE,4),setC(AddItem.PAGOLD,2),setC(AddItem.PAGOLD,2),setC(AddItem.SMELERY_CORE,4),AddItem.LPLATE,
+                    AddItem.LPLATE,setC(AddItem.ATOM_INGOT,8),setC(AddItem.CHIP_CORE,2),setC(AddItem.CHIP_CORE,2),setC(AddItem.ATOM_INGOT,8),AddItem.LPLATE,
+                    AddItem.LPLATE,AddItem.LENGINE,"4ELECTRIC_INGOT_FACTORY_3","4ELECTRIC_INGOT_FACTORY_3",AddItem.LENGINE,AddItem.LPLATE,
+                    AddItem.LPLATE,AddItem.LIOPORT,"4ELECTRIC_INGOT_FACTORY_3","4ELECTRIC_INGOT_FACTORY_3",AddItem.LIOPORT,AddItem.LPLATE,
+                    AddItem.LPLATE,AddItem.LMOTOR,"4ELECTRIC_INGOT_FACTORY_3","4ELECTRIC_INGOT_FACTORY_3",AddItem.LMOTOR,AddItem.LPLATE,
+                    setC(AddItem.PAGOLD,2),setC(AddItem.METAL_CORE,4),setC(AddItem.PAGOLD,2),setC(AddItem.PAGOLD,2),setC(AddItem.SMELERY_CORE,4),setC(AddItem.PAGOLD,2)),
+            new ItemStack(Material.LANTERN),2400,129600,
+            mkMp(
+                    mkP(mkl("64IRON_DUST"),mkl("64IRON_INGOT")),0,
+                    mkP(mkl("64GOLD_DUST"),mkl("64GOLD_INGOT")),0,
+                    mkP(mkl("64COPPER_DUST"),mkl("64COPPER_INGOT")),0,
+                    mkP(mkl("64TIN_DUST"),mkl("64TIN_INGOT")),0,
+                    mkP(mkl("64ZINC_DUST"),mkl("64ZINC_INGOT")),0,
+                    mkP(mkl("64ALUMINUM_DUST"),mkl("64ALUMINUM_INGOT")),0,
+                    mkP(mkl("64SILVER_DUST"),mkl("64SILVER_INGOT")),0,
+                    mkP(mkl("64MAGNESIUM_DUST"),mkl("64MAGNESIUM_INGOT")),0,
+                    mkP(mkl("64LEAD_DUST"),mkl("64LEAD_INGOT")),0
+
+
+            )
+    )
             .register();
     public static final  SlimefunItem LVOID_GENERATOR=new TestGenerator(AddGroups.ENERGY, AddItem.LVOID_GENERATOR,BugCrafter.TYPE,
             recipe(AddItem.LFIELD,AddItem.LPLATE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LPLATE,AddItem.LFIELD,
@@ -497,7 +582,9 @@ public class AddSlimefunItems {
                     AddItem.TECH_CORE,AddItem.HGTLPBBI,AddItem.LASER,AddItem.LASER,AddItem.HGTLPBBI,AddItem.TECH_CORE,
                     AddItem.PLATINUM_INGOT,AddItem.PLATINUM_INGOT,AddItem.PLATINUM_INGOT,AddItem.PLATINUM_INGOT,AddItem.PLATINUM_INGOT,AddItem.PLATINUM_INGOT), 200_000_000,0.1,30)
             .register();
-
+    public static final SlimefunItem ENERGY_AMPLIFIER=new EnergyAmplifier(AddGroups.ENERGY,AddItem.ENERGY_AMPLIFIER,RecipeType.NULL,
+            AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),1_000_000_000)
+            .register();
     public static final  SlimefunItem SPECIAL_CRAFTER=new SpecialCrafter(AddGroups.BASIC, AddItem.SPECIAL_CRAFTER,BugCrafter.TYPE,
             recipe(AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,AddItem.LOGIC,AddItem.LOGIC,AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,
                     AddItem.LFIELD,AddItem.LDIGITIZER,setC(AddItem.LPLATE,2),setC(AddItem.LPLATE,2),AddItem.LMOTOR,AddItem.LFIELD,
@@ -512,6 +599,7 @@ public class AddSlimefunItems {
                     add(AddDepends.VOIDHARVEST);
             }})
             .register();
+
     public static final  SlimefunItem STAR_SMELTERY=new AEMachine(AddGroups.ADVANCED, AddItem.STAR_SMELTERY,BugCrafter.TYPE,
             recipe(AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,
                     AddItem.STAR_GOLD_INGOT,setC(AddItem.LPLATE,2),"ELECTRIC_INGOT_FACTORY_3","ELECTRIC_INGOT_FACTORY_3",setC(AddItem.LPLATE,2),AddItem.STAR_GOLD_INGOT,
@@ -551,8 +639,8 @@ public class AddSlimefunItems {
                     AddItem.LPLATE,AddItem.LBOOLIZER,AddItem.LSCHEDULER,AddItem.LSCHEDULER,AddItem.LBOOLIZER,AddItem.LPLATE,
                     AddItem.LPLATE,AddItem.LPLATE,AddItem.LPLATE,AddItem.LPLATE,AddItem.LPLATE,AddItem.LPLATE), Material.POTATO,0,0,
             mkMp(
-                mkP(mkl(setC(AddItem.CHIP_INGOT,3),AddItem.EXISTE),mkl( ChipCardCode.CHIP_0)),4,
-                    mkP(mkl(setC(AddItem.CHIP_INGOT,3),AddItem.UNIQUE),mkl( ChipCardCode.CHIP_1)),4,
+                mkP(mkl(setC(AddItem.CHIP_INGOT,6),AddItem.EXISTE),mkl( ChipCardCode.CHIP_0)),4,
+                    mkP(mkl(setC(AddItem.CHIP_INGOT,6),AddItem.UNIQUE),mkl( ChipCardCode.CHIP_1)),4,
                     mkP(mkl(AddItem.LSCHEDULER,ChipCardCode.CHIP_FINAL),mkl(CHIP_CORE)),4
             )).register();
 
@@ -598,21 +686,21 @@ public class AddSlimefunItems {
                     "COBALT_PICKAXE","WATER_BUCKET","COBALT_PICKAXE"),18,1000,66,
             AddUtils.randItemStackFactory(
                     mkMp("2COBBLESTONE",72,
-                            "3COAL",7,
-                            "8REDSTONE",6,
-                            "3IRON_INGOT",5,
+                            "2COAL",7,
+                            "4REDSTONE",6,
+                            "2IRON_INGOT",5,
                             "8LAPIS_LAZULI",4,
-                            "3GOLD_INGOT",3,
+                            "2GOLD_INGOT",3,
                             "DIAMOND",2,
-                            "2EMERALD",1
+                            "EMERALD",1
                     )
             ))
             .register();
     public static final SlimefunItem BOOL_MG = new MMGenerator(AddGroups.GENERATORS, AddItem.BOOL_MG, BugCrafter.TYPE,
             recipe(null,AddItem.FALSE_,AddItem.LFIELD,AddItem.LFIELD,AddItem.FALSE_,null,
                     AddItem.TRUE_,AddItem.LFIELD,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LFIELD,AddItem.TRUE_,
-                    AddItem.LFIELD,AddItem.ABSTRACT_INGOT,setC(AddItem.LBOOLIZER,47),setC(AddItem.LOGIGATE,31),AddItem.ABSTRACT_INGOT,AddItem.LFIELD,
-                    AddItem.LFIELD,AddItem.ABSTRACT_INGOT,setC(AddItem.LOGIGATE,33),setC(AddItem.NOLOGIC,63),AddItem.ABSTRACT_INGOT,AddItem.LFIELD,
+                    AddItem.LFIELD,AddItem.ABSTRACT_INGOT,setC(AddItem.LBOOLIZER,47),setC(AddItem.LOGIGATE,17),AddItem.ABSTRACT_INGOT,AddItem.LFIELD,
+                    AddItem.LFIELD,AddItem.ABSTRACT_INGOT,setC(AddItem.LOGIGATE,15),setC(AddItem.NOLOGIC,21),AddItem.ABSTRACT_INGOT,AddItem.LFIELD,
                     AddItem.TRUE_,AddItem.LFIELD,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LFIELD,AddItem.TRUE_,
                     null,AddItem.FALSE_,AddItem.LFIELD,AddItem.LFIELD,AddItem.FALSE_,null), 6, 114514, 256,
             new LinkedHashMap<>(){{
@@ -625,16 +713,16 @@ public class AddSlimefunItems {
             recipe(AddItem.ABSTRACT_INGOT,AddItem.MAGIC_STONE,AddItem.ABSTRACT_INGOT,
                     AddItem.UNIQUE,AddItem.LENGINE,AddItem.EXISTE
                     ,AddItem.WORLD_FEAT,AddItem.MAGIC_STONE,AddItem.WORLD_FEAT
-            ),16,2_500,400,
+            ),14,2_500,400,
             AddUtils.randItemStackFactory(
                     mkMp("8COBBLESTONE",40,
-                            "4COAL",9,
-                            "4REDSTONE",9,
+                            "3COAL",9,
+                            "3REDSTONE",9,
                             "3IRON_INGOT",9,
                             "8LAPIS_LAZULI",9,
-                            "2GOLD_INGOT",9,
-                            "DIAMOND",8,
-                            "EMERALD",7
+                            "3GOLD_INGOT",9,
+                            "3DIAMOND",8,
+                            "3EMERALD",7
                     )
             ))
             .register();
@@ -643,16 +731,16 @@ public class AddSlimefunItems {
                     null,AddItem.LPLATE,AddItem.OVERWORLD_MINER,AddItem.OVERWORLD_MINER,AddItem.LPLATE,null,
                     null,AddItem.LPLATE,AddItem.LENGINE,AddItem.LENGINE,AddItem.LPLATE,null,
                     null,AddItem.NETHER_FEAT,"ENERGIZED_CAPACITOR","ENERGIZED_CAPACITOR",AddItem.NETHER_FEAT,null
-                  ),12,3_000,600,
+                  ),10,3_000,600,
             AddUtils.randItemStackFactory(
                     mkMp(
-                            "32NETHERRACK",40,
-                            "10QUARTZ",25,
-                            "4MAGMA_BLOCK",10,
-                            "16BLACKSTONE",8,
-                            "16BASALT",8,
-                            "4NETHER_WART",8,
-                            "ANCIENT_DEBRIS",1
+                            "32NETHERRACK",30,
+                            "10QUARTZ",40,
+                            "16MAGMA_BLOCK",7,
+                            "16BLACKSTONE",7,
+                            "16BASALT",7,
+                            "16NETHER_WART",7,
+                            "4ANCIENT_DEBRIS",2
                     )
             ))
             .register();
@@ -662,26 +750,26 @@ public class AddSlimefunItems {
                     null,AddItem.LPLATE,AddItem.NETHER_MINER,AddItem.NETHER_MINER,AddItem.LPLATE,null,
                     null,AddItem.LPLATE,"ENERGIZED_CAPACITOR","ENERGIZED_CAPACITOR",AddItem.LPLATE,null,
                     AddItem.END_FEAT,AddItem.LENGINE,AddItem.END_FEAT,AddItem.END_FEAT,AddItem.LENGINE,AddItem.END_FEAT
-            ),10,6_000,1000,
+            ),8,6_000,1000,
             AddUtils.randItemStackFactory(
                     mkMp(
                             "64END_STONE",150,
-                            "4OBSIDIAN",100,
-                            "4CHORUS_FLOWER",40,
+                            "10OBSIDIAN",100,
+                            "4CHORUS_FLOWER",30,
                             "2SHULKER_SHELL",35,
                             "DRAGON_BREATH",35,
-                            AddItem.DIMENSIONAL_SHARD,32,
-                            AddItem.STAR_GOLD,8
+                            AddItem.DIMENSIONAL_SHARD,40,
+                            AddItem.STAR_GOLD,10
                     )
             ))
             .register();
     public static final SlimefunItem DIMENSION_MINER=new SMGenerator(AddGroups.GENERATORS, AddItem.DIMENSION_MINER,BugCrafter.TYPE  ,
-            recipe("GPS_TRANSMITTER_4",AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,"GPS_TRANSMITTER_4",
+            recipe("GPS_TRANSMITTER_4",AddItem.STAR_GOLD,AddItem.LFIELD,AddItem.LFIELD,AddItem.STAR_GOLD,"GPS_TRANSMITTER_4",
                     AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.STAR_GOLD,AddItem.STAR_GOLD_INGOT,
-                    AddItem.LFIELD,null,AddItem.END_MINER,AddItem.END_MINER,null,AddItem.LFIELD,
+                    AddItem.LFIELD,null,AddItem.NETHER_MINER,AddItem.NETHER_MINER,null,AddItem.LFIELD,
                     AddItem.LFIELD,null,AddItem.END_MINER,AddItem.END_MINER,null,AddItem.LFIELD,
                     AddItem.STAR_GOLD_INGOT,AddItem.LIOPORT,AddItem.LENGINE,AddItem.LENGINE,AddItem.LIOPORT,AddItem.STAR_GOLD_INGOT,
-                    "GPS_TRANSMITTER_4",AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,"GPS_TRANSMITTER_4"),8,18_000,1_800,
+                    "GPS_TRANSMITTER_4",AddItem.STAR_GOLD,AddItem.LFIELD,AddItem.LFIELD,AddItem.STAR_GOLD,"GPS_TRANSMITTER_4"),5,18_000,1_800,
             AddUtils.randItemStackFactory(
                     mkMp(
                             "64COBBLESTONE",1,
@@ -698,17 +786,136 @@ public class AddSlimefunItems {
             ),
             AddUtils.randItemStackFactory(
                     mkMp(
-                            "8COAL",8,
-                            "8REDSTONE",8,
-                            "8IRON_INGOT",8,
+                            "12COAL",8,
+                            "16REDSTONE",8,
+                            "12IRON_INGOT",8,
                             "16LAPIS_LAZULI",8,
-                            "8GOLD_INGOT",8,
-                            "8DIAMOND",8,
-                            "8EMERALD",8,
+                            "12GOLD_INGOT",8,
+                            "12DIAMOND",8,
+                            "12EMERALD",8,
                             "16QUARTZ",8,
                             "4ANCIENT_DEBRIS",8
                     )
             ))
+            .register();
+    //TODO 完成这块
+
+    public static final SlimefunItem MAGIC_PLANT = new MMGenerator(AddGroups.GENERATORS, AddItem.MAGIC_PLANT, RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(Material.DIAMOND_HOE,"WATER_BUCKET",Material.DIAMOND_HOE,
+                    "OBSERVER",AddItem.LOGIGATE,"OBSERVER",
+                    Material.BONE_BLOCK,"PISTON",Material.BONE_BLOCK), 54, 1_000, 33,
+            new LinkedHashMap<>(){{
+                put(mkl("WHEAT_SEEDS"),mkl("WHEAT","2WHEAT_SEEDS"));
+                put(mkl("CARROT"),mkl("2CARROT"));
+                put(mkl("POTATO"),mkl("2POTATO"));
+                put(mkl("PUMPKIN_SEEDS"),mkl("PUMPKIN","2PUMPKIN_SEEDS"));
+                put(mkl("SUGAR_CANE"),mkl("3SUGAR_CANE"));
+                put(mkl("OAK_SAPLING"),mkl("OAK_SAPLING","2OAK_LOG","2OAK_LEAVES"));
+            }})
+            .register();
+    public static final SlimefunItem OVERWORLD_PLANT = new MMGenerator(AddGroups.GENERATORS, AddItem.OVERWORLD_PLANT, RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe("CROP_GROWTH_ACCELERATOR_2",AddItem.MAGIC_PLANT,"CROP_GROWTH_ACCELERATOR_2",
+                    "TREE_GROWTH_ACCELERATOR",AddItem.LENGINE,"TREE_GROWTH_ACCELERATOR"
+                    ,AddItem.WORLD_FEAT,AddItem.MAGIC_PLANT,AddItem.WORLD_FEAT
+            ), 14, 2_500,400,
+            new LinkedHashMap<>(){{
+                put(mkl("COCOA_BEANS"),mkl("9COCOA_BEANS"));
+                put(mkl("MELON_SEEDS"),mkl("3MELON","3MELON_SEEDS"));
+                put(mkl("PUMPKIN_SEEDS"),mkl("3PUMPKIN","3PUMPKIN_SEEDS"));
+                put(mkl("BEETROOT_SEEDS"),mkl("9BEETROOT","6BEETROOT_SEEDS"));
+                put(mkl("WHEAT_SEEDS"),mkl("9WHEAT","6WHEAT_SEEDS"));
+                put(mkl("APPLE"),mkl("9APPLE"));
+                put(mkl("BROWN_MUSHROOM"),mkl("9BROWN_MUSHROOM"));
+                put(mkl("RED_MUSHROOM"),mkl("9RED_MUSHROOM"));
+                put(mkl("DEAD_BUSH"),mkl("9DEAD_BUSH","6STICK"));
+                put(mkl("CARROT"),mkl("9CARROT"));
+                put(mkl("POTATO"),mkl("9POTATO"));
+                put(mkl("SWEET_BERRIES"),mkl("9SWEET_BERRIES"));
+                put(mkl("SUGAR_CANE"),mkl("9SUGAR_CANE"));
+                put(mkl("BAMBOO"),mkl("9BAMBOO"));
+                put(mkl("CACTUS"),mkl("9CACTUS"));
+                put(mkl("OAK_SAPLING"),mkl("9OAK_SAPLING","18OAK_LOG","6APPLE","9OAK_LEAVES","6STICK"));
+                put(mkl("BIRCH_SAPLING"),mkl("9BIRCH_SAPLING","18BIRCH_LOG","6APPLE","9BIRCH_LEAVES","6STICK"));
+                put(mkl("SPRUCE_SAPLING"),mkl("9SPRUCE_SAPLING","18SPRUCE_LOG","6APPLE","9SPRUCE_LEAVES","6STICK"));
+                put(mkl("DARK_OAK_SAPLING"),mkl("9DARK_OAK_SAPLING","18DARK_OAK_LOG","6APPLE","9DARK_OAK_LEAVES","6STICK"));
+                put(mkl("JUNGLE_SAPLING"),mkl("9JUNGLE_SAPLING","18JUNGLE_LOG","6APPLE","9JUNGLE_LEAVES","6STICK"));
+                put(mkl("ACACIA_SAPLING"),mkl("9ACACIA_SAPLING","18ACACIA_LOG","6APPLE","9ACACIA_LEAVES","6STICK"));
+                put(mkl("MANGROVE_PROPAGULE"),mkl("9MANGROVE_PROPAGULE","18MANGROVE_LOG","9MANGROVE_LEAVES"));
+                put(mkl("CHERRY_SAPLING"),mkl("9CHERRY_SAPLING","18CHERRY_LOG","9CHERRY_LEAVES"));
+            }})
+            .register();
+    public static final SlimefunItem NETHER_PLANT = new MMGenerator(AddGroups.GENERATORS, AddItem.NETHER_PLANT, BugCrafter.TYPE,
+            recipe(null,setC(AddItem.PARADOX,3),setC(AddItem.PARADOX,3),setC(AddItem.PARADOX,3),setC(AddItem.PARADOX,3),null,
+                    null,AddItem.ABSTRACT_INGOT,AddItem.OVERWORLD_PLANT,AddItem.LOGIGATE,AddItem.ABSTRACT_INGOT,null,
+                    null,AddItem.ABSTRACT_INGOT,AddItem.LOGIGATE,"TREE_GROWTH_ACCELERATOR",AddItem.ABSTRACT_INGOT,null,
+                    null,AddItem.NETHER_FEAT,"MEDIUM_CAPACITOR","MEDIUM_CAPACITOR",AddItem.NETHER_FEAT,null
+            ), 12,3_000,600,
+            new LinkedHashMap<>(){{
+                put(mkl("NETHER_WART"),mkl("12NETHER_WART"));
+                put(mkl("WEEPING_VINES"),mkl("12WEEPING_VINES"));
+                put(mkl("TWISTING_VINES"),mkl("12TWISTING_VINES"));
+                put(mkl("CRIMSON_ROOTS"),mkl("12CRIMSON_ROOTS"));
+                put(mkl("WARPED_ROOTS"),mkl("12WARPED_ROOTS"));
+                put(mkl("NETHER_SPROUTS"),mkl("12NETHER_SPROUTS"));
+                put(mkl("CRIMSON_FUNGUS"),mkl("6CRIMSON_FUNGUS","18CRIMSON_STEM","6SHROOMLIGHT","12NETHER_WART_BLOCK"));
+                put(mkl("WARPED_FUNGUS"),mkl("6WARPED_FUNGUS","18WARPED_STEM","6SHROOMLIGHT","12WARPED_WART_BLOCK"));
+
+            }})
+            .register();
+    public static final SlimefunItem END_PLANT = new MMGenerator(AddGroups.GENERATORS, AddItem.END_PLANT, BugCrafter.TYPE,
+            recipe(null,AddItem.LFIELD,setC(AddItem.PARADOX,3),setC(AddItem.PARADOX,3),AddItem.LFIELD,null,
+                    null,AddItem.ABSTRACT_INGOT,"CROP_GROWTH_ACCELERATOR_2","TREE_GROWTH_ACCELERATOR",AddItem.ABSTRACT_INGOT,null,
+                    null,AddItem.ABSTRACT_INGOT,AddItem.OVERWORLD_PLANT,AddItem.NETHER_PLANT,AddItem.ABSTRACT_INGOT,null,
+                    null,AddItem.ABSTRACT_INGOT,"ENERGIZED_CAPACITOR","ENERGIZED_CAPACITOR",AddItem.ABSTRACT_INGOT,null,
+                    AddItem.END_FEAT,AddItem.LENGINE,AddItem.END_FEAT,AddItem.END_FEAT,AddItem.LENGINE,AddItem.END_FEAT
+            ), 10,6_000,1000,
+            new LinkedHashMap<>(){{
+                put(mkl("MELON_SEEDS"),mkl("3MELON","3MELON_SEEDS"));
+                put(mkl("PUMPKIN_SEEDS"),mkl("3PUMPKIN","3PUMPKIN_SEEDS"));
+                put(mkl("WHEAT_SEEDS"),mkl("9WHEAT","6WHEAT_SEEDS"));
+                put(mkl("CARROT"),mkl("9CARROT"));
+                put(mkl("POTATO"),mkl("9POTATO"));
+                put(mkl("SUGAR_CANE"),mkl("9SUGAR_CANE"));
+                put(mkl("OAK_SAPLING"),mkl("9OAK_SAPLING","18OAK_LOG","6APPLE","9OAK_LEAVES","6STICK"));
+                put(mkl("NETHER_WART"),mkl("12NETHER_WART"));
+                put(mkl("CRIMSON_FUNGUS"),mkl("6CRIMSON_FUNGUS","18CRIMSON_STEM","6SHROOMLIGHT","12NETHER_WART_BLOCK"));
+                put(mkl("WARPED_FUNGUS"),mkl("6WARPED_FUNGUS","18WARPED_STEM","6SHROOMLIGHT","12WARPED_WART_BLOCK"));
+                put(mkl("CHORUS_FLOWER"),mkl("6CHORUS_FLOWER","24CHORUS_FRUIT"));
+                put(mkl("LILY_PAD"),mkl("9LILY_PAD"));
+                put(mkl("SEA_PICKLE"),mkl("9SEA_PICKLE"));
+                put(mkl("TUBE_CORAL_BLOCK"),mkl("6TUBE_CORAL_BLOCK"));
+                put(mkl("BRAIN_CORAL_BLOCK"),mkl("6BRAIN_CORAL_BLOCK"));
+                put(mkl("BUBBLE_CORAL_BLOCK"),mkl("6BUBBLE_CORAL_BLOCK"));
+                put(mkl("FIRE_CORAL_BLOCK"),mkl("6FIRE_CORAL_BLOCK"));
+                put(mkl("HORN_CORAL_BLOCK"),mkl("6HORN_CORAL_BLOCK"));
+                put(mkl("TUBE_CORAL"),mkl("6TUBE_CORAL"));
+                put(mkl("BRAIN_CORAL"),mkl("6BRAIN_CORAL"));
+                put(mkl("BUBBLE_CORAL"),mkl("6BUBBLE_CORAL"));
+                put(mkl("FIRE_CORAL"),mkl("6FIRE_CORAL"));
+                put(mkl("HORN_CORAL"),mkl("6HORN_CORAL"));
+                put(mkl("TUBE_CORAL_FAN"),mkl("6TUBE_CORAL_FAN"));
+                put(mkl("BRAIN_CORAL_FAN"),mkl("6BRAIN_CORAL_FAN"));
+                put(mkl("BUBBLE_CORAL_FAN"),mkl("6BUBBLE_CORAL_FAN"));
+                put(mkl("FIRE_CORAL_FAN"),mkl("6FIRE_CORAL_FAN"));
+                put(mkl("HORN_CORAL_FAN"),mkl("6HORN_CORAL_FAN"));
+            }})
+            .register();
+    public static final SlimefunItem STONE_FACTORY = new MMGenerator(AddGroups.GENERATORS, AddItem.STONE_FACTORY, BugCrafter.TYPE,
+            recipe(AddItem.LPLATE,setC(AddItem.METAL_CORE,4),setC(AddItem.PAGOLD,2),setC(AddItem.PAGOLD,2),setC(AddItem.SMELERY_CORE,4),AddItem.LPLATE,
+                    AddItem.LPLATE,setC(AddItem.ATOM_INGOT,8),setC(AddItem.CHIP_CORE,2),setC(AddItem.CHIP_CORE,2),setC(AddItem.ATOM_INGOT,8),AddItem.LPLATE,
+                    AddItem.LPLATE,AddItem.LENGINE,"4PROGRAMMABLE_ANDROID_3_BUTCHER","4PROGRAMMABLE_ANDROID_3_BUTCHER",AddItem.LENGINE,AddItem.LPLATE,
+                    AddItem.LPLATE,AddItem.LIOPORT,setC(AddItem.OVERWORLD_MINER,4),setC(AddItem.OVERWORLD_MINER,4),AddItem.LIOPORT,AddItem.LPLATE,
+                    AddItem.LPLATE,AddItem.LMOTOR,"4PROGRAMMABLE_ANDROID_3_BUTCHER","4PROGRAMMABLE_ANDROID_3_BUTCHER",AddItem.LMOTOR,AddItem.LPLATE,
+                    setC(AddItem.PAGOLD,2),setC(AddItem.METAL_CORE,4),setC(AddItem.PAGOLD,2),setC(AddItem.PAGOLD,2),setC(AddItem.SMELERY_CORE,4),setC(AddItem.PAGOLD,2)), 1, 129_600, 2400,
+            new LinkedHashMap<>(){{
+                put(mkl("COBBLESTONE"),mkl(   AddUtils.randAmountItemFactory(new ItemStack(Material.COBBLESTONE),114,514)));
+                put(mkl("NETHERRACK"),mkl(AddUtils.randAmountItemFactory(new ItemStack(Material.NETHERRACK),114,514)));
+                put(mkl("END_STONE"),mkl(AddUtils.randAmountItemFactory(new ItemStack(Material.END_STONE),114,514)));
+                put(mkl("GRANITE"),mkl(AddUtils.randAmountItemFactory(new ItemStack(Material.GRANITE),114,514)));
+                put(mkl("DIORITE"),mkl(AddUtils.randAmountItemFactory(new ItemStack(Material.DIORITE),114,514)));
+                put(mkl("ANDESITE"),mkl(AddUtils.randAmountItemFactory(new ItemStack(Material.ANDESITE),114,514)));
+                put(mkl("STONE"),mkl(AddUtils.randAmountItemFactory(new ItemStack(Material.STONE),114,514)));
+            }})
             .register();
     public static final SlimefunItem REDSTONE_MG=new SMGenerator(AddGroups.VANILLA, AddItem.REDSTONE_MG,BugCrafter.TYPE,
             recipe(null,"REDSTONE_BLOCK","REDSTONE_BLOCK","REDSTONE_BLOCK","REDSTONE_BLOCK",null,
@@ -716,7 +923,7 @@ public class AddSlimefunItems {
                     "REDSTONE_BLOCK",AddItem.ABSTRACT_INGOT,setC(AddItem.REDSTONE_ENGINE,2),setC(AddItem.REDSTONE_ENGINE,2),AddItem.ABSTRACT_INGOT,"REDSTONE_BLOCK",
                     "REDSTONE_BLOCK",AddItem.ABSTRACT_INGOT,setC(AddItem.REDSTONE_ENGINE,2),setC(AddItem.REDSTONE_ENGINE,2),AddItem.ABSTRACT_INGOT,"REDSTONE_BLOCK",
                     "REDSTONE_BLOCK",setC(AddItem.NOLOGIC,4),AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,setC(AddItem.NOLOGIC,4),"REDSTONE_BLOCK",
-                    null,"REDSTONE_BLOCK","REDSTONE_BLOCK","REDSTONE_BLOCK","REDSTONE_BLOCK",null),5,10000,250,
+                    null,"REDSTONE_BLOCK","REDSTONE_BLOCK","REDSTONE_BLOCK","REDSTONE_BLOCK",null),3,10000,250,
             AddUtils.randItemStackFactory(
                     mkMp("REDSTONE_TORCH",16,"OBSERVER",16,"PISTON",16,"STICKY_PISTON",16,"REPEATER",16,"COMPARATOR",16,"LEVER",16,"NOTE_BLOCK",16,"REDSTONE_LAMP",16,
                             AddUtils.randItemStackFactory(mkMp("SLIME_BALL",26,"HONEY_BLOCK",3,"TNT",2,"REDSTONE",1)),16)
@@ -730,32 +937,31 @@ public class AddSlimefunItems {
                     "WHITE_CARPET","STICKY_PISTON","OBSERVER","OBSERVER","STICKY_PISTON","WHITE_CARPET",
                     null,"WHITE_CARPET","WHITE_CARPET","WHITE_CARPET","WHITE_CARPET",null),2,1000,116,
             new LinkedHashMap<>(){{
-                put(mkl("STRING"),mkl("STRING"));
-                put(mkl("RAIL"),mkl("RAIL"));
-                put(mkl("POWERED_RAIL"),mkl("POWERED_RAIL"));
-                put(mkl("DETECTOR_RAIL"),mkl("DETECTOR_RAIL"));
-                put(mkl("ACTIVATOR_RAIL"),mkl("ACTIVATOR_RAIL"));
-                put(mkl(Material.BLACK_CARPET),mkl(Material.BLACK_CARPET));
-                put(mkl(Material.RED_CARPET),mkl(Material.RED_CARPET));
-                put(mkl(Material.ORANGE_CARPET),mkl(Material.ORANGE_CARPET));
-                put(mkl(Material.YELLOW_CARPET),mkl(Material.YELLOW_CARPET));
-                put(mkl(Material.LIME_CARPET),mkl(Material.LIME_CARPET));
-                put(mkl(Material.WHITE_CARPET),mkl(Material.WHITE_CARPET));
-                put(mkl(Material.CYAN_CARPET),mkl(Material.CYAN_CARPET));
-                put(mkl(Material.BLUE_CARPET),mkl(Material.BLUE_CARPET));
-                put(mkl(Material.GRAY_CARPET),mkl(Material.GRAY_CARPET));
-                put(mkl(Material.BROWN_CARPET),mkl(Material.BROWN_CARPET));
-                put(mkl(Material.GREEN_CARPET),mkl(Material.GREEN_CARPET));
-                put(mkl(Material.LIGHT_BLUE_CARPET),mkl(Material.LIGHT_BLUE_CARPET));
-                put(mkl(Material.MAGENTA_CARPET),mkl(Material.MAGENTA_CARPET));
-                put(mkl(Material.PINK_CARPET),mkl(Material.PINK_CARPET));
-                put(mkl(Material.PURPLE_CARPET),mkl(Material.PURPLE_CARPET));
-                put(mkl(Material.GRAY_CARPET),mkl(Material.GRAY_CARPET));
-                put(mkl(Material.LIGHT_GRAY_CARPET),mkl(Material.LIGHT_GRAY_CARPET));
+                put(mkl("STRING"),mkl("16STRING"));
+                put(mkl("RAIL"),mkl("16RAIL"));
+                put(mkl("POWERED_RAIL"),mkl("16POWERED_RAIL"));
+                put(mkl("DETECTOR_RAIL"),mkl("16DETECTOR_RAIL"));
+                put(mkl("ACTIVATOR_RAIL"),mkl("16ACTIVATOR_RAIL"));
+                put(mkl(Material.BLACK_CARPET),mkl("32BLACK_CARPET"));
+                put(mkl(Material.RED_CARPET),mkl("32RED_CARPET"));
+                put(mkl(Material.ORANGE_CARPET),mkl("32ORANGE_CARPET"));
+                put(mkl(Material.YELLOW_CARPET),mkl("32YELLOW_CARPET"));
+                put(mkl(Material.LIME_CARPET),mkl("32LIME_CARPET"));
+                put(mkl(Material.WHITE_CARPET),mkl("32WHITE_CARPET"));
+                put(mkl(Material.CYAN_CARPET),mkl("32CYAN_CARPET"));
+                put(mkl(Material.BLUE_CARPET),mkl("32BLUE_CARPET"));
+                put(mkl(Material.GRAY_CARPET),mkl("32GRAY_CARPET"));
+                put(mkl(Material.BROWN_CARPET),mkl("32BROWN_CARPET"));
+                put(mkl(Material.GREEN_CARPET),mkl("32GREEN_CARPET"));
+                put(mkl(Material.LIGHT_BLUE_CARPET),mkl("32LIGHT_BLUE_CARPET"));
+                put(mkl(Material.MAGENTA_CARPET),mkl("32MAGENTA_CARPET"));
+                put(mkl(Material.PINK_CARPET),mkl("32PINK_CARPET"));
+                put(mkl(Material.PURPLE_CARPET),mkl("32PURPLE_CARPET"));
+                put(mkl(Material.GRAY_CARPET),mkl("32GRAY_CARPET"));
+                put(mkl(Material.LIGHT_GRAY_CARPET),mkl("32LIGHT_GRAY_CARPET"));
 
             }})
             .register();
-    //TODO 增加更多的物品 增多产量
     public static final SlimefunItem ENDDUPE_MG=new MMGenerator(AddGroups.VANILLA, AddItem.ENDDUPE_MG,BugCrafter.TYPE,
             recipe(null,"SAND","ANVIL","ANVIL","SAND",null,
                     null,AddItem.REDSTONE_ENGINE,"END_PORTAL_FRAME","END_PORTAL_FRAME",AddItem.REDSTONE_ENGINE,null,
@@ -764,27 +970,27 @@ public class AddSlimefunItems {
                     "END_STONE",AddItem.LFIELD,setC(AddItem.DIMENSIONAL_SHARD,2),setC(AddItem.DIMENSIONAL_SHARD,2),AddItem.LFIELD,"END_STONE",
                     null,"END_STONE",AddItem.LFIELD,AddItem.LFIELD,"END_STONE",null),3,1000,116,
             new LinkedHashMap<>(){{
-                put(mkl("SAND"),mkl("SAND"));
-                put(mkl("ANVIL"),mkl("ANVIL"));
-                put(mkl("CHIPPED_ANVIL"),mkl("CHIPPED_ANVIL"));
-                put(mkl("DAMAGED_ANVIL"),mkl("DAMAGED_ANVIL"));
-                put(mkl("GRAVEL"),mkl("GRAVEL"));
-                put(mkl(Material.BLUE_CONCRETE_POWDER),mkl("BLUE_CONCRETE_POWDER"));
-                put(mkl(Material.RED_CONCRETE_POWDER),mkl("RED_CONCRETE_POWDER"));
-                put(mkl(Material.YELLOW_CONCRETE_POWDER),mkl("YELLOW_CONCRETE_POWDER"));
-                put(mkl(Material.WHITE_CONCRETE_POWDER),mkl("WHITE_CONCRETE_POWDER"));
-                put(mkl(Material.BROWN_CONCRETE_POWDER),mkl("BROWN_CONCRETE_POWDER"));
-                put(mkl(Material.LIME_CONCRETE_POWDER),mkl("LIME_CONCRETE_POWDER"));
-                put(mkl(Material.GREEN_CONCRETE_POWDER),mkl("GREEN_CONCRETE_POWDER"));
-                put(mkl(Material.LIGHT_BLUE_CONCRETE_POWDER),mkl("LIGHT_BLUE_CONCRETE_POWDER"));
-                put(mkl(Material.MAGENTA_CONCRETE_POWDER),mkl("MAGENTA_CONCRETE_POWDER"));
-                put(mkl(Material.GRAY_CONCRETE_POWDER),mkl("GRAY_CONCRETE_POWDER"));
-                put(mkl(Material.BLACK_CONCRETE_POWDER),mkl(Material.BLACK_CONCRETE_POWDER));
-                put(mkl(Material.PURPLE_CONCRETE_POWDER),mkl(Material.PURPLE_CONCRETE_POWDER));
-                put(mkl(Material.ORANGE_CONCRETE_POWDER),mkl(Material.ORANGE_CONCRETE_POWDER));
-                put(mkl(Material.LIGHT_GRAY_CONCRETE_POWDER),mkl(Material.LIGHT_GRAY_CONCRETE_POWDER));
-                put(mkl(Material.PINK_CONCRETE_POWDER),mkl(Material.PINK_CONCRETE_POWDER));
-                put(mkl(Material.CYAN_CONCRETE_POWDER),mkl(Material.CYAN_CONCRETE_POWDER));
+                put(mkl("SAND"),mkl("16SAND"));
+                put(mkl("ANVIL"),mkl("3ANVIL"));
+                put(mkl("CHIPPED_ANVIL"),mkl("3CHIPPED_ANVIL"));
+                put(mkl("DAMAGED_ANVIL"),mkl("3DAMAGED_ANVIL"));
+                put(mkl("GRAVEL"),mkl("16GRAVEL"));
+                put(mkl(Material.BLUE_CONCRETE_POWDER),mkl("32BLUE_CONCRETE_POWDER"));
+                put(mkl(Material.RED_CONCRETE_POWDER),mkl("32RED_CONCRETE_POWDER"));
+                put(mkl(Material.YELLOW_CONCRETE_POWDER),mkl("32YELLOW_CONCRETE_POWDER"));
+                put(mkl(Material.WHITE_CONCRETE_POWDER),mkl("32WHITE_CONCRETE_POWDER"));
+                put(mkl(Material.BROWN_CONCRETE_POWDER),mkl("32BROWN_CONCRETE_POWDER"));
+                put(mkl(Material.LIME_CONCRETE_POWDER),mkl("32LIME_CONCRETE_POWDER"));
+                put(mkl(Material.GREEN_CONCRETE_POWDER),mkl("32GREEN_CONCRETE_POWDER"));
+                put(mkl(Material.LIGHT_BLUE_CONCRETE_POWDER),mkl("32LIGHT_BLUE_CONCRETE_POWDER"));
+                put(mkl(Material.MAGENTA_CONCRETE_POWDER),mkl("32MAGENTA_CONCRETE_POWDER"));
+                put(mkl(Material.GRAY_CONCRETE_POWDER),mkl("32GRAY_CONCRETE_POWDER"));
+                put(mkl(Material.BLACK_CONCRETE_POWDER),mkl("32BLACK_CONCRETE_POWDER"));
+                put(mkl(Material.PURPLE_CONCRETE_POWDER),mkl("32PURPLE_CONCRETE_POWDER"));
+                put(mkl(Material.ORANGE_CONCRETE_POWDER),mkl("32ORANGE_CONCRETE_POWDER"));
+                put(mkl(Material.LIGHT_GRAY_CONCRETE_POWDER),mkl("32LIGHT_GRAY_CONCRETE_POWDER"));
+                put(mkl(Material.PINK_CONCRETE_POWDER),mkl("32PINK_CONCRETE_POWDER"));
+                put(mkl(Material.CYAN_CONCRETE_POWDER),mkl("32CYAN_CONCRETE_POWDER"));
 
 
             }})
@@ -795,7 +1001,7 @@ public class AddSlimefunItems {
                     null,AddItem.PAGOLD,AddItem.NOLOGIC,AddItem.NOLOGIC,AddItem.PAGOLD,null,
                     AddItem.PAGOLD,AddItem.SPACE_PLATE,AddItem.LSINGULARITY,AddItem.LSINGULARITY,AddItem.SPACE_PLATE,AddItem.PAGOLD,
                     AddItem.PAGOLD,AddItem.SPACE_PLATE,AddItem.LSINGULARITY,AddItem.LSINGULARITY,AddItem.SPACE_PLATE,AddItem.PAGOLD,
-                    null,AddItem.PAGOLD,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.PAGOLD,null), 10, 1_000_000, 24_000,
+                    null,AddItem.PAGOLD,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.PAGOLD,null), 6, 1_000_000, 24_000,
             new LinkedHashMap<>(){{
                 put(mkl(AddItem.LOGIGATE),mkl(setC(AddItem.LOGIGATE,64)));
                 put(mkl(AddItem.LOGIC),mkl(setC(AddItem.NOLOGIC,64)));
@@ -807,12 +1013,80 @@ public class AddSlimefunItems {
                 put(mkl(AddItem.ABSTRACT_INGOT),mkl("64IRON_INGOT"));
             }})
             .register();
+    public static final SlimefunItem VIRTUAL_MINER = new MMGenerator(AddGroups.GENERATORS, AddItem.VIRTUAL_MINER, BugCrafter.TYPE,
+            recipe(AddItem.BISILVER,setC(AddItem.TECH_CORE,8),AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,setC(AddItem.SMELERY_CORE,8),AddItem.BISILVER,
+                    AddItem.LDIGITIZER,AddItem.BISILVER,AddItem.NETHER_MINER,AddItem.NETHER_MINER,AddItem.BISILVER,AddItem.LDIGITIZER,
+                    AddItem.BISILVER,setC(AddItem.LMOTOR,2),setC(AddItem.CHIP_CORE,2),setC(AddItem.LSINGULARITY,3),setC(AddItem.LMOTOR,2),AddItem.BISILVER,
+                    AddItem.BISILVER,setC(AddItem.LENGINE,2),setC(AddItem.VIRTUAL_SPACE,4),setC(AddItem.CHIP_CORE,2),setC(AddItem.LENGINE,2),AddItem.BISILVER,
+                    AddItem.LIOPORT,AddItem.BISILVER,AddItem.DIMENSION_MINER,AddItem.DIMENSION_MINER,AddItem.BISILVER,AddItem.LIOPORT,
+                    AddItem.BISILVER,setC(AddItem.MASS_CORE,8),AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,setC(AddItem.METAL_CORE,8),AddItem.BISILVER), 1, 129_600, 5400,
+            new LinkedHashMap<>(){{
+                put(mkl(AddItem.WORLD_FEAT),mkl(AddUtils.randItemStackFactory(
+                        mkMp("64COAL",8,
+                                "64REDSTONE",8,
+                                "64IRON_INGOT",8,
+                                "128LAPIS_LAZULI",8,
+                                "64DIAMOND",8,
+                                "64EMERALD",8)
+                )));
+                put(mkl(AddItem.NETHER_FEAT),mkl(AddUtils.randItemStackFactory(
+                        mkMp("32NETHERITE_INGOT",1,
+                                "128QUARTZ",1,
+                                "64MAGMA_BLOCK",1,
+                                "64OBSIDIAN",1,
+                                "32ANCIENT_DEBRIS",1,
+                                "2NETHER_ICE",1)
+                )));
+                put(mkl(AddItem.END_FEAT),mkl(AddUtils.randItemStackFactory(
+                        mkMp("4DRAGON_BREATH",2,
+                        "4CHORUS_FLOWER",2,
+                                "16ENDER_EYE",2,
+                                "16ENDER_PEARL",2,
+                                "4BUCKET_OF_OIL",2,
+                                AddItem.STAR_GOLD,2
+                        )
+                )));
+            }})
+            .register();
+    public static final SlimefunItem VIRTUAL_PLANT = new MMGenerator(AddGroups.GENERATORS, AddItem.VIRTUAL_PLANT, BugCrafter.TYPE,
+            recipe(AddItem.BISILVER,setC(AddItem.TECH_CORE,8),AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,setC(AddItem.SMELERY_CORE,8),AddItem.BISILVER,
+                    AddItem.LDIGITIZER,AddItem.BISILVER,AddItem.NETHER_PLANT,AddItem.NETHER_PLANT,AddItem.BISILVER,AddItem.LDIGITIZER,
+                    AddItem.BISILVER,setC(AddItem.LMOTOR,2),setC(AddItem.CHIP_CORE,2),setC(AddItem.LSINGULARITY,3),setC(AddItem.LMOTOR,2),AddItem.BISILVER,
+                    AddItem.BISILVER,setC(AddItem.LENGINE,2),setC(AddItem.VIRTUAL_SPACE,4),setC(AddItem.CHIP_CORE,2),setC(AddItem.LENGINE,2),AddItem.BISILVER,
+                    AddItem.LIOPORT,AddItem.BISILVER,AddItem.END_PLANT,AddItem.END_PLANT,AddItem.BISILVER,AddItem.LIOPORT,
+                    AddItem.BISILVER,setC(AddItem.MASS_CORE,8),AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,setC(AddItem.METAL_CORE,8),AddItem.BISILVER), 1, 129_600, 5400,
+            new LinkedHashMap<>(){{
+                put(mkl("MELON_SEEDS"),mkl("3MELON","3MELON_SEEDS"));
+                put(mkl("PUMPKIN_SEEDS"),mkl("3PUMPKIN","3PUMPKIN_SEEDS"));
+                put(mkl("BEETROOT_SEEDS"),mkl("9BEETROOT","6BEETROOT_SEEDS"));
+                put(mkl("WHEAT_SEEDS"),mkl("9WHEAT","6WHEAT_SEEDS"));
+                put(mkl("CARROT"),mkl("9CARROT"));
+                put(mkl("POTATO"),mkl("9POTATO"));
+                put(mkl("SWEET_BERRIES"),mkl("9SWEET_BERRIES"));
+                put(mkl("SUGAR_CANE"),mkl("9SUGAR_CANE"));
+                put(mkl("OAK_SAPLING"),mkl("9OAK_SAPLING","18OAK_LOG","6APPLE","9OAK_LEAVES","6STICK"));
+                put(mkl("BIRCH_SAPLING"),mkl("9BIRCH_SAPLING","18BIRCH_LOG","6APPLE","9BIRCH_LEAVES","6STICK"));
+                put(mkl("SPRUCE_SAPLING"),mkl("9SPRUCE_SAPLING","18SPRUCE_LOG","6APPLE","9SPRUCE_LEAVES","6STICK"));
+                put(mkl("DARK_OAK_SAPLING"),mkl("9DARK_OAK_SAPLING","18DARK_OAK_LOG","6APPLE","9DARK_OAK_LEAVES","6STICK"));
+                put(mkl("JUNGLE_SAPLING"),mkl("9JUNGLE_SAPLING","18JUNGLE_LOG","6APPLE","9JUNGLE_LEAVES","6STICK"));
+                put(mkl("ACACIA_SAPLING"),mkl("9ACACIA_SAPLING","18ACACIA_LOG","6APPLE","9ACACIA_LEAVES","6STICK"));
+                put(mkl("MANGROVE_PROPAGULE"),mkl("9MANGROVE_PROPAGULE","18MANGROVE_LOG","9MANGROVE_LEAVES"));
+                put(mkl("CHERRY_SAPLING"),mkl("9CHERRY_SAPLING","18CHERRY_LOG","9CHERRY_LEAVES"));
+                put(mkl("NETHER_WART"),mkl("12NETHER_WART"));
+                put(mkl("NETHER_SPROUTS"),mkl("12NETHER_SPROUTS"));
+                put(mkl("CRIMSON_FUNGUS"),mkl("6CRIMSON_FUNGUS","18CRIMSON_STEM","6SHROOMLIGHT","12NETHER_WART_BLOCK"));
+                put(mkl("WARPED_FUNGUS"),mkl("6WARPED_FUNGUS","18WARPED_STEM","6SHROOMLIGHT","12WARPED_WART_BLOCK"));
+                put(mkl("CHORUS_FLOWER"),mkl("6CHORUS_FLOWER","24CHORUS_FRUIT"));
+                put(mkl("LILY_PAD"),mkl("9LILY_PAD"));
+            }})
+            .register();
     public static final SlimefunItem STACKMGENERATOR=new StackMGenerator(AddGroups.GENERATORS, AddItem.STACKMGENERATOR,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),1,20_000_000,2_000)
+            AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),1,20_000_000,2_000,1)
             .register();
 
     //TODO register recips
     //TODO 平衡性调整
+    //TODO 虚拟世界 等生成器 有了
     //发电机 123
     //更多的智能货运
     //垃圾提 ok
@@ -853,20 +1127,17 @@ public class AddSlimefunItems {
                     AddItem.LPLATE,AddItem.STAR_GOLD_INGOT,AddItem.LENGINE,AddItem.LENGINE,AddItem.STAR_GOLD_INGOT,AddItem.LPLATE)
             ,"solar.core",MultiBlockTypes.SOLAR_TYPE,80_000,2_000_000,
             mkMp(mkP(   mkl(AddItem.METAL_CORE)  ,
-
                             mkl(
                                     setC(AddItem.STAR_GOLD_INGOT,12),
                                     AddUtils.probItemStackFactory( AddItem.LSINGULARITY,73),
                                     AddUtils.randAmountItemFactory(AddItem.STAR_GOLD,39,127),
                                     AddUtils.randAmountItemFactory(AddItem.ATOM_INGOT,63,99),
-
                                     AddUtils.randItemStackFactory(
                                             Utils.list(setC(AddItem.PALLADIUM_INGOT,3),setC(AddItem.PLATINUM_INGOT,3),setC(AddItem.CADMIUM_INGOT,3),setC(AddItem.BISMUTH_INGOT,3)),
                                             Utils.list(37,9,3,1)
                                     )
                             )
-
-                    ),90,
+                    ),60,
                     mkP(   mkl(AddItem.SMELERY_CORE)  ,
 
                             mkl(
@@ -875,14 +1146,13 @@ public class AddSlimefunItems {
                                     AddUtils.randAmountItemFactory(AddItem.DIMENSIONAL_SHARD,99,127),
                                     AddUtils.randAmountItemFactory(AddItem.STAR_GOLD,83,127),
                                     AddUtils.randAmountItemFactory(AddItem.ATOM_INGOT,37,51),
-
                                     AddUtils.randItemStackFactory(
                                             Utils.list(setC(AddItem.PALLADIUM_INGOT,3),setC(AddItem.PLATINUM_INGOT,3),setC(AddItem.CADMIUM_INGOT,3),setC(AddItem.BISMUTH_INGOT,3)),
                                             Utils.list(2,59,13,24)
                                     )
                             )
 
-                    ),90,
+                    ),60,
                     mkP(   mkl(AddItem.MASS_CORE)  ,
 
                             mkl(
@@ -898,7 +1168,7 @@ public class AddSlimefunItems {
                                     )
                             )
 
-                    ),90,
+                    ),60,
                     mkP(   mkl(AddItem.TECH_CORE)  ,
 
                             mkl(
@@ -908,7 +1178,7 @@ public class AddSlimefunItems {
                                     AddUtils.randAmountItemFactory(AddItem.ATOM_INGOT,92,127)
                             )
 
-                    ),90
+                    ),60
             ))
             .register();
     public static final SlimefunItem SOLAR_REACTOR_FRAME=new MultiPart(AddGroups.SPACE,AddItem.SOLAR_REACTOR_FRAME,RecipeType.NULL,
@@ -970,7 +1240,7 @@ public class AddSlimefunItems {
                                 )
                         )
 
-                    ),18000,
+                    ),12000,
                     mkP(   mkl(setC(AddItem.BISILVER,3) )  ,
 
                             mkl(
@@ -1000,7 +1270,7 @@ public class AddSlimefunItems {
                                     )
                             )
 
-                    ),18000,
+                    ),12500,
                     mkP(   mkl(setC(AddItem.PAGOLD,3) )  ,
 
                             mkl(
@@ -1030,7 +1300,7 @@ public class AddSlimefunItems {
                                     )
                             )
 
-                    ),18000,
+                    ),12500,
                     mkP(   mkl(setC(AddItem.PLATINUM_INGOT,24) )  ,
 
                             mkl(
@@ -1060,7 +1330,7 @@ public class AddSlimefunItems {
                                     )
                             )
 
-                    ),18000,
+                    ),12500,
                     mkP(   mkl(setC(AddItem.CADMIUM_INGOT,24) )  ,
 
                             mkl(
@@ -1090,7 +1360,7 @@ public class AddSlimefunItems {
                                     )
                             )
 
-                    ),18000
+                    ),12500
             )
             )
             .register();
@@ -1375,20 +1645,81 @@ public class AddSlimefunItems {
                 }
             }
             .register();
-
-    //final
-    public static final  SlimefunItem FINAL_STACKMACHINE=new FinalStackMachine(AddGroups.BEYOND, AddItem.FINAL_STACKMACHINE,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")), Material.STONE,100,20_000_000,32)
+    public static final SlimefunItem ANTIMASS_CLEAR=new CustomProps(AddGroups.SPECIAL, AddItem.ANTIMASS_CLEAR, RecipeType.NULL,
+            AddUtils.NULL_RECIPE.clone(), null) {
+        public void onClickAction(PlayerRightClickEvent event) {
+            if(ANTIMASS instanceof SpreadBlock sb){
+                sb.getSpreadOwner().clear();
+                sb.getSpreadTicker().clear();
+            }
+            AddUtils.sendMessage(event.getPlayer(),"&a反概念物质已成功清除");
+        }
+    }
             .register();
 
+    //final
+    public static final  SlimefunItem FINAL_SEQUENTIAL=new FinalSequenceConstructor(AddGroups.BEYOND, AddItem.FINAL_SEQUENTIAL,BugCrafter.TYPE,
+            recipe(AddItem.STACKFRAME,AddItem.PDCECDMD,AddItem.PDCECDMD,AddItem.PDCECDMD,AddItem.PDCECDMD,AddItem.STACKFRAME,
+                    AddItem.PDCECDMD,setC(AddItem.SPACE_PLATE,2),AddItem.STORAGE_SINGULARITY,AddItem.STORAGE_SINGULARITY,setC(AddItem.SPACE_PLATE,2),AddItem.PDCECDMD,
+                    setC(AddItem.SPACE_PLATE,2),AddItem.LIOPORT,AddItem.SEQ_CONSTRUCTOR,AddItem.SEQ_CONSTRUCTOR,AddItem.LIOPORT,setC(AddItem.SPACE_PLATE,2),
+                    setC(AddItem.SPACE_PLATE,2),setC(AddItem.VIRTUAL_SPACE,32),setC(AddItem.LSINGULARITY,64),setC(AddItem.LSINGULARITY,64),setC(AddItem.VIRTUAL_SPACE,32),
+                    AddItem.HGTLPBBI,setC(AddItem.SPACE_PLATE,2),setC(AddItem.VIRTUAL_SPACE,16),setC(AddItem.VIRTUAL_SPACE,16),setC(AddItem.SPACE_PLATE,2),AddItem.HGTLPBBI,
+                    AddItem.STACKFRAME,AddItem.HGTLPBBI,AddItem.HGTLPBBI,AddItem.HGTLPBBI,AddItem.HGTLPBBI,AddItem.STACKFRAME), AddUtils.addGlow( new ItemStack(Material.FIRE_CHARGE)),            10240,114514,
+            mkMp(
+                    mkP(mkl(setC(AddItem.MASS_CORE,192),setC(AddItem.SMELERY_CORE,192),setC(AddItem.HGTLPBBI,128),
+                            setC(AddItem.SINGULARITY,128),setC(AddItem.VIRTUAL_SPACE,128),setC(AddItem.PDCECDMD,128),
+                            setC(AddItem.TECH_CORE,192),setC(AddItem.METAL_CORE,192)),mkl(setC(AddItem.FINAL_FRAME,7))),2,
+                    mkP(mkl("1919810IRON_DUST","1919810GOLD_DUST","1919810COPPER_DUST",
+                            "1919810TIN_DUST","1919810SILVER_DUST","1919810LEAD_DUST",
+                            "1919810ALUMINUM_DUST","1919810ZINC_DUST","1919810MAGNESIUM_DUST"),mkl(AddItem.LOGIC_CORE)),2
+            ))
+            .register();
+    public static final SlimefunItem FINAL_STONE_MG=new FinalMGenerator(AddGroups.BEYOND, AddItem.FINAL_STONE_MG,BugCrafter.TYPE,
+            recipe(AddItem.STACKFRAME,AddItem.PDCECDMD,AddItem.PDCECDMD,AddItem.HGTLPBBI,AddItem.HGTLPBBI,AddItem.STACKFRAME,
+                    AddItem.PDCECDMD,setC(AddItem.MASS_CORE,16),AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,setC(AddItem.MASS_CORE,16),AddItem.HGTLPBBI,
+                    AddItem.PDCECDMD,AddItem.SPACE_PLATE,AddItem.NETHER_FEAT,AddItem.VIRTUAL_SPACE,AddItem.SPACE_PLATE,AddItem.HGTLPBBI,
+                    AddItem.HGTLPBBI,AddItem.SPACE_PLATE,AddItem.FINAL_FRAME,AddItem.WORLD_FEAT,AddItem.SPACE_PLATE,AddItem.PDCECDMD,
+                    AddItem.HGTLPBBI,setC(AddItem.MASS_CORE,16),AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,setC(AddItem.MASS_CORE,16),AddItem.PDCECDMD,
+                    AddItem.STACKFRAME,AddItem.HGTLPBBI,AddItem.HGTLPBBI,AddItem.PDCECDMD,AddItem.PDCECDMD,AddItem.STACKFRAME),1,0,0,
+            new LinkedHashMap<>(){{
+                put(mkl("COBBLESTONE"),mkl("114514COBBLESTONE"));
+                put(mkl("NETHERRACK"),mkl("114514NETHERRACK"));
+                put(mkl("END_STONE"),mkl("114514END_STONE"));
+                put(mkl("GRANITE"),mkl("114514GRANITE"));
+                put(mkl("DIORITE"),mkl("114514DIORITE"));
+                put(mkl("ANDESITE"),mkl("114514ANDESITE"));
+                put(mkl("STONE"),mkl("114514STONE"));
+            }}
+            )
+            .register();
+
+    public static final SlimefunItem FINAL_MANUAL=new FinalManual(AddGroups.BEYOND,AddItem.FINAL_MANUAL,BugCrafter.TYPE,
+            recipe(setC(AddItem.STACKFRAME,2),AddItem.CRAFT_MANUAL,AddItem.FURNACE_MANUAL,AddItem.ENHANCED_CRAFT_MANUAL,AddItem.GRIND_MANUAL,setC(AddItem.STACKFRAME,2),
+                    AddItem.ORE_CRUSHER_MANUAL,null,setC(AddItem.LASER,2),setC(AddItem.LASER,2),null,AddItem.TABLESAW_MANUAL,
+                    AddItem.PRESSURE_MANUAL,setC(AddItem.VIRTUAL_SPACE,16),setC(AddItem.MANUAL_CORE,64),setC(AddItem.LSINGULARITY,64),setC(AddItem.VIRTUAL_SPACE,16),AddItem.COMPRESSOR_MANUAL,
+                    AddItem.CRUCIBLE_MANUAL,setC(AddItem.VIRTUAL_SPACE,16),AddItem.FINAL_FRAME,AddItem.FINAL_FRAME,setC(AddItem.VIRTUAL_SPACE,16),AddItem.SMELTERY_MANUAL,
+                    AddItem.GOLD_PAN_MANUAL,null,setC(AddItem.LASER,2),setC(AddItem.LASER,2),null,AddItem.ANCIENT_ALTAR_MANUAL,
+                    setC(AddItem.STACKFRAME,2),AddItem.MAGIC_WORKBENCH_MANUAL,AddItem.COMPOSTER,AddItem.ARMOR_FORGE_MANUAL,AddItem.ORE_WASHER_MANUAL,setC(AddItem.STACKFRAME,2)),0,0)
+            .register();
+    //TODO 完成反概念物质的扩散 变化和掉落
+    public static final SlimefunItem ANTIMASS=new SpreadBlock(AddGroups.BEYOND,AddItem.ANTIMASS,STARSMELTERY,
+            recipe(setC(AddItem.LOGIC_CORE,9),setC(AddItem.VIRTUAL_SPACE,64),"64ENERGIZED_CAPACITOR",setC(AddItem.PARADOX,64),setC(AddItem.FINAL_FRAME,3)),LOGIC_CORE,Material.COMMAND_BLOCK,Material.SCULK)
+            .register();
+    public static final  SlimefunItem FINAL_STACKMACHINE=new FinalStackMachine(AddGroups.BEYOND, AddItem.FINAL_STACKMACHINE,RecipeType.NULL,
+            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")), Material.STONE,100,20_000_000,16)
+            .register();
+    public static final SlimefunItem FINAL_STACKMGENERATOR=new FinalStackMGenerator(AddGroups.BEYOND, AddItem.FINAL_STACKMGENERATOR,RecipeType.NULL,
+            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),1,20_000_000,100,
+            16)
+            .register();
 
 
     public static final SlimefunItem TMP1=new MaterialItem(AddGroups.FUNCTIONAL,AddItem.TMP1,RecipeType.NULL,
-            AddUtils.NULL_RECIPE.clone()).register();
+            AddUtils.NULL_RECIPE.clone())
+            .register();
     public static final SlimefunItem RESOLVE_FAILED=new MaterialItem(AddGroups.FUNCTIONAL, AddItem.RESOLVE_FAILED,RecipeType.NULL,
             AddUtils.NULL_RECIPE.clone(),null)
             .register();
-
 
 
 
@@ -1488,8 +1819,7 @@ public class AddSlimefunItems {
 //
 //    public static final SlimefunItem TESTUNIT3=register(new me.matl114.logitech.SlimefunItem.TestStorageUnit3(AddGroups.MATERIAL, AddItem.TESTUNIT3,RecipeType.NULL,AddUtils.NULL_RECIPE.clone()));
 
-    public static final SlimefunItem AUTO_SPECIAL= register(new SpecialCrafter(AddGroups.MATERIAL, AddItem.AUTO_SPECIAL, RecipeType.NULL, AddUtils.NULL_RECIPE.clone()
-                    , Material.KNOWLEDGE_BOOK,9,810,1919));
+
 
     public static final SlimefunItem ANTIGRAVITY=register(new AntiGravityBar(AddGroups.MATERIAL, AddItem.ANTIGRAVITY,RecipeType.NULL,AddUtils.NULL_RECIPE.clone()));
 
@@ -1502,8 +1832,7 @@ public class AddSlimefunItems {
 //                    ),0);
 //                }}
 //            ));
-    public static final SlimefunItem FINAL_MANUAL=register(new FinalManual(AddGroups.BEYOND, AddItem.FINAL_MANUAL,RecipeType.NULL,AddUtils.NULL_RECIPE.clone(),
-            0,0));
+
     public static final SlimefunItem TEST_MPART=new MultiPart(AddGroups.MATERIAL,AddItem.TESTPART,RecipeType.NULL,AddUtils.NULL_RECIPE.clone(),
             "test.part").register();
     public static final SlimefunItem TEST_MCORE=new MultiCoreTest(AddGroups.MATERIAL,AddItem.TESTCORE,RecipeType.NULL,AddUtils.NULL_RECIPE.clone(),

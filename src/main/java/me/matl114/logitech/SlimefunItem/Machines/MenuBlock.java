@@ -50,7 +50,7 @@ public interface MenuBlock extends InventoryBlock {
      * call this method in constructor
      * @param machine
      */
-    default void handleMenu(SlimefunItem machine){
+    default void handleBlock(SlimefunItem machine){
         machine.addItemHandler(
                 new BlockBreakHandler(false, false) {
                     @ParametersAreNonnullByDefault
@@ -68,7 +68,7 @@ public interface MenuBlock extends InventoryBlock {
     }
     default void registerBlockMenu(SlimefunItem item){
         this.createPreset(item,item.getItemName(),this::constructMenu);
-        handleMenu(item);
+        handleBlock(item);
     }
     default void createPreset(final SlimefunItem item, String title, final Consumer<BlockMenuPreset> setup) {
         BlockMenuPreset var10001 = new BlockMenuPreset(item.getId(), title) {
