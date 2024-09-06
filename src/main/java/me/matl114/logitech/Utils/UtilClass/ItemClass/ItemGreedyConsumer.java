@@ -157,6 +157,15 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
             targetConsumers.get(i).updateMenu(inv);
         }
     }
+    public void syncItems(){
+        if(targetConsumers==null){
+            return;
+        }
+        int len=targetConsumers.size();
+        for(int i=0;i<len;i++){
+            targetConsumers.get(i).syncData();
+        }
+    }
 
     /**
      * calculate again about this if matchAmount changed manually,will use recorded Relateed and try grab/consume

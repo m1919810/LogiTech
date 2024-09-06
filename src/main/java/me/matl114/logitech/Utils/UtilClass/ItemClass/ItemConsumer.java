@@ -93,6 +93,15 @@ public class ItemConsumer extends ItemCounter {
             targetConsumers.get(i).updateMenu(inv);
         }
     }
+    public void syncItems(){
+        if(targetConsumers==null){
+            return;
+        }
+        int len=targetConsumers.size();
+        for(int i=0;i<len;i++){
+            targetConsumers.get(i).syncData();
+        }
+    }
     protected ItemConsumer clone(){
         return (ItemConsumer)super.clone();
     }

@@ -206,6 +206,7 @@ public abstract class AbstractWorkBench extends AbstractMachine {
         }
         for (int i = 0 ; i < maxCnt; i++) {
             for (int slot = 0 ; slot < recipe.length ; slot++) { //each item in recipe
+
                 if(i==0){
                     itcs[slot]=CraftUtils.getConsumer(recipe[slot]);
                 }
@@ -242,6 +243,9 @@ public abstract class AbstractWorkBench extends AbstractMachine {
                 if(itcs[slot].getAmount()<=0&&itps[slot].safeAddAmount(recipeCount)){//push的数量
                     //真的有地方,同步背包里的相关counter
                     itcs[slot].updateItems(menu,Settings.PUSH);
+                }else{
+                    //放不进去,返回z物品
+                    itcs[slot].syncItems();
                 }
             }//提前中断,意味着没有后面的了
         }
