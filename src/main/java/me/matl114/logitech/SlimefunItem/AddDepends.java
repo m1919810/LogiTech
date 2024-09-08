@@ -1,9 +1,12 @@
 package me.matl114.logitech.SlimefunItem;
 
+import com.google.common.collect.Multimap;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import jdk.jshell.execution.Util;
+import me.matl114.logitech.Items.CustomHead;
 import me.matl114.logitech.SlimefunItem.Items.MyVanillaItem;
 import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.AdvanceRecipeCrafter;
 import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.ManualCrafter;
@@ -11,8 +14,16 @@ import me.matl114.logitech.SlimefunItem.Machines.WorkBenchs.BugCrafter;
 import me.matl114.logitech.Utils.*;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+
+import java.util.UUID;
 
 /**
  * only enable when certain addon are enable
@@ -117,6 +128,28 @@ public class AddDepends {
         }catch (Throwable e){
                 Debug.logger("AN ERROR OCCURED WHILE REGISTERING ITEM: NTW_STORAGE_DISPLAY,ITEM DISABLED");
                 e.printStackTrace();
+        }
+        try{
+            if(hasInfiniteExpansion){
+                SlimefunItem instance=SlimefunItem.getById("INFINITY_CROWN");
+                SlimefunItemStack new_infinity_helmet=new SlimefunItemStack("INFINITY_CROWN",CustomHead.INF_HELMET.getItem(),
+                        AddUtils.color("无尽头盔"));
+                ItemStack it= instance.getRecipeOutput();
+                it.setType(Material.PLAYER_HEAD);
+                ItemMeta s= it.getItemMeta();
+                if(s instanceof SkullMeta smt){
+                    smt.setOwnerProfile(((SkullMeta)CustomHead.INF_HELMET.getItem().getItemMeta()).getOwnerProfile());
+                }
+                s.addAttributeModifier(Attribute.GENERIC_ARMOR,new AttributeModifier(UUID.nameUUIDFromBytes(new byte[]{1,1,4,5}),"logitech_armor",6.0, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
+                s.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS,new AttributeModifier(UUID.nameUUIDFromBytes(new byte[]{1,9,1,9}),"logitech_armor_toughness",6.0, AttributeModifier.Operation.ADD_NUMBER,EquipmentSlot.HEAD));
+                s.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE,new AttributeModifier(UUID.nameUUIDFromBytes(new byte[]{8,1,0,0}),"logitech_knockback_resistence",2, AttributeModifier.Operation.ADD_NUMBER,EquipmentSlot.HEAD  ));
+                s.setCustomModelData(null);
+                it.setItemMeta(s);
+                instance.setRecipeOutput(it);
+            }
+        }catch (Throwable e){
+            Debug.logger("AN ERROR OCCURED WHILE CHANGING ITEM: INFINITY_CROW,CHANGE DISABLED");
+            e.printStackTrace();
         }
     }
     public static boolean hasInfiniteExpansion=false;

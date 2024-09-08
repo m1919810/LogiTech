@@ -24,7 +24,7 @@ public class MultiBlockService {
     //?
     public static void setup(){
         ScheduleSave.addFinalTask(()->{
-            Set<Location> locs=HOLOGRAM_CACHE.keySet();
+            Set<Location> locs=new HashSet<>(HOLOGRAM_CACHE.keySet());
             for(Location loc:locs){
                 removeHologramSync(loc);
             }

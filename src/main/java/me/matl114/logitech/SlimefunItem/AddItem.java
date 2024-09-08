@@ -234,7 +234,7 @@ public class AddItem {
             Language.get("Items.LASER.Name"),Language.getList("Items.LASER.Lore"));
     public static final SlimefunItemStack ANTIMASS=AddUtils.themed("ANTIMASS",Material.SCULK,AddUtils.Theme.ITEM1,
             Language.get("Items.ANTIMASS.Name"),Language.getList("Items.ANTIMASS.Lore"));
-    public static final SlimefunItemStack VIRTUALWORLD=AddUtils.themed("VIRTUALWORLD",CustomHead.INFINITE.getItem(), AddUtils.Theme.ITEM1,
+    public static final SlimefunItemStack VIRTUALWORLD=AddUtils.themed("VIRTUALWORLD",CustomHead.END_BLOCK.getItem(), AddUtils.Theme.ITEM1,
             Language.get("Items.VIRTUALWORLD.Name"),Language.getList("Items.VIRTUALWORLD.Lore"));
     //nachines
     public static final SlimefunItemStack HEAD_ANALYZER=AddUtils.themed("HEAD_ANALYZER",Material.SOUL_CAMPFIRE, AddUtils.Theme.MACHINE1,

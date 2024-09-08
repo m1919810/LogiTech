@@ -463,13 +463,12 @@ zh_CN:
       Lore:
         - '反逻辑而存在的物质'
         - '会同化其余物质,&c小心放置!'
+    SHELL:
+      Name: 'SHELL'
     VIRTUALWORLD:
       Name: '虚拟世界'
       Lore:
         - '诞生自ERROR的世界'
-    SHELL:
-      Name: 'SHELL'
-
   Machines:
     LOGIC_REACTOR:
       Name: '逻辑反应堆'
