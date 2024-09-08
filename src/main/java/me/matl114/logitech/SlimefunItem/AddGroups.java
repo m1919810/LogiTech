@@ -186,6 +186,21 @@ public class AddGroups {
                     "&7"
                     )
             );
+            factory.addInventory(12,AddUtils.getInfoShow("&f2024.9.7",
+                            "&7整了一些机器 想必玩家们会喜欢",
+                            "&7整了一款全新的高端多方块",
+                            "&7包括两个等级和一些激发机制",
+                            "&7我觉得那真是太酷啦"
+                    )
+            );
+            factory.addInventory(11,AddUtils.getInfoShow("&f2024.9.7",
+                            "&7开发了LogiTech shell",
+                            "&7一款基于原神(bushi)的shell命令行工具",
+                            "&7可以查询和修改类/对象的成员等等,支持设置变量",
+                            "&7紧急修复了因dataload导致的卡服",
+                            "&7这就是依托"
+                    )
+            );
         }
 
         @Override

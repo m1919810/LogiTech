@@ -260,6 +260,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
         SlimefunBlockData data=DataCache.safeLoadBlock(inv.getLocation());
         if(data==null){
             Schedules.launchSchedules(()->updateMenu(inv,block,mod),20,false,0);
+            return;
         }
         ItemPusher it=this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT);
         int index=MultiCraftType.getRecipeTypeIndex(data);

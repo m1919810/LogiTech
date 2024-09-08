@@ -7,6 +7,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.MachineRecipeUtils;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
@@ -89,7 +90,12 @@ public abstract  class AbstractTransformer extends AbstractMachine {
         updateMenu(inv,b,Settings.INIT);
     }
     public void updateMenu(BlockMenu inv,Block b,Settings mod){
-        if( CraftUtils.matchNextRecipe(inv, getInputSlots(),getMachineRecipes(DataCache.safeLoadBlock(inv.getLocation())),
+        SlimefunBlockData data=DataCache.safeLoadBlock(inv.getLocation());
+        if(data==null){
+            Schedules.launchSchedules(()->updateMenu(inv,b,mod),20,false,0);
+            return;
+        }
+        if( CraftUtils.matchNextRecipe(inv, getInputSlots(),getMachineRecipes(),
                 //不许用高级的 你是多有病才能在不消耗的槽里面塞存储
                 true, Settings.SEQUNTIAL,CraftUtils.getpusher)==null){
             DataCache.setLastRecipe(inv.getLocation(),-1);

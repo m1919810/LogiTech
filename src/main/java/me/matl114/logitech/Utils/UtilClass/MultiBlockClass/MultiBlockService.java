@@ -261,7 +261,12 @@ public class MultiBlockService {
                     return true;
                 }else{
                     if(statusCode>0){//之前还在运行
-                        statusCode=-2;//自动重连三次
+                        //为了给loadrequest一个缓冲。
+                        //防止直接返回0直接爆
+                        statusCode=-20;//自动重连20次
+                    }
+                    if(statusCode==-18){
+                        Debug.debug("LOADING PLAN B !");
                     }
                     setStatus(loc,statusCode+1);
                     if(statusCode==-1){
