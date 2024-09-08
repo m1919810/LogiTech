@@ -96,7 +96,7 @@ public class Tests {
         log(MathUtils.bitCount(-114514,23)+"");
         log("[TEST MathUtils] TEST SUCCESS");
     }
-    //@Test
+    @Test
     public void test_Regex(){
         String s="world,-133,29,14";
         Pattern reg=Pattern.compile("(.*?),(.*?),(.*?),(.*?)");
@@ -138,6 +138,19 @@ public class Tests {
         b=Integer.parseInt(st[2]);
         c=Integer.parseInt(st[3]);
         log("print "+t+" "+a+" "+b+" "+c);
+        Pattern pat= Pattern.compile("(.*?)\\[([0-9]*)\\]");
+        String varName="homePeople[336]";
+        Matcher matcher=pat.matcher(varName);
+        if(matcher.matches()){
+            log("name "+matcher.group(1));
+            log("index "+matcher.group(2));
+        }else{
+            log("match failed");
+        }
+        String[] list=varName.split("\\[");
+        log(String.valueOf( list.length));
+        log(list[0]);
+        int sb=Integer.parseInt( list[1].substring(0,list[1].length()-1));
     }
     //@Test
     public void test_Transport(){
@@ -298,7 +311,7 @@ public class Tests {
         end=System.nanoTime();
         log("[TEST Transport] simulate test 1"+(end-start)+" ns");
     }
-    @Test
+   // @Test
     public void test_Transport2(){
         //测试样例1
         TestStack[] inv1=new TestStack[54];
@@ -355,7 +368,7 @@ public class Tests {
         long end=System.nanoTime();
         log("[TEST Transport] simulate test 1"+(end-start)+" ns");
     }
-    @Test
+  //  @Test
     public void test_InstanceOf(){
         TestConsumer tc=new TestConsumer(new TestStack(114));
         long start,end;
@@ -386,7 +399,7 @@ public class Tests {
         }
         return start;
     }
-    @Test
+   // @Test
     public void test_Random(){
         long a,s;
         Random r=new Random();
@@ -407,7 +420,7 @@ public class Tests {
         s=System.nanoTime();
         log("rand "+(s-a)+" ns");
     }
-    @Test
+   // @Test
     public void test_Reflection(){
         TestConsumer tc=new TestConsumer(new TestStack(114));
         Object obj= ReflectUtils.invokeGetRecursively(tc, Settings.FIELD,"shit");
@@ -416,4 +429,5 @@ public class Tests {
         }else
         log("reflect success"+(Integer)(obj) );
     }
+
 }

@@ -71,7 +71,7 @@ public class ScheduleEffects {
             Set<AbstractEffect> effectSet = effects.keySet();
             for(AbstractEffect effect : effectSet) {
                 PlayerEffects eff= effects.get(effect);
-                if(eff!=null&&(!eff.isFinished())){
+                if(eff!=null){
                     eff.getType().onDeathEvent(e,eff.level);
                     if(eff.getType().onDeathClear()){
                         eff.finish();

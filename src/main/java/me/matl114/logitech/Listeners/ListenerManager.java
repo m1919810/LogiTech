@@ -6,8 +6,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
-import java.util.List;
-
 public class ListenerManager {
     public static void registerListeners(Plugin plugin,PluginManager manager){
         ListenerManager.plugin=plugin;
@@ -26,7 +24,7 @@ public class ListenerManager {
     }
     public static final Listener testBlockBreakListener=new BlockBreakListener();
     public static final Listener EFFECT_CLEAR_MILK_LISTENER=new MilkListener();
-    public static final Listener MULTIBLOCK_REDIRECT=new BlockMenuRedirect();
+    public static final Listener MULTIBLOCK_REDIRECT=new BlockOpenListener();
     public static final Listener PORTAL_REDIRECT=new PortalTeleport();
     public static final Listener POTION_CLEAR_DEATH=new PotionClearOnDeath();
     public static final Listener PLAYER_QUIT_HANDLER=new PlayerQuiteListener();

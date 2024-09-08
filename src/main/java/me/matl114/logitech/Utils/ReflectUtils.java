@@ -1,7 +1,11 @@
 package me.matl114.logitech.Utils;
 
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReflectUtils {
     public static  Object invokeGetRecursively(Object target, Settings mod, String declared){
@@ -78,5 +82,36 @@ public class ReflectUtils {
                 Debug.logger(m.getName());
             }
         }
+    }
+    public static Pair<Field,Class> getDeclaredFieldsRecursively(Class clazz, String fieldName){
+        try{
+            Field field=clazz.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            return new Pair(field,clazz);
+        }catch (Throwable e){
+            clazz=clazz.getSuperclass();
+            if(clazz==null){
+                return null;
+            }else{
+                return getDeclaredFieldsRecursively(clazz,fieldName);
+            }
+        }
+    }
+    public static List<Field> getAllDeclaredFieldsRecursively(Class clazz){
+        List<Field> fieldList=new ArrayList<>();
+        if(clazz==null){
+            return fieldList;
+        }
+        Field[] fields=clazz.getDeclaredFields();
+        for(Field f:fields){
+            fieldList.add(f);
+            try{
+                f.setAccessible(true);
+            }catch (Throwable e){
+                continue;
+            }
+        }
+        fieldList.addAll(getAllDeclaredFieldsRecursively(clazz.getSuperclass()));
+        return fieldList;
     }
 }

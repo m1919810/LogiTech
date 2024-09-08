@@ -39,7 +39,7 @@ public class BoolGenerator extends AbstractProcessor {
         return OUTPUT_SLOT;
     }
     public BoolGenerator(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, Material progressItem,int tick) {
-        super(category,item,recipeType,recipe,progressItem,250,2000,null);
+        super(category,item,recipeType,recipe,progressItem,50,1000,null);
         this.processtick=tick;
         setDisplayRecipes(Utils.list(
                 AddUtils.getInfoShow("&f生成机制","&7当所有输入槽内物品全部相同时候,生成%s".formatted(Language.get("Items.TRUE_.Name"))),AddItem.TRUE_,

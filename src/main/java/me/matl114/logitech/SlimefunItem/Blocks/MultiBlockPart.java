@@ -3,22 +3,18 @@ package me.matl114.logitech.SlimefunItem.Blocks;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
-import me.matl114.logitech.Listeners.Listeners.BlockMenuRedirect;
-import me.matl114.logitech.SlimefunItem.Machines.MenuBlock;
+import me.matl114.logitech.Listeners.Listeners.BlockOpenListener;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.bukkit.Location;
+import me.matl114.logitech.Utils.UtilClass.TickerClass.Ticking;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
-public interface MultiBlockPart {
+public interface MultiBlockPart extends Ticking {
     public String getPartId();
     default boolean redirectMenu(){
         return true;
@@ -40,7 +36,7 @@ public interface MultiBlockPart {
         boolean itemUsed = event.getHand() == EquipmentSlot.OFF_HAND;
 
 
-        if (!itemUsed && event.useBlock() != Event.Result.DENY && !BlockMenuRedirect.rightClickBlock(event)) {
+        if (!itemUsed && event.useBlock() != Event.Result.DENY && !BlockOpenListener.rightClickBlock(event)) {
             return;
         }
     }

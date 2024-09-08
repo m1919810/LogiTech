@@ -124,6 +124,8 @@ public class TestStorageUnit extends AbstractMachine {
             if(!c.getType().isAir()){
                 Debug.logger(c.getBlockData());
                 Debug.logger(c.getBlockData().getClass());
+                Debug.logger(c.getState());
+                Debug.logger(c.getState().getClass());
             }
         }
     }

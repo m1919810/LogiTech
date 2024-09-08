@@ -207,7 +207,7 @@ public class AddItem {
             Language.get("Items.SPACE_PLATE.Name"),Language.getList("Items.SPACE_PLATE.Lore"));
     public static final SlimefunItemStack LOGIC_CORE=AddUtils.themed("LOGIC_CORE",Material.NETHER_STAR,AddUtils.Theme.ITEM1,
             Language.get("Items.LOGIC_CORE.Name"),Language.getList("Items.LOGIC_CORE.Lore"));
-    public static final SlimefunItemStack FINAL_FRAME=AddUtils.themed("FINAL_FRAME",Material.BUDDING_AMETHYST,AddUtils.Theme.ITEM1,
+    public static final SlimefunItemStack FINAL_FRAME=AddUtils.themed("FINAL_FRAME",Material.BUDDING_AMETHYST,AddUtils.Theme.MULTIBLOCK1,
             Language.get("Items.FINAL_FRAME.Name"),Language.getList("Items.FINAL_FRAME.Lore"));
     public static final SlimefunItemStack REDSTONE_ENGINE=AddUtils.themed("REDSTONE_ENGINE",Material.SLIME_BLOCK,AddUtils.Theme.ITEM1,
             Language.get("Items.REDSTONE_ENGINE.Name"),Language.getList("Items.REDSTONE_ENGINE.Lore"));
@@ -234,6 +234,8 @@ public class AddItem {
             Language.get("Items.LASER.Name"),Language.getList("Items.LASER.Lore"));
     public static final SlimefunItemStack ANTIMASS=AddUtils.themed("ANTIMASS",Material.SCULK,AddUtils.Theme.ITEM1,
             Language.get("Items.ANTIMASS.Name"),Language.getList("Items.ANTIMASS.Lore"));
+    public static final SlimefunItemStack VIRTUALWORLD=AddUtils.themed("VIRTUALWORLD",CustomHead.INFINITE.getItem(), AddUtils.Theme.ITEM1,
+            Language.get("Items.VIRTUALWORLD.Name"),Language.getList("Items.VIRTUALWORLD.Lore"));
     //nachines
     public static final SlimefunItemStack HEAD_ANALYZER=AddUtils.themed("HEAD_ANALYZER",Material.SOUL_CAMPFIRE, AddUtils.Theme.MACHINE1,
             Language.get("Machines.HEAD_ANALYZER.Name"),Language.getList("Machines.HEAD_ANALYZER.Lore"));
@@ -284,7 +286,10 @@ public class AddItem {
             Language.get("Machines.FURNACE_FACTORY.Name"),Language.getList("Machines.FURNACE_FACTORY.Lore"));
     public static final SlimefunItemStack INGOT_FACTORY=AddUtils.themed("INGOT_FACTORY",Material.RED_GLAZED_TERRACOTTA,AddUtils.Theme.MACHINE1,
             Language.get("Machines.INGOT_FACTORY.Name"),Language.getList("Machines.INGOT_FACTORY.Lore"));
-
+    public static final SlimefunItemStack FINAL_LASER=AddUtils.themed("FINAL_LASER",Material.DROPPER,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.FINAL_LASER.Name"),Language.getList("Machines.FINAL_LASER.Lore"));
+    public static final SlimefunItemStack FINAL_CONVERTOR=AddUtils.themed("FINAL_CONVERTOR",Material.WARPED_HYPHAE,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.FINAL_CONVERTOR.Name"),Language.getList("Machines.FINAL_CONVERTOR.Lore"));
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Manuals.MANUAL_CORE.Name"),Language.getList("Manuals.MANUAL_CORE.Lore"));
@@ -444,8 +449,10 @@ public class AddItem {
             Language.get("MultiBlock.TRANSMUTATOR_ROD.Name"),Language.getList("MultiBlock.TRANSMUTATOR_ROD.Lore"));
     public static final SlimefunItemStack TRANSMUTATOR=AddUtils.themed("TRANSMUTATOR",Material.FURNACE,AddUtils.Theme.MULTIBLOCK1,
             Language.get("MultiBlock.TRANSMUTATOR.Name"),Language.getList("MultiBlock.TRANSMUTATOR.Lore"));
-
-
+    public static final SlimefunItemStack FINAL_BASE=AddUtils.themed("FINAL_BASE",Material.POLISHED_DEEPSLATE,AddUtils.Theme.MULTIBLOCK1,
+            Language.get("MultiBlock.FINAL_BASE.Name"),Language.getList("MultiBlock.FINAL_BASE.Lore"));
+    public static final SlimefunItemStack FINAL_ALTAR=AddUtils.themed("FINAL_ALTAR",Material.CHISELED_DEEPSLATE,AddUtils.Theme.MULTIBLOCK2,
+            Language.get("MultiBlock.FINAL_ALTAR.Name"),Language.getList("MultiBlock.FINAL_ALTAR.Lore"));
 
     //feat
     public static final SlimefunItemStack CUSTOM1=
@@ -517,6 +524,8 @@ public class AddItem {
     public static final SlimefunItemStack TMP1= new SlimefunItemStack("TMP1",Material.STONE,"&b占位符","&7暂未开发");
     public static final SlimefunItemStack RESOLVE_FAILED=AddUtils.themed("RESOLVE_FAILED",Material.STRUCTURE_VOID,AddUtils.Theme.NONE,
             Language.get("Items.RESOLVE_FAILED.Name"),Language.getList("Items.RESOLVE_FAILED.Lore"));
+    public static final SlimefunItemStack SHELL=AddUtils.themed("SHELL",Material.BOOK,AddUtils.Theme.ITEM1,
+            Language.get("Items.SHELL.Name"),Language.getList("Items.SHELL.Lore"));
     public static final HashSet<ItemStack> ADDGLOW=new HashSet<>(){{
         add(RESOLVE_FAILED);
         add(BUG);

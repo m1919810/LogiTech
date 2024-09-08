@@ -6,11 +6,10 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import me.matl114.logitech.Listeners.CustomListener;
+import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockPart;
-import me.matl114.logitech.SlimefunItem.Blocks.MultiPart;
+import me.matl114.logitech.SlimefunItem.Machines.MenuBlock;
 import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlock;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
@@ -25,8 +24,9 @@ import org.bukkit.inventory.EquipmentSlot;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
 
-public class BlockMenuRedirect implements Listener {
+public class BlockOpenListener implements Listener {
     @EventHandler
+
     public void onRightClick(PlayerRightClickEvent event){
         boolean itemUsed = event.getHand() == EquipmentSlot.OFF_HAND;
         if(event.getPlayer().isSneaking()){
@@ -53,7 +53,8 @@ public class BlockMenuRedirect implements Listener {
                 MultiBlockPart multiBlockPart = (MultiBlockPart) sfItem;
                 if(multiBlockPart.redirectMenu()){
                     //如果是重定向菜单的方块 则阻拦掉event
-                    event.getInteractEvent().setCancelled(true);
+                    if(!MyAddon.testmode())
+                        event.getInteractEvent().setCancelled(true);
                     Optional<Block> block=event.getClickedBlock();
                     if(block.isPresent()){
                         Location location=event.getClickedBlock().get().getLocation();
@@ -69,6 +70,10 @@ public class BlockMenuRedirect implements Listener {
                     }
                 }
             }
+            if(sfItem instanceof MenuBlock.MenuNotAccessible){
+                event.getInteractEvent().setCancelled(true);
+            }
+
         }
 
         return true;

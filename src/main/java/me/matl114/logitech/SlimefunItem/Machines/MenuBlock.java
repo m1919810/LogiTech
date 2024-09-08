@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public interface MenuBlock extends InventoryBlock {
+    public interface MenuNotAccessible{
+
+    }
     /**
      * deal with menublock break(after unregister block)
      * @param e
@@ -68,6 +71,7 @@ public interface MenuBlock extends InventoryBlock {
     }
     default void registerBlockMenu(SlimefunItem item){
         this.createPreset(item,item.getItemName(),this::constructMenu);
+        //handle blockPlaceEvent
         handleBlock(item);
     }
     default void createPreset(final SlimefunItem item, String title, final Consumer<BlockMenuPreset> setup) {

@@ -1,5 +1,6 @@
 package me.matl114.logitech.Utils;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.BlockDataController;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -11,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -136,19 +138,38 @@ public interface DataCache {
     public static void setLastUUID(Location loc ,String uuid){
         StorageCacheUtils.setData(loc,"uuid",uuid);
     }
+    public static void runAfterSafeLoad(Location loc,Consumer<SlimefunBlockData> consumer){
+        SlimefunBlockData data;
+        try{
+            data= CONTROLLER.getBlockDataFromCache(loc);
+            StorageCacheUtils.executeAfterLoad(data,()-> consumer.accept(data),false);
+        }catch (Throwable a){
+            //try get Block Async
+            CONTROLLER.getBlockDataAsync(loc, new IAsyncReadCallback<SlimefunBlockData>() {
+                @Override
+                public void onResult(SlimefunBlockData result) {
+                    StorageCacheUtils.executeAfterLoad(result,()-> consumer.accept(result),false);
+                }
+            });
+        }
+    }
     public static SlimefunBlockData safeLoadBlock(Location loc){
 
         SlimefunBlockData data;
         try{
             data= CONTROLLER.getBlockDataFromCache(loc);
         }catch (Throwable a){
-            data=CONTROLLER.getBlockData(loc);
+            //try get Block Async
+            CONTROLLER.getBlockDataAsync(loc, new IAsyncReadCallback<SlimefunBlockData>() {});
+            return null;
         }
         if(data==null){
             return null;
         }
         if(!data.isDataLoaded()){
-            CONTROLLER.loadBlockData(data);
+            //try call load
+            StorageCacheUtils.requestLoad(data);
+            return null;
         }
         return data;
     }
@@ -171,5 +192,18 @@ public interface DataCache {
     }
     public static void setCustomData(SlimefunBlockData data,String key,int value){
         data.setData(key,String.valueOf(value));
+    }
+    public static String getCustomString(SlimefunBlockData data,String key,String defaultVal){
+        try{
+            String csd= data.getData(key);
+            if(csd!=null)
+                return csd;
+        }catch (Throwable a){
+        }
+        data.setData(key,defaultVal);
+        return defaultVal;
+    }
+    public static void setCustomString(SlimefunBlockData data,String key,String value){
+        data.setData(key,value);
     }
 }

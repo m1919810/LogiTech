@@ -1,8 +1,13 @@
 package me.matl114.logitech.SlimefunItem.Machines;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import me.matl114.logitech.SlimefunItem.Blocks.Laser;
+import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.FinalAltarCore;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.Settings;
+import me.matl114.logitech.Utils.UtilClass.CargoClass.Directions;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.ItemStorageCache;
@@ -104,4 +109,33 @@ public class FinalFeature {
         }
 
     };
+    public static boolean isFinalAltarCharged(SlimefunItem that, SlimefunBlockData data){
+        if(that instanceof FinalAltarCore.FinalAltarChargable fac&&that instanceof Laser.LaserChargable lc){
+            if(fac.mayForced(data)>=2){
+                int t;
+                if((t=lc.hasCharged(data,Directions.EAST))>0){
+                    Laser.LaserChargable.setCharged(data,Directions.EAST,t-1);
+                }else {
+                    return false;
+                }
+                if((t=lc.hasCharged(data,Directions.WEST))>0){
+                    Laser.LaserChargable.setCharged(data,Directions.WEST,t-1);
+                }else {
+                    return false;
+                }
+                if((t=lc.hasCharged(data,Directions.NORTH))>0){
+                    Laser.LaserChargable.setCharged(data,Directions.NORTH,t-1);
+                }else {
+                    return false;
+                }
+                if((t=lc.hasCharged(data,Directions.SOUTH))>0){
+                    Laser.LaserChargable.setCharged(data,Directions.SOUTH,t-1);
+                }else {
+                    return false;
+                }
+                return true;
+            }
+        }
+        return false;
+    }
 }

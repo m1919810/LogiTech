@@ -5,6 +5,8 @@ import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.CubeMultiBlock.CubeMu
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.CubeMultiBlock.CubeMultiBlockType;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockType;
+import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiLevelBlock.MultiLevelBlock;
+import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiLevelBlock.MultiLevelBlockType;
 
 public class MultiBlockTypes {
     public static void setup(){
@@ -215,6 +217,61 @@ public class MultiBlockTypes {
                 addTop(4+j,k,3,frameId);
                 addTop(1,k,j,frameId);
             }
+        }
+    }.build();
+    public static final MultiBlockType FINAL_BASE=new MultiBlockType() {
+        @Override
+        public void init() {
+            String baseId="final.base";
+            String frameId="final.frame";
+            addBlock(0,-1,0,frameId);
+            addBlock(0,-2,0,frameId);
+            addBlock(0,-3,0,frameId);
+            for(int y=1;y<4;++y){
+                for(int i=-y;i<=y;++i){
+                    for (int j=-y;j<=y;++j){
+                        if(i+j<=y&&i+j>=-y&&i-j<=y&&i-j>=-y&&!(i==0&&j==0)){
+                            addBlock(i,-y,j,baseId);
+                        }
+                    }
+                }
+            }
+            addBlock(-2,-3,-2,baseId);
+            addBlock(2,-3,-2,baseId);
+            addBlock(-2,-3,2,baseId);
+            addBlock(2,-3,2,baseId);
+            this.isSymmetric=true;
+        }
+    }.build();
+    public static final MultiBlockType FINAL_RING=new MultiBlockType() {
+        @Override
+        public void init() {
+            String baseId="final.base";
+            String subId="final.sub";
+            int[] dx=new int[]{
+                    2,5,7,8
+            };
+            for(int y=0;y<3;++y){
+                for(int i=0;i<4;++i){
+                    addBlock(dx[i],y,dx[3-i],baseId);
+                    addBlock(-dx[i],y,dx[3-i],baseId);
+                    addBlock(dx[i],y,-dx[3-i],baseId);
+                    addBlock(-dx[i],y,-dx[3-i],baseId);
+                }
+            }
+            addBlock(0,1,8,subId);
+            addBlock(0,1,-8,subId);
+            addBlock(8,1,0,subId);
+            addBlock(-8,1,0,subId);
+            this.isSymmetric=true;
+        }
+    }.build();
+    public static final MultiLevelBlockType FINAL_ALTAR=new MultiLevelBlockType() {
+        @Override
+        public void init() {
+            this.isSymm=true;
+            addSubPart(FINAL_BASE);
+            addSubPart(FINAL_RING);
         }
     }.build();
 }

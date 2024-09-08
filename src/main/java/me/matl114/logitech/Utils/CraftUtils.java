@@ -79,7 +79,7 @@ public class CraftUtils {
 
         }
         try{
-            ChestMenu a=   new ChestMenu("byd");
+            ChestMenu a=new ChestMenu("byd");
             a.addItem(0,DEFAULT_ITEMSTACK);
             CRAFTITEMSTACK=a.getItemInSlot(0);
             CRAFTITEMSTACKCLASS=CRAFTITEMSTACK.getClass();

@@ -95,9 +95,6 @@ public abstract class AbstractCargo extends CustomSlimefunItem implements Recipe
     public int getConfigCode(SlimefunBlockData data){
         return DataCache.getCustomData(data,"config",-1);
     }
-    public int getConfigCode(BlockMenu inv,Block b){
-        return getConfigCode(DataCache.safeLoadBlock(inv.getLocation()));
-    }
     public void loadConfig(BlockMenu inv,Block b){
         loadConfig(inv,b,DataCache.safeLoadBlock(inv.getLocation()));
     }

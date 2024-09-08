@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
+import me.matl114.logitech.Utils.UtilClass.TickerClass.Ticking;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -39,6 +40,7 @@ public class MultiPart extends AbstractBlock implements MultiBlockPart{
 //            this.addHandler((BlockUseHandler)this::onMenuRedirect);
 //        }
         handleMultiBlockPart(this);
+        registerTick(this);
         super.preRegister();
     }
 }

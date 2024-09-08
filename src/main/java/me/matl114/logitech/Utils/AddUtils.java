@@ -620,7 +620,7 @@ public class AddUtils {
     }
     //we supposed that u have checked these shits
 
-    public static ItemStack eqRandItemStackFactory(List<ItemStack> list){
+    public static RandomItemStack eqRandItemStackFactory(List<ItemStack> list){
         LinkedHashMap<Object,Integer> map=new LinkedHashMap<>();
         int i=list.size();
         for(int j=0;j<i;j++){
@@ -628,7 +628,7 @@ public class AddUtils {
         }
         return randItemStackFactory(map);
     }
-    public static ItemStack randItemStackFactory(List<ItemStack> st,List<Integer> it){
+    public static RandomItemStack randItemStackFactory(List<ItemStack> st,List<Integer> it){
         LinkedHashMap<Object,Integer> map=new LinkedHashMap<>();
         int len=st.size();
         for(int i=0;i<len;i++){
@@ -636,7 +636,7 @@ public class AddUtils {
         }
         return randItemStackFactory(map);
     }
-    public static ItemStack randItemStackFactory(LinkedHashMap<Object,Integer> list){
+    public static RandomItemStack randItemStackFactory(LinkedHashMap<Object,Integer> list){
             LinkedHashMap<ItemStack,Integer> c=new LinkedHashMap<>();
             boolean isEqPro=true;
             int last_value=-1;
@@ -657,9 +657,9 @@ public class AddUtils {
                 last_value=s.getValue();
             }
             if(isEqPro){
-                return (ItemStack) new EqProRandomStack(c);
+                return new EqProRandomStack(c);
             }
-            return (ItemStack)new RandomItemStack(c);
+            return new RandomItemStack(c);
         }
     public static ItemStack probItemStackFactory(ItemStack it,int prob){
         if(prob>=100)return it;

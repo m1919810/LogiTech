@@ -122,7 +122,7 @@ public abstract class AbstractSorter extends AbstractSyncTickCargo implements  C
             ItemCounter ct=CraftUtils.getConsumer(item);
             for (int i=0;i<len;i++){
                 st=menu.getItemInSlot(wlslots[i]);
-                if(st==null||(st.getAmount()!=st.getMaxStackSize() && CraftUtils.matchItemStack(st,ct,false))){
+                if(st==null||( CraftUtils.matchItemStack(st,ct,false))){
                     return new int[] {slots[i]};
                 }
             }

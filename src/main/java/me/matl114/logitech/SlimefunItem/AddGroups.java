@@ -316,7 +316,7 @@ public class AddGroups {
         }
         @Override
         protected void addGuideRelated(ChestMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int pages) {
-            if(AddUtils.standardRandom()<0.886){
+            for(int s=0;s<2;++s){
                 int rand=AddUtils.random(36);
                 if(menu.getItemInSlot(rand+9)==null){
                     menu.replaceExistingItem(rand+9,AddItem.BUG);
@@ -326,6 +326,7 @@ public class AddGroups {
                         menu.addMenuClickHandler(rand+9,ChestMenuUtils.getEmptyClickHandler());
                         return false;
                     }));
+                    break;
                 }
             }
         }

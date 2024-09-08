@@ -195,6 +195,7 @@ public class MultiBlockService {
         }
     }
     public static void toggleOff(SlimefunBlockData data){
+        if(data==null)return;
         String uid=DataCache.getLastUUID(data);
         AbstractMultiBlockHandler handler=MULTIBLOCK_CACHE.get(uid);
         if(handler!=null){

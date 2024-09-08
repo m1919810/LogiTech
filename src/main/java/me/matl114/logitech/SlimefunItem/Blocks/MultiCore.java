@@ -33,9 +33,7 @@ public abstract class MultiCore extends MultiPart implements MultiBlockCore {
         //doing nothing
     }
     public void preRegister(){
-        this.registerTick(this);
         this.registerBlockMenu(this);
-        this.handleMultiBlockPart(this);
         super.preRegister();
     }
     public boolean isSync(){

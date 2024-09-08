@@ -3,28 +3,23 @@ package me.matl114.logitech.Utils;
 import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.BlockDataController;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
-import com.xzavier0722.mc.plugin.slimefun4.storage.controller.StorageType;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockBreakEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Schedule.Schedules;
 import org.bukkit.*;
 import org.bukkit.block.*;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Orientable;
-import org.bukkit.block.structure.Mirror;
-import org.bukkit.block.structure.StructureRotation;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
-import java.util.Set;
 
 public class WorldUtils {
     public static SlimefunAddon INSTANCE= MyAddon.getInstance();
@@ -44,39 +39,23 @@ public class WorldUtils {
      * @param loc
      * @param force
      */
-    public static void removeSlimefunBlock(Location loc, boolean force) {
+    public static void removeSlimefunBlock(Location loc, boolean force){
+        removeSlimefunBlock(loc,null,force);
+    }
+    public static void removeSlimefunBlock(Location loc,Player player, boolean force) {
        if(force){
            CONTROLLER.removeBlock(loc);
            return;
        }else {
-           CONTROLLER.getBlockDataAsync(loc, new IAsyncReadCallback<SlimefunBlockData>() {
-               public boolean runOnMainThread() {
-                   return false;
-               }
-               public void onResult(SlimefunBlockData blockData) {
-                   //非强制移除,掉落物品
-                   blockData.setPendingRemove(true);
-                   if(!force){
-                       if (blockData != null && blockData.isPendingRemove()) {
-                           return;
-                       }
-                       SlimefunItem sfItem=SlimefunItem.getById(blockData.getSfId());
-                       Schedules.launchSchedules(Schedules.getRunnable(()->{
-                           for (ItemStack item : sfItem.getDrops()) {
-                               if (item != null && !item.getType().isAir()) {
-                                   loc.getWorld().dropItemNaturally(loc, item);
-                               }
-                           }
+           BlockBreakEvent breakEvent =
+                   new BlockBreakEvent(loc.getBlock(),player);
+           Bukkit.getPluginManager().callEvent(breakEvent);
 
-                       }),1,true,0);
-                       CONTROLLER.removeBlock(loc);
-                       return;
-                   }
-                   CONTROLLER.removeBlock(loc);
-               }
-             }
-           );
-           return;
+
+           if (breakEvent.isCancelled()) {
+               return ;
+           }
+           CONTROLLER.removeBlock(loc);
        }
     }
 
@@ -96,17 +75,27 @@ public class WorldUtils {
     public static boolean createSlimefunBlock(Location loc,Player player,SlimefunItem item,Material material,boolean force,boolean hasSync){
         Block block = loc.getBlock();
         if(!force&&player!=null){
+            BlockBreakEvent breakEvent =
+                    new BlockBreakEvent(block,player);
+            Bukkit.getPluginManager().callEvent(breakEvent);
+            if (breakEvent.isCancelled()) {
+                return false;
+            }
+            breakEvent.setDropItems(false);
             if (!item.canUse(player, false)) {
                 return false;
             }
             var placeEvent = new SlimefunBlockPlaceEvent(player, item.getItem(), block, item);
             Bukkit.getPluginManager().callEvent(placeEvent);
-
             if (placeEvent.isCancelled()) {
                 return false ;
             }else if(!hasPermission(player,loc, Interaction.PLACE_BLOCK)){
                 return false ;
             }
+        }
+        if(StorageCacheUtils.getSfItem(loc)!=null){
+
+            CONTROLLER.removeBlock(loc);
         }
         if(hasSync){
             createSlimefunBlockSync(loc,player,item,material);
@@ -126,9 +115,7 @@ public class WorldUtils {
      */
     public static void createSlimefunBlockSync(Location loc,Player player,SlimefunItem item,Material material) {
         Block block=loc.getBlock();
-        if(StorageCacheUtils.getSfItem(loc)!=null){
-            CONTROLLER.removeBlock(loc);
-        }
+
         block.setType(material);
         if (Slimefun.getBlockDataService().isTileEntity(block.getType())) {
             Slimefun.getBlockDataService().setBlockData(block, item.getId());
@@ -154,6 +141,31 @@ public class WorldUtils {
         return true;
     }
 
+    /**
+     * no need to sync
+     * @param start
+     * @param end
+     * @param type
+     * @param count
+     */
+    public static void spawnLineParticle(Location start, Location end, Particle type, int count){
+        if(count<=0)return;
+        World world= start.getWorld();
+        if(end.getWorld()!=world)return;
+        if(count==1){
+            world.spawnParticle(type,start,0);
+        }else {
+            Location walk=start.clone();
+            double dx=(end.getX()-start.getX())/(count-1);
+            double dy=(end.getY()-start.getY())/(count-1);
+            double dz=(end.getZ()-start.getZ())/(count-1);
+            for(int i=0;i<count;++i){
+                world.spawnParticle(type,walk,0);
+                walk.add(dx,dy,dz);
+            }
+        }
+
+    }
 
 
 

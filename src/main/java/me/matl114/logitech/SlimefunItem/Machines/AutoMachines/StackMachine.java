@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractAdvancedProcessor;
 import me.matl114.logitech.SlimefunItem.Machines.MultiCraftType;
 import me.matl114.logitech.Utils.*;
@@ -257,6 +258,9 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
     }
     public void updateMenu(BlockMenu inv, Block block, Settings mod){
         SlimefunBlockData data=DataCache.safeLoadBlock(inv.getLocation());
+        if(data==null){
+            Schedules.launchSchedules(()->updateMenu(inv,block,mod),20,false,0);
+        }
         ItemPusher it=this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT);
         int index=MultiCraftType.getRecipeTypeIndex(data);
         DataMenuClickHandler db=this.getDataHolder(block,inv);

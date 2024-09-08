@@ -111,10 +111,11 @@ public class CustomEffects {
         @Override
         public void tickEffect(Player p, int level) {
             double d=p.getHealth();
-            d=Math.min(0,d-0.5*level*level);
+            d=Math.max(0,d-0.5*level*level);
             p.setHealth(d);
         }
         public void onDeathEvent(PlayerDeathEvent e,int level) {
+            Debug.logger("death");
             e.setDeathMessage(AddUtils.resolveColor( "%s &6被%d级的强力激光融化了".formatted(e.getEntity().getName(),level)));
         }
     };
