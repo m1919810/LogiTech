@@ -290,6 +290,8 @@ public class AddItem {
             Language.get("Machines.FINAL_LASER.Name"),Language.getList("Machines.FINAL_LASER.Lore"));
     public static final SlimefunItemStack FINAL_CONVERTOR=AddUtils.themed("FINAL_CONVERTOR",Material.WARPED_HYPHAE,AddUtils.Theme.MACHINE1,
             Language.get("Machines.FINAL_CONVERTOR.Name"),Language.getList("Machines.FINAL_CONVERTOR.Lore"));
+    public static final SlimefunItemStack PRESSOR_FACTORY=AddUtils.themed("PRESSOR_FACTORY",Material.PISTON,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.PRESSOR_FACTORY.Name"),Language.getList("Machines.PRESSOR_FACTORY.Lore"));
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Manuals.MANUAL_CORE.Name"),Language.getList("Manuals.MANUAL_CORE.Lore"));

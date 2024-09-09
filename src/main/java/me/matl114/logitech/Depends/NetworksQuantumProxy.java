@@ -65,10 +65,10 @@ public class NetworksQuantumProxy extends NetworksAdaptQuantumStorage implements
         setAmount((QuantumCache)cacheMap.get(loc),amount);
     }
     public  void disableNetworkQuantum(Throwable e){
-        Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_PROXY, STORAGE TYPE DISABLED");
+        Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_PROXY,STORAGE TYPE MAY BE DISABLED %d/%d".formatted(ExceptionTimes, 100));
         Debug.logger(e);
         ExceptionTimes++;
-        if(ExceptionTimes>60){
+        if(ExceptionTimes>100){
             Storages.disableNetworkProxy();
             disableStorageType(this);
         }

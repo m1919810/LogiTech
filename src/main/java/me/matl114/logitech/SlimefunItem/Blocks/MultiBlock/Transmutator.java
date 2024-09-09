@@ -93,7 +93,7 @@ public class Transmutator extends MultiBlockAdvancedProcessor  {
     protected final MachineProcessor<MultiCraftingOperation> coolerProcessor;
 
     protected final int[] BORDER_IN = new int[]{9, 10, 11, 12, 19, 28, 37,45,46,47,48,21,30,39};
-    protected final int[] BORDER_OUT = new int[]{14, 15, 16, 17, 26,35,44,50,51,52,53,23,32,41};
+    protected final int[] BORDER_OUT = new int[]{14, 15, 16, 17, 26,35,44,50,51,52,53};
     public Transmutator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType,
                         ItemStack[] recipe, String blockId, AbstractMultiBlockType type, int energyConsumption, int energyBuffer,
                         LinkedHashMap<Object, Integer> customRecipes){

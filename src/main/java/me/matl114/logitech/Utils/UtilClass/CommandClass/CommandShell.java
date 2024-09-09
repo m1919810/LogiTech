@@ -1,10 +1,15 @@
 package me.matl114.logitech.Utils.UtilClass.CommandClass;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import me.matl114.logitech.Listeners.Listeners.PlayerQuiteListener;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.ReflectUtils;
+import me.matl114.logitech.Utils.UtilClass.FunctionalClass.AsyncResultRunnable;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.checkerframework.checker.units.qual.A;
@@ -12,6 +17,8 @@ import org.checkerframework.checker.units.qual.A;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
 public class CommandShell {
@@ -106,10 +113,9 @@ public class CommandShell {
             }else if(obj.getClass().isArray()){
                 try{
                     StringBuilder builder=new StringBuilder("[");
-                    int i=0;
                     int length = java.lang.reflect.Array.getLength(obj);
                     for(int j=0;j<length;j++){
-                        Object item = java.lang.reflect.Array.get(obj, i);
+                        Object item = java.lang.reflect.Array.get(obj, j);
                         if(j!=0){
                             builder.append(",");
                             if(builder.length()>MAX_LENGTH_IN_LINE){
@@ -328,17 +334,36 @@ public class CommandShell {
             return this.help;
         }
     }.register("exit");
-    public static ShellCommand runCommand=new ShellCommand(){
+    public static ShellCommand quit=new ShellCommand(){
         public String[] help=new String[]{
-                "run <cmd> <args> 运行<cmd>,看起来没啥用"
+                "quit 退出shell不删除记录",
         };
         public int cmd(String[] argv,CommandShell shell){
-            return commands.get(argv[0]).cmd(Arrays.copyOfRange(argv,1,argv.length),shell);
+            shell.status=false;
+            shell.send("成功退出");
+            return 1;
         }
         public String[] getHelp(){
             return this.help;
         }
-    }.register("run");
+    }.register("quit");
+    public static ShellCommand runCommand=new ShellCommand(){
+        public String[] help=new String[]{
+                "say <argvs> 玩家输出<argvs>,用空格相连"
+        };
+        public int cmd(String[] argv,CommandShell shell){
+            if(Bukkit.isPrimaryThread()){
+                shell.user.chat(String.join(" ", argv));
+                return 1;
+            }else {
+                shell.warn("shell并未在主线程中运行,无法使用该指令");
+                return 0;
+            }
+        }
+        public String[] getHelp(){
+            return this.help;
+        }
+    }.register("say");
     public static ShellCommand changeClass=new ShellCommand(){
         public String[] help=new String[]{
                 "setPath <Class> 将当前指令的默认类对象设置为<Class>"
@@ -593,5 +618,67 @@ public class CommandShell {
             return this.help;
         }
     }.register("const");
+    public static ShellCommand getSfItem=new ShellCommand(){
+        public String[] help=new String[]{
+                "getSfItem <ID> <var1> 获取id为<ID>的sf物品实例,并存储到",
+                "getSfitem <ID> 获取id为<ID>的sf物品实例"
+        };
+        public int cmd(String[] argv,CommandShell shell){
+            SlimefunItem item=SlimefunItem.getById(argv[0]);
+            shell.printObject(item);
+            if(argv.length==2){
+                setVariable(shell,argv[1],item);
+            }
+            return 1;
+        }
+        public String[] getHelp(){
+            return this.help;
+        }
+    }.register("getSfItem");
+    public static ShellCommand getNearbyPlayer=new ShellCommand(){
+        public String[] help=new String[]{
+                "getNearbyEntity <int> <var1> 获取当前范围<int>内的全部实体,并存储在<var1>中",
+                "getNearbyEntity <int> 获取当前范围<int>内的全部实体"
+        };
+        public int cmd(String[] argv,CommandShell shell){
+            Collection<Entity> result;
+            int nearby=Integer.parseInt(argv[0]);
+            AsyncResultRunnable<Collection<Entity>> getNearby=new AsyncResultRunnable<Collection<Entity>>() {
+                public Collection<Entity> result(){
+                    return shell.user.getWorld().getNearbyEntities(shell.user.getLocation(),nearby,nearby,nearby);
+                }
+            };
+            result=getNearby.waitForDone(true);
+            Entity[] entities=new Entity[result.size()];
+            int index=0;
+            for (Entity  e:result){
+                entities[index]=e;
+                ++index;
+            }
+            shell.printObject(entities);
+            if(argv.length==2){
+                setVariable(shell,argv[1],entities);
+            }return 1;
+        }
+        public String[] getHelp(){
+            return this.help;
+        }
+    }.register("getNearbyEntity");
+    public static ShellCommand invoke=new ShellCommand(){
+        public String[] help=new String[]{
+                "invoke <var1> <var1> 获取id为<ID>的sf物品实例,并存储到",
+        };
+        public int cmd(String[] argv,CommandShell shell){
+            SlimefunItem item=SlimefunItem.getById(argv[0]);
+            shell.printObject(item);
+            if(argv.length==2){
+                setVariable(shell,argv[1],item);
+            }
+            return 1;
+        }
+        public String[] getHelp(){
+            return this.help;
+        }
+    }.register("invoke");
     //TODO more commands
 }

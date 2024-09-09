@@ -193,12 +193,19 @@ public class AddGroups {
                             "&7我觉得那真是太酷啦"
                     )
             );
-            factory.addInventory(11,AddUtils.getInfoShow("&f2024.9.7",
+            factory.addInventory(13,AddUtils.getInfoShow("&f2024.9.7",
                             "&7开发了LogiTech shell",
                             "&7一款基于原神(bushi)的shell命令行工具",
                             "&7可以查询和修改类/对象的成员等等,支持设置变量",
                             "&7紧急修复了因dataload导致的卡服",
                             "&7这就是依托"
+                    )
+            );
+            factory.addInventory(14,AddUtils.getInfoShow("&f2024.9.9",
+                            "&7开学了",
+                    "&7开学第一天没课",
+                    "&7兼容构思rsc生成器随机输出",
+                    "&7我希望开启一个计划,让大家一起完善machine堆叠列表"
                     )
             );
         }

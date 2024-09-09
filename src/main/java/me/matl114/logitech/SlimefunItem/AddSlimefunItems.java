@@ -463,6 +463,37 @@ public class AddSlimefunItems {
                 return recipelist;
             })
             .register();
+    public static final  SlimefunItem PRESSOR_FACTORY=new MTMachine(AddGroups.BASIC, AddItem.PRESSOR_FACTORY,BugCrafter.TYPE,
+            recipe(AddItem.ABSTRACT_INGOT,setC(AddItem.STAR_GOLD_INGOT,2),AddItem.LMOTOR,AddItem.LMOTOR,setC(AddItem.STAR_GOLD_INGOT,2),AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,"ELECTRIC_PRESS_2","ELECTRIC_PRESS_2",null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,"ELECTRIC_PRESS_2","ELECTRIC_PRESS_2",null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,"ELECTRIC_PRESS_2","ELECTRIC_PRESS_2",null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,AddItem.NOLOGIC,AddItem.NOLOGIC,null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,setC(AddItem.STAR_GOLD_INGOT,2),AddItem.LENGINE,AddItem.LENGINE,setC(AddItem.STAR_GOLD_INGOT,2),AddItem.ABSTRACT_INGOT), AddUtils.addGlow( new ItemStack(Material.PISTON))
+            ,120,64_00,()->{
+                HashSet<SlimefunItem> hasInCompressor=new HashSet<>();
+                List<MachineRecipe> recipes=new ArrayList<>();
+                List<MachineRecipe> elecpress=RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(RecipeType.COMPRESSOR);
+                for (MachineRecipe recipe:elecpress){
+                    if(recipe.getOutput()[0].getType()!=Material.COBBLESTONE)
+                    recipes.add(MachineRecipeUtils.stackFrom(3,recipe.getInput(),recipe.getOutput()));
+                }
+                elecpress=RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(RecipeType.PRESSURE_CHAMBER);
+                for (MachineRecipe recipe:elecpress){
+                    recipes.add(MachineRecipeUtils.stackFrom(4,recipe.getInput(),recipe.getOutput()));
+                }
+                List<MachineRecipe> compressorRecipes=RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItem.getById("ELECTRIC_PRESS"));
+                for(MachineRecipe recipe:compressorRecipes){
+                    ItemStack stack=recipe.getOutput()[0];
+                    SlimefunItem stackItem=SlimefunItem.getByItem(stack);
+                    if(stackItem!=null&&stackItem.getRecipeType()== RecipeType.COMPRESSOR){
+                        continue;
+                    }
+                    recipes.add(recipe);
+                }
+                return recipes;
+            })
+            .register();
     public static final  SlimefunItem SMELTRY=new AEMachine(AddGroups.BASIC, AddItem.SMELTRY,BugCrafter.TYPE,
             recipe(AddItem.ABSTRACT_INGOT,setC(AddItem.STAR_GOLD_INGOT,2),AddItem.LMOTOR,AddItem.LMOTOR,setC(AddItem.STAR_GOLD_INGOT,2),AddItem.ABSTRACT_INGOT,
                     AddItem.ABSTRACT_INGOT,null,AddItem.NOLOGIC,AddItem.NOLOGIC,null,AddItem.ABSTRACT_INGOT,

@@ -17,6 +17,7 @@ import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -112,6 +113,7 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
     public void onDisable() {
         // 禁用插件的逻辑...
         Schedules.onDisableSchedules(this);
+        Bukkit.getScheduler().cancelTasks(this);
     }
 
     @Override

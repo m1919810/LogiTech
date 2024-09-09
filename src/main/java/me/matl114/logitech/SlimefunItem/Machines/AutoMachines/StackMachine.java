@@ -53,7 +53,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
     public int[] getOutputSlots(){
         return OUTPUT_SLOT;
     }
-    protected static List<SlimefunItem> BW_LIST;
+    protected static final List<SlimefunItem> BW_LIST=new ArrayList<>();
     protected static int[] BW_LIST_ENERGYCOMSUME;
     protected static int BWSIZE;
     protected final int MACHINE_SLOT=13;
@@ -105,17 +105,21 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
     public void addInfo(ItemStack stack){
         stack.setItemMeta( AddUtils.capacitorInfoAdd(stack,energybuffer).getItemMeta());
     }
+    public static boolean hasInit=false;
     public static List<SlimefunItem> getMachineList(){
-        if(BW_LIST==null){
-            RecipeSupporter.init();
-            BWSIZE=RecipeSupporter.STACKMACHINE_LIST.size();
-            BW_LIST=new ArrayList<>(BWSIZE+1);
-            BW_LIST_ENERGYCOMSUME=new int[BWSIZE];
-            int i=0;
-            for(Map.Entry<SlimefunItem,Integer> e:RecipeSupporter.STACKMACHINE_LIST.entrySet()){
-                BW_LIST.add(e.getKey());
-                BW_LIST_ENERGYCOMSUME[i]=e.getValue();
-                ++i;
+        if(!hasInit)
+        synchronized (BW_LIST){
+            if(BW_LIST.isEmpty()){
+                RecipeSupporter.init();
+                BWSIZE=RecipeSupporter.STACKMACHINE_LIST.size();
+                BW_LIST_ENERGYCOMSUME=new int[BWSIZE];
+                int i=0;
+                for(Map.Entry<SlimefunItem,Integer> e:RecipeSupporter.STACKMACHINE_LIST.entrySet()){
+                    BW_LIST.add(e.getKey());
+                    BW_LIST_ENERGYCOMSUME[i]=e.getValue();
+                    ++i;
+                }
+                hasInit=true;
             }
         }
         return BW_LIST;
@@ -239,7 +243,9 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
         else{
             DataMenuClickHandler dh=createDataHolder();
             inv.addMenuClickHandler(DATA_SLOT,dh);
-            updateMenu(inv,b,Settings.RUN);
+            Schedules.launchSchedules(()->{
+                updateMenu(  inv,b,Settings.INIT);
+            },20,false,0);
             return dh;
         }
     }
@@ -284,7 +290,11 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
                     List<SlimefunItem> lst=getMachineList();
                     String thisId=sfitem.getId();
                     for(int i=0;i<size;++i){
-                        if(sfitem==lst.get(i)||thisId.equals(lst.get(i).getId())){
+                        SlimefunItem item=lst.get(i);
+                        if(item==null){
+                            continue;
+                        }
+                        if(sfitem==item||thisId.equals(item.getId())){
                             //是该机器,设置下标，都不用查了 肯定不一样
                             MultiCraftType.forceSetRecipeTypeIndex(data,i);
                             int charge=getEnergy(i);

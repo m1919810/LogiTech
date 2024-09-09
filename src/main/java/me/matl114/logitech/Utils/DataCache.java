@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashSet;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -138,31 +139,17 @@ public interface DataCache {
     public static void setLastUUID(Location loc ,String uuid){
         StorageCacheUtils.setData(loc,"uuid",uuid);
     }
-    public static void runAfterSafeLoad(Location loc,Consumer<SlimefunBlockData> consumer){
+    public static void runAfterSafeLoad(Location loc,Consumer<SlimefunBlockData> consumer,boolean isSync){
         SlimefunBlockData data;
-        try{
-            data= CONTROLLER.getBlockDataFromCache(loc);
-            StorageCacheUtils.executeAfterLoad(data,()-> consumer.accept(data),false);
-        }catch (Throwable a){
-            //try get Block Async
-            CONTROLLER.getBlockDataAsync(loc, new IAsyncReadCallback<SlimefunBlockData>() {
-                @Override
-                public void onResult(SlimefunBlockData result) {
-                    StorageCacheUtils.executeAfterLoad(result,()-> consumer.accept(result),false);
-                }
-            });
-        }
+        data= CONTROLLER.getBlockDataFromCache(loc);
+        StorageCacheUtils.executeAfterLoad(data,()-> consumer.accept(data),isSync);
+
     }
+    public static HashSet<Location> loadingLocation=new HashSet<>();
+    public static byte[] lock=new byte[0];
     public static SlimefunBlockData safeLoadBlock(Location loc){
 
-        SlimefunBlockData data;
-        try{
-            data= CONTROLLER.getBlockDataFromCache(loc);
-        }catch (Throwable a){
-            //try get Block Async
-            CONTROLLER.getBlockDataAsync(loc, new IAsyncReadCallback<SlimefunBlockData>() {});
-            return null;
-        }
+        SlimefunBlockData data= CONTROLLER.getBlockDataFromCache(loc);
         if(data==null){
             return null;
         }

@@ -26,12 +26,13 @@ public class ConfigLoader {
         }
         LANGUAGE=loadInternalConfig("language");   //new Config(plugin,"language.yml");
         MACHINES=loadExternalConfig("machines");
-
+        INNER_MACHINES=loadExternalConfig("addon-machines");
     }
     public static Plugin plugin;
     public static Config INNERCONFIG;
     public static Config LANGUAGE;
     public static Config MACHINES;
+    public static Config INNER_MACHINES;
     public static File NULL_FILE;
     public static void init() {
         NULL_FILE=new File(plugin.getDataFolder(), "configure.yml");

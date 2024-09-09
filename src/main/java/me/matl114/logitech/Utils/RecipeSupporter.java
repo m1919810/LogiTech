@@ -265,15 +265,19 @@ public class RecipeSupporter {
             }
         }
     }
-    public static void loadMachineModification(Config config){
-        Set<String > keySets=config.getKeys("recipe_modify");
+    public static void loadMachineModification(Config config,String root,boolean withWarning){
+        if(MyAddon.testmode())
+            withWarning=true;
+        Set<String > keySets=config.getKeys(root);
         for (String machineId:keySets){
-            String machinepath="recipe_modify."+machineId;
+            String machinepath=root+"."+machineId;
             SlimefunItem machine;
             try{
                 machine= SlimefunItem.getById(machineId);
+                machine.getId();
             }catch(Throwable e){
-                Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: not valid item  %s".formatted(machineId));
+                if(withWarning)
+                    Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: not valid item  %s".formatted(machineId));
                 continue;
             }
             boolean append=false;
@@ -287,7 +291,8 @@ public class RecipeSupporter {
                 machineRecipe=config.getKeys(machinepath+".recipe");
                 isGenerator=config.getString(machinepath+".type").startsWith("gen");
             }catch(Throwable e){
-                Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: ValueError error config format in %s ".formatted(machineId));
+                if(withWarning)
+                    Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: ValueError error config format in %s ".formatted(machineId));
                 Debug.debug(e);
             }
             if(machineRecipe==null){
@@ -311,7 +316,8 @@ public class RecipeSupporter {
                         for(String skey:inputKey){
                             ItemStack it=loadItemStack(config,AddUtils.concat(ippath,".",skey));
                             if(it==null){
-                                Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: failed to load recipe output %s".formatted(recipe));
+                                if(withWarning)
+                                    Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: failed to load recipe output %s".formatted(recipe));
                                 it= AddItem.RESOLVE_FAILED.clone();
                             }
                             input[len]=it;
@@ -325,7 +331,8 @@ public class RecipeSupporter {
                         for(String skey:outputKey){
                             ItemStack it=loadItemStack(config,AddUtils.concat(oppath,".",skey));
                             if(it==null){
-                                Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: failed to load recipe output %s".formatted(recipe));
+                                if(withWarning)
+                                    Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: failed to load recipe output %s".formatted(recipe));
                                 it= AddItem.RESOLVE_FAILED.clone();
                             }
                             output[len2]=it;
@@ -428,6 +435,7 @@ public class RecipeSupporter {
             SlimefunItem machine;
             try{
                 machine= SlimefunItem.getById(machineId);
+                machine.getId();
             }catch (Throwable e){
                 Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: not valid item  %s".formatted(machineId));
                 continue;
@@ -984,7 +992,21 @@ public class RecipeSupporter {
             }
         }
         Debug.logger("尝试载入机器配方修改配置文件");
-        loadMachineModification(ConfigLoader.MACHINES);
+        try{
+            List<String> enableAddons=ConfigLoader.INNER_MACHINES.getStringList("enable");
+            if(!enableAddons.isEmpty()){
+                for(String enableAddon : enableAddons){
+                    loadMachineModification(ConfigLoader.INNER_MACHINES,enableAddon,false);
+                }
+            }
+        }catch (Throwable w){
+
+        }
+        try{
+            loadMachineModification(ConfigLoader.MACHINES,"recipe_modify",true);
+        }catch (Throwable e){
+
+        }
         //解析机器用电,并提供给StackMachine和stackGenerator
         //到时候还需要解析生成器配方和用电
         Debug.logger("注册堆叠机器的机器列表");

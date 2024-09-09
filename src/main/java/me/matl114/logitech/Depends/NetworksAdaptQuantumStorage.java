@@ -59,10 +59,10 @@ public class NetworksAdaptQuantumStorage extends StorageType {
         }
     }
     public void disableNetworkQuantum(Throwable e){
-        Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_STORAGE, STORAGE TYPE DISABLED");
+        Debug.logger("AN ERROR OCCURED IN NETWORK_QUANTUM_STORAGE, STORAGE TYPE MAY BE DISABLED %d/%d".formatted(ExceptionTimes, 100));
         Debug.logger(e);
         ExceptionTimes++;
-        if(ExceptionTimes>60){
+        if(ExceptionTimes>100){
             Storages.disableNetworkStorage();
             disableStorageType(this);
         }
