@@ -5,16 +5,20 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 import me.matl114.logitech.SlimefunItem.Machines.RecipeDisplay;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Debug;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CustomSlimefunItem extends SlimefunItem implements RecipeDisplay {
+public abstract class CustomSlimefunItem extends SlimefunItem implements RecipeDisplay , DistinctiveItem {
     public List<ItemStack> displayedMemory;
     public List<ItemStack> originalMemory;
     public CustomSlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -27,6 +31,11 @@ public abstract class CustomSlimefunItem extends SlimefunItem implements RecipeD
         }else{
             this.originalMemory = new ArrayList<>();
         }
+    }
+    public boolean canStack(@Nonnull ItemMeta var1, @Nonnull ItemMeta var2){
+        PersistentDataContainer container1 = var1.getPersistentDataContainer();
+        PersistentDataContainer container2 = var2.getPersistentDataContainer();
+        return (container1==null)||(container1.equals(container2));
     }
     public void addInfo(ItemStack stack){
 
