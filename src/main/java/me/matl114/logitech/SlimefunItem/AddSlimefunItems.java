@@ -795,8 +795,8 @@ public class AddSlimefunItems {
                             "4CHORUS_FLOWER",30,
                             "2SHULKER_SHELL",35,
                             "DRAGON_BREATH",35,
-                            AddItem.DIMENSIONAL_SHARD,40,
-                            AddItem.STAR_GOLD,10
+                            setC(AddItem.DIMENSIONAL_SHARD,2),30,
+                            AddItem.STAR_GOLD,20
                     )
             ))
             .register();
@@ -817,7 +817,7 @@ public class AddSlimefunItems {
 
             AddUtils.randItemStackFactory(
                     mkMp(
-                            AddItem.DIMENSIONAL_SHARD,3,
+                            setC(AddItem.DIMENSIONAL_SHARD,2),2,
                             AddItem.STAR_GOLD,1
                     )
             ),
@@ -1165,9 +1165,9 @@ public class AddSlimefunItems {
             ,"solar.core",MultiBlockTypes.SOLAR_TYPE,80_000,2_000_000,
             mkMp(mkP(   mkl(AddItem.METAL_CORE)  ,
                             mkl(
-                                    setC(AddItem.STAR_GOLD_INGOT,12),
+                                    setC(AddItem.STAR_GOLD_INGOT,8),
                                     AddUtils.probItemStackFactory( AddItem.LSINGULARITY,73),
-                                    AddUtils.randAmountItemFactory(AddItem.STAR_GOLD,39,127),
+                                    AddUtils.randAmountItemFactory(AddItem.STAR_GOLD,39,87),
                                     AddUtils.randAmountItemFactory(AddItem.ATOM_INGOT,63,99),
                                     AddUtils.randItemStackFactory(
                                             Utils.list(setC(AddItem.PALLADIUM_INGOT,3),setC(AddItem.PLATINUM_INGOT,3),setC(AddItem.CADMIUM_INGOT,3),setC(AddItem.BISMUTH_INGOT,3)),
@@ -1188,7 +1188,6 @@ public class AddSlimefunItems {
                                             Utils.list(2,59,13,24)
                                     )
                             )
-
                     ),72,
                     mkP(   mkl(AddItem.MASS_CORE)  ,
 
@@ -1211,7 +1210,7 @@ public class AddSlimefunItems {
                             mkl(
                                     setC(AddItem.LPLATE,64),
                                     setC( AddItem.LSINGULARITY,2),
-                                    AddUtils.randAmountItemFactory(AddItem.STAR_GOLD_INGOT,3,12),
+                                    AddUtils.randAmountItemFactory(AddItem.STAR_GOLD_INGOT,3,15),
                                     AddUtils.randAmountItemFactory(AddItem.ATOM_INGOT,92,127)
                             )
 

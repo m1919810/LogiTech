@@ -11,6 +11,9 @@ public class Debug {
     public  static boolean debug = MyAddon.testmode();
     public static boolean start=false;
     public static boolean pos=false;
+    public static boolean isTest(boolean value){
+        return value&&MyAddon.testmode();
+    }
     public static  void logger(String message) {
         log.info(message);
     }

@@ -2,6 +2,7 @@ package me.matl114.logitech.SlimefunItem.Items;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.LocationUtils;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.slimefun.network.grid.NetworkGrid;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
@@ -15,9 +16,11 @@ import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
 import me.matl114.logitech.SlimefunItem.Cargo.Links.HyperLink;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.DataCache;
+import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.WorldUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -61,6 +64,7 @@ public class HypLink extends CustomSlimefunItem {
                     if (WorldUtils.hasPermission(
                             event.getPlayer(), loc, Interaction.INTERACT_BLOCK)
                     ) {
+
                         SlimefunBlockData data = DataCache.safeLoadBlock(loc);
                         if (data != null) {
                             BlockMenu menu = data.getBlockMenu();

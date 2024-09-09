@@ -14,6 +14,7 @@ import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockTypes;
 import me.matl114.logitech.SlimefunItem.Cargo.Storages;
 import me.matl114.logitech.Utils.CraftUtils;
+import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
@@ -88,6 +89,8 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         Debug.logger("计划线程设立完毕");
         ListenerManager.registerListeners(getInstance(),getManager());
         Debug.logger("监听器注册完毕");
+        //加载bs工具
+        DataCache.setup();
         //注册存储类型
         Storages.setup();
         //注册多方块服务
@@ -100,6 +103,7 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         RadiationRegion.setup();
         //加载配方工具
         CraftUtils.setup();
+
 
         //注册
         Debug.logger("附属特性注册完毕");

@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public abstract  class AbstractMachine extends CustomSlimefunItem implements Ticking, MenuBlock,  EnergyNetComponent, NotHopperable , DataCache {
+public abstract  class AbstractMachine extends CustomSlimefunItem implements Ticking, MenuBlock,  EnergyNetComponent, NotHopperable  {
     //我们的目标是 最广的需求 最好的性能 最大的答辩(bushi
     public  List<MachineRecipe> machineRecipes ;
     private final String id;

@@ -2,15 +2,9 @@ package me.matl114.logitech.Utils.UtilClass.MultiBlockClass;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore;
-import me.matl114.logitech.SlimefunItem.Blocks.MultiCore;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.Debug;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.Random;
@@ -172,7 +166,7 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
         if(DataCache.hasData(CORE)){
             DataCache.setLastUUID(CORE,"null");
             MultiBlockService.setStatus(CORE,0);
-            SlimefunItem it=DataCache.getData(CORE);
+            SlimefunItem it=DataCache.getSfItem(CORE);
             if(it instanceof MultiBlockCore){
                 ((MultiBlockCore) it).onMultiBlockDisable(CORE,this);
             }

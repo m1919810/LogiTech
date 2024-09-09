@@ -9,7 +9,7 @@ import org.bukkit.Location;
 /**
  * this interface provides a restorer for recipe lock machinie ,selected recipe will only change if certain events occurs
  */
-public interface RecipeLock extends DataCache {
+public interface RecipeLock  {
     /**
      * representing the temp display item ,if not match to recipe index,change the existing display item
      * @param loc

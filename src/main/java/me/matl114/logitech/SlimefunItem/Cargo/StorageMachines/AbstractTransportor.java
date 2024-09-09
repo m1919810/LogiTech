@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public abstract class AbstractTransportor extends CustomSlimefunItem implements Ticking, MenuBlock, NotHopperable, DataCache {
+public abstract class AbstractTransportor extends CustomSlimefunItem implements Ticking, MenuBlock, NotHopperable{
     public AbstractTransportor(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe){
         super(category,item , recipeType, recipe);
     }

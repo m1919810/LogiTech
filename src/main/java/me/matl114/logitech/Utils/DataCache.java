@@ -1,29 +1,54 @@
 package me.matl114.logitech.Utils;
 
-import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.BlockDataController;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunChunkData;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.LocationUtils;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.inventory.ItemStack;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.*;
 
-import java.util.HashSet;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.function.Consumer;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public interface DataCache {
+public class DataCache {
     public static final BlockDataController CONTROLLER=Slimefun.getDatabaseManager().getBlockDataController();
+    public static Method GETBLOCKDATACACHE;
+    public static boolean INVOKE_GETBLOCKDATACACHE=false;
+    public static Map<String, SlimefunChunkData> loadedChunkData;
+    public static boolean INVOKE_LOADEDCHUNK=false;
+    static{
+        try{
+            GETBLOCKDATACACHE=CONTROLLER.getClass().getDeclaredMethod("getBlockDataFromCache",String.class,String.class);
+            GETBLOCKDATACACHE.setAccessible(true);
+            INVOKE_GETBLOCKDATACACHE=true;
 
+        }catch (Throwable e){
+            Debug.logger("INVOKE DATA CONTROLLER GETBLOCKDATAFROMCACHE FAILED! EXCEPTION");
+            Debug.logger(e);
+        }
+        try{
+            Field loadedChunkDataField=CONTROLLER.getClass().getDeclaredField("loadedChunk");
+            loadedChunkDataField.setAccessible(true);
+            loadedChunkData=(Map<String, SlimefunChunkData>)loadedChunkDataField.get(CONTROLLER);
+            INVOKE_LOADEDCHUNK=true;
+        }catch (Throwable e){
+            Debug.logger("INVOKE DATA CONTROLLER loadedChunk FAILED! EXCEPTION");
+            Debug.logger(e);
+        }
+    }
+    public static void setup(){
+
+    }
     public static boolean hasData(Location loc){
         return StorageCacheUtils.hasBlock(loc);
     }
-    public static SlimefunItem getData(Location loc){
+    public static SlimefunItem getSfItem(Location loc){
         return StorageCacheUtils.getSfItem(loc);
     }
     /**
@@ -143,13 +168,30 @@ public interface DataCache {
         SlimefunBlockData data;
         data= CONTROLLER.getBlockDataFromCache(loc);
         StorageCacheUtils.executeAfterLoad(data,()-> consumer.accept(data),isSync);
-
     }
-    public static HashSet<Location> loadingLocation=new HashSet<>();
-    public static byte[] lock=new byte[0];
-    public static SlimefunBlockData safeLoadBlock(Location loc){
+    public static String getChunkKey(Location loc) {
+        String var10000 = loc.getWorld().getName();
+        return var10000 + ";" + (loc.getBlockX()>>4) + ":" + (loc.getBlockZ()>>4);
+    }
+    public static SlimefunBlockData safeGetBlockDataFromCache(Location loc){
+        if(INVOKE_LOADEDCHUNK){
+            String chunkKey=getChunkKey(loc);
+            try{
+                SlimefunChunkData data=loadedChunkData.get(chunkKey);
+                if(data!=null){
+                    return data.getBlockData(loc);
+                }
+            }catch (Throwable e){
+                Debug.debug("getBlockDataFromCache INVOKE FAILED! DISABLING BETTER GETBLOCKFROMCACHE");
+                Debug.debug(e);
+                INVOKE_LOADEDCHUNK=false;
+            }
+        }
+        return CONTROLLER.getBlockDataFromCache(loc);
+    }
 
-        SlimefunBlockData data= CONTROLLER.getBlockDataFromCache(loc);
+    public static SlimefunBlockData safeLoadBlock(Location loc){
+        SlimefunBlockData data= safeGetBlockDataFromCache(loc);
         if(data==null){
             return null;
         }
@@ -159,6 +201,14 @@ public interface DataCache {
             return null;
         }
         return data;
+    }
+    public static BlockMenu getMenu(Location loc) {
+        SlimefunBlockData blockData = safeLoadBlock(loc);
+        if (blockData == null) {
+            return null;
+        } else {
+            return blockData.getBlockMenu();
+        }
     }
     public static int getCustomData(Location loc,String key,int defaultValue){
         SlimefunBlockData data=CONTROLLER.getBlockDataFromCache(loc);

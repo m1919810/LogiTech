@@ -122,7 +122,7 @@ public class RemoteCargo extends AbstractCargo {
         if(from_dir==null){
             return;
         }
-        BlockMenu from= StorageCacheUtils.getMenu(from_dir);
+        BlockMenu from=DataCache.getMenu(from_dir);
         if(from==null){
             return;
         }
@@ -130,7 +130,7 @@ public class RemoteCargo extends AbstractCargo {
         if(to_dir==null){
             return;
         }
-        BlockMenu to= StorageCacheUtils.getMenu(to_dir);
+        BlockMenu to= DataCache.getMenu(to_dir);
         if(to==null){
             return;
         }

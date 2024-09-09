@@ -112,7 +112,7 @@ public class Laser extends AbstractMachine implements MultiBlockPart, FinalAltar
                         if(force>0){
                             //给机器充能
                            // Debug.debug(loc2);
-                            SlimefunItem it=DataCache.getData(loc2);
+                            SlimefunItem it=DataCache.getSfItem(loc2);
                             if(it instanceof LaserChargable lc){
                                 SlimefunBlockData data2=DataCache.safeLoadBlock(loc2);
                                 LaserChargable.setCharged(data2,dir,2);

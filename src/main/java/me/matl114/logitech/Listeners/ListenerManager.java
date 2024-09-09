@@ -2,6 +2,8 @@ package me.matl114.logitech.Listeners;
 
 
 import me.matl114.logitech.Listeners.Listeners.*;
+import me.matl114.logitech.Unittest;
+import me.matl114.logitech.Utils.Debug;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -16,6 +18,9 @@ public class ListenerManager {
         register(PORTAL_REDIRECT);
         register(POTION_CLEAR_DEATH);
         register(PLAYER_QUIT_HANDLER);
+        if(Debug.isTest(Unittest.SFDATA_TEST)){
+            register(CHUNK_LOAD_TEST);
+        }
     }
     public static Plugin plugin;
     public static PluginManager manager;
@@ -28,4 +33,6 @@ public class ListenerManager {
     public static final Listener PORTAL_REDIRECT=new PortalTeleport();
     public static final Listener POTION_CLEAR_DEATH=new PotionClearOnDeath();
     public static final Listener PLAYER_QUIT_HANDLER=new PlayerQuiteListener();
+    public static final Listener CHUNK_LOAD_TEST=new ChunkTestListener();
+
 }

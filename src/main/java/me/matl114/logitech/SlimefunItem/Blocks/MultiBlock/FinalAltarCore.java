@@ -8,32 +8,23 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockTypes;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiCore;
-import me.matl114.logitech.SlimefunItem.Cargo.Links.HyperLink;
-import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Settings;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.*;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiLevelBlock.MultiLevelBlock;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiLevelBlock.MultiLevelBlockType;
-import me.matl114.logitech.Utils.WorldUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import org.bukkit.Axis;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Orientable;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import javax.xml.crypto.Data;
 import java.util.HashMap;
 
 public class FinalAltarCore  extends MultiCore {
@@ -54,7 +45,7 @@ public class FinalAltarCore  extends MultiCore {
                 return forcelvl;
             }
             Location loc=data.getLocation().clone().add(0,-1,0);
-            if(DataCache.getData(loc) instanceof FinalAltarCore){
+            if(DataCache.getSfItem(loc) instanceof FinalAltarCore){
                 int lv=DataCache.getCustomData(loc,FinalAltarCore.LVL_KEY,0);
                 if(lv>0){
                     DataCache.setCustomData(data,FORCE_STATE,lv);
@@ -64,7 +55,7 @@ public class FinalAltarCore  extends MultiCore {
             return 0;
         }
         static void clearForced(Location loc){
-            SlimefunItem it=DataCache.getData(loc);
+            SlimefunItem it=DataCache.getSfItem(loc);
             if(it instanceof FinalAltarChargable fac){
                 DataCache.setCustomData(loc,FORCE_STATE,0);
             }
