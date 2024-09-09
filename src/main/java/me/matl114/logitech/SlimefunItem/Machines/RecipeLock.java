@@ -47,7 +47,5 @@ public interface RecipeLock extends DataCache {
         data.setData("record",String.valueOf(val));
     }
     MachineRecipe getRecordRecipe(SlimefunBlockData data);
-    default MachineRecipe getRecordRecipe(Location loc){
-        return getRecordRecipe(DataCache.safeLoadBlock(loc));
-    }
+
 }

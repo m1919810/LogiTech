@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Machines.*;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
@@ -175,7 +176,14 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
         }
     }
     public void updateMenu(BlockMenu menu,Block block,Settings mod){
-        MachineRecipe recipe=getRecordRecipe(block.getLocation());
+        SlimefunBlockData data=DataCache.safeLoadBlock(menu.getLocation());
+        if(data==null){
+            Schedules.launchSchedules(()->{
+                updateMenu(menu,block,mod);
+            },20,false,0);
+            return;
+        }
+        MachineRecipe recipe=getRecordRecipe(data);
 
         if(recipe==null){
             for(int var4 = 0; var4 < RECIPE_DISPLAY.length; ++var4) {
@@ -270,7 +278,14 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
     public int[] getSlotsAccessedByItemTransportPlus(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
         if (flow == ItemTransportFlow.WITHDRAW) return getOutputSlots();
         int [] inputSlots=getInputSlots();
-        MachineRecipe now=getRecordRecipe(((BlockMenu)menu).getLocation());
+        if(item==null||item.getType().isAir()||(!(menu instanceof  BlockMenu))){
+            return inputSlots;
+        }
+        SlimefunBlockData data=DataCache.safeLoadBlock(((BlockMenu)menu).getLocation());
+        if(data==null){
+            return inputSlots;
+        }
+        MachineRecipe now=getRecordRecipe(data);
         if(now==null){
             return new int[0];
         }

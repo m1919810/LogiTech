@@ -11,11 +11,8 @@ import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.FinalAltarCore;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.SlimefunItem.Machines.MenuBlock;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.Directions;
-import me.matl114.logitech.Utils.WorldUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -50,6 +47,21 @@ public class Laser extends AbstractMachine implements MultiBlockPart, FinalAltar
                                        int energybuffer, int energyConsumption,String partId) {
         super(category, item, recipeType, recipe, energybuffer, energyConsumption);
         this.PARTID=partId;
+        this.setDisplayRecipes(Utils.list(
+                AddUtils.getInfoShow("&f机制 - &c激光",
+                        "&7该机器满足指定条件会发射激光并消耗电力",
+                        "&7可选条件1: 被红石充能",
+                        "&7可选条件2: 置于终极祭坛上",
+                        "&7发射的激光等级lvl为%d+(祭坛等级)*%d".formatted(DEFAULT_LVL,FORCE_INCREASE),
+                        "&7激光会杀死非玩家实体,并对玩家造成0.5*(lvl)^2的真实伤害",
+                        "&7激光会沿该方块朝向进行延申,直至碰见首个非空气方块",
+                        "&7或者达到最大长度 %d 格".formatted(MAX_SEARCH_LEN)),null,
+                AddUtils.getInfoShow("&f机制 - &c充能",
+                        "&7当置于终极祭坛上时",
+                        "&7该机器会尝试对激光最末端的机器尝试充能",
+                        "&7仅有特定机器才能被激光充能",
+                        "&7一般用于机器激活的前置条件"),null
+        ));
     }
     public String getPartId(){
         return PARTID;

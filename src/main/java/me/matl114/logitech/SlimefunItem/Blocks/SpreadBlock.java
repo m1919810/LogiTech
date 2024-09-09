@@ -62,7 +62,7 @@ public class SpreadBlock extends AbstractBlock implements Ticking {
         );
     }
     protected Random rand = new Random();
-    protected final int LIFE_DEFAULT=8;
+    protected final int LIFE_DEFAULT=13;
     protected final int ONE_TICK_SPREAD_MAXCNT=2000;
 
     protected final ConcurrentHashMap<Location, Player> SPREAD_PLAYER=new ConcurrentHashMap<>();

@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Machines.MultiCraftType;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
@@ -52,7 +53,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
     public int[] getOutputSlots(){
         return OUTPUT_SLOTS;
     }
-    protected static List<SlimefunItem> BW_LIST;
+    protected static final List<SlimefunItem> BW_LIST=new ArrayList<>();
     protected static int[] BW_LIST_ENERGYCOMSUME;
     protected static int BWSIZE;
     protected final int MACHINE_SLOT=13;
@@ -106,11 +107,10 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
         );
     }
     public static List<SlimefunItem> getMachineList(){
-        if(BW_LIST==null){
+        if(BW_LIST.isEmpty()){
             RecipeSupporter.init();
             BWSIZE=RecipeSupporter.STACKMGENERATOR_LIST.size();
-            BW_LIST=new ArrayList<>(BWSIZE+1);
-            BW_LIST_ENERGYCOMSUME=new int[BWSIZE];
+            BW_LIST_ENERGYCOMSUME=new int[BWSIZE+1];
             int i=0;
             for(Map.Entry<SlimefunItem,Integer> e:RecipeSupporter.STACKMGENERATOR_LIST.entrySet()){
                 BW_LIST.add(e.getKey());
@@ -121,7 +121,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
         return BW_LIST;
     }
     public static final int getListSize(){
-        if(BW_LIST==null||BWSIZE==0){
+        if(BW_LIST.isEmpty()||BWSIZE==0){
             BWSIZE=getMachineList().size();
         }
         return BWSIZE;
@@ -135,9 +135,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
     public void addInfo(ItemStack stack){
         stack.setItemMeta( AddUtils.capacitorInfoAdd(stack,energybuffer).getItemMeta());
     }
-    public MachineRecipe getRecordRecipe(Location loc){
-        return getRecordRecipe(DataCache.safeLoadBlock(loc));
-    }
+
     public MachineRecipe getRecordRecipe(SlimefunBlockData data){
         List<MachineRecipe> lst=getMachineRecipes(data);
         int size=lst.size();
@@ -225,6 +223,12 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
     }
     public final void updateMenu(BlockMenu inv, Block block, Settings mod){
         SlimefunBlockData data=DataCache.safeLoadBlock(inv.getLocation());
+        if(data==null){
+            Schedules.launchSchedules(()->{
+              updateMenu(  inv,block,mod);
+            },20,false,0);
+            return;
+        }
         ItemPusher it=this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT);
         int index=MultiCraftType.getRecipeTypeIndex(data);
         DataMenuClickHandler db=this.getDataHolder(block,inv);
@@ -234,7 +238,6 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
                 SlimefunItem historyMachine;
                 if(index>=0&&index<getListSize()){
                     historyMachine= getMachineList().get(index);
-
                 }else {
                     historyMachine=null;
                 }
@@ -253,8 +256,9 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
                 }else {
                     int size=getListSize();
                     List<SlimefunItem> lst=getMachineList();
+                    String thisId=sfitem.getId();
                     for(int i=0;i<size;++i){
-                        if(sfitem==lst.get(i)){
+                        if(sfitem==lst.get(i)||thisId.equals(lst.get(i).getId())){
                             //是该机器,设置下标，都不用查了 肯定不一样
                             MultiCraftType.forceSetRecipeTypeIndex(data,i);
                             int charge=getEnergy(i);

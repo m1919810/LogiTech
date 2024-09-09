@@ -102,6 +102,9 @@ public class EnergyAmplifier extends AbstractEnergyProvider {
             Location loc2=l.clone().add(0,1,0);
             if(DataCache.getData(loc2)==ep){
                 SlimefunBlockData data2=DataCache.safeLoadBlock(loc2);
+                if(data2==null){
+                    return 0;
+                }
                 int energyOutput=ep.getGeneratedOutput(loc2,data2);
                 int amplify=dh.getInt(0);
                 if(inv.hasViewer()){

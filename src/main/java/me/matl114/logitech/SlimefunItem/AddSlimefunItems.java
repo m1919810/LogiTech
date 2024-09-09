@@ -1631,7 +1631,7 @@ public class AddSlimefunItems {
 
 
 
-
+//TODO add descriptions to these shits
 
 
     //special
@@ -1664,8 +1664,13 @@ public class AddSlimefunItems {
             .register();
 
     //final
-    public static final  SlimefunItem FINAL_LASER=new Laser(AddGroups.BEYOND, AddItem.FINAL_LASER,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")), 8_000_000,1_200_000,"final.sub")
+    public static final  SlimefunItem FINAL_LASER=new Laser(AddGroups.BEYOND, AddItem.FINAL_LASER,BugCrafter.TYPE,
+            recipe(setC(AddItem.SPACE_PLATE,2),setC(AddItem.HGTLPBBI,4),setC(AddItem.TECH_CORE,2),setC(AddItem.TECH_CORE,2),setC(AddItem.HGTLPBBI,4),setC(AddItem.SPACE_PLATE,2),
+                    setC(AddItem.SPACE_PLATE,2),setC(AddItem.HGTLPBBI,4),setC(AddItem.TECH_CORE,2),setC(AddItem.TECH_CORE,2),setC(AddItem.HGTLPBBI,4),setC(AddItem.SPACE_PLATE,2),
+                    setC(AddItem.LSINGULARITY,4),setC(AddItem.LASER,2),setC(AddItem.VIRTUAL_SPACE,2),setC(AddItem.VIRTUAL_SPACE,2),setC(AddItem.LASER,2),setC(AddItem.LSINGULARITY,4),
+                    setC(AddItem.LSINGULARITY,4),setC(AddItem.LASER,2),setC(AddItem.VIRTUAL_SPACE,2),setC(AddItem.VIRTUAL_SPACE,2),setC(AddItem.LASER,2),setC(AddItem.LSINGULARITY,4),
+                    setC(AddItem.PAGOLD,3),setC(AddItem.BISILVER,2),setC(AddItem.LASER,2),setC(AddItem.LASER,2),setC(AddItem.BISILVER,2),setC(AddItem.PAGOLD,3),
+                    null,setC(AddItem.PAGOLD,3),setC(AddItem.LSINGULARITY,4),setC(AddItem.LSINGULARITY,4),setC(AddItem.PAGOLD,3),null), 8_000_000,1_200_000,"final.sub")
             .register();
     public static final SlimefunItem FINAL_BASE=new MultiPart(AddGroups.BEYOND,AddItem.FINAL_BASE,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),"final.base")

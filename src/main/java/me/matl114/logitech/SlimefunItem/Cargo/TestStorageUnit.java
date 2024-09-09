@@ -95,7 +95,6 @@ public class TestStorageUnit extends AbstractMachine {
             }),200,true,0);
             return false;
         }));
-
     }
     public  int[] getInputSlots(){
         return INPUT_SLOT;

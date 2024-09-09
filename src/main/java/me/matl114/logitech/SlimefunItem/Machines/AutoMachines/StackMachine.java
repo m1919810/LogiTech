@@ -135,9 +135,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
     public ItemStack getProgressBar() {
         return progressbar;
     }
-    public MachineRecipe getRecordRecipe(Location loc){
-        return getRecordRecipe(DataCache.safeLoadBlock(loc));
-    }
+
     public MachineRecipe getRecordRecipe(SlimefunBlockData data){
         List<MachineRecipe> lst=getMachineRecipes(data);
         int size=lst.size();
@@ -284,8 +282,9 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
                 }else {
                     int size=getListSize();
                     List<SlimefunItem> lst=getMachineList();
+                    String thisId=sfitem.getId();
                     for(int i=0;i<size;++i){
-                        if(sfitem==lst.get(i)){
+                        if(sfitem==lst.get(i)||thisId.equals(lst.get(i).getId())){
                             //是该机器,设置下标，都不用查了 肯定不一样
                             MultiCraftType.forceSetRecipeTypeIndex(data,i);
                             int charge=getEnergy(i);
