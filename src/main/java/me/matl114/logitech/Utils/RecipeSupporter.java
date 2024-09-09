@@ -794,20 +794,58 @@ public class RecipeSupporter {
                         try{
                             Object stack=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"output");
                             Object tick=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"tickRate");
+                            List<Integer> chance=null;
+                            try{
+                                chance=(List<Integer>) ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"chances");
+                            }catch (Throwable e){
+
+                            }
                             recipes=new ArrayList<>();
+                            ItemStack[] outputList;
                             if(stack instanceof List stacklist){
-                                if(!stacklist.isEmpty()){
-                                    int len=stacklist.size();
-                                    ItemStack[] output=new ItemStack[len];
-                                    for (int i=0;i<len;++i){
-                                        output[i]=(ItemStack) stacklist.get(i);
+                                if(chance==null){
+                                    if(!stacklist.isEmpty()){
+                                        int len=stacklist.size();
+                                        ItemStack[] output=new ItemStack[len];
+                                        for (int i=0;i<len;++i){
+                                            output[i]=(ItemStack) stacklist.get(i);
+                                        }
+                                        outputList=output;
+                                    }else {
+                                        outputList=new ItemStack[0];
                                     }
-                                    recipes.add(MachineRecipeUtils.mgFrom((Integer)tick,new ItemStack[0],output));
+                                }else {
+                                    if(!stacklist.isEmpty()){
+                                        int len=stacklist.size();
+                                        int len2=chance.size();
+                                        ItemStack[] output=new ItemStack[len];
+                                        for (int i=0;i<len;++i){
+                                            output[i]=(ItemStack) stacklist.get(i);
+                                            Integer chance_i=(i<len2)?chance.get(i):100;
+                                            if(chance_i==null){
+                                                chance_i=100;
+                                            }
+                                            output[i]=AddUtils.probItemStackFactory(output[i],chance_i);
+                                        }
+                                        outputList=output;
+                                    }else {
+                                        outputList=new ItemStack[0];
+                                    }
                                 }
                             }
                             else {
-                                recipes.add(MachineRecipeUtils.mgFrom((Integer) tick,new ItemStack[0],new ItemStack[]{(ItemStack) stack}));
+                                outputList=new ItemStack[]{(ItemStack) stack};
                             }
+                            boolean chooseOne=Boolean.FALSE;
+                            try{
+                                chooseOne=(Boolean) ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"chooseOne");
+                                if(chooseOne){
+                                    outputList=new ItemStack[]{AddUtils.eqRandItemStackFactory(Arrays.stream(outputList).toList())};
+                                }
+                            }catch (Throwable e){
+
+                            }
+                            recipes.add(MachineRecipeUtils.mgFrom((Integer)tick,new ItemStack[0],outputList));
                             methodName="output";
                         }catch (Throwable e){ }
                     }
