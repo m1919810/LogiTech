@@ -93,11 +93,10 @@ public class SolarReactorCore extends MultiBlockProcessor {
         });
         this.PROCESSOR_SLOT=31;
     }
-//FIXME 未知原因导致投影未被销毁
+
     public void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler, MultiBlockService.DeleteCause cause){
         removeEffect(loc);
         SimpleCraftingOperation op=SolarReactorCore.this.processor.getOperation(loc);
-
         if(cause.willExplode()&&(op!=null&&(!op.isFinished()))){//如果还在进行中就暂停
             onDestroyEffect(loc,handler,cause);
         }
@@ -201,6 +200,8 @@ public class SolarReactorCore extends MultiBlockProcessor {
             if(loc2.distance(loc1)>EFFECT_OFFSET){
                 isPendingOff=true;
             }
+        }else {
+            isPendingOff=true;
         }
         if(isPendingOff){
             MultiBlockService.toggleOff(data,CRYSTAL_LOST);

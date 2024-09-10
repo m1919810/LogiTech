@@ -580,8 +580,8 @@ public class AddSlimefunItems {
     public static final  SlimefunItem LVOID_GENERATOR=new TestGenerator(AddGroups.ENERGY, AddItem.LVOID_GENERATOR,BugCrafter.TYPE,
             recipe(AddItem.LFIELD,AddItem.LPLATE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LPLATE,AddItem.LFIELD,
                     AddItem.LPLATE,null,null,null,null,AddItem.LPLATE,
-                    AddItem.ABSTRACT_INGOT,null,AddItem.LENGINE,AddItem.LENGINE,null,AddItem.ABSTRACT_INGOT,
-                    AddItem.ABSTRACT_INGOT,null,AddItem.LENGINE,AddItem.LENGINE,null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,AddItem.ABSTRACT_INGOT,AddItem.LENGINE,null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,AddItem.LENGINE,AddItem.ABSTRACT_INGOT,null,AddItem.ABSTRACT_INGOT,
                     AddItem.LPLATE,null,null,null,null,AddItem.LPLATE,
                     AddItem.LFIELD,AddItem.LPLATE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LPLATE,AddItem.LFIELD),2333,180,
             1000,1145)
@@ -1525,12 +1525,12 @@ public class AddSlimefunItems {
             })
             .register();
     public static final SlimefunItem MULTIBLOCK_MANUAL=new MultiBlockManual(AddGroups.MANUAL,AddItem.MULTIBLOCK_MANUAL,BugCrafter.TYPE,
-            recipe(AddItem.SPACE_PLATE,AddItem.BUG,AddItem.BUG,AddItem.BUG,AddItem.BUG,AddItem.SPACE_PLATE,
+            recipe(AddItem.STAR_GOLD_INGOT,AddItem.BUG,AddItem.BUG,AddItem.BUG,AddItem.BUG,AddItem.STAR_GOLD_INGOT,
                     AddItem.BUG,AddItem.LFIELD,"OAK_FENCE","OAK_FENCE",AddItem.LFIELD,AddItem.BUG,
                     AddItem.BUG,AddItem.LCRAFT,AddItem.LSINGULARITY,AddItem.CHIP_CORE,AddItem.LCRAFT,AddItem.BUG,
                     AddItem.BUG,AddItem.WORLD_FEAT,AddItem.VIRTUAL_SPACE,AddItem.MANUAL_CORE,AddItem.WORLD_FEAT,AddItem.BUG,
                     AddItem.BUG,AddItem.LFIELD,"DISPENSER","DISPENSER",AddItem.LFIELD,AddItem.BUG,
-                    AddItem.SPACE_PLATE,AddItem.BUG,AddItem.BUG,AddItem.BUG,AddItem.BUG,AddItem.SPACE_PLATE),0,0,null)
+                    AddItem.STAR_GOLD_INGOT,AddItem.BUG,AddItem.BUG,AddItem.BUG,AddItem.BUG,AddItem.STAR_GOLD_INGOT),0,0,null)
             .register();
 
 

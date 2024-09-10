@@ -99,7 +99,7 @@ public class MultiBlockService {
             super(AddUtils.concat("多方块结构自检失败,在",
                     DataCache.locationToDisplayString(loc),
                     "处检测到 [",
-                    getId,"],实际应为 [",shouldId,"]"),false);
+                    getId,"],实际应为 [",shouldId,"]"),true);
         }
     }
     public static DeleteCause MANUALLY=new DeleteCause("手动关闭",true);

@@ -104,7 +104,6 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
     protected Random rand=new Random();
     public int checkIfCompleteRandom(){
         int len=this.size;
-        boolean complete=true;
         int checkChance=10;//随机选取1/10的方块检测
         for(int s=0;s<len;s++){
             int i=rand.nextInt(checkChance);
