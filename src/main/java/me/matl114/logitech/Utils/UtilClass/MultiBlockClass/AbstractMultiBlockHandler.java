@@ -1,11 +1,6 @@
 package me.matl114.logitech.Utils.UtilClass.MultiBlockClass;
 
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import me.matl114.logitech.Utils.DataCache;
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
-import org.bukkit.util.BlockVector;
-import org.bukkit.util.Vector;
 
 public interface AbstractMultiBlockHandler {
     /**
@@ -21,7 +16,7 @@ public interface AbstractMultiBlockHandler {
      */
     public boolean isActive();
     //响应部件信号
-    public void setActive(boolean active);
+    public void toggleOff(MultiBlockService.DeleteCause cause);
     /**
      * accept in part ticks
      * @param loc
@@ -53,13 +48,13 @@ public interface AbstractMultiBlockHandler {
      * strict check if the multiblock matches,not suggested in tickers
      * @return
      */
-    public boolean checkIfComplete();
+    public int checkIfComplete();
 
     /**
      * random check if the multiblock matches,suggested in tickers
      * @return
      */
-    default boolean checkIfCompleteRandom(){
+    default int checkIfCompleteRandom(){
         return checkIfComplete();
     }
 
@@ -72,5 +67,7 @@ public interface AbstractMultiBlockHandler {
     /**
      * this method should called onMultiBlockDisable for CORE and reset blockdata!
      */
-    public void destroy();
+    public void destroy(MultiBlockService.DeleteCause cause);
+
+    public MultiBlockService.DeleteCause getLastDeleteCause();
 }

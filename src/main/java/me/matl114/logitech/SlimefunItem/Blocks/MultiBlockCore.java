@@ -13,7 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.event.block.BlockBreakEvent;
 
 public interface MultiBlockCore extends MultiBlockPart , Ticking {
-    default  void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler){
+    default  void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler, MultiBlockService.DeleteCause cause){
     }
     default void onMultiBlockEnable(Location loc,AbstractMultiBlockHandler handler){
         MultiBlockService.removeHologram(loc);

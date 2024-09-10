@@ -106,16 +106,16 @@ public class Transmutator extends MultiBlockAdvancedProcessor  {
 
     }
 
-    public void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler){
+    public void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler, MultiBlockService.DeleteCause cause){
         MultiCraftingOperation op=Transmutator.this.processor.getOperation(loc);
         if(op!=null&&(!op.isFinished())){//如果还在进行中就暂停
-            onDestroyEffect(loc,handler);
+            onDestroyEffect(loc,handler,cause);
         }else{
             removeEffect(loc,handler);
         }
         DataCache.setCustomData(loc,this.HEIGHT_KEY,0);
 
-        super.onMultiBlockDisable(loc,handler);
+        super.onMultiBlockDisable(loc,handler,cause);
     }
     public void onMultiBlockEnable(Location loc,AbstractMultiBlockHandler handler){
         super.onMultiBlockEnable(loc,handler);
@@ -178,7 +178,9 @@ public class Transmutator extends MultiBlockAdvancedProcessor  {
             },0,true,0);
         }
     }
-    public void onDestroyEffect(Location loc,AbstractMultiBlockHandler handler){
+    public void onDestroyEffect(Location loc, AbstractMultiBlockHandler handler, MultiBlockService.DeleteCause cause){
+        AddUtils.broadCast("&e位于[%s,%.0f,%.0f,%.0f]的元素嬗变机因 [%s] 熔毁!".formatted(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(),cause.getMessage()));
+
         MultiBlockService.Direction dir=handler.getDirection();
         AbstractMultiBlock block=  handler.getMultiBlock();
         if(block instanceof CubeMultiBlock cb){
@@ -291,7 +293,7 @@ public class Transmutator extends MultiBlockAdvancedProcessor  {
                         }
                     }
                 }else {
-                    MultiBlockService.deleteMultiBlock(DataCache.getLastUUID(loc));
+                    MultiBlockService.deleteMultiBlock(DataCache.getLastUUID(loc),MultiBlockService.MANUALLY);
                     AddUtils.sendMessage(player,"&a成功关闭多方块结构!");
                 }
             }else{
@@ -378,7 +380,7 @@ public class Transmutator extends MultiBlockAdvancedProcessor  {
             super.progressorCost(b,inv);
             if(charge<energyConsumption){
                 //避免重连的时候出现问题,重连的时候statusCode为-3到-1,但是如果没有电 直接寄
-                MultiBlockService.deleteMultiBlock(DataCache.getLastUUID(loc));
+                MultiBlockService.deleteMultiBlock(DataCache.getLastUUID(loc),MultiBlockService.EnergyOutCause.get(charge,energyConsumption));
                 return;
             }
             if(inv.hasViewer()){
@@ -397,12 +399,12 @@ public class Transmutator extends MultiBlockAdvancedProcessor  {
             super.process(b,inv,data);
         }
     }
-
+    public MultiBlockService.DeleteCause NOCOOLER=new MultiBlockService.DeleteCause("冷却剂不足",true);
     public void progressorCost(Block b, BlockMenu inv){
         //覆盖父类 让process中不扣电
         //转到我的ticker里扣
         if(!checkCooler(inv)){
-            MultiBlockService.toggleOff(DataCache.safeLoadBlock(inv.getLocation()));
+            MultiBlockService.toggleOff(DataCache.safeLoadBlock(inv.getLocation()),NOCOOLER);
         }
     }
     public void onBreak(BlockBreakEvent e, BlockMenu menu){

@@ -118,6 +118,10 @@ public class DataCache {
                     .append(loc.getBlockX()).append(',').append(loc.getBlockY()).append(',').append(loc.getBlockZ()).toString();
         }
     }
+    public static final String DISPLAY_PATTERN="[%s,%.0f,%.0f,%.0f]";
+    public static String locationToDisplayString(Location loc){
+        return DISPLAY_PATTERN.formatted(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ());
+    }
     public static Location getLocation(String key,SlimefunBlockData data){
         String location=data.getData(key);
         if(location!=null){

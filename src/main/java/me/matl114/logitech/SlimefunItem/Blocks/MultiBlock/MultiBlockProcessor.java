@@ -50,9 +50,9 @@ public abstract class MultiBlockProcessor extends AbstractProcessor implements M
     public MultiBlockService.MultiBlockBuilder getBuilder(){
         return MultiBlockHandler::createHandler;
     }
-    public void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler){
+    public void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler, MultiBlockService.DeleteCause cause){
         processor.endOperation(loc);
-        MultiBlockCore.super.onMultiBlockDisable(loc,handler);
+        MultiBlockCore.super.onMultiBlockDisable(loc,handler,cause);
     }
     public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int tickCount){
         //in this case .blockMenu is null

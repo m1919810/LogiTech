@@ -138,8 +138,8 @@ public class PortalCore extends MultiCore {
         }
         },0,true,0);
     }
-    public void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler){
-        super.onMultiBlockDisable(loc,handler);
+    public void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler, MultiBlockService.DeleteCause cause){
+        super.onMultiBlockDisable(loc,handler,cause);
         deletePortal(loc.getBlock());
         BlockMenu inv= StorageCacheUtils.getMenu(loc);
         if(inv!=null){
@@ -150,6 +150,7 @@ public class PortalCore extends MultiCore {
         super.onMultiBlockEnable(loc,handler);
         setupPortal(loc.getBlock());
     }
+    public MultiBlockService.DeleteCause NOLINK=new MultiBlockService.DeleteCause("不存在超链接",false);
     public void updateMenu(BlockMenu inv, Block block, Settings mod){
         int holoStatus=DataCache.getCustomData(inv.getLocation(),"holo",0);
         if(holoStatus==0){
@@ -162,7 +163,7 @@ public class PortalCore extends MultiCore {
             inv.replaceExistingItem(HOLOGRAM_SLOT,HOLOGRAM_ITEM_ON_2);
         }
         if(!loadLink(inv)){
-            MultiBlockService.deleteMultiBlock(inv.getLocation());
+            MultiBlockService.deleteMultiBlock(inv.getLocation(),NOLINK);
         }
     }
     public void newMenuInstance(BlockMenu inv, Block block){
@@ -190,7 +191,7 @@ public class PortalCore extends MultiCore {
                     inv.replaceExistingItem(TOGGLE_SLOT,TOGGLE_ITEM_OFF);
                 }
             }else {//working toggle off
-                MultiBlockService.deleteMultiBlock(loc);
+                MultiBlockService.deleteMultiBlock(loc,MultiBlockService.MANUALLY);
                 AddUtils.sendMessage(player,"&a传送门成功关闭");
             }
             return false;

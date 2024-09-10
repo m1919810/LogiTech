@@ -22,7 +22,7 @@ public interface MultiBlockPart extends Ticking {
     //you must add handle menu to preRegister in order to handle MultiBlockPart
     default void onMultiBlockBreak(BlockBreakEvent e) {
         String uid= MultiBlockService.safeGetUUID(e.getBlock().getLocation());
-        MultiBlockService.deleteMultiBlock(uid);
+        MultiBlockService.deleteMultiBlock(uid, MultiBlockService.MultiBlockBreakCause.get(e.getBlock()));
     }
     default void handleMultiBlockPart(SlimefunItem it){
         it.addItemHandler(new BlockBreakHandler(false, false) {

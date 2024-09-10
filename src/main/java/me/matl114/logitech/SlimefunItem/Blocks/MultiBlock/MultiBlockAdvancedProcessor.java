@@ -61,9 +61,9 @@ public abstract class MultiBlockAdvancedProcessor extends AbstractAdvancedProces
     public MultiBlockService.MultiBlockBuilder getBuilder(){
         return (MultiBlockService.MultiBlockBuilder) this::createAdvanceProcessor;
     }
-    public void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler){
+    public void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler, MultiBlockService.DeleteCause cause){
         processor.endOperation(loc);
-        MultiBlockCore.super.onMultiBlockDisable(loc,handler);
+        MultiBlockCore.super.onMultiBlockDisable(loc,handler,cause);
     }
     public int getCraftLimit(Block b,BlockMenu inv){
         return 1<<DataCache.getCustomData(inv.getLocation(),HEIGHT_KEY,0);

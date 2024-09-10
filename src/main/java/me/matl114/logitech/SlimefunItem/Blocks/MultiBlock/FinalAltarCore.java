@@ -117,8 +117,8 @@ public class FinalAltarCore  extends MultiCore {
         }
         inv.addItem(HOLOGRAM_SLOT, HOLOGRAM_ITEM_OFF);
     }
-    public void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler){
-        super.onMultiBlockDisable(loc,handler);
+    public void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler, MultiBlockService.DeleteCause cause){
+        super.onMultiBlockDisable(loc,handler,cause);
         //要设置上面的机器,清除里面的force level数据
         Location poweredLoc =loc.clone().add(0,1,0);
         FinalAltarChargable.clearForced(poweredLoc);
@@ -159,7 +159,7 @@ public class FinalAltarCore  extends MultiCore {
                         inv.replaceExistingItem(STATUS_SLOT,code==1? STATUS_ITEM_ON_1:STATUS_ITEM_ON_2);
                         AddUtils.sendMessage(player,"&a成功激活终极祭坛!");
                     }else {
-                        MultiBlockService.deleteMultiBlock(loc);
+                        MultiBlockService.deleteMultiBlock(loc,MultiBlockService.GENERIC);
                         AddUtils.sendMessage(player,"&c构建祭坛时出现未知方块数据错误!请联系管理员");
                     }
                 }else {
@@ -168,7 +168,7 @@ public class FinalAltarCore  extends MultiCore {
                 }
 
             }else {//working toggle off
-                MultiBlockService.deleteMultiBlock(loc);
+                MultiBlockService.deleteMultiBlock(loc,MultiBlockService.MANUALLY);
                 AddUtils.sendMessage(player,"&a终极祭坛成功关闭");
                 inv.replaceExistingItem(STATUS_SLOT,STATUS_ITEM_OFF);
             }

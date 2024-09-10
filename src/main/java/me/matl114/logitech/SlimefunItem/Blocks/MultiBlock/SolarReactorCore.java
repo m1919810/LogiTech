@@ -94,15 +94,14 @@ public class SolarReactorCore extends MultiBlockProcessor {
         this.PROCESSOR_SLOT=31;
     }
 //FIXME 未知原因导致投影未被销毁
-    public void onMultiBlockDisable(Location loc,AbstractMultiBlockHandler handler){
+    public void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler, MultiBlockService.DeleteCause cause){
         removeEffect(loc);
         SimpleCraftingOperation op=SolarReactorCore.this.processor.getOperation(loc);
 
-        if(op!=null&&(!op.isFinished())){//如果还在进行中就暂停
-
-            onDestroyEffect(loc,handler);
+        if(cause.willExplode()&&(op!=null&&(!op.isFinished()))){//如果还在进行中就暂停
+            onDestroyEffect(loc,handler,cause);
         }
-        super.onMultiBlockDisable(loc,handler);
+        super.onMultiBlockDisable(loc,handler,cause);
     }
     public void onMultiBlockEnable(Location loc,AbstractMultiBlockHandler handler){
         super.onMultiBlockEnable(loc,handler);
@@ -181,6 +180,17 @@ public class SolarReactorCore extends MultiBlockProcessor {
     }
     }}.toArray(BlockVector[]::new);
     protected Random rand=new Random();
+    public MultiBlockService.DeleteCause CRYSTAL_LOST=new MultiBlockService.DeleteCause("超新星特效丢失",false);
+    public static class NotFilledWithAirCause extends MultiBlockService.DeleteCause{
+        public Block block;
+        public static NotFilledWithAirCause get(Block block){
+            return new NotFilledWithAirCause(block);
+        }
+        public NotFilledWithAirCause(Block block){
+            super(AddUtils.concat("超新星没有被空气包裹,在",DataCache.locationToDisplayString(block.getLocation()),"处发现了",block.getType().toString()),true);
+            this.block=block;
+        }
+    }
     public boolean checkCondition(Location loc,SlimefunBlockData data){
         //no endcrystal
         boolean isPendingOff=false;
@@ -193,7 +203,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
             }
         }
         if(isPendingOff){
-            MultiBlockService.toggleOff(data);
+            MultiBlockService.toggleOff(data,CRYSTAL_LOST);
             return false;
         }
         // has block
@@ -213,7 +223,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
                     fillblock.setType(Material.AIR);
                 }
                 },0,true,0);
-                MultiBlockService.toggleOff(data);
+                MultiBlockService.toggleOff(data,NotFilledWithAirCause.get(block));
                 return false;
             }
         }
@@ -233,10 +243,11 @@ public class SolarReactorCore extends MultiBlockProcessor {
         }),0,true,0);
         return true;
     }
-    public void onDestroyEffect(Location loc,AbstractMultiBlockHandler handler){
+    public MultiBlockService.DeleteCause TWICE_EXPLODE=new MultiBlockService.DeleteCause("二次爆炸",true);
+    public void onDestroyEffect(Location loc, AbstractMultiBlockHandler handler, MultiBlockService.DeleteCause cause){
         removeEffect(loc);
 
-        AddUtils.broadCast("&e位于[%s,%.0f,%.0f,%.0f]的超新星模拟器即将爆炸,快跑!".formatted(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ()));
+        AddUtils.broadCast("&e位于[%s,%.0f,%.0f,%.0f]的超新星模拟器因 [%s] 即将爆炸,快跑!".formatted(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(),cause.getMessage()));
 
         Location center=loc.clone();
         Schedules.launchSchedules(()->{
@@ -251,7 +262,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
         Schedules.launchSchedules(Schedules.getRunnable(()->{
             //延后特效
             //防止重新构建
-            MultiBlockService.deleteMultiBlock(center);
+            MultiBlockService.deleteMultiBlock(center,TWICE_EXPLODE);
             //清除方块
             BlockMenu inv=StorageCacheUtils.getMenu(loc);
             if(inv!=null){
@@ -361,7 +372,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
                         }
                     }
                 }else {
-                    MultiBlockService.deleteMultiBlock(DataCache.getLastUUID(loc));
+                    MultiBlockService.deleteMultiBlock(DataCache.getLastUUID(loc),MultiBlockService.MANUALLY);
                     AddUtils.sendMessage(player,"&a成功关闭多方块结构!");
                 }
             }else{
@@ -408,7 +419,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
             Schedules.launchSchedules(()->checkCondition(loc,data),0,false,0);
             if(charge<energyConsumption){
                 //避免重连的时候出现问题,重连的时候statusCode为-3到-1,但是如果没有电 直接寄
-                MultiBlockService.deleteMultiBlock(DataCache.getLastUUID(loc));
+                MultiBlockService.deleteMultiBlock(DataCache.getLastUUID(loc),MultiBlockService.EnergyOutCause.get(charge,energyConsumption));
                 return;
             }
             if(inv.hasViewer()){
