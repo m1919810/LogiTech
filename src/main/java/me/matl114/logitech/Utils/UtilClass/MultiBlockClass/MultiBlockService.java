@@ -120,6 +120,7 @@ public class MultiBlockService {
             }
         }
     }
+
     public static Location getCore(String uid){
         AbstractMultiBlockHandler handler = MULTIBLOCK_CACHE.get(uid);
         if(handler != null&&handler.isActive()){

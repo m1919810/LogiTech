@@ -200,8 +200,6 @@ public class SolarReactorCore extends MultiBlockProcessor {
             if(loc2.distance(loc1)>EFFECT_OFFSET){
                 isPendingOff=true;
             }
-        }else {
-            isPendingOff=true;
         }
         if(isPendingOff){
             MultiBlockService.toggleOff(data,CRYSTAL_LOST);

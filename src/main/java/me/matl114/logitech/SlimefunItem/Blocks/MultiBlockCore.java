@@ -3,6 +3,7 @@ package me.matl114.logitech.SlimefunItem.Blocks;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import me.matl114.logitech.Schedule.Schedules;
+import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.SecurityUtils;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.AbstractMultiBlockType;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockHandler;
@@ -14,6 +15,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 public interface MultiBlockCore extends MultiBlockPart , Ticking {
     default  void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler, MultiBlockService.DeleteCause cause){
+        Debug.debug(cause.getMessage());
     }
     default void onMultiBlockEnable(Location loc,AbstractMultiBlockHandler handler){
         MultiBlockService.removeHologram(loc);
@@ -21,6 +23,7 @@ public interface MultiBlockCore extends MultiBlockPart , Ticking {
     default void onMultiBlockBreak(BlockBreakEvent e) {
         MultiBlockPart.super.onMultiBlockBreak(e);
         MultiBlockService.removeHologram(e.getBlock().getLocation());
+
     }
     default boolean redirectMenu(){
         return false;
