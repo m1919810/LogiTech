@@ -785,7 +785,6 @@ public class RecipeSupporter {
                         else if(item instanceof RandomMobDrop rmd){
                             stackList.add(AddUtils.probItemStackFactory(stack.clone(),rmd.getMobDropChance()));
                         }
-
                     }
                 }
                 ENTITY_DROPLIST.put(type,stackList.toArray(new ItemStack[stackList.size()]));

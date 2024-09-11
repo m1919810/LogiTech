@@ -75,7 +75,7 @@ public class AddSlimefunItems {
         item.register(INSTANCE);
         return item;
     }
-    protected static boolean TYPE=true;
+    protected static boolean TYPE=false;
     protected static Object mkP(Object v1,Object v2){
         return new Pair(v1,v2);
     }
@@ -1314,6 +1314,7 @@ public class AddSlimefunItems {
                                     "&7并确保能源网络在加载范围内并且能给机器提供足够电力"),null,
                             AddUtils.getInfoShow("&f机制",
                                     "&7机器自动关闭且&e进程未结束时&c会发生爆炸",
+                                    "&7机器爆炸会在四周生成爆炸强度为80的爆炸,并伴有多方块结构1/3损坏",
                                     "&7机器会在以下条件自动关闭",
                                     "&7- 电力不足",
                                     "&7- 人为的破坏多方块框架(挖掘,或者数据清除)",
@@ -1505,6 +1506,31 @@ public class AddSlimefunItems {
 
                     ),10000
             )
+            ).setDisplayRecipes(
+                    Utils.list(
+                            AddUtils.getInfoShow("&f机制",
+                                    "&7该机器需要搭建超新星外壳方可运行",
+                                    "&7该多方块为可变高度多方块机器",
+                                    "&7点击开启投影只会显示5蹭机器",
+                                    "&7将从下往上数第4层反复搭建即可增高多方块机器",
+                                    "&7最多可重复搭建10层",
+                                    "&a每多搭建一层该机器并行处理数x2(即机器快一倍)"),null,
+                            AddUtils.getInfoShow("&f机制",
+                                    "&7该机器在构建/待机/运行时候拥有相同的电力消耗量",
+                                    "&7当电力不足时会强制关机",
+                                    "&7注意:当你使用远程传输时,请确认机器所在区块的加载状态",
+                                    "&7并确保能源网络在加载范围内并且能给机器提供足够电力"),null,
+                            AddUtils.getInfoShow("&f机制",
+                                    "&7机器自动关闭且&e进程未结束时&c会发生&c熔毁",
+                                    "&7熔毁会形成范围40的辐射圈持续约1小时",
+                                    "&7并伴有所有\"原子合金燃料棒\"损坏",
+                                    "&7机器会在以下条件自动关闭",
+                                    "&7- 电力不足",
+                                    "&7- 人为的破坏多方块框架(挖掘,或者数据清除)",
+                                    "&7- 手动关机而多方块不处于\"自动构建\"模式",
+                                    "&7服务器重启时多方块会安全关闭,并在重启后自动恢复"
+                            ),null
+                    )
             )
             .register();
 
