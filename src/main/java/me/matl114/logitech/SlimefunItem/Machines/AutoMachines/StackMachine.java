@@ -76,7 +76,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
         return new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&c机器信息","&c缺少电力!",AddUtils.concat("&7当前模拟的机器名称: ",(name)),
                 "&7当前并行处理数: %-3d".formatted(craftlimit),"&7当前每刻耗电量: %sJ/t".formatted(AddUtils.formatDouble(energyCost)),"&7当前电量: %sJ".formatted(AddUtils.formatDouble(charge)));
     }
-    protected int efficiency;
+    protected Double efficiency;
     protected static MenuFactory MACHINE_LIST_MENU;
     static{
         SchedulePostRegister.addPostRegisterTask(()->{
@@ -89,7 +89,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
                         Material progressItem, int energyConsumption, int energyBuffer,double efficiency) {
         super(category, item, recipeType, recipe, progressItem, energyConsumption, energyBuffer, null);
         AddUtils.addGlow(getProgressBar());
-        this.efficiency=(int)efficiency;
+        this.efficiency=efficiency;
         this.setDisplayRecipes(
                 Utils.list(
                         AddUtils.getInfoShow("&f机制 - &c堆叠",
@@ -251,7 +251,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
     }
 
     public final int getCraftLimit(Block b,BlockMenu inv){
-       return (this.efficiency*getDataHolder(b,inv).getInt(0));
+       return (int)(this.efficiency*getDataHolder(b,inv).getInt(0));
     }
     public void progressorCost(Block b, BlockMenu inv){
         DataMenuClickHandler dh=getDataHolder(b,inv);
@@ -328,7 +328,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
             if(energy>consumption){
                 if(inv.hasViewer()){
                     DataMenuClickHandler dh=getDataHolder(b,inv);
-                    inv.replaceExistingItem(MINFO_SLOT,getInfoItem(craftLimit*efficiency,consumption,energy,this.efficiency,
+                    inv.replaceExistingItem(MINFO_SLOT,getInfoItem((int)(craftLimit*efficiency),consumption,energy,this.efficiency,
                             ItemStackHelper.getDisplayName(this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT).getItem())));
                 }
                 process(b,inv,data);
@@ -336,7 +336,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
                 //没电
                 if(inv.hasViewer()){
                     DataMenuClickHandler dh=getDataHolder(b,inv);
-                    inv.replaceExistingItem(MINFO_SLOT,getInfoOffItem(craftLimit*efficiency,consumption,energy,
+                    inv.replaceExistingItem(MINFO_SLOT,getInfoOffItem((int)(craftLimit*efficiency),consumption,energy,
                             ItemStackHelper.getDisplayName(this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT).getItem())));
                 }
             }

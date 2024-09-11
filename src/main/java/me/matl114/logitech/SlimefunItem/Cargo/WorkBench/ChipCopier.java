@@ -69,7 +69,8 @@ public class ChipCopier extends AbstractSyncTickCargo {
                                 "&7机器拥有一个样板芯片槽和一个输入/输出槽",
                                 "&7机器会尝试读取样本槽中的01码",
                                 "&7机器会从输入/输出槽中读取目标芯片",
-                                "&7机器会尝试复刻当前读取的数据到目标芯片的对应01位上"),null
+                                "&7机器会尝试复刻当前读取的数据到目标芯片的对应01位上",
+                                "&a机器可以同时向一组芯片拷贝数据"),null
                 )
         );
     }
@@ -116,7 +117,7 @@ public class ChipCopier extends AbstractSyncTickCargo {
         ItemStack it1=inv.getItemInSlot(SAMPLE_SLOT[0]);
         if(it1==null)return;
         ItemStack it2=inv.getItemInSlot(SLOTS[0]);
-        if(it2==null||it2.getAmount()!=1)return;
+        if(it2==null)return;
         ItemMeta meta1=it1.getItemMeta();
         if(meta1!=null&& ChipCardCode.isConfig(meta1)){
             ItemMeta meta2=it2.getItemMeta();

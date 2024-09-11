@@ -47,7 +47,7 @@ public class RemoteCargoPlus extends RemoteCargo {
         if(from_dir==null){
             return;
         }
-        BlockMenu from= StorageCacheUtils.getMenu(from_dir);
+        BlockMenu from= DataCache.getMenu(from_dir);
         if(from==null){
             return;
         }
@@ -55,11 +55,10 @@ public class RemoteCargoPlus extends RemoteCargo {
         if(to_dir==null){
             return;
         }
-        BlockMenu to= StorageCacheUtils.getMenu(to_dir);
+        BlockMenu to= DataCache.getMenu(to_dir);
         if(to==null){
             return;
         }
-        long s=System.nanoTime();
         int[] bwslots=getBWListSlot();
         HashSet<ItemStack> bwset=new HashSet<>();
         ItemStack it;
@@ -70,6 +69,5 @@ public class RemoteCargoPlus extends RemoteCargo {
             }
         }
         TransportUtils.transportItemSmarter(from,to,configCode,bwset);
-        s=System.nanoTime();
     }
 }

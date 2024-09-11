@@ -336,7 +336,6 @@ public class SolarReactorCore extends MultiBlockProcessor {
         int autoRec=DataCache.getCustomData(loc,"auto",0)<=0?0:1;
         inv.replaceExistingItem(TOGGLE_SLOT,TOGGLE_ITEM[status*2+autoRec]);
         if(status==0){
-
             inv.replaceExistingItem(INFO_SLOT,INFO_ITEM);
         }
 

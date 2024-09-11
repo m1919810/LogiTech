@@ -85,6 +85,65 @@ public class AddGroups {
     public static final ItemGroup ENERGY= new DummyItemGroup(AddUtils.getNameKey("energy"),AddItem.ENERGY);
 
     public static final ItemGroup FUNCTIONAL=new DummyItemGroup(AddUtils.getNameKey("functional"),AddItem.FUNCTIONAL);
+    public static ItemGroup MORE2=new CustomItemGroup(AddUtils.getNameKey("more2"),AddUtils.color("更多说明"),AddItem.MORE2,54,36,new LinkedHashMap<>()) {
+        @Override
+        protected void init(MenuFactory menuFactory) {
+            menuFactory.addInventory(0,AddUtils.getInfoShow("&f致歉说明",
+                    "&7感谢您能点开到这里,看到这份说明",
+                    "&7本附属为我开发的首个附属,无人问津是应该的",
+                    "&7您能点进这一分类已经是对我最大的鼓励和支持",
+                    "&7本人水平很次,也没有很好的创作能力创作让玩家满意的附属",
+                    "&7还请包容"));
+            menuFactory.addInventory(1,AddUtils.getInfoShow("&f致歉说明",
+                    "&7这个附属很烂",
+                    "&7他拥有冗长的机制说明书和昂贵的合成表",
+                    "&7以及作者乱填的,毫无道理的材料消耗",
+                    "&7为什么呢",
+                    "&7因为作者并不知道怎么编一个让玩家满意的合成表",
+                    "&7很可能有些时候,在这方面给玩家带来很大的困扰"));
+            menuFactory.addInventory(2,AddUtils.getInfoShow("&f致歉说明",
+                    "&7作者也不知道为什么作者要写这一个附属",
+                    "&7作者已经投入整个暑假的晚上8点到凌晨4点来进行附属编写",
+                    "&7作者也&a希望这个附属能变得更好&7,而不是更恶心",
+                    "&7作者&a希望附属对玩家有帮助,而不是对玩家造成困扰"
+                    ));
+            menuFactory.addInventory(3,AddUtils.getInfoShow("&f致歉说明",
+                    "&7作者在此恳请大家",
+                    "&a多多包容作者,并把自己的想法跟作者讨论",
+                    "&a不管如何,作者都会听取玩家的意见,争取将附属做得更好"));
+            menuFactory.addInventory(4,AddUtils.getInfoShow("&f致歉说明",
+                    "&7这个附属还是很烂",
+                    "&7他既没有乱码科技的制造台,也没有乱序技艺的尘埃反应堆",
+                    "&7作者一开始的目标是制作优秀的机器,虽然现在改为了制作高效的机器",
+                    "&7但是并没有非常超标的机器存在",
+                    "&7还请玩家包容",
+                    "&7如果你只是想找op机器",
+                    "&7那么本附属可能并不符合你的心意"));
+            menuFactory.addInventory(5,AddUtils.getInfoShow("&f致歉说明",
+                    "&7作者能拿的出手的机制就这几个",
+                    "&7虽说抱歉,但是作者也不会因此而做op机器",
+                    "&a但是玩家有什么好的想法或者急切的机器需求",
+                    "&a也是可以和作者提的",
+                    "",
+                    "&7作者的时间也是有限的,不可能知晓玩家的全部需求",
+                    "&a所以我在此恳请大家主动发表自己的看法"));
+            menuFactory.addInventory(6,AddUtils.getInfoShow("&f致歉说明",
+                    "&7最后,在此对&e所有觉得这个附属没救的玩家&7致辞","",
+                    "&7您能在这里打开这个分类已经是对我的鼓励了",
+                    "&7粘液圈虽然不大,但是比本附属好的附属也是比比皆是",
+                    "&7作者的生活中也不只是有粘液,作者也要有自己的生活,并不能帮你救活这个附属",
+                    "&7您也不必拘泥于我的附属,我们好聚好散,对大家都好"));
+            menuFactory.addInventory(7,AddUtils.getInfoShow("&f致歉说明",
+                    "&7最后声明:本说明并不针对某一特定玩家",
+                    "&7当您对号入座时,请不要座岔了,谢谢."
+                    ));
+        }
+
+        @Override
+        protected void addGuideRelated(ChestMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int pages) {
+
+        }
+    };
     public static ItemGroup UPDATELOG=new CustomItemGroup(AddUtils.getNameKey("log"),AddUtils.colorful("更新日志"),AddItem.UPDATELOG,54,36,new LinkedHashMap<>()) {
         @Override
         protected void init(MenuFactory factory) {
@@ -370,6 +429,7 @@ public class AddGroups {
                     put(24,SINGULARITY);
                     put(31,BEYOND);
                     put(36,UPDATELOG);
+                    put(17,MORE2);
                 }}
             ){
         public MenuFactory MACHINEMENU=null;

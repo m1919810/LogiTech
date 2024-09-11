@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 
+import javax.xml.crypto.Data;
 import java.util.*;
 
 public class MultiBlockService {
@@ -402,15 +403,7 @@ public class MultiBlockService {
         return 0;
     }
     public static  int getStatus(Location loc){
-        try{
-            String __= StorageCacheUtils.getData(loc,"mb-sta");
-            if(__!=null){
-                return Integer.parseInt(__);
-            }
-        }catch(Throwable e){
-        }
-        setStatus(loc,0);
-        return 0;
+        return safeGetStatus(loc);
     }
 
     /**
@@ -435,7 +428,8 @@ public class MultiBlockService {
         }
     }
     public static void setStatus(Location loc, int status){
-        StorageCacheUtils.setData(loc,"mb-sta",String.valueOf(status));
+        SlimefunBlockData data= DataCache.safeLoadBlock(loc);
+        DataCache.setCustomString(data,"mb-sta",String.valueOf(status));
     }
     public static void setStatus(SlimefunBlockData data, int status){
         data.setData("mb-sta",String.valueOf(status));

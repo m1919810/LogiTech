@@ -44,27 +44,26 @@ public class SpreadBlock extends AbstractBlock implements Ticking {
                                 "&7该物品拥有着将邻接的方块同化为自身的能力",
                                 "&7方块尝试同化邻接方块的行为,我们称之为一次同化",
                                 "&7被玩家放下或者被同化出来的方块会进行一次同化",
-                                "&7同化的方块类型不包含空气,与该物品相同的物品,和目标物品",
-                                "&7同化行为进行后该位置的方块将将不会继续同化,",
-                                "&7在随机的时长后将会转变为目标物品",
-                                "&7当转变为目标物品时,将有25%的概率不改变方块材质"), result.getItem().clone(),
+                                "&a进行同化行为后该位置的方块将将不会继续同化,也不会被同化",
+                                "&7在随机的时长后被该位置的方块将会转变为目标物品",
+                                "&e当转变为目标物品时,将有%d%%的概率不改变方块材质".formatted(CHANCE_KEEP_MATERIAL)),AddUtils.addLore( result.getItem(),"&a同化最终的结果"),
                         AddUtils.getInfoShow("&f机制 - &c反能量",
                                 "&7该物品同化的能量来源是所谓的\"反能量值\"",
                                 "&7当玩家放下时候,方块反能量值为%d".formatted(LIFE_DEFAULT),
-                                "&7被同化出的方块将会继承同化执行者的反能量值,并有60%的概率衰减1",
-                                "&7同化进行后的方块每次运行将有60%的概率将自身反能量值衰减1",
+                                "&7被同化出的方块将会继承同化者的反能量值,并有60%的概率衰减1",
+                                "&7同化进行后的方块每sft将有60%的概率将自身反能量值衰减1",
                                 "&7当反能量值为0的时候,方块将转变为目标物品"),null,
                         AddUtils.getInfoShow("&f机制 - &c数量阈值",
-                                "&7整个服务器中最多有%d个方块同时被同化".formatted(ONE_TICK_SPREAD_MAXCNT),
+                                "&7整个服务器中最多有%d个方块同时进行同化行为".formatted(ONE_TICK_SPREAD_MAXCNT),
                                 "&7当超过该阈值后余下的方块将&c停止运行",
-                                "&a该物品并不会对服务器tps造成影响")
+                                "&a因此该物品并不会对服务器tps造成影响")
                 )
         );
     }
     protected Random rand = new Random();
     protected final int LIFE_DEFAULT=13;
     protected final int ONE_TICK_SPREAD_MAXCNT=2000;
-
+    protected final int CHANCE_KEEP_MATERIAL=5;
     protected final ConcurrentHashMap<Location, Player> SPREAD_PLAYER=new ConcurrentHashMap<>();
     public Map<Location,Player> getSpreadOwner(){
         return SPREAD_PLAYER;
@@ -100,7 +99,7 @@ public class SpreadBlock extends AbstractBlock implements Ticking {
                             Player player=SPREAD_PLAYER.remove(loc);
                             SPREAD_TICKER.remove(loc);
                             Schedules.launchSchedules(()->{
-                                WorldUtils.createSlimefunBlock(loc,player,RESULT,(rand.nextInt(100)<75)? RESULT_MATERIAL:SPREAD_MATERIAL,true,true);
+                                WorldUtils.createSlimefunBlock(loc,player,RESULT,(rand.nextInt(100)<(100-CHANCE_KEEP_MATERIAL))? RESULT_MATERIAL:SPREAD_MATERIAL,true,true);
                             },0,true,0);
                         }else if(life<0){
                             SPREAD_TICKER.put(loc, life+rand.nextInt(100)<60?1:0);

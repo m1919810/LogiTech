@@ -11,6 +11,7 @@ import me.matl114.logitech.Utils.UtilClass.FunctionalClass.AsyncResultRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.checkerframework.checker.units.qual.A;
 
@@ -664,6 +665,24 @@ public class CommandShell {
             return this.help;
         }
     }.register("getNearbyEntity");
+    public static ShellCommand getheld=new ShellCommand(){
+        public String[] help=new String[]{
+                "getHeldItem <var1> 获得玩家当前手持物品的对象并存入<var1>",
+                "getHeldItem 获得玩家当前手持物品的对象"
+        };
+        public int cmd(String[] argv,CommandShell shell){
+            ItemStack stack=shell.user.getItemInHand();
+            shell.printObject(stack);
+            if(argv.length==1){
+                setVariable(shell,argv[0],stack);
+            }
+
+            return 1;
+        }
+        public String[] getHelp(){
+            return this.help;
+        }
+    }.register("getHeldItem");
     public static ShellCommand invoke=new ShellCommand(){
         public String[] help=new String[]{
                 "invoke <var1> <var1> 获取id为<ID>的sf物品实例,并存储到",

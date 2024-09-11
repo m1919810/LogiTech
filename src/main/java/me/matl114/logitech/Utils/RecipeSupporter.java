@@ -5,12 +5,14 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RandomMobDrop;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Composter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Crucible;
+import io.github.thebusybiscuit.slimefun4.implementation.items.misc.BasicCircuitBoard;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import me.matl114.logitech.ConfigLoader;
 import me.matl114.logitech.MyAddon;
@@ -30,10 +32,14 @@ import me.matl114.logitech.Utils.UtilClass.RecipeClass.MGeneratorRecipe;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractTransformer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import org.bukkit.Material;
-import org.bukkit.Tag;
+import org.bukkit.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.*;
+import org.bukkit.loot.LootTable;
+import org.bukkit.loot.LootTables;
 
 import java.util.*;
 
@@ -188,13 +194,13 @@ public class RecipeSupporter {
         add(RecipeType.GEO_MINER);
     }};
 
-
     //被禁用的多方块
     public static final HashSet<MultiBlockMachine> BLACKLIST_MULTIBLOCK = new HashSet<>(){{
     }};
     //检测全部为MultiBlockMachine的机器 并抓取配方
     public static final HashMap<MultiBlockMachine,List<MachineRecipe>> MULTIBLOCK_RECIPES = new LinkedHashMap<>();
 
+    public static final HashMap<EntityType,ItemStack[]> ENTITY_DROPLIST=new LinkedHashMap<>();
 
     //注册为可识别icon的
     public static final HashMap<RecipeType,ItemStack> RECIPETYPE_ICON=new LinkedHashMap<>();
@@ -757,6 +763,35 @@ public class RecipeSupporter {
         MULTIBLOCK_RECIPES.put((MultiBlockMachine)SlimefunItems.ORE_WASHER.getItem(),ORE_WASHER_RECIPE);
         MULTIBLOCK_RECIPES.put((MultiBlockMachine) SlimefunItems.AUTOMATED_PANNING_MACHINE.getItem(),GOLDPAN_RECIPE);
         MULTIBLOCK_RECIPES.put((MultiBlockMachine) SlimefunItems.TABLE_SAW.getItem(),TABLE_SAW_RECIPE);
+        //做生物掉落的配方
+        List<World> worldlist=Bukkit.getWorlds();
+        if(!worldlist.isEmpty()){
+            World world=worldlist.get(0);
+            Location loc=new Location(world,8,888,8);
+            //load chunk
+            Chunk chunk=loc.getChunk();
+            for(EntityType type:EntityType.values()){
+                if(!type.isSpawnable()){
+                    continue;
+                }
+                Set<ItemStack> drops=Slimefun.getRegistry().getMobDrops().get(type);
+                List<ItemStack> stackList=new ArrayList<>();
+                if(drops!=null&&!drops.isEmpty()) {
+                    for(ItemStack stack:drops){
+                        SlimefunItem item=SlimefunItem.getByItem(stack);
+                        if(item instanceof BasicCircuitBoard bcd){
+                            stackList.add(stack.clone());
+                        }
+                        else if(item instanceof RandomMobDrop rmd){
+                            stackList.add(AddUtils.probItemStackFactory(stack.clone(),rmd.getMobDropChance()));
+                        }
+
+                    }
+                }
+                ENTITY_DROPLIST.put(type,stackList.toArray(new ItemStack[stackList.size()]));
+            }
+        }
+
         Debug.logger("全部配方读取完成");
         Debug.logger("初始化配方类型显示界面...");
         //初始化对应物品

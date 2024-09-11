@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import me.matl114.logitech.SlimefunItem.AddHandlers;
 import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
 import org.bukkit.inventory.ItemStack;
 
@@ -26,5 +27,7 @@ public abstract class CustomProps extends CustomSlimefunItem {
     public void preRegister(){
         super.preRegister();
         addItemHandler((ItemUseHandler) this::onClickAction);
+        if(this.getItem().getType().isBlock())
+            addItemHandler(AddHandlers.stopPlacementHandler);
     }
 }

@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public class MaterialItem extends CustomSlimefunItem {
+public final class MaterialItem extends CustomSlimefunItem {
     public MaterialItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
@@ -23,7 +23,8 @@ public class MaterialItem extends CustomSlimefunItem {
     @Override
     public  void preRegister(){
         super.preRegister();
-        addItemHandler(AddHandlers.stopAttackHandler);
-        addItemHandler(AddHandlers.stopPlacementHandler);
+        //addItemHandler(AddHandlers.stopAttackHandler);
+        if(this.getItem().getType().isBlock())
+            addItemHandler(AddHandlers.stopPlacementHandler);
     }
 }

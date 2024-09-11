@@ -64,12 +64,12 @@ public class HypLink extends CustomSlimefunItem {
                     if (WorldUtils.hasPermission(
                             event.getPlayer(), loc, Interaction.INTERACT_BLOCK)
                     ) {
-
                         SlimefunBlockData data = DataCache.safeLoadBlock(loc);
                         if (data != null) {
                             BlockMenu menu = data.getBlockMenu();
-                            if (menu != null)
+                            if (menu != null){
                                 menu.open(event.getPlayer());
+                            }
                         }
                     }else {
                         AddUtils.sendMessage(event.getPlayer(), "&c抱歉,但您似乎并没有访问该位置的权限.");

@@ -76,6 +76,8 @@ public class AddItem {
             Language.get("Groups.FUNCTIONAL.Name"),Language.getList("Groups.FUNCTIONAL.Lore"));
     public static final ItemStack UPDATELOG=AddUtils.themed(Material.WRITABLE_BOOK,AddUtils.Theme.NONE,
             Language.get("Groups.UPDATELOG.Name"), Language.getList("Groups.UPDATELOG.Lore"));
+    public static final ItemStack MORE2=AddUtils.themed("MORE2",Material.WRITABLE_BOOK, AddUtils.Theme.NONE,
+            Language.get("Groups.MORE2.Name"),Language.getList("Groups.MORE2.Lore"));
     //feat
     public static final ItemStack FEAT1=AddUtils.themed(Material.BOOK, AddUtils.Theme.NONE,
             Language.get("Groups.FEAT1.Name"),Language.getList("Groups.FEAT1.Lore"));
@@ -292,6 +294,14 @@ public class AddItem {
             Language.get("Machines.FINAL_CONVERTOR.Name"),Language.getList("Machines.FINAL_CONVERTOR.Lore"));
     public static final SlimefunItemStack PRESSOR_FACTORY=AddUtils.themed("PRESSOR_FACTORY",Material.PISTON,AddUtils.Theme.MACHINE1,
             Language.get("Machines.PRESSOR_FACTORY.Name"),Language.getList("Machines.PRESSOR_FACTORY.Lore"));
+    public static final SlimefunItemStack CRAFTER=AddUtils.themed("CRAFTER",Material.CRAFTING_TABLE,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.CRAFTER.Name"),Language.getList("Machines.CRAFTER.Lore"));
+    public static final SlimefunItemStack EASYSTACKMACHINE=AddUtils.themed("EASYSTACKMACHINE",Material.FURNACE,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.EASYSTACKMACHINE.Name"),Language.getList("Machines.EASYSTACKMACHINE.Lore"));
+    public static final SlimefunItemStack CONVERTOR=AddUtils.themed("CONVERTOR",Material.SEA_LANTERN,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.CONVERTOR.Name"),Language.getList("Machines.CONVERTOR.Lore"));
+    public static final SlimefunItemStack VIRTUAL_KILLER=AddUtils.themed("VIRTUAL_KILLER",Material.STONECUTTER,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.VIRTUAL_KILLER.Name"),Language.getList("Machines.VIRTUAL_KILLER.Lore"));
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Manuals.MANUAL_CORE.Name"),Language.getList("Manuals.MANUAL_CORE.Lore"));
@@ -560,5 +570,6 @@ public class AddItem {
         add(ADV_REMOTE_CARGO);
         add(ADV_LINE_CARGO);
         add(ENERGY_AMPLIFIER);
+        add(MORE2);
     }};
 }

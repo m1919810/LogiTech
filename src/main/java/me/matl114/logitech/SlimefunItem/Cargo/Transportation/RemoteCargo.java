@@ -134,7 +134,6 @@ public class RemoteCargo extends AbstractCargo {
         if(to==null){
             return;
         }
-        long s=System.nanoTime();
         int[] bwslots=getBWListSlot();
         HashSet<ItemStack> bwset=new HashSet<>();
         ItemStack it;
@@ -145,7 +144,6 @@ public class RemoteCargo extends AbstractCargo {
             }
         }
         TransportUtils.transportItemGeneral(from,to,configCode,bwset);
-        s=System.nanoTime();
     }
     public void onBreak(BlockBreakEvent e, BlockMenu menu){
         super.onBreak(e, menu);

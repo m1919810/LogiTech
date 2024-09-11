@@ -10,18 +10,12 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.Schedule.Schedules;
-import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
-import me.matl114.logitech.SlimefunItem.Machines.MultiCraftType;
-import me.matl114.logitech.SlimefunItem.Machines.RecipeDisplay;
-import me.matl114.logitech.SlimefunItem.Machines.RecipeLock;
+import me.matl114.logitech.SlimefunItem.Machines.*;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
-import me.matl114.logitech.Utils.UtilClass.MenuClass.DataMenuClickHandler;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.SimpleCraftingOperation;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -30,13 +24,12 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
-
-public abstract class SpecialCrafter extends AbstractProcessor implements RecipeLock, ImportRecipes {
+//TODO 做这个高级合成机
+public abstract class AdvancedSpecialCrafter extends AbstractProcessor implements RecipeLock, ImportRecipes {
     public List<ItemStack> displayedMemory;
     protected final int publicTime;
     protected final int[] BORDER={
@@ -60,15 +53,17 @@ public abstract class SpecialCrafter extends AbstractProcessor implements Recipe
     protected RecipeType[] craftType;
     protected final HashSet<RecipeType> BW_LIST;
     protected final ItemStack PARSE_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&e点击解析配方",
-            "&b机制:","&6将配方表输出的物品(若有多个则第一个)，","&e置于下方第一个槽位","&6将合成该物品所使用的特殊机器(物品)","&e置于下方第二个槽位","&6右键本槽位,或者开关容器界面,配方将被解析","&6机器将按照解析出的指定配方合成");
+            "&b机制:","&6将配方表输出的物品(若有多个则第一个)，","&e置于下方第一个槽位",
+            "&6将合成该物品所使用的特殊机器(物品)","&e置于下方第二个槽位","&6右键本槽位,或者开关容器界面,配方将被解析","&6机器将按照解析出的指定配方合成",
+            "&a机器(物品)放的数量决定合成进程数");
     protected final ItemStack DISPLAY_BKGROUND=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE," ");
     protected final ItemStack DISPLAY_DEFAULT_BKGROUND=new CustomItemStack(Material.RED_STAINED_GLASS_PANE," ");
-    public SpecialCrafter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
+    public AdvancedSpecialCrafter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                           Material progressItem,int ticks, int energyConsumption, int energyBuffer){
         this(category,item,recipeType,recipe,progressItem,ticks,energyConsumption,energyBuffer,new HashSet<>());
     }
-    public SpecialCrafter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
-                             Material progressItem,int ticks, int energyConsumption, int energyBuffer,HashSet<RecipeType> blackList){
+    public AdvancedSpecialCrafter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
+                          Material progressItem,int ticks, int energyConsumption, int energyBuffer,HashSet<RecipeType> blackList){
         super(category,item,recipeType,recipe,progressItem,energyConsumption,energyBuffer,null);
         this.BW_LIST=blackList;
         Debug.debug(this.BW_LIST);
@@ -81,7 +76,12 @@ public abstract class SpecialCrafter extends AbstractProcessor implements Recipe
         return this.progressbar;
     }
     public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<>();
+        return new ArrayList<>(){{
+
+        }};
+    }
+    public int getCraftLimit(Block b,BlockMenu inv){
+        return 64;
     }
     public abstract HashMap<SlimefunItem,RecipeType> getRecipeTypeMap();
     public RecipeType[] getCraftTypes(){
@@ -190,8 +190,6 @@ public abstract class SpecialCrafter extends AbstractProcessor implements Recipe
             MultiCraftType.setRecipeTypeIndex(loc,-1);
             return false;
         }
-        //TODO 继续进行这块的优化检查，虽然我也不知道优化啥
-        DataMenuClickHandler handler=getDataHolder(null,menu);
         RecipeType type=providedRecipesMap.get(machineType);
         RecipeType[] ctype=getCraftTypes();
         for (int i=0;i<ctype.length;++i){
@@ -216,32 +214,6 @@ public abstract class SpecialCrafter extends AbstractProcessor implements Recipe
             return false;
         }
     }
-    public DataMenuClickHandler createDataHolder(){
-        return new DataMenuClickHandler() {
-            //0 为 数量 1 为 电力
-            int[] intdata=new int[2];
-            public int getInt(int i){
-                return intdata[i];
-            }
-            public void setInt(int i, int val){
-                intdata[i]=val;
-            }
-            @Override
-            public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
-                return false;
-            }
-        };
-    }
-    public final int DATA_SLOT=3;
-    public DataMenuClickHandler getDataHolder(Block b, BlockMenu inv){
-        ChestMenu.MenuClickHandler handler=inv.getMenuClickHandler(DATA_SLOT);
-        if(handler instanceof DataMenuClickHandler dh){return dh;}
-        else{
-            DataMenuClickHandler dh=createDataHolder();
-            inv.addMenuClickHandler(DATA_SLOT,dh);
-            return dh;
-        }
-    }
     public void updateMenu(BlockMenu menu,Block block,Settings mod){
         SlimefunBlockData data=DataCache.safeLoadBlock(menu.getLocation());
         if(data==null){
@@ -250,7 +222,6 @@ public abstract class SpecialCrafter extends AbstractProcessor implements Recipe
             },20,false,0);
             return;
         }
-        DataMenuClickHandler hd=getDataHolder(block,menu);
         MachineRecipe recipe=getRecordRecipe(data);
         if(recipe==null){
             for(int var4 = 0; var4 < RECIPE_DISPLAY.length; ++var4) {
@@ -268,7 +239,6 @@ public abstract class SpecialCrafter extends AbstractProcessor implements Recipe
                 menu.replaceExistingItem(RECIPE_DISPLAY[var4],DISPLAY_BKGROUND);
             } }
     }
-
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
 
         SimpleCraftingOperation currentOperation = this.processor.getOperation(b);
@@ -294,7 +264,7 @@ public abstract class SpecialCrafter extends AbstractProcessor implements Recipe
             }
 
             Pair<ItemConsumer[],ItemConsumer[]> nextP=CraftUtils.countOneRecipe(inv,getInputSlots(),getOutputSlots(),next
-            ,CRAFT_PROVIDER);
+                    ,CRAFT_PROVIDER);
 
             if (nextP != null) {
 
@@ -377,19 +347,19 @@ public abstract class SpecialCrafter extends AbstractProcessor implements Recipe
         }
         return inputSlots;
     }
-    public List<ItemStack> _getDisplayRecipes(List<ItemStack> displayRecipe2){
-        List<ItemStack> displayRecipe=new ArrayList<>(displayRecipe2);
-        HashMap<SlimefunItem,RecipeType> providedRecipeTypeMap=getRecipeTypeMap();
-        if(providedRecipeTypeMap!=null&&!providedRecipeTypeMap.isEmpty()){
-            for(Map.Entry<SlimefunItem,RecipeType> e: providedRecipeTypeMap.entrySet()){
-                if(BW_LIST.contains(e.getValue())){
-                    continue;
+    public List<ItemStack> _getDisplayRecipes(){
+        return new ArrayList<>(){{
+            HashMap<SlimefunItem,RecipeType> providedRecipeTypeMap=getRecipeTypeMap();
+            if(providedRecipeTypeMap!=null&&!providedRecipeTypeMap.isEmpty()){
+                for(Map.Entry<SlimefunItem,RecipeType> e: providedRecipeTypeMap.entrySet()){
+                    if(BW_LIST.contains(e.getValue())){
+                        continue;
+                    }
+                    add(AddUtils.getInfoShow("&f支持的机器","&7将机器插入指定槽位以进行合成"));
+                    add(new DisplayItemStack(e.getKey().getItem()));
                 }
-                displayRecipe.add(AddUtils.getInfoShow("&f支持的机器","&7将机器插入指定槽位以进行合成"));
-                displayRecipe.add(new DisplayItemStack(e.getKey().getItem()));
             }
-        }
-        return displayRecipe;
+        }};
     }
 
 

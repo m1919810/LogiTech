@@ -10,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.SlimefunItem.Machines.*;
+import me.matl114.logitech.SlimefunItem.Machines.WorkBenchs.BugCrafter;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
 import me.matl114.logitech.Utils.*;
@@ -66,6 +67,7 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
             add(RecipeType.SMELTERY);
             add(RecipeType.MAGIC_WORKBENCH);
             add(RecipeType.ANCIENT_ALTAR);
+            add(BugCrafter.TYPE);
             add(RecipeType.GRIND_STONE);
             add(RecipeType.ORE_CRUSHER);
             add(RecipeType.ORE_WASHER);
