@@ -14,7 +14,6 @@ import org.bukkit.Bukkit;
 public class DependencyNetwork {
 
     static {
-        AddDepends.hasInfiniteExpansion = Bukkit.getPluginManager().isPluginEnabled("InfinityExpansion");
         AddDepends.hasNetwork = Bukkit.getPluginManager().isPluginEnabled("Networks");
         if(AddDepends.hasNetwork) {
             try{

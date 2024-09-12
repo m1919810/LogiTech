@@ -1,6 +1,7 @@
 package me.matl114.logitech;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import me.matl114.logitech.Depends.DependencyInfinity;
 import me.matl114.logitech.Depends.DependencyNetwork;
 import me.matl114.logitech.Listeners.ListenerManager;
@@ -13,6 +14,7 @@ import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockTypes;
 import me.matl114.logitech.SlimefunItem.Cargo.Storages;
+import me.matl114.logitech.Utils.BukkitUtils;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Debug;
@@ -41,6 +43,7 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
     public static String username;
     public static String repo;
     public static String branch;
+    private final AddonCommand command = new AddonCommand(this);
     static{
         username="m1919810";
         repo="LogiTech";
@@ -103,6 +106,10 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         RadiationRegion.setup();
         //加载配方工具
         CraftUtils.setup();
+        //加载原版工作台注入
+        BukkitUtils.setup();
+        Debug.logger("指令注册完毕");
+        command.register();
 
 
         //注册

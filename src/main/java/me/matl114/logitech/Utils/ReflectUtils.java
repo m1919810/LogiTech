@@ -2,6 +2,7 @@ package me.matl114.logitech.Utils;
 
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -113,5 +114,74 @@ public class ReflectUtils {
         }
         fieldList.addAll(getAllDeclaredFieldsRecursively(clazz.getSuperclass()));
         return fieldList;
+    }
+    public static Pair<Method,Class> getDeclaredMethodsRecursively(Class clazz, String fieldName,Class[] parameterTypes){
+        try{
+            Method field=clazz.getDeclaredMethod(fieldName,parameterTypes);
+            field.setAccessible(true);
+            return new Pair(field,clazz);
+        }catch (Throwable e){
+            clazz=clazz.getSuperclass();
+            if(clazz==null){
+                return null;
+            }else{
+                return getDeclaredMethodsRecursively(clazz,fieldName,parameterTypes);
+            }
+        }
+    }
+    public static Pair< Method,Class> getSuitableMethod(Class clazz,String methodName,Class[] parameterTypes){
+        try{
+            Method[] methods=clazz.getDeclaredMethods();
+            for(Method m:methods){
+                Class[] params=m.getParameterTypes();
+                if(!methodName.equals(m.getName())){
+                    continue;
+                }
+                boolean match=true;
+                if(params.length==parameterTypes.length){
+                    int len=params.length;
+                    for(int i=0;i<len;i++){
+                        if(params[i]==parameterTypes[i]||params[i].isAssignableFrom(parameterTypes[i])){
+                            continue;
+                        }else{
+                            match=false;
+                        }
+                    }
+                }else {
+                    match=false;
+                }
+                if(match){
+                    m.setAccessible(true);
+                    Debug.debug("found method ",m);
+                    return new Pair<>(m,clazz);
+                }
+            }
+        }catch (Throwable e){}
+        clazz=clazz.getSuperclass();
+        if(clazz==null){return null;}
+        return getSuitableMethod(clazz,methodName,parameterTypes);
+    }
+    public static Constructor getSuitableConstructor(Class clazz,Class... parameterTypes){
+        Constructor[] constructors=clazz.getDeclaredConstructors();
+        for(Constructor c:constructors){
+            Class[] params=c.getParameterTypes();
+            boolean match=true;
+            if(params.length==parameterTypes.length){
+                int len=params.length;
+                for(int i=0;i<len;i++){
+                    if(params[i]==parameterTypes[i]||params[i].isAssignableFrom(parameterTypes[i])){
+
+                    }else
+                        match=false;
+                }
+            }else {
+                match=false;
+            }
+            if(match){
+                c.setAccessible(true);
+                return c;
+            }
+        }
+        return null;
     }
 }

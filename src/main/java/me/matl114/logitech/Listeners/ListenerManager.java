@@ -21,6 +21,7 @@ public class ListenerManager {
         if(Debug.isTest(Unittest.SFDATA_TEST)){
             register(CHUNK_LOAD_TEST);
         }
+        register(VANILLACRAFT_ALLOW);
     }
     public static Plugin plugin;
     public static PluginManager manager;
@@ -34,5 +35,6 @@ public class ListenerManager {
     public static final Listener POTION_CLEAR_DEATH=new PotionClearOnDeath();
     public static final Listener PLAYER_QUIT_HANDLER=new PlayerQuiteListener();
     public static final Listener CHUNK_LOAD_TEST=new ChunkTestListener();
+    public static final Listener VANILLACRAFT_ALLOW=new CraftingListener();
 
 }

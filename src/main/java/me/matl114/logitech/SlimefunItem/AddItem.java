@@ -302,6 +302,10 @@ public class AddItem {
             Language.get("Machines.CONVERTOR.Name"),Language.getList("Machines.CONVERTOR.Lore"));
     public static final SlimefunItemStack VIRTUAL_KILLER=AddUtils.themed("VIRTUAL_KILLER",Material.STONECUTTER,AddUtils.Theme.MACHINE1,
             Language.get("Machines.VIRTUAL_KILLER.Name"),Language.getList("Machines.VIRTUAL_KILLER.Lore"));
+    public static final SlimefunItemStack INF_MOBSIMULATION=AddUtils.themed("INF_MOBSIMULATION",Material.GILDED_BLACKSTONE,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.INF_MOBSIMULATION.Name"),Language.getList("Machines.INF_MOBSIMULATION.Lore"));
+    public static final SlimefunItemStack INF_GEOQUARRY=AddUtils.themed("INF_GEOQUARRY",Material.CHISELED_QUARTZ_BLOCK,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.INF_GEOQUARRY.Name"),Language.getList("Machines.INF_GEOQUARRY.Lore"));
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Manuals.MANUAL_CORE.Name"),Language.getList("Manuals.MANUAL_CORE.Lore"));
@@ -571,5 +575,6 @@ public class AddItem {
         add(ADV_LINE_CARGO);
         add(ENERGY_AMPLIFIER);
         add(MORE2);
+        add(INF_MOBSIMULATION);
     }};
 }

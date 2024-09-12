@@ -2,6 +2,7 @@ package me.matl114.logitech.SlimefunItem;
 
 import com.google.common.collect.Multimap;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -11,6 +12,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.GlobalItemHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import jdk.jshell.execution.Util;
 import me.matl114.logitech.ConfigLoader;
 import me.matl114.logitech.Items.CustomHead;
@@ -32,6 +34,8 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.UUID;
 
@@ -90,10 +94,10 @@ public class AddDepends {
             if(hasInfiniteExpansion)
             INFINITY_AUTOCRAFT =new AdvanceRecipeCrafter(AddGroups.BASIC, AddItem.INFINITY_AUTOCRAFT,BugCrafter.TYPE,
                   AddSlimefunItems.recipe(AddItem.LFIELD,"INFINITE_INGOT",AddItem.DIMENSIONAL_SHARD,AddItem.DIMENSIONAL_SHARD,"INFINITE_INGOT",AddItem.LFIELD,
-                            "INFINITE_INGOT",AddItem.LCRAFT,"2VOID_INGOT","2VOID_INGOT",AddItem.LMOTOR,"INFINITE_INGOT",
-                            AddItem.DIMENSIONAL_SHARD,"2VOID_INGOT","INFINITY_FORGE","INFINITY_FORGE","2VOID_INGOT",AddItem.DIMENSIONAL_SHARD,
-                            AddItem.DIMENSIONAL_SHARD,"2VOID_INGOT","INFINITY_FORGE","INFINITY_FORGE","2VOID_INGOT",AddItem.DIMENSIONAL_SHARD,
-                            "INFINITE_INGOT",AddItem.LSCHEDULER,"2VOID_INGOT","2VOID_INGOT",AddItem.LDIGITIZER,"INFINITE_INGOT",
+                            "INFINITE_INGOT",AddItem.LCRAFT,"VOID_INGOT","VOID_INGOT",AddItem.LMOTOR,"INFINITE_INGOT",
+                            AddItem.DIMENSIONAL_SHARD,"VOID_INGOT","INFINITY_FORGE","INFINITY_FORGE","VOID_INGOT",AddItem.DIMENSIONAL_SHARD,
+                            AddItem.DIMENSIONAL_SHARD,"VOID_INGOT","INFINITY_FORGE","INFINITY_FORGE","VOID_INGOT",AddItem.DIMENSIONAL_SHARD,
+                            "INFINITE_INGOT",AddItem.LMOTOR,"VOID_INGOT","VOID_INGOT",AddItem.LCRAFT,"INFINITE_INGOT",
                             AddItem.LFIELD,"INFINITE_INGOT",AddItem.DIMENSIONAL_SHARD,AddItem.DIMENSIONAL_SHARD,"INFINITE_INGOT",AddItem.LFIELD)
                     , Material.STONE,150_000,1_500_000,15,INFINITYWORKBENCH_TYPE)
                     .register();
@@ -184,6 +188,45 @@ public class AddDepends {
             Debug.logger("AN ERROR OCCURED WHILE CHANGING ITEM: INFINITY_CROW,CHANGE DISABLED");
             e.printStackTrace();
         }
+        try{
+            if(hasInfiniteExpansion){
+                Class infinityMobDataClass=SlimefunItem.getById("MOB_SIMULATION_CHAMBER").getClass();
+                Constructor constructor=ReflectUtils.getSuitableConstructor(infinityMobDataClass,
+                       ItemGroup.class,SlimefunItemStack.class,RecipeType.class,ItemStack[].class,int.class,int.class);
+                AddItem.INF_MOBSIMULATION.setItemMeta(  AddUtils.addLore(AddItem.INF_MOBSIMULATION, AddUtils.speedDisplay(64),AddUtils.energyPerSecond(800)).getItemMeta());
+                INFINITY_MOBSIMNULATOR=(SlimefunItem) constructor.newInstance(AddGroups.BASIC,AddItem.INF_MOBSIMULATION,INFINITYWORKBENCH_TYPE,
+                        AddSlimefunItems.recipe(null,"MACHINE_PLATE","MACHINE_PLATE","MACHINE_PLATE","MACHINE_PLATE",null,
+                                null,"VOID_INGOT",AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,"VOID_INGOT",null,
+                                null,"VOID_INGOT","MOB_SIMULATION_CHAMBER","MOB_SIMULATION_CHAMBER","VOID_INGOT",null,
+                                null,"VOID_INGOT","MOB_SIMULATION_CHAMBER","MOB_SIMULATION_CHAMBER","VOID_INGOT",null,
+                                null,"INFINITE_INGOT",AddItem.LENGINE,AddItem.LENGINE,"INFINITE_INGOT",null,
+                                "INFINITE_INGOT","INFINITE_INGOT","INFINITE_INGOT","INFINITE_INGOT","INFINITE_INGOT","INFINITE_INGOT"),800,1);
+
+                INFINITY_MOBSIMNULATOR.register(plugin);
+            }
+        }catch (Throwable e){
+
+        }
+        try{
+            if(hasInfiniteExpansion){
+                Class infinityGeoMiner=SlimefunItem.getById("GEO_QUARRY").getClass();
+                Constructor constructor=ReflectUtils.getSuitableConstructor(infinityGeoMiner,
+                        ItemGroup.class,SlimefunItemStack.class,RecipeType.class,ItemStack[].class);
+                AddItem.INF_GEOQUARRY.setItemMeta( AddUtils.addLore(  AddItem.INF_GEOQUARRY,AddUtils.speedDisplay(64),AddUtils.energyPerSecond(4500)).getItemMeta());
+                INFINITY_GEOQURRY=(SlimefunItem) constructor.newInstance(AddGroups.BASIC,AddItem.INF_GEOQUARRY,INFINITYWORKBENCH_TYPE,
+                        AddSlimefunItems.recipe(AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,
+                                "MYTHRIL","VOID_INGOT","VOID_INGOT","VOID_INGOT","VOID_INGOT","MYTHRIL",
+                                "MYTHRIL","VOID_INGOT","INFINITE_MACHINE_CIRCUIT","INFINITE_MACHINE_CIRCUIT","VOID_INGOT","MYTHRIL",
+                                "MYTHRIL","VOID_INGOT","GEO_QUARRY","GEO_QUARRY","VOID_INGOT","MYTHRIL",
+                                "MYTHRIL","VOID_INGOT","VOID_INGOT","VOID_INGOT","VOID_INGOT","MYTHRIL",
+                                AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT));
+                ReflectUtils.invokeSetRecursively(INFINITY_GEOQURRY,"ticksPerOutput",6);
+                ReflectUtils.invokeSetRecursively(INFINITY_GEOQURRY,"energyPerTick",4500);
+                INFINITY_GEOQURRY.register(plugin);
+            }
+        }catch (Throwable e){
+
+        }
     }
     public static boolean hasInfiniteExpansion=false;
     public static boolean hasNetwork=false;
@@ -199,6 +242,8 @@ public class AddDepends {
     public static SlimefunItem INFINITY_MANUAL;
     public static SlimefunItem NTWWORKBENCH_MANUAL;
     public static SlimefunItem INFINITY_AUTOCRAFT;
+    public static SlimefunItem INFINITY_MOBSIMNULATOR;
+    public static SlimefunItem INFINITY_GEOQURRY;
     public static MyVanillaItem NTW_STORAGE_DISPLAY;
     public static  Class NETWORKSQUANTUMSTORAGE;
     public static NamespacedKey NTWQUANTUMKEY;

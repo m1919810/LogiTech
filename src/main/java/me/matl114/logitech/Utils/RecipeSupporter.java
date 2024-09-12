@@ -434,16 +434,17 @@ public class RecipeSupporter {
             return AddItem.RESOLVE_FAILED.clone();
         }
     }
-    public static void loadStackMachineConfig(Config config){
-        Set<String > keySets=config.getKeys("stack_type");
+    public static void loadStackMachineConfig(Config config,String root,boolean replaceEnergy,boolean forceload){
+        Set<String > keySets=config.getKeys(root);
         for (String machineId:keySets){
-            String machinepath="stack_type."+machineId;
+            String machinepath=root+"."+machineId;
             SlimefunItem machine;
             try{
                 machine= SlimefunItem.getById(machineId);
                 machine.getId();
             }catch (Throwable e){
-                Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: not valid item  %s".formatted(machineId));
+                if(forceload)
+                    Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: not valid item  %s".formatted(machineId));
                 continue;
             }
             String type=null;
@@ -453,29 +454,26 @@ public class RecipeSupporter {
                 type=config.getString(machinepath+".type");
                 energy=config.getInt(machinepath+".energy");
             }catch(Throwable e){
-                Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: error config format in %s".formatted(machineId));
+                if(forceload)
+                    Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: error config format in %s".formatted(machineId));
             }
             if(type==null){
                 continue;
             }
             if(type.startsWith("gen")){
                 STACKMACHINE_LIST.remove(machine);
-                Integer a=STACKMGENERATOR_LIST.get(machine);
-                if(a==null){
-                    energy=0;
+                if(replaceEnergy){
+                    STACKMGENERATOR_LIST.put(machine,energy);
                 }else {
-                    energy=energy==-1?a:energy;
+                    STACKMGENERATOR_LIST.putIfAbsent(machine,energy);
                 }
-                STACKMGENERATOR_LIST.put(machine,energy);
             }else if(type.startsWith("mach")){
                 STACKMGENERATOR_LIST.remove(machine);
-                Integer a=STACKMACHINE_LIST.get(machine);
-                if(a==null){
-                    energy=0;
+                if(replaceEnergy){
+                    STACKMACHINE_LIST.put(machine,energy);
                 }else {
-                    energy=energy==-1?a:energy;
+                    STACKMACHINE_LIST.putIfAbsent(machine,energy);
                 }
-                STACKMACHINE_LIST.put(machine,energy);
             }else if(type.startsWith("no")){
                 STACKMACHINE_LIST.remove(machine);
                 STACKMGENERATOR_LIST.remove(machine);
@@ -554,6 +552,7 @@ public class RecipeSupporter {
                 }
                 try{
                 if(methodName==null){
+
                     energy=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"EnergyConsumption");
                     if(energy!=null){
                         energyComsumption=(Integer)energy;
@@ -564,6 +563,19 @@ public class RecipeSupporter {
                 catch(Throwable e){
 
                     }
+                try{
+                    if(methodName==null){
+
+                        energy=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"energyConsumption");
+                        if(energy!=null){
+                            energyComsumption=(Integer)energy;
+                            methodName="energyConsumption field";
+                        }
+                    }
+                }
+                catch(Throwable e){
+
+                }
                 try{
                 if(methodName==null){
                     energy=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"energyConsumedPerTick");
@@ -654,7 +666,10 @@ public class RecipeSupporter {
                         }
                         else if(rc instanceof RecipeChoice.MaterialChoice mc){
                             inputs[3*i+j]=AddUtils.equalItemStackFactory(mc.getChoices());
-                        }else {
+                        }else if (rc instanceof RecipeChoice.ExactChoice ec){
+                            inputs[3*i+j]=AddUtils.equalItemStackFactory(ec.getChoices());
+                        }
+                        else {
                             inputs[3*i+j]=AddItem.RESOLVE_FAILED;
                             Debug.logger(rc.getClass().getName());
                         }
@@ -672,7 +687,10 @@ public class RecipeSupporter {
                     RecipeChoice rc=choice.get(i);
                     if(rc instanceof RecipeChoice.MaterialChoice mc){
                         inputs[i]=AddUtils.equalItemStackFactory(mc.getChoices());
-                    }else{
+                    }else if (rc instanceof RecipeChoice.ExactChoice ec){
+                        inputs[i]=AddUtils.equalItemStackFactory(ec.getChoices());
+                    }
+                    else{
                         inputs[i]=AddItem.RESOLVE_FAILED;
                         Debug.logger(rc.getClass().getName());
                     }
@@ -687,6 +705,11 @@ public class RecipeSupporter {
                     for (Material input : materialChoice.getChoices()) {
                         PROVIDED_UNSHAPED_RECIPES.get(BukkitUtils.VANILLA_FURNACE).add(MachineRecipeUtils.stackFrom(recipe.getCookingTime()/10,new ItemStack[] {new ItemStack(input)},new ItemStack[] {recipe.getResult()}));
                         PROVIDED_SHAPED_RECIPES.get(BukkitUtils.VANILLA_FURNACE).add(MachineRecipeUtils.shapeFrom(recipe.getCookingTime()/10,new ItemStack[] {new ItemStack(input)},new ItemStack[] {recipe.getResult()}));
+                    }
+                }else if (choice instanceof RecipeChoice.ExactChoice ec){
+                    for (ItemStack input:ec.getChoices()) {
+                        PROVIDED_UNSHAPED_RECIPES.get(BukkitUtils.VANILLA_FURNACE).add(MachineRecipeUtils.stackFrom(recipe.getCookingTime() / 10, new ItemStack[]{input}, new ItemStack[]{recipe.getResult()}));
+                        PROVIDED_SHAPED_RECIPES.get(BukkitUtils.VANILLA_FURNACE).add(MachineRecipeUtils.shapeFrom(recipe.getCookingTime() / 10, new ItemStack[]{input}, new ItemStack[]{recipe.getResult()}));
                     }
                 }
             }
@@ -764,6 +787,28 @@ public class RecipeSupporter {
         MULTIBLOCK_RECIPES.put((MultiBlockMachine) SlimefunItems.AUTOMATED_PANNING_MACHINE.getItem(),GOLDPAN_RECIPE);
         MULTIBLOCK_RECIPES.put((MultiBlockMachine) SlimefunItems.TABLE_SAW.getItem(),TABLE_SAW_RECIPE);
         //做生物掉落的配方
+        HashMap<EntityType,ItemStack[]> preData=new HashMap<>(){{
+            put(EntityType.ZOMBIE, Utils.recipe("ROTTEN_FLESH", "IRON_INGOT"));
+            put(EntityType.SKELETON, Utils.recipe("BONE", "ARROW"));
+            put(EntityType.CREEPER, Utils.recipe("GUNPOWDER",AddUtils.probItemStackFactory( AddUtils.resolveItem("CREEPER_HEAD"),5)));
+            put(EntityType.SPIDER, Utils.recipe("STRING", "SPIDER_EYE"));
+            put(EntityType.ENDERMAN, Utils.recipe("ENDER_PEARL",AddUtils.probItemStackFactory( AddUtils.resolveItem( "ENDER_EYE"),25)));
+            put(EntityType.GHAST, Utils.recipe("GHAST_TEAR", "GUNPOWDER"));
+            put(EntityType.WITCH, Utils.recipe("REDSTONE", "POISONOUS_POTATO"));
+            put(EntityType.SLIME, Utils.recipe("SLIME_BALL"));
+            put(EntityType.MAGMA_CUBE, Utils.recipe("MAGMA_CREAM"));
+            put(EntityType.BLAZE, Utils.recipe("BLAZE_ROD"));
+            put(EntityType.PHANTOM, Utils.recipe("PHANTOM_MEMBRANE"));
+            put(EntityType.VILLAGER, Utils.recipe("PAPER", "BREWING_STAND"));
+            put(EntityType.PIG, Utils.recipe("PORKCHOP", "LEATHER"));
+            put(EntityType.COW, Utils.recipe("BEEF", "LEATHER"));
+            put(EntityType.CHICKEN, Utils.recipe("CHICKEN", "FEATHER"));
+            put(EntityType.SHEEP, Utils.recipe("WHITE_WOOL", "MUTTON"));
+            put(EntityType.HORSE, Utils.recipe("LEATHER", "SADDLE"));
+            put(EntityType.WOLF, Utils.recipe("BONE", "ROTTEN_FLESH"));
+            put(EntityType.WITHER, Utils.recipe( "NETHER_STAR", "WITHER_SKELETON_SKULL"));
+            put(EntityType.WANDERING_TRADER, Utils.recipe("LEAD"));
+        }};
         List<World> worldlist=Bukkit.getWorlds();
         if(!worldlist.isEmpty()){
             World world=worldlist.get(0);
@@ -786,6 +831,10 @@ public class RecipeSupporter {
                             stackList.add(AddUtils.probItemStackFactory(stack.clone(),rmd.getMobDropChance()));
                         }
                     }
+                }
+                ItemStack[] preDatas=preData.get(type);
+                if(preDatas!=null){
+                    stackList.addAll(Arrays.asList(preDatas));
                 }
                 ENTITY_DROPLIST.put(type,stackList.toArray(new ItemStack[stackList.size()]));
             }
@@ -1069,7 +1118,18 @@ public class RecipeSupporter {
             }
         }
         //加载对堆叠机器列表的修改配置
-        loadStackMachineConfig(ConfigLoader.MACHINES);
+        try{
+            List<String> enableAddons=ConfigLoader.INNER_MACHINES.getStringList("enable");
+            if(!enableAddons.isEmpty()){
+                for(String enableAddon : enableAddons){
+                    loadStackMachineConfig(ConfigLoader.INNER_MACHINES,enableAddon,false,false);
+                }
+            }
+        }catch (Throwable w){
+
+        }
+        loadStackMachineConfig(ConfigLoader.MACHINES,"stack_type",true,true);
+
         Debug.logger("配方供应器工作完成, 耗时 "+(System.nanoTime()-a)+ " 纳秒");
     }
     static{

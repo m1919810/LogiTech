@@ -21,5 +21,7 @@ public class Utils {
         return list.toArray(new ItemStack[list.size()]);
 
     }
-
+    public static ItemStack[] recipe(Object ... v){
+        return Arrays.stream(v).map(AddUtils::resolveItem).toArray(ItemStack[]::new);
+    }
 }

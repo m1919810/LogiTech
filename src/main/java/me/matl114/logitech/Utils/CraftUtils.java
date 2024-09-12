@@ -1115,7 +1115,7 @@ public class CraftUtils {
         int len=recipes.length;
         if(len!=0) {
             return Math.min(limit,recipes[0].getStackNum());
-        }else return 0;
+        }else return limit;
     }
     public static int calMaxCraftAfterAccelerate(int maxCraftTime,int tick){
         return tick==0?maxCraftTime:((maxCraftTime<=tick)?1:(maxCraftTime/(tick+1)));

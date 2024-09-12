@@ -39,13 +39,13 @@ import java.util.Map;
 
 public class StackMGenerator extends MMGenerator implements MultiCraftType, ImportRecipes {
     protected final int[] BORDER=new int[]{
-            6,7,8,12,14,15,17,21,23,24,25,26
+            6,7,8,15,16,17
     };
     protected final int [] INPUT_SLOT = new int[]{
-            0,1,2,9,10,11,18,19,20
+            0,1,2,9,10,11
     };
     protected final int [] OUTPUT_SLOTS=new int[]{
-            27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53
+           18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53
     };
     public int[] getInputSlots(){
         return INPUT_SLOT;
@@ -57,7 +57,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
     protected static int[] BW_LIST_ENERGYCOMSUME;
     protected static int BWSIZE;
     protected final int MACHINE_SLOT=13;
-    protected final int MINFO_SLOT=16;
+    protected final int MINFO_SLOT=14;
     protected final int INFO_SLOT=4;
     protected final ItemStack INFO_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&b机制",
             "&6将要模拟的机器放在下方槽位","&6机器会进行模拟,其中","&7<并行处理数>=<机器数*工作效率>","&7<耗电数>=<机器数量*单个机器耗电/工作效率>","&6有关高级机器和并行处理数的信息,请见粘液书<版本与说明>","&6支持的机器可以在粘液书<通用机器类型大全>"
@@ -89,8 +89,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
     public StackMGenerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                            int time, int energybuffer, int energyConsumption,int efficiency) {
         super(itemGroup, item, recipeType, recipe, time, energybuffer, energyConsumption, new LinkedHashMap<>());
-        this.PROCESSOR_SLOT=22;
-        String[] lores=new String[]{"&7下侧为输出槽,左侧为输入检测槽","&a输入检测槽中的物品不会被消耗!","&e生产数量只与堆叠机器的数目有关,与输入检测数目无关","&e生产时间为原配方生产时间"};
+        String[] lores=new String[]{"&7下侧为输出槽,左侧为输入检测槽","&a输入检测槽中的物品不会被消耗!","&e生产数量只与堆叠机器的数目有关,与输入检测数目无关"};
         AddUtils.setLore(this.INFO_WORKING,lores);
         AddUtils.setLore(this.INFO_NULL,lores);
         this.efficiency=efficiency;
@@ -105,6 +104,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
                                 "&c堆叠生成器并行处理数并不会增加运行速度!"),null
                 )
         );
+        this.PROCESSOR_SLOT=12;
     }
     public static boolean hasInit=false;
     public static List<SlimefunItem> getMachineList(){
@@ -202,7 +202,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
     public DataMenuClickHandler createDataHolder(){
         return new DataMenuClickHandler() {
             //0 为 数量 1 为 电力
-            int[] intdata=new int[3];
+            int[] intdata=new int[4];
             public int getInt(int i){
                 return intdata[i];
             }
@@ -326,16 +326,16 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
         if(index>=0&&index<getListSize()){//有效机器
             DataMenuClickHandler db=this.getDataHolder(b,inv);
             int charge=db.getInt(1);
-            int craftLimit=getCraftLimit(b,inv);
-            int consumption=Math.min(craftLimit*charge,this.energybuffer);
+            int rawCraftLimit=db.getInt(0);
+            int consumption=Math.min(rawCraftLimit*charge,this.energybuffer);
             int energy=this.getCharge(inv.getLocation(),data);
             int tick=db.getInt(2);
             if(energy>consumption){
                 if(hasViewer){
-                    if(tick==-1){
-                        inv.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_WORKING);
+                    if(tick>=0){
+                        inv.replaceExistingItem(this.PROCESSOR_SLOT,getWorkingItem(tick));
                     }
-                    inv.replaceExistingItem(MINFO_SLOT,getInfoItem(craftLimit,consumption,energy,
+                    inv.replaceExistingItem(MINFO_SLOT,getInfoItem(rawCraftLimit,consumption,energy,
                             this.efficiency,ItemStackHelper.getDisplayName(inv.getItemInSlot(MACHINE_SLOT))));
                 }
                 progressorCost(b,inv);
@@ -346,7 +346,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
                     if(index2>=0&& index2<len){
                         MachineRecipe nextP= lst.get(index2);
                         if (tick == 0){
-                            int maxMultiple = getCraftLimit(b,inv);
+                            int maxMultiple = db.getInt(3);
                             if (maxMultiple == 1) {
                                 CraftUtils.pushItems(nextP.getOutput(), inv, getOutputSlots(), CRAFT_PROVIDER);
                             } else {
@@ -354,7 +354,22 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
                                 CraftUtils.multiPushItems(nextP.getOutput(),inv, getOutputSlots(), maxMultiple, CRAFT_PROVIDER);
                             }
                         }
-                        db.setInt(2,nextP.getTicks()-1);
+                        int maxCraftlimit= getCraftLimit(b,inv);
+                        int tickNext=nextP.getTicks();
+                        if(tickNext!=0){//超频机制
+                            //尝试让time归1
+                            //按比例减少maxlimit ,按最小值取craftlimit
+                            if(maxCraftlimit<=tickNext){
+                                tickNext=( (tickNext+1)/maxCraftlimit)-1;
+                                maxCraftlimit=1;
+                            }else {
+                                maxCraftlimit=(maxCraftlimit/(tickNext));
+                                tickNext=0;
+                            }
+                        }
+                        db.setInt(2,tickNext);
+                        db.setInt(3,maxCraftlimit);
+
                     }else if(index2!=-1){
                         updateMenu(inv,b,Settings.RUN);
                     }
@@ -364,7 +379,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
             }
             else  {
                 if (hasViewer)
-                inv.replaceExistingItem(MINFO_SLOT,getInfoOffItem(craftLimit,consumption,energy,
+                inv.replaceExistingItem(MINFO_SLOT,getInfoOffItem(rawCraftLimit,consumption,energy,
                         ItemStackHelper.getDisplayName(inv.getItemInSlot(MACHINE_SLOT))));
                 if(tick!=-1){
                     db.setInt(2,-1);

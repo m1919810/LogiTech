@@ -1,26 +1,33 @@
 package me.matl114.logitech.Utils;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.BlockDataController;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.events.AndroidMineEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Schedule.Schedules;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.Collection;
+import java.util.UUID;
 
 public class WorldUtils {
     public static SlimefunAddon INSTANCE= MyAddon.getInstance();
     public static final BlockDataController CONTROLLER=Slimefun.getDatabaseManager().getBlockDataController();
     public static void setBlock(Location loc, Material material) {
         loc.getBlock().setType(material);
-
     }
     public static void setAir(Location loc) {
         loc.getBlock().setType(Material.AIR);
@@ -52,7 +59,8 @@ public class WorldUtils {
            CONTROLLER.removeBlock(loc);
        }
     }
-
+    public static void removeSlimefunBlockSafe(Location loc){
+    }
     public static void moveSlimefunBlock(Location loc, boolean force) {
 
     }
@@ -105,7 +113,6 @@ public class WorldUtils {
      * @param loc
      * @param item
      * @param material
-     * @param force
      */
     public static void createSlimefunBlockSync(Location loc,Player player,SlimefunItem item,Material material) {
         Block block=loc.getBlock();
@@ -160,7 +167,11 @@ public class WorldUtils {
         }
 
     }
+    private static final ItemStack effectivePickaxe = new ItemStack(Material.DIAMOND_PICKAXE);
 
+//    public ItemStack[] simulateKill(){
+//        Player player;
+//    }
 
 
 

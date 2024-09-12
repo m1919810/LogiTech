@@ -1,3 +1,5984 @@
 enable:
   - Slimefun
+  - MomoTech
+  - CivilizationEvolution
+  - InfinityExpansion
+  - Supreme
 Slimefun:
+MomoTech:
+  enable: true
+  MOMOTECH_INGOT_CONSTRUCTOR:
+    recipe:
+      '0':
+        input:
+          '1': MOMOTECH_METAL_STAR
+        output:
+          '1':
+            type: ra
+            item:
+              '1': 32BRONZE_INGOT
+              '2': 32BILLON_INGOT
+              '3': 32STEEL_INGOT
+              '4': 32SYNTHETIC_DIAMOND
+              '5': 32COBALT_INGOT
+              '6': 32ALUMINUM_BRASS_INGOT
+              '7': 32ALUMINUM_BRONZE_INGOT
+              '8': 32HARDENED_METAL_INGOT
+              '9': 32REDSTONE_ALLOY
+              '10': 32SYNTHETIC_EMERALD
+            weight:
+              '1': 1
+              '2': 1
+              '3': 1
+              '4': 1
+              '5': 1
+              '6': 1
+              '7': 1
+              '8': 1
+              '9': 1
+              '10': 1
+        tick: 0
+    mode: w
+    type: machine
+    energy: 0
+  MOMOTECH_PARTICLE_CONSTRUCTOR:
+    recipe:
+      '1':
+        output:
+          '1':
+            type: ra
+            item:
+              '1': MOMOTECH_PROTON
+              '2': MOMOTECH_ZYGOTE
+            weight:
+              '1': 1
+              '2': 3
+        tick: 60
+    mode: w
+    type: generator
+    energy: 10
+  
+  MOMOTECH_SALT_GENERATOR:
+    
+    recipe:
+      '0':
+        output:
+          '1':
+            type: rc
+            item:
+              '1': SALT
+            weight:
+              '1': 1
+              '2': 64
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_MONSTER_GENERATOR0:
+    
+    recipe:
+      '0':
+        output:
+          '1':
+            type: ra
+            item:
+              '1': 32BONE
+              '2': 32CARROT
+              '3': 32POTATO
+              '4': 32STRING
+              '5': 32IRON_INGOT
+              '6': 32GUNPOWDER
+              '7': 32ROTTEN_FLESH
+              '8': 32SPIDER_EYE
+              '9': 32GLOWSTONE_DUST
+              '10': 32REDSTONE
+              '11': 32STICK
+              '12': 32GLASS_BOTTLE
+            weight:
+              '1': 1
+              '2': 1
+              '3': 1
+              '4': 1
+              '5': 1
+              '6': 1
+              '7': 1
+              '8': 1
+              '9': 1
+              '10': 1
+              '11': 1
+              '12': 1
+    mode: w
+    type: generator
+    energy: 15000
+  MOMOTECH_MONSTER_GENERATOR1:
+    recipe:
+      '0':
+        output:
+            '1':
+              type: ra
+              item:
+                '1': 32COD
+                '2': 32SALMON
+                '3': 32PUFFERFISH
+                '4': 32TROPICAL_FISH
+                '5': 32PRISMARINE_CRYSTALS
+                '6': 32PRISMARINE_SHARD
+                '7': 32INK_SAC
+                '8': 32GLOW_INK_SAC
+              weight:
+                '1': 1
+                '2': 1
+                '3': 1
+                '4': 1
+                '5': 1
+                '6': 1
+                '7': 1
+                '8': 1
+    mode: w
+    type: generator
+    energy: 15000
+  MOMOTECH_MONSTER_GENERATOR2:
+    recipe:
+      '0':
+        output:
+          '1':
+            type: ra
+            item:
+              '1': 32ROTTEN_FLESH
+              '2': 32GOLD_NUGGET
+              '3': 32GOLD_INGOT
+            weight:
+              '1': 1
+              '2': 1
+              '3': 1
+    mode: w
+    type: generator
+    energy: 15000
+  MOMOTECH_MONSTER_GENERATOR3:
+    recipe:
+      '0':
+        output:
+          '1':
+            type: ra
+            item:
+              '1': 32ENDER_EYE
+              '2': 32ENDER_PEARL
+            weight:
+              '1': 1
+              '2': 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 15000
+  MOMOTECH_MONSTER_GENERATOR4:
+    recipe:
+      '0':
+        output:
+          '1': 32GUNPOWDER
+        tick: 0
+    mode: w
+    type: generator
+    energy: 15000
+  MOMOTECH_MONSTER_GENERATOR5:
+    recipe:
+      '0':
+        output:
+          '1':
+            type: ra
+            item:
+              '1': 32ROTTEN_FLESH
+              '2': 32NAUTILUS_SHELL
+              '3': 32COPPER_INGOT
+            weight:
+              '1': 1
+              '2': 1
+              '3': 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 15000
+  MOMOTECH_MONSTER_GENERATOR6:
+    
+    recipe:
+      '0':
+        output:
+          '1':
+            type: ra
+            item:
+              '1': 32BEEF
+              '2': 32CHICKEN
+              '3': 32MUTTON
+              '4': 32LEATHER
+              '5': 32FEATHER
+              '6': 32WHITE_WOOL
+              '7': 32PORKCHOP
+              '8': 32EGG
+            weight:
+              '1': 1
+              '2': 1
+              '3': 1
+              '4': 1
+              '5': 1
+              '6': 1
+              '7': 1
+              '8': 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 15000
+  MOMOTECH_MONSTER_GENERATOR7:
+    recipe:
+      '0':
+        output:
+          '1':
+            type: ra
+            item:
+              '1': 32SLIME_BALL
+              '2': 32SLIME_BLOCK
+            weight:
+              '1': 1
+              '2': 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 15000
+  MOMOTECH_MONSTER_GENERATOR8:
+    recipe:
+      '0':
+        output:
+          '1':
+            type: ra
+            item:
+              '1': 32BLAZE_POWDER
+              '2': 32BLAZE_ROD
+            weight:
+              '1': 1
+              '2': 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 15000
+  MOMOTECH_MONSTER_GENERATOR9:
+    recipe:
+      '0':
+        output:
+          '1': 32MAGMA_CREAM
+        tick: 0
+    mode: w
+    type: generator
+    energy: 15000
+  MOMOTECH_RULE_DUST_GENERATOR0:
+    recipe:
+      '0':
+        input:
+          '1': 64COBBLESTONE
+        output:
+          '1':
+            type: ra
+            item:
+              '1': 64IRON_DUST
+              '2': 64GOLD_DUST
+              '3': 64COPPER_DUST
+              '4': 64TIN_DUST
+              '5': 64ZINC_DUST
+              '6': 64ALUMINUM_DUST
+              '7': 64SILVER_DUST
+              '8': 64MAGNESIUM_DUST
+              '9': 64LEAD_DUST
+            weight:
+              '1': 1
+              '2': 1
+              '3': 1
+              '4': 1
+              '5': 1
+              '6': 1
+              '7': 1
+              '8': 1
+              '9': 1
+        tick: 0
+    mode: w
+    type: machine
+    energy: 15000
+  MOMOTECH_RULE_DUST_GENERATOR1:
+    
+    recipe:
+      '0':
+        input:
+          '1': 64COBBLESTONE
+        output:
+          '1': 64ALUMINUM_DUST
+        tick: 0
+    mode: w
+    type: machine
+    energy: 15000
+  MOMOTECH_RULE_DUST_GENERATOR2:
+    
+    recipe:
+      '0':
+        input:
+          '1': 64COBBLESTONE
+        output:
+          '1': 64MAGNESIUM_DUST
+        tick: 0
+    mode: w
+    type: machine
+    energy: 15000
+  MOMOTECH_RULE_DUST_GENERATOR3:
+    
+    recipe:
+      '0':
+        input:
+          '1': 64COBBLESTONE
+        output:
+          '1': 64COPPER_DUST
+        tick: 0
+    mode: w
+    type: machine
+    energy: 15000
+  MOMOTECH_RULE_DUST_GENERATOR4:
+    
+    recipe:
+      '0':
+        input:
+          '1': 64COBBLESTONE
+        output:
+          '1': 64GOLD_DUST
+        tick: 0
+    mode: w
+    type: machine
+    energy: 15000
+  MOMOTECH_RULE_DUST_GENERATOR5:
+    recipe:
+      '0':
+        input:
+          '1': 64COBBLESTONE
+        output:
+          '1': 64SILVER_DUST
+        tick: 0
+    mode: w
+    type: machine
+    energy: 15000
+  MOMOTECH_RULE_DUST_GENERATOR6:
+    
+    recipe:
+      '0':
+        input:
+          '1': 64COBBLESTONE
+        output:
+          '1': 64LEAD_DUST
+        tick: 0
+    mode: w
+    type: machine
+    energy: 15000
+  MOMOTECH_RULE_DUST_GENERATOR7:
+    
+    recipe:
+      '0':
+        input:
+          '1': 64COBBLESTONE
+        output:
+          '1': 64TIN_DUST
+        tick: 0
+    mode: w
+    type: machine
+    energy: 15000
+  MOMOTECH_RULE_DUST_GENERATOR8:
+    
+    recipe:
+      '0':
+        input:
+          '1': 64COBBLESTONE
+        output:
+          '1': 64ZINC_DUST
+        tick: 0
+    mode: w
+    type: machine
+    energy: 15000
+  MOMOTECH_RULE_DUST_GENERATOR9:
+    
+    recipe:
+      '0':
+        input:
+          '1': 64COBBLESTONE
+        output:
+          '1': 64IRON_DUST
+        tick: 0
+    mode: w
+    type: machine
+    energy: 15000
+  MOMOTECH_RULE_MINERAL_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1':
+            type: ra
+            item:
+              '1': 64LAPIS_LAZULI
+              '2': 64REDSTONE
+              '3': 64EMERALD
+              '4': 64DIAMOND
+              '5': 64QUARTZ
+              '6': 64GOLD_INGOT
+              '7': 64COPPER_INGOT
+              '8': 64IRON_INGOT
+              '9': 64NETHERITE_INGOT
+              '10': 64COAL
+              '11': 64COBBLESTONE
+            weight:
+              '1': 1
+              '2': 1
+              '3': 1
+              '4': 1
+              '5': 1
+              '6': 1
+              '7': 1
+              '8': 1
+              '9': 1
+              '10': 1
+              '11': 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 15000
+  MOMOTECH_RULE_MINERAL_BLOCK_GENERATOR:
+    
+    recipe:
+      '0':
+        output:
+          '1':
+            type: ra
+            item:
+              '1': 16LAPIS_BLOCK
+              '2': 16REDSTONE_BLOCK
+              '3': 16EMERALD_BLOCK
+              '4': 16DIAMOND_BLOCK
+              '5': 16QUARTZ_BLOCK
+              '6': 16GOLD_BLOCK
+              '7': 16COPPER_BLOCK
+              '8': 16IRON_BLOCK
+              '9': 16NETHERITE_BLOCK
+              '10': 16COAL_BLOCK
+              '11': 16COBBLESTONE
+            weight:
+              '1': 1
+              '2': 1
+              '3': 1
+              '4': 1
+              '5': 1
+              '6': 1
+              '7': 1
+              '8': 1
+              '9': 1
+              '10': 1
+              '11': 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 15000
+  MOMOTECH_WOOD:
+    
+    recipe:
+      '0':
+        input:
+          '1': OAK_SAPLING
+        output:
+          "1": 32OAK_LEAVES
+          "2": 32OAK_LOG
+          "3": 32OAK_SAPLING
+          "4": 32APPLE
+          "5": 32STICK
+        tick: 0
+      '1':
+        input:
+          '1': DARK_OAK_SAPLING
+        output:
+          "1": 32DARK_OAK_LEAVES
+          "2": 32DARK_OAK_LOG
+          "3": 32DARK_OAK_SAPLING
+          "4": 32APPLE
+          "5": 32STICK
+        tick: 0
+      '2':
+        input:
+          '1': SPRUCE_SAPLING
+        output:
+          "1": 32SPRUCE_LEAVES
+          "2": 32SPRUCE_LOG
+          "3": 32SPRUCE_SAPLING
+          "4": 32STICK
+        tick: 0
+      '3':
+        input:
+          '1': CHERRY_SAPLING
+        output:
+          "1": 32CHERRY_LEAVES
+          "2": 32CHERRY_LOG
+          "3": 32CHERRY_SAPLING
+          "4": 32STICK
+
+        tick: 0
+      '4':
+        input:
+          '1': ACACIA_SAPLING
+        output:
+          "1": 32ACACIA_LEAVES
+          "2": 32ACACIA_LOG
+          "3": 32ACACIA_SAPLING
+          "4": 32STICK
+
+        tick: 0
+      '5':
+        input:
+          '1': MANGROVE_PROPAGULE
+        output:
+          "1": 32MANGROVE_LEAVES
+          "2": 32MANGROVE_LOG
+          "3": 32MANGROVE_PROPAGULE
+          "4": 32STICK
+        tick: 0
+      '6':
+        input:
+          '1': JUNGLE_SAPLING
+        output:
+          "1": 32JUNGLE_LEAVES
+          "2": 32JUNGLE_LOG
+          "3": 32JUNGLE_SAPLING
+          "4": 32COCOA_BEANS
+          "5": 32STICK
+
+        tick: 0
+      '7':
+        input:
+          '1': BIRCH_SAPLING
+        output:
+          "1": 32BIRCH_LEAVES
+          "2": 32BIRCH_LOG
+          "3": 32BIRCH_SAPLING
+          "4": 32APPLE
+          "5": 32STICK
+
+        tick: 0
+      '8':
+        input:
+          '1': WARPED_FUNGUS
+        output:
+          "1": 32WARPED_STEM
+          "2": 32WARPED_WART_BLOCK
+          "3": 32WARPED_HYPHAE
+          "4": 32SHROOMLIGHT
+
+        tick: 0
+      '9':
+        input:
+          '1': CRIMSON_FUNGUS
+        output:
+          "1": 32CRIMSON_STEM
+          "2": 32NETHER_WART_BLOCK
+          "3": 32CRIMSON_HYPHAE
+          "4": 32SHROOMLIGHT
+        tick: 0
+    mode: w
+    type: generator
+    energy: 10000
+  MOMOTECH_PLANT:
+    
+    recipe:
+      '0':
+        input:
+          '1': POTATO
+        output:
+          "1": 32POTATO
+          "2": 32POISONOUS_POTATO
+        tick: 0
+      '1':
+        input:
+          '1': CARROT
+        output:
+          '1': 32CARROT
+        tick: 0
+      '2':
+        input:
+          '1': PUMPKIN_SEEDS
+        output:
+          "1": 32PUMPKIN
+          "2": 32PUMPKIN_SEEDS
+        tick: 0
+      '3':
+        input:
+          '1': MELON_SEEDS
+        output:
+          "1": 32MELON
+          "2": 32MELON_SEEDS
+          "3": 32MELON_SLICE
+        tick: 0
+      '4':
+        input:
+          '1': BEETROOT_SEEDS
+        output:
+          "1": 32BEETROOT
+          "2": 32BEETROOT_SEEDS
+
+        tick: 0
+      '5':
+        input:
+          '1': WHEAT_SEEDS
+        output:
+          "1": 32WHEAT
+          "2": 32WHEAT_SEEDS
+        tick: 0
+      '6':
+        input:
+          '1': BROWN_MUSHROOM
+        output:
+          "1": 32BROWN_MUSHROOM
+          "2": 32BROWN_MUSHROOM_BLOCK
+          "3": 32MUSHROOM_STEM
+        tick: 0
+      '7':
+        input:
+          '1': RED_MUSHROOM
+        output:
+          "1": 32RED_MUSHROOM_BLOCK
+          "2": 32RED_MUSHROOM
+          "3": 32MUSHROOM_STEM
+        tick: 0
+      '8':
+        input:
+          '1': BAMBOO
+        output:
+          '1': 32BAMBOO
+        tick: 0
+      '9':
+        input:
+          '1': DEAD_BUSH
+        output:
+          "1": 32DEAD_BUSH
+          "2": 32STICK
+        tick: 0
+      '10':
+        input:
+          '1': COCOA_BEANS
+        output:
+          '1': 32COCOA_BEANS
+        tick: 0
+      '11':
+        input:
+          '1': SUGAR_CANE
+        output:
+          '1': 32SUGAR_CANE
+        tick: 0
+      '12':
+        input:
+          '1': CACTUS
+        output:
+          '1': 32CACTUS
+        tick: 0
+      '13':
+        input:
+          '1': NETHER_WART
+        output:
+          '1': 32NETHER_WART
+        tick: 0
+      '14':
+        input:
+          '1': WITHER_ROSE
+        output:
+          '1': 32WITHER_ROSE
+        tick: 0
+      '15':
+        input:
+          '1': TORCHFLOWER_SEEDS
+        output:
+          "1": 32TORCHFLOWER
+          "2": 32TORCHFLOWER_SEEDS
+
+        tick: 0
+      '16':
+        input:
+          '1': LILY_PAD
+        output:
+          '1': 32LILY_PAD
+        tick: 0
+      '17':
+        input:
+          '1': VINE
+        output:
+          '1': 32VINE
+        tick: 0
+      '18':
+        input:
+          '1': GLOW_LICHEN
+        output:
+          '1': 32GLOW_LICHEN
+        tick: 0
+      '20':
+        input:
+          '1': SWEET_BERRIES
+        output:
+          '1': 32SWEET_BERRIES
+        tick: 0
+      '21':
+        input:
+          '1': GLOW_BERRIES
+        output:
+          '1': 32GLOW_BERRIES
+        tick: 0
+      '22':
+        input:
+          '1': SEAGRASS
+        output:
+          '1': 32SEAGRASS
+        tick: 0
+      '23':
+        input:
+          '1': KELP
+        output:
+          '1': 32KELP
+        tick: 0
+      '24':
+        input:
+          '1': SEA_PICKLE
+        output:
+          '1': 32SEA_PICKLE
+        tick: 0
+    mode: w
+    type: generator
+    energy: 10000
+  MOMOTECH_RULE_REACTOR:
+    
+    recipe:
+      '0':
+        input:
+          '1': URANIUM
+        output:
+          '1': 8NEPTUNIUM
+        tick: 0
+      '1':
+        input:
+          '1': 8NEPTUNIUM
+        output:
+          '1': 8PLUTONIUM
+        tick: 0
+    mode: w
+    type: machine
+    energy: 5000
+  MOMOTECH_U_GENERATOR:
+    
+    recipe:
+      '0':
+        input:
+          '1': COBBLESTONE
+        output:
+          '1': 64URANIUM
+        tick: 0
+    mode: w
+    type: machine
+    energy: 5000
+  MOMOTECH_RULE_CREATIVE_GENERATOR:
+    
+    recipe:
+      '0':
+        output:
+          '1':
+            type: ra
+            item:
+              '1': MOMOTECH_CREATIVE
+              '2': MOMOTECH_CREATIVE_I
+            weight:
+              '1': 1
+              '2': 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 100000
+  MOMOTECH_FLINT_GENERATOR:
+    
+    recipe:
+      '0':
+        output:
+          '1': 4FLINT
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_CHEST_GENERATOR:
+    
+    recipe:
+      '0':
+        output:
+          '1': CHEST
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_DIAMOND_PICKAXE_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1': 8DIAMOND_PICKAXE
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_PUMPKIN_CARVER:
+    recipe:
+      '1':
+        input:
+          '1': 64PUMPKIN
+        output:
+          '1': 64CARVED_PUMPKIN
+          '2': 64PUMPKIN_SEEDS
+        tick: 0
+    mode: w
+    type: machine
+    energy: 0
+  MOMOTECH_STONE_GENERATOR_II:
+    recipe:
+      '0':
+        output:
+          '1': 64COBBLESTONE
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+ 
+  MOMOTECH_RANDOM_QUANTUM_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1': MOMOTECH_RANDOM_QUANTUM
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_COBBLESTONE_GENERATOR_FINAL:
+    recipe:
+      '0':
+        output:
+          '1': 8COBBLESTONE
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_COMMAND_BLOCK_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: "ra"
+            item:
+              "1": "COMMAND_BLOCK"
+              "2": "CHAIN_COMMAND_BLOCK"
+              "3": "REPEATING_COMMAND_BLOCK"
+            weight:
+              '1': 1
+              "2": 1
+              "3": 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_C_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1': CARBON
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_BEE_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: "ra"
+            item:
+              "1": BEE_SPAWN_EGG
+              "2": BEEHIVE
+              "3": HONEYCOMB
+              "4": HONEY_BOTTLE
+              "5": HONEYCOMB_BLOCK
+              "6": HONEY_BLOCK
+            weight:
+              '1': 1
+              "2": 1
+              "3": 1
+              "4": 1
+              "5": 1
+              "6": 1
+
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_SPIDER_EYE_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1': 2SPIDER_EYE
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_ICE_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1': ICE
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_STONES_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1': 8STONE_CHUNK
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_LINE_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1': 3STRING
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_DUST_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1':
+            type: ra
+            item:
+              '1': 6IRON_DUST
+              '2': 6GOLD_DUST
+              '3': 6COPPER_DUST
+              '4': 6TIN_DUST
+              '5': 6ZINC_DUST
+              '6': 6ALUMINUM_DUST
+              '7': 6SILVER_DUST
+              '8': 6MAGNESIUM_DUST
+              '9': 6LEAD_DUST
+            weight:
+              '1': 1
+              '2': 1
+              '3': 1
+              '4': 1
+              '5': 1
+              '6': 1
+              '7': 1
+              '8': 1
+              '9': 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_STONE_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1':
+            type: ra
+            item:
+              '1': 8COBBLESTONE
+              '2': 8STONE
+              '3': 8DIORITE
+              '4': 8GRANITE
+              '5': 8ANDESITE
+              '6': 8COBBLED_DEEPSLATE
+            weight:
+              '1': 1
+              '2': 1
+              '3': 1
+              '4': 1
+              '5': 1
+              '6': 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+    output:
+          
+              
+  MOMOTECH_STONE_GENERATOR_I:
+    recipe:
+      '0':
+        output:
+          '1': 8COBBLESTONE
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_FISH_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1':
+            type: ra
+            item:
+              "1": COD
+              "2": SALMON
+              "3": PUFFERFISH
+              "4": TROPICAL_FISH
+            weight:
+              '1': 1
+              '2': 1
+              '3': 1
+              '4': 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_SAND_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1':
+            type: ra
+            item:
+              "1": 8SAND
+              "2": 8RED_SAND
+              "3": 8GRAVEL
+              "4": 8SOUL_SAND
+            weight:
+              '1': 1
+              '2': 1
+              '3': 1
+              '4': 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_FROG_LIGHT_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1':
+            type: ra
+            item:
+              "1": 4OCHRE_FROGLIGHT
+              "2": 4PEARLESCENT_FROGLIGHT
+              "3": 4VERDANT_FROGLIGHT
+            weight:
+              '1': 1
+              '2': 1
+              '3': 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_GLASS_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1': 8GLASS
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_ORE_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: ra
+            item:
+              "1": 8DIAMOND_ORE
+              "2": 8GOLD_ORE
+              "3": 8IRON_ORE
+              "4": 8COAL_ORE
+              "5": 8COPPER_ORE
+              "6": 8EMERALD_ORE
+              "7": 8REDSTONE_ORE
+              "8": 8NETHER_QUARTZ_ORE
+              "9": 8NETHER_GOLD_ORE
+              "10": 8LAPIS_ORE
+              "11": 8DEEPSLATE_REDSTONE_ORE
+              "12": 8DEEPSLATE_LAPIS_ORE
+              "13": 8DEEPSLATE_IRON_ORE
+              "14": 8DEEPSLATE_GOLD_ORE
+              "15": 8DEEPSLATE_COAL_ORE
+              "16": 8DEEPSLATE_COPPER_ORE
+              "17": 8DEEPSLATE_DIAMOND_ORE
+              "18": 8DEEPSLATE_EMERALD_ORE
+              "19": 8COPPER_ORE
+            weight:
+              "1": 1
+              "2": 1
+              "3": 1
+              "4": 1
+              "5": 1
+              "6": 1
+              "7": 1
+              "8": 1
+              "9": 1
+              "10": 1
+              "11": 1
+              "12": 1
+              "13": 1
+              "14": 1
+              "15": 1
+              "16": 1
+              "17": 1
+              "18": 1
+              "19": 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_TEMPLATE_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: ra
+            item:
+              "1": 8COAST_ARMOR_TRIM_SMITHING_TEMPLATE
+              "2": 8DUNE_ARMOR_TRIM_SMITHING_TEMPLATE
+              "3": 8EYE_ARMOR_TRIM_SMITHING_TEMPLATE
+              "4": 8HOST_ARMOR_TRIM_SMITHING_TEMPLATE
+              "5": 8RIB_ARMOR_TRIM_SMITHING_TEMPLATE
+              "6": 8RAISER_ARMOR_TRIM_SMITHING_TEMPLATE
+              "7": 8NETHERITE_UPGRADE_SMITHING_TEMPLATE
+              "8": 8SENTRY_ARMOR_TRIM_SMITHING_TEMPLATE
+              "9": 8SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE
+              "10": 8WILD_ARMOR_TRIM_SMITHING_TEMPLATE
+              "11": 8WAYFINDER_ARMOR_TRIM_SMITHING_TEMPLATE
+              "12": 8VEX_ARMOR_TRIM_SMITHING_TEMPLATE
+              "13": 8WARD_ARMOR_TRIM_SMITHING_TEMPLATE
+              "14": 8SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE
+              "15": 8TIDE_ARMOR_TRIM_SMITHING_TEMPLATE
+              "16": 8SNOUT_ARMOR_TRIM_SMITHING_TEMPLATE
+              "17": 8SILENCE_ARMOR_TRIM_SMITHING_TEMPLATE
+            weight:
+              "1": 1
+              "2": 1
+              "3": 1
+              "4": 1
+              "5": 1
+              "6": 1
+              "7": 1
+              "8": 1
+              "9": 1
+              "10": 1
+              "11": 1
+              "12": 1
+              "13": 1
+              "14": 1
+              "15": 1
+              "16": 1
+              "17": 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+
+
+  MOMOTECH_SYMBOL_GENERATOR:
+    
+    recipe:
+      '1':
+        input:
+          '1': MOMOTECH_EMPTY_SHELL
+        output:
+          '1': 
+            type: ra
+            item:
+              '1': MOMOTECH_SYMBOL_DIVISION
+              '2': MOMOTECH_SYMBOL_SUBTRACTION
+              '3': MOMOTECH_SYMBOL_MULTIPLICATION
+              '4': MOMOTECH_SYMBOL_ADDITION
+            weight:
+              "1": 20
+              "2": 25
+              "3": 25
+              "4": 30
+        tick: 0
+    mode: w
+    type: machine
+    energy: 2000
+  MOMOTECH_EMPTY_SHELL_GENERATOR:
+    
+    recipe:
+      '0':
+        output:
+          '1': 8MOMOTECH_EMPTY_SHELL
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_EMPTY_SHELL_GENERATOR_I:
+    recipe:
+      '0':
+        output:
+          '1': 64MOMOTECH_EMPTY_SHELL
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_QUANTITY_CONSTRUCTOR:
+    
+    recipe:
+      '1':
+        input:
+          '1': 2880MOMOTECH_UNCONTROLLABLE_EMPTY_
+        output:
+          '1': 
+            type: rp
+            item:
+              '1': MOMOTECH_CREATIVE_II
+            weight:
+              "1": 50
+        tick: 0
+      '3':
+        input:
+          '1': 
+            type: eq
+            item:
+              '1': MOMOTECH_NUMBER_BUG
+              '2': MOMOTECH_NUMBER_BUG_I
+              '3': MOMOTECH_NUMBER_BUG_II
+              '4': MOMOTECH_NUMBER_BUG_III
+              '5': MOMOTECH_NUMBER_BUG_IV
+              '6': MOMOTECH_NUMBER_BUG_V
+            weight:
+              '1': 2880
+        output:
+          '1': MOMOTECH_BUG_CRYSTAL
+        tick: 0
+      '10':
+        input:
+          '1':
+            type: eq
+            item:
+              '1': MOMOTECH_CREATIVE
+              '2': MOMOTECH_CREATIVE_I
+            weight:
+              '1': 2880
+        output:
+          '1': MOMOTECH_CREATIVE__
+        tick: 0
+      '13':
+        input:
+          '1': 2880MOMOTECH_FINAL_STAR
+        output:
+          '1': MOMOTECH_FINAL_ITEM
+        tick: 0
+      '14':
+        input:
+          '1': 2880COBBLESTONE
+        output:
+          '1': 
+            type: rp
+            item:
+              '1': 
+                type: rp
+                item:
+                  '1': MOMOTECH_QUANTITY_ITEM
+                weight:
+                  '1': 5
+            weight: 
+              '1': 1
+        tick: 0
+      '16':
+        input:
+          '1': 2880COMMAND_BLOCK
+        output:
+          '1': MOMOTECH_COMMAND_BLOCK1
+        tick: 0
+      '18':
+        input:
+          '1': 2880REPEATING_COMMAND_BLOCK
+        output:
+          '1': MOMOTECH_COMMAND_BLOCK2
+        tick: 0
+      '20':
+        input:
+          '1': 2880CHAIN_COMMAND_BLOCK
+        output:
+          '1': MOMOTECH_COMMAND_BLOCK3
+        tick: 0
+      '22':
+        input:
+          '1': 2880MOMOTECH_RESOURCE
+        output:
+          '1': MOMOTECH_FINAL_RULE
+        tick: 0
+    mode: w
+    type: machine
+    energy: 0
+  MOMOTECH_UNCONTROLLABLE_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1': 48MOMOTECH_UNCONTROLLABLE_EMPTY_
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_ORE_COLLECTOR:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: ra
+            item:
+              '1': 4MOMOTECH_MINERAL_DIAMOND_BLOCK_III
+              '2': 4MOMOTECH_MINERAL_NETHERITE_BLOCK_III
+              '3': 4MOMOTECH_MINERAL_COAL_BLOCK_III
+              '4': 4MOMOTECH_MINERAL_EMERALD_BLOCK_III
+              '5': 4MOMOTECH_MINERAL_QUARTZ_BLOCK_III
+              '6': 4MOMOTECH_MINERAL_REDSTONE_BLOCK_III
+              '7': 4MOMOTECH_MINERAL_IRON_BLOCK_III
+              '8': 4MOMOTECH_MINERAL_GOLD_BLOCK_III
+              '9': 4MOMOTECH_MINERAL_LAPIS_BLOCK_III
+            weight:
+              "1": 1
+              "2": 1
+              "3": 1
+              "4": 1
+              "5": 1
+              "6": 1
+              "7": 1
+              "8": 1
+              "9": 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  MOMOTECH_SEA_ITEM_GENERATOR:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: "ra"
+            item:
+              "1": 8SEA_LANTERN
+              "2": 8DARK_PRISMARINE
+              "3": 8PRISMARINE
+              "4": 8PRISMARINE_CRYSTALS
+              "5": 8PRISMARINE_SHARD
+            weight:
+              '1': 1
+              "2": 1
+              "3": 1
+              "4": 1
+              "5": 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+
+CivilizationEvolution:
+  enable: true
+  AG_SHICAIJIAGONGCHANG:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: "ra"
+            item:
+              "1": 4COBBLESTONE
+              "2": 4DIORITE
+              "3": 4STONE
+              "4": 4GRANITE
+              "5": 4SMOOTH_STONE
+              "6": 4ANDESITE
+            weight:
+              '1': 1
+              "2": 1
+              "3": 1
+              "4": 1
+              "5": 1
+              "6": 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  AG_XIAJIEFANGKUAIJIAGONGCHANG:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: "ra"
+            item:
+              "1": 4GLOWSTONE
+              "2": 4NETHERRACK
+              "3": 4MAGMA_BLOCK
+              "4": 4BLACKSTONE
+              "5": 4OBSIDIAN
+              "6": 4SHROOMLIGHT
+            weight:
+              '1': 1
+              "2": 1
+              "3": 1
+              "4": 1
+              "5": 1
+              "6": 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  AG_YUANMUJIAGONGCHANG:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: "ra"
+            item:
+              "1": 4OAK_LOG
+              "2": 4JUNGLE_LOG
+              "3": 4SPRUCE_LOG
+              "4": 4ACACIA_LOG
+              "5": 4BIRCH_LOG
+              "6": 4DARK_OAK_LOG
+            weight:
+              '1': 1
+              "2": 1
+              "3": 1
+              "4": 1
+              "5": 1
+              "6": 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  AG_BOLIJIAGONGCHANG:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: "ra"
+            item:
+              "1": 4GLASS
+              "2": 4WHITE_STAINED_GLASS
+              "3": 4LIGHT_GRAY_STAINED_GLASS
+              "4": 4GRAY_STAINED_GLASS
+              "5": 4BLACK_STAINED_GLASS
+              "6": 4BROWN_STAINED_GLASS
+              "7": 4RED_STAINED_GLASS
+              "8": 4ORANGE_STAINED_GLASS
+              "9": 4YELLOW_STAINED_GLASS
+              "10": 4LIME_STAINED_GLASS
+              "11": 4GREEN_STAINED_GLASS
+              "12": 4CYAN_STAINED_GLASS
+              "13": 4LIGHT_BLUE_STAINED_GLASS
+              "14": 4BLUE_STAINED_GLASS
+              "15": 4PURPLE_STAINED_GLASS
+              "16": 4MAGENTA_STAINED_GLASS
+              "17": 4PINK_STAINED_GLASS
+
+            weight:
+              "1": 1
+              "2": 1
+              "3": 1
+              "4": 1
+              "5": 1
+              "6": 1
+              "7": 1
+              "8": 1
+              "9": 1
+              "10": 1
+              "11": 1
+              "12": 1
+              "13": 1
+              "14": 1
+              "15": 1
+              "16": 1
+              "17": 1
+
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  AG_XIANJIAGONGCHANG:
+    recipe:
+      '0':
+        output:
+          '1': 4STRING
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  AG_YUTAJIAGONGCHANG:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: "ra"
+            item:
+              "1": 4SEA_LANTERN
+              "2": 4PRISMARINE_SHARD
+              "3": 4PRISMARINE_CRYSTALS
+            weight:
+              '1': 1
+              "2": 1
+              "3": 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  AG_KUANGFENJIAGONGCHANG:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: "ra"
+            item:
+              "1": 4GOLD_DUST
+              "2": 4COPPER_DUST
+              "3": 4IRON_DUST
+              "4": 4LEAD_DUST
+              "5": 4ALUMINUM_DUST
+              "6": 4TIN_DUST
+              "7": 4ZINC_DUST
+              "8": 4SILVER_DUST
+              "9": 4MAGNESIUM_DUST
+            weight:
+              "1": 1
+              "2": 1
+              "3": 1
+              "4": 1
+              "5": 1
+              "6": 1
+              "7": 1
+              "8": 1
+              "9": 1           
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  AG_DIHEZUANJING:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: "ra"
+            item:
+              "1": 4AG_HUISHIFEN
+              "2": 4AG_HUASHIFEN
+              "3": 4AG_YUSHIFEN
+            weight:
+              '1': 1
+              "2": 1
+              "3": 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  AG_KUANGSHIJIAGONGCHANG:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: "ra"
+            item:
+              "1": 2DIAMOND
+              "2": 2EMERALD
+              "3": 2NETHERITE_INGOT
+              "4": 2REDSTONE
+              "5": 2LAPIS_LAZULI
+              "6": 2COAL
+            weight:
+              "1": 1
+              "2": 1
+              "3": 1
+              "4": 1
+              "5": 1
+              "6": 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  AG_BAGUAJIAGONGCHANG:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: "ra"
+            item:
+              "1": 2AG_BAGUA_DUI
+              "2": 2AG_BAGUA_GEN
+              "3": 2AG_BAGUA_KAN
+              "4": 2AG_BAGUA_LI
+              "5": 2AG_BAGUA_KUN
+              "6": 2AG_BAGUA_QIAN
+              "7": 2AG_BAGUA_XUN
+              "8": 2AG_BAGUA_ZHEN
+
+            weight:
+              "1": 1
+              "2": 1
+              "3": 1
+              "4": 1
+              "5": 1
+              "6": 1
+              "7": 1
+              "8": 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  AG_KEJICAILIAOJIAGONGCHANG:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: "ra"
+            item:
+              "1": REINFORCED_ALLOY_INGOT
+              "2": HARDENED_METAL_INGOT
+              "3": DAMASCUS_STEEL_INGOT
+              "4": BRONZE_INGOT
+              "5": DURALUMIN_INGOT
+              "6": BILLON_INGOT
+              "7": BRASS_INGOT
+              "8": STEEL_INGOT
+              "9": ALUMINUM_BRASS_INGOT
+              "10": ALUMINUM_BRONZE_INGOT
+              "11": CORINTHIAN_BRONZE_INGOT
+              "12": SOLDER_INGOT
+              "13": SYNTHETIC_DIAMOND
+              "14": CARBONADO
+              "15": SYNTHETIC_SAPPHIRE
+              "16": NICKEL_INGOT
+              "17": COBALT_INGOT
+              "18": FERROSILICON
+              "19": GOLD_24K
+              "20": GILDED_IRON
+              "21": REDSTONE_ALLOY
+              "22": SYNTHETIC_EMERALD
+            weight:
+              "1": 1
+              "2": 1
+              "3": 1
+              "4": 1
+              "5": 1
+              "6": 1
+              "7": 1
+              "8": 1
+              "9": 1
+              "10": 1
+              "11": 1
+              "12": 1
+              "13": 1
+              "14": 1
+              "15": 1
+              "16": 1
+              "17": 1
+              "18": 1
+              "19": 1
+              "20": 1
+              "21": 1
+              "22": 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  AG_GAOJISHICAIJIAGONGCHANG:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: "ra"
+            item:
+              "1": 32COBBLESTONE
+              "2": 32DIORITE
+              "3": 32STONE
+              "4": 32GRANITE
+              "5": 32SMOOTH_STONE
+              "6": 32ANDESITE
+            weight:
+              "1": 1
+              "2": 1
+              "3": 1
+              "4": 1
+              "5": 1
+              "6": 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  AG_GAOJIKUANGFENJIAGONGCHANG:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: "ra"
+            item:
+              "1": 32GOLD_DUST
+              "2": 32COPPER_DUST
+              "3": 32IRON_DUST
+              "4": 32LEAD_DUST
+              "5": 32ALUMINUM_DUST
+              "6": 32TIN_DUST
+              "7": 32ZINC_DUST
+              "8": 32SILVER_DUST
+              "9": 32MAGNESIUM_DUST
+            weight:
+              "1": 1
+              "2": 1
+              "3": 1
+              "4": 1
+              "5": 1
+              "6": 1
+              "7": 1
+              "8": 1
+              "9": 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  AG_GAOJIKUANGSHIJIAGONGCHANG:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: "ra"
+            item:
+              "1": 16DIAMOND
+              "2": 16EMERALD
+              "3": 16NETHERITE_INGOT
+              "4": 16REDSTONE
+              "5": 16LAPIS_LAZULI
+              "6": 16COAL
+
+            weight:
+              "1": 1
+              "2": 1
+              "3": 1
+              "4": 1
+              "5": 1
+              "6": 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+  AG_GAOJIBAGUAJIAGONGCHANG:
+    recipe:
+      '0':
+        output:
+          '1': 
+            type: "ra"
+            item:
+              "1": 16AG_BAGUA_DUI
+              "2": 16AG_BAGUA_GEN
+              "3": 16AG_BAGUA_KAN
+              "4": 16AG_BAGUA_LI
+              "5": 16AG_BAGUA_KUN
+              "6": 16AG_BAGUA_QIAN
+              "7": 16AG_BAGUA_XUN
+              "8": 16AG_BAGUA_ZHEN
+
+            weight:
+              "1": 1
+              "2": 1
+              "3": 1
+              "4": 1
+              "5": 1
+              "6": 1
+              "7": 1
+              "8": 1
+        tick: 0
+    mode: w
+    type: generator
+    energy: 0
+InfinityExpansion:
+  INFINITE_VOID_HARVESTER:
+    recipe:
+      '0':
+        output:
+          '1': VOID_BIT
+        tick: 16
+    mode: w
+    type: machine
+    energy: 12000
+  VOID_HARVESTER:
+    recipe:
+      '0':
+        output:
+          '1': VOID_BIT
+        tick: 1024
+    mode: w
+    type: machine
+    energy: 120
+Supreme:
+  enable: true
+  SUPREME_VIRTUAL_GARDEN_I:
+    
+    recipe:
+      '0':
+        input:
+          '1': LILY_OF_THE_VALLEY
+        output:
+          '1': WHITE_DYE
+        tick: 28
+      '1':
+        input:
+          '1': ORANGE_TULIP
+        output:
+          '1': ORANGE_DYE
+        tick: 28
+      '2':
+        input:
+          '1': ALLIUM
+        output:
+          '1': MAGENTA_DYE
+        tick: 28
+      '3':
+        input:
+          '1': BLUE_ORCHID
+        output:
+          '1': LIGHT_BLUE_DYE
+        tick: 28
+      '4':
+        input:
+          '1': DANDELION
+        output:
+          '1': YELLOW_DYE
+        tick: 28
+      '5':
+        input:
+          '1': BAMBOO
+        output:
+          '1': LIME_DYE
+        tick: 28
+      '6':
+        input:
+          '1': PINK_TULIP
+        output:
+          '1': PINK_DYE
+        tick: 28
+      '7':
+        input:
+          '1': BROWN_MUSHROOM
+        output:
+          '1': GRAY_DYE
+        tick: 28
+      '8':
+        input:
+          '1': WHITE_TULIP
+        output:
+          '1': LIGHT_GRAY_DYE
+        tick: 28
+      '9':
+        input:
+          '1': TWISTING_VINES
+        output:
+          '1': CYAN_DYE
+        tick: 28
+      '10':
+        input:
+          '1': CHORUS_FRUIT
+        output:
+          '1': PURPLE_DYE
+        tick: 28
+      '11':
+        input:
+          '1': CORNFLOWER
+        output:
+          '1': BLUE_DYE
+        tick: 28
+      '12':
+        input:
+          '1': COCOA_BEANS
+        output:
+          '1': BROWN_DYE
+        tick: 28
+      '13':
+        input:
+          '1': CACTUS
+        output:
+          '1': GREEN_DYE
+        tick: 28
+      '14':
+        input:
+          '1': POPPY
+        output:
+          '1': RED_DYE
+        tick: 28
+      '15':
+        input:
+          '1': INK_SAC
+        output:
+          '1': BLACK_DYE
+        tick: 28
+      '16':
+        input:
+          '1': POTATO
+        output:
+          '1': POTATO
+        tick: 28
+      '17':
+        input:
+          '1': CARROT
+        output:
+          '1': CARROT
+        tick: 28
+      '18':
+        input:
+          '1': BEETROOT_SEEDS
+        output:
+          '1': BEETROOT
+        tick: 28
+      '19':
+        input:
+          '1': WHEAT_SEEDS
+        output:
+          '1': WHEAT
+        tick: 28
+      '20':
+        input:
+          '1': SUGAR_CANE
+        output:
+          '1': SUGAR_CANE
+        tick: 28
+      '21':
+        input:
+          '1': SWEET_BERRIES
+        output:
+          '1': SWEET_BERRIES
+        tick: 28
+      '22':
+        input:
+          '1': MELON_SEEDS
+        output:
+          '1': MELON
+        tick: 28
+      '23':
+        input:
+          '1': PUMPKIN_SEEDS
+        output:
+          '1': PUMPKIN
+        tick: 28
+      '24':
+        input:
+          '1': PUMPKIN
+        output:
+          '1': CARVED_PUMPKIN
+        tick: 28
+      '25':
+        input:
+          '1': APPLE
+        output:
+          '1': APPLE
+        tick: 28
+      '26':
+        input:
+          '1': DARK_OAK_SAPLING
+        output:
+          '1': DARK_OAK_LOG
+        tick: 28
+      '27':
+        input:
+          '1': JUNGLE_SAPLING
+        output:
+          '1': JUNGLE_LOG
+        tick: 28
+      '28':
+        input:
+          '1': BIRCH_SAPLING
+        output:
+          '1': BIRCH_LOG
+        tick: 28
+      '29':
+        input:
+          '1': SPRUCE_SAPLING
+        output:
+          '1': SPRUCE_LOG
+        tick: 28
+      '30':
+        input:
+          '1': ACACIA_SAPLING
+        output:
+          '1': ACACIA_LOG
+        tick: 28
+      '31':
+        input:
+          '1': OAK_SAPLING
+        output:
+          '1': OAK_LOG
+        tick: 28
+      '32':
+        input:
+          '1': CRIMSON_FUNGUS
+        output:
+          '1': CRIMSON_STEM
+        tick: 28
+      '33':
+        input:
+          '1': WARPED_FUNGUS
+        output:
+          '1': WARPED_STEM
+        tick: 28
+      '34':
+        input:
+          '1': WITHER_ROSE
+        output:
+          '1': WITHER_ROSE
+        tick: 28
+      '35':
+        input:
+          '1': NETHER_WART
+        output:
+          '1': NETHER_WART
+        tick: 28
+      '36':
+        input:
+          '1': SNOW_BLOCK
+        output:
+          '1': SNOWBALL
+        tick: 28
+      '37':
+        input:
+          '1': HONEY_BLOCK
+        output:
+          '1': HONEY_BOTTLE
+        tick: 28
+      '38':
+        input:
+          '1': CLAY
+        output:
+          '1': CLAY_BALL
+        tick: 28
+      '39':
+        input:
+          '1': END_CRYSTAL
+        output:
+          '1': END_STONE
+        tick: 28
+      '40':
+        input:
+          '1': POLISHED_GRANITE
+        output:
+          '1': GRANITE
+        tick: 28
+      '41':
+        input:
+          '1': POLISHED_DIORITE
+        output:
+          '1': DIORITE
+        tick: 28
+      '42':
+        input:
+          '1': POLISHED_ANDESITE
+        output:
+          '1': ANDESITE
+        tick: 28
+    mode: w
+    type: generator
+    energy: 20
+  SUPREME_VIRTUAL_GARDEN_II:
+    
+    recipe:
+      '0':
+        input:
+          '1': LILY_OF_THE_VALLEY
+        output:
+          '1': WHITE_DYE
+        tick: 7
+      '1':
+        input:
+          '1': ORANGE_TULIP
+        output:
+          '1': ORANGE_DYE
+        tick: 7
+      '2':
+        input:
+          '1': ALLIUM
+        output:
+          '1': MAGENTA_DYE
+        tick: 7
+      '3':
+        input:
+          '1': BLUE_ORCHID
+        output:
+          '1': LIGHT_BLUE_DYE
+        tick: 7
+      '4':
+        input:
+          '1': DANDELION
+        output:
+          '1': YELLOW_DYE
+        tick: 7
+      '5':
+        input:
+          '1': BAMBOO
+        output:
+          '1': LIME_DYE
+        tick: 7
+      '6':
+        input:
+          '1': PINK_TULIP
+        output:
+          '1': PINK_DYE
+        tick: 7
+      '7':
+        input:
+          '1': BROWN_MUSHROOM
+        output:
+          '1': GRAY_DYE
+        tick: 7
+      '8':
+        input:
+          '1': WHITE_TULIP
+        output:
+          '1': LIGHT_GRAY_DYE
+        tick: 7
+      '9':
+        input:
+          '1': TWISTING_VINES
+        output:
+          '1': CYAN_DYE
+        tick: 7
+      '10':
+        input:
+          '1': CHORUS_FRUIT
+        output:
+          '1': PURPLE_DYE
+        tick: 7
+      '11':
+        input:
+          '1': CORNFLOWER
+        output:
+          '1': BLUE_DYE
+        tick: 7
+      '12':
+        input:
+          '1': COCOA_BEANS
+        output:
+          '1': BROWN_DYE
+        tick: 7
+      '13':
+        input:
+          '1': CACTUS
+        output:
+          '1': GREEN_DYE
+        tick: 7
+      '14':
+        input:
+          '1': POPPY
+        output:
+          '1': RED_DYE
+        tick: 7
+      '15':
+        input:
+          '1': INK_SAC
+        output:
+          '1': BLACK_DYE
+        tick: 7
+      '16':
+        input:
+          '1': POTATO
+        output:
+          '1': POTATO
+        tick: 7
+      '17':
+        input:
+          '1': CARROT
+        output:
+          '1': CARROT
+        tick: 7
+      '18':
+        input:
+          '1': BEETROOT_SEEDS
+        output:
+          '1': BEETROOT
+        tick: 7
+      '19':
+        input:
+          '1': WHEAT_SEEDS
+        output:
+          '1': WHEAT
+        tick: 7
+      '20':
+        input:
+          '1': SUGAR_CANE
+        output:
+          '1': SUGAR_CANE
+        tick: 7
+      '21':
+        input:
+          '1': SWEET_BERRIES
+        output:
+          '1': SWEET_BERRIES
+        tick: 7
+      '22':
+        input:
+          '1': MELON_SEEDS
+        output:
+          '1': MELON
+        tick: 7
+      '23':
+        input:
+          '1': PUMPKIN_SEEDS
+        output:
+          '1': PUMPKIN
+        tick: 7
+      '24':
+        input:
+          '1': PUMPKIN
+        output:
+          '1': CARVED_PUMPKIN
+        tick: 7
+      '25':
+        input:
+          '1': APPLE
+        output:
+          '1': APPLE
+        tick: 7
+      '26':
+        input:
+          '1': DARK_OAK_SAPLING
+        output:
+          '1': DARK_OAK_LOG
+        tick: 7
+      '27':
+        input:
+          '1': JUNGLE_SAPLING
+        output:
+          '1': JUNGLE_LOG
+        tick: 7
+      '28':
+        input:
+          '1': BIRCH_SAPLING
+        output:
+          '1': BIRCH_LOG
+        tick: 7
+      '29':
+        input:
+          '1': SPRUCE_SAPLING
+        output:
+          '1': SPRUCE_LOG
+        tick: 7
+      '30':
+        input:
+          '1': ACACIA_SAPLING
+        output:
+          '1': ACACIA_LOG
+        tick: 7
+      '31':
+        input:
+          '1': OAK_SAPLING
+        output:
+          '1': OAK_LOG
+        tick: 7
+      '32':
+        input:
+          '1': CRIMSON_FUNGUS
+        output:
+          '1': CRIMSON_STEM
+        tick: 7
+      '33':
+        input:
+          '1': WARPED_FUNGUS
+        output:
+          '1': WARPED_STEM
+        tick: 7
+      '34':
+        input:
+          '1': WITHER_ROSE
+        output:
+          '1': WITHER_ROSE
+        tick: 7
+      '35':
+        input:
+          '1': NETHER_WART
+        output:
+          '1': NETHER_WART
+        tick: 7
+      '36':
+        input:
+          '1': SNOW_BLOCK
+        output:
+          '1': SNOWBALL
+        tick: 7
+      '37':
+        input:
+          '1': HONEY_BLOCK
+        output:
+          '1': HONEY_BOTTLE
+        tick: 7
+      '38':
+        input:
+          '1': CLAY
+        output:
+          '1': CLAY_BALL
+        tick: 7
+      '39':
+        input:
+          '1': END_CRYSTAL
+        output:
+          '1': END_STONE
+        tick: 7
+      '40':
+        input:
+          '1': POLISHED_GRANITE
+        output:
+          '1': GRANITE
+        tick: 7
+      '41':
+        input:
+          '1': POLISHED_DIORITE
+        output:
+          '1': DIORITE
+        tick: 7
+      '42':
+        input:
+          '1': POLISHED_ANDESITE
+        output:
+          '1': ANDESITE
+        tick: 7
+    mode: w
+    type: generator
+    energy: 100
+  SUPREME_VIRTUAL_GARDEN_III:
+    
+    recipe:
+      '0':
+        input:
+          '1': LILY_OF_THE_VALLEY
+        output:
+          '1': WHITE_DYE
+        tick: 2
+      '1':
+        input:
+          '1': ORANGE_TULIP
+        output:
+          '1': ORANGE_DYE
+        tick: 2
+      '2':
+        input:
+          '1': ALLIUM
+        output:
+          '1': MAGENTA_DYE
+        tick: 2
+      '3':
+        input:
+          '1': BLUE_ORCHID
+        output:
+          '1': LIGHT_BLUE_DYE
+        tick: 2
+      '4':
+        input:
+          '1': DANDELION
+        output:
+          '1': YELLOW_DYE
+        tick: 2
+      '5':
+        input:
+          '1': BAMBOO
+        output:
+          '1': LIME_DYE
+        tick: 2
+      '6':
+        input:
+          '1': PINK_TULIP
+        output:
+          '1': PINK_DYE
+        tick: 2
+      '7':
+        input:
+          '1': BROWN_MUSHROOM
+        output:
+          '1': GRAY_DYE
+        tick: 2
+      '8':
+        input:
+          '1': WHITE_TULIP
+        output:
+          '1': LIGHT_GRAY_DYE
+        tick: 2
+      '9':
+        input:
+          '1': TWISTING_VINES
+        output:
+          '1': CYAN_DYE
+        tick: 2
+      '10':
+        input:
+          '1': CHORUS_FRUIT
+        output:
+          '1': PURPLE_DYE
+        tick: 2
+      '11':
+        input:
+          '1': CORNFLOWER
+        output:
+          '1': BLUE_DYE
+        tick: 2
+      '12':
+        input:
+          '1': COCOA_BEANS
+        output:
+          '1': BROWN_DYE
+        tick: 2
+      '13':
+        input:
+          '1': CACTUS
+        output:
+          '1': GREEN_DYE
+        tick: 2
+      '14':
+        input:
+          '1': POPPY
+        output:
+          '1': RED_DYE
+        tick: 2
+      '15':
+        input:
+          '1': INK_SAC
+        output:
+          '1': BLACK_DYE
+        tick: 2
+      '16':
+        input:
+          '1': POTATO
+        output:
+          '1': POTATO
+        tick: 2
+      '17':
+        input:
+          '1': CARROT
+        output:
+          '1': CARROT
+        tick: 2
+      '18':
+        input:
+          '1': BEETROOT_SEEDS
+        output:
+          '1': BEETROOT
+        tick: 2
+      '19':
+        input:
+          '1': WHEAT_SEEDS
+        output:
+          '1': WHEAT
+        tick: 2
+      '20':
+        input:
+          '1': SUGAR_CANE
+        output:
+          '1': SUGAR_CANE
+        tick: 2
+      '21':
+        input:
+          '1': SWEET_BERRIES
+        output:
+          '1': SWEET_BERRIES
+        tick: 2
+      '22':
+        input:
+          '1': MELON_SEEDS
+        output:
+          '1': MELON
+        tick: 2
+      '23':
+        input:
+          '1': PUMPKIN_SEEDS
+        output:
+          '1': PUMPKIN
+        tick: 2
+      '24':
+        input:
+          '1': PUMPKIN
+        output:
+          '1': CARVED_PUMPKIN
+        tick: 2
+      '25':
+        input:
+          '1': APPLE
+        output:
+          '1': APPLE
+        tick: 2
+      '26':
+        input:
+          '1': DARK_OAK_SAPLING
+        output:
+          '1': DARK_OAK_LOG
+        tick: 2
+      '27':
+        input:
+          '1': JUNGLE_SAPLING
+        output:
+          '1': JUNGLE_LOG
+        tick: 2
+      '28':
+        input:
+          '1': BIRCH_SAPLING
+        output:
+          '1': BIRCH_LOG
+        tick: 2
+      '29':
+        input:
+          '1': SPRUCE_SAPLING
+        output:
+          '1': SPRUCE_LOG
+        tick: 2
+      '30':
+        input:
+          '1': ACACIA_SAPLING
+        output:
+          '1': ACACIA_LOG
+        tick: 2
+      '31':
+        input:
+          '1': OAK_SAPLING
+        output:
+          '1': OAK_LOG
+        tick: 2
+      '32':
+        input:
+          '1': CRIMSON_FUNGUS
+        output:
+          '1': CRIMSON_STEM
+        tick: 2
+      '33':
+        input:
+          '1': WARPED_FUNGUS
+        output:
+          '1': WARPED_STEM
+        tick: 2
+      '34':
+        input:
+          '1': WITHER_ROSE
+        output:
+          '1': WITHER_ROSE
+        tick: 2
+      '35':
+        input:
+          '1': NETHER_WART
+        output:
+          '1': NETHER_WART
+        tick: 2
+      '36':
+        input:
+          '1': SNOW_BLOCK
+        output:
+          '1': SNOWBALL
+        tick: 2
+      '37':
+        input:
+          '1': HONEY_BLOCK
+        output:
+          '1': HONEY_BOTTLE
+        tick: 2
+      '38':
+        input:
+          '1': CLAY
+        output:
+          '1': CLAY_BALL
+        tick: 2
+      '39':
+        input:
+          '1': END_CRYSTAL
+        output:
+          '1': END_STONE
+        tick: 2
+      '40':
+        input:
+          '1': POLISHED_GRANITE
+        output:
+          '1': GRANITE
+        tick: 2
+      '41':
+        input:
+          '1': POLISHED_DIORITE
+        output:
+          '1': DIORITE
+        tick: 2
+      '42':
+        input:
+          '1': POLISHED_ANDESITE
+        output:
+          '1': ANDESITE
+        tick: 2
+    mode: w
+    type: generator
+    energy: 300
+  SUPREME_FORGE_INGOT_I:
+    
+    recipe:
+      '0':
+        input:
+          '1': 32LEAD_DUST
+        output:
+          '1': 32LEAD_INGOT
+        tick: 28
+      '1':
+        input:
+          '1': 32ALUMINUM_DUST
+        output:
+          '1': 32ALUMINUM_INGOT
+        tick: 28
+      '2':
+        input:
+          '1': 32SILVER_DUST
+        output:
+          '1': 32SILVER_INGOT
+        tick: 28
+      '3':
+        input:
+          '1': 32COPPER_DUST
+        output:
+          '1': 32COPPER_INGOT
+        tick: 28
+      '4':
+        input:
+          '1': 32MAGNESIUM_DUST
+        output:
+          '1': 32MAGNESIUM_INGOT
+        tick: 28
+      '5':
+        input:
+          '1': 32IRON_DUST
+        output:
+          '1': 32IRON_INGOT
+        tick: 28
+      '6':
+        input:
+          '1': 32TIN_DUST
+        output:
+          '1': 32TIN_INGOT
+        tick: 28
+      '7':
+        input:
+          '1': 32ZINC_DUST
+        output:
+          '1': 32ZINC_INGOT
+        tick: 28
+      '8':
+        input:
+          '1': 32GOLD_DUST
+        output:
+          '1': 32GOLD_4K
+        tick: 28
+      '9':
+        input:
+          '1': 32GOLD_4K
+        output:
+          '1': 32GOLD_6K
+        tick: 28
+      '10':
+        input:
+          '1': 32GOLD_6K
+        output:
+          '1': 32GOLD_8K
+        tick: 28
+      '11':
+        input:
+          '1': 32GOLD_8K
+        output:
+          '1': 30GOLD_10K
+        tick: 28
+      '12':
+        input:
+          '1': 32GOLD_10K
+        output:
+          '1': 28GOLD_12K
+        tick: 28
+      '13':
+        input:
+          '1': 32GOLD_12K
+        output:
+          '1': 26GOLD_14K
+        tick: 28
+      '14':
+        input:
+          '1': 32GOLD_14K
+        output:
+          '1': 24GOLD_16K
+        tick: 28
+      '15':
+        input:
+          '1': 32GOLD_16K
+        output:
+          '1': 22GOLD_18K
+        tick: 28
+      '16':
+        input:
+          '1': 32GOLD_18K
+        output:
+          '1': 20GOLD_20K
+        tick: 28
+      '17':
+        input:
+          '1': 32GOLD_20K
+        output:
+          '1': 18GOLD_22K
+        tick: 28
+      '18':
+        input:
+          '1': 32GOLD_22K
+        output:
+          '1': 16GOLD_24K
+        tick: 28
+      '19':
+        input:
+          '1': 32NICKEL_INGOT
+        output:
+          '1': 16COBALT_INGOT
+        tick: 28
+      '20':
+        input:
+          '1': 32STEEL_INGOT
+        output:
+          '1': 16DAMASCUS_STEEL_INGOT
+        tick: 28
+      '21':
+        input:
+          '1': 32QUARTZ_BLOCK
+        output:
+          '1': 32SILICON
+        tick: 28
+      '22':
+        input:
+          '1': 32SILICON
+        output:
+          '1': 16FERROSILICON
+        tick: 28
+      '23':
+        input:
+          '1': 64NETHERRACK
+        output:
+          '1': 8SULFATE
+        tick: 28
+    mode: w
+    type: machine
+    energy: 20
+  SUPREME_FORGE_INGOT_II:
+    
+    recipe:
+      '0':
+        input:
+          '1': 32LEAD_DUST
+        output:
+          '1': 32LEAD_INGOT
+        tick: 7
+      '1':
+        input:
+          '1': 32ALUMINUM_DUST
+        output:
+          '1': 32ALUMINUM_INGOT
+        tick: 7
+      '2':
+        input:
+          '1': 32SILVER_DUST
+        output:
+          '1': 32SILVER_INGOT
+        tick: 7
+      '3':
+        input:
+          '1': 32COPPER_DUST
+        output:
+          '1': 32COPPER_INGOT
+        tick: 7
+      '4':
+        input:
+          '1': 32MAGNESIUM_DUST
+        output:
+          '1': 32MAGNESIUM_INGOT
+        tick: 7
+      '5':
+        input:
+          '1': 32IRON_DUST
+        output:
+          '1': 32IRON_INGOT
+        tick: 7
+      '6':
+        input:
+          '1': 32TIN_DUST
+        output:
+          '1': 32TIN_INGOT
+        tick: 7
+      '7':
+        input:
+          '1': 32ZINC_DUST
+        output:
+          '1': 32ZINC_INGOT
+        tick: 7
+      '8':
+        input:
+          '1': 32GOLD_DUST
+        output:
+          '1': 32GOLD_4K
+        tick: 7
+      '9':
+        input:
+          '1': 32GOLD_4K
+        output:
+          '1': 32GOLD_6K
+        tick: 7
+      '10':
+        input:
+          '1': 32GOLD_6K
+        output:
+          '1': 32GOLD_8K
+        tick: 7
+      '11':
+        input:
+          '1': 32GOLD_8K
+        output:
+          '1': 30GOLD_10K
+        tick: 7
+      '12':
+        input:
+          '1': 32GOLD_10K
+        output:
+          '1': 28GOLD_12K
+        tick: 7
+      '13':
+        input:
+          '1': 32GOLD_12K
+        output:
+          '1': 26GOLD_14K
+        tick: 7
+      '14':
+        input:
+          '1': 32GOLD_14K
+        output:
+          '1': 24GOLD_16K
+        tick: 7
+      '15':
+        input:
+          '1': 32GOLD_16K
+        output:
+          '1': 22GOLD_18K
+        tick: 7
+      '16':
+        input:
+          '1': 32GOLD_18K
+        output:
+          '1': 20GOLD_20K
+        tick: 7
+      '17':
+        input:
+          '1': 32GOLD_20K
+        output:
+          '1': 18GOLD_22K
+        tick: 7
+      '18':
+        input:
+          '1': 32GOLD_22K
+        output:
+          '1': 16GOLD_24K
+        tick: 7
+      '19':
+        input:
+          '1': 32NICKEL_INGOT
+        output:
+          '1': 16COBALT_INGOT
+        tick: 7
+      '20':
+        input:
+          '1': 32STEEL_INGOT
+        output:
+          '1': 16DAMASCUS_STEEL_INGOT
+        tick: 7
+      '21':
+        input:
+          '1': 32QUARTZ_BLOCK
+        output:
+          '1': 32SILICON
+        tick: 7
+      '22':
+        input:
+          '1': 32SILICON
+        output:
+          '1': 16FERROSILICON
+        tick: 7
+      '23':
+        input:
+          '1': 64NETHERRACK
+        output:
+          '1': 8SULFATE
+        tick: 7
+    mode: w
+    type: machine
+    energy: 100
+  SUPREME_FORGE_INGOT_III:
+    
+    recipe:
+      '0':
+        input:
+          '1': 32LEAD_DUST
+        output:
+          '1': 32LEAD_INGOT
+        tick: 2
+      '1':
+        input:
+          '1': 32ALUMINUM_DUST
+        output:
+          '1': 32ALUMINUM_INGOT
+        tick: 2
+      '2':
+        input:
+          '1': 32SILVER_DUST
+        output:
+          '1': 32SILVER_INGOT
+        tick: 2
+      '3':
+        input:
+          '1': 32COPPER_DUST
+        output:
+          '1': 32COPPER_INGOT
+        tick: 2
+      '4':
+        input:
+          '1': 32MAGNESIUM_DUST
+        output:
+          '1': 32MAGNESIUM_INGOT
+        tick: 2
+      '5':
+        input:
+          '1': 32IRON_DUST
+        output:
+          '1': 32IRON_INGOT
+        tick: 2
+      '6':
+        input:
+          '1': 32TIN_DUST
+        output:
+          '1': 32TIN_INGOT
+        tick: 2
+      '7':
+        input:
+          '1': 32ZINC_DUST
+        output:
+          '1': 32ZINC_INGOT
+        tick: 2
+      '8':
+        input:
+          '1': 32GOLD_DUST
+        output:
+          '1': 32GOLD_4K
+        tick: 2
+      '9':
+        input:
+          '1': 32GOLD_4K
+        output:
+          '1': 32GOLD_6K
+        tick: 2
+      '10':
+        input:
+          '1': 32GOLD_6K
+        output:
+          '1': 32GOLD_8K
+        tick: 2
+      '11':
+        input:
+          '1': 32GOLD_8K
+        output:
+          '1': 30GOLD_10K
+        tick: 2
+      '12':
+        input:
+          '1': 32GOLD_10K
+        output:
+          '1': 28GOLD_12K
+        tick: 2
+      '13':
+        input:
+          '1': 32GOLD_12K
+        output:
+          '1': 26GOLD_14K
+        tick: 2
+      '14':
+        input:
+          '1': 32GOLD_14K
+        output:
+          '1': 24GOLD_16K
+        tick: 2
+      '15':
+        input:
+          '1': 32GOLD_16K
+        output:
+          '1': 22GOLD_18K
+        tick: 2
+      '16':
+        input:
+          '1': 32GOLD_18K
+        output:
+          '1': 20GOLD_20K
+        tick: 2
+      '17':
+        input:
+          '1': 32GOLD_20K
+        output:
+          '1': 18GOLD_22K
+        tick: 2
+      '18':
+        input:
+          '1': 32GOLD_22K
+        output:
+          '1': 16GOLD_24K
+        tick: 2
+      '19':
+        input:
+          '1': 32NICKEL_INGOT
+        output:
+          '1': 16COBALT_INGOT
+        tick: 2
+      '20':
+        input:
+          '1': 32STEEL_INGOT
+        output:
+          '1': 16DAMASCUS_STEEL_INGOT
+        tick: 2
+      '21':
+        input:
+          '1': 32QUARTZ_BLOCK
+        output:
+          '1': 32SILICON
+        tick: 2
+      '22':
+        input:
+          '1': 32SILICON
+        output:
+          '1': 16FERROSILICON
+        tick: 2
+      '23':
+        input:
+          '1': 64NETHERRACK
+        output:
+          '1': 8SULFATE
+        tick: 2
+    mode: w
+    type: machine
+    energy: 300
+  SUPREME_FORGE_MAGICAL_I:
+    
+    recipe:
+      '0':
+        input:
+          '1': 32COBBLESTONE
+        output:
+          '1': 32GRAVEL
+        tick: 28
+      '1':
+        input:
+          '1': 32GRAVEL
+        output:
+          '1': 16SAND
+        tick: 28
+      '2':
+        input:
+          '1': 32SAND
+        output:
+          '1': 16SOUL_SAND
+        tick: 28
+      '3':
+        input:
+          '1': 32SOUL_SAND
+        output:
+          '1': 32QUARTZ
+        tick: 28
+      '4':
+        input:
+          '1': 32STONE
+        output:
+          '1': 32NETHERRACK
+        tick: 28
+      '5':
+        input:
+          '1': 32WHEAT
+        output:
+          '1': 16NETHER_WART
+        tick: 28
+      '6':
+        input:
+          '1': 32NETHER_WART
+        output:
+          '1': 32MAGIC_LUMP_1
+        tick: 28
+      '7':
+        input:
+          '1': 32MAGIC_LUMP_1
+        output:
+          '1': 8MAGIC_LUMP_2
+        tick: 28
+      '8':
+        input:
+          '1': 32MAGIC_LUMP_2
+        output:
+          '1': 8MAGIC_LUMP_3
+        tick: 28
+      '9':
+        input:
+          '1': 16ENDER_PEARL
+        output:
+          '1': 8ENDER_EYE
+        tick: 28
+      '10':
+        input:
+          '1': 32ENDER_EYE
+        output:
+          '1': 32ENDER_LUMP_1
+        tick: 28
+      '11':
+        input:
+          '1': 32ENDER_LUMP_1
+        output:
+          '1': 8ENDER_LUMP_2
+        tick: 28
+      '12':
+        input:
+          '1': 32ENDER_LUMP_2
+        output:
+          '1': 8ENDER_LUMP_3
+        tick: 28
+      '13':
+        input:
+          '1': 32LAPIS_LAZULI
+        output:
+          '1': 8SYNTHETIC_SAPPHIRE
+        tick: 28
+      '14':
+        input:
+          '1': 32SYNTHETIC_SAPPHIRE
+        output:
+          '1': 16SYNTHETIC_EMERALD
+        tick: 28
+      '15':
+        input:
+          '1': 32COAL
+        output:
+          '1': 8CARBON
+        tick: 28
+      '16':
+        input:
+          '1': 32CARBON
+        output:
+          '1': 8COMPRESSED_CARBON
+        tick: 28
+      '17':
+        input:
+          '1': 32COMPRESSED_CARBON
+        output:
+          '1': 4CARBON_CHUNK
+        tick: 28
+      '18':
+        input:
+          '1': 16CARBON_CHUNK
+        output:
+          '1': 16SYNTHETIC_DIAMOND
+        tick: 28
+      '19':
+        input:
+          '1': 16SYNTHETIC_DIAMOND
+        output:
+          '1': 8CARBONADO
+        tick: 28
+      '20':
+        input:
+          '1': 32FERROSILICON
+        output:
+          '1': 16SOLAR_PANEL
+        tick: 28
+      '21':
+        input:
+          '1': 32COBALT_INGOT
+        output:
+          '1': 16MAGNET
+        tick: 28
+      '22':
+        input:
+          '1': 32MAGNET
+        output:
+          '1': 16ELECTRO_MAGNET
+        tick: 28
+      '23':
+        input:
+          '1': 32ELECTRO_MAGNET
+        output:
+          '1': 16ELECTRIC_MOTOR
+        tick: 28
+      '24':
+        input:
+          '1': 32ELECTRIC_MOTOR
+        output:
+          '1': 16HEATING_COIL
+        tick: 28
+      '25':
+        input:
+          '1': 32CRUSHED_ORE
+        output:
+          '1': 8TINY_URANIUM
+        tick: 28
+      '26':
+        input:
+          '1': 32TINY_URANIUM
+        output:
+          '1': 8SMALL_URANIUM
+        tick: 28
+      '27':
+        input:
+          '1': 32SMALL_URANIUM
+        output:
+          '1': 8URANIUM
+        tick: 28
+      '28':
+        input:
+          '1': 32URANIUM
+        output:
+          '1': 16BLISTERING_INGOT
+        tick: 28
+      '29':
+        input:
+          '1': 32BLISTERING_INGOT
+        output:
+          '1': 16BLISTERING_INGOT_2
+        tick: 28
+      '30':
+        input:
+          '1': 32BLISTERING_INGOT_2
+        output:
+          '1': 16BLISTERING_INGOT_3
+        tick: 28
+      '31':
+        input:
+          '1': 32STEEL_INGOT
+        output:
+          '1': 4STEEL_PLATE
+        tick: 28
+      '32':
+        input:
+          '1': 32REINFORCED_ALLOY_INGOT
+        output:
+          '1': 4REINFORCED_PLATE
+        tick: 28
+    mode: w
+    type: machine
+    energy: 20
+  SUPREME_FORGE_MAGICAL_II:
+    
+    recipe:
+      '0':
+        input:
+          '1': 32COBBLESTONE
+        output:
+          '1': 32GRAVEL
+        tick: 7
+      '1':
+        input:
+          '1': 32GRAVEL
+        output:
+          '1': 16SAND
+        tick: 7
+      '2':
+        input:
+          '1': 32SAND
+        output:
+          '1': 16SOUL_SAND
+        tick: 7
+      '3':
+        input:
+          '1': 32SOUL_SAND
+        output:
+          '1': 32QUARTZ
+        tick: 7
+      '4':
+        input:
+          '1': 32STONE
+        output:
+          '1': 32NETHERRACK
+        tick: 7
+      '5':
+        input:
+          '1': 32WHEAT
+        output:
+          '1': 16NETHER_WART
+        tick: 7
+      '6':
+        input:
+          '1': 32NETHER_WART
+        output:
+          '1': 32MAGIC_LUMP_1
+        tick: 7
+      '7':
+        input:
+          '1': 32MAGIC_LUMP_1
+        output:
+          '1': 8MAGIC_LUMP_2
+        tick: 7
+      '8':
+        input:
+          '1': 32MAGIC_LUMP_2
+        output:
+          '1': 8MAGIC_LUMP_3
+        tick: 7
+      '9':
+        input:
+          '1': 16ENDER_PEARL
+        output:
+          '1': 8ENDER_EYE
+        tick: 7
+      '10':
+        input:
+          '1': 32ENDER_EYE
+        output:
+          '1': 32ENDER_LUMP_1
+        tick: 7
+      '11':
+        input:
+          '1': 32ENDER_LUMP_1
+        output:
+          '1': 8ENDER_LUMP_2
+        tick: 7
+      '12':
+        input:
+          '1': 32ENDER_LUMP_2
+        output:
+          '1': 8ENDER_LUMP_3
+        tick: 7
+      '13':
+        input:
+          '1': 32LAPIS_LAZULI
+        output:
+          '1': 8SYNTHETIC_SAPPHIRE
+        tick: 7
+      '14':
+        input:
+          '1': 32SYNTHETIC_SAPPHIRE
+        output:
+          '1': 16SYNTHETIC_EMERALD
+        tick: 7
+      '15':
+        input:
+          '1': 32COAL
+        output:
+          '1': 8CARBON
+        tick: 7
+      '16':
+        input:
+          '1': 32CARBON
+        output:
+          '1': 8COMPRESSED_CARBON
+        tick: 7
+      '17':
+        input:
+          '1': 32COMPRESSED_CARBON
+        output:
+          '1': 4CARBON_CHUNK
+        tick: 7
+      '18':
+        input:
+          '1': 16CARBON_CHUNK
+        output:
+          '1': 16SYNTHETIC_DIAMOND
+        tick: 7
+      '19':
+        input:
+          '1': 16SYNTHETIC_DIAMOND
+        output:
+          '1': 8CARBONADO
+        tick: 7
+      '20':
+        input:
+          '1': 32FERROSILICON
+        output:
+          '1': 16SOLAR_PANEL
+        tick: 7
+      '21':
+        input:
+          '1': 32COBALT_INGOT
+        output:
+          '1': 16MAGNET
+        tick: 7
+      '22':
+        input:
+          '1': 32MAGNET
+        output:
+          '1': 16ELECTRO_MAGNET
+        tick: 7
+      '23':
+        input:
+          '1': 32ELECTRO_MAGNET
+        output:
+          '1': 16ELECTRIC_MOTOR
+        tick: 7
+      '24':
+        input:
+          '1': 32ELECTRIC_MOTOR
+        output:
+          '1': 16HEATING_COIL
+        tick: 7
+      '25':
+        input:
+          '1': 32CRUSHED_ORE
+        output:
+          '1': 8TINY_URANIUM
+        tick: 7
+      '26':
+        input:
+          '1': 32TINY_URANIUM
+        output:
+          '1': 8SMALL_URANIUM
+        tick: 7
+      '27':
+        input:
+          '1': 32SMALL_URANIUM
+        output:
+          '1': 8URANIUM
+        tick: 7
+      '28':
+        input:
+          '1': 32URANIUM
+        output:
+          '1': 16BLISTERING_INGOT
+        tick: 7
+      '29':
+        input:
+          '1': 32BLISTERING_INGOT
+        output:
+          '1': 16BLISTERING_INGOT_2
+        tick: 7
+      '30':
+        input:
+          '1': 32BLISTERING_INGOT_2
+        output:
+          '1': 16BLISTERING_INGOT_3
+        tick: 7
+      '31':
+        input:
+          '1': 32STEEL_INGOT
+        output:
+          '1': 4STEEL_PLATE
+        tick: 7
+      '32':
+        input:
+          '1': 32REINFORCED_ALLOY_INGOT
+        output:
+          '1': 4REINFORCED_PLATE
+        tick: 7
+    mode: w
+    type: machine
+    energy: 100
+  SUPREME_FORGE_MAGICAL_III:
+    
+    recipe:
+      '0':
+        input:
+          '1': 32COBBLESTONE
+        output:
+          '1': 32GRAVEL
+        tick: 2
+      '1':
+        input:
+          '1': 32GRAVEL
+        output:
+          '1': 16SAND
+        tick: 2
+      '2':
+        input:
+          '1': 32SAND
+        output:
+          '1': 16SOUL_SAND
+        tick: 2
+      '3':
+        input:
+          '1': 32SOUL_SAND
+        output:
+          '1': 32QUARTZ
+        tick: 2
+      '4':
+        input:
+          '1': 32STONE
+        output:
+          '1': 32NETHERRACK
+        tick: 2
+      '5':
+        input:
+          '1': 32WHEAT
+        output:
+          '1': 16NETHER_WART
+        tick: 2
+      '6':
+        input:
+          '1': 32NETHER_WART
+        output:
+          '1': 32MAGIC_LUMP_1
+        tick: 2
+      '7':
+        input:
+          '1': 32MAGIC_LUMP_1
+        output:
+          '1': 8MAGIC_LUMP_2
+        tick: 2
+      '8':
+        input:
+          '1': 32MAGIC_LUMP_2
+        output:
+          '1': 8MAGIC_LUMP_3
+        tick: 2
+      '9':
+        input:
+          '1': 16ENDER_PEARL
+        output:
+          '1': 8ENDER_EYE
+        tick: 2
+      '10':
+        input:
+          '1': 32ENDER_EYE
+        output:
+          '1': 32ENDER_LUMP_1
+        tick: 2
+      '11':
+        input:
+          '1': 32ENDER_LUMP_1
+        output:
+          '1': 8ENDER_LUMP_2
+        tick: 2
+      '12':
+        input:
+          '1': 32ENDER_LUMP_2
+        output:
+          '1': 8ENDER_LUMP_3
+        tick: 2
+      '13':
+        input:
+          '1': 32LAPIS_LAZULI
+        output:
+          '1': 8SYNTHETIC_SAPPHIRE
+        tick: 2
+      '14':
+        input:
+          '1': 32SYNTHETIC_SAPPHIRE
+        output:
+          '1': 16SYNTHETIC_EMERALD
+        tick: 2
+      '15':
+        input:
+          '1': 32COAL
+        output:
+          '1': 8CARBON
+        tick: 2
+      '16':
+        input:
+          '1': 32CARBON
+        output:
+          '1': 8COMPRESSED_CARBON
+        tick: 2
+      '17':
+        input:
+          '1': 32COMPRESSED_CARBON
+        output:
+          '1': 4CARBON_CHUNK
+        tick: 2
+      '18':
+        input:
+          '1': 16CARBON_CHUNK
+        output:
+          '1': 16SYNTHETIC_DIAMOND
+        tick: 2
+      '19':
+        input:
+          '1': 16SYNTHETIC_DIAMOND
+        output:
+          '1': 8CARBONADO
+        tick: 2
+      '20':
+        input:
+          '1': 32FERROSILICON
+        output:
+          '1': 16SOLAR_PANEL
+        tick: 2
+      '21':
+        input:
+          '1': 32COBALT_INGOT
+        output:
+          '1': 16MAGNET
+        tick: 2
+      '22':
+        input:
+          '1': 32MAGNET
+        output:
+          '1': 16ELECTRO_MAGNET
+        tick: 2
+      '23':
+        input:
+          '1': 32ELECTRO_MAGNET
+        output:
+          '1': 16ELECTRIC_MOTOR
+        tick: 2
+      '24':
+        input:
+          '1': 32ELECTRIC_MOTOR
+        output:
+          '1': 16HEATING_COIL
+        tick: 2
+      '25':
+        input:
+          '1': 32CRUSHED_ORE
+        output:
+          '1': 8TINY_URANIUM
+        tick: 2
+      '26':
+        input:
+          '1': 32TINY_URANIUM
+        output:
+          '1': 8SMALL_URANIUM
+        tick: 2
+      '27':
+        input:
+          '1': 32SMALL_URANIUM
+        output:
+          '1': 8URANIUM
+        tick: 2
+      '28':
+        input:
+          '1': 32URANIUM
+        output:
+          '1': 16BLISTERING_INGOT
+        tick: 2
+      '29':
+        input:
+          '1': 32BLISTERING_INGOT
+        output:
+          '1': 16BLISTERING_INGOT_2
+        tick: 2
+      '30':
+        input:
+          '1': 32BLISTERING_INGOT_2
+        output:
+          '1': 16BLISTERING_INGOT_3
+        tick: 2
+      '31':
+        input:
+          '1': 32STEEL_INGOT
+        output:
+          '1': 4STEEL_PLATE
+        tick: 2
+      '32':
+        input:
+          '1': 32REINFORCED_ALLOY_INGOT
+        output:
+          '1': 4REINFORCED_PLATE
+        tick: 2
+    mode: w
+    type: machine
+    energy: 300
+  SUPREME_FOUNDRY_I:
+    
+    recipe:
+      '0':
+        input:
+          '1': 6SUPREME_CORE_EMERALD
+          '2': 3SUPREME_CORE_GOLD
+        output:
+          '1': 64BLISTERING_INGOT_3
+        tick: 28
+      '3':
+        input:
+          '1': 6SUPREME_CORE_REDSTONE
+          '2': 3SUPREME_CORE_DIAMOND
+        output:
+          '1': 64REDSTONE_ALLOY
+        tick: 28
+      '6':
+        input:
+          '1': 6SUPREME_CORE_LAPIS
+          '2': 3SUPREME_CORE_DIAMOND
+        output:
+          '1': 64HARDENED_METAL_INGOT
+        tick: 28
+      '9':
+        input:
+          '1': 6SUPREME_CORE_NETHERITE
+          '2': 3SUPREME_CORE_DIAMOND
+        output:
+          '1': 64REINFORCED_ALLOY_INGOT
+        tick: 28
+      '12':
+        input:
+          '1': 6SUPREME_CORE_GOLD
+          '2': 3SUPREME_CORE_APPLE
+        output:
+          '1': 64ENCHANTED_GOLDEN_APPLE
+        tick: 28
+      '15':
+        input:
+          '1': 6SUPREME_CORE_QUARTZ
+          '2': 3SUPREME_CORE_STRING
+        output:
+          '1': 64SOLAR_PANEL
+        tick: 28
+      '18':
+        input:
+          '1': 6SUPREME_CORE_BLACK
+          '2': 3SUPREME_CORE_IRON
+        output:
+          '1': 64BUCKET_OF_OIL
+        tick: 28
+      '21':
+        input:
+          '1': 6SUPREME_CORE_STRING
+          '2': 3SUPREME_CORE_GRAVEL
+        output:
+          '1': 64PLASTIC_SHEET
+        tick: 28
+    mode: w
+    type: machine
+    energy: 1000
+  SUPREME_FOUNDRY_II:
+    
+    recipe:
+      '0':
+        input:
+          '1': 6SUPREME_CORE_EMERALD
+          '2': 3SUPREME_CORE_GOLD
+        output:
+          '1': 64BLISTERING_INGOT_3
+        tick: 7
+      '3':
+        input:
+          '1': 6SUPREME_CORE_REDSTONE
+          '2': 3SUPREME_CORE_DIAMOND
+        output:
+          '1': 64REDSTONE_ALLOY
+        tick: 7
+      '6':
+        input:
+          '1': 6SUPREME_CORE_LAPIS
+          '2': 3SUPREME_CORE_DIAMOND
+        output:
+          '1': 64HARDENED_METAL_INGOT
+        tick: 7
+      '9':
+        input:
+          '1': 6SUPREME_CORE_NETHERITE
+          '2': 3SUPREME_CORE_DIAMOND
+        output:
+          '1': 64REINFORCED_ALLOY_INGOT
+        tick: 7
+      '12':
+        input:
+          '1': 6SUPREME_CORE_GOLD
+          '2': 3SUPREME_CORE_APPLE
+        output:
+          '1': 64ENCHANTED_GOLDEN_APPLE
+        tick: 7
+      '15':
+        input:
+          '1': 6SUPREME_CORE_QUARTZ
+          '2': 3SUPREME_CORE_STRING
+        output:
+          '1': 64SOLAR_PANEL
+        tick: 7
+      '18':
+        input:
+          '1': 6SUPREME_CORE_BLACK
+          '2': 3SUPREME_CORE_IRON
+        output:
+          '1': 64BUCKET_OF_OIL
+        tick: 7
+      '21':
+        input:
+          '1': 6SUPREME_CORE_STRING
+          '2': 3SUPREME_CORE_GRAVEL
+        output:
+          '1': 64PLASTIC_SHEET
+        tick: 7
+    mode: w
+    type: machine
+    energy: 5000
+  SUPREME_FOUNDRY_III:
+    
+    recipe:
+      '0':
+        input:
+          '1': 6SUPREME_CORE_EMERALD
+          '2': 3SUPREME_CORE_GOLD
+        output:
+          '1': 64BLISTERING_INGOT_3
+        tick: 2
+      '3':
+        input:
+          '1': 6SUPREME_CORE_REDSTONE
+          '2': 3SUPREME_CORE_DIAMOND
+        output:
+          '1': 64REDSTONE_ALLOY
+        tick: 2
+      '6':
+        input:
+          '1': 6SUPREME_CORE_LAPIS
+          '2': 3SUPREME_CORE_DIAMOND
+        output:
+          '1': 64HARDENED_METAL_INGOT
+        tick: 2
+      '9':
+        input:
+          '1': 6SUPREME_CORE_NETHERITE
+          '2': 3SUPREME_CORE_DIAMOND
+        output:
+          '1': 64REINFORCED_ALLOY_INGOT
+        tick: 2
+      '12':
+        input:
+          '1': 6SUPREME_CORE_GOLD
+          '2': 3SUPREME_CORE_APPLE
+        output:
+          '1': 64ENCHANTED_GOLDEN_APPLE
+        tick: 2
+      '15':
+        input:
+          '1': 6SUPREME_CORE_QUARTZ
+          '2': 3SUPREME_CORE_STRING
+        output:
+          '1': 64SOLAR_PANEL
+        tick: 2
+      '18':
+        input:
+          '1': 6SUPREME_CORE_BLACK
+          '2': 3SUPREME_CORE_IRON
+        output:
+          '1': 64BUCKET_OF_OIL
+        tick: 2
+      '21':
+        input:
+          '1': 6SUPREME_CORE_STRING
+          '2': 3SUPREME_CORE_GRAVEL
+        output:
+          '1': 64PLASTIC_SHEET
+        tick: 2
+    mode: w
+    type: machine
+    energy: 15000
+  SUPREME_VIRTUAL_AQUARIUM_I:
+    recipe:
+      '0':
+        input:
+          '1': FISHING_ROD
+        output:
+          '1':
+            type: "ra"
+            item:
+              '1': SPONGE
+              '2': SEA_LANTERN
+              '3': COD
+              '4': SALMON
+              '5': TROPICAL_FISH
+              '6': INK_SAC
+              '7': NAUTILUS_SHELL
+              '8': STICK
+              '9': STRING
+            weight:
+              '1': 2
+              '2': 2
+              '3': 20
+              '4': 20
+              '5': 20
+              '6': 20
+              '7': 6
+              '8': 5
+              '9': 5
+        tick: 28
+      '9':
+        input:
+          '1': TRIDENT
+        output:
+          '1':
+            type: "ra"
+            item:
+              '1': SPONGE
+              '2': SEA_LANTERN
+              '3': COD
+              '4': SALMON
+              '5': TROPICAL_FISH
+              '6': INK_SAC
+              '7': NAUTILUS_SHELL
+              '8': STICK
+              '9': STRING
+            weight:
+              '1': 10
+              '2': 10
+              '3': 5
+              '4': 5
+              '5': 5
+              '6': 5
+              '7': 20
+              '8': 20
+              '9': 20
+
+        tick: 28
+      '19':
+        input:
+          '1': GOLDEN_HOE
+        output:
+          '1':
+            type: "ra"
+            item:
+              '1': SPONGE
+              '2': SEA_LANTERN
+              '3': COD
+              '4': SALMON
+              '5': TROPICAL_FISH
+              '6': INK_SAC
+              '7': NAUTILUS_SHELL
+              '8': STICK
+              '9': STRING
+            weight:
+              '1': 1
+              '2': 1
+              '3': 3
+              '4': 3
+              '5': 2
+              '6': 2
+              '7': 5
+              '8': 50
+              '9': 33
+        tick: 28
+    mode: w
+    type: generator
+    energy: 20
+  SUPREME_VIRTUAL_AQUARIUM_II:
+    recipe:
+      '0':
+        input:
+          '1': FISHING_ROD
+        output:
+          '1':
+            type: "ra"
+            item:
+              '1': SPONGE
+              '2': SEA_LANTERN
+              '3': COD
+              '4': SALMON
+              '5': TROPICAL_FISH
+              '6': INK_SAC
+              '7': NAUTILUS_SHELL
+              '8': STICK
+              '9': STRING
+            weight:
+              '1': 2
+              '2': 2
+              '3': 20
+              '4': 20
+              '5': 20
+              '6': 20
+              '7': 6
+              '8': 5
+              '9': 5
+        tick: 7
+      '9':
+        input:
+          '1': TRIDENT
+        output:
+          '1':
+            type: "ra"
+            item:
+              '1': SPONGE
+              '2': SEA_LANTERN
+              '3': COD
+              '4': SALMON
+              '5': TROPICAL_FISH
+              '6': INK_SAC
+              '7': NAUTILUS_SHELL
+              '8': STICK
+              '9': STRING
+            weight:
+              '1': 10
+              '2': 10
+              '3': 5
+              '4': 5
+              '5': 5
+              '6': 5
+              '7': 20
+              '8': 20
+              '9': 20
+
+        tick: 7
+      '19':
+        input:
+          '1': GOLDEN_HOE
+        output:
+          '1':
+            type: "ra"
+            item:
+              '1': SPONGE
+              '2': SEA_LANTERN
+              '3': COD
+              '4': SALMON
+              '5': TROPICAL_FISH
+              '6': INK_SAC
+              '7': NAUTILUS_SHELL
+              '8': STICK
+              '9': STRING
+            weight:
+              '1': 1
+              '2': 1
+              '3': 3
+              '4': 3
+              '5': 2
+              '6': 2
+              '7': 5
+              '8': 50
+              '9': 33
+        tick: 7
+    mode: w
+    type: generator
+    energy: 100
+  SUPREME_VIRTUAL_AQUARIUM_III:
+    recipe:
+      '0':
+        input:
+          '1': FISHING_ROD
+        output:
+          '1':
+            type: "ra"
+            item:
+              '1': SPONGE
+              '2': SEA_LANTERN
+              '3': COD
+              '4': SALMON
+              '5': TROPICAL_FISH
+              '6': INK_SAC
+              '7': NAUTILUS_SHELL
+              '8': STICK
+              '9': STRING
+            weight:
+              '1': 2
+              '2': 2
+              '3': 20
+              '4': 20
+              '5': 20
+              '6': 20
+              '7': 6
+              '8': 5
+              '9': 5
+        tick: 2
+      '9':
+        input:
+          '1': TRIDENT
+        output:
+          '1':
+            type: "ra"
+            item:
+              '1': SPONGE
+              '2': SEA_LANTERN
+              '3': COD
+              '4': SALMON
+              '5': TROPICAL_FISH
+              '6': INK_SAC
+              '7': NAUTILUS_SHELL
+              '8': STICK
+              '9': STRING
+            weight:
+              '1': 10
+              '2': 10
+              '3': 5
+              '4': 5
+              '5': 5
+              '6': 5
+              '7': 20
+              '8': 20
+              '9': 20
+
+        tick: 2
+      '19':
+        input:
+          '1': GOLDEN_HOE
+        output:
+          '1':
+            type: "ra"
+            item:
+              '1': SPONGE
+              '2': SEA_LANTERN
+              '3': COD
+              '4': SALMON
+              '5': TROPICAL_FISH
+              '6': INK_SAC
+              '7': NAUTILUS_SHELL
+              '8': STICK
+              '9': STRING
+            weight:
+              '1': 1
+              '2': 1
+              '3': 3
+              '4': 3
+              '5': 2
+              '6': 2
+              '7': 5
+              '8': 50
+              '9': 33
+        tick: 2
+    mode: w
+    type: generator
+    energy: 300
+  
+  SUPREME_TECH_MUTATION_I:
+    
+    recipe:
+      '0':
+        input:
+          '1': SUPREME_DUST_NETHERITE
+          '2': ANCIENT_RUNE_FIRE
+        output:
+          '1': SUPREME_GENE_BERSERK
+        tick: 120
+      '3':
+        input:
+          '1': SUPREME_DUST_GLOW_INK
+          '2': ANCIENT_RUNE_LIGHTNING
+        output:
+          '1': SUPREME_GENE_LUCK
+        tick: 120
+      '6':
+        input:
+          '1': SUPREME_DUST_AMETHYST
+          '2': ANCIENT_RUNE_RAINBOW
+        output:
+          '1': SUPREME_GENE_INTELLIGENCE
+        tick: 120
+      '9':
+        input:
+          '1': 2URANIUM
+        output:
+          '1': NEPTUNIUM
+        tick: 120
+      '12':
+        input:
+          '1': 2NEPTUNIUM
+        output:
+          '1': PLUTONIUM
+        tick: 120
+      '15':
+        input:
+          '1': PLUTONIUM
+          '2': URANIUM
+        output:
+          '1': BOOSTED_URANIUM
+        tick: 120
+    mode: w
+    type: machine
+    energy: 500
+  SUPREME_TECH_MUTATION_II:
+    
+    recipe:
+      '0':
+        input:
+          '1': SUPREME_DUST_NETHERITE
+          '2': ANCIENT_RUNE_FIRE
+        output:
+          '1': SUPREME_GENE_BERSERK
+        tick: 24
+      '3':
+        input:
+          '1': SUPREME_DUST_GLOW_INK
+          '2': ANCIENT_RUNE_LIGHTNING
+        output:
+          '1': SUPREME_GENE_LUCK
+        tick: 24
+      '6':
+        input:
+          '1': SUPREME_DUST_AMETHYST
+          '2': ANCIENT_RUNE_RAINBOW
+        output:
+          '1': SUPREME_GENE_INTELLIGENCE
+        tick: 24
+      '9':
+        input:
+          '1': 2URANIUM
+        output:
+          '1': NEPTUNIUM
+        tick: 24
+      '12':
+        input:
+          '1': 2NEPTUNIUM
+        output:
+          '1': PLUTONIUM
+        tick: 24
+      '15':
+        input:
+          '1': PLUTONIUM
+          '2': URANIUM
+        output:
+          '1': BOOSTED_URANIUM
+        tick: 24
+    mode: w
+    type: machine
+    energy: 500
+  SUPREME_TECH_MUTATION_III:
+    recipe:
+      '0':
+        input:
+          '1': SUPREME_DUST_NETHERITE
+          '2': ANCIENT_RUNE_FIRE
+        output:
+          '1': SUPREME_GENE_BERSERK
+        tick: 8
+      '3':
+        input:
+          '1': SUPREME_DUST_GLOW_INK
+          '2': ANCIENT_RUNE_LIGHTNING
+        output:
+          '1': SUPREME_GENE_LUCK
+        tick: 8
+      '6':
+        input:
+          '1': SUPREME_DUST_AMETHYST
+          '2': ANCIENT_RUNE_RAINBOW
+        output:
+          '1': SUPREME_GENE_INTELLIGENCE
+        tick: 8
+      '9':
+        input:
+          '1': 2URANIUM
+        output:
+          '1': NEPTUNIUM
+        tick: 8
+      '12':
+        input:
+          '1': 2NEPTUNIUM
+        output:
+          '1': PLUTONIUM
+        tick: 8
+      '15':
+        input:
+          '1': PLUTONIUM
+          '2': URANIUM
+        output:
+          '1': BOOSTED_URANIUM
+        tick: 8
+    mode: w
+    type: machine
+    energy: 500
+  SUPREME_TECH_ROBOTIC:
+    
+    recipe:
+      '0':
+        input:
+          '1': 64SUPREME_EFFICIENCY_BEE_II
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_II
+        tick: 120
+      '1':
+        input:
+          '1': 64SUPREME_EFFICIENCY_BEE_III
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_III
+        tick: 120
+      '2':
+        input:
+          '1': 64SUPREME_EFFICIENCY_BEE_IV
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_IV
+        tick: 120
+      '3':
+        input:
+          '1': 64SUPREME_EFFICIENCY_BEE_V
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_V
+        tick: 120
+      '4':
+        input:
+          '1': 64SUPREME_EFFICIENCY_BEE_VI
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_VI
+        tick: 120
+      '5':
+        input:
+          '1': 64SUPREME_EFFICIENCY_BEE_VII
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_VII
+        tick: 120
+      '6':
+        input:
+          '1': 64SUPREME_EFFICIENCY_BEE_VIII
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_VIII
+        tick: 120
+      '7':
+        input:
+          '1': 64SUPREME_EFFICIENCY_BEE_IX
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_IX
+        tick: 120
+      '8':
+        input:
+          '1': 64SUPREME_CLONING_BEE_II
+        output:
+          '1': SUPREME_CLONING_BEE_II
+        tick: 120
+      '9':
+        input:
+          '1': 64SUPREME_CLONING_BEE_III
+        output:
+          '1': SUPREME_CLONING_BEE_III
+        tick: 120
+      '10':
+        input:
+          '1': 64SUPREME_CLONING_BEE_IV
+        output:
+          '1': SUPREME_CLONING_BEE_IV
+        tick: 120
+      '11':
+        input:
+          '1': 64SUPREME_CLONING_BEE_V
+        output:
+          '1': SUPREME_CLONING_BEE_V
+        tick: 120
+      '12':
+        input:
+          '1': 64SUPREME_CLONING_BEE_VI
+        output:
+          '1': SUPREME_CLONING_BEE_VI
+        tick: 120
+      '13':
+        input:
+          '1': 64SUPREME_CLONING_BEE_VII
+        output:
+          '1': SUPREME_CLONING_BEE_VII
+        tick: 120
+      '14':
+        input:
+          '1': 64SUPREME_CLONING_BEE_VIII
+        output:
+          '1': SUPREME_CLONING_BEE_VIII
+        tick: 120
+      '15':
+        input:
+          '1': 64SUPREME_CLONING_BEE_IX
+        output:
+          '1': SUPREME_CLONING_BEE_IX
+        tick: 120
+      '16':
+        input:
+          '1': 64SUPREME_ACCELERATION_BEE_II
+        output:
+          '1': SUPREME_ACCELERATION_BEE_II
+        tick: 120
+      '17':
+        input:
+          '1': 64SUPREME_ACCELERATION_BEE_III
+        output:
+          '1': SUPREME_ACCELERATION_BEE_III
+        tick: 120
+      '18':
+        input:
+          '1': 64SUPREME_ACCELERATION_BEE_IV
+        output:
+          '1': SUPREME_ACCELERATION_BEE_IV
+        tick: 120
+      '19':
+        input:
+          '1': 64SUPREME_ACCELERATION_BEE_V
+        output:
+          '1': SUPREME_ACCELERATION_BEE_V
+        tick: 120
+      '20':
+        input:
+          '1': 64SUPREME_ACCELERATION_BEE_VI
+        output:
+          '1': SUPREME_ACCELERATION_BEE_VI
+        tick: 120
+      '21':
+        input:
+          '1': 64SUPREME_ACCELERATION_BEE_VII
+        output:
+          '1': SUPREME_ACCELERATION_BEE_VII
+        tick: 120
+      '22':
+        input:
+          '1': 64SUPREME_ACCELERATION_BEE_VIII
+        output:
+          '1': SUPREME_ACCELERATION_BEE_VIII
+        tick: 120
+      '23':
+        input:
+          '1': 64SUPREME_ACCELERATION_BEE_IX
+        output:
+          '1': SUPREME_ACCELERATION_BEE_IX
+        tick: 120
+      '24':
+        input:
+          '1': 64SUPREME_EFFICIENCY_GOLEM_II
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_II
+        tick: 120
+      '25':
+        input:
+          '1': 64SUPREME_EFFICIENCY_GOLEM_III
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_III
+        tick: 120
+      '26':
+        input:
+          '1': 64SUPREME_EFFICIENCY_GOLEM_IV
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_IV
+        tick: 120
+      '27':
+        input:
+          '1': 64SUPREME_EFFICIENCY_GOLEM_V
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_V
+        tick: 120
+      '28':
+        input:
+          '1': 64SUPREME_EFFICIENCY_GOLEM_VI
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_VI
+        tick: 120
+      '29':
+        input:
+          '1': 64SUPREME_EFFICIENCY_GOLEM_VII
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_VII
+        tick: 120
+      '30':
+        input:
+          '1': 64SUPREME_EFFICIENCY_GOLEM_VIII
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_VIII
+        tick: 120
+      '31':
+        input:
+          '1': 64SUPREME_EFFICIENCY_GOLEM_IX
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_IX
+        tick: 120
+      '32':
+        input:
+          '1': 64SUPREME_CLONING_GOLEM_II
+        output:
+          '1': SUPREME_CLONING_GOLEM_II
+        tick: 120
+      '33':
+        input:
+          '1': 64SUPREME_CLONING_GOLEM_III
+        output:
+          '1': SUPREME_CLONING_GOLEM_III
+        tick: 120
+      '34':
+        input:
+          '1': 64SUPREME_CLONING_GOLEM_IV
+        output:
+          '1': SUPREME_CLONING_GOLEM_IV
+        tick: 120
+      '35':
+        input:
+          '1': 64SUPREME_CLONING_GOLEM_V
+        output:
+          '1': SUPREME_CLONING_GOLEM_V
+        tick: 120
+      '36':
+        input:
+          '1': 64SUPREME_CLONING_GOLEM_VI
+        output:
+          '1': SUPREME_CLONING_GOLEM_VI
+        tick: 120
+      '37':
+        input:
+          '1': 64SUPREME_CLONING_GOLEM_VII
+        output:
+          '1': SUPREME_CLONING_GOLEM_VII
+        tick: 120
+      '38':
+        input:
+          '1': 64SUPREME_CLONING_GOLEM_VIII
+        output:
+          '1': SUPREME_CLONING_GOLEM_VIII
+        tick: 120
+      '39':
+        input:
+          '1': 64SUPREME_CLONING_GOLEM_IX
+        output:
+          '1': SUPREME_CLONING_GOLEM_IX
+        tick: 120
+      '40':
+        input:
+          '1': 64SUPREME_ACCELERATION_GOLEM_II
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_II
+        tick: 120
+      '41':
+        input:
+          '1': 64SUPREME_ACCELERATION_GOLEM_III
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_III
+        tick: 120
+      '42':
+        input:
+          '1': 64SUPREME_ACCELERATION_GOLEM_IV
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_IV
+        tick: 120
+      '43':
+        input:
+          '1': 64SUPREME_ACCELERATION_GOLEM_V
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_V
+        tick: 120
+      '44':
+        input:
+          '1': 64SUPREME_ACCELERATION_GOLEM_VI
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_VI
+        tick: 120
+      '45':
+        input:
+          '1': 64SUPREME_ACCELERATION_GOLEM_VII
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_VII
+        tick: 120
+      '46':
+        input:
+          '1': 64SUPREME_ACCELERATION_GOLEM_VIII
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_VIII
+        tick: 120
+      '47':
+        input:
+          '1': 64SUPREME_ACCELERATION_GOLEM_IX
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_IX
+        tick: 120
+      '48':
+        input:
+          '1': 64SUPREME_EFFICIENCY_ZOMBIE_II
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_II
+        tick: 120
+      '49':
+        input:
+          '1': 64SUPREME_EFFICIENCY_ZOMBIE_III
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_III
+        tick: 120
+      '50':
+        input:
+          '1': 64SUPREME_EFFICIENCY_ZOMBIE_IV
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_IV
+        tick: 120
+      '51':
+        input:
+          '1': 64SUPREME_EFFICIENCY_ZOMBIE_V
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_V
+        tick: 120
+      '52':
+        input:
+          '1': 64SUPREME_EFFICIENCY_ZOMBIE_VI
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_VI
+        tick: 120
+      '53':
+        input:
+          '1': 64SUPREME_EFFICIENCY_ZOMBIE_VII
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_VII
+        tick: 120
+      '54':
+        input:
+          '1': 64SUPREME_EFFICIENCY_ZOMBIE_VIII
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_VIII
+        tick: 120
+      '55':
+        input:
+          '1': 64SUPREME_EFFICIENCY_ZOMBIE_IX
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_IX
+        tick: 120
+      '56':
+        input:
+          '1': 64SUPREME_CLONING_ZOMBIE_II
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_II
+        tick: 120
+      '57':
+        input:
+          '1': 64SUPREME_CLONING_ZOMBIE_III
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_III
+        tick: 120
+      '58':
+        input:
+          '1': 64SUPREME_CLONING_ZOMBIE_IV
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_IV
+        tick: 120
+      '59':
+        input:
+          '1': 64SUPREME_CLONING_ZOMBIE_V
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_V
+        tick: 120
+      '60':
+        input:
+          '1': 64SUPREME_CLONING_ZOMBIE_VI
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_VI
+        tick: 120
+      '61':
+        input:
+          '1': 64SUPREME_CLONING_ZOMBIE_VII
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_VII
+        tick: 120
+      '62':
+        input:
+          '1': 64SUPREME_CLONING_ZOMBIE_VIII
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_VIII
+        tick: 120
+      '63':
+        input:
+          '1': 64SUPREME_CLONING_ZOMBIE_IX
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_IX
+        tick: 120
+      '64':
+        input:
+          '1': 64SUPREME_ACCELERATION_ZOMBIE_II
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_II
+        tick: 120
+      '65':
+        input:
+          '1': 64SUPREME_ACCELERATION_ZOMBIE_III
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_III
+        tick: 120
+      '66':
+        input:
+          '1': 64SUPREME_ACCELERATION_ZOMBIE_IV
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_IV
+        tick: 120
+      '67':
+        input:
+          '1': 64SUPREME_ACCELERATION_ZOMBIE_V
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_V
+        tick: 120
+      '68':
+        input:
+          '1': 64SUPREME_ACCELERATION_ZOMBIE_VI
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_VI
+        tick: 120
+      '69':
+        input:
+          '1': 64SUPREME_ACCELERATION_ZOMBIE_VII
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_VII
+        tick: 120
+      '70':
+        input:
+          '1': 64SUPREME_ACCELERATION_ZOMBIE_VIII
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_VIII
+        tick: 120
+      '71':
+        input:
+          '1': 64SUPREME_ACCELERATION_ZOMBIE_IX
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_IX
+        tick: 120
+    mode: w
+    type: machine
+    energy: 500
+  SUPREME_TECH_ROBOTIC_II:
+    
+    recipe:
+      '0':
+        input:
+          '1': 32SUPREME_EFFICIENCY_BEE_II
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_II
+        tick: 120
+      '1':
+        input:
+          '1': 32SUPREME_EFFICIENCY_BEE_III
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_III
+        tick: 120
+      '2':
+        input:
+          '1': 32SUPREME_EFFICIENCY_BEE_IV
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_IV
+        tick: 120
+      '3':
+        input:
+          '1': 32SUPREME_EFFICIENCY_BEE_V
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_V
+        tick: 120
+      '4':
+        input:
+          '1': 32SUPREME_EFFICIENCY_BEE_VI
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_VI
+        tick: 120
+      '5':
+        input:
+          '1': 32SUPREME_EFFICIENCY_BEE_VII
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_VII
+        tick: 120
+      '6':
+        input:
+          '1': 32SUPREME_EFFICIENCY_BEE_VIII
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_VIII
+        tick: 120
+      '7':
+        input:
+          '1': 32SUPREME_EFFICIENCY_BEE_IX
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_IX
+        tick: 120
+      '8':
+        input:
+          '1': 32SUPREME_CLONING_BEE_II
+        output:
+          '1': SUPREME_CLONING_BEE_II
+        tick: 120
+      '9':
+        input:
+          '1': 32SUPREME_CLONING_BEE_III
+        output:
+          '1': SUPREME_CLONING_BEE_III
+        tick: 120
+      '10':
+        input:
+          '1': 32SUPREME_CLONING_BEE_IV
+        output:
+          '1': SUPREME_CLONING_BEE_IV
+        tick: 120
+      '11':
+        input:
+          '1': 32SUPREME_CLONING_BEE_V
+        output:
+          '1': SUPREME_CLONING_BEE_V
+        tick: 120
+      '12':
+        input:
+          '1': 32SUPREME_CLONING_BEE_VI
+        output:
+          '1': SUPREME_CLONING_BEE_VI
+        tick: 120
+      '13':
+        input:
+          '1': 32SUPREME_CLONING_BEE_VII
+        output:
+          '1': SUPREME_CLONING_BEE_VII
+        tick: 120
+      '14':
+        input:
+          '1': 32SUPREME_CLONING_BEE_VIII
+        output:
+          '1': SUPREME_CLONING_BEE_VIII
+        tick: 120
+      '15':
+        input:
+          '1': 32SUPREME_CLONING_BEE_IX
+        output:
+          '1': SUPREME_CLONING_BEE_IX
+        tick: 120
+      '16':
+        input:
+          '1': 32SUPREME_ACCELERATION_BEE_II
+        output:
+          '1': SUPREME_ACCELERATION_BEE_II
+        tick: 120
+      '17':
+        input:
+          '1': 32SUPREME_ACCELERATION_BEE_III
+        output:
+          '1': SUPREME_ACCELERATION_BEE_III
+        tick: 120
+      '18':
+        input:
+          '1': 32SUPREME_ACCELERATION_BEE_IV
+        output:
+          '1': SUPREME_ACCELERATION_BEE_IV
+        tick: 120
+      '19':
+        input:
+          '1': 32SUPREME_ACCELERATION_BEE_V
+        output:
+          '1': SUPREME_ACCELERATION_BEE_V
+        tick: 120
+      '20':
+        input:
+          '1': 32SUPREME_ACCELERATION_BEE_VI
+        output:
+          '1': SUPREME_ACCELERATION_BEE_VI
+        tick: 120
+      '21':
+        input:
+          '1': 32SUPREME_ACCELERATION_BEE_VII
+        output:
+          '1': SUPREME_ACCELERATION_BEE_VII
+        tick: 120
+      '22':
+        input:
+          '1': 32SUPREME_ACCELERATION_BEE_VIII
+        output:
+          '1': SUPREME_ACCELERATION_BEE_VIII
+        tick: 120
+      '23':
+        input:
+          '1': 32SUPREME_ACCELERATION_BEE_IX
+        output:
+          '1': SUPREME_ACCELERATION_BEE_IX
+        tick: 120
+      '24':
+        input:
+          '1': 32SUPREME_EFFICIENCY_GOLEM_II
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_II
+        tick: 120
+      '25':
+        input:
+          '1': 32SUPREME_EFFICIENCY_GOLEM_III
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_III
+        tick: 120
+      '26':
+        input:
+          '1': 32SUPREME_EFFICIENCY_GOLEM_IV
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_IV
+        tick: 120
+      '27':
+        input:
+          '1': 32SUPREME_EFFICIENCY_GOLEM_V
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_V
+        tick: 120
+      '28':
+        input:
+          '1': 32SUPREME_EFFICIENCY_GOLEM_VI
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_VI
+        tick: 120
+      '29':
+        input:
+          '1': 32SUPREME_EFFICIENCY_GOLEM_VII
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_VII
+        tick: 120
+      '30':
+        input:
+          '1': 32SUPREME_EFFICIENCY_GOLEM_VIII
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_VIII
+        tick: 120
+      '31':
+        input:
+          '1': 32SUPREME_EFFICIENCY_GOLEM_IX
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_IX
+        tick: 120
+      '32':
+        input:
+          '1': 32SUPREME_CLONING_GOLEM_II
+        output:
+          '1': SUPREME_CLONING_GOLEM_II
+        tick: 120
+      '33':
+        input:
+          '1': 32SUPREME_CLONING_GOLEM_III
+        output:
+          '1': SUPREME_CLONING_GOLEM_III
+        tick: 120
+      '34':
+        input:
+          '1': 32SUPREME_CLONING_GOLEM_IV
+        output:
+          '1': SUPREME_CLONING_GOLEM_IV
+        tick: 120
+      '35':
+        input:
+          '1': 32SUPREME_CLONING_GOLEM_V
+        output:
+          '1': SUPREME_CLONING_GOLEM_V
+        tick: 120
+      '36':
+        input:
+          '1': 32SUPREME_CLONING_GOLEM_VI
+        output:
+          '1': SUPREME_CLONING_GOLEM_VI
+        tick: 120
+      '37':
+        input:
+          '1': 32SUPREME_CLONING_GOLEM_VII
+        output:
+          '1': SUPREME_CLONING_GOLEM_VII
+        tick: 120
+      '38':
+        input:
+          '1': 32SUPREME_CLONING_GOLEM_VIII
+        output:
+          '1': SUPREME_CLONING_GOLEM_VIII
+        tick: 120
+      '39':
+        input:
+          '1': 32SUPREME_CLONING_GOLEM_IX
+        output:
+          '1': SUPREME_CLONING_GOLEM_IX
+        tick: 120
+      '40':
+        input:
+          '1': 32SUPREME_ACCELERATION_GOLEM_II
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_II
+        tick: 120
+      '41':
+        input:
+          '1': 32SUPREME_ACCELERATION_GOLEM_III
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_III
+        tick: 120
+      '42':
+        input:
+          '1': 32SUPREME_ACCELERATION_GOLEM_IV
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_IV
+        tick: 120
+      '43':
+        input:
+          '1': 32SUPREME_ACCELERATION_GOLEM_V
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_V
+        tick: 120
+      '44':
+        input:
+          '1': 32SUPREME_ACCELERATION_GOLEM_VI
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_VI
+        tick: 120
+      '45':
+        input:
+          '1': 32SUPREME_ACCELERATION_GOLEM_VII
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_VII
+        tick: 120
+      '46':
+        input:
+          '1': 32SUPREME_ACCELERATION_GOLEM_VIII
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_VIII
+        tick: 120
+      '47':
+        input:
+          '1': 32SUPREME_ACCELERATION_GOLEM_IX
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_IX
+        tick: 120
+      '48':
+        input:
+          '1': 32SUPREME_EFFICIENCY_ZOMBIE_II
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_II
+        tick: 120
+      '49':
+        input:
+          '1': 32SUPREME_EFFICIENCY_ZOMBIE_III
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_III
+        tick: 120
+      '50':
+        input:
+          '1': 32SUPREME_EFFICIENCY_ZOMBIE_IV
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_IV
+        tick: 120
+      '51':
+        input:
+          '1': 32SUPREME_EFFICIENCY_ZOMBIE_V
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_V
+        tick: 120
+      '52':
+        input:
+          '1': 32SUPREME_EFFICIENCY_ZOMBIE_VI
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_VI
+        tick: 120
+      '53':
+        input:
+          '1': 32SUPREME_EFFICIENCY_ZOMBIE_VII
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_VII
+        tick: 120
+      '54':
+        input:
+          '1': 32SUPREME_EFFICIENCY_ZOMBIE_VIII
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_VIII
+        tick: 120
+      '55':
+        input:
+          '1': 32SUPREME_EFFICIENCY_ZOMBIE_IX
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_IX
+        tick: 120
+      '56':
+        input:
+          '1': 32SUPREME_CLONING_ZOMBIE_II
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_II
+        tick: 120
+      '57':
+        input:
+          '1': 32SUPREME_CLONING_ZOMBIE_III
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_III
+        tick: 120
+      '58':
+        input:
+          '1': 32SUPREME_CLONING_ZOMBIE_IV
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_IV
+        tick: 120
+      '59':
+        input:
+          '1': 32SUPREME_CLONING_ZOMBIE_V
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_V
+        tick: 120
+      '60':
+        input:
+          '1': 32SUPREME_CLONING_ZOMBIE_VI
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_VI
+        tick: 120
+      '61':
+        input:
+          '1': 32SUPREME_CLONING_ZOMBIE_VII
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_VII
+        tick: 120
+      '62':
+        input:
+          '1': 32SUPREME_CLONING_ZOMBIE_VIII
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_VIII
+        tick: 120
+      '63':
+        input:
+          '1': 32SUPREME_CLONING_ZOMBIE_IX
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_IX
+        tick: 120
+      '64':
+        input:
+          '1': 32SUPREME_ACCELERATION_ZOMBIE_II
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_II
+        tick: 120
+      '65':
+        input:
+          '1': 32SUPREME_ACCELERATION_ZOMBIE_III
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_III
+        tick: 120
+      '66':
+        input:
+          '1': 32SUPREME_ACCELERATION_ZOMBIE_IV
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_IV
+        tick: 120
+      '67':
+        input:
+          '1': 32SUPREME_ACCELERATION_ZOMBIE_V
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_V
+        tick: 120
+      '68':
+        input:
+          '1': 32SUPREME_ACCELERATION_ZOMBIE_VI
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_VI
+        tick: 120
+      '69':
+        input:
+          '1': 32SUPREME_ACCELERATION_ZOMBIE_VII
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_VII
+        tick: 120
+      '70':
+        input:
+          '1': 32SUPREME_ACCELERATION_ZOMBIE_VIII
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_VIII
+        tick: 120
+      '71':
+        input:
+          '1': 32SUPREME_ACCELERATION_ZOMBIE_IX
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_IX
+        tick: 120
+    mode: w
+    type: machine
+    energy: 500
+  SUPREME_TECH_ROBOTIC_III:
+    
+    recipe:
+      '0':
+        input:
+          '1': 16SUPREME_EFFICIENCY_BEE_II
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_II
+        tick: 120
+      '1':
+        input:
+          '1': 16SUPREME_EFFICIENCY_BEE_III
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_III
+        tick: 120
+      '2':
+        input:
+          '1': 16SUPREME_EFFICIENCY_BEE_IV
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_IV
+        tick: 120
+      '3':
+        input:
+          '1': 16SUPREME_EFFICIENCY_BEE_V
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_V
+        tick: 120
+      '4':
+        input:
+          '1': 16SUPREME_EFFICIENCY_BEE_VI
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_VI
+        tick: 120
+      '5':
+        input:
+          '1': 16SUPREME_EFFICIENCY_BEE_VII
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_VII
+        tick: 120
+      '6':
+        input:
+          '1': 16SUPREME_EFFICIENCY_BEE_VIII
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_VIII
+        tick: 120
+      '7':
+        input:
+          '1': 16SUPREME_EFFICIENCY_BEE_IX
+        output:
+          '1': SUPREME_EFFICIENCY_BEE_IX
+        tick: 120
+      '8':
+        input:
+          '1': 16SUPREME_CLONING_BEE_II
+        output:
+          '1': SUPREME_CLONING_BEE_II
+        tick: 120
+      '9':
+        input:
+          '1': 16SUPREME_CLONING_BEE_III
+        output:
+          '1': SUPREME_CLONING_BEE_III
+        tick: 120
+      '10':
+        input:
+          '1': 16SUPREME_CLONING_BEE_IV
+        output:
+          '1': SUPREME_CLONING_BEE_IV
+        tick: 120
+      '11':
+        input:
+          '1': 16SUPREME_CLONING_BEE_V
+        output:
+          '1': SUPREME_CLONING_BEE_V
+        tick: 120
+      '12':
+        input:
+          '1': 16SUPREME_CLONING_BEE_VI
+        output:
+          '1': SUPREME_CLONING_BEE_VI
+        tick: 120
+      '13':
+        input:
+          '1': 16SUPREME_CLONING_BEE_VII
+        output:
+          '1': SUPREME_CLONING_BEE_VII
+        tick: 120
+      '14':
+        input:
+          '1': 16SUPREME_CLONING_BEE_VIII
+        output:
+          '1': SUPREME_CLONING_BEE_VIII
+        tick: 120
+      '15':
+        input:
+          '1': 16SUPREME_CLONING_BEE_IX
+        output:
+          '1': SUPREME_CLONING_BEE_IX
+        tick: 120
+      '16':
+        input:
+          '1': 16SUPREME_ACCELERATION_BEE_II
+        output:
+          '1': SUPREME_ACCELERATION_BEE_II
+        tick: 120
+      '17':
+        input:
+          '1': 16SUPREME_ACCELERATION_BEE_III
+        output:
+          '1': SUPREME_ACCELERATION_BEE_III
+        tick: 120
+      '18':
+        input:
+          '1': 16SUPREME_ACCELERATION_BEE_IV
+        output:
+          '1': SUPREME_ACCELERATION_BEE_IV
+        tick: 120
+      '19':
+        input:
+          '1': 16SUPREME_ACCELERATION_BEE_V
+        output:
+          '1': SUPREME_ACCELERATION_BEE_V
+        tick: 120
+      '20':
+        input:
+          '1': 16SUPREME_ACCELERATION_BEE_VI
+        output:
+          '1': SUPREME_ACCELERATION_BEE_VI
+        tick: 120
+      '21':
+        input:
+          '1': 16SUPREME_ACCELERATION_BEE_VII
+        output:
+          '1': SUPREME_ACCELERATION_BEE_VII
+        tick: 120
+      '22':
+        input:
+          '1': 16SUPREME_ACCELERATION_BEE_VIII
+        output:
+          '1': SUPREME_ACCELERATION_BEE_VIII
+        tick: 120
+      '23':
+        input:
+          '1': 16SUPREME_ACCELERATION_BEE_IX
+        output:
+          '1': SUPREME_ACCELERATION_BEE_IX
+        tick: 120
+      '24':
+        input:
+          '1': 16SUPREME_EFFICIENCY_GOLEM_II
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_II
+        tick: 120
+      '25':
+        input:
+          '1': 16SUPREME_EFFICIENCY_GOLEM_III
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_III
+        tick: 120
+      '26':
+        input:
+          '1': 16SUPREME_EFFICIENCY_GOLEM_IV
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_IV
+        tick: 120
+      '27':
+        input:
+          '1': 16SUPREME_EFFICIENCY_GOLEM_V
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_V
+        tick: 120
+      '28':
+        input:
+          '1': 16SUPREME_EFFICIENCY_GOLEM_VI
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_VI
+        tick: 120
+      '29':
+        input:
+          '1': 16SUPREME_EFFICIENCY_GOLEM_VII
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_VII
+        tick: 120
+      '30':
+        input:
+          '1': 16SUPREME_EFFICIENCY_GOLEM_VIII
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_VIII
+        tick: 120
+      '31':
+        input:
+          '1': 16SUPREME_EFFICIENCY_GOLEM_IX
+        output:
+          '1': SUPREME_EFFICIENCY_GOLEM_IX
+        tick: 120
+      '32':
+        input:
+          '1': 16SUPREME_CLONING_GOLEM_II
+        output:
+          '1': SUPREME_CLONING_GOLEM_II
+        tick: 120
+      '33':
+        input:
+          '1': 16SUPREME_CLONING_GOLEM_III
+        output:
+          '1': SUPREME_CLONING_GOLEM_III
+        tick: 120
+      '34':
+        input:
+          '1': 16SUPREME_CLONING_GOLEM_IV
+        output:
+          '1': SUPREME_CLONING_GOLEM_IV
+        tick: 120
+      '35':
+        input:
+          '1': 16SUPREME_CLONING_GOLEM_V
+        output:
+          '1': SUPREME_CLONING_GOLEM_V
+        tick: 120
+      '36':
+        input:
+          '1': 16SUPREME_CLONING_GOLEM_VI
+        output:
+          '1': SUPREME_CLONING_GOLEM_VI
+        tick: 120
+      '37':
+        input:
+          '1': 16SUPREME_CLONING_GOLEM_VII
+        output:
+          '1': SUPREME_CLONING_GOLEM_VII
+        tick: 120
+      '38':
+        input:
+          '1': 16SUPREME_CLONING_GOLEM_VIII
+        output:
+          '1': SUPREME_CLONING_GOLEM_VIII
+        tick: 120
+      '39':
+        input:
+          '1': 16SUPREME_CLONING_GOLEM_IX
+        output:
+          '1': SUPREME_CLONING_GOLEM_IX
+        tick: 120
+      '40':
+        input:
+          '1': 16SUPREME_ACCELERATION_GOLEM_II
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_II
+        tick: 120
+      '41':
+        input:
+          '1': 16SUPREME_ACCELERATION_GOLEM_III
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_III
+        tick: 120
+      '42':
+        input:
+          '1': 16SUPREME_ACCELERATION_GOLEM_IV
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_IV
+        tick: 120
+      '43':
+        input:
+          '1': 16SUPREME_ACCELERATION_GOLEM_V
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_V
+        tick: 120
+      '44':
+        input:
+          '1': 16SUPREME_ACCELERATION_GOLEM_VI
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_VI
+        tick: 120
+      '45':
+        input:
+          '1': 16SUPREME_ACCELERATION_GOLEM_VII
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_VII
+        tick: 120
+      '46':
+        input:
+          '1': 16SUPREME_ACCELERATION_GOLEM_VIII
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_VIII
+        tick: 120
+      '47':
+        input:
+          '1': 16SUPREME_ACCELERATION_GOLEM_IX
+        output:
+          '1': SUPREME_ACCELERATION_GOLEM_IX
+        tick: 120
+      '48':
+        input:
+          '1': 16SUPREME_EFFICIENCY_ZOMBIE_II
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_II
+        tick: 120
+      '49':
+        input:
+          '1': 16SUPREME_EFFICIENCY_ZOMBIE_III
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_III
+        tick: 120
+      '50':
+        input:
+          '1': 16SUPREME_EFFICIENCY_ZOMBIE_IV
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_IV
+        tick: 120
+      '51':
+        input:
+          '1': 16SUPREME_EFFICIENCY_ZOMBIE_V
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_V
+        tick: 120
+      '52':
+        input:
+          '1': 16SUPREME_EFFICIENCY_ZOMBIE_VI
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_VI
+        tick: 120
+      '53':
+        input:
+          '1': 16SUPREME_EFFICIENCY_ZOMBIE_VII
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_VII
+        tick: 120
+      '54':
+        input:
+          '1': 16SUPREME_EFFICIENCY_ZOMBIE_VIII
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_VIII
+        tick: 120
+      '55':
+        input:
+          '1': 16SUPREME_EFFICIENCY_ZOMBIE_IX
+        output:
+          '1': SUPREME_EFFICIENCY_ZOMBIE_IX
+        tick: 120
+      '56':
+        input:
+          '1': 16SUPREME_CLONING_ZOMBIE_II
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_II
+        tick: 120
+      '57':
+        input:
+          '1': 16SUPREME_CLONING_ZOMBIE_III
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_III
+        tick: 120
+      '58':
+        input:
+          '1': 16SUPREME_CLONING_ZOMBIE_IV
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_IV
+        tick: 120
+      '59':
+        input:
+          '1': 16SUPREME_CLONING_ZOMBIE_V
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_V
+        tick: 120
+      '60':
+        input:
+          '1': 16SUPREME_CLONING_ZOMBIE_VI
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_VI
+        tick: 120
+      '61':
+        input:
+          '1': 16SUPREME_CLONING_ZOMBIE_VII
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_VII
+        tick: 120
+      '62':
+        input:
+          '1': 16SUPREME_CLONING_ZOMBIE_VIII
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_VIII
+        tick: 120
+      '63':
+        input:
+          '1': 16SUPREME_CLONING_ZOMBIE_IX
+        output:
+          '1': SUPREME_CLONING_ZOMBIE_IX
+        tick: 120
+      '64':
+        input:
+          '1': 16SUPREME_ACCELERATION_ZOMBIE_II
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_II
+        tick: 120
+      '65':
+        input:
+          '1': 16SUPREME_ACCELERATION_ZOMBIE_III
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_III
+        tick: 120
+      '66':
+        input:
+          '1': 16SUPREME_ACCELERATION_ZOMBIE_IV
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_IV
+        tick: 120
+      '67':
+        input:
+          '1': 16SUPREME_ACCELERATION_ZOMBIE_V
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_V
+        tick: 120
+      '68':
+        input:
+          '1': 16SUPREME_ACCELERATION_ZOMBIE_VI
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_VI
+        tick: 120
+      '69':
+        input:
+          '1': 16SUPREME_ACCELERATION_ZOMBIE_VII
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_VII
+        tick: 120
+      '70':
+        input:
+          '1': 16SUPREME_ACCELERATION_ZOMBIE_VIII
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_VIII
+        tick: 120
+      '71':
+        input:
+          '1': 16SUPREME_ACCELERATION_ZOMBIE_IX
+        output:
+          '1': SUPREME_ACCELERATION_ZOMBIE_IX
+        tick: 120
+    mode: w
+    type: machine
+    energy: 500
+  SUPREME_TECH_GENERATOR:
+    
+    recipe:
+      '0':
+        input:
+          '1': SUPREME_CARD_STONE
+        output:
+          '1': 64COBBLESTONE
+        tick: 1800
+      '1':
+        input:
+          '1': SUPREME_CARD_GRANITE
+        output:
+          '1': 64GRANITE
+        tick: 1800
+      '2':
+        input:
+          '1': SUPREME_CARD_DIORITE
+        output:
+          '1': 64DIORITE
+        tick: 1800
+      '3':
+        input:
+          '1': SUPREME_CARD_ANDESITE
+        output:
+          '1': 64ANDESITE
+        tick: 1800
+      '4':
+        input:
+          '1': SUPREME_CARD_GRAVEL
+        output:
+          '1': 64GRAVEL
+        tick: 1800
+      '5':
+        input:
+          '1': SUPREME_CARD_SAND
+        output:
+          '1': 64SAND
+        tick: 1800
+      '6':
+        input:
+          '1': SUPREME_CARD_ENDSTONE
+        output:
+          '1': 64END_STONE
+        tick: 1800
+      '7':
+        input:
+          '1': SUPREME_CARD_CLAY
+        output:
+          '1': 64CLAY
+        tick: 1800
+      '8':
+        input:
+          '1': SUPREME_CARD_SNOW
+        output:
+          '1': 64SNOW_BLOCK
+        tick: 1800
+      '9':
+        input:
+          '1': SUPREME_CARD_APPLE
+        output:
+          '1': 64APPLE
+        tick: 1800
+      '10':
+        input:
+          '1': SUPREME_CARD_NETHER_STAR
+        output:
+          '1': 64NETHER_STAR
+        tick: 1800
+      '11':
+        input:
+          '1': SUPREME_CARD_WITHER_ROSE
+        output:
+          '1': 64WITHER_ROSE
+        tick: 1800
+      '12':
+        input:
+          '1': SUPREME_CARD_SLIME_BALL
+        output:
+          '1': 64SLIME_BALL
+        tick: 1800
+      '13':
+        input:
+          '1': SUPREME_CARD_INK_SAC
+        output:
+          '1': 64INK_SAC
+        tick: 1800
+      '14':
+        input:
+          '1': SUPREME_CARD_GLOW_INK_SAC
+        output:
+          '1': 64GLOW_INK_SAC
+        tick: 1800
+      '15':
+        input:
+          '1': SUPREME_CARD_HONEY_BOTTLE
+        output:
+          '1': 64HONEY_BOTTLE
+        tick: 1800
+      '16':
+        input:
+          '1': SUPREME_CARD_COAL
+        output:
+          '1': 64COAL
+        tick: 1800
+      '17':
+        input:
+          '1': SUPREME_CARD_IRON
+        output:
+          '1': 64IRON_INGOT
+        tick: 1800
+      '18':
+        input:
+          '1': SUPREME_CARD_COPPER
+        output:
+          '1': 64COPPER_INGOT
+        tick: 1800
+      '19':
+        input:
+          '1': SUPREME_CARD_GOLD
+        output:
+          '1': 64GOLD_INGOT
+        tick: 1800
+      '20':
+        input:
+          '1': SUPREME_CARD_QUARTZ
+        output:
+          '1': 64QUARTZ
+        tick: 1800
+      '21':
+        input:
+          '1': SUPREME_CARD_QUARTZ_BLOCK
+        output:
+          '1': 64QUARTZ_BLOCK
+        tick: 1800
+      '22':
+        input:
+          '1': SUPREME_CARD_LAPIS
+        output:
+          '1': 64LAPIS_LAZULI
+        tick: 1800
+      '23':
+        input:
+          '1': SUPREME_CARD_REDSTONE
+        output:
+          '1': 64REDSTONE
+        tick: 1800
+      '24':
+        input:
+          '1': SUPREME_CARD_DIAMOND
+        output:
+          '1': 64DIAMOND
+        tick: 1800
+      '25':
+        input:
+          '1': SUPREME_CARD_EMERALD
+        output:
+          '1': 64EMERALD
+        tick: 1800
+      '26':
+        input:
+          '1': SUPREME_CARD_BLAZE_ROD
+        output:
+          '1': 64BLAZE_ROD
+        tick: 1800
+      '27':
+        input:
+          '1': SUPREME_CARD_NETHERITE
+        output:
+          '1': 64NETHERITE_INGOT
+        tick: 1800
+      '28':
+        input:
+          '1': SUPREME_CARD_AMETHYST
+        output:
+          '1': 64AMETHYST_SHARD
+        tick: 1800
+      '29':
+        input:
+          '1': SUPREME_CARD_IRON_DUST
+        output:
+          '1': 64IRON_DUST
+        tick: 1800
+      '30':
+        input:
+          '1': SUPREME_CARD_LEAD_DUST
+        output:
+          '1': 64LEAD_DUST
+        tick: 1800
+      '31':
+        input:
+          '1': SUPREME_CARD_GOLD_DUST
+        output:
+          '1': 64GOLD_DUST
+        tick: 1800
+      '32':
+        input:
+          '1': SUPREME_CARD_COPPER_DUST
+        output:
+          '1': 64COPPER_DUST
+        tick: 1800
+      '33':
+        input:
+          '1': SUPREME_CARD_MAGNESIUM_DUST
+        output:
+          '1': 64MAGNESIUM_DUST
+        tick: 1800
+      '34':
+        input:
+          '1': SUPREME_CARD_ALUMINUM_DUST
+        output:
+          '1': 64ALUMINUM_DUST
+        tick: 1800
+      '35':
+        input:
+          '1': SUPREME_CARD_SILVER_DUST
+        output:
+          '1': 64SILVER_DUST
+        tick: 1800
+      '36':
+        input:
+          '1': SUPREME_CARD_TIN_DUST
+        output:
+          '1': 64TIN_DUST
+        tick: 1800
+      '37':
+        input:
+          '1': SUPREME_CARD_ZINC_DUST
+        output:
+          '1': 64ZINC_DUST
+        tick: 1800
+      '38':
+        input:
+          '1': SUPREME_CARD_SOLDER
+        output:
+          '1': 64SOLDER_INGOT
+        tick: 1800
+      '39':
+        input:
+          '1': SUPREME_CARD_BILLON
+        output:
+          '1': 64BILLON_INGOT
+        tick: 1800
+      '40':
+        input:
+          '1': SUPREME_CARD_BRONZE
+        output:
+          '1': 64BRONZE_INGOT
+        tick: 1800
+      '41':
+        input:
+          '1': SUPREME_CARD_BRASS
+        output:
+          '1': 64BRASS_INGOT
+        tick: 1800
+      '42':
+        input:
+          '1': SUPREME_CARD_SULFATE
+        output:
+          '1': 64SULFATE
+        tick: 1800
+      '43':
+        input:
+          '1': SUPREME_CARD_CARBON
+        output:
+          '1': 64CARBON
+        tick: 1800
+      '44':
+        input:
+          '1': SUPREME_CARD_SILICON
+        output:
+          '1': 64SILICON
+        tick: 1800
+      '45':
+        input:
+          '1': SUPREME_CARD_STEEL
+        output:
+          '1': 64STEEL_INGOT
+        tick: 1800
+      '46':
+        input:
+          '1': SUPREME_CARD_NICKEL
+        output:
+          '1': 64NICKEL_INGOT
+        tick: 1800
+      '47':
+        input:
+          '1': SUPREME_CARD_DURALUMIN
+        output:
+          '1': 64DURALUMIN_INGOT
+        tick: 1800
+      '48':
+        input:
+          '1': SUPREME_CARD_FERROSILICON
+        output:
+          '1': 64FERROSILICON
+        tick: 1800
+      '49':
+        input:
+          '1': SUPREME_CARD_DAMASCUS
+        output:
+          '1': 64DAMASCUS_STEEL_INGOT
+        tick: 1800
+      '50':
+        input:
+          '1': SUPREME_CARD_COBALT
+        output:
+          '1': 64COBALT_INGOT
+        tick: 1800
+      '51':
+        input:
+          '1': SUPREME_CARD_ALUMINUM_BRONZE
+        output:
+          '1': 64ALUMINUM_BRONZE_INGOT
+        tick: 1800
+      '52':
+        input:
+          '1': SUPREME_CARD_ALUMINUM_BRASS
+        output:
+          '1': 64ALUMINUM_BRASS_INGOT
+        tick: 1800
+      '53':
+        input:
+          '1': SUPREME_CARD_CORINTHIAN_BRONZE
+        output:
+          '1': 64CORINTHIAN_BRONZE_INGOT
+        tick: 1800
+      '54':
+        input:
+          '1': SUPREME_CARD_GOLD24K
+        output:
+          '1': 64GOLD_24K
+        tick: 1800
+      '55':
+        input:
+          '1': SUPREME_CARD_CARBON_PRESS
+        output:
+          '1': 64COMPRESSED_CARBON
+        tick: 1800
+      '56':
+        input:
+          '1': SUPREME_CARD_SYNTHETIC_SAPPHIRE
+        output:
+          '1': 64SYNTHETIC_SAPPHIRE
+        tick: 1800
+      '57':
+        input:
+          '1': SUPREME_CARD_SYNTHETIC_EMERALD
+        output:
+          '1': 64SYNTHETIC_EMERALD
+        tick: 1800
+      '58':
+        input:
+          '1': SUPREME_CARD_BATTERY
+        output:
+          '1': 64BATTERY
+        tick: 1800
+      '59':
+        input:
+          '1': SUPREME_CARD_MAGNET
+        output:
+          '1': 64MAGNET
+        tick: 1800
+      '60':
+        input:
+          '1': SUPREME_CARD_PLASTIC_SHEET
+        output:
+          '1': 64PLASTIC_SHEET
+        tick: 1800
+      '61':
+        input:
+          '1': SUPREME_CARD_HARDENED_METAL
+        output:
+          '1': 64HARDENED_METAL_INGOT
+        tick: 1800
+      '62':
+        input:
+          '1': SUPREME_CARD_REDSTONE_ALLOY
+        output:
+          '1': 64REDSTONE_ALLOY
+        tick: 1800
+      '63':
+        input:
+          '1': SUPREME_CARD_ELECTRO_MAGNET
+        output:
+          '1': 64ELECTRO_MAGNET
+        tick: 1800
+      '64':
+        input:
+          '1': SUPREME_CARD_ELECTRIC_MOTOR
+        output:
+          '1': 64ELECTRIC_MOTOR
+        tick: 1800
+      '65':
+        input:
+          '1': SUPREME_CARD_HEATING_COIL
+        output:
+          '1': 64HEATING_COIL
+        tick: 1800
+      '66':
+        input:
+          '1': SUPREME_CARD_SYNTHETIC_DIAMOND
+        output:
+          '1': 64SYNTHETIC_DIAMOND
+        tick: 1800
+      '67':
+        input:
+          '1': SUPREME_CARD_CARBONADO
+        output:
+          '1': 64CARBONADO
+        tick: 1800
+      '68':
+        input:
+          '1': SUPREME_CARD_REINFORCED_ALLOY
+        output:
+          '1': 64REINFORCED_ALLOY_INGOT
+        tick: 1800
+    mode: w
+    type: generator
+    energy: 2000

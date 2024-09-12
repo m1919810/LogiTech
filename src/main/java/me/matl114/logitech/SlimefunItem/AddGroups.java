@@ -267,6 +267,14 @@ public class AddGroups {
                     "&7我希望开启一个计划,让大家一起完善machine堆叠列表"
                     )
             );
+            factory.addInventory(15,AddUtils.getInfoShow("&f2024.9.12",
+                            "&7增加了内置文件",
+                    "&7增加了乱码的机器列表",
+                    "&7恕我直言,起名真乱",
+                    "&7还有ag科技,一个配方机器都找不到",
+                    "&7纯懒狗附属"
+                    )
+            );
         }
 
         @Override

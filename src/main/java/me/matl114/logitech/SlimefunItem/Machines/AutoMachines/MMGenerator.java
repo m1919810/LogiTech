@@ -31,14 +31,14 @@ public class MMGenerator extends AbstractTransformer {
             4
     };
     protected final int [] OUTPUT_SLOTS=new int[]{
-            18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35
+            18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53
     };
     public MMGenerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                        int time, int energybuffer, int energyConsumption, LinkedHashMap<Object[],Object[]> outputs_w){
         super(itemGroup,item,recipeType,recipe,time,energybuffer,energyConsumption,
                 new LinkedHashMap<>(){{
                     for(Map.Entry<Object[],Object[]> entry :outputs_w.entrySet()){
-                        this.put(new Pair<>(entry.getKey(),entry.getValue()),time);
+                        this.put(new Pair<>(entry.getKey(),entry.getValue()),time-1);
                     }
                 }}
                 );
@@ -73,7 +73,7 @@ public class MMGenerator extends AbstractTransformer {
         }
         //空白边框
         preset.addItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL, ChestMenuUtils.getEmptyClickHandler());
-        preset.setSize(36);
+        preset.setSize(54);
     }
     public int[] getInputSlots(){
         return INPUT_SLOT;

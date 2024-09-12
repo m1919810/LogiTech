@@ -410,6 +410,15 @@ public class AddUtils {
     public static ItemStack themed(ItemStack itemStack, String name, String... lore){
         return themed(itemStack,Theme.DEFAULT,name,lore);
     }
+    public static String getItemId(ItemStack its){
+        if(its==null)return null;
+        SlimefunItem sfitem=SlimefunItem.getByItem(its);
+        if(sfitem==null){
+            return (its.getAmount()==1?"":String.valueOf(its.getAmount()))+its.getType().toString().toUpperCase(Locale.ROOT);
+        }else {
+            return (its.getAmount()==1?"":String.valueOf(its.getAmount()))+sfitem.getId();
+        }
+    }
     public static ItemStack resolveItem(Object a){
         if(a==null)return null;
         if(a instanceof ItemStack){
@@ -565,6 +574,9 @@ public class AddUtils {
     }
      public static String energyPerSecond(int energy) {
         return "&8⇨ &e⚡ &7" + formatEnergy(energy) + " J/s";
+    }
+    public static String speedDisplay(int multiply){
+        return "&8⇨ &e⚡ &7速度: &b"+ multiply + "x";
     }
     public static String energyPerTick(int energy){
         return "&8⇨ &e⚡ &7" + FORMAT.format((double)energy) + " J/t";

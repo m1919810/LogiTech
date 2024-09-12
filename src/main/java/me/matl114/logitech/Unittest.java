@@ -13,10 +13,11 @@ public class Unittest {
     //修改DataCache为不加载的反射方法
     public static boolean SFDATA_TEST =false;
     //TODO 不知道为啥 我似乎喜欢把东西记录在这里
-    //TODO 做一个配置文件导出系统
+    //TODO 做一个配置文件导出系统 然后完善
     //TODO 做一个随机附魔机
     //TODO 完成之前的TODO
     //TODO 简化多方块机器uid数据大小，并且兼容之前的数据 随机字符串
-    //TODO 测试先移除data再break
-    //TODO 完成普通特殊合成台和高级特殊合成肽
+    //TODO 测试先移除sfdata再blockbreak
+    //完成普通特殊合成台和高级特殊合成肽
+    // 增加无尽
 }

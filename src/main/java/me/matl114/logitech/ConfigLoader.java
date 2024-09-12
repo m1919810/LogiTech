@@ -10,6 +10,7 @@ import org.bukkit.plugin.Plugin;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 
 public class ConfigLoader {
     public static boolean TESTMODE = MyAddon.testmode();
@@ -37,7 +38,7 @@ public class ConfigLoader {
     public static void init() {
         NULL_FILE=new File(plugin.getDataFolder(), "configure.yml");
     }
-    private static void copyFile(File file, String name) {
+    public static void copyFile(File file, String name) {
         if(TESTMODE){
             try{
                 Files.delete(file.toPath());
@@ -48,12 +49,19 @@ public class ConfigLoader {
         if (!file.exists()) {
             try {
                 Files.copy(plugin.getClass().getResourceAsStream("/"+ name + ".yml"), file.toPath());
-            } catch (IOException e) {
-                Debug.logger("无法加载默认配置文件 " + name + ".yml, Error: " + e.getMessage());
+            } catch (Throwable e) {
+                Debug.logger("创建配置文件时找不到相关默认配置文件,即将生成空文件");
+                try{
+                    Files.createDirectories(file.toPath().getParent());
+                    Files.createFile(file.toPath());
+                }catch (IOException e1){
+                    Debug.logger("创建空配置文件失败!");
+                }
             }
+
         }
     }
-    private static Config loadInternalConfig(String name){
+    public static Config loadInternalConfig(String name){
         FileConfiguration config = new YamlConfiguration();
         try{
             config.load((Reader)( new InputStreamReader(plugin.getClass().getResourceAsStream("/"+ name + ".yml"), Charsets.UTF_8)));
@@ -63,7 +71,7 @@ public class ConfigLoader {
         }
         return new Config(null,config);
     }
-    private static Config loadExternalConfig(String name){
+    public static Config loadExternalConfig(String name){
         FileConfiguration config = new YamlConfiguration();
         final File cfgFile = new File(plugin.getDataFolder(), "%s.yml".formatted(name));
         copyFile(cfgFile, name);

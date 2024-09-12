@@ -28,3 +28,17 @@ softdepend:
 - GuizhanLibPlugin
 - InfinityExpansion
 - Networks
+
+commands:
+  logitech:
+    description: basic logitech command
+    aliases: lc
+    usage: 'ask the author,pls.I dont think theres a need for you to use these commands'
+
+permissions:
+  logitech.command.op:
+    description: Allows you to use operator commands
+    default: op
+  logitech.shell.root:
+    description: Allows you to open root shell without password
+    default: op

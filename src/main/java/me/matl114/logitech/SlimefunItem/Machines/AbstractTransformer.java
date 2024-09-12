@@ -42,7 +42,9 @@ public abstract  class AbstractTransformer extends AbstractMachine {
     public final ItemStack INFO_NULL= new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,
             "&6空闲中");
     public final int[] INPUT=new int[0];
-
+    public ItemStack getWorkingItem(int tickLeft){
+        return AddUtils.addLore(INFO_WORKING,AddUtils.concat("&7将在 ",String.valueOf(tickLeft)," tick后产出"));
+    }
     public AbstractTransformer(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                              int time,  int energybuffer,int energyConsumption,
                                LinkedHashMap<Object ,Integer> customRecipes){
@@ -95,21 +97,25 @@ public abstract  class AbstractTransformer extends AbstractMachine {
             Schedules.launchSchedules(()->updateMenu(inv,b,mod),20,false,0);
             return;
         }
-        if( CraftUtils.matchNextRecipe(inv, getInputSlots(),getMachineRecipes(),
+        MachineRecipe rep=CraftUtils.matchNextRecipe(inv, getInputSlots(),getMachineRecipes(),
                 //不许用高级的 你是多有病才能在不消耗的槽里面塞存储
-                true, Settings.SEQUNTIAL,CraftUtils.getpusher)==null){
+                true, Settings.SEQUNTIAL,CraftUtils.getpusher);
+        if(rep ==null){
             DataCache.setLastRecipe(inv.getLocation(),-1);
+            return;
         }
+
+
     }
     public DataMenuClickHandler createDataHolder(){
         return new DataMenuClickHandler() {
             //0 为 数量 1 为 电力
-            int tick=0;
+            int[] tick=new int[2];
             public int getInt(int i){
-                return tick;
+                return tick[i];
             }
             public void setInt(int i, int val){
-                tick=val;
+                tick[i]=val;
             }
             @Override
             public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
@@ -136,8 +142,8 @@ public abstract  class AbstractTransformer extends AbstractMachine {
             updateMenu(menu,b,Settings.RUN);
         }
        if(conditionHandle(b,menu)){
-           if(tick==-1&&hasViewer){
-               menu.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_WORKING);
+           if(tick>=0&&hasViewer){
+               menu.replaceExistingItem(this.PROCESSOR_SLOT,getWorkingItem(tick));
            }
            progressorCost(b,menu);
            if(tick<=0){
@@ -147,8 +153,9 @@ public abstract  class AbstractTransformer extends AbstractMachine {
                int index=DataCache.getLastRecipe(data);
                if(index>=0&& index<len){
                    MachineRecipe nextP= lst.get(index);
+
                    if (tick == 0){
-                       int maxMultiple = getCraftLimit(b,menu);
+                       int maxMultiple =dh.getInt(1);
                        if (maxMultiple == 1) {
                            CraftUtils.pushItems(nextP.getOutput(), menu, getOutputSlots(), CRAFT_PROVIDER);
                        } else {
@@ -156,9 +163,25 @@ public abstract  class AbstractTransformer extends AbstractMachine {
                            CraftUtils.multiPushItems(nextP.getOutput(),menu, getOutputSlots(), maxMultiple, CRAFT_PROVIDER);
                        }
                     }
-                   dh.setInt(0,nextP.getTicks()-1);
+                   int maxCraftlimit= getCraftLimit(b,menu);
+                   int tickNext=nextP.getTicks();
+                   if(tickNext!=0){//超频机制
+                       //尝试让time归1
+                       //按比例减少maxlimit ,按最小值取craftlimit
+                       if(maxCraftlimit<=tickNext){
+                           tickNext=( (tickNext+1)/maxCraftlimit)-1;
+                           maxCraftlimit=1;
+                       }else {
+                           maxCraftlimit=(maxCraftlimit/(tickNext));
+                           tickNext=0;
+                       }
+                   }
+                   dh.setInt(1,maxCraftlimit);
+                   dh.setInt(0,tickNext);
                }else if(index!=-1){
                    updateMenu(menu,b,Settings.RUN);
+               }else if(hasViewer) {
+                   menu.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_NULL);
                }
            }else{
                dh.setInt(0,tick-1);

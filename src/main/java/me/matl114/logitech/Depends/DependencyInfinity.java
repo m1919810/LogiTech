@@ -9,6 +9,7 @@ import me.matl114.logitech.SlimefunItem.AddDepends;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.ReflectUtils;
 import me.matl114.logitech.Utils.Settings;
+import org.bukkit.Bukkit;
 
 public class DependencyInfinity {
     public static void  init(){
@@ -17,6 +18,7 @@ public class DependencyInfinity {
         }
     }
     static {
+        AddDepends.hasInfiniteExpansion = Bukkit.getPluginManager().isPluginEnabled("InfinityExpansion");
         if(AddDepends.hasInfiniteExpansion){
             boolean hasErr=false;
             try{

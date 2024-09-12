@@ -159,7 +159,7 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
                     time=( (time+1)/maxCraftlimit)-1;
                     maxCraftlimit=1;
                 }else {
-                    maxCraftlimit=(maxCraftlimit/(time+1));
+                    maxCraftlimit=(maxCraftlimit/(time));
                     time=0;
                 }
             }

@@ -41,7 +41,7 @@ import java.util.Map;
 public class VirtualKiller extends AbstractMachine {
     protected final int[] INPUT_SLOTS=new int[0];
     protected final int[] OUTPUT_SLOTS=new int[]{
-            18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35
+            18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53
     };
     protected final int[] BORDER=new int[]{
             0,1,2,3,5,6,7,8
@@ -72,6 +72,13 @@ public class VirtualKiller extends AbstractMachine {
                            int energybuffer, int energyConsumption,int multiply){
         super(category, item, recipeType, recipe, energybuffer, energyConsumption);
         this.MULTIPLY=multiply;
+        this.setDisplayRecipes(Utils.list(
+                AddUtils.getInfoShow("&f机制",
+                        "&7在机器输入槽内插入某种生物的任意类型刷怪笼",
+                        "&7包括破损的刷怪笼,已修复的刷怪笼,带nbt的刷怪笼掉落物,等等",
+                        "&7机器即可执行产出,会产出普通掉落物和所有附属加载的粘液特殊掉落物",
+                        "&a注明:普通掉落物部分由ChatGPT生成,若有缺失欢迎补充"),null
+        ));
     }
     public List<MachineRecipe> provideDisplayRecipe(){
         HashMap<EntityType,ItemStack[]> map=getEntityMap();
@@ -97,7 +104,7 @@ public class VirtualKiller extends AbstractMachine {
             preset.addItem(border[i],ChestMenuUtils.getBackground(),ChestMenuUtils.getEmptyClickHandler());
         }
         preset.addItem(INFO_SLOT,getInfoItem(null,0),ChestMenuUtils.getEmptyClickHandler());
-        preset.setSize(36);
+        preset.setSize(54);
     }
     public DataMenuClickHandler createDataHolder(){
         return new DataMenuClickHandler() {
