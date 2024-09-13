@@ -166,12 +166,12 @@ public class FinalConvertor extends AbstractMachine implements FinalAltarCore.Fi
         border=INPUT_BORDER;
         len=border.length;
         for (int i=0;i<len;++i){
-            preset.addItem(border[i], ChestMenuUtils.getBackground(),ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(border[i], ChestMenuUtils.getInputSlotTexture(),ChestMenuUtils.getEmptyClickHandler());
         }
         border=OUTPUT_BORDER;
         len=border.length;
         for (int i=0;i<len;++i){
-            preset.addItem(border[i], ChestMenuUtils.getBackground(),ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(border[i], ChestMenuUtils.getOutputSlotTexture(),ChestMenuUtils.getEmptyClickHandler());
         }
         preset.addItem(STATUS_SLOT,STATUS_OFF,ChestMenuUtils.getEmptyClickHandler());
     }

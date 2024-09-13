@@ -11,6 +11,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.Schedules;
+import me.matl114.logitech.SlimefunItem.Items.EntityFeat;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
@@ -82,13 +83,10 @@ public class VirtualKiller extends AbstractMachine {
     }
     public List<MachineRecipe> provideDisplayRecipe(){
         HashMap<EntityType,ItemStack[]> map=getEntityMap();
-        SlimefunItem it= SlimefunItem.getByItem(SlimefunItems.REPAIRED_SPAWNER);
         List<MachineRecipe> providedRecipes=new ArrayList<>();
         for(Map.Entry<EntityType,ItemStack[]> entry:map.entrySet()){
             if(entry.getValue().length!=0)
-                providedRecipes.add(MachineRecipeUtils.stackFrom(0, (it instanceof RepairedSpawner rs)?
-                    new ItemStack[]{AddUtils.addLore(rs.getItemForEntityType(entry.getKey()),
-                            "&e刷怪笼示例","&a任何该生物类型的刷怪笼物品均支持")}:new ItemStack[0],entry.getValue()));
+                providedRecipes.add(MachineRecipeUtils.stackFrom(0,new ItemStack[]{ EntityFeat.getItemFromEntityType(entry.getKey())},entry.getValue()));
         }
         return providedRecipes;
     }
@@ -154,19 +152,13 @@ public class VirtualKiller extends AbstractMachine {
     public void parseItem(BlockMenu menu, Block block){
         DataMenuClickHandler handler= getDataHolder(block,menu);
         ItemStack stack=menu.getItemInSlot(SPAWNER_SLOT);
-        if(stack!=null&&stack.getType()== Material.SPAWNER){
-            ItemMeta meta=stack.getItemMeta();
-            if(meta instanceof BlockStateMeta bsm){
-                BlockState state=bsm.getBlockState();
-                if(state instanceof CreatureSpawner cs){
-                    EntityType e=cs.getSpawnedType();
-                    int amount=stack.getAmount();
-                    handler.setInt(0,amount);
-                    handler.setObject(0,e);
-                    menu.replaceExistingItem(INFO_SLOT,getInfoItem(e,amount));
-                    return;
-                }
-            }
+        EntityType e=EntityFeat.getEntityTypeFromItem(stack);
+        if(e!=null){
+            int amount=stack.getAmount();
+            handler.setInt(0,amount);
+            handler.setObject(0,e);
+            menu.replaceExistingItem(INFO_SLOT,getInfoItem(e,amount));
+            return;
         }
         handler.setInt(0,0);
         handler.setObject(0,null);

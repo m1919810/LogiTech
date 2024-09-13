@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import me.matl114.logitech.Utils.DataCache;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -58,7 +59,7 @@ public interface MenuBlock extends InventoryBlock {
                 new BlockBreakHandler(false, false) {
                     @ParametersAreNonnullByDefault
                     public void onPlayerBreak(BlockBreakEvent e, ItemStack itemStack, List<ItemStack> list) {
-                        BlockMenu menu = BlockStorage.getInventory(e.getBlock());
+                        BlockMenu menu = DataCache.getMenu(e.getBlock().getLocation());// BlockStorage.getInventory(e.getBlock());
                         MenuBlock.this.onBreak(e, menu);
                     }
                 }, new BlockPlaceHandler(false) {

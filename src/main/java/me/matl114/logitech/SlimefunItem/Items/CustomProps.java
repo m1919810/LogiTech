@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public abstract class CustomProps extends CustomSlimefunItem {
+public abstract class CustomProps extends ItemWithHandler<ItemUseHandler> {
     public CustomProps(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe){
         super(itemGroup, item, recipeType, recipe);
     }
@@ -23,11 +23,12 @@ public abstract class CustomProps extends CustomSlimefunItem {
     /**
      * used for clickAction items
      */
+    public ItemUseHandler[] getItemHandler(){
+        return new ItemUseHandler[]{(ItemUseHandler) this::onClickAction};
+    }
     public abstract void onClickAction(PlayerRightClickEvent event);
     public void preRegister(){
         super.preRegister();
-        addItemHandler((ItemUseHandler) this::onClickAction);
-        if(this.getItem().getType().isBlock())
-            addItemHandler(AddHandlers.stopPlacementHandler);
+
     }
 }

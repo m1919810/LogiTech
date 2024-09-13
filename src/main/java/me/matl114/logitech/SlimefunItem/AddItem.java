@@ -18,6 +18,7 @@ public class AddItem {
             AddUtils.addGlow(it);
         }
         AddUtils.hideAllFlags(CARGO_CONFIG);
+        AddUtils.hideAllFlags(ENTITY_FEAT);
     }
 
     //Groups
@@ -100,6 +101,8 @@ public class AddItem {
 
 
     //items
+    public static final SlimefunItemStack ENTITY_FEAT=AddUtils.themed("ENTITY_FEAT",Material.SPAWNER,AddUtils.Theme.ITEM1,
+            Language.get("Items.ENTITY_FEAT.Name"),Language.getList("Items.ENTITY_FEAT.Lore"));
     public static final SlimefunItemStack BUG= AddUtils.themed("BUG", Material.BONE_MEAL, AddUtils.Theme.ITEM1,
             Language.get("Items.BUG.Name"),Language.getList("Items.BUG.Lore"));
     public static final SlimefunItemStack MATL114 = AddUtils.themed("MATL114", CustomHead.MATL114.getItem(), AddUtils.Theme.ITEM1,
@@ -238,6 +241,8 @@ public class AddItem {
             Language.get("Items.ANTIMASS.Name"),Language.getList("Items.ANTIMASS.Lore"));
     public static final SlimefunItemStack VIRTUALWORLD=AddUtils.themed("VIRTUALWORLD",CustomHead.END_BLOCK.getItem(), AddUtils.Theme.ITEM1,
             Language.get("Items.VIRTUALWORLD.Name"),Language.getList("Items.VIRTUALWORLD.Lore"));
+    public static final SlimefunItemStack SAMPLE_SPAWNER=AddUtils.themed("SAMPLE_SPAWNER",Material.SPAWNER,AddUtils.Theme.ITEM1,
+            Language.get("Items.SAMPLE_SPAWNER.Name"),Language.getList("Items.SAMPLE_SPAWNER.Lore"));
     //nachines
     public static final SlimefunItemStack HEAD_ANALYZER=AddUtils.themed("HEAD_ANALYZER",Material.SOUL_CAMPFIRE, AddUtils.Theme.MACHINE1,
             Language.get("Machines.HEAD_ANALYZER.Name"),Language.getList("Machines.HEAD_ANALYZER.Lore"));
@@ -306,6 +311,8 @@ public class AddItem {
             Language.get("Machines.INF_MOBSIMULATION.Name"),Language.getList("Machines.INF_MOBSIMULATION.Lore"));
     public static final SlimefunItemStack INF_GEOQUARRY=AddUtils.themed("INF_GEOQUARRY",Material.CHISELED_QUARTZ_BLOCK,AddUtils.Theme.MACHINE1,
             Language.get("Machines.INF_GEOQUARRY.Name"),Language.getList("Machines.INF_GEOQUARRY.Lore"));
+    public static final SlimefunItemStack RAND_EDITOR=AddUtils.themed("RAND_EDITOR",Material.ENCHANTING_TABLE,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.RAND_EDITOR.Name"),Language.getList("Machines.RAND_EDITOR.Lore"));
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Manuals.MANUAL_CORE.Name"),Language.getList("Manuals.MANUAL_CORE.Lore"));
@@ -576,5 +583,6 @@ public class AddItem {
         add(ENERGY_AMPLIFIER);
         add(MORE2);
         add(INF_MOBSIMULATION);
+        add(ENTITY_FEAT);
     }};
 }

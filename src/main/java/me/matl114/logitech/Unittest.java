@@ -18,6 +18,10 @@ public class Unittest {
     //TODO 完成之前的TODO
     //TODO 简化多方块机器uid数据大小，并且兼容之前的数据 随机字符串
     //TODO 测试先移除sfdata再blockbreak
+    //TODO 增加增幅槽位限制
+    //TODO 堆叠发电机增加增幅率
+    //TODO 减少配方价格
+    //TODO 增加机器产出
     //完成普通特殊合成台和高级特殊合成肽
     // 增加无尽
 }

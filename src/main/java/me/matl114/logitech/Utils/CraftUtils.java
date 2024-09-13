@@ -50,6 +50,7 @@ public class CraftUtils {
     private static final HashSet<Material> INDISTINGUISHABLE_MATERIALS = new HashSet<Material>() {{
         add(Material.SHULKER_BOX);
         add(Material.BUNDLE);
+        add(Material.SPAWNER);
     }};
     public static final ItemStack DEFAULT_ITEMSTACK=new ItemStack(Material.STONE);
     public static final ItemMeta NULL_META=(DEFAULT_ITEMSTACK.getItemMeta());
@@ -1793,7 +1794,9 @@ public class CraftUtils {
      * @return
      */
     public static boolean canQuickEscapeMetaVariant(@Nonnull ItemMeta metaOne, @Nonnull ItemMeta metaTwo) {
-
+        if(metaOne instanceof BlockStateMeta||metaTwo instanceof BlockStateMeta) {
+            return false;
+        }
         // Damageable (first as everything can be damageable apparently)
         if (metaOne instanceof Damageable instanceOne && metaTwo instanceof Damageable instanceTwo) {
             if (instanceOne.getDamage() != instanceTwo.getDamage()) {

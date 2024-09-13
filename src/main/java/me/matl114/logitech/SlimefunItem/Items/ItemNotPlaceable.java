@@ -15,7 +15,11 @@ public class ItemNotPlaceable extends CustomSlimefunItem {
     @Override
     public  void preRegister(){
         super.preRegister();
-        addItemHandler(AddHandlers.stopPlacementHandler);
+        if(this.getItem().getType().isBlock()){
+            addItemHandler(AddHandlers.stopPlacementHandler);
+            addItemHandler(AddHandlers.stopPlaceerHandler);
+        }
+
     }
 
 }

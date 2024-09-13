@@ -475,6 +475,14 @@ zh_CN:
       Name: '虚拟世界'
       Lore:
         - '诞生自ERROR的世界'
+    ENTITY_FEAT:
+      Name: '生物特征'
+      Lore:
+        - '随机掉落于刷怪笼'
+        - ''
+        - '类型: &x&e&b&3&3&e&b<类型>'
+    SAMPLE_SPAWNER:
+      Name: '刷怪笼'
   Machines:
     LOGIC_REACTOR:
       Name: '逻辑反应堆'
@@ -650,7 +658,11 @@ zh_CN:
       Name: '物质量化重塑器'
       Lore:
         - '"或许,物质在它看来不过是一串数字"'
-        - '随机波动输入物的材质数字ID以重塑材质'
+        - '随机波动输入物的材质ID以重塑材质'
+    RAND_EDITOR:
+      Name: '属性量化增幅器'
+      Lore:
+        - '随机增幅物品的附魔等属性'
     VIRTUAL_KILLER:
       Name: '屠宰工厂'
       Lore:

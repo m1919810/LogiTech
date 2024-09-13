@@ -42,6 +42,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -303,6 +304,10 @@ public class AddSlimefunItems {
                     "END_STONE","CHORUS_FLOWER","END_STONE","CHORUS_FRUIT","CHORUS_FLOWER","CHORUS_FRUIT",
                     null,"END_STONE","CHORUS_FLOWER","CHORUS_FLOWER","CHORUS_FRUIT",null),null)
             .register();
+    public static final SlimefunItem ENTITY_FEATURE=new EntityFeat(AddGroups.MATERIAL,AddItem.ENTITY_FEAT,RecipeType.NULL,
+            recipe(null,AddUtils.addGlow( new ItemStack(Material.IRON_PICKAXE)),null,null,AddUtils.getInfoShow("&f获取方式","&7当 挖掘任意刷怪笼方块时 ","&750%额外掉落随机种类的生物特征"),null,
+                    null,new ItemStack(Material.SPAWNER),null))
+            .register();
     public static final SlimefunItem HYPER_LINK=new HypLink(AddGroups.SPACE,AddItem.HYPER_LINK,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.ABSTRACT_INGOT,AddItem.PARADOX,AddItem.ABSTRACT_INGOT,
                     AddItem.PARADOX,AddItem.DIMENSIONAL_SHARD,AddItem.PARADOX,
@@ -425,6 +430,9 @@ public class AddSlimefunItems {
 
     public static final SlimefunItem SAMPLE_HEAD=new AbstractBlock(AddGroups.SPECIAL,AddItem.SAMPLE_HEAD,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.HEAD_ANALYZER,Language.get("Machines.HEAD_ANALYZER.Name")))
+            .register();
+    public static final SlimefunItem SAMPLE_SPAWNER=new AbstractSpawner(AddGroups.SPECIAL,AddItem.SAMPLE_SPAWNER,RecipeType.NULL,
+            AddUtils.formatInfoRecipe(AddItem.ENTITY_FEAT,Language.get("Items.ENTITY_FEAT.Name")))
             .register();
     public static final SlimefunItem CHIP=new ChipCard(AddGroups.ADVANCED,AddItem.CHIP,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.CHIP_MAKER,Language.get("Machines.CHIP_MAKER.Name")))
@@ -1913,6 +1921,7 @@ public class AddSlimefunItems {
                     )
             ))
             .register();
+
     public static final  SlimefunItem FINAL_STACKMACHINE=new FinalStackMachine(AddGroups.BEYOND, AddItem.FINAL_STACKMACHINE,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")), Material.STONE,100,200_000_000,64)
             .register();
@@ -1920,7 +1929,9 @@ public class AddSlimefunItems {
             AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),1,200_000_000,100,
             32)
             .register();
-
+    public static final  SlimefunItem RAND_EDITOR=new RandomEditor(AddGroups.BEYOND, AddItem.RAND_EDITOR,RecipeType.NULL,
+            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")), 200_000_000,25_000_000)
+            .register();
 
     public static final SlimefunItem TMP1=new MaterialItem(AddGroups.FUNCTIONAL,AddItem.TMP1,RecipeType.NULL,
             AddUtils.NULL_RECIPE.clone())
