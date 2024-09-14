@@ -431,7 +431,7 @@ public class AddSlimefunItems {
     public static final SlimefunItem SAMPLE_HEAD=new AbstractBlock(AddGroups.SPECIAL,AddItem.SAMPLE_HEAD,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.HEAD_ANALYZER,Language.get("Machines.HEAD_ANALYZER.Name")))
             .register();
-    public static final SlimefunItem SAMPLE_SPAWNER=new AbstractSpawner(AddGroups.SPECIAL,AddItem.SAMPLE_SPAWNER,RecipeType.NULL,
+    public static final SlimefunItem SAMPLE_SPAWNER=new AbstractSpawner(AddGroups.FUNCTIONAL,AddItem.SAMPLE_SPAWNER,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.ENTITY_FEAT,Language.get("Items.ENTITY_FEAT.Name")))
             .register();
     public static final SlimefunItem CHIP=new ChipCard(AddGroups.ADVANCED,AddItem.CHIP,RecipeType.NULL,
