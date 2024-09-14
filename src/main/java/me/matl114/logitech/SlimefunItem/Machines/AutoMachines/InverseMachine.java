@@ -13,12 +13,12 @@ import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractAdvancedProcessor;
 import me.matl114.logitech.SlimefunItem.Machines.MultiCraftType;
 import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.AbstractItemStack;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
-import me.matl114.logitech.Utils.UtilClass.MenuClass.CustomMenu;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.DataMenuClickHandler;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
-import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
+import me.matl114.logitech.Utils.UtilClass.RecipeClass.StackMachineRecipe;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -33,11 +33,9 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class StackMachine extends AbstractAdvancedProcessor implements MultiCraftType, ImportRecipes {
+public class InverseMachine extends AbstractAdvancedProcessor {
     protected final int[] BORDER={
             12,14,21,23,30,31,32,39,41,48,49,50
     };
@@ -60,16 +58,17 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
     protected final int MINFO_SLOT=40;
     protected final int INFO_SLOT=4;
     protected final ItemStack INFO_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&b机制",
-            "&6将要模拟的机器放在下方槽位","&6机器会进行模拟,其中","&7<并行处理数>=<机器数*工作效率>","&7<耗电数>=<机器数量*单个机器耗电/工作效率>","&6有关高级机器和并行处理数的信息,请见粘液书<版本与说明>","&6支持的机器可以在粘液书<通用机器类型大全>"
-            ,"&6或者左边按钮查看","&6机器支持的配方可以点击右侧按钮查看");
+            "&6将要模拟的机器放在下方槽位","&6机器会进行反向配方合成,其中","&7<并行处理数>=<机器数*工作效率>","&7<耗电数>=<机器数量*单个机器耗电/工作效率>",
+            "&6有关高级机器和并行处理数的信息,请见粘液书<版本与说明>","&6支持的机器可以在粘液书<通用机器类型大全>"
+            ,"&6或者左边按钮查看","&6机器支持的反向配方可以点击右侧按钮查看");
     protected final ItemStack MINFO_ITEM_OFF=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&c机器信息","&7待机中");
     protected final int MACHINEMENU_SLOT=3;
     protected final int RECIPEMENU_SLOT=5;
     protected final ItemStack MACHINEMENU_ICON=new CustomItemStack(Material.BLAST_FURNACE,"&b该机器支持的机器列表","&6点击打开菜单");
     protected final ItemStack RECIPEMENU_ICON=new CustomItemStack(Material.KNOWLEDGE_BOOK,"&b当前模拟的机器配方列表","&6点击打开菜单");
     protected ItemStack getInfoItem(int craftlimit,int energyCost,int charge,double efficiency,String name){
-        return new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&a机器信息",AddUtils.concat("&7当前模拟的机器名称: ",(name)),
-                "&7当前并行处理数: %-3d".formatted(craftlimit),"&7当前每刻耗电量: %sJ/t".formatted(AddUtils.formatDouble(energyCost)),"&7当前电量: %sJ".formatted(AddUtils.formatDouble(charge)),
+        return new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&a机器信息", AddUtils.concat("&7当前模拟的机器名称: ",(name)),
+                "&7当前并行处理数: %-3d".formatted(craftlimit),
                 AddUtils.concat("&7当前工作效率: ",AddUtils.getPercentFormat(efficiency)));
     }
     protected ItemStack getInfoOffItem(int craftlimit ,int energyCost,int charge,String name){
@@ -81,20 +80,20 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
     static{
         SchedulePostRegister.addPostRegisterTask(()->{
             getMachineList();
-            MACHINE_LIST_MENU=MenuUtils.createMachineListDisplay(getMachineList(),null).setBack(1);
+            MACHINE_LIST_MENU= MenuUtils.createMachineListDisplay(getMachineList(),null).setBack(1);
         });
     }
-    protected ItemPusherProvider MACHINE_PROVIDER=CraftUtils.getpusher;
-    public StackMachine(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
-                        Material progressItem, int energyConsumption, int energyBuffer,double efficiency) {
-        super(category, item, recipeType, recipe, progressItem, energyConsumption, energyBuffer, null);
+    protected ItemPusherProvider MACHINE_PROVIDER= CraftUtils.getpusher;
+    public InverseMachine(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
+                        Material progressItem, double efficiency) {
+        super(category, item, recipeType, recipe, progressItem, 0,0, null);
         AddUtils.addGlow(getProgressBar());
         this.efficiency=efficiency;
         this.setDisplayRecipes(
                 Utils.list(
-                        AddUtils.getInfoShow("&f机制 - &c堆叠",
+                        AddUtils.getInfoShow("&f机制 - &c反配方",
                                 "&7在界面的机器槽中放入机器",
-                                "&7堆叠机器会载入该机器的配方列表并进行进程",
+                                "&7堆叠机器会载入该机器的&c反向&7配方列表并进行进程",
                                 "&7机器槽中的机器数目决定并行处理数",
                                 "&7堆叠机器并行处理数=<机器数>*<工作效率>",
                                 "&7堆叠机器耗电量=<机器数>*<机器耗电量>"),null
@@ -103,25 +102,52 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
 
     }
     public void addInfo(ItemStack stack){
-        stack.setItemMeta( AddUtils.capacitorInfoAdd(stack,energybuffer).getItemMeta());
+
     }
     public static boolean hasInit=false;
+    public static HashMap<SlimefunItem,List<MachineRecipe> > INVERSED_RECIPES=new LinkedHashMap<>();
     public static List<SlimefunItem> getMachineList(){
         if(!hasInit)
-        synchronized (BW_LIST){
-            if(BW_LIST.isEmpty()){
-                RecipeSupporter.init();
-                BWSIZE=RecipeSupporter.STACKMACHINE_LIST.size();
-                BW_LIST_ENERGYCOMSUME=new int[BWSIZE];
-                int i=0;
-                for(Map.Entry<SlimefunItem,Integer> e:RecipeSupporter.STACKMACHINE_LIST.entrySet()){
-                    BW_LIST.add(e.getKey());
-                    BW_LIST_ENERGYCOMSUME[i]=e.getValue();
-                    ++i;
+            synchronized (BW_LIST){
+                if(BW_LIST.isEmpty()){
+                    RecipeSupporter.init();
+                    BWSIZE=RecipeSupporter.STACKMACHINE_LIST.size();
+                    BW_LIST_ENERGYCOMSUME=new int[BWSIZE];
+                    int i=0;
+                    for(Map.Entry<SlimefunItem,Integer> e:RecipeSupporter.STACKMACHINE_LIST.entrySet()){
+                        List<MachineRecipe> originRecipes=RecipeSupporter.MACHINE_RECIPELIST.get(e.getKey());
+                        if(originRecipes==null){
+                            originRecipes=new ArrayList<>();
+                        }
+                        List<MachineRecipe> inversedRecipes=new ArrayList<>();
+                        loop:
+                        for(MachineRecipe r:originRecipes){
+                            ItemStack[] outputItem=r.getOutput();
+                            for(int j=0;j<outputItem.length;j++){
+                                if(outputItem[j] instanceof AbstractItemStack){
+                                    continue loop;
+                                }
+                            }
+                            ItemStack[] inputItem=r.getInput();
+                            for(int j=0;j<inputItem.length;j++){
+                                if(inputItem[j] instanceof AbstractItemStack){
+                                    continue loop;
+                                }
+                            }
+                            inversedRecipes.add(new StackMachineRecipe(0,outputItem,inputItem));
+                        }
+                        if(inversedRecipes.isEmpty()){
+                            continue;
+                        }
+                        BW_LIST.add(e.getKey());
+                        BW_LIST_ENERGYCOMSUME[i]=e.getValue();
+                        INVERSED_RECIPES.put(e.getKey(),inversedRecipes);
+                        ++i;
+                    }
+                    BWSIZE=i;
+                    hasInit=true;
                 }
-                hasInit=true;
             }
-        }
         return BW_LIST;
     }
     public static final int getListSize(){
@@ -160,19 +186,10 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
     public List<MachineRecipe> getMachineRecipes(SlimefunBlockData data){
         int index= MultiCraftType.getRecipeTypeIndex(data);
         if(index>=0&&index<getListSize()){
-            List<MachineRecipe> lst= RecipeSupporter.MACHINE_RECIPELIST.get(getMachineList().get(index ));
+            List<MachineRecipe> lst= INVERSED_RECIPES.get(getMachineList().get(index ));
             return lst!=null?lst:new ArrayList<>();
         }
         return new ArrayList<>();
-    }
-    //该方法一般只有updateMenu的时候调用
-    //有没有可能就是
-    //老子直接不要了塞updateMenu里
-    public void anaylsisMachine(BlockMenu inv){
-        //首先 检测机器
-        //其次 核验下标 使用safeset 需要重置历史吗 随便 但是你禁用更好
-        //如果禁用
-
     }
     public void constructMenu(BlockMenuPreset preset) {
         //空白背景 禁止点击
@@ -251,7 +268,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
     }
 
     public final int getCraftLimit(Block b,BlockMenu inv){
-       return (int)(this.efficiency*getDataHolder(b,inv).getInt(0));
+        return (int)(this.efficiency*getDataHolder(b,inv).getInt(0));
     }
     public void progressorCost(Block b, BlockMenu inv){
         DataMenuClickHandler dh=getDataHolder(b,inv);
@@ -298,7 +315,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
                             //是该机器,设置下标，都不用查了 肯定不一样
                             MultiCraftType.forceSetRecipeTypeIndex(data,i);
                             int charge=getEnergy(i);
-                          //  DataCache.setCustomData(data,"mae",charge==-1?energyConsumption:charge);
+                            //  DataCache.setCustomData(data,"mae",charge==-1?energyConsumption:charge);
                             db.setInt(0,it.getAmount());
                             db.setInt(1,charge==-1?energyConsumption:charge);
                             return;
@@ -325,7 +342,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
             int craftLimit=db.getInt(0);
             int consumption=Math.min(craftLimit*charge,this.energybuffer);
             int energy=this.getCharge(inv.getLocation(),data);
-            if(energy>=consumption){
+            if(energy>consumption){
                 if(inv.hasViewer()){
                     DataMenuClickHandler dh=getDataHolder(b,inv);
                     inv.replaceExistingItem(MINFO_SLOT,getInfoItem((int)(craftLimit*efficiency),consumption,energy,this.efficiency,
@@ -347,7 +364,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
             }
         }
     }
-    public void onBreak(BlockBreakEvent e,BlockMenu inv){
+    public void onBreak(BlockBreakEvent e, BlockMenu inv){
         if(inv!=null){
             Location loc=inv.getLocation();
             inv.dropItems(loc,MACHINE_SLOT);

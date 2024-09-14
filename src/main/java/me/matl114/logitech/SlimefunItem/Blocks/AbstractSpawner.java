@@ -17,6 +17,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -67,4 +68,10 @@ public class AbstractSpawner extends AbstractBlock{
         super.preRegister();
         this.handleBlock(this);
    }
+    public boolean canStack(ItemMeta meta1, ItemMeta meta2){
+        if(meta1 instanceof BlockStateMeta bsm1 &&meta2 instanceof BlockStateMeta bsm2){
+            return bsm1.getBlockState().equals(bsm2.getBlockState());
+        }
+        return false;
+    }
 }

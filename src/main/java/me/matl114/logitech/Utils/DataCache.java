@@ -266,6 +266,9 @@ public class DataCache {
         data.setData(key,defaultVal);
         return defaultVal;
     }
+    public static void setCustomString(Location loc,String key,String value){
+        safeSetData(loc,key,value);
+    }
     public static void setCustomString(SlimefunBlockData data,String key,String value){
         safeSetData(data,key,value);
     }

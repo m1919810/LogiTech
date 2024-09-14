@@ -154,7 +154,7 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
                         }
                     }
                     craft(menu,limit);
-                    AbstractManual.this.tick(block,menu,1);
+                    AbstractManual.this.updateMenu(menu,block,Settings.INIT);
                     return false;
                 }
         );
@@ -172,7 +172,7 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
                         }
                     }
                     craft(menu,limit);
-                    AbstractManual.this.tick(block,menu,1);
+                    AbstractManual.this.updateMenu(menu,block,Settings.INIT);
                     return false;
                 }
         );

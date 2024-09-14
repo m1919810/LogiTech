@@ -856,7 +856,7 @@ MomoTech:
     recipe:
       '0':
         output:
-          '1': 8COBBLESTONE
+          '1': 3072COBBLESTONE
         tick: 0
     mode: w
     type: generator

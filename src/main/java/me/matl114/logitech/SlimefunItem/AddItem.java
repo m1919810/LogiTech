@@ -313,6 +313,8 @@ public class AddItem {
             Language.get("Machines.INF_GEOQUARRY.Name"),Language.getList("Machines.INF_GEOQUARRY.Lore"));
     public static final SlimefunItemStack RAND_EDITOR=AddUtils.themed("RAND_EDITOR",Material.ENCHANTING_TABLE,AddUtils.Theme.MACHINE1,
             Language.get("Machines.RAND_EDITOR.Name"),Language.getList("Machines.RAND_EDITOR.Lore"));
+    public static final SlimefunItemStack ATTR_OP=AddUtils.themed("ATTR_OP",Material.ANVIL,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.ATTR_OP.Name"),Language.getList("Machines.ATTR_OP.Lore"));
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Manuals.MANUAL_CORE.Name"),Language.getList("Manuals.MANUAL_CORE.Lore"));

@@ -330,7 +330,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
             int consumption=Math.min(rawCraftLimit*charge,this.energybuffer);
             int energy=this.getCharge(inv.getLocation(),data);
             int tick=db.getInt(2);
-            if(energy>consumption){
+            if(energy>=consumption){
                 if(hasViewer){
                     if(tick>=0){
                         inv.replaceExistingItem(this.PROCESSOR_SLOT,getWorkingItem(tick));

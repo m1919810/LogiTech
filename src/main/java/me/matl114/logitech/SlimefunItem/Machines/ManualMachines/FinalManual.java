@@ -233,7 +233,7 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
                         limit=64;
                     }
                     craft(menu,limit);
-                    FinalManual.this.tick(block,menu,1);
+                    FinalManual.this.updateMenu(menu,block,Settings.INIT);
 
                     return false;
                 }
@@ -245,7 +245,7 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
                         limit=9_999_999;
                     }
                     craft(menu,limit);
-                    FinalManual.this.tick(block,menu,1);
+                    FinalManual.this.updateMenu(menu,block,Settings.INIT);
                     return false;
                 }
         );

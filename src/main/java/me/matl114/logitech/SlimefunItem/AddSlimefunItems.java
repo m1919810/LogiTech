@@ -714,7 +714,7 @@ public class AddSlimefunItems {
                     AddItem.PLATINUM_INGOT,AddItem.PLATINUM_INGOT,AddItem.PLATINUM_INGOT,AddItem.PLATINUM_INGOT,AddItem.PLATINUM_INGOT,AddItem.PLATINUM_INGOT), 200_000_000,0.1,300)
             .register();
     public static final SlimefunItem ENERGY_AMPLIFIER=new EnergyAmplifier(AddGroups.ENERGY,AddItem.ENERGY_AMPLIFIER,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),1_000_000_000)
+            AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),1_000_000_000,2.0)
             .register();
     public static final  SlimefunItem SPECIAL_CRAFTER=new SpecialTypeCrafter(AddGroups.BASIC, AddItem.SPECIAL_CRAFTER,COMMON_TYPE,
             recipe(AddItem.ABSTRACT_INGOT,AddItem.LFIELD,AddItem.LOGIC,AddItem.LOGIC,AddItem.LFIELD,AddItem.ABSTRACT_INGOT,
@@ -772,7 +772,7 @@ public class AddSlimefunItems {
             mkMp(
                 mkP(mkl(setC(AddItem.CHIP_INGOT,6),AddItem.EXISTE),mkl( ChipCardCode.CHIP_0)),4,
                     mkP(mkl(setC(AddItem.CHIP_INGOT,6),AddItem.UNIQUE),mkl( ChipCardCode.CHIP_1)),4,
-                    mkP(mkl(AddItem.LSCHEDULER,ChipCardCode.CHIP_FINAL),mkl(CHIP_CORE)),4
+                    mkP(mkl(AddItem.LSCHEDULER,ChipCardCode.CHIP_FINAL),mkl(setC(AddItem.CHIP_CORE,4))),4
             )).register();
 
     public static final SlimefunItem CHIP_CONSUMER=new ChipConsumer(AddGroups.ADVANCED,AddItem.CHIP_CONSUMER,COMMON_TYPE,
@@ -809,7 +809,10 @@ public class AddSlimefunItems {
                     AddItem.BISILVER,AddItem.SPACE_PLATE,setC(AddItem.LSINGULARITY,1),setC(AddItem.LSINGULARITY,1),AddItem.SPACE_PLATE,AddItem.BISILVER,
                     AddItem.PDCECDMD,AddItem.LPLATE,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.LPLATE,AddItem.PDCECDMD))
             .register();
-
+    public static final  SlimefunItem ATTR_OP=new AttributeOperator(AddGroups.SPECIAL, AddItem.ATTR_OP,RecipeType.MAGIC_WORKBENCH,
+            recipe("AUTO_DISENCHANTER_2",AddItem.LENGINE,"AUTO_DISENCHANTER_2",AddItem.STAR_GOLD_INGOT,"BOOK_BINDER",AddItem.STAR_GOLD_INGOT,
+                    "AUTO_ENCHANTER_2",AddItem.LENGINE,"AUTO_ENCHANTER_2"), 1200,120)
+            .register();
 
 
 
@@ -818,7 +821,7 @@ public class AddSlimefunItems {
     public static final SlimefunItem MAGIC_STONE=new SMGenerator(AddGroups.GENERATORS, AddItem.MAGIC_STONE,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("DIAMOND_PICKAXE","LAVA_BUCKET","DIAMOND_PICKAXE",
                     "PISTON",AddItem.LOGIGATE,"PISTON",
-                    "COBALT_PICKAXE","WATER_BUCKET","COBALT_PICKAXE"),18,1000,66,
+                    "COBALT_PICKAXE","WATER_BUCKET","COBALT_PICKAXE"),16,1000,66,
             AddUtils.randItemStackFactory(
                     mkMp("64COBBLESTONE",72,
                             "2COAL",7,
@@ -826,8 +829,8 @@ public class AddSlimefunItems {
                             "2IRON_INGOT",5,
                             "8LAPIS_LAZULI",4,
                             "2GOLD_INGOT",3,
-                            "DIAMOND",2,
-                            "EMERALD",1
+                            "2DIAMOND",2,
+                            "2EMERALD",1
                     )
             ))
             .register();
@@ -851,13 +854,13 @@ public class AddSlimefunItems {
             ),14,2_500,400,
             AddUtils.randItemStackFactory(
                     mkMp("64COBBLESTONE",40,
-                            "3COAL",9,
-                            "3REDSTONE",9,
-                            "3IRON_INGOT",9,
+                            "4COAL",9,
+                            "4REDSTONE",9,
+                            "4IRON_INGOT",9,
                             "8LAPIS_LAZULI",9,
-                            "3GOLD_INGOT",9,
-                            "3DIAMOND",8,
-                            "3EMERALD",7
+                            "4GOLD_INGOT",9,
+                            "4DIAMOND",8,
+                            "4EMERALD",7
                     )
             ))
             .register();
@@ -2059,8 +2062,6 @@ public class AddSlimefunItems {
 //                }}
 //            ));
 
-    public static final SlimefunItem TEST_MPART=new MultiPart(AddGroups.MATERIAL,AddItem.TESTPART,RecipeType.NULL,AddUtils.NULL_RECIPE.clone(),
-            "test.part").register();
     public static final SlimefunItem TEST_MCORE=new MultiCoreTest(AddGroups.MATERIAL,AddItem.TESTCORE,RecipeType.NULL,AddUtils.NULL_RECIPE.clone(),
             "test.part", MultiBlockTypes.TEST_TYPE).register();
     public static final SlimefunItem TEST_SEQ=new SequenceConstructor(AddGroups.MATERIAL,AddItem.TEST_SEQ,RecipeType.NULL,

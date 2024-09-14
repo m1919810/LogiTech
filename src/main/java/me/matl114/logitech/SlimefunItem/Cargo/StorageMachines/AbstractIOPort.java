@@ -138,6 +138,9 @@ public abstract class AbstractIOPort extends AbstractMachine {
                 if(history!=-1){
                     setStorageAmount(loc,-1);
                 }
+                if(menu.hasViewer()&&getDisplaySlot()>=0){
+                    menu.replaceExistingItem(getDisplaySlot(),ITEM_DISPLAY_NULL );
+                }
                 return;
             }
             else {

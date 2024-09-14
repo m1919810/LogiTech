@@ -115,7 +115,6 @@ public class CustomEffects {
             p.setHealth(d);
         }
         public void onDeathEvent(PlayerDeathEvent e,int level) {
-            Debug.logger("death");
             e.setDeathMessage(AddUtils.resolveColor( "%s &6被%d级的强力激光融化了".formatted(e.getEntity().getName(),level)));
         }
     };

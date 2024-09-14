@@ -174,7 +174,7 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType ,
                     }
 
                     craft(menu,limit);
-                    MultiBlockManual.this.tick(block,menu,1);
+                    MultiBlockManual.this.updateMenu(menu,block,Settings.INIT);
                     return false;
                 }
         );

@@ -52,9 +52,11 @@ public class EnergyAmplifier extends AbstractEnergyProvider {
         return new ArrayList<>();
     }
     protected ItemPusherProvider MACHINE_PROVIDER= FinalFeature.STORAGE_READER;
+    protected double multiply;
     public EnergyAmplifier(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
-                                  int energyBuffer) {
+                                  int energyBuffer,double multiply) {
         super(category, item, recipeType, recipe,   energyBuffer,1);
+        this.multiply=multiply;
     }
     public void constructMenu(BlockMenuPreset preset){
         int[] border=BORDER;
@@ -69,8 +71,10 @@ public class EnergyAmplifier extends AbstractEnergyProvider {
             return STATUS_ITEM_OFF;
         }else {
             return new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&a当前状态: 发电中",
-                    "&7当前单体发电: %dJ".formatted(energyProvide)
-                    ,"&7当前放大倍率: %dx".formatted(stackNum),
+                    "&7当前单体发电: %dJ/t".formatted(energyProvide)
+                    ,"&7当前电机数目: %dx".formatted(stackNum),
+                    "&7当前工作效率: %.3f".formatted(multiply),
+                    "&7当前发电速率: %dJ/t".formatted((int)(stackNum*energyProvide*multiply)),
                     "&7当前电力存储: %dJ".formatted(charge));
         }
     }
@@ -110,7 +114,7 @@ public class EnergyAmplifier extends AbstractEnergyProvider {
                     inv.replaceExistingItem(STATUS_SLOT,getStatusItem(energyOutput,charge,amplify));
                 }
                 long result=energyOutput;
-                result*=amplify;
+                result=(long)(result*amplify*multiply);
                 return MathUtils.fromLong(result);
             }
         }
