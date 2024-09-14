@@ -121,19 +121,23 @@ public class AddGroups {
                     "&7那么本附属可能并不符合你的心意"));
             menuFactory.addInventory(5,AddUtils.getInfoShow("&f致歉说明",
                     "&7作者能拿的出手的机制就这几个",
-                    "&7虽说抱歉,但是作者也不会因此而做op机器",
+                    "&7虽说抱歉,但是作者也不会因此而做op机器和刷物机器",
                     "&a但是玩家有什么好的想法或者急切的机器需求",
                     "&a也是可以和作者提的",
                     "",
-                    "&7作者的时间也是有限的,不可能知晓玩家的全部需求",
+                    "&7作者真心希望该附属越做越好,而不是越来越烂",
                     "&a所以我在此恳请大家主动发表自己的看法"));
             menuFactory.addInventory(6,AddUtils.getInfoShow("&f致歉说明",
+                    "&7虽说致歉,但是作者还是会&a坚定的继续开发和维护这个附属",
+                    "&7虽然作者也曾想过放弃该附属",
+                    "&7但是也只是一时之念,大家不要当真",
+                    "&7请大家放心,作者并不会丢下一堆烂摊子跑路"));
+            menuFactory.addInventory(7,AddUtils.getInfoShow("&f致歉说明",
                     "&7最后,在此对&e所有觉得这个附属没救的玩家&7致辞","",
-                    "&7您能在这里打开这个分类已经是对我的鼓励了",
                     "&7粘液圈虽然不大,但是比本附属好的附属也是比比皆是",
                     "&7作者的生活中也不只是有粘液,作者也要有自己的生活,并不能帮你救活这个附属",
                     "&7您也不必拘泥于我的附属,我们好聚好散,对大家都好"));
-            menuFactory.addInventory(7,AddUtils.getInfoShow("&f致歉说明",
+            menuFactory.addInventory(8,AddUtils.getInfoShow("&f致歉说明",
                     "&7最后声明:本说明并不针对某一特定玩家",
                     "&7当您对号入座时,请不要座岔了,谢谢."
                     ));
@@ -437,7 +441,7 @@ public class AddGroups {
                     put(24,SINGULARITY);
                     put(31,BEYOND);
                     put(36,UPDATELOG);
-                    put(17,MORE2);
+                    put(26,MORE2);
                 }}
             ){
         public MenuFactory MACHINEMENU=null;
