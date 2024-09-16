@@ -633,7 +633,7 @@ public class AddSlimefunItems {
 
     }
             .register();
-    public static final  SlimefunItem CONVERTOR=new EMachine(AddGroups.BASIC, AddItem.CONVERTOR,RecipeType.NULL,
+    public static final  SlimefunItem CONVERTOR=new EMachine(AddGroups.BASIC, AddItem.CONVERTOR,COMMON_TYPE,
             recipe(AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,
                     AddItem.ABSTRACT_INGOT,null,AddItem.NOLOGIC,AddItem.NOLOGIC,null,AddItem.ABSTRACT_INGOT,
                     AddItem.ABSTRACT_INGOT,null,AddItem.NOLOGIC,AddItem.NOLOGIC,null,AddItem.ABSTRACT_INGOT,
@@ -1708,18 +1708,18 @@ public class AddSlimefunItems {
     public static final SlimefunItem SIMPLE_CARGO=new AdjacentCargo(AddGroups.CARGO,AddItem.SIMPLE_CARGO,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.ABSTRACT_INGOT,"HOPPER",AddItem.ABSTRACT_INGOT,
                     null,AddItem.CARGO_PART ,null,
-                    AddItem.ABSTRACT_INGOT,"IRON_INGOT",AddItem.ABSTRACT_INGOT),
+                    "IRON_INGOT","IRON_INGOT","IRON_INGOT"),
             list(AddUtils.getInfoShow("&f机制","")))
             .register();
     public static final SlimefunItem REMOTE_CARGO=new RemoteCargo(AddGroups.CARGO,AddItem.REMOTE_CARGO,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.ABSTRACT_INGOT,AddItem.HYPER_LINK,AddItem.ABSTRACT_INGOT
                     ,"CARGO_NODE",AddItem.CARGO_PART,"CARGO_NODE",
-                    AddItem.ABSTRACT_INGOT,AddItem.PARADOX,AddItem.ABSTRACT_INGOT),
+                    AddItem.PARADOX,AddItem.PARADOX,AddItem.PARADOX),
             null)
             .register();
     public static final SlimefunItem LINE_CARGO=new LineCargo(AddGroups.CARGO,AddItem.LINE_CARGO,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.ABSTRACT_INGOT,"HOPPER",AddItem.ABSTRACT_INGOT,AddItem.NOLOGIC,AddItem.CARGO_PART,AddItem.NOLOGIC,
-                    AddItem.ABSTRACT_INGOT,"HOPPER",AddItem.ABSTRACT_INGOT),null)
+                    "IRON_INGOT","HOPPER","IRON_INGOT"),null)
             .register();
     public static final  SlimefunItem BISORTER=new BiSorter(AddGroups.CARGO, AddItem.BISORTER,COMMON_TYPE,
             recipe(null,null,null,null,null,null,
@@ -1853,7 +1853,7 @@ public class AddSlimefunItems {
                     null,setC(AddItem.PAGOLD,3),setC(AddItem.LSINGULARITY,4),setC(AddItem.LSINGULARITY,4),setC(AddItem.PAGOLD,3),null), 8_000_000,1_200_000,"final.sub")
             .register();
     public static final SlimefunItem FINAL_BASE=new MultiPart(AddGroups.BEYOND,AddItem.FINAL_BASE,STARSMELTERY,
-            recipe(setC(AddItem.LOGIC_CORE,16)),"final.base")
+            recipe(setC(AddItem.LOGIC_CORE,8)),"final.base")
             .register();
     public static final SlimefunItem FINAL_ALTAR=new FinalAltarCore(AddGroups.BEYOND,AddItem.FINAL_ALTAR,STARSMELTERY,
             recipe(setC(AddItem.HGTLPBBI,16),AddItem.FINAL_FRAME),"final.core")
@@ -1901,7 +1901,7 @@ public class AddSlimefunItems {
                     AddItem.GOLD_PAN_MANUAL,null,setC(AddItem.LASER,2),setC(AddItem.LASER,2),null,AddItem.ANCIENT_ALTAR_MANUAL,
                     setC(AddItem.STACKFRAME,2),AddItem.MAGIC_WORKBENCH_MANUAL,AddItem.COMPOSTER,AddItem.ARMOR_FORGE_MANUAL,AddItem.ORE_WASHER_MANUAL,setC(AddItem.STACKFRAME,2)),0,0)
             .register();
-    //TODO 完成反概念物质的扩散 变化和掉落
+
 
     public static final  SlimefunItem FINAL_CONVERTOR=new FinalConvertor(AddGroups.BEYOND, AddItem.FINAL_CONVERTOR,COMMON_TYPE,
             recipe(AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,AddItem.FINAL_FRAME,AddItem.FINAL_FRAME,AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,

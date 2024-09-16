@@ -7,6 +7,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Blocks.Laser;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.FinalAltarCore;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
@@ -16,6 +17,7 @@ import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.MachineRecipeUtils;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.RandOutItem;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.RandomItemStack;
+import me.matl114.logitech.Utils.Utils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -153,6 +155,22 @@ public class FinalConvertor extends AbstractMachine implements FinalAltarCore.Fi
         super(category, item, recipeType, recipe, energybuffer, energyConsumption);
         this.NULL_OUTPUT=nullOutput;
         this.NULL_OUT=nullOutput;
+        this.setDisplayRecipes(
+                Utils.list(
+                        AddUtils.getInfoShow("&f机制 - &c充能",
+                                "&7当置于贰级终极祭坛上时",
+                                "&7且机器被终极祭坛结构中的所有宏激光发射器充能时",
+                                "&7即终极祭坛中四个宏激光发射器分别位于四个壹级以上终极祭坛上时",
+                                "&7机器激活,进行运转"
+                                ),null,
+                        AddUtils.getInfoShow("&f机制 - &c随机波动",
+                                "&7当机器运转时,",
+                                "&7机器会随机波动若干次输入测的物品材质id",
+                                "&7并尝试将其转为其他材质的原版物品",
+                                "&7当转换失败时,机器会随机从可能的输出中选择一项",
+                                "&7进行输出")
+                )
+        );
         this.RECIPE_FOR_DISPLAY= MachineRecipeUtils.stackFrom(-1,
                 new ItemStack[]{AddUtils.getInfoShow("&f可能的输出","&7如下所示")},
                 new ItemStack[]{NULL_OUTPUT});
@@ -218,7 +236,7 @@ public class FinalConvertor extends AbstractMachine implements FinalAltarCore.Fi
             }while (output!=null);
             Material randMaterial=getRandomMaterial(input.getType());
 
-            ItemStack result=(randMaterial!=null&&randMaterial.isItem())?new ItemStack(randMaterial,1):NULL_OUT.getInstance();
+            ItemStack result=(randMaterial!=null&&randMaterial.isItem())?new ItemStack(randMaterial,randMaterial.getMaxStackSize()):NULL_OUT.getInstance();
 
             inv.replaceExistingItem(OUTPUT_SLOT[hasPutOutput-1],result);
             inv.replaceExistingItem(INPUT_SLOT[hasPutInput-1],null);

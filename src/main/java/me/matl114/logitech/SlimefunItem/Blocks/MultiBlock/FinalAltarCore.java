@@ -17,6 +17,7 @@ import me.matl114.logitech.Utils.Settings;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.*;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiLevelBlock.MultiLevelBlock;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiLevelBlock.MultiLevelBlockType;
+import me.matl114.logitech.Utils.Utils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
@@ -91,6 +92,13 @@ public class FinalAltarCore  extends MultiCore {
                       ItemStack[] recipe, String blockId){
         super(itemGroup, item, recipeType, recipe, blockId);
         this.MBTYPE = MultiBlockTypes.FINAL_ALTAR;
+        this.setDisplayRecipes(Utils.list(
+           AddUtils.getInfoShow("&f机制 - &c多级多方块机器",
+                   "&7终极祭坛拥有两个等级",
+                   "&7其中,贰级终极祭坛需要在壹级终极祭坛上增加额外的多方块结构",
+                   "&7两者的构造在内置的投影中均可查看",
+                   "&7当你需要在壹,贰级终极祭坛切换时,请关闭多方块并重启,或者尝试点击刷新祭坛按钮")
+        ));
     }
     public MultiLevelBlockType getMultiBlockType(){
         return MBTYPE;

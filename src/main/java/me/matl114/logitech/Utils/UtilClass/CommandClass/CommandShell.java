@@ -39,6 +39,7 @@ public class CommandShell {
     public boolean interact_mod=true;
     public boolean async=true;
     static {
+
         PlayerQuiteListener.addHandler((playerQuitEvent -> {
             map.remove(playerQuitEvent.getPlayer().getUniqueId());
         }));
@@ -656,7 +657,9 @@ public class CommandShell {
                 "set <var1> 将当前类对象存储至<var1>",
                 "set <var1> <var2> 将变量<var2>存储至<var1>"
         };
+
         public int cmd(String[] argv,CommandShell shell){
+
             Object obj=getVariable(shell, argv.length==1? getPathVarName():argv[1]);
            return setVariable(shell,argv[0],obj);
         }

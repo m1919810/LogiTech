@@ -150,19 +150,19 @@ public class TransportUtils {
         boolean reverse=CargoConfigs.REVERSE.getConfig(configCode);
         if(!reverse){
             int[] fromSlot=from_input?
-                    from.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.INSERT)
-                    :from.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
+                    from.getPreset().getSlotsAccessedByItemTransport(from,ItemTransportFlow.INSERT,AIR)
+                    :from.getPreset().getSlotsAccessedByItemTransport(from,ItemTransportFlow.WITHDRAW,AIR);
             ItemTransportFlow flow=to_output?ItemTransportFlow.WITHDRAW:ItemTransportFlow.INSERT;
-            int[] toSlot= to.getPreset().getSlotsAccessedByItemTransport(flow);
+            int[] toSlot= to.getPreset().getSlotsAccessedByItemTransport(to,flow,AIR);
             //只有目标INSERT才需要
             smart=smart&&flow==ItemTransportFlow.INSERT;
             transportItem(from,fromSlot,to,toSlot,configCode,smart,bwlist,provider);
         }else {
             int[] toSlot=to_output?
-                    to.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW)
-                    :to.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.INSERT);
+                    to.getPreset().getSlotsAccessedByItemTransport(to,ItemTransportFlow.WITHDRAW,AIR)
+                    :to.getPreset().getSlotsAccessedByItemTransport(to,ItemTransportFlow.INSERT,AIR);
             ItemTransportFlow flow=from_input?ItemTransportFlow.INSERT:ItemTransportFlow.WITHDRAW;
-            int[] fromSlot= from.getPreset().getSlotsAccessedByItemTransport(flow);
+            int[] fromSlot= from.getPreset().getSlotsAccessedByItemTransport(from,flow,AIR);
             //只有目标INSERT才需要
             smart=smart&&flow==ItemTransportFlow.INSERT;
             transportItem(to,toSlot,from,fromSlot,configCode,smart,bwlist,provider);
