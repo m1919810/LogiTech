@@ -51,7 +51,7 @@ public class AddDepends {
             if(hasInfiniteExpansion)
             MOBDATA_MANUAL=new ManualCrafter(AddGroups.MANUAL,AddItem.MOBDATA_MANUAL, BugCrafter.TYPE,
                     AddSlimefunItems.recipe(null,null,AddItem.BUG,AddItem.BUG,null,null,
-                            null,AddItem.BUG,AddItem.LCRAFT,AddItem.LCRAFT,AddItem.BUG,null,
+                            null,AddItem.BUG,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.BUG,null,
                             null,AddItem.LFIELD,"DATA_INFUSER","DATA_INFUSER",AddItem.LFIELD,null,
                             null,AddItem.LFIELD,"DATA_INFUSER","DATA_INFUSER",AddItem.LFIELD,null,
                             null,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,null
@@ -66,7 +66,7 @@ public class AddDepends {
             INFINITY_MANUAL=new ManualCrafter(AddGroups.MANUAL,AddItem.INFINITY_MANUAL,BugCrafter.TYPE,
                     AddSlimefunItems.recipe(null,null,null,null,null,null,
                             AddItem.ABSTRACT_INGOT,"REINFORCED_PLATE","REINFORCED_PLATE","REINFORCED_PLATE","REINFORCED_PLATE",AddItem.ABSTRACT_INGOT,
-                            AddItem.ABSTRACT_INGOT,"MACHINE_PLATE","INFINITE_INGOT","INFINITE_INGOT","MACHINE_PLATE",AddItem.ABSTRACT_INGOT,
+                            AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,
                             AddItem.ABSTRACT_INGOT,"MACHINE_PLATE","INFINITY_FORGE","INFINITY_FORGE","MACHINE_PLATE",AddItem.ABSTRACT_INGOT,
                             AddItem.ABSTRACT_INGOT,AddItem.LFIELD,AddItem.LFIELD,AddItem.LFIELD,AddItem.LFIELD,AddItem.ABSTRACT_INGOT),
                     100_000_000,2_500_000,INFINITYWORKBENCH_TYPE)
@@ -80,9 +80,9 @@ public class AddDepends {
             NTWWORKBENCH_MANUAL=new ManualCrafter(AddGroups.MANUAL,AddItem.NTWWORKBENCH_MANUAL,BugCrafter.TYPE,
                     AddSlimefunItems.recipe(null,null,null,null,null,null,
                             null,"NTW_BRIDGE","ADVANCED_CIRCUIT_BOARD","ADVANCED_CIRCUIT_BOARD","NTW_BRIDGE",null,
-                            null,"NTW_CONTROLLER","NTW_QUANTUM_WORKBENCH","NTW_QUANTUM_WORKBENCH","NTW_CONTROLLER",null,
+                            null,"NTW_BRIDGE",AddItem.LFIELD,AddItem.LFIELD,"NTW_BRIDGE",null,
                             null,AddItem.ABSTRACT_INGOT,"NTW_QUANTUM_WORKBENCH","NTW_QUANTUM_WORKBENCH",AddItem.ABSTRACT_INGOT,null,
-                            null,AddItem.ABSTRACT_INGOT,AddItem.LCRAFT,AddItem.LDIGITIZER,AddItem.ABSTRACT_INGOT,null,
+                            null,AddItem.ABSTRACT_INGOT,"NTW_QUANTUM_WORKBENCH","NTW_QUANTUM_WORKBENCH",AddItem.ABSTRACT_INGOT,null,
                             null,AddItem.ABSTRACT_INGOT,AddItem.LFIELD,AddItem.LFIELD,AddItem.ABSTRACT_INGOT,null),
                     0,0,NTWQTWORKBENCH_TYPE,NTWEP_WORKBENCH_TYPE)
                     .register();
@@ -93,12 +93,12 @@ public class AddDepends {
         try{
             if(hasInfiniteExpansion)
             INFINITY_AUTOCRAFT =new AdvanceRecipeCrafter(AddGroups.BASIC, AddItem.INFINITY_AUTOCRAFT,BugCrafter.TYPE,
-                  AddSlimefunItems.recipe(AddItem.LFIELD,"INFINITE_INGOT",AddItem.DIMENSIONAL_SHARD,AddItem.DIMENSIONAL_SHARD,"INFINITE_INGOT",AddItem.LFIELD,
-                            "INFINITE_INGOT",AddItem.LCRAFT,"VOID_INGOT","VOID_INGOT",AddItem.LMOTOR,"INFINITE_INGOT",
-                            AddItem.DIMENSIONAL_SHARD,"VOID_INGOT","INFINITY_FORGE","INFINITY_FORGE","VOID_INGOT",AddItem.DIMENSIONAL_SHARD,
-                            AddItem.DIMENSIONAL_SHARD,"VOID_INGOT","INFINITY_FORGE","INFINITY_FORGE","VOID_INGOT",AddItem.DIMENSIONAL_SHARD,
-                            "INFINITE_INGOT",AddItem.LMOTOR,"VOID_INGOT","VOID_INGOT",AddItem.LCRAFT,"INFINITE_INGOT",
-                            AddItem.LFIELD,"INFINITE_INGOT",AddItem.DIMENSIONAL_SHARD,AddItem.DIMENSIONAL_SHARD,"INFINITE_INGOT",AddItem.LFIELD)
+                  AddSlimefunItems.recipe(AddItem.LFIELD,AddItem.LFIELD,"INFINITE_INGOT","INFINITE_INGOT",AddItem.LFIELD,AddItem.LFIELD,
+                          AddItem.LFIELD,AddItem.LCRAFT,"VOID_INGOT","VOID_INGOT",AddItem.LMOTOR,AddItem.LFIELD,
+                          "INFINITE_INGOT","VOID_INGOT","INFINITY_FORGE","INFINITY_FORGE","VOID_INGOT","INFINITE_INGOT",
+                          "INFINITE_INGOT","VOID_INGOT","INFINITY_FORGE","INFINITY_FORGE","VOID_INGOT","INFINITE_INGOT",
+                          AddItem.LFIELD,AddItem.LMOTOR,"VOID_INGOT","VOID_INGOT",AddItem.LCRAFT,AddItem.LFIELD,
+                            AddItem.LFIELD,AddItem.LFIELD,"INFINITE_INGOT","INFINITE_INGOT",AddItem.LFIELD,AddItem.LFIELD)
                     , Material.STONE,150_000,1_500_000,15,INFINITYWORKBENCH_TYPE)
                     .register();
         }catch (Throwable e){

@@ -172,9 +172,9 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType ,
                             AddUtils.sendMessage(player,"&c电力不足!无法进行合成");
                         }
                     }
-
+                    MultiBlockManual.this.updateMenu(menu,block,Settings.RUN);
                     craft(menu,limit);
-                    MultiBlockManual.this.updateMenu(menu,block,Settings.INIT);
+                    MultiBlockManual.this.updateMenu(menu,block,Settings.RUN);
                     return false;
                 }
         );
@@ -191,8 +191,9 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType ,
                             AddUtils.sendMessage(player,"&c电力不足!无法进行合成");
                         }
                     }
+                    MultiBlockManual.this.updateMenu(menu,block,Settings.RUN);
                     craft(menu,limit);
-                    MultiBlockManual.this.tick(block,menu,1);
+                    MultiBlockManual.this.updateMenu(menu,block,Settings.RUN);
                     return false;
                 }
         );
@@ -220,6 +221,15 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType ,
         if(mod==Settings.INIT){
             parseRecipe(inv);
             orderSearchRecipe(inv,Settings.SEQUNTIAL);
+        }else {
+            if(parseRecipe(inv)){
+                Location  loc=inv.getLocation();
+                MachineRecipe getRecipe=CraftUtils.matchNextRecipe(inv,getInputSlots(),getMachineRecipes(block,inv),true,Settings.SEQUNTIAL);
+
+                if(getRecipe==null){
+                    DataCache.setLastRecipe(loc,-1);
+                }
+            }
         }
         Location  loc=inv.getLocation();
         int index_=MultiCraftType.getRecipeTypeIndex(loc);
@@ -303,14 +313,7 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType ,
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         //only works when has viewer.
         if(inv!=null&&inv.hasViewer()){
-            if(parseRecipe(inv)){
-            Location  loc=inv.getLocation();
-            MachineRecipe getRecipe=CraftUtils.matchNextRecipe(inv,getInputSlots(),getMachineRecipes(b,inv),true,Settings.SEQUNTIAL);
 
-            if(getRecipe==null){
-                DataCache.setLastRecipe(loc,-1);
-            }
-            }
             updateMenu(inv ,b,Settings.RUN);
         }
     }

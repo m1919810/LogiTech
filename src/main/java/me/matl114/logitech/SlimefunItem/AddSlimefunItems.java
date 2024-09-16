@@ -164,10 +164,10 @@ public class AddSlimefunItems {
             AddUtils.formatInfoRecipe(AddItem.BOOL_GENERATOR,Language.get("Machines.BOOL_GENERATOR.Name")))
             .register();
     public static final SlimefunItem LOGIGATE=new MaterialItem(AddGroups.MATERIAL,AddItem.LOGIGATE,RecipeType.ENHANCED_CRAFTING_TABLE,
-            recipe(AddItem.TRUE_,"REDSTONE_TORCH","SILVER_INGOT",
-                        "COMPARATOR","OBSERVER","REDSTONE_LAMP",
-                    AddItem.FALSE_,"REDSTONE_TORCH","SILVER_INGOT"))
-            .register();
+            recipe("SILVER_INGOT","REDSTONE_TORCH","SILVER_INGOT",
+                        "REDSTONE",null,"REDSTONE",
+                    "SILVER_INGOT","REDSTONE_TORCH","SILVER_INGOT"))
+            .setOutput(setC(AddItem.LOGIGATE,3)).register();
     public static final SlimefunItem LOGIC=new MaterialItem(AddGroups.MATERIAL,AddItem.LOGIC,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.LOGIC_REACTOR,Language.get("Machines.LOGIC_REACTOR.Name")))
             .register();
@@ -193,7 +193,7 @@ public class AddSlimefunItems {
                     AddItem.ABSTRACT_INGOT,"ELECTRIC_MOTOR",AddItem.LOGIC,AddItem.LOGIC,"ELECTRIC_MOTOR",AddItem.ABSTRACT_INGOT,
                     AddItem.ABSTRACT_INGOT,"ELECTRIC_MOTOR",AddItem.LOGIC,AddItem.LOGIC,"ELECTRIC_MOTOR",AddItem.ABSTRACT_INGOT,
                     "REINFORCED_ALLOY_INGOT","REINFORCED_ALLOY_INGOT","REINFORCED_ALLOY_INGOT","REINFORCED_ALLOY_INGOT","REINFORCED_ALLOY_INGOT","REINFORCED_ALLOY_INGOT"),null)
-            .register();
+            .setOutput(setC(AddItem.LENGINE,2)).register();
 
 
     public static final SlimefunItem LFIELD=new MaterialItem(AddGroups.MATERIAL,AddItem.LFIELD,COMMON_TYPE,
@@ -218,12 +218,12 @@ public class AddSlimefunItems {
             .register();
     public static final SlimefunItem LCRAFT=new MaterialItem(AddGroups.MATERIAL,AddItem.LCRAFT,COMMON_TYPE,
             recipe(AddItem.LFIELD,AddItem.LFIELD,"CARGO_MOTOR","CARGO_MOTOR",AddItem.LFIELD, AddItem.LFIELD,
-                    AddItem.LFIELD,"CRAFTER_SMART_PORT","CRAFTING_MOTOR","CRAFTING_MOTOR", "CRAFTER_SMART_PORT",AddItem.LFIELD,
-                    "CARGO_MOTOR","CRAFTING_MOTOR","VANILLA_AUTO_CRAFTER",setC(AddItem.LENGINE,1),"CRAFTING_MOTOR","CARGO_MOTOR",
+                    AddItem.LFIELD,AddItem.LFIELD,"CRAFTING_MOTOR","CRAFTING_MOTOR", AddItem.LFIELD,AddItem.LFIELD,
+                    "CARGO_MOTOR","CRAFTING_MOTOR","ENHANCED_AUTO_CRAFTER",setC(AddItem.LENGINE,1),"CRAFTING_MOTOR","CARGO_MOTOR",
                     "CARGO_MOTOR","CRAFTING_MOTOR", setC(AddItem.LENGINE,1),"ENHANCED_AUTO_CRAFTER","CRAFTING_MOTOR","CARGO_MOTOR",
-                    AddItem.LFIELD, "CRAFTER_SMART_PORT","CRAFTING_MOTOR","CRAFTING_MOTOR","CRAFTER_SMART_PORT",AddItem.LFIELD,
+                    AddItem.LFIELD, AddItem.LFIELD,"CRAFTING_MOTOR","CRAFTING_MOTOR",AddItem.LFIELD,AddItem.LFIELD,
                     AddItem.LFIELD,AddItem.LFIELD,"CARGO_MOTOR","CARGO_MOTOR",AddItem.LFIELD,AddItem.LFIELD),null)
-            .register();
+            .setOutput(setC(AddItem.LCRAFT,8)).register();
     public static final SlimefunItem LBOOLIZER=new MaterialItem(AddGroups.MATERIAL,AddItem.LBOOLIZER,COMMON_TYPE,
             recipe(AddItem.TRUE_,AddItem.FALSE_,AddItem.FALSE_,AddItem.FALSE_,AddItem.FALSE_,AddItem.TRUE_,
                     AddItem.FALSE_,AddItem.TRUE_,AddItem.TRUE_,AddItem.TRUE_,AddItem.TRUE_,AddItem.FALSE_,
@@ -233,13 +233,13 @@ public class AddSlimefunItems {
                     AddItem.TRUE_,AddItem.FALSE_,AddItem.FALSE_,AddItem.FALSE_,AddItem.FALSE_,AddItem.TRUE_),null)
             .register();
     public static final SlimefunItem LMOTOR=new MaterialItem(AddGroups.MATERIAL,AddItem.LMOTOR,COMMON_TYPE,
-            recipe(AddItem.LFIELD,AddItem.LFIELD,"HEATING_COIL","HEATING_COIL",AddItem.LFIELD,AddItem.LFIELD,
-                    AddItem.LFIELD,"ELECTRIC_MOTOR",setC(AddItem.LBOOLIZER,1),setC(AddItem.LBOOLIZER,1),"ELECTRIC_MOTOR",AddItem.LFIELD,
-                    "HEATING_COIL",setC(AddItem.LBOOLIZER,1),"HEATING_COIL",AddItem.LENGINE,setC(AddItem.LBOOLIZER,1),"HEATING_COIL",
-                    "HEATING_COIL",setC(AddItem.LBOOLIZER,1),AddItem.LENGINE,"HEATING_COIL",setC(AddItem.LBOOLIZER,1),"HEATING_COIL",
-                    AddItem.LFIELD,"ELECTRIC_MOTOR",setC(AddItem.LBOOLIZER,1),setC(AddItem.LBOOLIZER,1),"ELECTRIC_MOTOR",AddItem.LFIELD,
-                    AddItem.LFIELD,AddItem.LFIELD,"HEATING_COIL","HEATING_COIL",AddItem.LFIELD,AddItem.LFIELD),null)
-            .register();
+            recipe(AddItem.LFIELD,AddItem.LFIELD,"ELECTRIC_MOTOR","ELECTRIC_MOTOR",AddItem.LFIELD,AddItem.LFIELD,
+                    AddItem.LFIELD,"ELECTRO_MAGNET",setC(AddItem.LBOOLIZER,1),setC(AddItem.LBOOLIZER,1),"ELECTRO_MAGNET",AddItem.LFIELD,
+                    "ELECTRIC_MOTOR",setC(AddItem.LBOOLIZER,1),"ELECTRIC_MOTOR",AddItem.LENGINE,setC(AddItem.LBOOLIZER,1),"ELECTRIC_MOTOR",
+                    "ELECTRIC_MOTOR",setC(AddItem.LBOOLIZER,1),AddItem.LENGINE,"ELECTRIC_MOTOR",setC(AddItem.LBOOLIZER,1),"ELECTRIC_MOTOR",
+                    AddItem.LFIELD,"ELECTRO_MAGNET",setC(AddItem.LBOOLIZER,1),setC(AddItem.LBOOLIZER,1),"ELECTRO_MAGNET",AddItem.LFIELD,
+                    AddItem.LFIELD,AddItem.LFIELD,"ELECTRIC_MOTOR","ELECTRIC_MOTOR",AddItem.LFIELD,AddItem.LFIELD),null)
+            .setOutput(setC(AddItem.LMOTOR,4)).register();
     public static final SlimefunItem LDIGITIZER=new MaterialItem(AddGroups.MATERIAL,AddItem.LDIGITIZER,COMMON_TYPE,
             recipe(AddItem.UNIQUE,AddItem.LFIELD,AddItem.LOGIGATE,AddItem.LOGIGATE,AddItem.LFIELD,AddItem.UNIQUE
                     ,AddItem.LFIELD,setC(AddItem.LBOOLIZER,1),setC(AddItem.LBOOLIZER,1),setC(AddItem.LBOOLIZER,1),setC(AddItem.LBOOLIZER,1)
@@ -250,18 +250,17 @@ public class AddSlimefunItems {
                     ,AddItem.LFIELD,AddItem.LOGIGATE,AddItem.LOGIGATE,AddItem.LFIELD,AddItem.UNIQUE),null)
             .register();
     public static final SlimefunItem LIOPORT=new MaterialItem(AddGroups.MATERIAL,AddItem.LIOPORT,COMMON_TYPE,
-            recipe(AddItem.LFIELD,AddItem.LFIELD,"HOPPER","HOPPER",AddItem.LFIELD,
-                    AddItem.LFIELD,AddItem.LFIELD,"GPS_TRANSMITTER","CARGO_NODE","CARGO_NODE",
-                    "GPS_TRANSMITTER",AddItem.LFIELD,"HOPPER","CARGO_NODE_INPUT","CARGO_NODE_OUTPUT_ADVANCED",
-                    "CARGO_NODE_OUTPUT_ADVANCED","CARGO_NODE_INPUT","HOPPER","HOPPER","CARGO_NODE_INPUT",
-                    AddItem.LENGINE,"CARGO_NODE_OUTPUT_ADVANCED","CARGO_NODE_INPUT","HOPPER",AddItem.LFIELD,
-                    "GPS_TRANSMITTER","CARGO_NODE","CARGO_NODE","GPS_TRANSMITTER",AddItem.LFIELD,
-                    AddItem.LFIELD,AddItem.LFIELD,"HOPPER","HOPPER",AddItem.LFIELD,
-                    AddItem.LFIELD),null)
-            .register();
+            recipe(AddItem.LFIELD,AddItem.LFIELD,"HOPPER","HOPPER",AddItem.LFIELD, AddItem.LFIELD,
+                    AddItem.LFIELD,"GPS_TRANSMITTER","CARGO_NODE","CARGO_NODE", "GPS_TRANSMITTER",AddItem.LFIELD,
+                    "HOPPER","CARGO_NODE_INPUT","CARGO_NODE_OUTPUT", "CARGO_NODE_OUTPUT_ADVANCED","CARGO_NODE_INPUT","HOPPER",
+                    "HOPPER","CARGO_NODE_INPUT", AddItem.LENGINE,"CARGO_NODE_OUTPUT_ADVANCED","CARGO_NODE_INPUT","HOPPER",
+                    AddItem.LFIELD, "GPS_TRANSMITTER","CARGO_NODE","CARGO_NODE","GPS_TRANSMITTER",AddItem.LFIELD,
+                    AddItem.LFIELD,AddItem.LFIELD,"HOPPER","HOPPER",AddItem.LFIELD, AddItem.LFIELD),null)
+            .setOutput(setC(AddItem.LIOPORT,2)).register();
     public static final SlimefunItem LPLATE=new MaterialItem(AddGroups.MATERIAL,AddItem.LPLATE,RecipeType.SMELTERY,
             recipe(setC(AddItem.ABSTRACT_INGOT,2),"BATTERY","POTATO",AddItem.CHIP_INGOT),null)
             .register();
+    //TODO 修改输出数量
     public static final SlimefunItem DIMENSIONAL_SHARD=new AbstractGeoResource(AddGroups.MATERIAL, AddItem.DIMENSIONAL_SHARD,
             recipe(null,AddItem.END_MINER,null,null,AddUtils.getInfoShow("&f获取方式","&7在末地大部分群系","或风袭沙丘或蘑菇岛开采","&7或者在本附属的矿机中获取")),
             1, new HashMap<>(){{
@@ -474,8 +473,8 @@ public class AddSlimefunItems {
     //machines
     public static final SlimefunItem BOOL_GENERATOR=new BoolGenerator(AddGroups.BASIC,AddItem.BOOL_GENERATOR,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("OBSERVER","REDSTONE","OBSERVER",
-                    "REDSTONE_TORCH","SILICON","SILICON",
-                    "STEEL_INGOT","MEDIUM_CAPACITOR","STEEL_INGOT"),Material.RECOVERY_COMPASS,6)
+                    "REDSTONE_TORCH","SILICON","REDSTONE_TORCH",
+                    "FERROSILICON","ENERGY_CONNECTOR","FERROSILICON"),Material.RECOVERY_COMPASS,6)
             .register();
     public static final SlimefunItem LOGIC_REACTOR=new LogicReactor(AddGroups.BASIC,AddItem.LOGIC_REACTOR,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.LOGIGATE,"COMPARATOR",AddItem.LOGIGATE,
@@ -507,9 +506,9 @@ public class AddSlimefunItems {
             .register();
     public static final  SlimefunItem PRESSOR_FACTORY=new MTMachine(AddGroups.BASIC, AddItem.PRESSOR_FACTORY,COMMON_TYPE,
             recipe(AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,
-                    AddItem.ABSTRACT_INGOT,null,"ELECTRIC_PRESS_2","ELECTRIC_PRESS_2",null,AddItem.ABSTRACT_INGOT,
-                    AddItem.ABSTRACT_INGOT,null,"ELECTRIC_PRESS_2","ELECTRIC_PRESS_2",null,AddItem.ABSTRACT_INGOT,
-                    AddItem.ABSTRACT_INGOT,null,"ELECTRIC_PRESS_2","ELECTRIC_PRESS_2",null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,AddItem.NOLOGIC,AddItem.NOLOGIC,null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,"ELECTRIC_PRESS","ELECTRIC_PRESS",null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,"ELECTRIC_PRESS","ELECTRIC_PRESS",null,AddItem.ABSTRACT_INGOT,
                     AddItem.ABSTRACT_INGOT,null,AddItem.NOLOGIC,AddItem.NOLOGIC,null,AddItem.ABSTRACT_INGOT,
                     AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LENGINE,AddItem.LENGINE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT), AddUtils.addGlow( new ItemStack(Material.PISTON))
             ,120,64_00,()->{
@@ -664,10 +663,10 @@ public class AddSlimefunItems {
             .register();
     public static final  SlimefunItem VIRTUAL_KILLER=new VirtualKiller(AddGroups.BASIC, AddItem.VIRTUAL_KILLER,COMMON_TYPE,
             recipe(AddItem.BISILVER,AddItem.BISILVER,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.BISILVER,AddItem.BISILVER,
-                    AddItem.BISILVER,null,"PROGRAMMABLE_ANDROID_3_BUTCHER","PROGRAMMABLE_ANDROID_3_BUTCHER",null,AddItem.BISILVER,
+                    AddItem.BISILVER,null,null,null,null,AddItem.BISILVER,
                     AddItem.BISILVER,null,"PROGRAMMABLE_ANDROID_3_FISHERMAN","PROGRAMMABLE_ANDROID_3_FISHERMAN",null,AddItem.BISILVER,
-                    AddItem.BISILVER,null,"PROGRAMMABLE_ANDROID_2_BUTCHER","PROGRAMMABLE_ANDROID_2_BUTCHER",null,AddItem.BISILVER,
                     AddItem.BISILVER,null,"PROGRAMMABLE_ANDROID_3_BUTCHER","PROGRAMMABLE_ANDROID_3_BUTCHER",null,AddItem.BISILVER,
+                    AddItem.BISILVER,null,null,null,null,AddItem.BISILVER,
                     AddItem.BISILVER,AddItem.BISILVER,AddItem.LENGINE,AddItem.LENGINE,AddItem.BISILVER,AddItem.BISILVER), 3000,300,
             1)
             .register();
@@ -819,9 +818,9 @@ public class AddSlimefunItems {
 
     //Material Generators
     public static final SlimefunItem MAGIC_STONE=new SMGenerator(AddGroups.GENERATORS, AddItem.MAGIC_STONE,RecipeType.ENHANCED_CRAFTING_TABLE,
-            recipe("DIAMOND_PICKAXE","LAVA_BUCKET","DIAMOND_PICKAXE",
+            recipe("IRON_PICKAXE","LAVA_BUCKET","IRON_PICKAXE",
                     "PISTON",AddItem.LOGIGATE,"PISTON",
-                    "COBALT_PICKAXE","WATER_BUCKET","COBALT_PICKAXE"),16,1000,66,
+                    "COBALT_PICKAXE","WATER_BUCKET","COBALT_PICKAXE"),16,500,33,
             AddUtils.randItemStackFactory(
                     mkMp("64COBBLESTONE",72,
                             "2COAL",7,
@@ -851,7 +850,7 @@ public class AddSlimefunItems {
             recipe(AddItem.ABSTRACT_INGOT,AddItem.MAGIC_STONE,AddItem.ABSTRACT_INGOT,
                     AddItem.UNIQUE,AddItem.LENGINE,AddItem.EXISTE
                     ,AddItem.WORLD_FEAT,AddItem.MAGIC_STONE,AddItem.WORLD_FEAT
-            ),14,2_500,400,
+            ),12,2_500,400,
             AddUtils.randItemStackFactory(
                     mkMp("64COBBLESTONE",40,
                             "4COAL",9,
@@ -939,9 +938,9 @@ public class AddSlimefunItems {
     //TODO 完成这块
 
     public static final SlimefunItem MAGIC_PLANT = new MMGenerator(AddGroups.GENERATORS, AddItem.MAGIC_PLANT, RecipeType.ENHANCED_CRAFTING_TABLE,
-            recipe(Material.DIAMOND_HOE,"WATER_BUCKET",Material.DIAMOND_HOE,
+            recipe(Material.IRON_HOE,"WATER_BUCKET",Material.IRON_HOE,
                     "OBSERVER",AddItem.LOGIGATE,"OBSERVER",
-                    Material.BONE_BLOCK,"PISTON",Material.BONE_BLOCK), 30, 1_000, 33,
+                    Material.BONE_MEAL,"PISTON",Material.BONE_MEAL), 30, 1_000, 33,
             new LinkedHashMap<>(){{
                 put(mkl("WHEAT_SEEDS"),mkl("WHEAT","2WHEAT_SEEDS"));
                 put(mkl("CARROT"),mkl("2CARROT"));
@@ -1644,7 +1643,7 @@ public class AddSlimefunItems {
     public static final SlimefunItem MULTICRAFTTABLE_MANUAL=new ManualCrafter(AddGroups.MANUAL,AddItem.MULTICRAFTTABLE_MANUAL,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.BUG,AddItem.MANUAL_CORE,"OUTPUT_CHEST",
                     AddItem.MANUAL_CORE,AddItem.ANCIENT_ALTAR_MANUAL,"CRAFTING_TABLE",
-                    "BOOKSHELF","CRAFTING_TABLE","DISPENSER"),0,0,RecipeType.ENHANCED_CRAFTING_TABLE,RecipeType.MAGIC_WORKBENCH,RecipeType.ANCIENT_ALTAR)
+                    "BOOKSHELF","CRAFTING_TABLE","DISPENSER"),0,0,RecipeType.ENHANCED_CRAFTING_TABLE,RecipeType.MAGIC_WORKBENCH,RecipeType.ANCIENT_ALTAR,RecipeType.SMELTERY)
             .register();
     public static final SlimefunItem TABLESAW_MANUAL=new ManualMachine(AddGroups.MANUAL,AddItem.TABLESAW_MANUAL,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(null,null,null,
@@ -1694,17 +1693,17 @@ public class AddSlimefunItems {
                     "CARGO_NODE","CARGO_NODE_INPUT","CARGO_NODE"),null)
             .setOutput(setC(AddItem.CARGO_PART,64)).register();
     public static final SlimefunItem CARGO_CONFIG=new ConfigCard(AddGroups.CARGO,AddItem.CARGO_CONFIG,RecipeType.ENHANCED_CRAFTING_TABLE,
-            recipe(AddItem.PARADOX,AddItem.CARGO_PART,AddItem.PARADOX,
+            recipe(AddItem.TRUE_,AddItem.CARGO_PART,AddItem.TRUE_,
                     AddItem.NOLOGIC,AddItem.BUG,AddItem.LOGIC,
-                    AddItem.PARADOX,AddItem.CARGO_PART,AddItem.PARADOX))
-            .register();
+                    AddItem.FALSE_,AddItem.CARGO_PART,AddItem.FALSE_))
+            .setOutput(setC(AddItem.CARGO_CONFIG,32)).register();
     public static final SlimefunItem CARGO_CONFIGURATOR=new CargoConfigurator(AddGroups.CARGO,AddItem.CARGO_CONFIGURATOR,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.BUG,AddItem.ABSTRACT_INGOT,AddItem.BUG,AddItem.ABSTRACT_INGOT,AddItem.BUG,AddItem.ABSTRACT_INGOT,
                     "OAK_PLANKS","CARTOGRAPHY_TABLE","OAK_PLANKS"))
             .register();
     public static final SlimefunItem ADV_TRASH=new TrashCan(AddGroups.CARGO,AddItem.ADV_TRASH,RecipeType.ENHANCED_CRAFTING_TABLE,
-            recipe("TRASH_CAN_BLOCK",AddItem.LOGIC,"TRASH_CAN_BLOCK",AddItem.LOGIC,"COAL_GENERATOR",AddItem.LOGIC,
-                    "TRASH_CAN_BLOCK",AddItem.LOGIC,"TRASH_CAN_BLOCK"))
+            recipe("PORTABLE_DUSTBIN",AddItem.LOGIC,"PORTABLE_DUSTBIN",AddItem.LOGIC,"FLINT_AND_STEEL",AddItem.LOGIC,
+                    "PORTABLE_DUSTBIN",AddItem.LOGIC,"PORTABLE_DUSTBIN"))
             .register();
     public static final SlimefunItem SIMPLE_CARGO=new AdjacentCargo(AddGroups.CARGO,AddItem.SIMPLE_CARGO,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.ABSTRACT_INGOT,"HOPPER",AddItem.ABSTRACT_INGOT,

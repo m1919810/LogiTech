@@ -97,6 +97,12 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
     public void updateMenu(BlockMenu inv,Block block,Settings mod){
         if(mod==Settings.INIT){
             orderSearchRecipe(inv,Settings.SEQUNTIAL);
+        }else{
+            Location  loc=inv.getLocation();
+            MachineRecipe getRecipe=CraftUtils.matchNextRecipe(inv,getInputSlots(),getMachineRecipes(block,inv),true,Settings.SEQUNTIAL);
+            if(getRecipe==null){
+                DataCache.setLastRecipe(loc,-1);
+            }
         }
         Location  loc=inv.getLocation();
         int index= DataCache.getLastRecipe(loc);
@@ -134,6 +140,7 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
 
                 (player, i, itemStack, clickAction)->{
                     if(getNowRecordRecipe(menu.getLocation())!=-1){
+
                     orderSearchRecipe(menu,Settings.SEQUNTIAL);
                     AbstractManual.this.updateMenu(menu,block,Settings.RUN);
 
@@ -153,8 +160,9 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
                             AddUtils.sendMessage(player,"&c电力不足!无法进行合成");
                         }
                     }
+                    AbstractManual.this.updateMenu(menu,block,Settings.RUN);
                     craft(menu,limit);
-                    AbstractManual.this.updateMenu(menu,block,Settings.INIT);
+                    AbstractManual.this.updateMenu(menu,block,Settings.RUN);
                     return false;
                 }
         );
@@ -171,8 +179,9 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
                             AddUtils.sendMessage(player,"&c电力不足!无法进行合成");
                         }
                     }
+                    AbstractManual.this.updateMenu(menu,block,Settings.RUN);
                     craft(menu,limit);
-                    AbstractManual.this.updateMenu(menu,block,Settings.INIT);
+                    AbstractManual.this.updateMenu(menu,block,Settings.RUN);
                     return false;
                 }
         );
@@ -209,7 +218,6 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
         }
     }
 
-
     public void craft(BlockMenu inv,int limit){
         Location  loc=inv.getLocation();
 
@@ -243,11 +251,6 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         //only works when has viewer.
         if(inv!=null&&inv.hasViewer()){
-            Location  loc=inv.getLocation();
-            MachineRecipe getRecipe=CraftUtils.matchNextRecipe(inv,getInputSlots(),getMachineRecipes(b,inv),true,Settings.SEQUNTIAL);
-            if(getRecipe==null){
-                DataCache.setLastRecipe(loc,-1);
-            }
             updateMenu(inv ,b,Settings.RUN);
         }
     }
