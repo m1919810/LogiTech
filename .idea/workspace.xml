@@ -7,6 +7,8 @@
     <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="feat: progress">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddSlimefunItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddSlimefunItems.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/SpecialMachines/LogicReactor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/SpecialMachines/LogicReactor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/language.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/language.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +69,7 @@
     &quot;Shell Script.Unnamed.executor&quot;: &quot;Run&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Intellij_Idea/workspace/FinalTECH-Changed-main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Intellij_Idea/workspace/NetworksExpansion-master&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -260,22 +262,8 @@
       <workItem from="1726210948971" duration="45877000" />
       <workItem from="1726401903563" duration="1717000" />
       <workItem from="1726404299057" duration="25014000" />
-    </task>
-    <task id="LOCAL-00032" summary="feat: try fix">
-      <option name="closed" value="true" />
-      <created>1723816273679</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1723816273679</updated>
-    </task>
-    <task id="LOCAL-00033" summary="feat: try fix">
-      <option name="closed" value="true" />
-      <created>1723816337570</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1723816337570</updated>
+      <workItem from="1726546011672" duration="15448000" />
+      <workItem from="1726599354729" duration="29000" />
     </task>
     <task id="LOCAL-00034" summary="feat: try fix">
       <option name="closed" value="true" />
@@ -653,7 +641,23 @@
       <option name="project" value="LOCAL" />
       <updated>1726517986257</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="feat: progress">
+      <option name="closed" value="true" />
+      <created>1726564737244</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1726564737245</updated>
+    </task>
+    <task id="LOCAL-00082" summary="feat: progress">
+      <option name="closed" value="true" />
+      <created>1726571990048</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1726571990048</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
