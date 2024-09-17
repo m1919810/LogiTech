@@ -182,9 +182,10 @@ public class LogicReactor extends AbstractProcessor {
             return false;
         }else return super.conditionHandle(b,menu);
     }
-    protected Pair<MachineRecipe, ItemConsumer[]> findNextRecipe(BlockMenu inv,int[] inputs,int[] outputs,int code){
+    protected Pair<MachineRecipe, ItemConsumer[]> findNextRecipe(BlockMenu inv,int[] inputs,int[] outputs){
         ItemStack iv=inv.getItemInSlot(inputs[0]);
         if(iv!=null&&CraftUtils.matchItemStack(iv, AddItem.LOGIGATE,false)){
+            int code=checkLogic(inv,BOOL_SLOT);
             if(code==-1){
                 return null;
             }else{
@@ -205,8 +206,8 @@ public class LogicReactor extends AbstractProcessor {
         SimpleCraftingOperation currentOperation = (SimpleCraftingOperation)this.processor.getOperation(b);
         ItemConsumer[] fastCraft=null;
         if(currentOperation==null){
-            int code=checkLogic(inv,BOOL_SLOT);
-            Pair<MachineRecipe, ItemConsumer[]> nextP = findNextRecipe(inv,COMMON_SLOT,getOutputSlots(),code);
+
+            Pair<MachineRecipe, ItemConsumer[]> nextP = findNextRecipe(inv,COMMON_SLOT,getOutputSlots());
             if (nextP != null) {
 
                 MachineRecipe next =nextP.getFirstValue();

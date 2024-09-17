@@ -451,6 +451,8 @@ public class AddItem {
             Language.get("Cargo.OUTPORT.Name"),Language.getList("Cargo.OUTPORT.Lore"));
     public static final SlimefunItemStack IOPORT=AddUtils.themed("IOPORT",Material.PURPUR_PILLAR,AddUtils.Theme.ITEM1,
             Language.get("Cargo.IOPORT.Name"),Language.getList("Cargo.IOPORT.Lore"));
+    public static final SlimefunItemStack STORAGE=AddUtils.themed("STORAGE",Material.LIGHT_GRAY_STAINED_GLASS,AddUtils.Theme.CARGO1,
+            Language.get("Cargo.STORAGE.Name"),Language.getList("Cargo.STORAGE.Lore"));
     //multiblock
     public static final SlimefunItemStack PORTAL_CORE=AddUtils.themed("PORTAL_CORE",Material.CRYING_OBSIDIAN,AddUtils.Theme.MULTIBLOCK1,
             Language.get("MultiBlock.PORTAL_CORE.Name"),Language.getList("MultiBlock.PORTAL_CORE.Lore"));

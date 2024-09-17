@@ -15,6 +15,7 @@ import me.matl114.logitech.SlimefunItem.Blocks.*;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.*;
 import me.matl114.logitech.SlimefunItem.Cargo.CargoMachine.*;
 import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.IOPort;
+import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.Storage;
 import me.matl114.logitech.SlimefunItem.Cargo.Transportation.*;
 import me.matl114.logitech.SlimefunItem.Cargo.WorkBench.ChipCopier;
 import me.matl114.logitech.SlimefunItem.Cargo.Config.ChipCard;
@@ -276,7 +277,7 @@ public class AddSlimefunItems {
             recipe(null,AddItem.END_MINER,null,null,AddUtils.getInfoShow("&f获取方式","&7在本附属的矿机中获取")),null)
             .register();
     public static final SlimefunItem STAR_GOLD_INGOT=new MaterialItem(AddGroups.MATERIAL,AddItem.STAR_GOLD_INGOT,RecipeType.SMELTERY,
-            recipe(setC(AddItem.STAR_GOLD,3),setC(AddItem.DIMENSIONAL_SHARD,6)),null)
+            recipe(setC(AddItem.STAR_GOLD,5),setC(AddItem.DIMENSIONAL_SHARD,11)),null)
             .register();
 
     public static final SlimefunItem WORLD_FEAT=new MaterialItem(AddGroups.MATERIAL,AddItem.WORLD_FEAT,COMMON_TYPE,
@@ -559,8 +560,8 @@ public class AddSlimefunItems {
             mkMp(
                     mkP(mkl(setC(AddItem.END_FEAT,1),"64END_STONE"),mkl("END_PORTAL_FRAME")),6,
                         mkP(mkl(AddItem.STAR_GOLD,"END_PORTAL_FRAME"),mkl(AddItem.PORTAL_FRAME)),6,
-                        mkP(mkl(AddItem.STAR_GOLD_INGOT,"4QUARTZ_BLOCK"),mkl(AddItem.SOLAR_REACTOR_FRAME)),6,
-                        mkP(mkl(setC(AddItem.LPLATE,1),"4GLASS"),mkl(AddItem.SOLAR_REACTOR_GLASS)),6,
+                        mkP(mkl(AddItem.STAR_GOLD_INGOT,"16QUARTZ_BLOCK"),mkl(AddItem.SOLAR_REACTOR_FRAME)),6,
+                        mkP(mkl(setC(AddItem.LPLATE,1),"16GLASS"),mkl(AddItem.SOLAR_REACTOR_GLASS)),6,
                         mkP(mkl(AddItem.STACKFRAME,AddItem.TRUE_),mkl(AddItem.STACKMACHINE)),6,
                         mkP(mkl(AddItem.STACKFRAME,AddItem.FALSE_),mkl(AddItem.STACKMGENERATOR)),6,
                         mkP(mkl(AddItem.STACKFRAME,"4ENERGY_REGULATOR"),mkl(AddItem.ENERGY_AMPLIFIER)),6,
@@ -917,7 +918,7 @@ public class AddSlimefunItems {
 
             AddUtils.randItemStackFactory(
                     mkMp(
-                            setC(AddItem.DIMENSIONAL_SHARD,2),2,
+                            AddItem.DIMENSIONAL_SHARD,2,
                             AddItem.STAR_GOLD,1
                     )
             ),
@@ -1270,11 +1271,11 @@ public class AddSlimefunItems {
                                     AddUtils.randAmountItemFactory(AddItem.STAR_GOLD,39,87),
                                     AddUtils.randAmountItemFactory(AddItem.ATOM_INGOT,63,99),
                                     AddUtils.randItemStackFactory(
-                                            Utils.list(setC(AddItem.PALLADIUM_INGOT,3),setC(AddItem.PLATINUM_INGOT,3),setC(AddItem.CADMIUM_INGOT,3),setC(AddItem.BISMUTH_INGOT,3)),
+                                            Utils.list(setC(AddItem.PALLADIUM_INGOT,4),setC(AddItem.PLATINUM_INGOT,4),setC(AddItem.CADMIUM_INGOT,4),setC(AddItem.BISMUTH_INGOT,4)),
                                             Utils.list(37,29,13,21)
                                     )
                             )
-                    ),72,
+                    ),60,
                     mkP(   mkl(AddItem.SMELERY_CORE)  ,
 
                             mkl(
@@ -1284,11 +1285,11 @@ public class AddSlimefunItems {
                                     AddUtils.randAmountItemFactory(AddItem.STAR_GOLD,49,83),
                                     AddUtils.randAmountItemFactory(AddItem.ATOM_INGOT,37,51),
                                     AddUtils.randItemStackFactory(
-                                            Utils.list(setC(AddItem.PALLADIUM_INGOT,3),setC(AddItem.PLATINUM_INGOT,3),setC(AddItem.CADMIUM_INGOT,3),setC(AddItem.BISMUTH_INGOT,3)),
+                                            Utils.list(setC(AddItem.PALLADIUM_INGOT,4),setC(AddItem.PLATINUM_INGOT,4),setC(AddItem.CADMIUM_INGOT,4),setC(AddItem.BISMUTH_INGOT,4)),
                                             Utils.list(2,59,13,24)
                                     )
                             )
-                    ),72,
+                    ),60,
                     mkP(   mkl(AddItem.MASS_CORE)  ,
 
                             mkl(
@@ -1299,22 +1300,22 @@ public class AddSlimefunItems {
                                     AddUtils.randAmountItemFactory(AddItem.ATOM_INGOT,12,39),
 
                                     AddUtils.randItemStackFactory(
-                                            Utils.list(setC(AddItem.PALLADIUM_INGOT,3),setC(AddItem.PLATINUM_INGOT,3),setC(AddItem.CADMIUM_INGOT,3),setC(AddItem.BISMUTH_INGOT,3)),
+                                            Utils.list(setC(AddItem.PALLADIUM_INGOT,4),setC(AddItem.PLATINUM_INGOT,4),setC(AddItem.CADMIUM_INGOT,4),setC(AddItem.BISMUTH_INGOT,4)),
                                             Utils.list(27,22,15,45)
                                     )
                             )
 
-                    ),72,
+                    ),60,
                     mkP(   mkl(AddItem.TECH_CORE)  ,
 
                             mkl(
                                     setC(AddItem.LPLATE,64),
                                     setC( AddItem.LSINGULARITY,2),
-                                    AddUtils.randAmountItemFactory(AddItem.STAR_GOLD_INGOT,23,35),
+                                    AddUtils.randAmountItemFactory(AddItem.STAR_GOLD_INGOT,23,40),
                                     AddUtils.randAmountItemFactory(AddItem.ATOM_INGOT,92,127)
                             )
 
-                    ),72
+                    ),60
             )).setDisplayRecipes(
                     Utils.list(
                             AddUtils.getInfoShow("&f机制",
@@ -1704,6 +1705,10 @@ public class AddSlimefunItems {
     public static final SlimefunItem ADV_TRASH=new TrashCan(AddGroups.CARGO,AddItem.ADV_TRASH,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("PORTABLE_DUSTBIN",AddItem.LOGIC,"PORTABLE_DUSTBIN",AddItem.LOGIC,"FLINT_AND_STEEL",AddItem.LOGIC,
                     "PORTABLE_DUSTBIN",AddItem.LOGIC,"PORTABLE_DUSTBIN"))
+            .register();
+    public static final  SlimefunItem STORAGE=new Storage(AddGroups.CARGO, AddItem.STORAGE,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(null,null,null,"CHEST",AddItem.BUG,"CHEST",
+                    null,null,null))
             .register();
     public static final SlimefunItem SIMPLE_CARGO=new AdjacentCargo(AddGroups.CARGO,AddItem.SIMPLE_CARGO,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.ABSTRACT_INGOT,"HOPPER",AddItem.ABSTRACT_INGOT,

@@ -1029,6 +1029,10 @@ zh_CN:
       Name: '奇点交互接口-均衡'
       Lore:
         - '承载存储性物品的存储类方块'
+    STORAGE:
+      Name: '普通的存储单元'
+      Lore:
+        - '这是一个大箱子~'
   Theme:
     ITEM1:
       Name: "&3物品"
