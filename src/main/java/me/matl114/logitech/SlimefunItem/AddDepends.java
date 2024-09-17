@@ -108,9 +108,9 @@ public class AddDepends {
         try {
             if(hasNetwork)
                 NTW_STORAGE_DISPLAY=new MyVanillaItem(AddGroups.SINGULARITY,SlimefunItem.getById("NTW_QUANTUM_STORAGE_8").getItem().clone(),"NTW_QUANTUM_STORAGE_DISPLAY",RecipeType.ENHANCED_CRAFTING_TABLE,
-                     AddSlimefunItems.recipe(AddItem.STORAGE_SINGULARITY,"NTW_QUANTUM_STORAGE_1",AddItem.STORAGE_SINGULARITY,
-                             "NTW_QUANTUM_STORAGE_1",AddItem.IOPORT,"NTW_QUANTUM_STORAGE_1",
-                             AddItem.STORAGE_SINGULARITY,"NTW_QUANTUM_STORAGE_1",AddItem.STORAGE_SINGULARITY)   )
+                     AddSlimefunItems.recipe(AddItem.ABSTRACT_INGOT,"NTW_QUANTUM_STORAGE_1",AddItem.ABSTRACT_INGOT,
+                             AddItem.ABSTRACT_INGOT,AddItem.IOPORT,AddItem.ABSTRACT_INGOT,
+                             AddItem.STORAGE_SINGULARITY,AddItem.ABSTRACT_INGOT,AddItem.STORAGE_SINGULARITY)   )
                         .setDisplayRecipes(
                                 Utils.list(
                                         AddUtils.getInfoShow("&f机制 - &c终极合成",

@@ -296,12 +296,12 @@ public class AddSlimefunItems {
                     null,"OBSIDIAN","CRIMSON_NYLIUM","CRIMSON_NYLIUM","MAGMA_BLOCK",null),null)
             .register();
     public static final SlimefunItem END_FEAT=new MaterialItem(AddGroups.MATERIAL,AddItem.END_FEAT,COMMON_TYPE,
-            recipe(null,"CHORUS_FRUIT","CHORUS_FLOWER","CHORUS_FLOWER","END_STONE",null,
-                    "CHORUS_FRUIT","CHORUS_FLOWER","CHORUS_FRUIT","END_STONE","CHORUS_FLOWER","END_STONE",
-                    "CHORUS_FLOWER","CHORUS_FRUIT","END_STONE","CHORUS_FRUIT","END_STONE","CHORUS_FLOWER",
-                    "CHORUS_FLOWER","END_STONE","CHORUS_FRUIT","END_STONE","CHORUS_FRUIT","CHORUS_FLOWER",
-                    "END_STONE","CHORUS_FLOWER","END_STONE","CHORUS_FRUIT","CHORUS_FLOWER","CHORUS_FRUIT",
-                    null,"END_STONE","CHORUS_FLOWER","CHORUS_FLOWER","CHORUS_FRUIT",null),null)
+            recipe(null,"CHORUS_FLOWER","CHORUS_FRUIT","CHORUS_FRUIT","END_STONE",null,
+                    "CHORUS_FLOWER","CHORUS_FRUIT","CHORUS_FLOWER","END_STONE","CHORUS_FRUIT","END_STONE",
+                    "CHORUS_FRUIT","CHORUS_FLOWER","END_STONE","CHORUS_FLOWER","END_STONE","CHORUS_FRUIT",
+                    "CHORUS_FRUIT","END_STONE","CHORUS_FLOWER","END_STONE","CHORUS_FLOWER","CHORUS_FRUIT",
+                    "END_STONE","CHORUS_FRUIT","END_STONE","CHORUS_FLOWER","CHORUS_FRUIT","CHORUS_FLOWER",
+                    null,"END_STONE","CHORUS_FRUIT","CHORUS_FRUIT","CHORUS_FLOWER",null),null)
             .register();
     public static final SlimefunItem ENTITY_FEATURE=new EntityFeat(AddGroups.MATERIAL,AddItem.ENTITY_FEAT,RecipeType.NULL,
             recipe(null,AddUtils.addGlow( new ItemStack(Material.IRON_PICKAXE)),null,null,AddUtils.getInfoShow("&f获取方式","&7当 挖掘任意刷怪笼方块时 ","&750%额外掉落随机种类的生物特征"),null,
@@ -559,8 +559,8 @@ public class AddSlimefunItems {
             mkMp(
                     mkP(mkl(setC(AddItem.END_FEAT,1),"64END_STONE"),mkl("END_PORTAL_FRAME")),6,
                         mkP(mkl(AddItem.STAR_GOLD,"END_PORTAL_FRAME"),mkl(AddItem.PORTAL_FRAME)),6,
-                        mkP(mkl(AddItem.STAR_GOLD_INGOT,"16QUARTZ_BLOCK"),mkl(AddItem.SOLAR_REACTOR_FRAME)),6,
-                        mkP(mkl(setC(AddItem.LPLATE,2),"16GLASS"),mkl(AddItem.SOLAR_REACTOR_GLASS)),6,
+                        mkP(mkl(AddItem.STAR_GOLD_INGOT,"4QUARTZ_BLOCK"),mkl(AddItem.SOLAR_REACTOR_FRAME)),6,
+                        mkP(mkl(setC(AddItem.LPLATE,1),"4GLASS"),mkl(AddItem.SOLAR_REACTOR_GLASS)),6,
                         mkP(mkl(AddItem.STACKFRAME,AddItem.TRUE_),mkl(AddItem.STACKMACHINE)),6,
                         mkP(mkl(AddItem.STACKFRAME,AddItem.FALSE_),mkl(AddItem.STACKMGENERATOR)),6,
                         mkP(mkl(AddItem.STACKFRAME,"4ENERGY_REGULATOR"),mkl(AddItem.ENERGY_AMPLIFIER)),6,
@@ -901,12 +901,12 @@ public class AddSlimefunItems {
             ))
             .register();
     public static final SlimefunItem DIMENSION_MINER=new SMGenerator(AddGroups.GENERATORS, AddItem.DIMENSION_MINER,COMMON_TYPE  ,
-            recipe("GPS_TRANSMITTER_4",AddItem.STAR_GOLD,AddItem.LFIELD,AddItem.LFIELD,AddItem.STAR_GOLD,"GPS_TRANSMITTER_4",
-                    AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.STAR_GOLD,AddItem.STAR_GOLD_INGOT,
-                    AddItem.LFIELD,null,AddItem.NETHER_MINER,AddItem.NETHER_MINER,null,AddItem.LFIELD,
-                    AddItem.LFIELD,null,AddItem.END_MINER,AddItem.END_MINER,null,AddItem.LFIELD,
-                    AddItem.STAR_GOLD_INGOT,AddItem.LIOPORT,AddItem.LENGINE,AddItem.LENGINE,AddItem.LIOPORT,AddItem.STAR_GOLD_INGOT,
-                    "GPS_TRANSMITTER_4",AddItem.STAR_GOLD,AddItem.LFIELD,AddItem.LFIELD,AddItem.STAR_GOLD,"GPS_TRANSMITTER_4"),6,18_000,1_800,
+            recipe("GPS_TRANSMITTER_2",AddItem.STAR_GOLD,AddItem.LFIELD,AddItem.LFIELD,AddItem.STAR_GOLD,"GPS_TRANSMITTER_2",
+                    AddItem.DIMENSIONAL_SHARD,AddItem.STAR_GOLD,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.STAR_GOLD,AddItem.DIMENSIONAL_SHARD,
+                    AddItem.LFIELD,null,AddItem.NETHER_MINER,AddItem.END_MINER,null,AddItem.LFIELD,
+                    AddItem.LFIELD,null,AddItem.LENGINE,AddItem.LENGINE,null,AddItem.LFIELD,
+                    AddItem.DIMENSIONAL_SHARD,AddItem.LIOPORT,AddItem.LENGINE,AddItem.LENGINE,AddItem.LIOPORT,AddItem.DIMENSIONAL_SHARD,
+                    "GPS_TRANSMITTER_2",AddItem.STAR_GOLD,AddItem.LFIELD,AddItem.LFIELD,AddItem.STAR_GOLD,"GPS_TRANSMITTER_2"),6,18_000,1_800,
             AddUtils.randItemStackFactory(
                     mkMp(
                             "64COBBLESTONE",1,
@@ -951,8 +951,8 @@ public class AddSlimefunItems {
             }})
             .register();
     public static final SlimefunItem OVERWORLD_PLANT = new MMGenerator(AddGroups.GENERATORS, AddItem.OVERWORLD_PLANT, RecipeType.ENHANCED_CRAFTING_TABLE,
-            recipe("CROP_GROWTH_ACCELERATOR_2",AddItem.MAGIC_PLANT,"CROP_GROWTH_ACCELERATOR_2",
-                    "TREE_GROWTH_ACCELERATOR",AddItem.LENGINE,"TREE_GROWTH_ACCELERATOR"
+            recipe(AddItem.LENGINE,AddItem.MAGIC_PLANT,AddItem.LENGINE,
+                    "TREE_GROWTH_ACCELERATOR","CROP_GROWTH_ACCELERATOR_2","TREE_GROWTH_ACCELERATOR"
                     ,AddItem.WORLD_FEAT,AddItem.MAGIC_PLANT,AddItem.WORLD_FEAT
             ), 14, 2_500,400,
             new LinkedHashMap<>(){{
@@ -1152,10 +1152,10 @@ public class AddSlimefunItems {
             .register();
     public static final SlimefunItem VIRTUAL_MINER = new MMGenerator(AddGroups.GENERATORS, AddItem.VIRTUAL_MINER, COMMON_TYPE,
             recipe(AddItem.BISILVER,setC(AddItem.TECH_CORE,1),AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,setC(AddItem.SMELERY_CORE,1),AddItem.BISILVER,
-                    AddItem.LDIGITIZER,AddItem.BISILVER,AddItem.NETHER_MINER,AddItem.NETHER_MINER,AddItem.BISILVER,AddItem.LDIGITIZER,
-                    AddItem.BISILVER,setC(AddItem.LMOTOR,1),setC(AddItem.CHIP_CORE,1),setC(AddItem.LSINGULARITY,1),setC(AddItem.LMOTOR,1),AddItem.BISILVER,
+                    AddItem.LDIGITIZER,AddItem.BISILVER,null,null,AddItem.BISILVER,AddItem.LDIGITIZER,
+                    AddItem.BISILVER,setC(AddItem.LMOTOR,1),setC(AddItem.CHIP_CORE,1),AddItem.DIMENSION_MINER,setC(AddItem.LMOTOR,1),AddItem.BISILVER,
                     AddItem.BISILVER,setC(AddItem.LENGINE,1),setC(AddItem.VIRTUAL_SPACE,1),setC(AddItem.CHIP_CORE,1),setC(AddItem.LENGINE,1),AddItem.BISILVER,
-                    AddItem.LIOPORT,AddItem.BISILVER,AddItem.DIMENSION_MINER,AddItem.DIMENSION_MINER,AddItem.BISILVER,AddItem.LIOPORT,
+                    AddItem.LIOPORT,AddItem.BISILVER,null,null,AddItem.BISILVER,AddItem.LIOPORT,
                     AddItem.BISILVER,setC(AddItem.MASS_CORE,1),AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,setC(AddItem.METAL_CORE,1),AddItem.BISILVER), 1, 129_600, 5400,
             new LinkedHashMap<>(){{
                 put(mkl(AddItem.WORLD_FEAT),mkl(AddUtils.randItemStackFactory(
@@ -1187,10 +1187,10 @@ public class AddSlimefunItems {
             .register();
     public static final SlimefunItem VIRTUAL_PLANT = new MMGenerator(AddGroups.GENERATORS, AddItem.VIRTUAL_PLANT, COMMON_TYPE,
             recipe(AddItem.BISILVER,setC(AddItem.TECH_CORE,1),AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,setC(AddItem.SMELERY_CORE,1),AddItem.BISILVER,
-                    AddItem.LDIGITIZER,AddItem.BISILVER,AddItem.NETHER_PLANT,AddItem.NETHER_PLANT,AddItem.BISILVER,AddItem.LDIGITIZER,
-                    AddItem.BISILVER,setC(AddItem.LMOTOR,1),setC(AddItem.CHIP_CORE,1),setC(AddItem.LSINGULARITY,1),setC(AddItem.LMOTOR,1),AddItem.BISILVER,
+                    AddItem.LDIGITIZER,AddItem.BISILVER,null,null,AddItem.BISILVER,AddItem.LDIGITIZER,
+                    AddItem.BISILVER,setC(AddItem.LMOTOR,1),setC(AddItem.CHIP_CORE,1),AddItem.END_PLANT,setC(AddItem.LMOTOR,1),AddItem.BISILVER,
                     AddItem.BISILVER,setC(AddItem.LENGINE,1),setC(AddItem.VIRTUAL_SPACE,1),setC(AddItem.CHIP_CORE,1),setC(AddItem.LENGINE,1),AddItem.BISILVER,
-                    AddItem.LIOPORT,AddItem.BISILVER,AddItem.END_PLANT,AddItem.END_PLANT,AddItem.BISILVER,AddItem.LIOPORT,
+                    AddItem.LIOPORT,AddItem.BISILVER,null,null,AddItem.BISILVER,AddItem.LIOPORT,
                     AddItem.BISILVER,setC(AddItem.MASS_CORE,1),AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,setC(AddItem.METAL_CORE,1),AddItem.BISILVER), 1, 129_600, 5400,
             new LinkedHashMap<>(){{
                 put(mkl("MELON_SEEDS"),mkl("3MELON","3MELON_SEEDS"));
