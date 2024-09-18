@@ -57,7 +57,7 @@ public class LogicReactor extends AbstractProcessor {
         this.setDisplayRecipes(
                 Utils.list(
                         AddUtils.getInfoShow("&f机制",
-                                "&7该机器拥有四对布尔输入槽,分别在&c同一列&7由彩色的玻璃板标出",
+                                "&7该机器拥有四对布尔输入槽,分别在&c同一列&7由相同颜色(蓝色或者黄色)的玻璃板标出",
                                 "&7这些槽位用于输入布尔组件,即 %s 和 %s".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),
                                 "&7只有这些槽位的物品满足一定机制时,合成才会尝试进行"),null,
                         AddUtils.getInfoShow("&f机制",
