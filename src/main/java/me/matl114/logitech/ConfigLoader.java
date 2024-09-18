@@ -28,6 +28,7 @@ public class ConfigLoader {
         LANGUAGE=loadInternalConfig("language");   //new Config(plugin,"language.yml");
         MACHINES=loadExternalConfig("machines");
         INNER_MACHINES=loadInternalConfig("addon-machines");
+
     }
     public static Plugin plugin;
     public static Config INNERCONFIG;
