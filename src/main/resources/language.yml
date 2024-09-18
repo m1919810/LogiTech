@@ -684,6 +684,11 @@ zh_CN:
       Lore:
         - '在物品之间转移附魔/属性增幅符'
         - '支持自动运行'
+    GRIND_FACTORY:
+      Name: '碎矿工厂'
+      Lore:
+        - '一次性碎矿9种配方'
+        - '处理器数量 9x'
   Manuals:
     MANUAL_CORE:
       Name: '乱序核心'
@@ -1033,6 +1038,14 @@ zh_CN:
       Name: '普通的存储单元'
       Lore:
         - '这是一个大箱子~'
+    STORAGE_INPUT:
+      Name: '存储单元 - 纯输入'
+      Lore:
+        - '这种存储单元没有输出槽,只有输入槽'
+    STORAGE_OUTPUT:
+      Name: '存储单元 - 纯输出'
+      Lore:
+        - '这种存储单元没有输入槽,只有输出槽'
   Theme:
     ITEM1:
       Name: "&3物品"

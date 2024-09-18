@@ -455,7 +455,7 @@ public class AddSlimefunItems {
     public static final SlimefunItem STACKFRAME=new MaterialItem(AddGroups.MATERIAL,AddItem.STACKFRAME,COMMON_TYPE,
             recipe(AddItem.LIOPORT,setC(AddItem.ATOM_INGOT,8),"GPS_TRANSMITTER_4","GPS_TRANSMITTER_4",setC(AddItem.ATOM_INGOT,8),AddItem.LMOTOR,
                     setC(AddItem.ATOM_INGOT,8),AddItem.BISILVER,setC(AddItem.STAR_GOLD_INGOT,1),setC(AddItem.STAR_GOLD_INGOT,1),AddItem.BISILVER,setC(AddItem.ATOM_INGOT,8),
-                    AddItem.PAGOLD,setC(AddItem.STAR_GOLD_INGOT,1),AddItem.LSINGULARITY,AddItem.SPACE_PLATE,setC(AddItem.STAR_GOLD_INGOT,1),AddItem.PAGOLD,
+                    AddItem.PAGOLD,setC(AddItem.STAR_GOLD_INGOT,1),AddItem.LSINGULARITY,AddItem.LSCHEDULER,setC(AddItem.STAR_GOLD_INGOT,1),AddItem.PAGOLD,
                     AddItem.PAGOLD,setC(AddItem.STAR_GOLD_INGOT,1),AddItem.LSCHEDULER,AddItem.LSINGULARITY,setC(AddItem.STAR_GOLD_INGOT,1),AddItem.PAGOLD,
                     setC(AddItem.ATOM_INGOT,8),AddItem.BISILVER,setC(AddItem.STAR_GOLD_INGOT,1),setC(AddItem.STAR_GOLD_INGOT,1),AddItem.BISILVER,setC(AddItem.ATOM_INGOT,8),
                     AddItem.LDIGITIZER,setC(AddItem.ATOM_INGOT,8),AddItem.CHIP_CORE,AddItem.CHIP_CORE,setC(AddItem.ATOM_INGOT,8),AddItem.LCRAFT),null)
@@ -535,6 +535,22 @@ public class AddSlimefunItems {
                 }
                 return recipes;
             })
+            .register();
+    public static final  SlimefunItem GRIND_FACTORY=new MTMachine(AddGroups.BASIC, AddItem.GRIND_FACTORY,COMMON_TYPE,
+            recipe(AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,AddItem.NOLOGIC,AddItem.NOLOGIC,null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,"ELECTRIC_ORE_GRINDER_3","ELECTRIC_ORE_GRINDER_3",null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,"ELECTRIC_ORE_GRINDER_3","ELECTRIC_ORE_GRINDER_3",null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,null,AddItem.NOLOGIC,AddItem.NOLOGIC,null,AddItem.ABSTRACT_INGOT,
+                    AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LENGINE,AddItem.LENGINE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT), AddUtils.addGlow( new ItemStack(Material.DIAMOND_CHESTPLATE))
+            ,125,64_00,()->{
+        List<MachineRecipe> recipelist=new ArrayList<>();
+        List<MachineRecipe> rp=RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItem.getById("ELECTRIC_ORE_GRINDER_3"));
+        for (MachineRecipe rps:rp){
+            recipelist.add(MachineRecipeUtils.stackFromMachine(rps));
+        }
+        return recipelist;
+    })
             .register();
     public static final  SlimefunItem SMELTRY=new AEMachine(AddGroups.BASIC, AddItem.SMELTRY,COMMON_TYPE,
             recipe(AddItem.ABSTRACT_INGOT,AddItem. ABSTRACT_INGOT,AddItem.LMOTOR,AddItem.LMOTOR,AddItem. ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,
@@ -953,9 +969,9 @@ public class AddSlimefunItems {
             .register();
     public static final SlimefunItem OVERWORLD_PLANT = new MMGenerator(AddGroups.GENERATORS, AddItem.OVERWORLD_PLANT, RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.LENGINE,AddItem.MAGIC_PLANT,AddItem.LENGINE,
-                    "TREE_GROWTH_ACCELERATOR","CROP_GROWTH_ACCELERATOR_2","TREE_GROWTH_ACCELERATOR"
+                    "TREE_GROWTH_ACCELERATOR","CROP_GROWTH_ACCELERATOR","TREE_GROWTH_ACCELERATOR"
                     ,AddItem.WORLD_FEAT,AddItem.MAGIC_PLANT,AddItem.WORLD_FEAT
-            ), 14, 2_500,400,
+            ), 8, 2_500,400,
             new LinkedHashMap<>(){{
                 put(mkl("COCOA_BEANS"),mkl("9COCOA_BEANS"));
                 put(mkl("MELON_SEEDS"),mkl("3MELON","3MELON_SEEDS"));
@@ -987,7 +1003,7 @@ public class AddSlimefunItems {
                     null,AddItem.ABSTRACT_INGOT,AddItem.OVERWORLD_PLANT,AddItem.LOGIGATE,AddItem.ABSTRACT_INGOT,null,
                     null,AddItem.ABSTRACT_INGOT,AddItem.LOGIGATE,"TREE_GROWTH_ACCELERATOR",AddItem.ABSTRACT_INGOT,null,
                     null,AddItem.NETHER_FEAT,"MEDIUM_CAPACITOR","MEDIUM_CAPACITOR",AddItem.NETHER_FEAT,null
-            ), 12,3_000,600,
+            ), 8,3_000,600,
             new LinkedHashMap<>(){{
                 put(mkl("NETHER_WART"),mkl("12NETHER_WART"));
                 put(mkl("WEEPING_VINES"),mkl("12WEEPING_VINES"));
@@ -1006,7 +1022,7 @@ public class AddSlimefunItems {
                     null,AddItem.ABSTRACT_INGOT,AddItem.OVERWORLD_PLANT,AddItem.NETHER_PLANT,AddItem.ABSTRACT_INGOT,null,
                     null,AddItem.ABSTRACT_INGOT,"ENERGIZED_CAPACITOR","ENERGIZED_CAPACITOR",AddItem.ABSTRACT_INGOT,null,
                     AddItem.END_FEAT,AddItem.LENGINE,AddItem.END_FEAT,AddItem.END_FEAT,AddItem.LENGINE,AddItem.END_FEAT
-            ), 10,6_000,1000,
+            ), 8,6_000,1000,
             new LinkedHashMap<>(){{
                 put(mkl("MELON_SEEDS"),mkl("3MELON","3MELON_SEEDS"));
                 put(mkl("PUMPKIN_SEEDS"),mkl("3PUMPKIN","3PUMPKIN_SEEDS"));
@@ -1708,7 +1724,15 @@ public class AddSlimefunItems {
             .register();
     public static final  SlimefunItem STORAGE=new Storage(AddGroups.CARGO, AddItem.STORAGE,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(null,null,null,"CHEST",AddItem.BUG,"CHEST",
-                    null,null,null))
+                    null,null,null),Storage.COMMON_INPUT_SLOT,Storage.COMMON_OUTPUT_SLOT)
+            .register();
+    public static final SlimefunItem STORAGE_INPUT=new Storage(AddGroups.CARGO  ,AddItem.STORAGE_INPUT,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(null,"HOPPER",null,"CHEST",AddItem.BUG,"CHEST",
+                    null,null,null),Storage.COMMON_INPUT_SLOT,new int[0])
+            .register();
+    public static final SlimefunItem STORAGE_OUTPUT=new Storage(AddGroups.CARGO,AddItem.STORAGE_OUTPUT,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(null,null,null,"CHEST",AddItem.BUG,"CHEST",
+                    null,"HOPPER",null),new int[0],Storage.COMMON_OUTPUT_SLOT)
             .register();
     public static final SlimefunItem SIMPLE_CARGO=new AdjacentCargo(AddGroups.CARGO,AddItem.SIMPLE_CARGO,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.ABSTRACT_INGOT,"HOPPER",AddItem.ABSTRACT_INGOT,

@@ -315,6 +315,8 @@ public class AddItem {
             Language.get("Machines.RAND_EDITOR.Name"),Language.getList("Machines.RAND_EDITOR.Lore"));
     public static final SlimefunItemStack ATTR_OP=AddUtils.themed("ATTR_OP",Material.ANVIL,AddUtils.Theme.MACHINE1,
             Language.get("Machines.ATTR_OP.Name"),Language.getList("Machines.ATTR_OP.Lore"));
+    public static final SlimefunItemStack GRIND_FACTORY=AddUtils.themed("GRIND_FACTORY",Material.GRINDSTONE,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.GRIND_FACTORY.Name"),Language.getList("Machines.GRIND_FACTORY.Lore"));
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Manuals.MANUAL_CORE.Name"),Language.getList("Manuals.MANUAL_CORE.Lore"));
@@ -453,6 +455,10 @@ public class AddItem {
             Language.get("Cargo.IOPORT.Name"),Language.getList("Cargo.IOPORT.Lore"));
     public static final SlimefunItemStack STORAGE=AddUtils.themed("STORAGE",Material.LIGHT_GRAY_STAINED_GLASS,AddUtils.Theme.CARGO1,
             Language.get("Cargo.STORAGE.Name"),Language.getList("Cargo.STORAGE.Lore"));
+    public static final SlimefunItemStack STORAGE_INPUT=AddUtils.themed("STORAGE_INPUT",Material.BLUE_STAINED_GLASS,AddUtils.Theme.CARGO1,
+            Language.get("Cargo.STORAGE_INPUT.Name"),Language.getList("Cargo.STORAGE_INPUT.Lore"));
+    public static final SlimefunItemStack STORAGE_OUTPUT=AddUtils.themed("STORAGE_OUTPUT",Material.RED_STAINED_GLASS,AddUtils.Theme.CARGO1,
+            Language.get("Cargo.STORAGE_OUTPUT.Name"),Language.getList("Cargo.STORAGE_OUTPUT.Lore"));
     //multiblock
     public static final SlimefunItemStack PORTAL_CORE=AddUtils.themed("PORTAL_CORE",Material.CRYING_OBSIDIAN,AddUtils.Theme.MULTIBLOCK1,
             Language.get("MultiBlock.PORTAL_CORE.Name"),Language.getList("MultiBlock.PORTAL_CORE.Lore"));

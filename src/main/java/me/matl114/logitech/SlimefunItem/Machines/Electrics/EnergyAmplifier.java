@@ -8,11 +8,10 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractEnergyProvider;
 import me.matl114.logitech.SlimefunItem.Machines.FinalFeature;
-import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.MathUtils;
-import me.matl114.logitech.Utils.Settings;
+import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.DataMenuClickHandler;
@@ -57,6 +56,18 @@ public class EnergyAmplifier extends AbstractEnergyProvider {
                                   int energyBuffer,double multiply) {
         super(category, item, recipeType, recipe,   energyBuffer,1);
         this.multiply=multiply;
+        this.setDisplayRecipes(Utils.list(
+                AddUtils.getInfoShow("&f机制 - &c终极堆叠发电",
+                        "&7该机器可以模拟其上方的发电机发电",
+                        "&7在槽位中放入与&e该机器方块上方方块&7的&a发电机&7类型相同的粘液物品",
+                        "&a注意:你可以将发电机装入存储类物品放入该槽位",
+                        "&a机器将读取存储中的发电机类型和数目",
+                        "&7该机器将会发电<槽位中读取的机器数>*%.2f*<上方环境中发电机的发电量>J".formatted(this.multiply),
+                        "&a该槽位中支持的存储类物品与&c\"终极合成\"&a特性中的存储类物品相同"),null,
+                AddUtils.getInfoShow("&f示例",
+                        "&7右侧是一个示意图,讲述了该如何使用该机器"),AddUtils.resolveItem("ENERGY_REGULATOR"), AddItem.OPPO_GEN,
+                item,null,AddUtils.getInfoShow("&f说明","&7你将会看见下方的机器发电")
+        ));
     }
     public void constructMenu(BlockMenuPreset preset){
         int[] border=BORDER;

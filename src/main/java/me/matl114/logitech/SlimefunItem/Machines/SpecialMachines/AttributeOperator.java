@@ -178,7 +178,8 @@ public class AttributeOperator extends AbstractMachine {
         DataMenuClickHandler handler=getDataHolder(block,inv);
         inv.addMenuOpeningHandler(player -> updateMenu(inv,block,Settings.RUN));
         inv.addMenuCloseHandler(player -> updateMenu(inv,block,Settings.RUN));
-        inv.addItem(TRANSFER_ALLENCHANT_SLOT,TRANSFER_ALLENCHANT_ITEM,((player, i, itemStack, clickAction) -> {
+
+        inv.addMenuClickHandler(TRANSFER_ALLENCHANT_SLOT,((player, i, itemStack, clickAction) -> {
             int code=getAutoTransferCode(inv);
             if(clickAction.isShiftClicked()){
                 if(code==0||code==2){
@@ -201,7 +202,7 @@ public class AttributeOperator extends AbstractMachine {
             updateMenu(inv,block,Settings.RUN);
             return false;
         }));
-        inv.addItem(TRANSFER_ALLATTRIBUTE_SLOT,TRANSFER_ALLATTRIBUTE_ITEM,((player, i, itemStack, clickAction) -> {
+        inv.addMenuClickHandler(TRANSFER_ALLATTRIBUTE_SLOT,((player, i, itemStack, clickAction) -> {
             int code=getAutoTransferCode(inv);
             if(clickAction.isShiftClicked()){
                 if(code==1||code==2){
@@ -223,7 +224,8 @@ public class AttributeOperator extends AbstractMachine {
             updateMenu(inv,block,Settings.RUN);
             return false;
         }));
-        inv.addItem(TRANSFER_ONEENCHANT_SLOT,TRANSFER_ONEENCHANT_ITEM,((player, i, itemStack, clickAction) -> {
+        inv.replaceExistingItem(TRANSFER_ONEENCHANT_SLOT,TRANSFER_ONEENCHANT_ITEM);
+        inv.addMenuClickHandler(TRANSFER_ONEENCHANT_SLOT,((player, i, itemStack, clickAction) -> {
             if(getAutoTransferCode(inv)>=0){
                 AddUtils.sendMessage(player,"&c当前处于自动模式,禁止进行任何其余操作");
                 return false;
@@ -232,7 +234,8 @@ public class AttributeOperator extends AbstractMachine {
             updateMenu(inv,block,Settings.RUN);
             return false;
         }));
-        inv.addItem(TRANSFER_ONEATTRIBUTE_SLOT,TRANSFER_ONEATTRIBUTE_ITEM,((player, i, itemStack, clickAction) -> {
+        inv.replaceExistingItem(TRANSFER_ONEATTRIBUTE_SLOT,TRANSFER_ONEATTRIBUTE_ITEM);
+        inv.addMenuClickHandler(TRANSFER_ONEATTRIBUTE_SLOT,((player, i, itemStack, clickAction) -> {
             if(getAutoTransferCode(inv)>=0){
                 AddUtils.sendMessage(player,"&c当前处于自动模式,禁止进行任何其余操作");
                 return false;
@@ -241,7 +244,7 @@ public class AttributeOperator extends AbstractMachine {
             updateMenu(inv,block,Settings.RUN);
             return false;
         }));
-        inv.addItem(FORCE_ENCHANT_SLOT,FORCE_ENCHANT_ITEM_OFF,((player, i, itemStack, clickAction) -> {
+        inv.addMenuClickHandler(FORCE_ENCHANT_SLOT,((player, i, itemStack, clickAction) -> {
             if(itemStack!=null&& itemStack.getType()==Material.RED_STAINED_GLASS_PANE){
                 DataCache.setCustomString(inv.getLocation(),FORCEKEY,"1");
                 inv.replaceExistingItem(FORCE_ENCHANT_SLOT,FORCE_ENCHANT_ITEM_ON);
@@ -277,12 +280,18 @@ public class AttributeOperator extends AbstractMachine {
         int force=DataCache.getCustomString(data,FORCEKEY,"").length();
         if(autoE==1){
             inv.replaceExistingItem(TRANSFER_ALLENCHANT_SLOT,TRANSFER_ALLENCHANT_ITEM_ON    );
+        }else {
+            inv.replaceExistingItem(TRANSFER_ALLENCHANT_SLOT,TRANSFER_ALLENCHANT_ITEM);
         }
         if(autoA==1){
             inv.replaceExistingItem(TRANSFER_ALLATTRIBUTE_SLOT,TRANSFER_ALLATTRIBUTE_ITEM_ON);
+        }else {
+            inv.replaceExistingItem(TRANSFER_ALLATTRIBUTE_SLOT,TRANSFER_ALLATTRIBUTE_ITEM);
         }
         if(force==1){
             inv.replaceExistingItem(FORCE_ENCHANT_SLOT,FORCE_ENCHANT_ITEM_ON);
+        }else {
+            inv.replaceExistingItem(FORCE_ENCHANT_SLOT,FORCE_ENCHANT_ITEM_OFF);
         }
         updateMenu(inv,block,Settings.INIT);
     }
