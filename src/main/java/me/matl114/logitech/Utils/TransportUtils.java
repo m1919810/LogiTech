@@ -208,9 +208,9 @@ public class TransportUtils {
     public static boolean inbwlist(HashSet<ItemStack> bwset,ItemPusher pusher){
         if(bwset==null||bwset.isEmpty()){return false;}
         for(ItemStack item:bwset){
-            Debug.logger("check item? ");
+
             if(CraftUtils.matchItemStack(item,pusher,false)){
-                Debug.logger("item in bwlist");
+
                 return true;
             }
         }return false;
