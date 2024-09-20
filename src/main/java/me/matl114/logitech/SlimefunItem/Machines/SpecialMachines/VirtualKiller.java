@@ -79,7 +79,7 @@ public class VirtualKiller extends AbstractMachine {
                         "&7在机器输入槽内插入某种生物的任意类型刷怪笼",
                         "&7包括破损的刷怪笼,已修复的刷怪笼,带nbt的刷怪笼掉落物,等等",
                         "&7机器即可执行产出,会产出普通掉落物和所有附属加载的粘液特殊掉落物",
-                        "&a注明:普通掉落物部分由ChatGPT生成,若有缺失欢迎补充"),null
+                        "&a注明:普通掉落物部分由ChatGPT生成,并由@haiman补充完整,若有欠缺欢迎补充"),null
         ));
     }
     public List<MachineRecipe> provideDisplayRecipe(){

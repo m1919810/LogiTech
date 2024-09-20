@@ -794,8 +794,8 @@ public class RecipeSupporter {
             put(EntityType.ZOMBIE_VILLAGER, Utils.recipe("ROTTEN_FLESH", AddUtils.probItemStackFactory( AddUtils.resolveItem("IRON_INGOT"),2), AddUtils.probItemStackFactory( AddUtils.resolveItem("CARROT"),2), AddUtils.probItemStackFactory( AddUtils.resolveItem("POTATO"),2)));
             put(EntityType.HUSK, Utils.recipe("ROTTEN_FLESH", AddUtils.probItemStackFactory( AddUtils.resolveItem("IRON_INGOT"),2), AddUtils.probItemStackFactory( AddUtils.resolveItem("CARROT"),2), AddUtils.probItemStackFactory( AddUtils.resolveItem("POTATO"),2)));
             put(EntityType.ZOMBIFIED_PIGLIN, Utils.recipe("ROTTEN_FLESH", "GOLD_NUGGET", AddUtils.probItemStackFactory( AddUtils.resolveItem("GOLD_INGOT"),2), AddUtils.probItemStackFactory( AddUtils.resolveItem("GOLDEN_SWORD"),2)));
-            put(EntityType.PIGLIN, Utils.recipe("ARROW", "GOLD_INGOT");
-            put(EntityType.PIGLIN_BRUTE, Utils.recipe(AddUtils.probItemStackFactory( AddUtils.resolveItem("GOLDEN_AXE"),8), "GOLD_INGOT");
+            put(EntityType.PIGLIN, Utils.recipe("ARROW", "GOLD_INGOT"));
+            put(EntityType.PIGLIN_BRUTE, Utils.recipe(AddUtils.probItemStackFactory( AddUtils.resolveItem("GOLDEN_AXE"),8), "GOLD_INGOT"));
             put(EntityType.DROWNED, Utils.recipe("ROTTEN_FLESH", AddUtils.probItemStackFactory( AddUtils.resolveItem("COPPER_INGOT"),11), AddUtils.probItemStackFactory( AddUtils.resolveItem("NAUTILUS_SHELL"),20), AddUtils.probItemStackFactory( AddUtils.resolveItem("TRIDENT"),2)));
             put(EntityType.ELDER_GUARDIAN, Utils.recipe("PRISMARINE_SHARD", AddUtils.probItemStackFactory( AddUtils.resolveItem("PRISMARINE_CRYSTALS"),33), AddUtils.probItemStackFactory( AddUtils.resolveItem("COD"),50), "WET_SPONGE"));
             put(EntityType.GUARDIAN, Utils.recipe("PRISMARINE_SHARD", AddUtils.probItemStackFactory( AddUtils.resolveItem("PRISMARINE_CRYSTALS"),40), AddUtils.probItemStackFactory( AddUtils.resolveItem("COD"),40)));
@@ -827,27 +827,27 @@ public class RecipeSupporter {
             put(EntityType.ENDER_DRAGON, Utils.recipe("DRAGON_EGG", "DRAGON_BREATH"));
             put(EntityType.WARDEN, Utils.recipe("SCULK_CATALYST"));
             //实体
-            put(EntityType.EXPERIENCE_BOTTLE, Utils.recipe("EXPERIENCE_BOTTLE"));
+            put(EntityType.THROWN_EXP_BOTTLE, Utils.recipe("EXPERIENCE_BOTTLE"));
             put(EntityType.EGG, Utils.recipe("EGG"));
             put(EntityType.ENDER_PEARL, Utils.recipe("ENDER_PEARL"));
-            put(EntityType.END_CRYSTAL, Utils.recipe("END_CRYSTAL"));
+            put(EntityType.ENDER_CRYSTAL, Utils.recipe("END_CRYSTAL"));
             put(EntityType.ITEM_FRAME, Utils.recipe("ITEM_FRAME"));
             put(EntityType.GLOW_ITEM_FRAME, Utils.recipe("GLOW_ITEM_FRAME"));
             put(EntityType.PAINTING, Utils.recipe("PAINTING"));
             put(EntityType.BOAT, Utils.recipe("OAK_BOAT"));
             put(EntityType.CHEST_BOAT, Utils.recipe("OAK_CHEST_BOAT"));
             put(EntityType.MINECART, Utils.recipe("MINECART"));
-            put(EntityType.CHEST_MINECART, Utils.recipe("CHEST_MINECART"));
-            put(EntityType.COMMAND_BLOCK_MINECART, Utils.recipe("COMMAND_BLOCK_MINECART"));
-            put(EntityType.FURNACE_MINECART, Utils.recipe("FURNACE_MINECART"));
-            put(EntityType.HOPPER_MINECART, Utils.recipe("HOPPER_MINECART"));
-            put(EntityType.TNT_MINECART, Utils.recipe("TNT_MINECART"));
-            put(EntityType.SPAWNER_MINECART, Utils.recipe("MINECART", AddUtils.probItemStackFactory( AddUtils.resolveItem( "SPAWNER"),5)));
+            put(EntityType.MINECART_CHEST, Utils.recipe("CHEST_MINECART"));
+            //put(EntityType.MINECART_COMMAND, Utils.recipe("COMMAND_BLOCK_MINECART"));
+            put(EntityType.MINECART_FURNACE , Utils.recipe("FURNACE_MINECART"));
+            put(EntityType.MINECART_HOPPER , Utils.recipe("HOPPER_MINECART"));
+            put(EntityType.MINECART_TNT, Utils.recipe("TNT_MINECART"));
+            put(EntityType.MINECART_MOB_SPAWNER, Utils.recipe("MINECART", AddUtils.probItemStackFactory( AddUtils.resolveItem( "SPAWNER"),1)));
             //友好生物
             put(EntityType.VILLAGER, Utils.recipe("PAPER", "BREWING_STAND"));
             put(EntityType.PIG, Utils.recipe("PORKCHOP"));
             put(EntityType.COW, Utils.recipe("BEEF", "LEATHER"));
-            put(EntityType.MOOSHROOM, Utils.recipe("BEEF", "LEATHER", "RED_MUSHROOM"));
+            put(EntityType.MUSHROOM_COW, Utils.recipe("BEEF", "LEATHER",AddUtils.probItemStackFactory(  AddUtils.resolveItem("RED_MUSHROOM"),25)));
             put(EntityType.CAT, Utils.recipe("STRING"));
             put(EntityType.CHICKEN, Utils.recipe("CHICKEN", "FEATHER"));
             put(EntityType.COD, Utils.recipe("COD", AddUtils.probItemStackFactory( AddUtils.resolveItem( "BONE_MEAL"),5)));
@@ -870,7 +870,7 @@ public class RecipeSupporter {
             put(EntityType.RABBIT, Utils.recipe("RABBIT", "RABBIT_HIDE", AddUtils.probItemStackFactory( AddUtils.resolveItem( "RABBIT_FOOT"),10)));
             put(EntityType.SALMON, Utils.recipe("SALMON", AddUtils.probItemStackFactory( AddUtils.resolveItem( "BONE_MEAL"),5)));
             put(EntityType.SKELETON_HORSE, Utils.recipe("BONE"));
-            put(EntityType.SNOW_GOLEM, Utils.recipe("SNOWBALL"));
+            put(EntityType.SNOWMAN, Utils.recipe("SNOWBALL"));
             put(EntityType.SQUID, Utils.recipe("INK_SAC"));
             put(EntityType.STRIDER, Utils.recipe("STRING"));
             put(EntityType.TROPICAL_FISH, Utils.recipe("TROPICAL_FISH", AddUtils.probItemStackFactory( AddUtils.resolveItem( "BONE_MEAL"),5)));
