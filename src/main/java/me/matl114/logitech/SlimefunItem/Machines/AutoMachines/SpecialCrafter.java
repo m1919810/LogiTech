@@ -372,7 +372,7 @@ public abstract class SpecialCrafter extends AbstractAdvancedProcessor implement
                 itemAmount+=itemInSlot.getAmount();
                 // Amount has reached the limited, just return.
                 if(itemAmount>=amountLimit){
-                    return new int[0];
+                    return new int[]{slot};
                 }
             }
         }

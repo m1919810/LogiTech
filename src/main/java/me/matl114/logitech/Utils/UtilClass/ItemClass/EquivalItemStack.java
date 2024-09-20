@@ -13,9 +13,22 @@ public class EquivalItemStack extends ItemStack implements MultiItemStack ,Equal
     public Double[] itemWeight;
     public double[] weightSum;
     public int sum;
+    private static Material getFirstMaterial(HashMap<ItemStack,Integer> map) {
+        if(map.isEmpty()) {
+            return Material.STONE;
+        }else {
+            Iterator<Map.Entry<ItemStack,Integer>> iterator = map.entrySet().iterator();
+            if(iterator.hasNext()) {
+                Map.Entry<ItemStack,Integer> entry = iterator.next();
+                return entry.getKey().getType();
+            }else {
+                return Material.STONE;
+            }
+        }
+    }
     protected int eamount=1;
     public EquivalItemStack(HashMap<ItemStack ,Integer> itemSettings) {
-        super(Material.STONE);
+        super(getFirstMaterial(itemSettings));
         this.sum=itemSettings.keySet().size();
         this.itemList=new ItemStack[sum];
         this.counterList=new ItemCounter[sum];

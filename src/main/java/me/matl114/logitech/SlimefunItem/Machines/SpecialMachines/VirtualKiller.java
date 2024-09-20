@@ -29,6 +29,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -179,6 +180,12 @@ public class VirtualKiller extends AbstractMachine {
                 progressorCost(b,menu);
                 CraftUtils.multiPushItems(getEntityMap().get(et),menu,getOutputSlots(),this.MULTIPLY*amount,this.CRAFT_PROVIDER);
             }
+        }
+    }
+    public void onBreak(BlockBreakEvent event,BlockMenu inv){
+        super.onBreak(event,inv);
+        if(inv!=null){
+            inv.dropItems(inv.getLocation(),SPAWNER_SLOT);
         }
     }
 }

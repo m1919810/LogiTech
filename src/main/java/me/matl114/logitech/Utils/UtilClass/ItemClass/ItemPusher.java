@@ -96,7 +96,8 @@ public class ItemPusher extends ItemCounter {
     public int transportFrom(ItemCounter counter,int limit){
         int left=Math.min( maxStackCnt-cnt,limit);
         if(left>counter.getAmount()){
-            addAmount(counter.getAmount());
+            left=counter.getAmount();
+            addAmount(left);
             counter.setAmount(0);
         }else{
             setAmount(maxStackCnt);

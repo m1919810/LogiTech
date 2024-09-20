@@ -828,7 +828,7 @@ public class TransportUtils {
                     break;
                 }
             }
-            if(translimit==0){
+            if(translimit<=0){
                 break ;
             }
         }
