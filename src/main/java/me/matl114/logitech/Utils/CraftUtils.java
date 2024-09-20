@@ -1232,10 +1232,10 @@ public class CraftUtils {
         }
         return max;
     }
-    public static Pair<MachineRecipe,ItemGreedyConsumer[]> findNextShapedRecipe(BlockMenu inv,int[] inputs,int[] outputs,
-                                                                                List<MachineRecipe> recipes,int limit,boolean useHistory){
-        return findNextShapedRecipe(inv,inputs,outputs,recipes,limit,useHistory,Settings.SEQUNTIAL);
-    }
+//    public static Pair<MachineRecipe,ItemGreedyConsumer[]> findNextShapedRecipe(BlockMenu inv,int[] inputs,int[] outputs,
+//                                                                                List<MachineRecipe> recipes,int limit,boolean useHistory){
+//        return findNextShapedRecipe(inv,inputs,outputs,recipes,limit,useHistory,Settings.SEQUNTIAL);
+//    }
 
     public static Pair<MachineRecipe,ItemGreedyConsumer[]> findNextShapedRecipe(BlockMenu inv,int[] inputs,int[] outputs,
                                                                                 List<MachineRecipe> recipes,int limit,boolean useHistory,Settings order){

@@ -184,4 +184,15 @@ public class ReflectUtils {
         }
         return null;
     }
+    public static boolean isExtendedFrom(Class clazz,String s){
+        if(clazz==null){
+            return false;
+        }else {
+            if(clazz.getName().endsWith(s)){
+                return true;
+            }else {
+                return isExtendedFrom(clazz.getSuperclass(),s);
+            }
+        }
+    }
 }

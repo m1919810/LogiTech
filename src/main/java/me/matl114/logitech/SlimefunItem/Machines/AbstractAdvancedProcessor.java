@@ -130,9 +130,7 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
         return this.machineRecipes;
     }
 
-    protected void progressorCost(Block b, BlockMenu menu) {
-        return ;
-    }
+
     public int getCraftLimit(Block b,BlockMenu inv){
         return 64;
     }

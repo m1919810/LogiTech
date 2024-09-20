@@ -68,6 +68,7 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
             this.machineRecipes=new ArrayList<>();
 
         }
+        this.CRAFT_PROVIDER=FinalFeature.MANUAL_CARD_READER;
 
     }
     public void addInfo(ItemStack item){
@@ -99,7 +100,7 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
             orderSearchRecipe(inv,Settings.SEQUNTIAL);
         }else{
             Location  loc=inv.getLocation();
-            MachineRecipe getRecipe=CraftUtils.matchNextRecipe(inv,getInputSlots(),getMachineRecipes(block,inv),true,Settings.SEQUNTIAL);
+            MachineRecipe getRecipe=CraftUtils.matchNextRecipe(inv,getInputSlots(),getMachineRecipes(block,inv),true,Settings.SEQUNTIAL,CRAFT_PROVIDER);
             if(getRecipe==null){
                 DataCache.setLastRecipe(loc,-1);
             }
@@ -212,7 +213,7 @@ public abstract class AbstractManual extends AbstractMachine implements  RecipeL
                 index=0;
             }
             DataCache.setLastRecipe(loc,index);
-            if(CraftUtils.matchNextRecipe(inv,getInputSlots(),mRecipe,true,order)==null){
+            if(CraftUtils.matchNextRecipe(inv,getInputSlots(),mRecipe,true,order,CRAFT_PROVIDER)==null){
                 DataCache.setLastRecipe(loc,-1);
             }
         }

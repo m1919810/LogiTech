@@ -368,7 +368,10 @@ public class AddItem {
             Language.get("Manuals.MULTIBLOCK_MANUAL.Name"),Language.getList("Manuals.MULTIBLOCK_MANUAL.Lore"));
     public static final SlimefunItemStack FINAL_MANUAL=AddUtils.themed("FINAL_MANUAL",Material.REINFORCED_DEEPSLATE,AddUtils.Theme.MANUAL1,
             Language.get("Manuals.FINAL_MANUAL.Name"),Language.getList("Manuals.FINAL_MANUAL.Lore"));
-
+    public static final SlimefunItemStack REPLACE_CARD=AddUtils.themed("REPLACE_CARD",Material.PRIZE_POTTERY_SHERD,AddUtils.Theme.ITEM1,
+            Language.get("Manuals.REPLACE_CARD.Name"),Language.getList("Manuals.REPLACE_CARD.Lore"));
+    public static final SlimefunItemStack CARD_MAKER=AddUtils.themed("CARD_MAKER",Material.FLETCHING_TABLE,AddUtils.Theme.MACHINE1,
+            Language.get("Manuals.CARD_MAKER.Name"),Language.getList("Manuals.CARD_MAKER.Lore"));
     //generators
     public static final SlimefunItemStack MAGIC_STONE=AddUtils.themed("MAGIC_STONE",Material.COBBLESTONE,AddUtils.Theme.MACHINE2,
             Language.get("Generators.MAGIC_STONE.Name"),Language.getList("Generators.MAGIC_STONE.Lore"));

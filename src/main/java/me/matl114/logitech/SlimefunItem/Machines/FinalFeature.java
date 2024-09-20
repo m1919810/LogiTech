@@ -2,6 +2,7 @@ package me.matl114.logitech.SlimefunItem.Machines;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
 import me.matl114.logitech.SlimefunItem.Blocks.Laser;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.FinalAltarCore;
 import me.matl114.logitech.Utils.CraftUtils;
@@ -10,6 +11,7 @@ import me.matl114.logitech.Utils.Settings;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.Directions;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemReplacerPusher;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.ItemStorageCache;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.LocationStorageProxy;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.StorageType;
@@ -76,16 +78,6 @@ public class FinalFeature {
         public IntFunction<ItemPusher> getMenu(Settings settings, BlockMenu inv, IntFunction<ItemStack> stackFunction, int[] slots){
             return new IntFunction<ItemPusher>() {
                 HashSet<Location> proxyLocation;
-                public ItemPusher apply2(int slot){
-                    long a,b;
-                    a=System.nanoTime();
-                    ItemPusher tar=apply(slot);
-                    b=System.nanoTime();
-                    Debug.debug("apply menu time ",b-a," on slot ",slot,", amount ",tar.getAmount());
-                    return tar;
-
-                }
-
                 public ItemPusher apply(int slot) {
 
                     ItemPusher tar= get(settings,stackFunction.apply(slot),slots[slot]);
@@ -108,6 +100,20 @@ public class FinalFeature {
             };
         }
 
+    };
+    public static ItemPusherProvider MANUAL_CARD_READER=new ItemPusherProvider() {
+        @Override
+        public ItemPusher get(Settings settings, ItemStack item, int slot) {
+            if(settings==Settings.OUTPUT){
+                return CraftUtils.getpusher.get(settings, item, slot);
+            }
+            ItemStack stack= AddSlimefunItems.REPLACE_CARD.getCardReplacement(item);
+            if(stack==item){
+                return CraftUtils.getpusher.get(settings, item, slot);
+            }else {
+                return ItemReplacerPusher.get(item,stack);
+            }
+        }
     };
     public static boolean isFinalAltarCharged(SlimefunItem that, SlimefunBlockData data){
         if(that instanceof FinalAltarCore.FinalAltarChargable fac&&that instanceof Laser.LaserChargable lc){

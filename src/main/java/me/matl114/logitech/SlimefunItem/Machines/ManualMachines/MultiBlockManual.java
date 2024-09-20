@@ -224,7 +224,7 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType ,
         }else {
             if(parseRecipe(inv)){
                 Location  loc=inv.getLocation();
-                MachineRecipe getRecipe=CraftUtils.matchNextRecipe(inv,getInputSlots(),getMachineRecipes(block,inv),true,Settings.SEQUNTIAL);
+                MachineRecipe getRecipe=CraftUtils.matchNextRecipe(inv,getInputSlots(),getMachineRecipes(block,inv),true,Settings.SEQUNTIAL,CRAFT_PROVIDER);
 
                 if(getRecipe==null){
                     DataCache.setLastRecipe(loc,-1);

@@ -358,28 +358,8 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
             }
         }
     }
-//    public void craft(BlockMenu inv,int limit){
-//        Location  loc=inv.getLocation();
-//        int recordIndex=getNowRecordRecipe(loc);
-//        List<MachineRecipe> mRecipe=getMachineRecipes(null,inv);
-//        //没有匹配配方会直接返回失败
-//        if(recordIndex<0||recordIndex>=mRecipe.size()){
-//            return;
-//        }
-//        MachineRecipe recordRecipe=mRecipe.get(recordIndex);
-//        Pair<ItemGreedyConsumer[],ItemGreedyConsumer[]> results=
-//                CraftUtils.countMultiRecipe(inv,getInputSlots(),getOutputSlots(),recordRecipe,limit,SINGULARITY_PROVIDER);
-//        //输出满了会返回null
-//        if(results==null){
-//            return;
-//        }if(this.energyConsumption>0){
-//            int craftTime=CraftUtils.calMaxCraftTime(results.getSecondValue(),limit);
-//            this.removeCharge(loc,craftTime*this.energyConsumption);
-//        }
-//        CraftUtils.multiUpdateInputMenu(results.getFirstValue(),inv);
-//        CraftUtils.multiUpdateOutputMenu(results.getSecondValue(),inv);
-//    }
-    boolean test= MyAddon.testmode();
+//
+
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         //only works when has viewer.
         if(inv!=null&&(inv.hasViewer())){

@@ -41,6 +41,7 @@ import org.bukkit.inventory.*;
 import org.bukkit.loot.LootTable;
 import org.bukkit.loot.LootTables;
 
+import java.sql.Ref;
 import java.util.*;
 
 public class RecipeSupporter {
@@ -1173,7 +1174,7 @@ public class RecipeSupporter {
     }
     public static boolean resolveSpecialGenerators(SlimefunItem item,List<MachineRecipe> recipes){
 
-        if(item.getClass().getName().endsWith("GrowingMachine")){
+        if(ReflectUtils.isExtendedFrom(item.getClass(),"GrowingMachine") ){
             int ticks=0;
             try{
                 Integer a=(Integer) ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"ticksPerOutput");
@@ -1188,6 +1189,70 @@ public class RecipeSupporter {
                 }
             }catch (Throwable e){}
             return true;
+        }else if(ReflectUtils.isExtendedFrom(item.getClass(),"AbstractQuarry")){
+            int ticks=0;
+            try{
+                ticks=(Integer) ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"delaySpeed");
+            }catch (Throwable a){
+            }
+            try{
+                Class supremeClass=item.getAddon().getClass();  //Class.forName("com.github.relativobr.supreme.Supreme");
+                Object obj=ReflectUtils.invokeGetRecursively(null,supremeClass,Settings.METHOD,"getSupremeOptions");
+                obj=ReflectUtils.invokeGetRecursively(obj,Settings.METHOD,"getCustomTickerDelay");
+                int a=(Integer)obj;
+                ticks*=a;
+            }catch (Throwable e){}
+            try{
+                Object output=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"output");
+                List outputlist=(List) ReflectUtils.invokeGetRecursively(output,Settings.FIELD,"outputItems");
+                List<ItemStack > stacklist=new ArrayList<>();
+                List<Integer> chancelist=new ArrayList<>();
+                for(Object o:outputlist){
+                    ItemStack a=(ItemStack) ReflectUtils.invokeGetRecursively(o,Settings.FIELD,"itemStack");
+                    Integer t=(Integer) ReflectUtils.invokeGetRecursively(o,Settings.FIELD,"chance");
+                    stacklist.add(a);
+                    chancelist.add(t);
+                }
+                ItemStack outputGroup=AddUtils.randItemStackFactory(stacklist,chancelist);
+                recipes.add(MachineRecipeUtils.mgFrom(ticks,new ItemStack[0],new ItemStack[]{outputGroup}));
+            }catch (Throwable e){
+                return false;
+            }
+        }else if(ReflectUtils.isExtendedFrom(item.getClass(),"Quarry")){
+            int ticks=0;
+            try {
+                ticks=(Integer) ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"speed");
+            }catch (Throwable a){
+                return false;
+            }
+            Class OscillatorClass=SlimefunItem.getById("QUARRY_OSCILLATOR_DIAMOND").getClass();
+            try{
+                HashMap OSCILLATORS_MAP=(HashMap) ReflectUtils.invokeGetRecursively(null,OscillatorClass,Settings.FIELD,"OSCILLATORS");
+                Material[] outputlist=(Material[]) ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"outputs");
+                List<ItemStack> outputItemlist= Arrays.stream(outputlist).map((material -> new ItemStack(material))).toList();
+                ItemStack outputRandGroup=AddUtils.eqRandItemStackFactory(outputItemlist);
+                recipes.add(MachineRecipeUtils.mgFrom(ticks,new ItemStack[]{new ItemStack(Material.COBBLESTONE)},new ItemStack[]{outputRandGroup}));
+                for(Object e:OSCILLATORS_MAP.values()){
+                    try {
+                        SlimefunItem oscillatorsInstance = (SlimefunItem) e;
+                        double chance = (Double) ReflectUtils.invokeGetRecursively(oscillatorsInstance, Settings.FIELD, "chance");
+                        ItemStack oscillatorsType=new ItemStack(oscillatorsInstance.getItem().getType());
+                        int chanceToInt=(int)(chance*100);
+                        ItemStack randOut=AddUtils.randItemStackFactory(new LinkedHashMap<>(){{
+                            put(oscillatorsType,chanceToInt);
+                            put(outputRandGroup,100-chanceToInt);
+                        }});
+                        recipes.add(MachineRecipeUtils.mgFrom(ticks,new ItemStack[]{oscillatorsInstance.getItem()},new ItemStack[]{randOut}));
+                    }catch (Throwable a){
+                        Debug.logger(a);
+                    }
+                }
+                return true;
+            }catch (Throwable e){
+                Debug.logger(e);
+                return false;
+            }
+
         }
         return false;
     }

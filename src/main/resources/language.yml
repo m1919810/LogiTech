@@ -760,6 +760,15 @@ zh_CN:
         - '一键合成的尽头'
         - '终极机器'
         - '所有槽位&e支持"终极合成"的特性'
+    CARD_MAKER:
+      Name: '快捷卡片制造机'
+      Lore:
+        - '制造不可堆叠物品的替代卡片'
+        - '善哉'
+    REPLACE_CARD:
+      Name: '替代卡片'
+      Lore:
+        - '替代不可堆叠物品'
   Generators:
 
     MAGIC_STONE:
