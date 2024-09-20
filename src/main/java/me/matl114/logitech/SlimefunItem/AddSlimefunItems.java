@@ -204,7 +204,7 @@ public class AddSlimefunItems {
                     AddItem.UNIQUE,AddItem.EXISTE,AddItem.UNIQUE,AddItem.EXISTE,AddItem.UNIQUE,AddItem.EXISTE,
                     null,AddItem.UNIQUE,null,AddItem.UNIQUE,null,AddItem.UNIQUE,
                     "SOLDER_INGOT","SOLDER_INGOT","SOLDER_INGOT","SOLDER_INGOT","SOLDER_INGOT","SOLDER_INGOT"),null)
-            .setOutput(setC(AddItem.LFIELD,31))
+            .setOutput(setC(AddItem.LFIELD,17))
             .register();
 
 
@@ -399,17 +399,17 @@ public class AddSlimefunItems {
                     "16LEAD_INGOT",setC(AddItem.BISILVER,3)),null)
             .register();
     public static final SlimefunItem REINFORCED_CHIP_INGOT=new MaterialItem(AddGroups.MATERIAL,AddItem.REINFORCED_CHIP_INGOT,AddSlimefunItems.STARSMELTERY,
-            recipe(setC(AddItem.STAR_GOLD_INGOT,10),setC(AddItem.CHIP_INGOT,8),
-                    setC(AddItem.ATOM_INGOT,16),setC(AddItem.PAGOLD,4),
-                    setC(AddItem.CADMIUM_INGOT,4),setC(AddItem.BISILVER,2)
+            recipe(setC(AddItem.STAR_GOLD_INGOT,48),setC(AddItem.CHIP_INGOT,16),
+                    setC(AddItem.ATOM_INGOT,32),setC(AddItem.PAGOLD,4),
+                    setC(AddItem.CADMIUM_INGOT,8),setC(AddItem.BISILVER,2)
                     ),null)
             .register();
 
 
 
     public static final SlimefunItem SPACE_PLATE=new MaterialItem(AddGroups.MATERIAL,AddItem.SPACE_PLATE,STARSMELTERY,
-            recipe(setC(AddItem.STAR_GOLD_INGOT,12),setC(AddItem.PARADOX,24),
-                    setC(AddItem.ATOM_INGOT,20),setC(AddItem.LFIELD,12),AddItem.REINFORCED_CHIP_INGOT
+            recipe(setC(AddItem.STAR_GOLD_INGOT,64),setC(AddItem.PARADOX,36),
+                    setC(AddItem.ATOM_INGOT,64),setC(AddItem.LFIELD,64),AddItem.REINFORCED_CHIP_INGOT
                     ),null)
             .register();
     public static final SlimefunItem VIRTUAL_SPACE=new MaterialItem(AddGroups.MATERIAL,AddItem.VIRTUAL_SPACE,COMMON_TYPE,

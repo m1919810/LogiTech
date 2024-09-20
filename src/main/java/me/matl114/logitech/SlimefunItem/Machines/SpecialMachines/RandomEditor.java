@@ -76,6 +76,12 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
         resultDisplay.setItemMeta(meta);
         this.setDisplayRecipes(
                 Utils.list(
+                        AddUtils.getInfoShow("&f机制 - &c充能",
+                                "&7当置于贰级终极祭坛上时",
+                                "&7且机器被终极祭坛结构中的所有宏激光发射器充能时",
+                                "&7即终极祭坛中四个宏激光发射器分别位于四个壹级以上终极祭坛上时",
+                                "&7机器激活,进行运转"
+                        ),null,
                         AddUtils.getInfoShow("&f机制 - &c量化升级",
                                 "&7每次运行机器会对所有槽位的物品进行升级",
                                 "&7每次随机选择一种附魔/属性增幅",

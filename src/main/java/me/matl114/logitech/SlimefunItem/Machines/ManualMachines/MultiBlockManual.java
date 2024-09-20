@@ -323,12 +323,14 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType ,
     public int[] getOutputSlots(){
         return OUTPUT_SLOT;
     }
-    public List<ItemStack> _getDisplayRecipes(){
-        return new ArrayList<>(){{
+    public List<ItemStack> _getDisplayRecipes(List<ItemStack> re){
+        List<ItemStack> its= new ArrayList<>(){{
             for(SlimefunItem item : RecipeSupporter.MULTIBLOCK_RECIPES.keySet()){
                 add(AddUtils.getInfoShow("&f支持的多方块机器","&7将机器配方置于指定槽位以进行合成"));
                 add(new DisplayItemStack(item.getItem()));
             }
         }};
+        re.addAll(its);
+        return re;
     }
 }

@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="fix :serious bugs in configs">
+    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="fix :logger not removed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/TransportUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/TransportUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,39 +46,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Run Test.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Algorithm test.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Clean.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.LogiTech [-Dtest=Tests#main,test,-e].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.LogiTech [-Dtest=Tests#main,test].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.LogiTech [-Dtest=Tests,test].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.LogiTech [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.LogiTech [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.LogiTech [install,-Dmaven.test.skip=true].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.LogiTech [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.LogiTech [package].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.SlimefunAddon [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.TestAddon [install].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Shell Script.Build and Start Server.executor&quot;: &quot;Run&quot;,
-    &quot;Shell Script.Unnamed.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Intellij_Idea/workspace/NetworksExpansion-master&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.completion&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Run Test.executor": "Run",
+    "Maven.Algorithm test.executor": "Run",
+    "Maven.Clean.executor": "Run",
+    "Maven.LogiTech [-Dtest=Tests#main,test,-e].executor": "Run",
+    "Maven.LogiTech [-Dtest=Tests#main,test].executor": "Run",
+    "Maven.LogiTech [-Dtest=Tests,test].executor": "Run",
+    "Maven.LogiTech [clean].executor": "Run",
+    "Maven.LogiTech [compile].executor": "Run",
+    "Maven.LogiTech [install,-Dmaven.test.skip=true].executor": "Run",
+    "Maven.LogiTech [install].executor": "Run",
+    "Maven.LogiTech [package].executor": "Run",
+    "Maven.SlimefunAddon [install].executor": "Run",
+    "Maven.TestAddon [install].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Shell Script.Build and Start Server.executor": "Run",
+    "Shell Script.Unnamed.executor": "Run",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Intellij_Idea/workspace/LogiTech-master",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "editor.preferences.completion",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="me.matl114.slimefunaddon.Utils" />
@@ -262,15 +261,8 @@
       <workItem from="1726404299057" duration="25014000" />
       <workItem from="1726546011672" duration="15448000" />
       <workItem from="1726599354729" duration="29000" />
-      <workItem from="1726599703591" duration="12232000" />
-    </task>
-    <task id="LOCAL-00038" summary="feat: try fix">
-      <option name="closed" value="true" />
-      <created>1723866321689</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1723866321689</updated>
+      <workItem from="1726599703591" duration="14117000" />
+      <workItem from="1726743914460" duration="2354000" />
     </task>
     <task id="LOCAL-00039" summary="feat: try fix bugs">
       <option name="closed" value="true" />
@@ -656,7 +648,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726658569981</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="fix :logger not removed">
+      <option name="closed" value="true" />
+      <created>1726713662440</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1726713662440</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -730,7 +730,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="init4" />
     <MESSAGE value="init5" />
     <MESSAGE value="init5 complete basic electric machine using sf templates" />
     <MESSAGE value="init6 refactor utils" />
@@ -755,7 +754,8 @@
     <MESSAGE value="feat: add messages in multiblocks" />
     <MESSAGE value="feat: progress" />
     <MESSAGE value="fix :serious bugs in configs" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix :serious bugs in configs" />
+    <MESSAGE value="fix :logger not removed" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix :logger not removed" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
