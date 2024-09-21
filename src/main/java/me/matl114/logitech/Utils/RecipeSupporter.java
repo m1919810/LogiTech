@@ -807,13 +807,13 @@ public class RecipeSupporter {
             put(EntityType.CAVE_SPIDER, Utils.recipe("STRING", "SPIDER_EYE"));
             put(EntityType.ENDERMAN, Utils.recipe("ENDER_PEARL", AddUtils.probItemStackFactory( AddUtils.resolveItem( "ENDER_EYE"),25)));
             put(EntityType.GHAST, Utils.recipe("GHAST_TEAR", "GUNPOWDER"));
-            put(EntityType.EVOKER, Utils.recipe("TOTEM_OF_UNDYING", "EMERALD"));
+            put(EntityType.EVOKER, Utils.recipe(AddUtils.probItemStackFactory( AddUtils.resolveItem( "TOTEM_OF_UNDYING"),25), "EMERALD"));
             put(EntityType.GIANT, Utils.recipe("ROTTEN_FLESH"));
             put(EntityType.ILLUSIONER, Utils.recipe("BOW", "EMERALD"));
             put(EntityType.PILLAGER, Utils.recipe("CROSSBOW", "EMERALD"));
             put(EntityType.VINDICATOR, Utils.recipe("IRON_AXE", "EMERALD"));
             put(EntityType.RAVAGER, Utils.recipe("SADDLE"));
-            put(EntityType.VEX, Utils.recipe("IRON_SWORD"));
+          //  put(EntityType.VEX, Utils.recipe("IRON_SWORD"));
             put(EntityType.WITCH, Utils.recipe("REDSTONE", "GLASS_BOTTLE", "GUNPOWDER", "SPIDER_EYE", "STICK", "SUGAR"));
             put(EntityType.SLIME, Utils.recipe("SLIME_BALL"));
             put(EntityType.MAGMA_CUBE, Utils.recipe("MAGMA_CREAM"));

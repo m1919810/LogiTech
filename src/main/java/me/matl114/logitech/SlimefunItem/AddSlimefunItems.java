@@ -659,7 +659,7 @@ public class AddSlimefunItems {
                     AddItem.ABSTRACT_INGOT,null,AddItem.NOLOGIC,AddItem.NOLOGIC,null,AddItem.ABSTRACT_INGOT,
                     AddItem.ABSTRACT_INGOT,null,AddItem.NOLOGIC,AddItem.NOLOGIC,null,AddItem.ABSTRACT_INGOT,
                     AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LENGINE,AddItem.LENGINE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT),
-            Material.STONE,24_000,500,
+            Material.STONE,500,24_000,
             mkMp(mkP(mkl("STONE"),mkl("DIRT")),3,
                     mkP(mkl("DIRT"),mkl("GRASS_BLOCK")),3,
                     mkP(mkl("GRASS_BLOCK"),mkl("PODZOL")),3,
