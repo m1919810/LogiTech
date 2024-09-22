@@ -204,11 +204,15 @@ public abstract class AbstractWorkBench extends AbstractMachine {
         for (int s=0;s<playerInv.length;++s) { //each slot in their inv\
             ips[s]=CraftUtils.getPusher(playerInv[s]);
         }
+        boolean[] hasInit=new boolean[recipe.length];
+        boolean[] match=new boolean[recipe.length];
         for (int i = 0 ; i < maxCnt; i++) {
             for (int slot = 0 ; slot < recipe.length ; slot++) { //each item in recipe
-
-                if(i==0){
+                boolean firstTime=false;
+                if(!hasInit[slot]){
                     itcs[slot]=CraftUtils.getConsumer(recipe[slot]);
+                    hasInit[slot]=true;
+                    firstTime=true;
                 }
                 if (itcs[slot] == null) {
                     continue;
@@ -216,15 +220,18 @@ public abstract class AbstractWorkBench extends AbstractMachine {
                 // 重置consumer计数器
                 itcs[slot].syncAmount();
                 int recipeCount=itcs[slot].getAmount();
-                if(i==0){
                     //获取当前槽位的东西
+                if(firstTime){
                     itps[slot]=CraftUtils.getpusher.getPusher(Settings.OUTPUT,menu,inputs[slot]);
                     //不匹配，即非空且不match，就没有下次了
                     if(!itps[slot].isNull()&&!CraftUtils.matchItemCounter(itps[slot],itcs[slot],false)) {
-                        break;
+                        continue;
                     }else{//匹配，设置为consumer的
+                        match[slot]=true;
                         itps[slot].setFrom(itcs[slot]);
                     }
+                }else if(!match[slot]){
+                    continue;
                 }
                 for (int s=0;s<playerInv.length;++s) { //each slot in their inv\
                     if(ips[s]==null||ips[s].getAmount()==0){

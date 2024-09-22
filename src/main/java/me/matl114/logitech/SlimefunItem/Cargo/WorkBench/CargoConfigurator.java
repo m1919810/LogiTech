@@ -118,10 +118,16 @@ public class CargoConfigurator extends AbstractBlock {
             }else return false;
         }
         stack=inv.getItemInSlot(slots[7]);
+        if(stack!=null&&stack.getType()!=Material.SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE){
+            return false;
+        }
         if(stack!=null){
             configCodes[7]+=(stack.getAmount())*64;
         }
         stack=inv.getItemInSlot(slots[8]);
+        if(stack!=null&&stack.getType()!=Material.SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE){
+            return false;
+        }
         if(stack!=null){
             configCodes[7]+=stack.getAmount();
         }

@@ -392,13 +392,13 @@ public class AddSlimefunItems {
             .register();
 
     public static final SlimefunItem PDCECDMD=new MaterialItem(AddGroups.MATERIAL,AddItem.PDCECDMD,AddSlimefunItems.STARSMELTERY,
-            recipe("32PLUTONIUM",setC(AddItem.CERIUM,18),setC(AddItem.CADMIUM_INGOT,16),
-                    setC(AddItem.MENDELEVIUM,12)
+            recipe("64PLUTONIUM",setC(AddItem.CERIUM,64),setC(AddItem.CADMIUM_INGOT,64),
+                    setC(AddItem.MENDELEVIUM,64),setC(AddItem.LSINGULARITY,8)
                     ),null)
             .register();
     public static final SlimefunItem HGTLPBBI=new MaterialItem(AddGroups.MATERIAL,AddItem.HGTLPBBI,AddSlimefunItems.STARSMELTERY,
-            recipe(setC(AddItem.HYDRAGYRUM,24),setC(AddItem.THALLIUM,16),
-                    "16LEAD_INGOT",setC(AddItem.BISILVER,3)),null)
+            recipe(setC(AddItem.HYDRAGYRUM,64),setC(AddItem.THALLIUM,64),
+                    "64LEAD_INGOT",setC(AddItem.BISILVER,16),setC(AddItem.LSINGULARITY,8)),null)
             .register();
     public static final SlimefunItem REINFORCED_CHIP_INGOT=new MaterialItem(AddGroups.MATERIAL,AddItem.REINFORCED_CHIP_INGOT,AddSlimefunItems.STARSMELTERY,
             recipe(setC(AddItem.STAR_GOLD_INGOT,48),setC(AddItem.CHIP_INGOT,16),
@@ -682,10 +682,10 @@ public class AddSlimefunItems {
             .register();
     public static final  SlimefunItem VIRTUAL_KILLER=new VirtualKiller(AddGroups.BASIC, AddItem.VIRTUAL_KILLER,COMMON_TYPE,
             recipe(AddItem.BISILVER,AddItem.BISILVER,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.BISILVER,AddItem.BISILVER,
-                    AddItem.BISILVER,null,null,null,null,AddItem.BISILVER,
-                    AddItem.BISILVER,null,"PROGRAMMABLE_ANDROID_3_FISHERMAN","PROGRAMMABLE_ANDROID_3_FISHERMAN",null,AddItem.BISILVER,
-                    AddItem.BISILVER,null,"PROGRAMMABLE_ANDROID_3_BUTCHER","PROGRAMMABLE_ANDROID_3_BUTCHER",null,AddItem.BISILVER,
-                    AddItem.BISILVER,null,null,null,null,AddItem.BISILVER,
+                    AddItem.BISILVER,null,"2PROGRAMMABLE_ANDROID_3_BUTCHER","2PROGRAMMABLE_ANDROID_3_BUTCHER",null,AddItem.BISILVER,
+                    AddItem.BISILVER,null,"2PROGRAMMABLE_ANDROID_3_FISHERMAN","2PROGRAMMABLE_ANDROID_3_FISHERMAN",null,AddItem.BISILVER,
+                    AddItem.BISILVER,null,"2PROGRAMMABLE_ANDROID_3_BUTCHER","2PROGRAMMABLE_ANDROID_3_BUTCHER",null,AddItem.BISILVER,
+                    AddItem.BISILVER,null,"2PROGRAMMABLE_ANDROID_3_FISHERMAN","2PROGRAMMABLE_ANDROID_3_FISHERMAN",null,AddItem.BISILVER,
                     AddItem.BISILVER,AddItem.BISILVER,AddItem.LENGINE,AddItem.LENGINE,AddItem.BISILVER,AddItem.BISILVER), 3000,300,
             1)
             .register();
@@ -1293,7 +1293,7 @@ public class AddSlimefunItems {
                                             Utils.list(37,29,13,21)
                                     )
                             )
-                    ),60,
+                    ),75,
                     mkP(   mkl(AddItem.SMELERY_CORE)  ,
 
                             mkl(
@@ -1307,7 +1307,7 @@ public class AddSlimefunItems {
                                             Utils.list(2,59,13,24)
                                     )
                             )
-                    ),60,
+                    ),75,
                     mkP(   mkl(AddItem.MASS_CORE)  ,
 
                             mkl(
@@ -1323,7 +1323,7 @@ public class AddSlimefunItems {
                                     )
                             )
 
-                    ),60,
+                    ),75,
                     mkP(   mkl(AddItem.TECH_CORE)  ,
 
                             mkl(
@@ -1333,7 +1333,7 @@ public class AddSlimefunItems {
                                     AddUtils.randAmountItemFactory(AddItem.ATOM_INGOT,92,127)
                             )
 
-                    ),60
+                    ),75
             )).setDisplayRecipes(
                     Utils.list(
                             AddUtils.getInfoShow("&f机制",
@@ -1892,15 +1892,15 @@ public class AddSlimefunItems {
 
     //final
     public static final SlimefunItem ANTIMASS=new SpreadBlock(AddGroups.BEYOND,AddItem.ANTIMASS,STARSMELTERY,
-            recipe(setC(AddItem.LOGIC_CORE,9),setC(AddItem.VIRTUAL_SPACE,64),"64ENERGIZED_CAPACITOR",setC(AddItem.PARADOX,64),setC(AddItem.FINAL_FRAME,3)),LOGIC_CORE,Material.COMMAND_BLOCK,Material.SCULK)
+            recipe(setC(AddItem.LOGIC_CORE,9),setC(AddItem.VIRTUAL_SPACE,64),"64ENERGIZED_CAPACITOR",setC(AddItem.PDCECDMD,64),setC(AddItem.FINAL_FRAME,3)),LOGIC_CORE,Material.COMMAND_BLOCK,Material.SCULK)
             .register();
     public static final  SlimefunItem FINAL_LASER=new Laser(AddGroups.BEYOND, AddItem.FINAL_LASER,COMMON_TYPE,
-            recipe(setC(AddItem.SPACE_PLATE,4),setC(AddItem.HGTLPBBI,8),setC(AddItem.TECH_CORE,4),setC(AddItem.TECH_CORE,4),setC(AddItem.HGTLPBBI,8),setC(AddItem.SPACE_PLATE,4),
-                    setC(AddItem.SPACE_PLATE,4),setC(AddItem.HGTLPBBI,8),setC(AddItem.TECH_CORE,4),setC(AddItem.TECH_CORE,4),setC(AddItem.HGTLPBBI,8),setC(AddItem.SPACE_PLATE,4),
-                    setC(AddItem.LSINGULARITY,8),setC(AddItem.LASER,2),setC(AddItem.VIRTUAL_SPACE,8),setC(AddItem.VIRTUAL_SPACE,8),setC(AddItem.LASER,2),setC(AddItem.LSINGULARITY,8),
-                    setC(AddItem.LSINGULARITY,8),setC(AddItem.LASER,2),setC(AddItem.VIRTUAL_SPACE,8),setC(AddItem.VIRTUAL_SPACE,8),setC(AddItem.LASER,2),setC(AddItem.LSINGULARITY,8),
-                    setC(AddItem.PAGOLD,8),setC(AddItem.BISILVER,8),setC(AddItem.LASER,2),setC(AddItem.LASER,2),setC(AddItem.BISILVER,8),setC(AddItem.PAGOLD,8),
-                    null,setC(AddItem.PAGOLD,8),setC(AddItem.LSINGULARITY,8),setC(AddItem.LSINGULARITY,8),setC(AddItem.PAGOLD,8),null), 8_000_000,1_200_000,"final.sub")
+            recipe(setC(AddItem.SPACE_PLATE,8),setC(AddItem.HGTLPBBI,8),setC(AddItem.TECH_CORE,4),setC(AddItem.TECH_CORE,4),setC(AddItem.HGTLPBBI,8),setC(AddItem.SPACE_PLATE,8),
+                    setC(AddItem.SPACE_PLATE,8),setC(AddItem.HGTLPBBI,8),setC(AddItem.TECH_CORE,4),setC(AddItem.TECH_CORE,4),setC(AddItem.HGTLPBBI,8),setC(AddItem.SPACE_PLATE,8),
+                    setC(AddItem.LSINGULARITY,8),setC(AddItem.LASER,64),setC(AddItem.VIRTUAL_SPACE,8),setC(AddItem.VIRTUAL_SPACE,8),setC(AddItem.LASER,64),setC(AddItem.LSINGULARITY,8),
+                    setC(AddItem.LSINGULARITY,8),setC(AddItem.LASER,64),setC(AddItem.VIRTUAL_SPACE,8),setC(AddItem.VIRTUAL_SPACE,8),setC(AddItem.LASER,64),setC(AddItem.LSINGULARITY,8),
+                    setC(AddItem.PAGOLD,16),setC(AddItem.PDCECDMD,8),setC(AddItem.LASER,64),setC(AddItem.LASER,64),setC(AddItem.PDCECDMD,8),setC(AddItem.PAGOLD,16),
+                    null,setC(AddItem.PAGOLD,16),setC(AddItem.LSINGULARITY,8),setC(AddItem.LSINGULARITY,8),setC(AddItem.PAGOLD,16),null), 8_000_000,1_200_000,"final.sub")
             .register();
     public static final SlimefunItem FINAL_BASE=new MultiPart(AddGroups.BEYOND,AddItem.FINAL_BASE,STARSMELTERY,
             recipe(setC(AddItem.LOGIC_CORE,8)),"final.base")
@@ -1918,7 +1918,7 @@ public class AddSlimefunItems {
             mkMp(
                     mkP(mkl(setC(AddItem.MASS_CORE,256),setC(AddItem.SMELERY_CORE,256),setC(AddItem.HGTLPBBI,256),
                             setC(AddItem.LSINGULARITY,128),setC(AddItem.VIRTUAL_SPACE,128),setC(AddItem.PDCECDMD,256),
-                            setC(AddItem.TECH_CORE,256),setC(AddItem.METAL_CORE,256)),mkl(setC(AddItem.FINAL_FRAME,3))),2,
+                            setC(AddItem.TECH_CORE,256),setC(AddItem.METAL_CORE,256)),mkl(setC(AddItem.FINAL_FRAME,2))),2,
                     mkP(mkl(setC(AddItem.LSINGULARITY,512),"1919810IRON_DUST","1919810GOLD_DUST","1919810COPPER_DUST",
                             "1919810TIN_DUST","1919810SILVER_DUST","1919810LEAD_DUST",
                             "1919810ALUMINUM_DUST","1919810ZINC_DUST","1919810MAGNESIUM_DUST"),mkl(AddItem.LOGIC_CORE)),2

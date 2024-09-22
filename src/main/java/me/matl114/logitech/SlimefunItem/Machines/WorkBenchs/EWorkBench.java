@@ -68,9 +68,13 @@ public class EWorkBench extends AbstractWorkBench {
                 }
         );
         menu.addMenuClickHandler(getRecipeMenuSlot(),((player, i, itemStack, clickAction) -> {
-            getRecipeMenu(block,menu).build().open(player);
+            getRecipeMenu(block,menu).build().setBackHandler(((player1, i1, itemStack1, clickAction1) -> {menu.open(player);return false;})).open(player);
             return false;
         }));
+//        menu.addMenuClickHandler(getRecipeMenuSlot(),((player, i, itemStack, clickAction) -> {
+//            getRecipeMenu(block,menu).build().open(player);
+//            return false;
+//        }));
     }
     public int[] getInputSlots(){
         return INPUT_SLOT;
