@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="fix :logger not removed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddSlimefunItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddSlimefunItems.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/AbstractAdvancedProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/AbstractAdvancedProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/RecipeSupporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/RecipeSupporter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/ReflectUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/ReflectUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/AutoMachines/SpecialCrafter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/AutoMachines/SpecialCrafter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +67,7 @@
     &quot;Shell Script.Unnamed.executor&quot;: &quot;Run&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Intellij_Idea/workspace/Supreme-main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Intellij_Idea/workspace/FinalTECH-Changed-main&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -268,47 +265,8 @@
       <workItem from="1726599703591" duration="14117000" />
       <workItem from="1726743914460" duration="2354000" />
       <workItem from="1726746517200" duration="9581000" />
-      <workItem from="1726818662971" duration="8150000" />
-    </task>
-    <task id="LOCAL-00041" summary="feat: try fix bugs">
-      <option name="closed" value="true" />
-      <created>1723911913154</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1723911913154</updated>
-    </task>
-    <task id="LOCAL-00042" summary="feat: progress">
-      <option name="closed" value="true" />
-      <created>1723916187276</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1723916187276</updated>
-    </task>
-    <task id="LOCAL-00043" summary="feat: progress">
-      <option name="closed" value="true" />
-      <created>1723960548175</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1723960548175</updated>
-    </task>
-    <task id="LOCAL-00044" summary="feat: progress">
-      <option name="closed" value="true" />
-      <created>1723963785627</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1723963785627</updated>
-    </task>
-    <task id="LOCAL-00045" summary="feat: progress">
-      <option name="closed" value="true" />
-      <created>1724046163963</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1724046163963</updated>
+      <workItem from="1726818662971" duration="51152000" />
+      <workItem from="1727069825199" duration="1123000" />
     </task>
     <task id="LOCAL-00046" summary="feat: progress">
       <option name="closed" value="true" />
@@ -662,7 +620,47 @@
       <option name="project" value="LOCAL" />
       <updated>1726807343878</updated>
     </task>
-    <option name="localTasksCounter" value="90" />
+    <task id="LOCAL-00090" summary="fix :logger not removed">
+      <option name="closed" value="true" />
+      <created>1726844633400</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1726844633400</updated>
+    </task>
+    <task id="LOCAL-00091" summary="fix :logger not removed">
+      <option name="closed" value="true" />
+      <created>1726848404471</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1726848404471</updated>
+    </task>
+    <task id="LOCAL-00092" summary="fix :logger not removed">
+      <option name="closed" value="true" />
+      <created>1726848554316</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1726848554316</updated>
+    </task>
+    <task id="LOCAL-00093" summary="fix :logger not removed">
+      <option name="closed" value="true" />
+      <created>1726901154758</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1726901154758</updated>
+    </task>
+    <task id="LOCAL-00094" summary="fix :logger not removed">
+      <option name="closed" value="true" />
+      <created>1727006580285</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1727006580285</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -30,6 +30,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.rmi.UnexpectedException;
 import java.util.*;
@@ -358,17 +359,27 @@ public abstract class SpecialCrafter extends AbstractAdvancedProcessor implement
         int amountLimit=0;
         int maxStack=item.getMaxStackSize();
         ItemStack[] recipeInput=now.getInput();
+        int hasSameType=0;
         for (int i=0;i<recipeInput.length;++i){
             if(recipeInput[i].getType()==item.getType()&&recipeInput[i].hasItemMeta()==item.hasItemMeta()){
                 amountLimit+=Math.max(recipeInput[i].getAmount()*craftlimit,maxStack);
+                ++hasSameType;
             }
         }
         // Check the current amount
         int itemAmount = 0;
-        for (int slot : getInputSlots()) {
+        if(hasSameType==0){
+            return inputSlots;
+        }
+        boolean hasItemMeta=item.hasItemMeta();
+        ItemCounter pusher=CraftUtils.getCounter(item);
+        for (int slot : inputSlots) {
             ItemStack itemInSlot = menu.getItemInSlot(slot);
             if(itemInSlot==null)continue;
-            if (itemInSlot.getType()==item.getType()&&itemInSlot.hasItemMeta()==item.hasItemMeta()) {
+            if (itemInSlot.getType()==item.getType()&&itemInSlot.hasItemMeta()==hasItemMeta) {
+                if(hasSameType>1&&hasItemMeta&&!CraftUtils.matchItemStack(itemInSlot ,pusher,false)){
+                    continue;
+                }
                 itemAmount+=itemInSlot.getAmount();
                 // Amount has reached the limited, just return.
                 if(itemAmount>=amountLimit){
