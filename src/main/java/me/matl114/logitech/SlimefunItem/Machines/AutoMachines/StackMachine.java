@@ -60,7 +60,7 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
     protected final int MINFO_SLOT=40;
     protected final int INFO_SLOT=4;
     protected final ItemStack INFO_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&b机制",
-            "&6将要模拟的机器放在下方槽位","&6机器会进行模拟,其中","&7<并行处理数>=<机器数*工作效率>","&7<耗电数>=<机器数量*单个机器耗电/工作效率>","&6有关高级机器和并行处理数的信息,请见粘液书<版本与说明>","&6支持的机器可以在粘液书<通用机器类型大全>"
+            "&6将要模拟的机器放在下方槽位","&6机器会进行模拟,其中","&7<并行处理数>=<机器数*工作效率>","&7<耗电数>=min(<机器数量*单个机器耗电/工作效率>,<最大电容量>)","&6有关高级机器和并行处理数的信息,请见粘液书<版本与说明>","&6支持的机器可以在粘液书<通用机器类型大全>"
             ,"&6或者左边按钮查看","&6机器支持的配方可以点击右侧按钮查看");
     protected final ItemStack MINFO_ITEM_OFF=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&c机器信息","&7待机中");
     protected final int MACHINEMENU_SLOT=3;
@@ -327,7 +327,6 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
             int energy=this.getCharge(inv.getLocation(),data);
             if(energy>=consumption){
                 if(inv.hasViewer()){
-                    DataMenuClickHandler dh=getDataHolder(b,inv);
                     inv.replaceExistingItem(MINFO_SLOT,getInfoItem((int)(craftLimit*efficiency),consumption,energy,this.efficiency,
                             ItemStackHelper.getDisplayName(this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT).getItem())));
                 }
@@ -335,7 +334,6 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
             }else {
                 //没电
                 if(inv.hasViewer()){
-                    DataMenuClickHandler dh=getDataHolder(b,inv);
                     inv.replaceExistingItem(MINFO_SLOT,getInfoOffItem((int)(craftLimit*efficiency),consumption,energy,
                             ItemStackHelper.getDisplayName(this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT).getItem())));
                 }
