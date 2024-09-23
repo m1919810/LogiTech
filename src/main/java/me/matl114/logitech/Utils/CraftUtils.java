@@ -1793,8 +1793,18 @@ public class CraftUtils {
      * @return
      */
     public static boolean canQuickEscapeMetaVariant(@Nonnull ItemMeta metaOne, @Nonnull ItemMeta metaTwo) {
-        if(metaOne instanceof BlockStateMeta||metaTwo instanceof BlockStateMeta) {
-            return false;
+        if(metaOne instanceof BlockStateMeta  m1) {
+            if(metaTwo instanceof BlockStateMeta m2){
+                if(!m1.hasBlockState()||!m2.hasBlockState()){
+                    if(m1.hasBlockState()!=m2.hasBlockState())
+                        return true;
+                }
+                else if(  !m1.getBlockState().equals(m2.getBlockState())){
+                    return true;
+                }
+            }else{
+                return true;
+            }
         }
         // Damageable (first as everything can be damageable apparently)
         if (metaOne instanceof Damageable instanceOne && metaTwo instanceof Damageable instanceTwo) {

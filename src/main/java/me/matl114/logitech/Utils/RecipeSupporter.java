@@ -466,14 +466,20 @@ public class RecipeSupporter {
                 if(replaceEnergy){
                     STACKMGENERATOR_LIST.put(machine,energy);
                 }else {
-                    STACKMGENERATOR_LIST.putIfAbsent(machine,energy);
+                    Integer en=STACKMACHINE_LIST.get(machine);
+                    if(en==null||en==-1){
+                        STACKMACHINE_LIST.put(machine,energy);
+                    }
                 }
             }else if(type.startsWith("mach")){
                 STACKMGENERATOR_LIST.remove(machine);
                 if(replaceEnergy){
                     STACKMACHINE_LIST.put(machine,energy);
                 }else {
-                    STACKMACHINE_LIST.putIfAbsent(machine,energy);
+                    Integer en=STACKMACHINE_LIST.get(machine);
+                    if(en==null||en==-1){
+                        STACKMACHINE_LIST.put(machine,energy);
+                    }
                 }
             }else if(type.startsWith("no")){
                 STACKMACHINE_LIST.remove(machine);
