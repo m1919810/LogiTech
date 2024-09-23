@@ -121,7 +121,7 @@ public class AEMachine extends AbstractAdvancedProcessor {
 
             preset.addItem(border[var4], ChestMenuUtils.getInputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
         }
-
+        preset.addMenuClickHandler(INFO_SLOT,ChestMenuUtils.getEmptyClickHandler());
         preset.addItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL, ChestMenuUtils.getEmptyClickHandler());
     }
     protected final ItemCounter CORE_SAMPLE= CraftUtils.getConsumer(AddItem.CHIP_CORE);

@@ -359,25 +359,41 @@ public abstract class SpecialCrafter extends AbstractAdvancedProcessor implement
         int amountLimit=0;
         int maxStack=item.getMaxStackSize();
         ItemStack[] recipeInput=now.getInput();
-        int hasSameType=0;
+        ItemCounter pusher=null;
+        boolean hasOne=false;
         for (int i=0;i<recipeInput.length;++i){
             if(recipeInput[i].getType()==item.getType()&&recipeInput[i].hasItemMeta()==item.hasItemMeta()){
-                amountLimit+=Math.max(recipeInput[i].getAmount()*craftlimit,maxStack);
-                ++hasSameType;
+                if(!hasOne){
+                    amountLimit=Math.max(recipeInput[i].getAmount()*craftlimit,maxStack);
+                    hasOne=true;
+                }else{
+                    if(pusher==null){
+                        //保证比较之前pusher非null，不用重复计算
+                        pusher=CraftUtils.getCounter(item);
+                    }
+
+                    //由于StackMachineRecipe 材料已经被折叠过了 只需要找到一个匹配就行
+                    if(CraftUtils.matchItemStack(recipeInput[i],pusher,false)){
+                        amountLimit=Math.max(recipeInput[i].getAmount()*craftlimit,maxStack);
+                        break;
+                    }
+                }
             }
         }
         // Check the current amount
         int itemAmount = 0;
-        if(hasSameType==0){
+        if(!hasOne){
             return inputSlots;
         }
         boolean hasItemMeta=item.hasItemMeta();
-        ItemCounter pusher=CraftUtils.getCounter(item);
         for (int slot : inputSlots) {
             ItemStack itemInSlot = menu.getItemInSlot(slot);
             if(itemInSlot==null)continue;
+            //出现类型匹配
             if (itemInSlot.getType()==item.getType()&&itemInSlot.hasItemMeta()==hasItemMeta) {
-                if(hasSameType>1&&hasItemMeta&&!CraftUtils.matchItemStack(itemInSlot ,pusher,false)){
+                //如果pusher!=null,说明上面出现了两个相同type 需要比较
+                //如果比较不匹配 跳过
+                if(pusher!=null&&hasItemMeta&&!CraftUtils.matchItemStack(itemInSlot ,pusher,false)){
                     continue;
                 }
                 itemAmount+=itemInSlot.getAmount();
