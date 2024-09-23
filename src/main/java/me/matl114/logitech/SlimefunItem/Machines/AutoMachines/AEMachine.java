@@ -33,7 +33,6 @@ public class AEMachine extends AbstractAdvancedProcessor {
     };
     protected final ItemStack INFO_ITEM=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&a并行机器信息",
             "&7在上方槽位插入工件以增加并行数","&7最大并行数: 64");
-    protected final int INFO_SLOT=40;
     public AEMachine(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                      Material processbar, int energyConsumption, int energyBuffer,
                      LinkedHashMap<Object, Integer> customRecipes) {

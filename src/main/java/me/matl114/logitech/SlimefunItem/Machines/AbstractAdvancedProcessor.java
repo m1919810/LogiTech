@@ -39,6 +39,7 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
     protected int PROCESSOR_SLOT=22;
     protected final ItemStack progressbar;
     protected final MachineProcessor<MultiCraftingOperation> processor;
+    protected final int INFO_SLOT=40;
     public AbstractAdvancedProcessor(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                              Material progressItem, int energyConsumption, int energyBuffer,
                              LinkedHashMap<Object, Integer> customRecipes){
@@ -115,7 +116,7 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
 
             preset.addItem(border[var4], ChestMenuUtils.getInputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
         }
-
+        preset.addMenuClickHandler(INFO_SLOT,ChestMenuUtils.getEmptyClickHandler());
         preset.addItem(PROCESSOR_SLOT,MenuUtils.PROCESSOR_NULL, ChestMenuUtils.getEmptyClickHandler());
     }
     public int[] getInputSlots(){
