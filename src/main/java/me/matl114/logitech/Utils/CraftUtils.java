@@ -1030,8 +1030,13 @@ public class CraftUtils {
         return null;
     }
 
+
+//    public static Pair<MachineRecipe,ItemGreedyConsumer[]> matchNextMultiRecipe(BlockMenu inv ,int[] slots,List<MachineRecipe> recipes,boolean useHistory,int limit,Settings order){
+//        return matchNextMultiRecipe(inv,slots,recipes,useHistory,limit,order,getpusher);
+//    }
     /**
      * a better version of matchNextRecipe for multiCraft,will remember the related slots of inputItems
+     * will not calculate maxCraftTime !,you have to calculate by yourself!!!!
      * @param inv
      * @param slots
      * @param recipes
@@ -1039,9 +1044,6 @@ public class CraftUtils {
      * @param order
      * @return
      */
-    public static Pair<MachineRecipe,ItemGreedyConsumer[]> matchNextMultiRecipe(BlockMenu inv ,int[] slots,List<MachineRecipe> recipes,boolean useHistory,int limit,Settings order){
-        return matchNextMultiRecipe(inv,slots,recipes,useHistory,limit,order,getpusher);
-    }
     public static Pair<MachineRecipe,ItemGreedyConsumer[]> matchNextMultiRecipe(BlockMenu inv ,int[] slots,List<MachineRecipe> recipes,boolean useHistory,int limit,Settings order,ItemPusherProvider pusher){
 
         int delta;
@@ -1114,7 +1116,10 @@ public class CraftUtils {
     public static int calMaxCraftTime(ItemGreedyConsumer[] recipes,int limit){
         int len=recipes.length;
         if(len!=0) {
-            return Math.min(limit,recipes[0].getStackNum());
+            for(int i=0;i<len;++i){
+                limit=Math.min(limit,recipes[i].getStackNum());
+            }
+            return limit;
         }else return limit;
     }
     public static int calMaxCraftAfterAccelerate(int maxCraftTime,int tick){
