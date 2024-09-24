@@ -243,6 +243,8 @@ public class AddItem {
             Language.get("Items.VIRTUALWORLD.Name"),Language.getList("Items.VIRTUALWORLD.Lore"));
     public static final SlimefunItemStack SAMPLE_SPAWNER=AddUtils.themed("SAMPLE_SPAWNER",Material.SPAWNER,AddUtils.Theme.ITEM1,
             Language.get("Items.SAMPLE_SPAWNER.Name"),Language.getList("Items.SAMPLE_SPAWNER.Lore"));
+    public static final SlimefunItemStack HOLOGRAM_REMOVER=AddUtils.themed("HOLOGRAM_REMOVER",Material.LIGHT,AddUtils.Theme.ITEM1,
+            Language.get("Items.HOLOGRAM_REMOVER.Name"),Language.getList("Items.HOLOGRAM_REMOVER.Lore"));
     //nachines
     public static final SlimefunItemStack HEAD_ANALYZER=AddUtils.themed("HEAD_ANALYZER",Material.SOUL_CAMPFIRE, AddUtils.Theme.MACHINE1,
             Language.get("Machines.HEAD_ANALYZER.Name"),Language.getList("Machines.HEAD_ANALYZER.Lore"));

@@ -8,9 +8,11 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Schedule.PersistentEffects.RadiationRegion;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Blocks.*;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.*;
 import me.matl114.logitech.SlimefunItem.Cargo.CargoMachine.*;
@@ -41,14 +43,18 @@ import me.matl114.logitech.SlimefunItem.Cargo.TestStorageUnit;
 import me.matl114.logitech.SlimefunItem.Machines.WorkBenchs.EWorkBench;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.CommandClass.CommandShell;
+import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * register main
@@ -1889,7 +1895,29 @@ public class AddSlimefunItems {
         }
     }
             .register();
-
+    public static final SlimefunItem HOLOGRAM_REMOVER=new CustomProps(AddGroups.SPECIAL, AddItem.HOLOGRAM_REMOVER, RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(null, null, null, AddItem.BUG, "DIAMOND_SWORD", AddItem.BUG, null, null, null), null) {
+        protected final HashSet<Player> COOLDOWNS=new HashSet();
+        @Override
+        public void onClickAction(PlayerRightClickEvent event) {
+            Player p=event.getPlayer();
+            if(p!=null){
+                if(WorldUtils.hasPermission(p,p.getLocation().getBlock(), Interaction.INTERACT_BLOCK)){
+                    if(COOLDOWNS.contains(p)){
+                        AddUtils.sendMessage(p,"&c物品冷却中!");
+                    }else{
+                        MultiBlockService.removeUnrecordedHolograms(p.getLocation(),20);
+                        AddUtils.sendMessage(p,"&a成功清除!进入5s(100gt)冷却");
+                        COOLDOWNS.add(p);
+                        Schedules.launchSchedules(()->COOLDOWNS.remove(p),100,true,0);
+                    }
+                }else{
+                    AddUtils.sendMessage(p,"&c你没有权限在这里使用该道具");
+                }
+            }
+        }
+    }
+            .register();
     //final
     public static final SlimefunItem ANTIMASS=new SpreadBlock(AddGroups.BEYOND,AddItem.ANTIMASS,STARSMELTERY,
             recipe(setC(AddItem.LOGIC_CORE,9),setC(AddItem.VIRTUAL_SPACE,64),"64ENERGIZED_CAPACITOR",setC(AddItem.PDCECDMD,64),setC(AddItem.FINAL_FRAME,3)),LOGIC_CORE,Material.COMMAND_BLOCK,Material.SCULK)

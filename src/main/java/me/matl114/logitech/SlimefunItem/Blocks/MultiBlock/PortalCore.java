@@ -201,7 +201,7 @@ public class PortalCore extends MultiCore {
             Location loc=inv.getLocation();
             int holoStatus=DataCache.getCustomData(inv.getLocation(),"holo",0);
             int statusCode=MultiBlockService.getStatus(loc);
-            MultiBlockService.removeHologram(loc);
+            MultiBlockService.removeHologramSync(loc);
             if(statusCode==0){
                 if(holoStatus==0){
                     AddUtils.sendMessage(player,"&a全息投影已切换至南北向!");

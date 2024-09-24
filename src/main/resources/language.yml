@@ -483,6 +483,12 @@ zh_CN:
         - '类型: &x&e&b&3&3&e&b<类型>'
     SAMPLE_SPAWNER:
       Name: '刷怪笼'
+    HOLOGRAM_REMOVER:
+      Name: '全息投影清除器'
+      Lore:
+        - '用来清除因错误而未正确移除的展示实体'
+        - '你或许会在崩服之后使用他'
+        - '右键清除附近10格的错误展示实体'
   Machines:
     LOGIC_REACTOR:
       Name: '逻辑反应堆'

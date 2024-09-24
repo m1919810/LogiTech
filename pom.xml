@@ -112,12 +112,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>dev.sefiraat</groupId>
-            <artifactId>SefiLib</artifactId>
-            <version>0.2.6</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.github.SlimefunGuguProject</groupId>
             <artifactId>InfinityExpansion</artifactId>
             <version>bebf0bd0f9</version>

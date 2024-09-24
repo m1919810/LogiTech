@@ -2,9 +2,6 @@ package me.matl114.logitech.Utils.UtilClass.MultiBlockClass;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import dev.sefiraat.sefilib.entity.display.DisplayGroup;
-import dev.sefiraat.sefilib.entity.display.builders.ItemDisplayBuilder;
-import dev.sefiraat.sefilib.misc.TransformationBuilder;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.Schedule.ScheduleSave;
 import me.matl114.logitech.Schedule.Schedules;
@@ -12,8 +9,13 @@ import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockPart;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.Utils.UtilClass.EntityClass.ItemDisplayBuilder;
+import me.matl114.logitech.Utils.UtilClass.EntityClass.TransformationBuilder;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Display;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -358,7 +360,7 @@ public class MultiBlockService {
         }
         for(int i=0;i<len;i++){
             displayGroup.addDisplay(
-                    "solar.display.%d".formatted(i),
+                    "logitech.display.%d".formatted(i),
                     new ItemDisplayBuilder()
                             .setGroupParentOffset(direction.rotate(type.getSchemaPart(i)))
                             .setItemStack(itemmap.get(type.getSchemaPartId(i)))
@@ -367,6 +369,25 @@ public class MultiBlockService {
             );
         }
         HOLOGRAM_CACHE.put(loc,displayGroup);
+    }
+    //solar logitech
+    public static void removeUnrecordedHolograms(Location loc,int range){
+        Collection<Entity> entities=loc.getWorld().getNearbyEntities(loc,range,range,range,(e)->e instanceof Display);
+        if(entities==null|| entities.isEmpty()){
+            return;
+        }
+        HashSet<Display> registeredHolograms=new HashSet<>();
+        for(DisplayGroup group:HOLOGRAM_CACHE.values()){
+            registeredHolograms.addAll(group.getDisplaySet());
+        }
+        for(Entity e:entities){
+            if(e instanceof Display display&&!registeredHolograms.contains(e)){
+                String source=ItemDisplayBuilder.getSource(display);
+                if(source!=null){
+                    display.remove();
+                }
+            }
+        }
     }
 
     public static void removeHologram(Location loc){
