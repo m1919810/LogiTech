@@ -243,7 +243,6 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
             if (wasNull == true) {
                 if (getItem() != null) {
                     item = item.clone();
-                    //样板保证是一个，用storageAmount mook掉真实itemAmount
                     item.setAmount(1);
                     storageAmount = getAmount();
                     storageType.setStorage(sourceMeta, this.getItem());

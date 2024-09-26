@@ -1,5 +1,7 @@
 package me.matl114.logitech.Utils.UtilClass.StorageClass;
 
+import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.Utils.MathUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
@@ -10,15 +12,23 @@ import javax.annotation.Nonnull;
 public class LocationStorageProxy extends ItemStorageCache{
     Location location;
     boolean lock=false;
+    int lastStorageAmount;
     protected LocationStorageProxy(ItemStack item, ItemStack source, ItemMeta sourceMeta, int saveslot,StorageType type,Location location){
         super(item, source, sourceMeta, saveslot, type);
         this.location = location;
+        this.lastStorageAmount=((LocationProxy)storageType).getAmount(location);
+        Debug.logger("get last storage amount "+lastStorageAmount);
     }
     public boolean isDirty(){
         return lock||dirty;
     }
     public void updateStorage(){
-        ((LocationProxy)storageType).setAmount(location,getStorageAmount());
+        //这里是代理存储 并不是唯一修改源
+        //需要刷新一下并加上用当前记录-历史记录 的东西
+        Debug.logger("get now storage amount "+getStorageAmount());
+        Debug.logger("get cache storage amount "+((LocationProxy)storageType).getAmount(location));
+        int delta=((LocationProxy)storageType).getAmount(location)-this.lastStorageAmount;
+        ((LocationProxy)storageType).setAmount(location, Math.min(getMaxStackCnt(), MathUtils.safeAdd(getStorageAmount(),delta)));
         ((LocationProxy)storageType).updateLocation(location);
     }
     public void updateMenu(@Nonnull BlockMenu menu){
