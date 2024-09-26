@@ -17,7 +17,6 @@ public class LocationStorageProxy extends ItemStorageCache{
         super(item, source, sourceMeta, saveslot, type);
         this.location = location;
         this.lastStorageAmount=((LocationProxy)storageType).getAmount(location);
-        Debug.logger("get last storage amount "+lastStorageAmount);
     }
     public boolean isDirty(){
         return lock||dirty;
@@ -25,8 +24,6 @@ public class LocationStorageProxy extends ItemStorageCache{
     public void updateStorage(){
         //这里是代理存储 并不是唯一修改源
         //需要刷新一下并加上用当前记录-历史记录 的东西
-        Debug.logger("get now storage amount "+getStorageAmount());
-        Debug.logger("get cache storage amount "+((LocationProxy)storageType).getAmount(location));
         int delta=((LocationProxy)storageType).getAmount(location)-this.lastStorageAmount;
         ((LocationProxy)storageType).setAmount(location, Math.min(getMaxStackCnt(), MathUtils.safeAdd(getStorageAmount(),delta)));
         ((LocationProxy)storageType).updateLocation(location);
