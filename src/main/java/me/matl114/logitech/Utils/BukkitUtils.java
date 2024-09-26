@@ -3,6 +3,7 @@ package me.matl114.logitech.Utils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.ShapedMachineRecipe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -61,5 +62,14 @@ public class BukkitUtils {
         }
 
         Bukkit.addRecipe(vanillaRecipe);
+    }
+    public static void executeSync(Runnable runnable){
+        if(Bukkit.isPrimaryThread()){
+            runnable.run();
+        }else {
+            Schedules.launchSchedules(
+                    runnable,0,true,0
+            );
+        }
     }
 }

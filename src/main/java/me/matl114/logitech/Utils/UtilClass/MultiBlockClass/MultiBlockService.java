@@ -6,15 +6,15 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.Schedule.ScheduleSave;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockPart;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.EntityClass.ItemDisplayBuilder;
 import me.matl114.logitech.Utils.UtilClass.EntityClass.TransformationBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Interaction;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -365,6 +365,7 @@ public class MultiBlockService {
                             .setGroupParentOffset(direction.rotate(type.getSchemaPart(i)))
                             .setItemStack(itemmap.get(type.getSchemaPartId(i)))
                             .setTransformation(new TransformationBuilder().scale(0.5f,0.5f,0.5f).build())
+                            .setSource(DataCache.locationToString(loc))
                             .build(displayGroup)
             );
         }
@@ -381,29 +382,24 @@ public class MultiBlockService {
             registeredHolograms.addAll(group.getDisplaySet());
         }
         for(Entity e:entities){
-            if(e instanceof Display display&&!registeredHolograms.contains(e)){
-                String source=ItemDisplayBuilder.getSource(display);
+            if((e instanceof Display|| e instanceof Interaction)&&!registeredHolograms.contains(e)){
+                String source=ItemDisplayBuilder.getSource(e);
                 if(source!=null){
-                    display.remove();
+                    e.remove();
                 }
             }
         }
     }
 
     public static void removeHologram(Location loc){
-
-        DisplayGroup displayGroup=HOLOGRAM_CACHE.remove(loc);
-        if(displayGroup!=null){
-            Schedules.launchSchedules(
-                    displayGroup::remove,
-                    0,true,0);
-        }
-        DataCache.setCustomData(loc,"holo",0);
+        removeHologramSync(loc);
     }
     public static void removeHologramSync(Location loc){
         DisplayGroup displayGroup=HOLOGRAM_CACHE.remove(loc);
         if(displayGroup!=null){
-            displayGroup.remove();
+            BukkitUtils.executeSync(()->{
+                displayGroup.remove();
+            });
         }
         DataCache.setCustomData(loc,"holo",0);
     }

@@ -245,6 +245,10 @@ public class AddItem {
             Language.get("Items.SAMPLE_SPAWNER.Name"),Language.getList("Items.SAMPLE_SPAWNER.Lore"));
     public static final SlimefunItemStack HOLOGRAM_REMOVER=AddUtils.themed("HOLOGRAM_REMOVER",Material.LIGHT,AddUtils.Theme.ITEM1,
             Language.get("Items.HOLOGRAM_REMOVER.Name"),Language.getList("Items.HOLOGRAM_REMOVER.Lore"));
+    public static final SlimefunItemStack WITHERPROOF_REDSTONE=AddUtils.themed("WITHERPROOF_REDSTONE",Material.REDSTONE_BLOCK,AddUtils.Theme.ITEM1,
+            Language.get("Items.WITHERPROOF_REDSTONE.Name"),Language.getList("Items.WITHERPROOF_REDSTONE.Lore"));
+    public static final SlimefunItemStack WITHERPROOF_REDS=AddUtils.themed("WITHERPROOF_REDS",Material.REDSTONE,AddUtils.Theme.ITEM1,
+            Language.get("Items.WITHERPROOF_REDS.Name"),Language.getList("Items.WITHERPROOF_REDS.Lore"));
     //nachines
     public static final SlimefunItemStack HEAD_ANALYZER=AddUtils.themed("HEAD_ANALYZER",Material.SOUL_CAMPFIRE, AddUtils.Theme.MACHINE1,
             Language.get("Machines.HEAD_ANALYZER.Name"),Language.getList("Machines.HEAD_ANALYZER.Lore"));
@@ -319,6 +323,8 @@ public class AddItem {
             Language.get("Machines.ATTR_OP.Name"),Language.getList("Machines.ATTR_OP.Lore"));
     public static final SlimefunItemStack GRIND_FACTORY=AddUtils.themed("GRIND_FACTORY",Material.GRINDSTONE,AddUtils.Theme.MACHINE1,
             Language.get("Machines.GRIND_FACTORY.Name"),Language.getList("Machines.GRIND_FACTORY.Lore"));
+    public static final SlimefunItemStack TNT_GEN=AddUtils.themed("TNT_GEN",Material.NOTE_BLOCK,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.TNT_GEN.Name"),Language.getList("Machines.TNT_GEN.Lore"));
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Manuals.MANUAL_CORE.Name"),Language.getList("Manuals.MANUAL_CORE.Lore"));
@@ -413,6 +419,8 @@ public class AddItem {
             Language.get("Machines.SMELTRY.Name"),Language.getList("Machines.SMELTRY.Lore"));
     public static final SlimefunItemStack STONE_FACTORY=AddUtils.themed("STONE_FACTORY",Material.STONE_BRICKS,AddUtils.Theme.MACHINE2,
             Language.get("Generators.STONE_FACTORY.Name"),Language.getList("Generators.STONE_FACTORY.Lore"));
+    public static final SlimefunItemStack TNT_MG=AddUtils.themed("TNT_MG",Material.ANCIENT_DEBRIS,AddUtils.Theme.MACHINE2,
+            Language.get("Generators.TNT_MG.Name"),Language.getList("Generators.TNT_MG.Lore"));
     //cargos
     public static final SlimefunItemStack CARGO_PART=AddUtils.themed("CARGO_PART",Material.SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE,AddUtils.Theme.ITEM1,
             Language.get("Items.CARGO_PART.Name"),Language.getList("Items.CARGO_PART.Lore"));
@@ -599,5 +607,8 @@ public class AddItem {
         add(MORE2);
         add(INF_MOBSIMULATION);
         add(ENTITY_FEAT);
+        add(WITHERPROOF_REDSTONE);
+        add(WITHERPROOF_REDS);
+
     }};
 }

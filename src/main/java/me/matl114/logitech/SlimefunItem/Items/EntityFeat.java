@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EntityFeat extends ItemWithHandler<ItemDropHandler> {
+    protected final  int MIDDLE_MERGE=3;
+    protected final  int SUPER_MERGE=9;
     public  EntityFeat(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe){
         super(itemGroup, item, recipeType, recipe);
         ItemStack resultItemStack=generateSpawnerFrom(EntityType.ZOMBIE,8,60,64,6,10,true);
@@ -31,8 +33,8 @@ public class EntityFeat extends ItemWithHandler<ItemDropHandler> {
                 Utils.list(
                         AddUtils.getInfoShow("&f机制",
                                 "&7将该物品丢出以合成普通的刷怪笼",
-                                "&7当一次性丢出数量不足一组时,将会按9:1合成普通刷怪笼",
-                                "&7当一次性丢出数量达到一组时,将会合成&e超频刷怪笼&7,&a其生成数据将被大幅提高"),
+                                "&7当一次性丢出数量不足一组时,将会按%d:1合成普通刷怪笼".formatted(MIDDLE_MERGE),
+                                "&7当一次性丢出数量达到%d时,将会按%d:1合成&e超频刷怪笼&7,&a其生成速率等数据将被大幅提高".formatted(SUPER_MERGE,SUPER_MERGE)),
                         resultItemStack
                 )
         );
@@ -158,18 +160,19 @@ public class EntityFeat extends ItemWithHandler<ItemDropHandler> {
         }
         ItemStack resultItemStack;
         int amount=targetItemStack.getAmount();
-        if(amount<9){
+        if(amount<3){
             AddUtils.sendMessage(var2,"&c数量不足!");
             return;
         }
-        if(amount<64){
-            targetItemStack.setAmount(amount%9);
+        if(amount<9){
+            targetItemStack.setAmount(amount%MIDDLE_MERGE);
             resultItemStack=generateSpawnerFrom(type,true);
-            resultItemStack.setAmount(amount/9);
+            resultItemStack.setAmount(amount/MIDDLE_MERGE);
             AddUtils.sendMessage(var2,"&a已合成%d个普通刷怪笼".formatted(amount/9));
         }else {
-            targetItemStack.setAmount(0);
-            resultItemStack=generateSpawnerFrom(type,8,60,64,6,10,true);
+            targetItemStack.setAmount(amount%SUPER_MERGE);
+            resultItemStack=generateSpawnerFrom(type,2,60,64,6,10,true);
+            resultItemStack.setAmount(amount/SUPER_MERGE);
             AddUtils.sendMessage(var2,"&a已合成1个超频刷怪笼");
         }
         var3.setItemStack(targetItemStack);

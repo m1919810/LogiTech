@@ -140,6 +140,7 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
         ItemGreedyConsumer[] fastCraft=null;
         if(currentOperation==null){
             int maxCraftlimit=getCraftLimit(b,inv);
+            if(maxCraftlimit<=0)return;
             Pair<MachineRecipe,ItemGreedyConsumer[]> nextQ=CraftUtils.matchNextMultiRecipe(inv,getInputSlots(),getMachineRecipes(data),
                     true,maxCraftlimit, Settings.SEQUNTIAL,CRAFT_PROVIDER);
             if(nextQ==null){

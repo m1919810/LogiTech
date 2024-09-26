@@ -4,24 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="fix :upgrade slotAccess algorithm">
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/EntityClass/DisplayBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/EntityClass/ItemDisplayBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/EntityClass/TransformationBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MultiBlockClass/DisplayGroup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/PdcClass/AbstractStringList.java" afterDir="false" />
+    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="fix :upgrade item display ,remove sefilib">
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/WitherProofBlock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/SpecialMachines/TntGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddSlimefunItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddSlimefunItems.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlock/FinalAltarCore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlock/FinalAltarCore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlock/PortalCore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlock/PortalCore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlock/SolarReactorCore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlock/SolarReactorCore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlock/Transmutator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlock/Transmutator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Cargo/StorageMachines/Storage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Cargo/StorageMachines/Storage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Cargo/TestStorageUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Cargo/TestStorageUnit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/ConstSlimefunItemStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/ConstSlimefunItemStack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MultiBlockClass/MultiBlockService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MultiBlockClass/MultiBlockService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Items/EntityFeat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Items/EntityFeat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/CraftUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/CraftUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/language.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/language.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -283,15 +273,7 @@
       <workItem from="1726746517200" duration="9581000" />
       <workItem from="1726818662971" duration="51152000" />
       <workItem from="1727069825199" duration="17885000" />
-      <workItem from="1727176283758" duration="8644000" />
-    </task>
-    <task id="LOCAL-00052" summary="feat: fix WorkBench">
-      <option name="closed" value="true" />
-      <created>1724170694473</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1724170694473</updated>
+      <workItem from="1727176283758" duration="27283000" />
     </task>
     <task id="LOCAL-00053" summary="feat: progress">
       <option name="closed" value="true" />
@@ -677,7 +659,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727116804387</updated>
     </task>
-    <option name="localTasksCounter" value="101" />
+    <task id="LOCAL-00101" summary="fix :upgrade item display ,remove sefilib">
+      <option name="closed" value="true" />
+      <created>1727200598613</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1727200598614</updated>
+    </task>
+    <option name="localTasksCounter" value="102" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -751,7 +741,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="init6 refactor utils" />
     <MESSAGE value="init7 rebuild code of SMG&#10;making huge work(nop" />
     <MESSAGE value="bugfix: SMG,better performance" />
     <MESSAGE value="feat: huge rebuild of AbstractMachines ,Crafting method and a framework to adapt later crafting method. better performances" />
@@ -776,7 +765,8 @@
     <MESSAGE value="fix :logger not removed" />
     <MESSAGE value="fix :huge bug,maxCraftTime Wrongly Calculated!" />
     <MESSAGE value="fix :upgrade slotAccess algorithm" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix :upgrade slotAccess algorithm" />
+    <MESSAGE value="fix :upgrade item display ,remove sefilib" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix :upgrade item display ,remove sefilib" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

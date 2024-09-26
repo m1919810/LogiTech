@@ -1493,6 +1493,7 @@ public class CraftUtils {
                 return optionalStackId1.get().equals(optionalStackId2.get());
             }
         }
+        //粘液物品一般不可修改displayName和Lore
         //不然则全非sf物品
         if(COMPLEX_MATERIALS.contains(stack1.getType())){
             if(canQuickEscapeMaterialVariant(meta1,meta2)){
@@ -1502,16 +1503,16 @@ public class CraftUtils {
         //如果非严格且名字相同旧返回，反之则继续
         if(!(!meta1.hasDisplayName() || matchDisplayNameOnInvoke(meta1,meta2))) {
             return false;
-        }else {
-            if(!strictCheck){
-                return true;
-            }
         }
+
         if(!meta1.hasLore()||!meta2.hasLore()){
             return meta1.hasLore()==meta2.hasLore();
         }
         if ( !matchLoreOnInvoke(meta1, meta2)) {
             return false;
+            //对于普通物品 检查完lore就结束是正常的
+        }else if(!strictCheck){
+            return true;
         }
 
 

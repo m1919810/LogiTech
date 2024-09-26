@@ -489,6 +489,15 @@ zh_CN:
         - '用来清除因错误而未正确移除的展示实体'
         - '你或许会在崩服之后使用他'
         - '右键清除附近10格的错误展示实体'
+    WITHERPROOF_REDSTONE:
+      Name: '防凋零红石块'
+      Lore:
+        - '非常好红石块,防爆防凋零'
+    WITHERPROOF_REDS:
+      Name: '防凋零红石'
+      Lore:
+        - '非常好红石线,防爆防凋零'
+        - '可惜还是不防水'
   Machines:
     LOGIC_REACTOR:
       Name: '逻辑反应堆'
@@ -695,6 +704,12 @@ zh_CN:
       Lore:
         - '一次性碎矿9种配方'
         - '处理器数量 9x'
+    TNT_GEN:
+      Name: '便携式TNT复制机'
+      Lore:
+        - '赤石科技的基础元件'
+        - '启动后使用红石激活'
+        - '支持调整生成频率,爆炸延时,生成位置'
   Manuals:
     MANUAL_CORE:
       Name: '乱序核心'
@@ -872,6 +887,11 @@ zh_CN:
       Lore:
         - '我们不生产圆石'
         - '我们只是圆石的搬运工'
+    TNT_MG:
+      Name: 'TNT生成器'
+      Lore:
+        - '好孩子,这可不是给你拿去炸服用的'
+
   MultiBlock:
     PORTAL_CORE:
       Name: '维度传送门核心'

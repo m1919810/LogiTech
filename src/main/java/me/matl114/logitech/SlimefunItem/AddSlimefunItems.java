@@ -479,6 +479,16 @@ public class AddSlimefunItems {
     public static final SlimefunItem VIRTUALWORLD=new MaterialItem(AddGroups.MATERIAL,AddItem.VIRTUALWORLD,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.FINAL_CONVERTOR,Language.get("Machines.FINAL_CONVERTOR.Name")),null)
             .register();
+
+
+    public static final SlimefunItem WITHERPROOF_REDSTONE=new WitherProofBlock(AddGroups.VANILLA,AddItem.WITHERPROOF_REDSTONE,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe("REDSTONE_BLOCK","LEAD_INGOT","REDSTONE_BLOCK","LEAD_INGOT","WITHER_PROOF_OBSIDIAN","LEAD_INGOT",
+                    "REDSTONE_BLOCK","LEAD_INGOT","REDSTONE_BLOCK")).setOutput(setC(AddItem.WITHERPROOF_REDSTONE,4))
+            .register();
+    public static final SlimefunItem WITHERPROOF_REDS=new WitherProofBlock(AddGroups.VANILLA,AddItem.WITHERPROOF_REDS,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe("REDSTONE","LEAD_INGOT","REDSTONE","LEAD_INGOT","WITHER_PROOF_OBSIDIAN","LEAD_INGOT",
+                    "REDSTONE","LEAD_INGOT","REDSTONE")).setOutput(setC(AddItem.WITHERPROOF_REDS,4))
+            .register();
     //machines
     public static final SlimefunItem BOOL_GENERATOR=new BoolGenerator(AddGroups.BASIC,AddItem.BOOL_GENERATOR,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("OBSERVER","REDSTONE","OBSERVER",
@@ -837,7 +847,10 @@ public class AddSlimefunItems {
             recipe("AUTO_DISENCHANTER_2",AddItem.LENGINE,"AUTO_DISENCHANTER_2",AddItem.STAR_GOLD_INGOT,"BOOK_BINDER",AddItem.STAR_GOLD_INGOT,
                     "AUTO_ENCHANTER_2",AddItem.LENGINE,"AUTO_ENCHANTER_2"), 1200,120)
             .register();
-
+    public static final  SlimefunItem TNT_GEN=new TntGenerator(AddGroups.VANILLA, AddItem.TNT_GEN,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(AddItem.LOGIGATE,"OBSERVER",AddItem.LOGIGATE,"STICKY_PISTON",AddItem.REDSTONE_ENGINE,"STICKY_PISTON",
+                    AddItem.LOGIGATE,"NOTE_BLOCK",AddItem.LOGIGATE))
+            .register();
 
 
 
@@ -1091,6 +1104,11 @@ public class AddSlimefunItems {
                             AddUtils.randItemStackFactory(mkMp("SLIME_BALL",26,"HONEY_BLOCK",3,"TNT",2,"REDSTONE",1)),16)
             ))
             .register();
+    public static final SlimefunItem TNT_MG=new SMGenerator(AddGroups.VANILLA, AddItem.TNT_MG,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(AddItem.LOGIGATE,"CRAFTING_TABLE",AddItem.LOGIGATE,AddItem.REDSTONE_ENGINE,"STICKY_PISTON",AddItem.REDSTONE_ENGINE,
+                    AddItem.LENGINE,"CRAFTING_TABLE",AddItem.LENGINE),4,3600,233,
+            "TNT")
+            .register();
     public static final SlimefunItem DUPE_MG=new MMGenerator(AddGroups.VANILLA, AddItem.DUPE_MG,COMMON_TYPE,
             recipe("TRIPWIRE_HOOK",AddItem.NOLOGIC,AddItem.NOLOGIC,AddItem.NOLOGIC,AddItem.NOLOGIC,"TRIPWIRE_HOOK",
                     "TRIPWIRE_HOOK",null,null,null,null,"TRIPWIRE_HOOK",
@@ -1233,7 +1251,7 @@ public class AddSlimefunItems {
                 put(mkl("JUNGLE_SAPLING"),mkl("9JUNGLE_SAPLING","18JUNGLE_LOG","6APPLE","9JUNGLE_LEAVES","6STICK"));
                 put(mkl("ACACIA_SAPLING"),mkl("9ACACIA_SAPLING","18ACACIA_LOG","6APPLE","9ACACIA_LEAVES","6STICK"));
                 put(mkl("MANGROVE_PROPAGULE"),mkl("9MANGROVE_PROPAGULE","18MANGROVE_LOG","9MANGROVE_LEAVES"));
-                put(mkl("CHERRY_SAPLING"),mkl("9CHERRY_SAPLING","18CHERRY_LOG","9CHERRY_LEAVES"));
+                put(mkl(Material.CHERRY_SAPLING),mkl(new ItemStack(Material.CHERRY_SAPLING,9),"18CHERRY_LOG","9CHERRY_LEAVES"));
                 put(mkl("NETHER_WART"),mkl("12NETHER_WART"));
                 put(mkl("NETHER_SPROUTS"),mkl("12NETHER_SPROUTS"));
                 put(mkl("CRIMSON_FUNGUS"),mkl("6CRIMSON_FUNGUS","18CRIMSON_STEM","6SHROOMLIGHT","12NETHER_WART_BLOCK"));

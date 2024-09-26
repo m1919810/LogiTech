@@ -132,8 +132,7 @@ public abstract class AbstractCargo extends CustomSlimefunItem implements Recipe
             updateMenu(menu,b,Settings.RUN);
         }
         int configCode=getConfigCode(data);
-        if(conditionHandle(b,menu)){
-
+        if(conditionHandle(b,menu)&&configCode>=0){
             cargoTask(b,menu,data,configCode);
         }
     }

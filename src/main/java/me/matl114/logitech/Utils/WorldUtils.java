@@ -15,6 +15,7 @@ import me.matl114.logitech.Schedule.Schedules;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.*;
 import org.bukkit.block.*;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -22,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public class WorldUtils {
     public static SlimefunAddon INSTANCE= MyAddon.getInstance();
@@ -172,7 +174,17 @@ public class WorldUtils {
 //    public ItemStack[] simulateKill(){
 //        Player player;
 //    }
-
+    //should be without movement
+    public static int executeOnSameEntity(Entity entity, Consumer<Entity> execution){
+        if(entity==null)return 0;
+        return entity.getLocation().getChunk().getWorld().getNearbyEntities(entity.getLocation(),0.5,0.5,0.5,(entity1 -> {
+            if(entity1!=null&&entity.getUniqueId().equals( entity1.getUniqueId())){
+                execution.accept(entity1);
+                return true;
+            }
+            return false;
+        })).size();
+    }
 
 
 }

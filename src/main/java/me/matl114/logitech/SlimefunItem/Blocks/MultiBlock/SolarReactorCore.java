@@ -133,28 +133,32 @@ public class SolarReactorCore extends MultiBlockProcessor {
     public void removeEffectSync(Location loc){
         EnderCrystal cry= EFFECT_CACHE.remove(loc);
         Location loc2=loc.clone().add(0.5,1,0.5);
+        BukkitUtils.executeSync(()->{
         if(cry!=null)
             cry.remove();
         Collection<Entity> allCrystal=loc2.getWorld().getNearbyEntities(loc2, REMOVE_EFFECT_OFFSET, REMOVE_EFFECT_OFFSET, REMOVE_EFFECT_OFFSET,(entity -> {
             return entity.getType()==EntityType.ENDER_CRYSTAL&&checkBind(entity,loc);
         }));
         for (Entity entity:allCrystal){
+            WorldUtils.executeOnSameEntity(entity,(entity1 -> entity1.remove()));
             entity.remove();
-        }
+        }});
     }
     public void removeEffect(Location loc){
-        EnderCrystal cry= EFFECT_CACHE.remove(loc);
-        Location loc2=loc.clone().add(0.5,1,0.5);
-        Schedules.launchSchedules(Schedules.getRunnable(()->{
-            if(cry!=null)
-                cry.remove();
-            Collection<Entity> allCrystal=loc2.getWorld().getNearbyEntities(loc2, REMOVE_EFFECT_OFFSET, REMOVE_EFFECT_OFFSET, REMOVE_EFFECT_OFFSET,(entity -> {
-                return entity.getType()==EntityType.ENDER_CRYSTAL&&checkBind(entity,loc);
-            }));
-            for (Entity entity:allCrystal){
-                entity.remove();
-            }
-        }),0,true,0);
+        removeEffectSync(loc);
+//        EnderCrystal cry= EFFECT_CACHE.remove(loc);
+//        Location loc2=loc.clone().add(0.5,1,0.5);
+//        Schedules.launchSchedules(Schedules.getRunnable(()->{
+//            if(cry!=null)
+//                cry.remove();
+//            Collection<Entity> allCrystal=loc2.getWorld().getNearbyEntities(loc2, REMOVE_EFFECT_OFFSET, REMOVE_EFFECT_OFFSET, REMOVE_EFFECT_OFFSET,(entity -> {
+//                return entity.getType()==EntityType.ENDER_CRYSTAL&&checkBind(entity,loc);
+//            }));
+//            for (Entity entity:allCrystal){
+//                WorldUtils.executeOnSameEntity(entity,(entity1 -> entity1.remove()));
+//                entity.remove();
+//            }
+//        }),0,true,0);
     }
     public boolean checkBind(Entity entity,Location loc){
         if(entity instanceof EnderCrystal) {
@@ -192,19 +196,19 @@ public class SolarReactorCore extends MultiBlockProcessor {
     }
     public boolean checkCondition(Location loc,SlimefunBlockData data){
         //no endcrystal
-        boolean isPendingOff=false;
-        EnderCrystal cry= EFFECT_CACHE.get(loc);
-        if(cry!=null&&cry.isValid()){
-            Location loc2=cry.getLocation();
-            Location loc1=loc.clone().add(0.5,1,0.5);
-            if(loc2.distance(loc1)>EFFECT_OFFSET){
-                isPendingOff=true;
-            }
-        }
-        if(isPendingOff){
-            MultiBlockService.toggleOff(data,CRYSTAL_LOST);
-            return false;
-        }
+//        boolean isPendingOff=false;
+//        EnderCrystal cry= EFFECT_CACHE.get(loc);
+//        if(cry!=null&&cry.isValid()){
+//            Location loc2=cry.getLocation();
+//            Location loc1=loc.clone().add(0.5,1,0.5);
+//            if(loc2.distance(loc1)>EFFECT_OFFSET){
+//                isPendingOff=true;
+//            }
+//        }
+//        if(isPendingOff){
+//            MultiBlockService.toggleOff(data,CRYSTAL_LOST);
+//            return false;
+//        }
         // has block
         int len=checkedLocation.length;
         for(int i=0;i<4;++i){//26中选4个

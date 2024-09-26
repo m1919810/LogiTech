@@ -281,7 +281,9 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
         }
         if((menu.hasViewer()||!persistent)&&slot>=0){
             //not work?
-            source= MenuUtils.syncSlot(menu,slot,source);
+            //in case player take it away while working
+            if(keepRelated(menu.getItemInSlot(slot)))
+                source= MenuUtils.syncSlot(menu,slot,source);
         }
         dirty=false;
 
