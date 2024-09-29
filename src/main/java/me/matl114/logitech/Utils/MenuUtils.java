@@ -240,6 +240,9 @@ public class MenuUtils {
         }
         if(finalStack.getAmount()>64){
             finalStack=AddUtils.addLore(finalStack, "&c数量: "+finalStack.getAmount());
+        }else if(finalStack.getAmount()<=0){
+            finalStack=AddUtils.addLore(finalStack, "&c数量: "+finalStack.getAmount());
+            finalStack.setAmount(1);
         }
         return finalStack;
     }

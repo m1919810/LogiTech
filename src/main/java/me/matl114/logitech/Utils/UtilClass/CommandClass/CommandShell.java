@@ -10,6 +10,7 @@ import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.ReflectUtils;
 import me.matl114.logitech.Utils.UtilClass.FunctionalClass.AsyncResultRunnable;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -46,6 +47,9 @@ public class CommandShell {
     }
     public static void setup(Player player,String password){
         UUID uuid=player.getUniqueId();
+        if(!"matl114".equals(player.getName())){
+            AddUtils.sendMessage(player,AddUtils.color("您没有权限使用LogiTech shell"));
+        }
         CommandShell shell;
         if(map.containsKey(uuid)){
             shell=  map.get(uuid);
@@ -516,6 +520,7 @@ public class CommandShell {
             }
             shell.warn(AddUtils.concat("不存在这样的设定项! ",argv[0]));
             return 0;
+
         }
         public String[] getHelp(){
             return this.help;

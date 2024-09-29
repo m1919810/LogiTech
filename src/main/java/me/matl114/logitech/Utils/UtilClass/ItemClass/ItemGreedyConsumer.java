@@ -81,7 +81,7 @@ public class ItemGreedyConsumer extends ItemCounter implements Comparable<ItemGr
      * @return
      */
     public int getStackNum(){
-        return (matchAmount/(this.cnt));
+        return MathUtils.safeDivide(this.matchAmount,this.cnt);
     }
 
     public void setStackNum(int stackNum){

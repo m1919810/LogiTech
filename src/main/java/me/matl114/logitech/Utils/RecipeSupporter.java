@@ -33,6 +33,7 @@ import me.matl114.logitech.SlimefunItem.Machines.AbstractTransformer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.*;
+import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
@@ -291,77 +292,112 @@ public class RecipeSupporter {
             boolean applyToMachine=false;
             boolean isGenerator=false;
             Set<String> machineRecipe=null;
+            String recipeType=null;
+            int commonTick=0;
             try{
                 String method=config.getString(machinepath+".mode");
                 append=method.startsWith("a");
                 applyToMachine=method.endsWith("+");
-                machineRecipe=config.getKeys(machinepath+".recipe");
+                if(config.contains(machinepath+".recipetype")){
+                    recipeType=config.getString(machinepath+".recipetype");
+                    commonTick=config.getInt(machinepath+".time");
+                }else{
+                    machineRecipe=config.getKeys(machinepath+".recipe");
+                }
                 isGenerator=config.getString(machinepath+".type").startsWith("gen");
             }catch(Throwable e){
                 if(withWarning)
-                    Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: ValueError error config format in %s ".formatted(machineId));
+                    Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: Error config format in %s ".formatted(machineId));
                 Debug.debug(e);
             }
-            if(machineRecipe==null){
-                continue;
-            }
-            List<MachineRecipe> recipes=new ArrayList<>(machineRecipe.size()+2);
-            try{
-                recipeloop:
-                for(String recipe:machineRecipe){
-                    String ippath=AddUtils.concat(machinepath,".recipe.",recipe,".input");
-                    String oppath=AddUtils.concat(machinepath,".recipe.",recipe,".output");
-                    Set<String> inputKey=config.getKeys(ippath);
-                    Set<String> outputKey=config.getKeys(oppath);
-//                    List<String> inputlist=config.getStringList(rcpath+".input");
-//                    List<String> outputlist=config.getStringList(rcpath+".output");
-                    int tick=config.getInt(AddUtils.concat(machinepath,".recipe.",recipe,".tick"));
-                    ItemStack[] input=new ItemStack[inputKey.size()];
-                    ItemStack[] output=new ItemStack[outputKey.size()];
-                    int len=0;
-                    if(inputKey.size()>0){
-                        for(String skey:inputKey){
-                            ItemStack it=loadItemStack(config,AddUtils.concat(ippath,".",skey));
-                            if(it==null){
-                                if(withWarning)
-                                    Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: failed to load recipe output %s".formatted(recipe));
-                                it= AddItem.RESOLVE_FAILED.clone();
-                            }
-                            input[len]=it;
-                            ++len;
+            List<MachineRecipe> recipes=new ArrayList<>(12);
+            if(recipeType!=null){
+                try{
+                    RecipeType type=null;
+                    for(RecipeType rp:RECIPE_TYPES){
+                        if(recipeType.equalsIgnoreCase(rp.getKey().toString())){
+                            type=rp;
+                            break;
                         }
-                    }else{
-                        Debug.debug("empty input");
                     }
-                    int len2=0;
-                    if(outputKey.size()>0){
-                        for(String skey:outputKey){
-                            ItemStack it=loadItemStack(config,AddUtils.concat(oppath,".",skey));
-                            if(it==null){
-                                if(withWarning)
-                                    Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: failed to load recipe output %s".formatted(recipe));
-                                it= AddItem.RESOLVE_FAILED.clone();
-                            }
-                            output[len2]=it;
-                            ++len2;
+                    if(type==null){
+                        if(withWarning)
+                            Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: RecipeType %s not found".formatted(recipeType));
+                        continue;
+                    }
+                    try {
+                        List<MachineRecipe> rplist = PROVIDED_UNSHAPED_RECIPES.get(type);
+                        for(MachineRecipe mr:rplist){
+                            recipes.add(MachineRecipeUtils.stackFrom(commonTick,mr.getInput(),mr.getOutput()));
                         }
-                    }else{
-                        Debug.debug("empty output");
+                    }catch (Throwable e){
+                        if(withWarning){
+
+                            Debug.logger("ERROR WHILE LOADING RECIPETYPE MACHINELIST: RecipeType %s".formatted(recipeType));
+                        }
                     }
-                    if(isGenerator){
-                        recipes.add(MachineRecipeUtils.mgFrom(tick,input,output));
-                    }else{
-                        recipes.add(MachineRecipeUtils.stackFrom(tick,input,output));
-                    }
+                }catch(Throwable e){}
+            }else{
+                if(machineRecipe==null){
+                    continue;
                 }
-            }catch(Throwable e){
-                Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: error recipe format in %s".formatted(machineId));
-                Debug.debug(e);
+                try{
+                    recipeloop:
+                    for(String recipe:machineRecipe){
+                        String ippath=AddUtils.concat(machinepath,".recipe.",recipe,".input");
+                        String oppath=AddUtils.concat(machinepath,".recipe.",recipe,".output");
+                        Set<String> inputKey=config.getKeys(ippath);
+                        Set<String> outputKey=config.getKeys(oppath);
+    //                    List<String> inputlist=config.getStringList(rcpath+".input");
+    //                    List<String> outputlist=config.getStringList(rcpath+".output");
+                        int tick=config.getInt(AddUtils.concat(machinepath,".recipe.",recipe,".tick"));
+                        ItemStack[] input=new ItemStack[inputKey.size()];
+                        ItemStack[] output=new ItemStack[outputKey.size()];
+                        int len=0;
+                        if(inputKey.size()>0){
+                            for(String skey:inputKey){
+                                ItemStack it=loadItemStack(config,AddUtils.concat(ippath,".",skey));
+                                if(it==null){
+                                    if(withWarning)
+                                        Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: failed to load recipe output %s".formatted(recipe));
+                                    it= AddItem.RESOLVE_FAILED.clone();
+                                }
+                                input[len]=it;
+                                ++len;
+                            }
+                        }else{
+                            Debug.debug("empty input");
+                        }
+                        int len2=0;
+                        if(outputKey.size()>0){
+                            for(String skey:outputKey){
+                                ItemStack it=loadItemStack(config,AddUtils.concat(oppath,".",skey));
+                                if(it==null){
+                                    if(withWarning)
+                                        Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: failed to load recipe output %s".formatted(recipe));
+                                    it= AddItem.RESOLVE_FAILED.clone();
+                                }
+                                output[len2]=it;
+                                ++len2;
+                            }
+                        }else{
+                            Debug.debug("empty output");
+                        }
+                        if(isGenerator){
+                            recipes.add(MachineRecipeUtils.mgFrom(tick,input,output));
+                        }else{
+                            recipes.add(MachineRecipeUtils.stackFrom(tick,input,output));
+                        }
+                    }
+                }catch(Throwable e){
+                    Debug.logger("ERROR WHILE LOADING MACHINE CONFIG: error recipe format in %s".formatted(machineId));
+                    Debug.debug(e);
+                }
             }
 
             List<MachineRecipe> recipe=MACHINE_RECIPELIST.get(machine);
             if(recipe==null){
-                recipe=new ArrayList<>(machineRecipe.size()+2);
+                recipe=new ArrayList<>(12);
                 MACHINE_RECIPELIST.put(machine,recipe);
             }
             if(!append){
@@ -462,22 +498,24 @@ public class RecipeSupporter {
                 continue;
             }
             if(type.startsWith("gen")){
-                STACKMACHINE_LIST.remove(machine);
+                Integer en= STACKMACHINE_LIST.remove(machine);
                 if(replaceEnergy){
                     STACKMGENERATOR_LIST.put(machine,energy);
                 }else {
-                    Integer en=STACKMACHINE_LIST.get(machine);
-                    if(en==null||en==-1){
-                        STACKMACHINE_LIST.put(machine,energy);
+                    Integer en2=STACKMGENERATOR_LIST.get(machine);
+                    en=en2!=null?en2:(en!=null?en:-1);
+                    if(en==-1){
+                        STACKMGENERATOR_LIST.put(machine,energy);
                     }
                 }
             }else if(type.startsWith("mach")){
-                STACKMGENERATOR_LIST.remove(machine);
+                Integer en= STACKMGENERATOR_LIST.remove(machine);
                 if(replaceEnergy){
                     STACKMACHINE_LIST.put(machine,energy);
                 }else {
-                    Integer en=STACKMACHINE_LIST.get(machine);
-                    if(en==null||en==-1){
+                    Integer en2=STACKMACHINE_LIST.get(machine);
+                    en=en2!=null?en2:(en!=null?en:-1);
+                    if(en==-1){
                         STACKMACHINE_LIST.put(machine,energy);
                     }
                 }
@@ -933,7 +971,7 @@ public class RecipeSupporter {
             }
         }
         Debug.logger("初始化机器类型显示界面...");
-        Debug.logger("警告: 如果你发现有机器没有检测到,说明他们使用了不支持的配方类型");
+        Debug.logger("警告: 如果你发现有机器没有检测到,说明他们并不在已知格式中或者并不在配置文件中");
 
         //解析含有recipe的机器类型
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {

@@ -249,6 +249,10 @@ public class AddItem {
             Language.get("Items.WITHERPROOF_REDSTONE.Name"),Language.getList("Items.WITHERPROOF_REDSTONE.Lore"));
     public static final SlimefunItemStack WITHERPROOF_REDS=AddUtils.themed("WITHERPROOF_REDS",Material.REDSTONE,AddUtils.Theme.ITEM1,
             Language.get("Items.WITHERPROOF_REDS.Name"),Language.getList("Items.WITHERPROOF_REDS.Lore"));
+    public static final SlimefunItemStack BEDROCK_BREAKER=AddUtils.themed("BEDROCK_BREAKER",Material.PISTON,AddUtils.Theme.ITEM1,
+            Language.get("Items.BEDROCK_BREAKER.Name"),Language.getList("Items.BEDROCK_BREAKER.Lore"));
+    public static final SlimefunItemStack LASER_GUN=AddUtils.themed("LASER_GUN",CustomHead.LASER_GUN.getItem(), AddUtils.Theme.ITEM1,
+            Language.get("Items.LASER_GUN.Name"),Language.getList("Items.LASER_GUN.Lore"));
     //nachines
     public static final SlimefunItemStack HEAD_ANALYZER=AddUtils.themed("HEAD_ANALYZER",Material.SOUL_CAMPFIRE, AddUtils.Theme.MACHINE1,
             Language.get("Machines.HEAD_ANALYZER.Name"),Language.getList("Machines.HEAD_ANALYZER.Lore"));
@@ -325,6 +329,10 @@ public class AddItem {
             Language.get("Machines.GRIND_FACTORY.Name"),Language.getList("Machines.GRIND_FACTORY.Lore"));
     public static final SlimefunItemStack TNT_GEN=AddUtils.themed("TNT_GEN",Material.NOTE_BLOCK,AddUtils.Theme.MACHINE1,
             Language.get("Machines.TNT_GEN.Name"),Language.getList("Machines.TNT_GEN.Lore"));
+    public static final SlimefunItemStack ADVANCE_BREWER=AddUtils.themed("ADVANCE_BREWER",Material.SMOKER,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.ADVANCE_BREWER.Name"),Language.getList("Machines.ADVANCE_BREWER.Lore"));
+    public static final SlimefunItemStack SIMU_LVOID=AddUtils.themed("SIMU_LVOID",Material.SOUL_TORCH,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.SIMU_LVOID.Name"),Language.getList("Machines.SIMU_LVOID.Lore"));
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Manuals.MANUAL_CORE.Name"),Language.getList("Manuals.MANUAL_CORE.Lore"));
@@ -472,6 +480,12 @@ public class AddItem {
             Language.get("Cargo.STORAGE_INPUT.Name"),Language.getList("Cargo.STORAGE_INPUT.Lore"));
     public static final SlimefunItemStack STORAGE_OUTPUT=AddUtils.themed("STORAGE_OUTPUT",Material.RED_STAINED_GLASS,AddUtils.Theme.CARGO1,
             Language.get("Cargo.STORAGE_OUTPUT.Name"),Language.getList("Cargo.STORAGE_OUTPUT.Lore"));
+    public static final SlimefunItemStack BIFILTER=AddUtils.themed("BIFILTER",Material.PRISMARINE,AddUtils.Theme.ITEM1,
+            Language.get("Cargo.BIFILTER.Name"),Language.getList("Cargo.BIFILTER.Lore"));
+    public static final SlimefunItemStack QUARFILTER=AddUtils.themed("QUARFILTER",Material.PRISMARINE_BRICKS,AddUtils.Theme.ITEM1,
+            Language.get("Cargo.QUARFILTER.Name"),Language.getList("Cargo.QUARFILTER.Lore"));
+    public static final SlimefunItemStack OCTAFILTER=AddUtils.themed("OCTAFILTER",Material.DARK_PRISMARINE,AddUtils.Theme.ITEM1,
+            Language.get("Cargo.OCTAFILTER.Name"),Language.getList("Cargo.OCTAFILTER.Lore"));
     //multiblock
     public static final SlimefunItemStack PORTAL_CORE=AddUtils.themed("PORTAL_CORE",Material.CRYING_OBSIDIAN,AddUtils.Theme.MULTIBLOCK1,
             Language.get("MultiBlock.PORTAL_CORE.Name"),Language.getList("MultiBlock.PORTAL_CORE.Lore"));
@@ -609,6 +623,6 @@ public class AddItem {
         add(ENTITY_FEAT);
         add(WITHERPROOF_REDSTONE);
         add(WITHERPROOF_REDS);
-
+        add(BEDROCK_BREAKER);
     }};
 }

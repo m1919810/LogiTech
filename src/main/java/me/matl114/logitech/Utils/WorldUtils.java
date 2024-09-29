@@ -8,22 +8,35 @@ import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Schedule.Schedules;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.*;
 import org.bukkit.block.*;
+import org.bukkit.damage.DamageSource;
+import org.bukkit.damage.DamageType;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class WorldUtils {
     public static SlimefunAddon INSTANCE= MyAddon.getInstance();
@@ -36,6 +49,9 @@ public class WorldUtils {
     }
     public static void setBlock(Block block, Material material) {
 
+    }
+    public static Location getBlockLocation(Location loc){
+        return new Location(loc.getWorld(),loc.getBlockX(),loc.getBlockY(),loc.getBlockZ());
     }
     /**
      * this method no need to run sync
@@ -76,9 +92,37 @@ public class WorldUtils {
      * @param force
      * @param hasSync
      */
-    public static boolean createSlimefunBlock(Location loc,Player player,SlimefunItem item,Material material,boolean force,boolean hasSync){
+    public static ConcurrentHashMap<Location,SlimefunItem> CREATING_QUEUE = new ConcurrentHashMap<>();
+    public static boolean createSlimefunBlock(Location loc,Player player,SlimefunItem item,Material material,boolean force){
+        if(CREATING_QUEUE.containsKey(loc)){
+            SlimefunItem item1 = CREATING_QUEUE.get(loc);
+            if(item1==item){
+                return false;
+            }else {
+                force=true;
+            }
+        }
+        final boolean forceVal=force;
+        CREATING_QUEUE.put(loc,item);
+        BukkitUtils.executeSync(()->{
+            try{
+                createSlimefunBlockSync(loc,player,item,material,forceVal);
+            }finally {
+                CREATING_QUEUE.remove(loc);
+            }
+
+        });
+        return true;
+    }
+    public static boolean createSlimefunBlockSync(Location loc,Player player,SlimefunItem item,Material material,boolean force){
         Block block = loc.getBlock();
         if(!force&&player!=null){
+            if(!hasPermission(player,loc, Interaction.PLACE_BLOCK)){
+                return false ;
+            }
+//            if( DataCache.getSfItem(loc)!=null){
+//               Debug.logger("has block ,,, ",DataCache.getSfItem(loc));
+//            }
             BlockBreakEvent breakEvent =
                     new BlockBreakEvent(block,player);
             Bukkit.getPluginManager().callEvent(breakEvent);
@@ -89,25 +133,12 @@ public class WorldUtils {
             if (!item.canUse(player, false)) {
                 return false;
             }
-            var placeEvent = new SlimefunBlockPlaceEvent(player, item.getItem(), block, item);
-            Bukkit.getPluginManager().callEvent(placeEvent);
-            if (placeEvent.isCancelled()) {
-                return false ;
-            }else if(!hasPermission(player,loc, Interaction.PLACE_BLOCK)){
-                return false ;
-            }
+
         }
         if( DataCache.getSfItem(loc)!=null){
-
             CONTROLLER.removeBlock(loc);
         }
-        if(hasSync){
-            createSlimefunBlockSync(loc,player,item,material);
-        }else {
-            Schedules.launchSchedules(
-                    ()->    createSlimefunBlockSync(loc, player, item, material),0,true,0
-            );
-        }
+         BukkitUtils.executeSync(()->    createSlimefunBlockSync(loc, player, item, material));
         return true;
     }
     /**
@@ -124,6 +155,12 @@ public class WorldUtils {
             Slimefun.getBlockDataService().setBlockData(block, item.getId());
         }
         CONTROLLER.createBlock(loc, item.getId());
+        try{
+            var placeEvent = new SlimefunBlockPlaceEvent(player, item.getItem(), block, item);
+            Bukkit.getPluginManager().callEvent(placeEvent);
+        }catch (Throwable e){
+
+        }
     }
     public static boolean hasPermission( Player player, @Nonnull Block location, @Nonnull Interaction... interactions) {
         if(player==null)return true;
@@ -143,7 +180,67 @@ public class WorldUtils {
         }
         return true;
     }
+    public static boolean testAttackPermission(Player player, Damageable entity){
+        //entity.damage(0,player);
+        try{
+            EntityDamageEvent event=new EntityDamageByEntityEvent(player,entity, EntityDamageEvent.DamageCause.ENTITY_ATTACK,0.0);
+            Bukkit.getPluginManager().callEvent(event);
 
+            //EntityDamageEvent event=entity.getLastDamageCause();
+    //        Debug.logger(event.getDamage());
+    //        Debug.logger(event.getEntity());
+           // Debug.logger(event.getDamageSource().getDirectEntity());
+            if(event.isCancelled()){
+                return false;
+            }else return true;
+        }catch (Throwable e){
+            Debug.logger(e);
+            return true;
+        }
+
+    }
+    public static boolean consumeItem(Player player, ItemConsumer... consumers) {
+        for (ItemConsumer consumer : consumers) {
+            consumer.syncData();
+        }
+        ItemStack[] contents = player.getInventory().getContents();
+        for(ItemStack item : contents){
+            if(item==null||item.getType()==Material.AIR){
+                continue;
+            }else {
+                ItemPusher pusher=null;
+                for(ItemConsumer consumer : consumers){
+                    if(consumer.getAmount()>0){
+                        if(item.getType()==consumer.getItem().getType()){
+                            if(pusher==null){
+                                pusher=CraftUtils.getpusher.get(Settings.INPUT,item,-1);
+                            }
+                            if(CraftUtils.matchItemCore(pusher,consumer,false)){
+                                consumer.consume(pusher);
+                                break;
+                            }
+                        }else {
+                            continue;
+                        }
+
+                    }
+                }
+            }
+        }
+        for(ItemConsumer consumer : consumers){
+            if(consumer.getAmount()>0){
+                for (ItemConsumer consumer2 : consumers) {
+                    consumer2.syncData();
+                }
+                return false;
+            }
+        }
+        for(ItemConsumer consumer : consumers){
+            consumer.updateItems(null,Settings.GRAB);
+        }
+        return true;
+
+    }
     /**
      * no need to sync
      * @param start
@@ -163,7 +260,7 @@ public class WorldUtils {
             double dy=(end.getY()-start.getY())/(count-1);
             double dz=(end.getZ()-start.getZ())/(count-1);
             for(int i=0;i<count;++i){
-                world.spawnParticle(type,walk,0);
+                world.spawnParticle(type,walk,0,0.0,0.0,0.0,1,null,true);
                 walk.add(dx,dy,dz);
             }
         }
@@ -185,6 +282,30 @@ public class WorldUtils {
             return false;
         })).size();
     }
-
-
+//    public static Vector getOrientations(Location loc){
+//        loc.getDirection();
+//    }
+    public static Pair<Integer,Location> rayTraceLocation(LivingEntity entity, double period,double  maxLimitedDistance, Predicate<Location> execution){
+        if(entity==null)return null;
+        return rayTraceLocation(entity.getLocation().getDirection(),entity.getEyeLocation(),period,maxLimitedDistance,execution);
+    }
+    public static Pair<Integer,Location> rayTraceLocation(Vector rayVector,Location startLocation, double period,double maxLimitedDistance, Predicate<Location> execution){
+        rayVector= rayVector.normalize().multiply(period);
+        Location walkLocation=startLocation.clone();
+        int limitTryTime=(int)(maxLimitedDistance/period);
+        int i=0;
+        for(;i<limitTryTime;++i){
+            walkLocation.add(rayVector);
+            if(!execution.test(walkLocation)){
+                break;
+            }
+        }
+        return new Pair<Integer,Location>(i,walkLocation) ;
+    }
+    public static boolean isLightPassableBlock(Block block){
+        Material material=block.getType();
+        if(material==Material.AIR||material.isTransparent()||material==Material.WATER||material==Material.LAVA){
+            return true;
+        }else return false;
+    }
 }

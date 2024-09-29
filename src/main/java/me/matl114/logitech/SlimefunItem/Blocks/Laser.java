@@ -103,7 +103,7 @@ public class Laser extends AbstractMachine implements MultiBlockPart, FinalAltar
                         int i=0;
                         for (;i<MAX_SEARCH_LEN;++i){
                             loc2=dir.move(loc2);
-                            if(!loc2.getBlock().getType().isAir()){
+                            if(!WorldUtils.isLightPassableBlock(loc2.getBlock())){
                                 break;
                             }
                         }

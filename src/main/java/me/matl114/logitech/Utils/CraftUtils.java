@@ -1,8 +1,10 @@
 package me.matl114.logitech.Utils;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
+import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
 import me.matl114.logitech.Utils.Algorithms.DynamicArray;
 
 import me.matl114.logitech.Utils.UtilClass.ItemClass.*;
@@ -453,7 +455,7 @@ public class CraftUtils {
                         recipeCounter2[0].addRelate(itemCounter);
                         recipeCounter2[0].addMatchAmount(recipeCounter2[0].getMaxStackCnt());
                     }
-                    else if(itemCounter.getMaxStackCnt()==itemCounter.getAmount()){
+                    else if(itemCounter.getMaxStackCnt()<=itemCounter.getAmount()){
                         continue;
                     }
                     else if(CraftUtils.matchItemCounter(recipeCounter2[0],itemCounter,false)){
@@ -495,7 +497,7 @@ public class CraftUtils {
                     hasNextPushSlot=true;
                     break;
                 }
-                else if(itemCounter.isDirty()||itemCounter.getMaxStackCnt()==itemCounter.getAmount()){
+                else if(itemCounter.isDirty()||itemCounter.getMaxStackCnt()<=itemCounter.getAmount()){
                     continue;
                 }
                 else if(CraftUtils.matchItemCounter(itemCounter2,itemCounter,false)){
@@ -559,7 +561,7 @@ public class CraftUtils {
                     recipeCounter2[0].addRelate(itemCounter);
                     recipeCounter2[0].addMatchAmount(recipeCounter2[0].getMaxStackCnt());
                 }
-                else if(itemCounter.getMaxStackCnt()==itemCounter.getAmount()){
+                else if(itemCounter.getMaxStackCnt()<=itemCounter.getAmount()){
                     continue;
                 }
                 else if(CraftUtils.matchItemCounter(recipeCounter2[0],itemCounter,false)){
@@ -592,7 +594,7 @@ public class CraftUtils {
                 boolean hasNextPushSlot=false;
                 for(int j=0;j<len2;++j) {
                     ItemPusher itemCounter=output[j];
-                    if(itemCounter.isDirty()||itemCounter.getMaxStackCnt()==itemCounter.getAmount()){
+                    if(itemCounter.isDirty()||itemCounter.getMaxStackCnt()<=itemCounter.getAmount()){
                         continue;
                     }
                     else if(CraftUtils.matchItemCounter(itemCounter2,itemCounter,false)){
@@ -695,7 +697,7 @@ public class CraftUtils {
                     //满槽 绝对不可能是存储，直接跳
                     //至于为什么不用maxAmount 因为outputItem可以是不可堆叠物品，但是存储暂时还没有不可堆叠物品
                     //如果以后有 在此处加上>1判断
-                }else if(previewItem.getAmount()==previewItem.getMaxStackSize()){
+                }else if(previewItem.getAmount()>=previewItem.getMaxStackSize()){
                     continue;
                 }else{
                     itemCounter=slotCounters2.get(j);
@@ -709,7 +711,7 @@ public class CraftUtils {
                             itemCounter.updateMenu(inv);
                             itemCounter.setDirty(true);
                             hasChanged=true;
-                        } else if (itemCounter.getAmount()==itemCounter.getMaxStackCnt()){
+                        } else if (itemCounter.getAmount()>=itemCounter.getMaxStackCnt()){
                             continue;
                         }
                         else if(matchItemCounter(outputItem,itemCounter,false)){
@@ -786,7 +788,7 @@ public class CraftUtils {
                     outputItem.addMatchAmount(-amount);
                     hasChanged=true;
                     //同上 不解释
-                }else if(previewItem.getAmount()==previewItem.getMaxStackSize()){
+                }else if(previewItem.getAmount()>=previewItem.getMaxStackSize()){
                     continue;
                 }else{
                     itp=slotCounters2.get(j);
@@ -800,7 +802,7 @@ public class CraftUtils {
                             itp.setDirty(true);
                             hasChanged=true;
 
-                        }else if (itp.getAmount()==itp.getMaxStackCnt()){
+                        }else if (itp.getAmount()>=itp.getMaxStackCnt()){
                             continue;
                         }
                         else if(matchItemCounter(outputItem,itp,false)){
@@ -1482,17 +1484,28 @@ public class CraftUtils {
         if (!meta1.getPersistentDataContainer().equals(meta2.getPersistentDataContainer())) {
             return false;
         }
-        if(!strictCheck){
-            //如果非严格并且是sfid物品比较
-            final Optional<String> optionalStackId1 = Slimefun.getItemDataService().getItemData(meta1);
-            final Optional<String> optionalStackId2 = Slimefun.getItemDataService().getItemData(meta2);
-            if (optionalStackId1.isPresent() != optionalStackId2.isPresent()) {
-                return false;
-            }
-            if (optionalStackId1.isPresent()) {
+
+        //如果非严格并且是sfid物品比较
+        final Optional<String> optionalStackId1 = Slimefun.getItemDataService().getItemData(meta1);
+        final Optional<String> optionalStackId2 = Slimefun.getItemDataService().getItemData(meta2);
+        if (optionalStackId1.isPresent() != optionalStackId2.isPresent()) {
+            return false;
+        }
+        if (optionalStackId1.isPresent()) {
+            if(!strictCheck){
                 return optionalStackId1.get().equals(optionalStackId2.get());
             }
+            if(optionalStackId1.get().equals(optionalStackId2.get())) {
+                SlimefunItem it=SlimefunItem.getById(optionalStackId1.get());
+                if(it instanceof CustomSlimefunItem ){
+                    return true;
+                }
+                if(it instanceof DistinctiveItem dt){
+                    return dt.canStack(meta1,meta2);
+                }
+            }
         }
+
         //粘液物品一般不可修改displayName和Lore
         //不然则全非sf物品
         if(COMPLEX_MATERIALS.contains(stack1.getType())){
@@ -1530,6 +1543,16 @@ public class CraftUtils {
         } else if (hasCustomTwo) {
             return false;
         }
+        final boolean hasAttributeOne = meta1.hasAttributeModifiers();
+        final boolean hasAttributeTwo = meta2.hasAttributeModifiers();
+        if (hasAttributeOne) {
+            if (!hasAttributeTwo || !Objects.equals(meta1.getAttributeModifiers(),meta2.getAttributeModifiers())) {
+                return false;
+            }
+        } else if (hasAttributeTwo) {
+            return false;
+        }
+
 
         return true;
 

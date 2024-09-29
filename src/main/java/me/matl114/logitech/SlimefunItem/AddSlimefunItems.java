@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoBrewer;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
@@ -43,8 +44,15 @@ import me.matl114.logitech.SlimefunItem.Cargo.TestStorageUnit;
 import me.matl114.logitech.SlimefunItem.Machines.WorkBenchs.EWorkBench;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.CommandClass.CommandShell;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Biome;
@@ -407,7 +415,7 @@ public class AddSlimefunItems {
                     "64LEAD_INGOT",setC(AddItem.BISILVER,16),setC(AddItem.LSINGULARITY,8)),null)
             .register();
     public static final SlimefunItem REINFORCED_CHIP_INGOT=new MaterialItem(AddGroups.MATERIAL,AddItem.REINFORCED_CHIP_INGOT,AddSlimefunItems.STARSMELTERY,
-            recipe(setC(AddItem.STAR_GOLD_INGOT,48),setC(AddItem.CHIP_INGOT,16),
+            recipe(setC(AddItem.STAR_GOLD_INGOT,40),setC(AddItem.CHIP_INGOT,16),
                     setC(AddItem.ATOM_INGOT,32),setC(AddItem.PAGOLD,4),
                     setC(AddItem.CADMIUM_INGOT,8),setC(AddItem.BISILVER,2)
                     ),null)
@@ -416,8 +424,8 @@ public class AddSlimefunItems {
 
 
     public static final SlimefunItem SPACE_PLATE=new MaterialItem(AddGroups.MATERIAL,AddItem.SPACE_PLATE,STARSMELTERY,
-            recipe(setC(AddItem.STAR_GOLD_INGOT,64),setC(AddItem.PARADOX,36),
-                    setC(AddItem.ATOM_INGOT,64),setC(AddItem.LFIELD,64),AddItem.REINFORCED_CHIP_INGOT
+            recipe(setC(AddItem.STAR_GOLD_INGOT,48),setC(AddItem.PARADOX,24),
+                    setC(AddItem.ATOM_INGOT,64),setC(AddItem.LFIELD,32),AddItem.REINFORCED_CHIP_INGOT
                     ),null)
             .register();
     public static final SlimefunItem VIRTUAL_SPACE=new MaterialItem(AddGroups.MATERIAL,AddItem.VIRTUAL_SPACE,COMMON_TYPE,
@@ -696,6 +704,37 @@ public class AddSlimefunItems {
                     mkP(mkl("ENDER_PEARL"),mkl("END_STONE")),3
                     ))
             .register();
+//    public static final  SlimefunItem ADVANCE_BREWER=new AutoBrewer(AddGroups.BASIC, AddItem.ADVANCE_BREWER,COMMON_TYPE,
+//            recipe(AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,
+//                    AddItem.ABSTRACT_INGOT,null,AddItem.NOLOGIC,AddItem.NOLOGIC,null,AddItem.ABSTRACT_INGOT,
+//                    AddItem.ABSTRACT_INGOT,null,"AUTO_BREWER","AUTO_BREWER",null,AddItem.ABSTRACT_INGOT,
+//                    AddItem.ABSTRACT_INGOT,null,"AUTO_BREWER","AUTO_BREWER",null,AddItem.ABSTRACT_INGOT,
+//                    AddItem.ABSTRACT_INGOT,null,AddItem.NOLOGIC,AddItem.NOLOGIC,null,AddItem.ABSTRACT_INGOT,
+//                    AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LENGINE,AddItem.LENGINE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT)){
+//        {
+//            setCapacity(1200);
+//            setEnergyConsumption(120);
+//            setProcessingSpeed(64);
+//        }
+//        protected MachineRecipe findNextRecipe(BlockMenu menu){
+//            MachineRecipe recipe=super.findNextRecipe(menu);
+//            if(recipe==null){
+//                return null;
+//            }else {
+//                recipe.setTicks(0);
+//                return recipe;
+//            }
+//        }
+//        public SlimefunItem register(){
+//            if(AddSlimefunItems.INSTANCE!=null){
+//                register(AddSlimefunItems.INSTANCE);
+//            }else{
+//                Debug.logger("找不到附属实例!  注册信息: "+this.toString());
+//            }
+//            return this;
+//        }
+//    }.register();
+
     public static final  SlimefunItem VIRTUAL_KILLER=new VirtualKiller(AddGroups.BASIC, AddItem.VIRTUAL_KILLER,COMMON_TYPE,
             recipe(AddItem.BISILVER,AddItem.BISILVER,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.BISILVER,AddItem.BISILVER,
                     AddItem.BISILVER,null,"2PROGRAMMABLE_ANDROID_3_BUTCHER","2PROGRAMMABLE_ANDROID_3_BUTCHER",null,AddItem.BISILVER,
@@ -713,6 +752,15 @@ public class AddSlimefunItems {
                     AddItem.LPLATE,null,null,null,null,AddItem.LPLATE,
                     AddItem.LFIELD,AddItem.LPLATE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LPLATE,AddItem.LFIELD),2333,180,
             1000,1145)
+            .register();
+    public static final  SlimefunItem SIMU_LVOID=new SimulateTestGenerator(AddGroups.ENERGY, AddItem.SIMU_LVOID,COMMON_TYPE,
+            recipe(null,AddItem.LVOID_GENERATOR,AddItem.LVOID_GENERATOR,AddItem.LVOID_GENERATOR,AddItem.LVOID_GENERATOR,null,
+                    AddItem.LVOID_GENERATOR,AddItem.SPACE_PLATE,AddItem.LPLATE,AddItem.LPLATE,AddItem.SPACE_PLATE,AddItem.LVOID_GENERATOR,
+                    AddItem.LVOID_GENERATOR,AddItem.LPLATE,AddItem.LSINGULARITY,AddItem.LSINGULARITY,AddItem.LPLATE,AddItem.LVOID_GENERATOR,
+                    AddItem.HGTLPBBI,AddItem.LPLATE,AddItem.VIRTUAL_SPACE,AddItem.VIRTUAL_SPACE,AddItem.LPLATE,AddItem.HGTLPBBI,
+                    AddItem.PDCECDMD,AddItem.SPACE_PLATE,setC(AddItem.TRANSMUTATOR_ROD,2),setC(AddItem.TRANSMUTATOR_ROD,2),AddItem.SPACE_PLATE,AddItem.PDCECDMD,
+                    setC(AddItem.TRANSMUTATOR_ROD,2),setC(AddItem.TRANSMUTATOR_ROD,2),setC(AddItem.TRANSMUTATOR_ROD,2),setC(AddItem.TRANSMUTATOR_ROD,2),setC(AddItem.TRANSMUTATOR_ROD,2),setC(AddItem.TRANSMUTATOR_ROD,2))
+            , 2333,180,1000,1145).setOutput(setC(AddItem.SIMU_LVOID,4))
             .register();
     public static final  SlimefunItem ENERGY_TRASH=new EnergyTrash(AddGroups.ENERGY, AddItem.ENERGY_TRASH,RecipeType.ANCIENT_ALTAR,
             recipe(AddItem.BUG,"ENERGY_REGULATOR",AddItem.BUG,"ENERGY_CONNECTOR","TRASH_CAN_BLOCK","ENERGY_CONNECTOR",
@@ -771,7 +819,30 @@ public class AddSlimefunItems {
                     AddItem.STAR_GOLD_INGOT,AddItem.LMOTOR,"CARBONADO_EDGED_FURNACE","CARBONADO_EDGED_FURNACE",AddItem.LMOTOR,AddItem.STAR_GOLD_INGOT,
                     AddItem.STAR_GOLD_INGOT,setC(AddItem.LPLATE,1),"ELECTRIC_SMELTERY_2","ELECTRIC_SMELTERY_2",setC(AddItem.LPLATE,1),AddItem.STAR_GOLD_INGOT,
                     AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.LFIELD), Material.STONE,18_000,180_000,
-           120,AddSlimefunItems.STARSMELTERY)
+           120,AddSlimefunItems.STARSMELTERY){
+        public int[] getSlotsAccessedByItemTransportPlus(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item){
+            if(flow==ItemTransportFlow.WITHDRAW){
+                return this.getOutputSlots();
+            }else {
+                if(item==null||item.getType().isAir()||item.getType().getMaxStackSize()==1){
+                    return this.getInputSlots();
+                }
+                int[] inputSlot=getInputSlots();
+                ItemCounter push=CraftUtils.getCounter(item);
+                ItemStack itemInSlot;
+                for(int i =0;i<inputSlot.length;++i){
+                    itemInSlot=menu.getItemInSlot(inputSlot[i]);
+                    if(itemInSlot==null||itemInSlot.getType()!=item.getType()){
+                        continue;
+                    }
+                    if(CraftUtils.matchItemStack(itemInSlot,push,false)){
+                        return new int[]{inputSlot[i]};
+                    }
+                }
+                return inputSlot;
+            }
+        }
+    }
             .register();
     public static final  SlimefunItem SEQ_CONSTRUCTOR=new SequenceConstructor(AddGroups.BASIC, AddItem.SEQ_CONSTRUCTOR,COMMON_TYPE,
             recipe(setC(AddItem.STAR_GOLD,1),AddItem.ABSTRACT_INGOT,AddItem.LPLATE,AddItem.LPLATE,AddItem.ABSTRACT_INGOT,setC(AddItem.STAR_GOLD,1),
@@ -851,8 +922,38 @@ public class AddSlimefunItems {
             recipe(AddItem.LOGIGATE,"OBSERVER",AddItem.LOGIGATE,"STICKY_PISTON",AddItem.REDSTONE_ENGINE,"STICKY_PISTON",
                     AddItem.LOGIGATE,"NOTE_BLOCK",AddItem.LOGIGATE))
             .register();
+    public static final SlimefunItem BEDROCK_BREAKER=new CustomProps(AddGroups.VANILLA, AddItem.BEDROCK_BREAKER, RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe("TNT", "LEVER", "TNT", "PISTON", AddItem.LOGIGATE, "PISTON",
+                    AddItem.NOLOGIC, AddItem.BUG, AddItem.NOLOGIC), null) {
+        protected ItemConsumer CONSUMED=CraftUtils.getConsumer(new ItemStack(Material.PISTON));
+        @Override
+        public void onClickAction(PlayerRightClickEvent event) {
+            Optional<Block> b=event.getClickedBlock();
+            if(b.isPresent()&&event.getPlayer()!=null){
+                Block block=b.get();
+                Location loc=block.getLocation();
+                    //不是sf方块
+                if(WorldUtils.hasPermission(event.getPlayer(),loc,Interaction.BREAK_BLOCK)&&canUse(event.getPlayer(),false)){
+                    if(DataCache.getSfItem(loc)==null){
+                        if(WorldUtils.consumeItem(event.getPlayer(),CONSUMED)){
+                            block.setType(Material.AIR);
+                            block.getState().update(true,false);
+                            AddUtils.sendMessage(event.getPlayer(),"&a已成功破坏方块");
+                        }else{
+                            AddUtils.sendMessage(event.getPlayer(),"&c所需物品不足!");
+                        }
+                    }else{
+                        AddUtils.sendMessage(event.getPlayer(),"&c该方块是粘液方块!不能被该道具破坏");
+                    }
+                }else{
+                    AddUtils.sendMessage(event.getPlayer(),"&c抱歉,您没有在这里使用该物品的权限");
+                }
 
-
+            }
+            event.cancel();
+        }
+    }
+            .register();
 
     //Material Generators
     public static final SlimefunItem MAGIC_STONE=new SMGenerator(AddGroups.GENERATORS, AddItem.MAGIC_STONE,RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -877,7 +978,7 @@ public class AddSlimefunItems {
                     AddItem.LFIELD,AddItem.ABSTRACT_INGOT,setC(AddItem.LBOOLIZER,1),setC(AddItem.LOGIGATE,1),AddItem.ABSTRACT_INGOT,AddItem.LFIELD,
                     AddItem.LFIELD,AddItem.ABSTRACT_INGOT,setC(AddItem.LOGIGATE,1),setC(AddItem.LBOOLIZER,1),AddItem.ABSTRACT_INGOT,AddItem.LFIELD,
                     AddItem.TRUE_,AddItem.LFIELD,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LFIELD,AddItem.TRUE_,
-                    null,AddItem.FALSE_,AddItem.LFIELD,AddItem.LFIELD,AddItem.FALSE_,null), 6, 114514, 256,
+                    null,AddItem.FALSE_,AddItem.LFIELD,AddItem.LFIELD,AddItem.FALSE_,null), 6, 1919, 256,
             new LinkedHashMap<>(){{
                 put(mkl(AddItem.TRUE_),mkl(setC(AddItem.TRUE_,114514)));
                 put(mkl(AddItem.FALSE_),mkl(setC(AddItem.FALSE_,1919810)));
@@ -1009,6 +1110,24 @@ public class AddSlimefunItems {
                 put(mkl("SUGAR_CANE"),mkl("9SUGAR_CANE"));
                 put(mkl("BAMBOO"),mkl("9BAMBOO"));
                 put(mkl("CACTUS"),mkl("9CACTUS"));
+                put(mkl("DANDELION"),mkl("9DANDELION"));
+                put(mkl("POPPY"),mkl("3POPPY"));
+                put(mkl("BLUE_ORCHID"),mkl("9BLUE_ORCHID"));
+                put(mkl("ALLIUM"),mkl("9ALLIUM"));
+                put(mkl("AZURE_BLUET"),mkl("9AZURE_BLUET"));
+                put(mkl("RED_TULIP"),mkl("9RED_TULIP"));
+                put(mkl("ORANGE_TULIP"),mkl("9ORANGE_TULIP"));
+                put(mkl("WHITE_TULIP"),mkl("9WHITE_TULIP"));
+                put(mkl("PINK_TULIP"),mkl("9PINK_TULIP"));
+                put(mkl("OXEYE_DAISY"),mkl("9OXEYE_DAISY"));
+                put(mkl("CORNFLOWER"),mkl("9CORNFLOWER"));
+                put(mkl("LILY_OF_THE_VALLEY"),mkl("9LILY_OF_THE_VALLEY"));
+                put(mkl("WITHER_ROSE"),mkl("6WITHER_ROSE"));
+                put(mkl("SUNFLOWER"),mkl("6SUNFLOWER"));
+                put(mkl("LILAC"),mkl("6LILAC"));
+                put(mkl("ROSE_BUSH"),mkl("6ROSE_BUSH"));
+                put(mkl("PEONY"),mkl("6PEONY"));
+
                 put(mkl("OAK_SAPLING"),mkl("9OAK_SAPLING","18OAK_LOG","6APPLE","9OAK_LEAVES","6STICK"));
                 put(mkl("BIRCH_SAPLING"),mkl("9BIRCH_SAPLING","18BIRCH_LOG","6APPLE","9BIRCH_LEAVES","6STICK"));
                 put(mkl("SPRUCE_SAPLING"),mkl("9SPRUCE_SAPLING","18SPRUCE_LOG","6APPLE","9SPRUCE_LEAVES","6STICK"));
@@ -1016,7 +1135,7 @@ public class AddSlimefunItems {
                 put(mkl("JUNGLE_SAPLING"),mkl("9JUNGLE_SAPLING","18JUNGLE_LOG","6APPLE","9JUNGLE_LEAVES","6STICK"));
                 put(mkl("ACACIA_SAPLING"),mkl("9ACACIA_SAPLING","18ACACIA_LOG","6APPLE","9ACACIA_LEAVES","6STICK"));
                 put(mkl("MANGROVE_PROPAGULE"),mkl("9MANGROVE_PROPAGULE","18MANGROVE_LOG","9MANGROVE_LEAVES"));
-                put(mkl("CHERRY_SAPLING"),mkl("9CHERRY_SAPLING","18CHERRY_LOG","9CHERRY_LEAVES"));
+                put(mkl(Material.CHERRY_SAPLING),mkl(new ItemStack(Material.CHERRY_SAPLING,9),"18CHERRY_LOG","9CHERRY_LEAVES"));
             }})
             .register();
     public static final SlimefunItem NETHER_PLANT = new MMGenerator(AddGroups.GENERATORS, AddItem.NETHER_PLANT, COMMON_TYPE,
@@ -1219,11 +1338,12 @@ public class AddSlimefunItems {
                 )));
                 put(mkl(AddItem.END_FEAT),mkl(AddUtils.randItemStackFactory(
                         mkMp("4DRAGON_BREATH",2,
-                        "4CHORUS_FLOWER",2,
+                       // "4CHORUS_FLOWER",2,
                                 "16ENDER_EYE",2,
                                 "16ENDER_PEARL",2,
                                 "4BUCKET_OF_OIL",2,
-                                AddItem.STAR_GOLD,2
+                                AddItem.STAR_GOLD,2,
+                                AddItem.DIMENSIONAL_SHARD,2
                         )
                 )));
             }})
@@ -1244,6 +1364,23 @@ public class AddSlimefunItems {
                 put(mkl("POTATO"),mkl("9POTATO"));
                 put(mkl("SWEET_BERRIES"),mkl("9SWEET_BERRIES"));
                 put(mkl("SUGAR_CANE"),mkl("9SUGAR_CANE"));
+                put(mkl("DANDELION"),mkl("9DANDELION"));
+                put(mkl("POPPY"),mkl("3POPPY"));
+                put(mkl("BLUE_ORCHID"),mkl("9BLUE_ORCHID"));
+                put(mkl("ALLIUM"),mkl("9ALLIUM"));
+                put(mkl("AZURE_BLUET"),mkl("9AZURE_BLUET"));
+                put(mkl("RED_TULIP"),mkl("9RED_TULIP"));
+                put(mkl("ORANGE_TULIP"),mkl("9ORANGE_TULIP"));
+                put(mkl("WHITE_TULIP"),mkl("9WHITE_TULIP"));
+                put(mkl("PINK_TULIP"),mkl("9PINK_TULIP"));
+                put(mkl("OXEYE_DAISY"),mkl("9OXEYE_DAISY"));
+                put(mkl("CORNFLOWER"),mkl("9CORNFLOWER"));
+                put(mkl("LILY_OF_THE_VALLEY"),mkl("9LILY_OF_THE_VALLEY"));
+                put(mkl("WITHER_ROSE"),mkl("6WITHER_ROSE"));
+                put(mkl("SUNFLOWER"),mkl("6SUNFLOWER"));
+                put(mkl("LILAC"),mkl("6LILAC"));
+                put(mkl("ROSE_BUSH"),mkl("6ROSE_BUSH"));
+                put(mkl("PEONY"),mkl("6PEONY"));
                 put(mkl("OAK_SAPLING"),mkl("9OAK_SAPLING","18OAK_LOG","6APPLE","9OAK_LEAVES","6STICK"));
                 put(mkl("BIRCH_SAPLING"),mkl("9BIRCH_SAPLING","18BIRCH_LOG","6APPLE","9BIRCH_LEAVES","6STICK"));
                 put(mkl("SPRUCE_SAPLING"),mkl("9SPRUCE_SAPLING","18SPRUCE_LOG","6APPLE","9SPRUCE_LEAVES","6STICK"));
@@ -1448,6 +1585,7 @@ public class AddSlimefunItems {
 
                             mkl(
                                     setC(AddItem.ATOM_INGOT,48),
+                                    setC(AddItem.PARADOX,24),
                                     AddUtils.randItemStackFactory(
                                             Utils.list(
                                                     AddUtils.randAmountItemFactory(AddItem.PALLADIUM_INGOT,15,61),
@@ -1478,6 +1616,7 @@ public class AddSlimefunItems {
 
                             mkl(
                                     setC(AddItem.ATOM_INGOT,48),
+                                    setC(AddItem.PARADOX,24),
                                     AddUtils.randItemStackFactory(
                                             Utils.list(
                                                     AddUtils.randAmountItemFactory(AddItem.PALLADIUM_INGOT,17,43),
@@ -1508,6 +1647,7 @@ public class AddSlimefunItems {
 
                             mkl(
                                     setC(AddItem.STAR_GOLD_INGOT,128),
+                                    setC(AddItem.PARADOX,32),
                                     AddUtils.randItemStackFactory(
                                             Utils.list(
                                                     AddUtils.randAmountItemFactory(AddItem.PALLADIUM_INGOT,23,53),
@@ -1538,6 +1678,7 @@ public class AddSlimefunItems {
 
                             mkl(
                                     setC(AddItem.STAR_GOLD_INGOT,128),
+                                    setC(AddItem.PARADOX,16),
                                     AddUtils.randItemStackFactory(
                                             Utils.list(
                                                     AddUtils.randAmountItemFactory(AddItem.PALLADIUM_INGOT,17,43),
@@ -1704,13 +1845,14 @@ public class AddSlimefunItems {
             .register();
     public static final SlimefunItem MULTIMACHINE_MANUAL=new ManualMachine(AddGroups.MANUAL,AddItem.MULTIMACHINE_MANUAL,COMMON_TYPE,
             recipe(null,null,AddItem.LFIELD,AddItem.LFIELD,null,null,
-                    null,AddItem.LFIELD,"HEATED_PRESSURE_CHAMBER_2","HEATED_PRESSURE_CHAMBER_2",AddItem.LFIELD,null,
-                    AddItem.LFIELD,"FOOD_COMPOSTER_2",AddItem.LENGINE,AddItem.LENGINE,"FOOD_COMPOSTER_2",AddItem.LFIELD,
-                    AddItem.LFIELD,"FOOD_FABRICATOR_2",AddItem.LENGINE,AddItem.LENGINE,"FOOD_FABRICATOR_2",AddItem.LFIELD,
-                    null,AddItem.LFIELD,"HEATED_PRESSURE_CHAMBER_2","HEATED_PRESSURE_CHAMBER_2",AddItem.LFIELD,null,
+                    null,AddItem.LFIELD,"HEATED_PRESSURE_CHAMBER","HEATED_PRESSURE_CHAMBER",AddItem.LFIELD,null,
+                    AddItem.LFIELD,"FOOD_COMPOSTER",AddItem.NOLOGIC,AddItem.NOLOGIC,"FOOD_COMPOSTER",AddItem.LFIELD,
+                    AddItem.LFIELD,"FOOD_FABRICATOR",AddItem.NOLOGIC,AddItem.NOLOGIC,"FOOD_FABRICATOR",AddItem.LFIELD,
+                    null,AddItem.LFIELD,"HEATED_PRESSURE_CHAMBER","HEATED_PRESSURE_CHAMBER",AddItem.LFIELD,null,
                     null,null,AddItem.LFIELD,AddItem.LFIELD,null,null),0,0,()->{
                 List<MachineRecipe> recipelist=new ArrayList<>();
                 recipelist.addAll(RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItems.HEATED_PRESSURE_CHAMBER.getItem()));
+                recipelist.addAll(RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItems.AUTO_DRIER.getItem()));
                 recipelist.addAll(RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItems.REFINERY.getItem()));
                 recipelist.addAll(RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItems.FOOD_COMPOSTER.getItem()));
                 recipelist.addAll(RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItems.FOOD_FABRICATOR.getItem()));
@@ -1817,6 +1959,27 @@ public class AddSlimefunItems {
                     setC(AddItem.PARADOX,1),"HOPPER",AddItem.QUARSORTER,setC(AddItem.LBOOLIZER,1),"HOPPER",setC(AddItem.PARADOX,1),
                     null,AddItem.PARADOX,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.PARADOX,null))
             .register();
+    public static final  SlimefunItem BIFILTER=new BiFilter(AddGroups.CARGO, AddItem.BIFILTER,COMMON_TYPE   ,
+            recipe(null,null,null,null,null,null,
+                    null,AddItem.PARADOX,"CHEST","CHEST",AddItem.PARADOX,null,
+                    AddItem.PARADOX,AddItem.LOGIGATE,AddItem.LOGIGATE,AddItem.LOGIGATE,AddItem.LOGIGATE,AddItem.PARADOX,
+                    AddItem.PARADOX,AddItem.LOGIGATE,"HOPPER","HOPPER",AddItem.LOGIGATE,AddItem.PARADOX,
+                    null,AddItem.PARADOX,AddItem.ADV_TRASH,AddItem.ADV_TRASH,AddItem.PARADOX,null))
+            .register();
+    public static final SlimefunItem QUARFILTER=new QuarFilter(AddGroups.CARGO,AddItem.QUARFILTER,COMMON_TYPE,
+            recipe(null,null,null,null,null,null,
+                    null,AddItem.PARADOX,AddItem.CARGO_PART,AddItem.CARGO_PART,AddItem.PARADOX,null,
+                    AddItem.PARADOX,AddItem.LFIELD,AddItem.LOGIGATE,"HOPPER",AddItem.LFIELD,AddItem.PARADOX,
+                    AddItem.PARADOX,AddItem.LFIELD,AddItem.BIFILTER,AddItem.LOGIGATE,AddItem.LFIELD,AddItem.PARADOX,
+                    null,AddItem.PARADOX,AddItem.CARGO_PART,AddItem.CARGO_PART,AddItem.PARADOX,null))
+            .register();
+    public static final SlimefunItem OCTAFILTER=new OctaFilter(AddGroups.CARGO,AddItem.OCTAFILTER,COMMON_TYPE,
+            recipe(null,null,null,null,null,null,
+                    null,AddItem.PARADOX,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.PARADOX,null,
+                    AddItem.PARADOX,AddItem.LBOOLIZER,"HOPPER","HOPPER",AddItem.LBOOLIZER,AddItem.PARADOX,
+                    AddItem.PARADOX,AddItem.LBOOLIZER,AddItem.ADV_TRASH,AddItem.QUARFILTER,AddItem.LBOOLIZER,AddItem.PARADOX,
+                    null,AddItem.PARADOX,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.PARADOX,null))
+            .register();
     public static final SlimefunItem STORAGE_OPERATOR=new StorageOperator(AddGroups.SINGULARITY,AddItem.STORAGE_OPERATOR,RecipeType.MAGIC_WORKBENCH,
             recipe(AddItem.ABSTRACT_INGOT,AddItem.PARADOX,AddItem.ABSTRACT_INGOT,AddItem.PARADOX,AddItem.LIOPORT,AddItem.PARADOX,
                     AddItem.ABSTRACT_INGOT,AddItem.PARADOX,AddItem.ABSTRACT_INGOT))
@@ -1892,6 +2055,10 @@ public class AddSlimefunItems {
     public static final SlimefunItem RECIPE_LOGGER=new RegisteryLogger(AddGroups.SPECIAL,AddItem.RECIPE_LOGGER,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(null,null,null,"CRAFTING_TABLE",BUG,Material.WRITABLE_BOOK,null,null))
             .register();
+    public static final SlimefunItem LASER_GUN= new LaserGun(AddGroups.SPECIAL, AddItem.LASER_GUN, RecipeType.ANCIENT_ALTAR,
+            recipe(AddItem.STAR_GOLD_INGOT, AddItem.LSINGULARITY, AddItem.STAR_GOLD_INGOT, "ENERGIZED_CAPACITOR", AddItem.LASER, "ENERGIZED_CAPACITOR",
+                    AddItem.STAR_GOLD_INGOT, AddItem.LSINGULARITY, AddItem.STAR_GOLD_INGOT))
+            .register();
     public static final SlimefunItem RADIATION_CLEAR=new CustomProps(AddGroups.SPECIAL, AddItem.RADIATION_CLEAR, RecipeType.NULL,
             AddUtils.NULL_RECIPE.clone(), null) {
                 public void onClickAction(PlayerRightClickEvent event) {
@@ -1964,7 +2131,7 @@ public class AddSlimefunItems {
             mkMp(
                     mkP(mkl(setC(AddItem.MASS_CORE,256),setC(AddItem.SMELERY_CORE,256),setC(AddItem.HGTLPBBI,256),
                             setC(AddItem.LSINGULARITY,128),setC(AddItem.VIRTUAL_SPACE,128),setC(AddItem.PDCECDMD,256),
-                            setC(AddItem.TECH_CORE,256),setC(AddItem.METAL_CORE,256)),mkl(setC(AddItem.FINAL_FRAME,2))),2,
+                            setC(AddItem.TECH_CORE,256),setC(AddItem.METAL_CORE,256)),mkl(setC(AddItem.FINAL_FRAME,3))),2,
                     mkP(mkl(setC(AddItem.LSINGULARITY,512),"1919810IRON_DUST","1919810GOLD_DUST","1919810COPPER_DUST",
                             "1919810TIN_DUST","1919810SILVER_DUST","1919810LEAD_DUST",
                             "1919810ALUMINUM_DUST","1919810ZINC_DUST","1919810MAGNESIUM_DUST"),mkl(AddItem.LOGIC_CORE)),2
@@ -2025,7 +2192,7 @@ public class AddSlimefunItems {
             .register();
     public static final SlimefunItem FINAL_STACKMGENERATOR=new FinalStackMGenerator(AddGroups.BEYOND, AddItem.FINAL_STACKMGENERATOR,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),1,400_000_000,100,
-            64)
+            32)
             .register();
     public static final  SlimefunItem RAND_EDITOR=new RandomEditor(AddGroups.BEYOND, AddItem.RAND_EDITOR,COMMON_TYPE,
             recipe(AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,AddItem.FINAL_FRAME,AddItem.FINAL_FRAME,AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,

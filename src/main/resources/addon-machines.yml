@@ -6,6 +6,43 @@ enable:
   - Supreme
   - TranscEndence
 Slimefun:
+  enable: true
+  ELECTRIC_GOLD_PAN:
+    recipetype: SLIMEFUN:GOLD_PAN
+    time: 6
+    mode: w
+    type: machine
+    energy: 2
+  ELECTRIC_GOLD_PAN_2:
+    recipetype: SLIMEFUN:GOLD_PAN
+    time: 3
+    mode: w
+    type: machine
+    energy: 5
+  ELECTRIC_GOLD_PAN_3:
+    recipetype: SLIMEFUN:GOLD_PAN
+    time: 10
+    mode: w
+    type: machine
+    energy: 14
+  ELECTRIC_DUST_WASHER:
+    recipetype: SLIMEFUN:ORE_WASHER
+    time: 8
+    mode: w
+    type: machine
+    energy: 6
+  ELECTRIC_DUST_WASHER_2:
+    recipetype: SLIMEFUN:ORE_WASHER
+    time: 4
+    mode: w
+    type: machine
+    energy: 10
+  ELECTRIC_DUST_WASHER_3:
+    recipetype: SLIMEFUN:ORE_WASHER
+    time: 1
+    mode: w
+    type: machine
+    energy: 30
 MomoTech:
   enable: true
   MOMOTECH_INGOT_CONSTRUCTOR:
@@ -1790,6 +1827,18 @@ CivilizationEvolution:
     type: generator
     energy: 0
 InfinityExpansion:
+  SINGULARITY_CONSTRUCTOR:
+    recipetype: INFINITYEXPANSION:SINGULARITY_CONSTRUCTOR
+    time: 640
+    mode: w
+    type: machine
+    energy: 240
+  INFINITY_CONSTRUCTOR:
+    recipetype: INFINITYEXPANSION:SINGULARITY_CONSTRUCTOR
+    time: 10
+    mode: w
+    type: machine
+    energy: 2400
   INFINITE_VOID_HARVESTER:
     recipe:
       '0':
@@ -1810,8 +1859,61 @@ InfinityExpansion:
     energy: 120
 Supreme:
   enable: true
+  SUPREME_ELECTRIC_CORE_I:
+    recipetype: SUPREME:SUPREME_MULTIBLOCK_CORE_KEY
+    time: 28
+    mode: w
+    type: machine
+    energy: 20
+  SUPREME_ELECTRIC_CORE_II:
+    recipetype: SUPREME:SUPREME_MULTIBLOCK_CORE_KEY
+    time: 7
+    mode: w
+    type: machine
+    energy: 100
+  SUPREME_ELECTRIC_CORE_III:
+    recipetype: SUPREME:SUPREME_MULTIBLOCK_CORE_KEY
+    time: 2
+    mode: w
+    type: machine
+    energy: 300
+  SUPREME_ELECTRIC_MAGICAL_I:
+    recipetype: SUPREME:SUPREME_MULTIBLOCK_MAGICAL_KEY
+    time: 28
+    mode: w
+    type: machine
+    energy: 20
+  SUPREME_ELECTRIC_MAGICAL_II:
+    recipetype: SUPREME:SUPREME_MULTIBLOCK_MAGICAL_KEY
+    time: 7
+    mode: w
+    type: machine
+    energy: 100
+  SUPREME_ELECTRIC_MAGICAL_III:
+    recipetype: SUPREME:SUPREME_MULTIBLOCK_MAGICAL_KEY
+    time: 2
+    mode: w
+    type: machine
+    energy: 300
+  SUPREME_ELECTRIC_GEAR_I:
+    recipetype: SUPREME:SUPREME_MULTIBLOCK_GEAR_KEY
+    time: 28
+    mode: w
+    type: machine
+    energy: 20
+  SUPREME_ELECTRIC_GEAR_II:
+    recipetype: SUPREME:SUPREME_MULTIBLOCK_GEAR_KEY
+    time: 7
+    mode: w
+    type: machine
+    energy: 100
+  SUPREME_ELECTRIC_GEAR_III:
+    recipetype: SUPREME:SUPREME_MULTIBLOCK_GEAR_KEY
+    time: 2
+    mode: w
+    type: machine
+    energy: 300
   SUPREME_VIRTUAL_GARDEN_I:
-    
     recipe:
       '0':
         input:

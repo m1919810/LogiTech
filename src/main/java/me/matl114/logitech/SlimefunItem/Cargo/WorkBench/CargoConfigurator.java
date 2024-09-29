@@ -37,7 +37,8 @@ public class CargoConfigurator extends AbstractBlock {
     protected final int OUTPUT_SLOT=31;
     protected final ItemStack[] INFO_ITEMS=new ItemStack[]{
             new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,
-                    "&6点击构建货运配置卡","&e将任意货运配置卡置于下方槽位","&7并在对应的配置槽位中放入指定物品","&7点击该物品,即可进行配置","&a支持一次配置多个配置卡"),
+                    "&6点击构建货运配置卡","&e将任意货运配置卡置于下方槽位","&7并在对应的配置槽位中放入指定物品","&7点击该物品,即可进行配置","&a支持一次配置多个配置卡",
+                    "&c当放入的配置卡已有货运配置","&c留空指定配置项槽位会保持原配置项不变!放入物品则会覆盖原配置项!"),
             new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 强对称",
                     "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置是否使用强对称传输","&7即是否将物品按槽位进行对应的运输"),
             new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 仅空运输",
@@ -105,50 +106,53 @@ public class CargoConfigurator extends AbstractBlock {
             return false;
         }
         int[] slots=getConfigureSlots();
-        int[] configCodes=new int[8];
-        ItemStack stack;
-        for (int i=0;i<7;++i){
-           stack=inv.getItemInSlot(slots[i]);
-            if(stack==null){
-                return false;
-            }
-            if(stack.getType()==Material.MUSIC_DISC_5&&stack.hasItemMeta()){
-                //有附魔是true 没是false
-                configCodes[i]=stack.getEnchantments().isEmpty()?0:1;
-            }else return false;
-        }
-        stack=inv.getItemInSlot(slots[7]);
-        if(stack!=null&&stack.getType()!=Material.SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE){
-            return false;
-        }
-        if(stack!=null){
-            configCodes[7]+=(stack.getAmount())*64;
-        }
-        stack=inv.getItemInSlot(slots[8]);
-        if(stack!=null&&stack.getType()!=Material.SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE){
-            return false;
-        }
-        if(stack!=null){
-            configCodes[7]+=stack.getAmount();
-        }
         ItemMeta meta=it.getItemMeta();
         if(CargoConfigCard.canConfig(meta)){
             int code=0;
-            code=CargoConfigs.IS_SYMM.setConfig(code,configCodes[0]);
-            code=CargoConfigs.IS_NULL.setConfig(code,configCodes[1]);
-            code=CargoConfigs.IS_LAZY.setConfig(code,configCodes[2]);
-            code=CargoConfigs.IS_WHITELST.setConfig(code,configCodes[3]);
-            code=CargoConfigs.FROM_INPUT.setConfig(code,configCodes[4]);
-            code=CargoConfigs.TO_OUTPUT.setConfig(code,configCodes[5]);
-            code=CargoConfigs.REVERSE.setConfig(code,configCodes[6]);
-            code=CargoConfigs.TRANSLIMIT.setConfig(code,configCodes[7]);
+            if(CargoConfigCard.isConfig(meta)){
+                code=CargoConfigCard.getConfig(meta);
+            }
+            ItemStack stack;
+            for (int i=0;i<7;++i){
+               stack=inv.getItemInSlot(slots[i]);
+                if(stack==null){
+                    continue;
+                }
+                if(stack.getType()==Material.MUSIC_DISC_5&&stack.hasItemMeta()){
+                    //有附魔是true 没是false
+                    int icode=stack.getEnchantments().isEmpty()?0:1;
+                   code=  CargoConfigs.setConfigBit(code,icode,i);
+                }else return false;
+            }
+            stack=inv.getItemInSlot(slots[7]);
+            if(stack!=null&&stack.getType()!=Material.SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE){
+                return false;
+            }
+            int stackAmount=0;
+            if(stack!=null){
+                stackAmount+=(stack.getAmount())*64;
+            }
+            stack=inv.getItemInSlot(slots[8]);
+            if(stack!=null&&stack.getType()!=Material.SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE){
+                return false;
+            }
+            if(stack!=null){
+                stackAmount+=stack.getAmount();
+            }
+            if(stackAmount!=0){
+                code=CargoConfigs.TRANSLIMIT.setConfig(code,stackAmount);
+            }
+            if(CargoConfigs.TRANSLIMIT.getConfigInt(code)<=0){
+                return false;
+            }
             CargoConfigCard.setConfig(meta,code);
             it.setItemMeta(meta);
             for(int i=0;i<9;++i){
                 inv.replaceExistingItem(slots[i],null);
             }
             return true;
-        }else return false;
+        }
+        return false;
     }
     public void newMenuInstance(BlockMenu inv, Block block){
         inv.addMenuOpeningHandler(player -> {

@@ -254,7 +254,10 @@ public class LogicReactor extends AbstractProcessor {
     public int[] getSlotsAccessedByItemTransportPlus(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item){
         if(flow==ItemTransportFlow.WITHDRAW)
             return getOutputSlots();
-        if(item!=null&&item.getType()==Material.MUSIC_DISC_5){
+        else if(item==null||item.getType()==Material.AIR){
+            return getInputSlots();
+        }
+        if(item.getType()==Material.MUSIC_DISC_5){
             return BOOL_SLOT;
         }else {
             return COMMON_SLOT;

@@ -31,11 +31,10 @@ public interface RecipeDisplay extends RecipeDisplayItem {
                        // lore.add("&e权重: " + AddUtils.getPercentFormat(pro));
                     }
                 }
-                if(stack.getAmount()>64){
+                if(stack.getAmount()>64||stack.getAmount()<=0){
                     lore.add("&c输入数量: "+stack.getAmount());
                 }
                 stack=AddUtils.addLore(stack, lore.toArray(new String[0]));
-
                 break;
             case OUTPUT:
             default:
@@ -51,7 +50,7 @@ public interface RecipeDisplay extends RecipeDisplayItem {
                 if(stack instanceof RandAmountStack rand){
                     lore.add("&c随机输出数量: %d~%d".formatted(rand.getMin(),rand.getMax()));
                 }
-                else if(stack.getAmount()>64){
+                else if(stack.getAmount()>64||stack.getAmount()<=0){
                     lore.add("&c输出数量: "+stack.getAmount());
                 }
                 if(time>=0)
@@ -59,7 +58,11 @@ public interface RecipeDisplay extends RecipeDisplayItem {
                 else
                     lore.add("&e直接合成~");
                 stack=AddUtils.addLore(stack, lore.toArray(new String[0]));
+
                 break;
+        }
+        if(stack.getAmount()<=0){
+            stack.setAmount(1);
         }
         return stack;
     }

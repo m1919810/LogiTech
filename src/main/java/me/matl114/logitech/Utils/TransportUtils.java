@@ -61,7 +61,7 @@ public class TransportUtils {
                     tarCounter2.setFrom(cache);
                     tarCounter2.grab(cache);
                 }
-                else if(tarCounter2.getAmount()==tarCounter2.getMaxStackCnt())continue;
+                else if(tarCounter2.getAmount()>=tarCounter2.getMaxStackCnt())continue;
                 else if(CraftUtils.matchItemCounter(tarCounter2,cache,true)){
                     tarCounter2.grab(cache);
                 }
@@ -503,6 +503,8 @@ public class TransportUtils {
      * @param translimit
      * @param provider
      */
+    //FIXME transport illegalStack failed
+    //FIXME should transport illegalStack from inputs to null slot
     public static void transportItemGreedy_2(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,
                                              boolean isnull,boolean lazy,boolean whitlist, HashSet<ItemStack> blacklist, int translimit,
                                              ItemPusherProvider provider){
@@ -519,7 +521,7 @@ public class TransportUtils {
                 ++indexLen;
             }
             //如果不是非空模式 且非满 才要考虑这玩意
-            else if(!isnull&&stack.getAmount()!=stack.getMaxStackSize()){
+            else if(!isnull&&stack.getAmount()<stack.getMaxStackSize()){
                 toCacheIndex[indexLen]=toSlot[i];
                 ++indexLen;
             }
@@ -550,7 +552,7 @@ public class TransportUtils {
                         translimit-=fromAmount;
                         //拆开写转运
                         //
-                        if( fromAmount==fromPusher.getMaxStackCnt()){
+                        if( fromAmount>=fromPusher.getMaxStackCnt()){
                             //满了 或者非空了 ?,全转,下次别来了
                             fromPusher.setAmount(0);
                             //标记为true说明已经转完了
@@ -564,7 +566,7 @@ public class TransportUtils {
                         fromPusher.updateMenu(from);
                         //FME 非空逻辑有问题 需要在获取槽位的时候剔除掉
                     }else {
-                        if(CraftUtils.matchItemCounter(fromPusher,toPusher,false)){//如果匹配
+                        if(CraftUtils.matchItemCounter(fromPusher,toPusher,true)){//如果匹配
                             translimit=toPusher.transportFrom(fromPusher,translimit);
                             //DO 将update改到不同的地方 不要做存储
                             toPusher.updateMenu(to);
@@ -602,6 +604,8 @@ public class TransportUtils {
      * @param translimit
      * @param provider
      */
+    //FIXME transport illegalStack failed
+    //FIXME should transport illegalStack from inputs to null slot
     public static void transportItemSmart_2(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,
                                              boolean isnull,boolean lazy,boolean whitlist, HashSet<ItemStack> blacklist, int translimit,
                                              ItemPusherProvider provider){
@@ -620,7 +624,7 @@ public class TransportUtils {
                 slotMappers[toSlot[i]]=indexLen;//以区别0
             }
             //如果不是非空模式 且非满 才要考虑这玩意
-            else if(!isnull&&stack.getAmount()!=stack.getMaxStackSize()){
+            else if(!isnull&&stack.getAmount()<stack.getMaxStackSize()){
                 toCacheIndex[indexLen]=toSlot[i];
                 ++indexLen;
                 slotMappers[toSlot[i]]=indexLen;//+1.，以区别0
@@ -659,7 +663,7 @@ public class TransportUtils {
                         translimit-=fromAmount;
                         //拆开写转运
                         //
-                        if( fromAmount==fromPusher.getMaxStackCnt()){
+                        if( fromAmount>=fromPusher.getMaxStackCnt()){
                             //满了 或者非空了 ?,全转,下次别来了
                             fromPusher.setAmount(0);
                             //标记为true说明已经转完了
@@ -672,7 +676,7 @@ public class TransportUtils {
                         fromPusher.updateMenu(from);
                         //E 非空逻辑有问题 需要在获取槽位的时候剔除掉
                     }else {
-                        if(CraftUtils.matchItemCounter(fromPusher,toPusher,false)){//如果匹配
+                        if(CraftUtils.matchItemCounter(fromPusher,toPusher,true)){//如果匹配
                             translimit=toPusher.transportFrom(fromPusher,translimit);
                             //TO 将update改到不同的地方 不要做存储
                             toPusher.updateMenu(to);
@@ -720,7 +724,7 @@ public class TransportUtils {
                 ++indexLen;
             }
             //如果不是非空模式 且非满 才要考虑这玩意
-            else if(!isnull&&stack.getAmount()!=stack.getMaxStackSize()){
+            else if(!isnull&&stack.getAmount()<stack.getMaxStackSize()){
                 toCacheIndex[indexLen]=toSlot[i];
                 ++indexLen;
             }
@@ -750,7 +754,7 @@ public class TransportUtils {
                         translimit-=fromAmount;
                         //拆开写转运
                         //
-                        if( fromAmount==fromPusher.getMaxStackCnt()){
+                        if( fromAmount>=fromPusher.getMaxStackCnt()){
                             //满了 或者非空了 ?,全转,下次别来了
                             fromPusher.setAmount(0);
                             //标记为true说明已经转完了
@@ -763,7 +767,7 @@ public class TransportUtils {
                         fromPusher.updateMenu(from);
                         // 非空逻辑有问题 需要在获取槽位的时候剔除掉
                     }else {
-                        if(CraftUtils.matchItemCounter(fromPusher,toPusher,false)){//如果匹配
+                        if(CraftUtils.matchItemCounter(fromPusher,toPusher,true)){//如果匹配
                             translimit=toPusher.transportFrom(fromPusher,translimit);
                             //T 将update改到不同的地方 不要做存储
                             toPusher.updateMenu(to);
@@ -815,9 +819,9 @@ public class TransportUtils {
                 toCache.setFrom(fromCache);
                 translimit=toCache.transportFrom(fromCache,translimit);
             }
-            else if(isnull||toCache.getAmount()==toCache.getMaxStackCnt()){
+            else if(isnull||toCache.getAmount()>=toCache.getMaxStackCnt()){
             }
-            else if(CraftUtils.matchItemCounter(fromCache,toCache,false)){
+            else if(CraftUtils.matchItemCounter(fromCache,toCache,true)){
                 translimit=toCache.transportFrom(fromCache,translimit);
             }
             boolean hasUpdate=toCache.isDirty();

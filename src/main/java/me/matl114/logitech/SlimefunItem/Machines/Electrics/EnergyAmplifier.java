@@ -42,8 +42,9 @@ public class EnergyAmplifier extends AbstractEnergyProvider {
         return NULL_SLOT;
     }
     protected final int[] BORDER=new int[]{
-            0,1,2,3,5,6,7,8,9,10,11,12,14,15,16,17,18,19,20,21,22,23,24,25,26
+            0,1,2,3,5,6,7,9,10,11,12,14,15,16,17,18,19,20,21,22,23,24,25,26
     };
+    protected final int RUNWHENFULL_SLOT=8;
     protected final int STATUS_SLOT=4;
     protected final int MACHINE_SLOT=13;
     protected final ItemStack STATUS_ITEM_OFF=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&c当前状态: 未发电");
@@ -52,6 +53,10 @@ public class EnergyAmplifier extends AbstractEnergyProvider {
     }
     protected ItemPusherProvider MACHINE_PROVIDER= FinalFeature.STORAGE_READER;
     protected double multiply;
+    protected final ItemStack RUNWHENFULL_OFF=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&6过载模式: &c关","&7点击切换过载模式",
+            "&7当过载模式启用时候,即使发电机存电量已满仍旧会发电");
+    protected final ItemStack RUNWHENFULL_ON=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6过载模式: &a开","&7点击切换过载模式",
+            "&7当过载模式启用时候,即使发电机存电量已满仍旧会发电");
     public EnergyAmplifier(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                                   int energyBuffer,double multiply) {
         super(category, item, recipeType, recipe,   energyBuffer,1);
@@ -81,12 +86,21 @@ public class EnergyAmplifier extends AbstractEnergyProvider {
         if(stackNum==0){
             return STATUS_ITEM_OFF;
         }else {
-            return new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&a当前状态: 发电中",
-                    "&7当前单体发电: %dJ/t".formatted(energyProvide)
-                    ,"&7当前电机数目: %dx".formatted(stackNum),
-                    "&7当前工作效率: %.3f".formatted(multiply),
-                    "&7当前发电速率: %dJ/t".formatted((int)(stackNum*energyProvide*multiply)),
-                    "&7当前电力存储: %dJ".formatted(charge));
+            if(charge>this.energybuffer){
+                return new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&a当前状态: 发电中",
+                        "&7当前单体发电: 电力缓存已满!"
+                        ,"&7当前电机数目: %dx".formatted(stackNum),
+                        "&7当前工作效率: %.3f".formatted(multiply),
+                        "&7当前发电速率: 电力缓存已满!",
+                        "&7当前电力存储: %dJ".formatted(charge));
+            }else {
+                return new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&a当前状态: 发电中",
+                        "&7当前单体发电: %dJ/t".formatted(energyProvide)
+                        ,"&7当前电机数目: %dx".formatted(stackNum),
+                        "&7当前工作效率: %.3f".formatted(multiply),
+                        "&7当前发电速率: %dJ/t".formatted((int)(stackNum*energyProvide*multiply)),
+                        "&7当前电力存储: %dJ".formatted(charge));
+            }
         }
     }
     public void registerTick(SlimefunItem item){
@@ -118,15 +132,23 @@ public class EnergyAmplifier extends AbstractEnergyProvider {
                 if(data2==null){
                     return 0;
                 }
-                int energyOutput=ep.getGeneratedOutput(loc2,data2);
+                int charge=this.getCharge(l);
                 int amplify=dh.getInt(0);
-                if(inv.hasViewer()){
-                    int charge=this.getCharge(l);
-                    inv.replaceExistingItem(STATUS_SLOT,getStatusItem(energyOutput,charge,amplify));
+                ItemStack runWhenFullCharged=inv.getItemInSlot(RUNWHENFULL_SLOT);
+                if((runWhenFullCharged==null||runWhenFullCharged.getType()==Material.RED_STAINED_GLASS_PANE)&&charge>=this.energybuffer){
+                    if(inv.hasViewer()){
+                        inv.replaceExistingItem(STATUS_SLOT,getStatusItem(0,charge,amplify));
+                    }
+                    return 0;
+                }else {
+                    int energyOutput=ep.getGeneratedOutput(loc2,data2);
+                    if(inv.hasViewer()){
+                        inv.replaceExistingItem(STATUS_SLOT,getStatusItem(energyOutput,charge,amplify));
+                    }
+                    long result=energyOutput;
+                    result=(long)(result*amplify*multiply);
+                    return MathUtils.fromLong(result);
                 }
-                long result=energyOutput;
-                result=(long)(result*amplify*multiply);
-                return MathUtils.fromLong(result);
             }
         }
         if(inv.hasViewer()){
@@ -176,6 +198,21 @@ public class EnergyAmplifier extends AbstractEnergyProvider {
         inv.addMenuCloseHandler(player -> {
             updateMenu(inv,b,Settings.RUN);
         });
+        ItemStack stack=inv.getItemInSlot(RUNWHENFULL_SLOT);
+        inv.addMenuClickHandler(RUNWHENFULL_SLOT,((player, i, itemStack, clickAction) -> {
+            if(itemStack==null||itemStack.getType()!=Material.RED_STAINED_GLASS_PANE){
+                inv.replaceExistingItem(RUNWHENFULL_SLOT,RUNWHENFULL_OFF);
+            }else {
+                inv.replaceExistingItem(RUNWHENFULL_SLOT,RUNWHENFULL_ON );
+            }
+            return false;
+        }));
+
+        if(stack==null||stack.getType()!=Material.RED_STAINED_GLASS_PANE){
+            inv.replaceExistingItem(RUNWHENFULL_SLOT,RUNWHENFULL_ON);
+        }else {
+            inv.replaceExistingItem(RUNWHENFULL_SLOT,RUNWHENFULL_OFF);
+        }
         updateMenu(inv,b,Settings.INIT);
     }
     public void updateMenu(BlockMenu inv, Block b, Settings mod){

@@ -340,6 +340,11 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
                 }
                 progressorCost(b,inv);
                 if(tick<=0){
+                    if(rawCraftLimit==0){
+                        //这很明显有问题？
+                        updateMenu(inv,b,Settings.RUN);
+                        return;
+                    }
                     List<MachineRecipe> lst=RecipeSupporter.MACHINE_RECIPELIST.get(getMachineList().get(index));
                     int len=lst.size();
                     int index2=DataCache.getLastRecipe(data);
@@ -356,21 +361,24 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
                         }
                         int maxCraftlimit= getCraftLimit(b,inv);
                         int tickNext=nextP.getTicks();
-                        if(tickNext!=0){//超频机制
-                            //尝试让time归1
-                            //按比例减少maxlimit ,按最小值取craftlimit
-                            if(maxCraftlimit<=tickNext){
-                                tickNext=( (tickNext+1)/maxCraftlimit)-1;
-                                maxCraftlimit=1;
-                            }else {
-                                maxCraftlimit=(maxCraftlimit/(tickNext));
-                                tickNext=0;
+                        if(maxCraftlimit!=0){
+                            if(tickNext!=0){//超频机制
+                                //尝试让time归1
+                                //按比例减少maxlimit ,按最小值取craftlimit
+                                if(maxCraftlimit<=tickNext){
+                                    tickNext=( (tickNext+1)/maxCraftlimit)-1;
+                                    maxCraftlimit=1;
+                                }else {
+                                    maxCraftlimit=(maxCraftlimit/(tickNext));
+                                    tickNext=0;
+                                }
                             }
                         }
                         db.setInt(2,tickNext);
                         db.setInt(3,maxCraftlimit);
 
                     }else if(index2!=-1){
+                        //遇到了之前的数据 需要重置
                         updateMenu(inv,b,Settings.RUN);
                     }
                 }else{
@@ -379,7 +387,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
             }
             else  {
                 if (hasViewer)
-                inv.replaceExistingItem(MINFO_SLOT,getInfoOffItem(rawCraftLimit,consumption,energy,
+                    inv.replaceExistingItem(MINFO_SLOT,getInfoOffItem(rawCraftLimit,consumption,energy,
                         ItemStackHelper.getDisplayName(inv.getItemInSlot(MACHINE_SLOT))));
                 if(tick!=-1){
                     db.setInt(2,-1);

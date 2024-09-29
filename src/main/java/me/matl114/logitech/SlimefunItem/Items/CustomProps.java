@@ -31,4 +31,5 @@ public abstract class CustomProps extends ItemWithHandler<ItemUseHandler> {
         super.preRegister();
 
     }
+
 }

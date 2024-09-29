@@ -76,6 +76,14 @@ public enum CargoConfigs {
         code =code|value;
         return code;
     }
+    public static int setConfigBit(int code ,int value,int bit){
+        for(CargoConfigs c:CargoConfigs.values()){
+            if(c.bit==bit){
+                return c.setConfig(code,value);
+            }
+        }
+        return 0;
+    }
     public static int setAllConfig(boolean symm,boolean isnull,boolean islazy,boolean blklst,boolean fromInput,boolean toOutput,boolean reverse,int limit){
         int code=0;
         code= IS_SYMM.setConfig(code,symm);

@@ -98,9 +98,7 @@ public class SpreadBlock extends AbstractBlock implements Ticking {
                         if(life==null||life==0){
                             Player player=SPREAD_PLAYER.remove(loc);
                             SPREAD_TICKER.remove(loc);
-                            Schedules.launchSchedules(()->{
-                                WorldUtils.createSlimefunBlock(loc,player,RESULT,(rand.nextInt(100)<(100-CHANCE_KEEP_MATERIAL))? RESULT_MATERIAL:SPREAD_MATERIAL,true,true);
-                            },0,true,0);
+                            WorldUtils.createSlimefunBlock(loc,player,RESULT,(rand.nextInt(100)<(100-CHANCE_KEEP_MATERIAL))? RESULT_MATERIAL:SPREAD_MATERIAL,true);
                         }else if(life<0){
                             SPREAD_TICKER.put(loc, life+rand.nextInt(100)<60?1:0);
                         }
@@ -115,10 +113,9 @@ public class SpreadBlock extends AbstractBlock implements Ticking {
                                 SlimefunItem it=StorageCacheUtils.getSfItem(loc2);
                                 if(it!=SpreadBlock.this&&it!=RESULT&&!loc2.getBlock().getType().isAir()){
                                     runPerTick++;
-                                    Schedules.launchSchedules(()->{
-                                        SPREAD_TICKER.put(loc2,lifeToSet);
-                                        WorldUtils.createSlimefunBlock(loc2,player,SpreadBlock.this, SPREAD_MATERIAL,false,true);
-                                    },0,true,0);
+                                    SPREAD_TICKER.put(loc2,lifeToSet);
+                                    SPREAD_PLAYER.put(loc2,player);
+                                    WorldUtils.createSlimefunBlock(loc2,player,SpreadBlock.this, SPREAD_MATERIAL,false);
                                 }
                             }
                             SPREAD_TICKER.put(loc, -life+1);

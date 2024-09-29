@@ -210,4 +210,11 @@ public class MathUtils {
         return x;
 
     }
+    public static int safeDivide(int a,int b){
+        if(b==0){
+            return a==0?0:Integer.MAX_VALUE;
+        }else {
+            return a / b;
+        }
+    }
 }

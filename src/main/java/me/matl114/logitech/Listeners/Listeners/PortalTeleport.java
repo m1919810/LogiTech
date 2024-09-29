@@ -35,7 +35,7 @@ public class PortalTeleport implements Listener {
             if(loc.getBlock().getType()!= Material.CRYING_OBSIDIAN){
                 continue;
             }
-            SlimefunItem it = StorageCacheUtils.getSfItem(loc);
+            SlimefunItem it = DataCache.getSfItem(loc) ;
             if (it instanceof PortalCore) {
                 Location dst = ((PortalCore) it).checkLink(loc);
                 Player player = event.getPlayer();
@@ -46,7 +46,7 @@ public class PortalTeleport implements Listener {
                     AddUtils.sendMessage(player, "&a传送成功!");
 
                 } else {
-                    AddUtils.sendMessage(player, "&c目标传送门未启用,传送失败!");
+                    AddUtils.sendMessage(player, "&c目标传送门未启用或正在区块加载中!请重进2-3次或者检查对面传送门结构是否完整");
                 }
                 player.setPortalCooldown(60);
                 event.setCancelled(true);
