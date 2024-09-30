@@ -278,7 +278,7 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
             }
         //不是persistent 将物品的clone进行替换// 和保存有关
         }
-        if((menu.hasViewer()||!persistent)&&slot>=0){
+        if((!persistent)&&slot>=0){
             //not work?
             //in case player take it away while working
             if(keepRelated(menu.getItemInSlot(slot)))
