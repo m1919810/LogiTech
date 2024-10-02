@@ -106,7 +106,7 @@ public class LaserGun extends ChargableProps{
                                     hasTarget=true;
 
                                     if(WorldUtils.testAttackPermission(p,player)){
-                                        PlayerEffects.grantEffect(CustomEffects.LASER,player,4,1);
+                                        PlayerEffects.grantEffect(CustomEffects.LASER,player,6,1);
                                     }
                                 }
                             }else {

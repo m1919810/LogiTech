@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="fix :emergency fix of antimass cant craft">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Items/LaserGun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Items/LaserGun.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/WorldUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/WorldUtils.java" afterDir="false" />
-    </list>
+    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="fix :emergency fix of antimass cant craft" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -284,15 +280,7 @@
       <workItem from="1727069825199" duration="17885000" />
       <workItem from="1727176283758" duration="118277000" />
       <workItem from="1727610570379" duration="41334000" />
-      <workItem from="1727872336017" duration="5469000" />
-    </task>
-    <task id="LOCAL-00070" summary="feat: add messages in multiblocks">
-      <option name="closed" value="true" />
-      <created>1726173258615</created>
-      <option name="number" value="00070" />
-      <option name="presentableId" value="LOCAL-00070" />
-      <option name="project" value="LOCAL" />
-      <updated>1726173258615</updated>
+      <workItem from="1727872336017" duration="6348000" />
     </task>
     <task id="LOCAL-00071" summary="feat: add messages in multiblocks">
       <option name="closed" value="true" />
@@ -678,7 +666,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727886948464</updated>
     </task>
-    <option name="localTasksCounter" value="119" />
+    <task id="LOCAL-00119" summary="fix :emergency fix of antimass cant craft">
+      <option name="closed" value="true" />
+      <created>1727889634001</created>
+      <option name="number" value="00119" />
+      <option name="presentableId" value="LOCAL-00119" />
+      <option name="project" value="LOCAL" />
+      <updated>1727889634001</updated>
+    </task>
+    <option name="localTasksCounter" value="120" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
