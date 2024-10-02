@@ -2177,14 +2177,15 @@ public class AddSlimefunItems {
                     AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,AddItem.LOGIC_CORE,AddItem.LOGIC_CORE,AddItem.SPACE_PLATE,AddItem.SPACE_PLATE), 840_000_000,100_000_000,
             AddUtils.randItemStackFactory(
                     Utils.list(
-                            AddUtils.probItemStackFactory(setC(AddItem.VIRTUALWORLD,1),100),
-                            AddUtils.probItemStackFactory( setC(  AddItem.STAR_GOLD_INGOT,64),20),
-                            AddUtils.probItemStackFactory(  setC(AddItem.ATOM_INGOT,64),10),
-                            AddUtils.probItemStackFactory(setC(AddItem.VIRTUALWORLD,1),20),
-                            AddItem.ANTIMASS
+                            AddUtils.probItemStackFactory(AddItem.VIRTUALWORLD,50),
+                           setC(  AddItem.STAR_GOLD_INGOT,64),
+                         setC(AddItem.ATOM_INGOT,64),
+                            setC(AddItem.LSINGULARITY,64),
+                            AddItem.ANTIMASS,
+                            AddUtils.probItemStackFactory(AddItem.VIRTUAL_SPACE,10)
                     ),
                     Utils.list(
-                            1,1,1,1,1
+                            1,1,1,1,1,1
                     )
             ))
             .register();
