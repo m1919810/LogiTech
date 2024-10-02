@@ -314,8 +314,8 @@ public class AddGroups {
         public PlayerHistoryRecord<CustomMenu> historyHandler=new PlayerHistoryRecord<CustomMenu>() {
             HashMap<UUID,List<CustomMenu>> records=new HashMap<>();
             {
-                PlayerQuiteListener.addHandler((playerQuiteListener)->{
-                    UUID uid=playerQuiteListener.getPlayer().getUniqueId();
+                PlayerQuiteListener.addHandler((player)->{
+                    UUID uid=player.getUniqueId();
                     synchronized(records) {
                         records.remove(uid);
                     }

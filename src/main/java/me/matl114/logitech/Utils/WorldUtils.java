@@ -308,4 +308,18 @@ public class WorldUtils {
             return true;
         }else return false;
     }
+    //IF SF DATA EXISTS,SF BLOCK WILL ALSO BE BREAKED, MAY CAUSE PROBLEMS
+    public static boolean breakVanillaBlockByPlayer(Block block,Player player,boolean withDrop){
+        if(WorldUtils.hasPermission(player,block.getLocation(),Interaction.BREAK_BLOCK)){
+            BlockBreakEvent event=new BlockBreakEvent(block,player);
+            Bukkit.getPluginManager().callEvent(event);
+            if(event.isCancelled()){
+                return false;
+            }
+            event.setDropItems(withDrop);
+            block.setType(Material.AIR);
+            block.getState().update(true,false);
+            return true;
+        }else return false;
+    }
 }

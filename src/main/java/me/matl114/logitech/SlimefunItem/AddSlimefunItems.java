@@ -407,12 +407,12 @@ public class AddSlimefunItems {
 
     public static final SlimefunItem PDCECDMD=new MaterialItem(AddGroups.MATERIAL,AddItem.PDCECDMD,AddSlimefunItems.STARSMELTERY,
             recipe("64PLUTONIUM",setC(AddItem.CERIUM,64),setC(AddItem.CADMIUM_INGOT,64),
-                    setC(AddItem.MENDELEVIUM,64),setC(AddItem.LSINGULARITY,8)
+                    setC(AddItem.MENDELEVIUM,64),setC(AddItem.LSINGULARITY,1)
                     ),null)
             .register();
     public static final SlimefunItem HGTLPBBI=new MaterialItem(AddGroups.MATERIAL,AddItem.HGTLPBBI,AddSlimefunItems.STARSMELTERY,
             recipe(setC(AddItem.HYDRAGYRUM,64),setC(AddItem.THALLIUM,64),
-                    "64LEAD_INGOT",setC(AddItem.BISILVER,16),setC(AddItem.LSINGULARITY,8)),null)
+                    "64LEAD_INGOT",setC(AddItem.BISILVER,16),setC(AddItem.LSINGULARITY,1)),null)
             .register();
     public static final SlimefunItem REINFORCED_CHIP_INGOT=new MaterialItem(AddGroups.MATERIAL,AddItem.REINFORCED_CHIP_INGOT,AddSlimefunItems.STARSMELTERY,
             recipe(setC(AddItem.STAR_GOLD_INGOT,40),setC(AddItem.CHIP_INGOT,16),
@@ -933,12 +933,14 @@ public class AddSlimefunItems {
                 Block block=b.get();
                 Location loc=block.getLocation();
                     //不是sf方块
-                if(WorldUtils.hasPermission(event.getPlayer(),loc,Interaction.BREAK_BLOCK)&&canUse(event.getPlayer(),false)){
+                if(WorldUtils.hasPermission(event.getPlayer(),loc,Interaction.BREAK_BLOCK,Interaction.PLACE_BLOCK)&&canUse(event.getPlayer(),false)){
                     if(DataCache.getSfItem(loc)==null){
                         if(WorldUtils.consumeItem(event.getPlayer(),CONSUMED)){
-                            block.setType(Material.AIR);
-                            block.getState().update(true,false);
-                            AddUtils.sendMessage(event.getPlayer(),"&a已成功破坏方块");
+                            if(WorldUtils.breakVanillaBlockByPlayer(block,event.getPlayer(),false)){
+                                AddUtils.sendMessage(event.getPlayer(),"&a已成功破坏方块");
+                            }else{
+                                AddUtils.sendMessage(event.getPlayer(),"&c抱歉,您没有在这里破坏方块的权限");
+                            }
                         }else{
                             AddUtils.sendMessage(event.getPlayer(),"&c所需物品不足!");
                         }
@@ -2105,27 +2107,27 @@ public class AddSlimefunItems {
             .register();
     //final
     public static final SlimefunItem ANTIMASS=new SpreadBlock(AddGroups.BEYOND,AddItem.ANTIMASS,STARSMELTERY,
-            recipe(setC(AddItem.LOGIC_CORE,9),setC(AddItem.VIRTUAL_SPACE,64),"64ENERGIZED_CAPACITOR",setC(AddItem.PDCECDMD,64),setC(AddItem.FINAL_FRAME,3)),LOGIC_CORE,Material.COMMAND_BLOCK,Material.SCULK)
+            recipe(setC(AddItem.LOGIC_CORE,9),setC(AddItem.VIRTUAL_SPACE,64),"64ENERGIZED_CAPACITOR",setC(AddItem.PDCECDMD,64),AddItem.FINAL_FRAME),LOGIC_CORE,Material.COMMAND_BLOCK,Material.SCULK)
             .register();
     public static final  SlimefunItem FINAL_LASER=new Laser(AddGroups.BEYOND, AddItem.FINAL_LASER,COMMON_TYPE,
-            recipe(setC(AddItem.SPACE_PLATE,8),setC(AddItem.HGTLPBBI,8),setC(AddItem.TECH_CORE,4),setC(AddItem.TECH_CORE,4),setC(AddItem.HGTLPBBI,8),setC(AddItem.SPACE_PLATE,8),
-                    setC(AddItem.SPACE_PLATE,8),setC(AddItem.HGTLPBBI,8),setC(AddItem.TECH_CORE,4),setC(AddItem.TECH_CORE,4),setC(AddItem.HGTLPBBI,8),setC(AddItem.SPACE_PLATE,8),
-                    setC(AddItem.LSINGULARITY,8),setC(AddItem.LASER,64),setC(AddItem.VIRTUAL_SPACE,8),setC(AddItem.VIRTUAL_SPACE,8),setC(AddItem.LASER,64),setC(AddItem.LSINGULARITY,8),
-                    setC(AddItem.LSINGULARITY,8),setC(AddItem.LASER,64),setC(AddItem.VIRTUAL_SPACE,8),setC(AddItem.VIRTUAL_SPACE,8),setC(AddItem.LASER,64),setC(AddItem.LSINGULARITY,8),
-                    setC(AddItem.PAGOLD,16),setC(AddItem.PDCECDMD,8),setC(AddItem.LASER,64),setC(AddItem.LASER,64),setC(AddItem.PDCECDMD,8),setC(AddItem.PAGOLD,16),
-                    null,setC(AddItem.PAGOLD,16),setC(AddItem.LSINGULARITY,8),setC(AddItem.LSINGULARITY,8),setC(AddItem.PAGOLD,16),null), 8_000_000,1_200_000,"final.sub")
+            recipe(setC(AddItem.SPACE_PLATE,2),setC(AddItem.HGTLPBBI,1),setC(AddItem.TECH_CORE,4),setC(AddItem.TECH_CORE,4),setC(AddItem.HGTLPBBI,1),setC(AddItem.SPACE_PLATE,2),
+                    setC(AddItem.SPACE_PLATE,2),setC(AddItem.HGTLPBBI,1),setC(AddItem.TECH_CORE,4),setC(AddItem.TECH_CORE,4),setC(AddItem.HGTLPBBI,1),setC(AddItem.SPACE_PLATE,2),
+                    setC(AddItem.LSINGULARITY,2),setC(AddItem.LASER,2),setC(AddItem.VIRTUAL_SPACE,1),setC(AddItem.VIRTUAL_SPACE,1),setC(AddItem.LASER,2),setC(AddItem.LSINGULARITY,2),
+                    setC(AddItem.LSINGULARITY,2),setC(AddItem.LASER,2),setC(AddItem.VIRTUAL_SPACE,1),setC(AddItem.VIRTUAL_SPACE,1),setC(AddItem.LASER,2),setC(AddItem.LSINGULARITY,2),
+                    setC(AddItem.PAGOLD,4),setC(AddItem.PDCECDMD,1),setC(AddItem.LASER,2),setC(AddItem.LASER,2),setC(AddItem.PDCECDMD,1),setC(AddItem.PAGOLD,4),
+                    null,setC(AddItem.PAGOLD,4),setC(AddItem.LSINGULARITY,1),setC(AddItem.LSINGULARITY,1),setC(AddItem.PAGOLD,4),null), 8_000_000,1_200_000,"final.sub")
             .register();
     public static final SlimefunItem FINAL_BASE=new MultiPart(AddGroups.BEYOND,AddItem.FINAL_BASE,STARSMELTERY,
             recipe(setC(AddItem.LOGIC_CORE,8)),"final.base")
             .register();
     public static final SlimefunItem FINAL_ALTAR=new FinalAltarCore(AddGroups.BEYOND,AddItem.FINAL_ALTAR,STARSMELTERY,
-            recipe(setC(AddItem.HGTLPBBI,16),AddItem.FINAL_FRAME),"final.core")
+            recipe(setC(AddItem.HGTLPBBI,4),AddItem.FINAL_BASE,setC(AddItem.PDCECDMD,4)),"final.core")
             .register();
     public static final  SlimefunItem FINAL_SEQUENTIAL=new FinalSequenceConstructor(AddGroups.BEYOND, AddItem.FINAL_SEQUENTIAL,COMMON_TYPE,
             recipe(setC(AddItem.STACKFRAME,64),AddItem.PDCECDMD,AddItem.PDCECDMD,AddItem.PDCECDMD,AddItem.PDCECDMD,setC(AddItem.STACKFRAME,64),
                     AddItem.PDCECDMD,setC(AddItem.SPACE_PLATE,2),AddItem.STORAGE_SINGULARITY,AddItem.STORAGE_SINGULARITY,setC(AddItem.SPACE_PLATE,2),AddItem.PDCECDMD,
                     setC(AddItem.SPACE_PLATE,2),AddItem.LIOPORT,AddItem.SEQ_CONSTRUCTOR,AddItem.SEQ_CONSTRUCTOR,AddItem.LIOPORT,setC(AddItem.SPACE_PLATE,2),
-                    setC(AddItem.SPACE_PLATE,2),setC(AddItem.VIRTUAL_SPACE,32),setC(AddItem.LSINGULARITY,64),setC(AddItem.LSINGULARITY,64),setC(AddItem.VIRTUAL_SPACE,32),setC(AddItem.SPACE_PLATE,2),
+                    setC(AddItem.SPACE_PLATE,2),setC(AddItem.VIRTUAL_SPACE,16),setC(AddItem.LSINGULARITY,64),setC(AddItem.LSINGULARITY,64),setC(AddItem.VIRTUAL_SPACE,16),setC(AddItem.SPACE_PLATE,2),
                     AddItem.HGTLPBBI,setC(AddItem.SPACE_PLATE,2),setC(AddItem.VIRTUAL_SPACE,16),setC(AddItem.VIRTUAL_SPACE,16),setC(AddItem.SPACE_PLATE,2)
                     ,AddItem.HGTLPBBI, setC(AddItem.STACKFRAME,64),AddItem.HGTLPBBI,AddItem.HGTLPBBI,AddItem.HGTLPBBI,AddItem.HGTLPBBI,setC(AddItem.STACKFRAME,64)), AddUtils.addGlow( new ItemStack(Material.FIRE_CHARGE)),            10240,114514,
             mkMp(
@@ -2167,7 +2169,7 @@ public class AddSlimefunItems {
 
 
     public static final  SlimefunItem FINAL_CONVERTOR=new FinalConvertor(AddGroups.BEYOND, AddItem.FINAL_CONVERTOR,COMMON_TYPE,
-            recipe(AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,AddItem.FINAL_FRAME,AddItem.FINAL_FRAME,AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,
+            recipe(AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,AddItem.LOGIC_CORE,AddItem.LOGIC_CORE,AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,
                     AddItem.SPACE_PLATE,AddItem.PDCECDMD,AddItem.END_FEAT,AddItem.END_FEAT,AddItem.PDCECDMD,AddItem.SPACE_PLATE,
                     AddItem.LOGIC_CORE,AddItem.PDCECDMD,AddItem.NETHER_FEAT,AddItem.NETHER_FEAT,AddItem.PDCECDMD,AddItem.LOGIC_CORE,
                     AddItem.LOGIC_CORE,AddItem.PDCECDMD,AddItem.WORLD_FEAT,AddItem.WORLD_FEAT,AddItem.PDCECDMD,AddItem.LOGIC_CORE,

@@ -42,7 +42,7 @@ public class CommandShell {
     static {
 
         PlayerQuiteListener.addHandler((playerQuitEvent -> {
-            map.remove(playerQuitEvent.getPlayer().getUniqueId());
+            map.remove(playerQuitEvent.getUniqueId());
         }));
     }
     public static void setup(Player player,String password){
@@ -196,6 +196,9 @@ public class CommandShell {
     }
     public void runCommand(String command) {
         clear();
+        if(command.startsWith("/")){
+            command=command.substring(1);
+        }
         AddUtils.sendMessage(user,command);
         historyLogs.add(command);
         try{
