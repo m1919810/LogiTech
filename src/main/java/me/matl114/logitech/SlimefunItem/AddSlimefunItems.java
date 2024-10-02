@@ -2107,7 +2107,7 @@ public class AddSlimefunItems {
             .register();
     //final
     public static final SlimefunItem ANTIMASS=new SpreadBlock(AddGroups.BEYOND,AddItem.ANTIMASS,STARSMELTERY,
-            recipe(setC(AddItem.LOGIC_CORE,9),setC(AddItem.VIRTUAL_SPACE,64),"64ENERGIZED_CAPACITOR",setC(AddItem.PDCECDMD,64),AddItem.FINAL_FRAME),LOGIC_CORE,Material.COMMAND_BLOCK,Material.SCULK)
+            recipe(setC(AddItem.LOGIC_CORE,9),setC(AddItem.VIRTUAL_SPACE,64),"64ENERGIZED_CAPACITOR",setC(AddItem.PDCECDMD,16),AddItem.FINAL_FRAME),LOGIC_CORE,Material.COMMAND_BLOCK,Material.SCULK)
             .register();
     public static final  SlimefunItem FINAL_LASER=new Laser(AddGroups.BEYOND, AddItem.FINAL_LASER,COMMON_TYPE,
             recipe(setC(AddItem.SPACE_PLATE,2),setC(AddItem.HGTLPBBI,1),setC(AddItem.TECH_CORE,4),setC(AddItem.TECH_CORE,4),setC(AddItem.HGTLPBBI,1),setC(AddItem.SPACE_PLATE,2),
