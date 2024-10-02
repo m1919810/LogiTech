@@ -185,11 +185,6 @@ public class WorldUtils {
         try{
             EntityDamageEvent event=new EntityDamageByEntityEvent(player,entity, EntityDamageEvent.DamageCause.ENTITY_ATTACK,0.0);
             Bukkit.getPluginManager().callEvent(event);
-
-            //EntityDamageEvent event=entity.getLastDamageCause();
-    //        Debug.logger(event.getDamage());
-    //        Debug.logger(event.getEntity());
-           // Debug.logger(event.getDamageSource().getDirectEntity());
             if(event.isCancelled()){
                 return false;
             }else return true;
