@@ -135,6 +135,7 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
     public int getCraftLimit(Block b,BlockMenu inv){
         return 64;
     }
+    protected boolean USE_HISTORY=true;
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         MultiCraftingOperation currentOperation = this.processor.getOperation(b);
         ItemGreedyConsumer[] fastCraft=null;
@@ -142,7 +143,7 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
             int maxCraftlimit=getCraftLimit(b,inv);
             if(maxCraftlimit<=0)return;
             Pair<MachineRecipe,ItemGreedyConsumer[]> nextQ=CraftUtils.matchNextMultiRecipe(inv,getInputSlots(),getMachineRecipes(data),
-                    true,maxCraftlimit, Settings.SEQUNTIAL,CRAFT_PROVIDER);
+                    USE_HISTORY,maxCraftlimit, Settings.SEQUNTIAL,CRAFT_PROVIDER);
             if(nextQ==null){
                 if(inv.hasViewer()){
                     inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);

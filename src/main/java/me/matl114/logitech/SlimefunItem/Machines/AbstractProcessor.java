@@ -149,11 +149,12 @@ public abstract class AbstractProcessor extends AbstractMachine implements Machi
     public List<MachineRecipe> getMachineRecipes(){
         return this.machineRecipes;
     }
+    protected boolean USE_HISTORY=true;
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         SimpleCraftingOperation currentOperation = (SimpleCraftingOperation)this.processor.getOperation(b);
         ItemConsumer[] fastCraft=null;
         if(currentOperation==null){
-            Pair<MachineRecipe, ItemConsumer[]> nextP = CraftUtils.findNextRecipe(inv,getInputSlots(),getOutputSlots(),getMachineRecipes(),true
+            Pair<MachineRecipe, ItemConsumer[]> nextP = CraftUtils.findNextRecipe(inv,getInputSlots(),getOutputSlots(),getMachineRecipes(),USE_HISTORY
             ,Settings.SEQUNTIAL,CRAFT_PROVIDER);
             if (nextP != null) {
                 MachineRecipe next =nextP.getFirstValue();

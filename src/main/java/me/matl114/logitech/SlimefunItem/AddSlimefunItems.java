@@ -28,6 +28,7 @@ import me.matl114.logitech.SlimefunItem.Cargo.WorkBench.CargoConfigurator;
 import me.matl114.logitech.SlimefunItem.Cargo.WorkBench.ChipBiConsumer;
 import me.matl114.logitech.SlimefunItem.Cargo.WorkBench.ChipConsumer;
 import me.matl114.logitech.SlimefunItem.Items.*;
+import me.matl114.logitech.SlimefunItem.Machines.AbstractAdvancedProcessor;
 import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.*;
 import me.matl114.logitech.SlimefunItem.Machines.Electrics.*;
 import me.matl114.logitech.SlimefunItem.Machines.FinalFeature;
@@ -587,13 +588,18 @@ public class AddSlimefunItems {
                     AddItem.ABSTRACT_INGOT,AddItem. ABSTRACT_INGOT,AddItem.LENGINE,AddItem.LENGINE,AddItem. ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT),
             Material.STONE,100,12_800,
             ()->{
+
                 List<MachineRecipe> recipelist=new ArrayList<>();
                 List<MachineRecipe> rp=RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItem.getById("ELECTRIC_SMELTERY"));
                 for (MachineRecipe rps:rp){
                     recipelist.add(MachineRecipeUtils.stackFrom(0,rps.getInput(),rps.getOutput()));
                 }
                 return recipelist;
-            })
+            }){
+        {
+            this.USE_HISTORY=false;
+        }
+    }
             .register();
     public static final  SlimefunItem ENDFRAME_MACHINE=new EMachine(AddGroups.VANILLA, AddItem.ENDFRAME_MACHINE,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.PARADOX,AddItem.LENGINE,AddItem.PARADOX,
@@ -1890,7 +1896,7 @@ public class AddSlimefunItems {
                             AddUtils.getInfoShow("&f配方说明",
                                     "&7你将会在这里的配方中找到所有可以在原版工作台中合成的物品的替代卡配方",
                                     "&7其配方读取于原版合成配方",
-                                    "&7你还会找到一些由haiman添加的其他不可堆叠物品的替代卡配方",
+                                    "&a你还会找到一些由@haiman添加的其他不可堆叠物品的替代卡配方",
                                     "&7如各种桶,下界合金工具等等")
                     )
             )
@@ -2124,7 +2130,7 @@ public class AddSlimefunItems {
                     null,setC(AddItem.PAGOLD,4),setC(AddItem.LSINGULARITY,1),setC(AddItem.LSINGULARITY,1),setC(AddItem.PAGOLD,4),null), 8_000_000,1_200_000,"final.sub")
             .register();
     public static final SlimefunItem FINAL_BASE=new MultiPart(AddGroups.BEYOND,AddItem.FINAL_BASE,STARSMELTERY,
-            recipe(setC(AddItem.LOGIC_CORE,8)),"final.base")
+            recipe(setC(AddItem.LOGIC_CORE,8),AddItem.BISILVER),"final.base")
             .register();
     public static final SlimefunItem FINAL_ALTAR=new FinalAltarCore(AddGroups.BEYOND,AddItem.FINAL_ALTAR,STARSMELTERY,
             recipe(setC(AddItem.HGTLPBBI,4),AddItem.FINAL_BASE,setC(AddItem.PDCECDMD,4)),"final.core")
