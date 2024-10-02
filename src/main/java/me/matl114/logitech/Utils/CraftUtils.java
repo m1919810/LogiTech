@@ -220,6 +220,7 @@ public class CraftUtils {
         for(int i=0;i<cnt;++i) {
             result[i]=getConsumer(recipeInput[i]);
             results=result[i];
+            boolean allMatched=false;
             for(int j=0;j<len2;++j) {
                 itemCounter2=slotCounters.get(j);
                 if(itemCounter2==null)continue;
@@ -232,10 +233,13 @@ public class CraftUtils {
                 }
                 if(CraftUtils.matchItemCounter(results,itemCounter2,false)){
                     results.consume(itemCounter2);
-                    if(results.getAmount()<=0)break;
+                    if(results.getAmount()<=0){
+                        allMatched=true;
+                        break;
+                    }
                 }
             }
-            if(results.getAmount()>0){
+            if(!allMatched){
                 return null;
             }
         }
@@ -258,13 +262,16 @@ public class CraftUtils {
         ItemGreedyConsumer[] result = new ItemGreedyConsumer[cnt];
         //模拟时间加速 减少~
         maxMatchCount=calMaxCraftAfterAccelerate(maxMatchCount,recipe.getTicks());
-        int maxAmount;
+        if(maxMatchCount==0){
+            return null;
+        }
+        //int maxAmount;
         final  boolean[] visited =new boolean[len2];
         for(int i=0;i<cnt;++i) {
             ItemGreedyConsumer itemCounter=getGreedyConsumer(recipeInput[i]);
-            maxAmount=itemCounter.getAmount()*maxMatchCount;
+            //in case some idiots! put 0 in recipe
+            //maxAmount=Math.min( itemCounter.getAmount()*maxMatchCount,1);
             for(int j=0;j<len2;++j) {
-
                 ItemPusher itemCounter2=slotCounters.get(j);
                 if(itemCounter2==null)continue;
                 if(!visited[j]){
@@ -276,11 +283,11 @@ public class CraftUtils {
                 }
                 if(CraftUtils.matchItemCounter(itemCounter,itemCounter2,false)){
                     itemCounter.consume(itemCounter2);
-                    if(itemCounter.getMatchAmount()>=maxAmount)break;
+                    if(itemCounter.getStackNum()>=maxMatchCount)break;
                 }
             }
             //不够一份的量
-            if(itemCounter.getAmount()>itemCounter.getMatchAmount()){
+            if(itemCounter.getStackNum()<1){
                 return null;
             }
             result[i]=itemCounter;
