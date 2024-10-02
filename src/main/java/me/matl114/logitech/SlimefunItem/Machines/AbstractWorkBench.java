@@ -147,7 +147,7 @@ public abstract class AbstractWorkBench extends AbstractMachine {
         }
         Pair<MachineRecipe, ItemGreedyConsumer[]> outputResult=
                 CraftUtils.findNextShapedRecipe(inv,getInputSlots(),getOutputSlots(),getMachineRecipes(),
-                        limit,true,Settings.SEQUNTIAL);
+                        limit,true,Settings.SEQUNTIAL,CRAFT_PROVIDER);
         if(outputResult != null){
             if(this.energyConsumption > 0){
                 int craftTime=outputResult.getSecondValue()[0].getStackNum();

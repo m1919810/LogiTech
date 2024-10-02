@@ -1885,7 +1885,15 @@ public class AddSlimefunItems {
                     }
                 }
                 return cardRecipe;
-            })
+            }).setDisplayRecipes(
+                    Utils.list(
+                            AddUtils.getInfoShow("&f配方说明",
+                                    "&7你将会在这里的配方中找到所有可以在原版工作台中合成的物品的替代卡配方",
+                                    "&7其配方读取于原版合成配方",
+                                    "&7你还会找到一些由haiman添加的其他不可堆叠物品的替代卡配方",
+                                    "&7如各种桶,下界合金工具等等")
+                    )
+            )
             .register();
 
 

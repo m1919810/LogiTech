@@ -1219,7 +1219,7 @@ public class CraftUtils {
      }
      **/
 
-    public static int matchShapedRecipe(ItemStack[] input,MachineRecipe recipe,int limit){
+    public static int matchShapedRecipe(ItemPusher[] input,MachineRecipe recipe,int limit){
         ItemStack[] recipeInput=recipe.getInput();
         int len=input.length;
         int len2=recipeInput.length;
@@ -1231,7 +1231,7 @@ public class CraftUtils {
                     continue;
                 }else return 0;
             }
-            else if(!matchItemStack(input[i],recipeInput[i],false)) return 0;
+            else if(!matchItemStack(recipeInput[i],input[i],false)) return 0;
             else{
                 max=Math.min(max,input[i].getAmount()/recipeInput[i].getAmount());
             }
@@ -1244,7 +1244,7 @@ public class CraftUtils {
 //    }
 
     public static Pair<MachineRecipe,ItemGreedyConsumer[]> findNextShapedRecipe(BlockMenu inv,int[] inputs,int[] outputs,
-                                                                                List<MachineRecipe> recipes,int limit,boolean useHistory,Settings order){
+                                                                                List<MachineRecipe> recipes,int limit,boolean useHistory,Settings order,ItemPusherProvider pusher){
         int delta;
         switch(order){
             case REVERSE:delta=-1;break;
@@ -1252,9 +1252,10 @@ public class CraftUtils {
             default: delta=1;break;
         }
         int len = inputs.length;
-        ItemStack[] inputItem=new ItemStack[len];
+        ItemPusher[] inputItem=new ItemPusher[len];
+        IntFunction<ItemPusher> inputSlotInstance=pusher.getMenuInstance(Settings.INPUT,inv,inputs);
         for(int i=0;i<len;++i){
-            inputItem[i]=inv.getItemInSlot(inputs[i]);
+            inputItem[i]=inputSlotInstance.apply(i);
         }
         //end before anything
         if(len==0)return null;
@@ -1275,7 +1276,7 @@ public class CraftUtils {
             int finalAmount=craftAmount;
             ItemGreedyConsumer[] outputCounters=null;
             if(outputs.length!=0){
-                outputCounters=countMultiOutput(new ItemGreedyConsumer[]{},inv,outputs,checkRecipe,craftAmount);
+                outputCounters=countMultiOutput(new ItemGreedyConsumer[]{},inv,outputs,checkRecipe,craftAmount,pusher);
                 if(outputCounters!=null)
                     finalAmount=outputCounters[0].getStackNum();
                 else return null;
@@ -1283,12 +1284,15 @@ public class CraftUtils {
             ItemStack[] recipeInput=checkRecipe.getInput();
             int len2=recipeInput.length;
             for(int i=0;i<len2;++i){
-                if(inputItem[i]!=null)
+                if(inputItem[i]!=null){
                     inputItem[i].setAmount(inputItem[i].getAmount()-finalAmount*recipeInput[i].getAmount());
+                    inputItem[i].updateMenu(inv);
+                }
             }
             if(useHistory) {
                 DataCache.setLastRecipe(inv.getLocation(),__iter);
             }
+
             return new Pair<>(checkRecipe,outputCounters);
         }
         __iter+=delta;
@@ -1299,7 +1303,7 @@ public class CraftUtils {
                 int finalAmount=craftAmount;
                 ItemGreedyConsumer[] outputCounters=null;
                 if(outputs.length!=0){
-                    outputCounters=countMultiOutput(new ItemGreedyConsumer[]{},inv,outputs,checkRecipe,craftAmount);
+                    outputCounters=countMultiOutput(new ItemGreedyConsumer[]{},inv,outputs,checkRecipe,craftAmount,pusher);
                     if(outputCounters!=null)
                         finalAmount=outputCounters[0].getStackNum();
                     else return null;
@@ -1307,8 +1311,10 @@ public class CraftUtils {
                 ItemStack[] recipeInput=checkRecipe.getInput();
                 int len2=recipeInput.length;
                 for(int i=0;i<len2;++i){
-                    if(inputItem[i]!=null)
+                    if(inputItem[i]!=null){
                         inputItem[i].setAmount(inputItem[i].getAmount()-finalAmount*recipeInput[i].getAmount());
+                        inputItem[i].updateMenu(inv);
+                    }
                 }
                 if(useHistory) {
                     DataCache.setLastRecipe(inv.getLocation(),__iter);
@@ -1328,7 +1334,7 @@ public class CraftUtils {
                 int finalAmount=craftAmount;
                 ItemGreedyConsumer[] outputCounters=null;
                 if(outputs.length!=0){
-                    outputCounters=countMultiOutput(new ItemGreedyConsumer[]{},inv,outputs,checkRecipe,craftAmount);
+                    outputCounters=countMultiOutput(new ItemGreedyConsumer[]{},inv,outputs,checkRecipe,craftAmount,pusher);
                     if(outputCounters!=null)
                         finalAmount=outputCounters[0].getStackNum();
                     else return null;
@@ -1336,8 +1342,10 @@ public class CraftUtils {
                 ItemStack[] recipeInput=checkRecipe.getInput();
                 int len2=recipeInput.length;
                 for(int i=0;i<len2;++i){
-                    if(inputItem[i]!=null)
+                    if(inputItem[i]!=null){
                         inputItem[i].setAmount(inputItem[i].getAmount()-finalAmount*recipeInput[i].getAmount());
+                        inputItem[i].updateMenu(inv);
+                    }
                 }
                 if(useHistory) {
                     DataCache.setLastRecipe(inv.getLocation(),__iter);
