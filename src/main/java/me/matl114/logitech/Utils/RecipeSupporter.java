@@ -18,6 +18,7 @@ import me.matl114.logitech.ConfigLoader;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.SlimefunItem.AddDepends;
 import me.matl114.logitech.SlimefunItem.AddItem;
+import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.MultiBlockProcessor;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiCore;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
@@ -203,7 +204,97 @@ public class RecipeSupporter {
     public static final HashMap<MultiBlockMachine,List<MachineRecipe>> MULTIBLOCK_RECIPES = new LinkedHashMap<>();
 
     public static final HashMap<EntityType,ItemStack[]> ENTITY_DROPLIST=new LinkedHashMap<>();
+    public static final List<MachineRecipe> UNUSTACKABLE_ITEM_RECIPES=new ArrayList<>(){{
+        // 桶
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("BUCKET",null,null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.WATER_BUCKET))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe(null,"BUCKET",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.LAVA_BUCKET))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe(null,null,"BUCKET",null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.MILK_BUCKET))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe(null,null,null,"BUCKET",null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.POWDER_SNOW_BUCKET))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("BUCKET","BUCKET",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.COD_BUCKET))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("BUCKET",null,"BUCKET",null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.SALMON_BUCKET))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("BUCKET",null,null,"BUCKET",null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.TROPICAL_FISH_BUCKET))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("BUCKET",null,null,null,"BUCKET",null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.PUFFERFISH_BUCKET))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("BUCKET",null,null,null,null,"BUCKET",null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.AXOLOTL_BUCKET))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("BUCKET",null,null,null,null,null,"BUCKET",null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.TADPOLE_BUCKET))));
 
+        // 下界合金
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("NETHERITE_INGOT","NETHERITE_UPGRADE_SMITHING_TEMPLATE","DIAMOND_SWORD",null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.NETHERITE_SWORD))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("NETHERITE_INGOT","NETHERITE_UPGRADE_SMITHING_TEMPLATE","DIAMOND_SHOVEL",null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.NETHERITE_SHOVEL))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("NETHERITE_INGOT","NETHERITE_UPGRADE_SMITHING_TEMPLATE","DIAMOND_PICKAXE",null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.NETHERITE_PICKAXE))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("NETHERITE_INGOT","NETHERITE_UPGRADE_SMITHING_TEMPLATE","DIAMOND_AXE",null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.NETHERITE_AXE))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("NETHERITE_INGOT","NETHERITE_UPGRADE_SMITHING_TEMPLATE","DIAMOND_HOE",null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.NETHERITE_HOE))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("NETHERITE_INGOT","NETHERITE_UPGRADE_SMITHING_TEMPLATE","DIAMOND_HELMET",null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.NETHERITE_HELMET))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("NETHERITE_INGOT","NETHERITE_UPGRADE_SMITHING_TEMPLATE","DIAMOND_CHESTPLATE",null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.NETHERITE_CHESTPLATE))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("NETHERITE_INGOT","NETHERITE_UPGRADE_SMITHING_TEMPLATE","DIAMOND_LEGGINGS",null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.NETHERITE_LEGGINGS))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("NETHERITE_INGOT","NETHERITE_UPGRADE_SMITHING_TEMPLATE","DIAMOND_BOOTS",null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.NETHERITE_BOOTS))));
+
+        // 唱片
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("MUSIC_DISC_13",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.MUSIC_DISC_13))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("MUSIC_DISC_CAT",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.MUSIC_DISC_CAT))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("MUSIC_DISC_BLOCKS",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.MUSIC_DISC_BLOCKS))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("MUSIC_DISC_CHIRP",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.MUSIC_DISC_CHIRP))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("MUSIC_DISC_FAR",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.MUSIC_DISC_FAR))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("MUSIC_DISC_MALL",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.MUSIC_DISC_MALL))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("MUSIC_DISC_MELLOHI",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.MUSIC_DISC_MELLOHI))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("MUSIC_DISC_STAL",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.MUSIC_DISC_STAL))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("MUSIC_DISC_STRAD",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.MUSIC_DISC_STRAD))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("MUSIC_DISC_WARD",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.MUSIC_DISC_WARD))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("MUSIC_DISC_11",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.MUSIC_DISC_11))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("MUSIC_DISC_WAIT",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.MUSIC_DISC_WAIT))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("MUSIC_DISC_PIGSTEP",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.MUSIC_DISC_PIGSTEP))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("MUSIC_DISC_OTHERSIDE",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.MUSIC_DISC_OTHERSIDE))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("MUSIC_DISC_RELIC",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.MUSIC_DISC_RELIC))));
+
+        // 旗帜图案
+
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("GLOBE_BANNER_PATTERN",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.GLOBE_BANNER_PATTERN))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("PIGLIN_BANNER_PATTERN",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.PIGLIN_BANNER_PATTERN))));
+
+        // 潜影盒
+
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("SHULKER_BOX","WHITE_DYE",null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.WHITE_SHULKER_BOX))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("SHULKER_BOX","ORANGE_DYE",null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.ORANGE_SHULKER_BOX))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("SHULKER_BOX","MAGENTA_DYE",null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.MAGENTA_SHULKER_BOX))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("SHULKER_BOX","LIGHT_BLUE_DYE",null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.LIGHT_BLUE_SHULKER_BOX))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("SHULKER_BOX","YELLOW_DYE",null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.YELLOW_SHULKER_BOX))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("SHULKER_BOX","LIME_DYE",null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.LIME_SHULKER_BOX))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("SHULKER_BOX","PINK_DYE",null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.PINK_SHULKER_BOX))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("SHULKER_BOX","GRAY_DYE",null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.GRAY_SHULKER_BOX))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("SHULKER_BOX","LIGHT_GRAY_DYE",null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.LIGHT_GRAY_SHULKER_BOX))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("SHULKER_BOX","CYAN_DYE",null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.CYAN_SHULKER_BOX))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("SHULKER_BOX","PURPLE_DYE",null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.PURPLE_SHULKER_BOX))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("SHULKER_BOX","BLUE_DYE",null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.BLUE_SHULKER_BOX))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("SHULKER_BOX","BROWN_DYE",null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.BROWN_SHULKER_BOX))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("SHULKER_BOX","GREEN_DYE",null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.GREEN_SHULKER_BOX))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("SHULKER_BOX","RED_DYE",null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.RED_SHULKER_BOX))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("SHULKER_BOX","BLACK_DYE",null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.BLACK_SHULKER_BOX))));
+
+        // 其它装备
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("TRIDENT",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.TRIDENT))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("TOTEM_OF_UNDYING",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.TOTEM_OF_UNDYING))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("IRON_HORSE_ARMOR",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.IRON_HORSE_ARMOR))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("GOLDEN_HORSE_ARMOR",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.GOLDEN_HORSE_ARMOR))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("DIAMOND_HORSE_ARMOR",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.DIAMOND_HORSE_ARMOR))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("ELYTRA",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.ELYTRA))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("SADDLE",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.SADDLE))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("ENCHANTED_BOOK",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.ENCHANTED_BOOK))));
+
+        // 杂类
+
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("SNOWBALL",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.SNOWBALL))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("EGG",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.EGG))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("ENDER_PEARL",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.ENDER_PEARL))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("WRITTEN_BOOK",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.WRITTEN_BOOK))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("HONEY_BOTTLE",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.HONEY_BOTTLE))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("DEBUG_STICK",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.DEBUG_STICK))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("COMMAND_BLOCK_MINECART",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.COMMAND_BLOCK_MINECART))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("KNOWLEDGE_BOOK",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.KNOWLEDGE_BOOK))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("GOAT_HORN",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.GOAT_HORN))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("POTION",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.POTION))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("SPLASH_POTION",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.SPLASH_POTION))));
+        add(MachineRecipeUtils.shapeFrom(-1,Utils.recipe("LINGERING_POTION",null,null,null,null,null,null,null),Utils.recipe(AddSlimefunItems.REPLACE_CARD.getReplaceCard(Material.LINGERING_POTION))));
+
+    }};
     //注册为可识别icon的
     public static final HashMap<RecipeType,ItemStack> RECIPETYPE_ICON=new LinkedHashMap<>();
     //堆叠机器黑名单
