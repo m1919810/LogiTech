@@ -172,7 +172,7 @@ public class AddSlimefunItems {
     public static final SlimefunItem BUG= new MaterialItem(AddGroups.MATERIAL,AddItem.BUG,RecipeType.NULL,
             nullRecipe(),list(AddUtils.getInfoShow("&f获取方式","&7会出现在一些隐蔽地方...",
             "&7当你出现疑问,为什么这个物品找不到时",
-            "你可能需要多看看\"的版本与说明\"分类(物理意义)")))
+            "你可能需要多看看\"逻辑工艺 版本与说明\"分类(物理意义)")))
             .register();
 
     public static final SlimefunItem TRUE=new MaterialItem(AddGroups.MATERIAL,AddItem.TRUE_,RecipeType.NULL,

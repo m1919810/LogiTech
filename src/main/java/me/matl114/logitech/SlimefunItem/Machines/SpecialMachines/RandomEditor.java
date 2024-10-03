@@ -6,20 +6,17 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Blocks.Laser;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.FinalAltarCore;
-import me.matl114.logitech.SlimefunItem.Items.EntityFeat;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.SlimefunItem.Machines.FinalFeature;
 import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.RandOutItem;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.RandomItemStack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Material;
-import org.bukkit.Tag;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
@@ -64,31 +61,34 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
     public RandomEditor(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                           int energybuffer, int energyConsumption){
         super(category, item, recipeType, recipe, energybuffer, energyConsumption);
-        ItemStack resultDisplay=new ItemStack(Material.DIAMOND_SWORD);
-        ItemMeta meta=resultDisplay.getItemMeta();
-        for(Enchantment enchantment:registeredEnchantments){
-            meta.addEnchant(enchantment,1145,true);
-        }
-        for(Attribute attribute:registeredAttributes){
-            meta.addAttributeModifier(attribute,new AttributeModifier(UUID.randomUUID(),AddUtils.concat(PREFIX,attribute.getKey().getKey()),1145.0d, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
-        }
-        meta.setDisplayName(AddUtils.resolveColor(AddUtils.color("展示物品")));
-        resultDisplay.setItemMeta(meta);
-        this.setDisplayRecipes(
-                Utils.list(
-                        AddUtils.getInfoShow("&f机制 - &c充能",
-                                "&7当置于贰级终极祭坛上时",
-                                "&7且机器被终极祭坛结构中的所有宏激光发射器充能时",
-                                "&7即终极祭坛中四个宏激光发射器分别位于四个壹级以上终极祭坛上时",
-                                "&7机器激活,进行运转"
-                        ),null,
-                        AddUtils.getInfoShow("&f机制 - &c量化升级",
-                                "&7每次运行机器会对所有槽位的物品进行升级",
-                                "&7每次随机选择一种附魔/属性增幅",
-                                "&7并将该物品的该项数值提示随机1~%d".formatted(MAX_UPGRADE_ONE_TIME),
-                                "&7下面是所有可能的升级展示"),resultDisplay
-                )
+        SchedulePostRegister.addPostRegisterTask(()->{
+            ItemStack resultDisplay=new ItemStack(Material.DIAMOND_SWORD);
+            ItemMeta meta=resultDisplay.getItemMeta();
+            for(Enchantment enchantment:getRegisteredEnchantments()){
+                meta.addEnchant(enchantment,1145,true);
+            }
+            for(Attribute attribute:registeredAttributes){
+                meta.addAttributeModifier(attribute,new AttributeModifier(UUID.randomUUID(),AddUtils.concat(PREFIX,attribute.getKey().getKey()),1145.0d, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
+            }
+            meta.setDisplayName(AddUtils.resolveColor(AddUtils.color("展示物品")));
+            resultDisplay.setItemMeta(meta);
+            this.setDisplayRecipes(
+                    Utils.list(
+                            AddUtils.getInfoShow("&f机制 - &c充能",
+                                    "&7当置于贰级终极祭坛上时",
+                                    "&7且机器被终极祭坛结构中的所有宏激光发射器充能时",
+                                    "&7即终极祭坛中四个宏激光发射器分别位于四个壹级以上终极祭坛上时",
+                                    "&7机器激活,进行运转"
+                            ),null,
+                            AddUtils.getInfoShow("&f机制 - &c量化升级",
+                                    "&7每次运行机器会对所有槽位的物品进行升级",
+                                    "&7每次随机选择一种附魔/属性增幅",
+                                    "&7并将该物品的该项数值提示随机1~%d".formatted(MAX_UPGRADE_ONE_TIME),
+                                    "&7下面是所有可能的升级展示"),resultDisplay
+                    )
+            );}
         );
+
     }
     public void constructMenu(BlockMenuPreset preset){
         preset.setSize(54);
@@ -129,10 +129,10 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
 
     }
     private Random rand=new Random();
-    protected static Enchantment[] registeredEnchantments=Enchantment.values();
+    protected static Enchantment[] registeredEnchantments;
     protected static Attribute[] registeredAttributes=Attribute.values();
     protected static EquipmentSlot[] equipmentSlots=EquipmentSlot.values();
-    protected static int totalAmount=registeredEnchantments.length+registeredAttributes.length;
+    protected static int totalAmount;
     protected static String PREFIX="re";
     protected static Field amountField=null;
     protected static boolean getAmountField=false;
@@ -140,6 +140,13 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
     protected final static HashSet<Material> CHESTPLATE_MATERIALS=new HashSet<>();
     protected final static HashSet<Material> LEGGINGS_MATERIALS=new HashSet<>();
     protected final static HashSet<Material> BOOTS_MATERIALS=new HashSet<>();
+    public Enchantment[] getRegisteredEnchantments(){
+        if(registeredEnchantments==null||registeredEnchantments.length==0){
+            registeredEnchantments=Enchantment.values();
+            totalAmount=registeredEnchantments.length+registeredAttributes.length;
+        }
+        return registeredEnchantments;
+    }
     static{
         try{
             amountField= ReflectUtils.getDeclaredFieldsRecursively(AttributeModifier.class,"amount").getFirstValue();
@@ -192,7 +199,7 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
             return (randIndex%2==0)?EquipmentSlot.HAND:EquipmentSlot.OFF_HAND;
         }
     }
-    public void randomEditor(ItemMeta meta,Material material){
+    public void randomEdit(ItemMeta meta, Material material){
         int index=rand.nextInt(totalAmount);
         int upgrade=rand.nextInt(MAX_UPGRADE_ONE_TIME)+1;
         if(index<registeredEnchantments.length){
@@ -202,7 +209,7 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
         }else {
             index=index-registeredEnchantments.length;
             Attribute att=registeredAttributes[index];
-            EquipmentSlot slot=getRandAttributeModifierSlots(material,index);
+            EquipmentSlot slot=getRandAttributeModifierSlots(material,rand.nextInt(10));
             Collection< AttributeModifier> modifiers=meta.getAttributeModifiers(att);
             boolean hasFind=false;
             if(modifiers!=null){
@@ -237,7 +244,7 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
                     continue;
                 }else {
                     ItemMeta meta=it.getItemMeta();
-                    randomEditor(meta,it.getType());
+                    randomEdit(meta,it.getType());
                     it.setItemMeta(meta);
                 }
             }

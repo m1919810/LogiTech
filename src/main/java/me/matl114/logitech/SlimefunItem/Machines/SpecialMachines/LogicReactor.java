@@ -61,14 +61,15 @@ public class LogicReactor extends AbstractProcessor {
                                 "&7这些槽位用于输入布尔组件,即 %s 和 %s".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),
                                 "&7只有这些槽位的物品满足一定机制时,合成才会尝试进行"),null,
                         AddUtils.getInfoShow("&f机制",
-                                "&7机器还有一个&c正常输入槽&7和&e正常输出槽&7,分别位于第三排的&e左侧&7和&e右侧空格,分别用于输入 [%s]和输出产物 ".formatted(Language.get("Items.LOGIGATE.Name")),
-                                "&7当机器为空闲,四对布尔输入槽&c非空&7且满足右侧某个输入条件时",
+                                "&7机器还有一个&c正常输入槽&7和&e正常输出槽&7,分别位于第三排的&e左侧&7和&e右侧空格,分别用于输入所需的 [%s] 和输出产物 ".formatted(Language.get("Items.LOGIGATE.Name")),
+                                "&7机器中间一个开关,用于调控机器是否会进行合成进程,当点击关闭时,当前进程将被强制终止",
+                                "&7当机器为开启状态且为空闲,四对布尔输入槽&c非空&7且满足右侧某个输入条件时",
                                 "&7才会尝试&e消耗&7正常输入槽内的 [%s] 进行合成".formatted(Language.get("Items.LOGIGATE.Name")),
                                 "&7警告:当机器尝试匹配输入条件进行合成时,四对布尔输入槽内的物品会被&c清空&7!",
                                 "&7指示:当机器在合成进程中运行时,四对布尔输入槽内的物品不会被&c清空!",
                                 "&7指示:不过玩家使用普通货运输入时,布尔槽位只会被输入布尔组件",
                                 "&7指示:你可以关闭机器来停止布尔组件的消耗"
-                        ),null
+                        ),AddItem.LOGIGATE
 
                 )
         );
