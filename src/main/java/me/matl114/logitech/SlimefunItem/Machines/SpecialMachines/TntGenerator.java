@@ -2,6 +2,7 @@ package me.matl114.logitech.SlimefunItem.Machines.SpecialMachines;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
@@ -74,14 +75,21 @@ public class TntGenerator extends AbstractMachine {
             try{
                 isWorking=true;
                 Location location;
+
                 for(Map.Entry<Chunk,ConcurrentHashMap<Location,BlockMenu>> sss:INSTANCES.entrySet()){
                     Chunk chunk=sss.getKey();
                     if (!chunk.isLoaded()){
                         continue;
                     }
-                    for (Map.Entry<Location,BlockMenu> e:sss.getValue().entrySet()){
+                    var iterator=sss.getValue().entrySet().iterator();
+                    while (iterator.hasNext()){
+                        Map.Entry<Location,BlockMenu> e=iterator.next();
                         location=e.getKey();
                         BlockMenu inv=e.getValue();
+                        SlimefunItem item=DataCache.getSfItem(location);
+                        if(item==null){
+                            iterator.remove();
+                        }
                         ItemStack it=inv.getItemInSlot(START_SLOT);
                         if(it==null||it.getType()!=Material.GREEN_STAINED_GLASS_PANE){
                             continue;
@@ -103,6 +111,8 @@ public class TntGenerator extends AbstractMachine {
                                        }
                                     },0,true,0);
                                 }
+                            }else{
+                                iterator.remove();
                             }
                         }else {
                             dh.setInt(3,tick);

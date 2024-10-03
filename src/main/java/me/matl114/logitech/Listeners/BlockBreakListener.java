@@ -14,6 +14,7 @@ public class BlockBreakListener implements Listener {
     public void onBlockBreak1(BlockBreakEvent e) {
         e.setCancelled(true);
         Debug.logger("lowest called");
+        Debug.logger(e.getPlayer().getEquipment().getItemInMainHand().getType().toString());
     }
     @EventHandler(priority = EventPriority.LOW)
     public void onBlockBreak2(BlockBreakEvent e) {

@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
@@ -317,4 +318,19 @@ public class WorldUtils {
             return true;
         }else return false;
     }
+
+
+    public static void forceLoadChunk(Location loc,int tick){
+        int dx=loc.getBlockX()>>4;
+        int dz=loc.getBlockZ()>>4;
+        World world=loc.getWorld();
+        Chunk chunk=world.getChunkAt(dx,dz);
+        final boolean isForceload=chunk.isForceLoaded();
+        chunk.setForceLoaded(true);
+        Schedules.launchSchedules(()->{
+            chunk.setForceLoaded(isForceload);
+        },tick,true,0);
+    }
+
+
 }

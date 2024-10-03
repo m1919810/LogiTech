@@ -1,5 +1,6 @@
 package me.matl114.logitech.Listeners.Listeners;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.PortalCore;
@@ -8,6 +9,7 @@ import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlock;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
+import me.matl114.logitech.Utils.WorldUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -39,14 +41,27 @@ public class PortalTeleport implements Listener {
             if (it instanceof PortalCore) {
                 Location dst = ((PortalCore) it).checkLink(loc);
                 Player player = event.getPlayer();
-                if (dst != null&&MultiBlockService.safeGetStatus(dst)!=0) {
 
-                    player.setPortalCooldown(60);
-                    player.teleport(dst.clone().add(0.5, 1, 0.5));
-                    AddUtils.sendMessage(player, "&a传送成功!");
+                if(dst!=null&&DataCache.getSfItem(dst) instanceof PortalCore pc){
+                    SlimefunBlockData data=DataCache.safeLoadBlock(dst);
+                    if(data!=null){
+                        if (MultiBlockService.getStatus(data)!=0) {
 
-                } else {
-                    AddUtils.sendMessage(player, "&c目标传送门未启用或正在区块加载中!请重进2-3次或者检查对面传送门结构是否完整");
+                            player.setPortalCooldown(60);
+                            player.teleport(dst.clone().add(0.5, 1, 0.5));
+                            AddUtils.sendMessage(player, "&a传送成功!");
+
+                        } else {
+                            AddUtils.sendMessage(player, "&c目标传送门未启用!");
+                        }
+                    }else {
+                        AddUtils.sendMessage(player, "&c目标传送门正在随区块加载构建中!请重进2-3次");
+                        WorldUtils.forceLoadChunk(dst,60);
+                    }
+
+                }else{
+                    AddUtils.sendMessage(player, "&c目标传送门已损坏,请检查对面传送门结构是否完整");
+
                 }
                 player.setPortalCooldown(60);
                 event.setCancelled(true);
