@@ -213,7 +213,7 @@ public class TntGenerator extends AbstractMachine {
             }else {
                 menu.replaceExistingItem(START_SLOT,START_ITEM_OFF);
             }
-            menu.getLocation().getBlock().getState().update(true,false);
+            menu.getLocation().getBlock().getState().update(true,true);
             return false;
         }));
         menu.replaceExistingItem(ADJUSTMENT_SLOT,getAdjustmentDisplay(dh));

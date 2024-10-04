@@ -193,9 +193,24 @@ public class MathUtils {
         return (code&POW[pos])==0?0:1;
     }
     public static int bitCount(int code,int to){
-        code=maskToN(code,to);
-        int tmp = code - ((code >>1) &033333333333) - ((code >>2) &011111111111);
-        return ((tmp + (tmp >>3)) &030707070707) %63;
+        int n=maskToN(code,to);
+        n = n - ((n >> 1) & 0x55555555);	// 1
+        n = (n & 0x33333333) + ((n >> 2) & 0x33333333);	// 2
+        n = (n + (n >> 4)) & 0x0f0f0f0f;	// 3
+        n = n + (n >> 8);	// 4
+        n = n + (n >> 16);	// 5
+        return n & 0x3f;	// 6
+//        int tmp = code - ((code >>1) &0333_3333_3333) - ((code >>2) &011111111111);
+//        return ((tmp + (tmp >>3)) &030707070707) %63;
+    }
+    public static int bitCountStupid(int code,int to){
+        int n=maskToN(code,to);
+        int count=0;
+        for(int i=0;i<32;++i){
+            count+=code&1;
+            code=code>>1;
+        }
+        return count;
     }
     public static int fromLong(@Nonnull Long a){
         if(a>Integer.MAX_VALUE){

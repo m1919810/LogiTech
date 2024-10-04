@@ -314,7 +314,7 @@ public class WorldUtils {
             }
             event.setDropItems(withDrop);
             block.setType(Material.AIR);
-            block.getState().update(true,false);
+            block.getState().update(true,true);
             return true;
         }else return false;
     }
