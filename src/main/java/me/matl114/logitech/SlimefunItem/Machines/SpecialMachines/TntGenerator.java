@@ -205,7 +205,7 @@ public class TntGenerator extends AbstractMachine {
         dh.setInt(2,delay);
         dh.setInt(3,0);
         if(menu.getItemInSlot(START_SLOT)==null){
-            menu.replaceExistingItem(START_SLOT,START_ITEM_OFF);
+            menu.replaceExistingItem(START_SLOT,START_ITEM_ON);
         }
         menu.addMenuClickHandler(START_SLOT,((player, i, itemStack, clickAction) -> {
             if(itemStack!=null&&itemStack.getType()!=Material.GREEN_STAINED_GLASS_PANE){
@@ -213,7 +213,7 @@ public class TntGenerator extends AbstractMachine {
             }else {
                 menu.replaceExistingItem(START_SLOT,START_ITEM_OFF);
             }
-            menu.getLocation().getBlock().getState().update(true,true);
+            menu.getLocation().getBlock().setBlockData(menu.getLocation().getBlock().getBlockData(),true); //   .getState().update(true,true);
             return false;
         }));
         menu.replaceExistingItem(ADJUSTMENT_SLOT,getAdjustmentDisplay(dh));

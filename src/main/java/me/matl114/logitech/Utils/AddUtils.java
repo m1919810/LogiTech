@@ -713,7 +713,7 @@ public class AddUtils {
         ItemStack incoming;
         int maxSize=toGive.getMaxStackSize();
         while(amount>0) {
-            incoming = toGive.clone();
+            incoming = new ItemStack(toGive);
             int amount2=Math.min(maxSize, amount);
             incoming.setAmount(amount2);
             amount-=amount2;

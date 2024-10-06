@@ -12,14 +12,14 @@ import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.WorldUtils;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
 
 import java.util.*;
@@ -27,10 +27,36 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
 public class LaserGun extends ChargableProps{
+    protected final NamespacedKey LEVEL_KEY=AddUtils.getNameKey("laser-lvl");
+    protected final String LEVEL_PREFIX= AddUtils.resolveColor("&x&E&B&3&3&E&B发射器功率: &a");
+    protected final int getLevel(ItemMeta meta){
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        if(container.has(LEVEL_KEY, PersistentDataType.INTEGER)){
+            return container.get(LEVEL_KEY, PersistentDataType.INTEGER);
+        }else {
+            return 0;
+        }
+    }
+    protected final void setLevel(ItemMeta meta, int level){
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        container.set(LEVEL_KEY, PersistentDataType.INTEGER, level);
+        List<String> lores=meta.getLore();
+        if(lores.size()>1){
+            lores.set(lores.size()-2, AddUtils.concat(LEVEL_PREFIX,"第",String.valueOf(level+1),"档/共",String.valueOf(MAX_LEVEL),"档"));
+        }
+        meta.setLore(lores);
+    }
+    protected final int MAX_LEVEL=5;
     public LaserGun(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe){
         super(itemGroup, item, recipeType, recipe);
     }
-    float MAX_BUFFER=1296000.0F;
+    public void addInfo(ItemStack stack){
+        super.addInfo(stack);
+        ItemMeta meta=stack.getItemMeta();
+        setLevel(meta,0);
+        stack.setItemMeta(meta);
+    }
+    float MAX_BUFFER=9_999_999.0F;
     float CONSUMPTION=640.0F;
     @Override
     public float getMaxItemCharge(ItemStack var1) {
@@ -45,8 +71,20 @@ public class LaserGun extends ChargableProps{
         if(p==null||stack==null){
             return;
         }
-        onLaser(p,stack,false,true);
+        if(!p.isSneaking()){
+            onLaser(p,stack,false,true);
+        }else{
+            onLaserLevelAdd(p,stack);
+        }
 
+    }
+    public void onLaserLevelAdd(Player p,ItemStack stack){
+        ItemMeta meta=stack.getItemMeta();
+        int level=getLevel(meta);
+        level=(level+1)%MAX_LEVEL;
+        setLevel(meta,level);
+        stack.setItemMeta(meta);
+        AddUtils.sendMessage(p,"&a激光发射器功率切换成功.当前为 &6第%d档".formatted(level+1));
     }
     public void onLaser(Player p,ItemStack stack,boolean onHead,boolean withWarning){
         if(PLAYERCOOLDOWN.contains(p)){
@@ -56,11 +94,13 @@ public class LaserGun extends ChargableProps{
             return;
         }
         float charge=getItemCharge(stack);
-        if(charge>=CONSUMPTION){
+        int level =getLevel(stack.getItemMeta());
+        float consumption=CONSUMPTION*((float)Math.pow(10,level));
+        if(charge>=consumption){
             //setItemCharge(stack,);
             if(canUse(p,withWarning)){
-                setItemCharge(stack,charge-CONSUMPTION);
-                launchLaser(p,onHead);
+                setItemCharge(stack,charge-consumption);
+                launchLaser(p,level,onHead);
                 PLAYERCOOLDOWN.add(p);
                 Schedules.launchSchedules(()->{
                     PLAYERCOOLDOWN.remove(p);
@@ -68,16 +108,17 @@ public class LaserGun extends ChargableProps{
 
             }
         }else {
-            if(withWarning){
-                AddUtils.sendMessage(p,AddUtils.concat("&c电力不足! ",String.valueOf(charge),"J/",String.valueOf(CONSUMPTION),"J"));
-            }
+            //if(withWarning){
+                AddUtils.sendMessage(p,AddUtils.concat("&c电力不足! ",String.valueOf(charge),"J/",String.valueOf(consumption),"J"));
+            //}
         }
     }
-    public void launchLaser(Player p,boolean fromEye){
-        Location loc=p.getEyeLocation().clone();
+    public void launchLaser(Player p,int level,boolean fromEye){
+        Location loc;
         if(!fromEye){
-            Location playerLocation=p.getLocation();
-            loc.add(playerLocation.subtract(loc).multiply(0.25).toVector());
+            loc=WorldUtils.getHandLocation(p);
+        }else {
+            loc=p.getEyeLocation();
         }
         final Pair<Integer,Location> endLocaion=WorldUtils.rayTraceLocation(p.getLocation().getDirection(), loc, 0.25, 100, new Predicate<Location>() {
             HashSet<Location> testHistory=new HashSet<>();
@@ -106,14 +147,14 @@ public class LaserGun extends ChargableProps{
                                     hasTarget=true;
 
                                     if(WorldUtils.testAttackPermission(p,player)){
-                                        PlayerEffects.grantEffect(CustomEffects.LASER,player,6,1);
+                                        PlayerEffects.grantEffect(CustomEffects.LASER,player,4*(level+1),1);
                                     }
                                 }
                             }else {
                                 if(entity instanceof Damageable le){
                                     hasTarget=true;
                                     if(WorldUtils.testAttackPermission(p,le)){
-                                        le.damage(100,p);
+                                        le.damage(100*(level+1),p);
                                     }
                                 }
                             }

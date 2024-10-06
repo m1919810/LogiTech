@@ -303,6 +303,13 @@ public class AddGroups {
                     "&7增加破基岩棒",
                     "&7修复逻辑反应堆槽位提供异常",
                     ""));
+            factory.addInventory(16,AddUtils.getInfoShow("&f2024.?",
+                    "&7修复部分bug,虽然忘了修了啥了",
+                    "&7增加了激光发射器 进阶版",
+                    "&7增加桃花飞针",
+                    "&7增加更多的赤石道具",
+                    "&7更新啥了忘了"
+            ));
         }
 
         @Override

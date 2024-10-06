@@ -138,6 +138,7 @@ public class SpreadBlock extends AbstractBlock implements Ticking {
     public void onPlace(BlockPlaceEvent e, Block b) {
         SPREAD_PLAYER.put(b.getLocation(), e.getPlayer());
         SPREAD_TICKER.put(b.getLocation(),LIFE_DEFAULT);
+        b.setType(SPREAD_MATERIAL);
     }
     public boolean isSync(){
         return false;

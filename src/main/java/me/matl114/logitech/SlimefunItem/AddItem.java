@@ -253,6 +253,12 @@ public class AddItem {
             Language.get("Items.BEDROCK_BREAKER.Name"),Language.getList("Items.BEDROCK_BREAKER.Lore"));
     public static final SlimefunItemStack LASER_GUN=AddUtils.themed("LASER_GUN",CustomHead.LASER_GUN.getItem(), AddUtils.Theme.ITEM1,
             Language.get("Items.LASER_GUN.Name"),Language.getList("Items.LASER_GUN.Lore"));
+    public static final SlimefunItemStack SUPERSPONGE=AddUtils.themed("SUPERSPONGE",Material.SPONGE,AddUtils.Theme.ITEM1,
+            Language.get("Items.SUPERSPONGE.Name"),Language.getList("Items.SUPERSPONGE.Lore"));
+    public static final SlimefunItemStack SUPERSPONGE_USED=AddUtils.themed("SUPERSPONGE_USED",Material.WET_SPONGE,AddUtils.Theme.ITEM1,
+            Language.get("Items.SUPERSPONGE_USED.Name"),Language.getList("Items.SUPERSPONGE_USED.Lore"));
+    public static final SlimefunItemStack TRACE_ARROW=AddUtils.themed("TRACE_ARROW",Material.CHERRY_SAPLING,AddUtils.Theme.ITEM1,
+            Language.get("Items.TRACE_ARROW.Name"),Language.getList("Items.TRACE_ARROW.Lore"));
     //nachines
     public static final SlimefunItemStack HEAD_ANALYZER=AddUtils.themed("HEAD_ANALYZER",Material.SOUL_CAMPFIRE, AddUtils.Theme.MACHINE1,
             Language.get("Machines.HEAD_ANALYZER.Name"),Language.getList("Machines.HEAD_ANALYZER.Lore"));
@@ -624,5 +630,6 @@ public class AddItem {
         add(WITHERPROOF_REDSTONE);
         add(WITHERPROOF_REDS);
         add(BEDROCK_BREAKER);
+        add(TRACE_ARROW);
     }};
 }

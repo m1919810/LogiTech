@@ -24,6 +24,7 @@ public class ListenerManager {
         register(VANILLACRAFT_ALLOW);
         register(ENTITYFEAT_LISTENER);
         register(LASER_ON_HEAD_LISTENER);
+        register(SUPERSPONGE_DRY_LISTENER);
     }
     public static Plugin plugin;
     public static PluginManager manager;
@@ -40,4 +41,5 @@ public class ListenerManager {
     public static final Listener VANILLACRAFT_ALLOW=new CraftingListener();
     public static final Listener ENTITYFEAT_LISTENER=new SpawnerListener();
     public static final Listener LASER_ON_HEAD_LISTENER=new LaserGunOnHeadListener();
+    public static final Listener SUPERSPONGE_DRY_LISTENER=new SuperSpongeDryListener();
 }

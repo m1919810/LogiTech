@@ -46,7 +46,9 @@ public class FinalAltarCore  extends MultiCore {
                 return forcelvl;
             }
             Location loc=data.getLocation().clone().add(0,-1,0);
-            if(DataCache.getSfItem(loc) instanceof FinalAltarCore){
+            //check if multiblock active
+            if(DataCache.getSfItem(loc) instanceof FinalAltarCore && MultiBlockService.getStatus(loc)!=0){
+                //get lvl key in active multiblock
                 int lv=DataCache.getCustomData(loc,FinalAltarCore.LVL_KEY,0);
                 if(lv>0){
                     DataCache.setCustomData(data,FORCE_STATE,lv);
@@ -127,6 +129,8 @@ public class FinalAltarCore  extends MultiCore {
     }
     public void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler, MultiBlockService.DeleteCause cause){
         super.onMultiBlockDisable(loc,handler,cause);
+        //这里也要清除,lvl数据 防止上面重新读取回来
+        DataCache.setCustomString(loc,LVL_KEY,"0");
         //要设置上面的机器,清除里面的force level数据
         Location poweredLoc =loc.clone().add(0,1,0);
         FinalAltarChargable.clearForced(poweredLoc);

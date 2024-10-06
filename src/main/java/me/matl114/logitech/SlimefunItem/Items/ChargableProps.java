@@ -11,6 +11,7 @@ public abstract class ChargableProps extends CustomProps implements Rechargeable
         super(itemGroup, item, recipeType, recipe);
     }
     public void addInfo(ItemStack stack){
+        super.addInfo(stack);
         setItemCharge(stack,0.0f);
     }
     public abstract float getMaxItemCharge(ItemStack var1);

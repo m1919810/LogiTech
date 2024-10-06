@@ -87,6 +87,8 @@ public class Laser extends AbstractMachine implements MultiBlockPart, FinalAltar
             DataCache.setCustomData(data,Laser.DIR_KEYS.get(dir),charge);
         }
     }
+    //FIXME powered wrongly
+    //FIXME charge machine wrongly
     @Override
     public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int ticker){
         if(conditionHandle(b,menu)){

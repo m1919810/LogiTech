@@ -20,6 +20,8 @@ import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.*;
 import org.bukkit.block.*;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Waterlogged;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Damageable;
@@ -30,10 +32,13 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
@@ -48,6 +53,24 @@ public class WorldUtils {
     public static void setAir(Location loc) {
         loc.getBlock().setType(Material.AIR);
     }
+    public static void setup(){
+
+    }
+    public static HashSet<Material> WATER_LOGGABLE_TYPES=new HashSet<>(){{
+        for (Material m : Material.values()) {
+            if(m.isBlock()){
+                try{
+                    BlockData defaultData= m.createBlockData();
+                    if(defaultData instanceof Waterlogged){
+
+                        add(m);
+                    }
+                }catch (Throwable e){
+                    Debug.logger(e);
+                }
+            }
+        }
+    }};
     public static void setBlock(Block block, Material material) {
 
     }
@@ -281,6 +304,9 @@ public class WorldUtils {
 //    public static Vector getOrientations(Location loc){
 //        loc.getDirection();
 //    }
+    public static HashSet<Entity> getEntityInDistance(Location location, double distance, Predicate<Entity> predicate){
+        return new HashSet<Entity>( location.getWorld().getNearbyEntities(location,2*distance,2*distance,2*distance,(e)->{return e.getLocation().distance(location)<=distance&&predicate.test(e);}));
+    }
     public static Pair<Integer,Location> rayTraceLocation(LivingEntity entity, double period,double  maxLimitedDistance, Predicate<Location> execution){
         if(entity==null)return null;
         return rayTraceLocation(entity.getLocation().getDirection(),entity.getEyeLocation(),period,maxLimitedDistance,execution);
@@ -303,6 +329,27 @@ public class WorldUtils {
         if(material==Material.AIR||material.isTransparent()||material==Material.WATER||material==Material.LAVA){
             return true;
         }else return false;
+    }
+    public static boolean isLiquid(Block block){
+        Material material=block.getType();
+        if(material==Material.WATER||material==Material.LAVA){
+            return true;
+        }else return false;
+    }
+    public static boolean isMaterialWaterLoggable(Material material){
+        return WATER_LOGGABLE_TYPES.contains(material);
+    }
+    public static boolean isWaterLogged(Block block){
+        Material type=block.getType();
+        if(isMaterialWaterLoggable(type)){
+            BlockData blockData=block.getBlockData();
+            if(blockData instanceof Waterlogged wl){
+                return wl.isWaterlogged();
+            }else return false;
+        }else{
+            return false;
+        }
+
     }
     //IF SF DATA EXISTS,SF BLOCK WILL ALSO BE BREAKED, MAY CAUSE PROBLEMS
     public static boolean breakVanillaBlockByPlayer(Block block,Player player,boolean withDrop){
@@ -331,6 +378,15 @@ public class WorldUtils {
             chunk.setForceLoaded(isForceload);
         },tick,true,0);
     }
-
-
+    public static boolean isLivingEntity(Entity e){
+        if(e.isValid()&&!e.isDead()&&e instanceof LivingEntity le&&!le.isInvulnerable()){
+            return true;
+        }return false;
+    }
+    public static Location getHandLocation(LivingEntity p){
+        Location loc=p.getEyeLocation();
+        Location playerLocation=p.getLocation();
+        loc.add(playerLocation.subtract(loc).multiply(0.3).toVector());
+        return loc;
+    }
 }

@@ -53,13 +53,18 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Waterlogged;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.SpongeAbsorbEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -957,6 +962,94 @@ public class AddSlimefunItems {
                     AddUtils.sendMessage(event.getPlayer(),"&c抱歉,您没有在这里使用该物品的权限");
                 }
 
+            }
+            event.cancel();
+        }
+    }
+            .register();
+    public static final SlimefunItem SUPERSPONGE=new CustomProps(AddGroups.VANILLA,AddItem.SUPERSPONGE,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe("SPONGE","PISTON","SPONGE",AddItem.WITHERPROOF_REDS,AddItem.REDSTONE_ENGINE,AddItem.WITHERPROOF_REDS,
+                    "WET_SPONGE","PISTON","WET_SPONGE")){
+        protected final int SEARCH_RANGE=10;
+        protected final Set<Player> COOL_DOWN=ConcurrentHashMap.newKeySet();
+        public void onClickAction(PlayerRightClickEvent event){
+            Player p=event.getPlayer();
+            if(p!=null){
+                if(COOL_DOWN.contains(p)){
+                    AddUtils.sendMessage(p,"&c物品冷却中");
+                }else{
+
+                    Location loc=p.getLocation();
+                    if(WorldUtils.hasPermission(p,loc,Interaction.INTERACT_BLOCK,Interaction.PLACE_BLOCK)&&canUse(p,true)){
+                        ItemStack stack= event.getItem();
+                        stack.setAmount(stack.getAmount()-1);
+                        AddUtils.forceGive(p,AddItem.SUPERSPONGE_USED,1);
+                        final HashSet<Block> liquids=new HashSet<>();
+                        final HashSet<Block> blockInLiquids=new HashSet<>();
+                        Schedules.launchSchedules(()->{
+                            COOL_DOWN.add(p);
+                            try{
+                                int dx=loc.getBlockX();
+                                int dy=loc.getBlockY();
+                                int dz=loc.getBlockZ();
+                                AddUtils.sendMessage(p,"&a开始搜索");
+                                for(int i=-SEARCH_RANGE;i<=SEARCH_RANGE;i++){
+                                    for(int j=-SEARCH_RANGE;j<=SEARCH_RANGE;j++){
+                                        for(int k=-SEARCH_RANGE;k<=SEARCH_RANGE;k++){
+                                            Block checkBlock=loc.getWorld().getBlockAt(dx+i,dy+j,dz+k);
+                                            if(checkBlock!=null){
+                                                if(WorldUtils.isLiquid( checkBlock)){
+                                                    liquids.add(checkBlock);
+                                                }
+                                                else if(WorldUtils.isWaterLogged(checkBlock)){
+                                                    blockInLiquids.add(checkBlock);
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                }
+                                List<BlockState> blocksToBeChanged=new ArrayList<>(liquids.size()+blockInLiquids.size()+2);
+                                for(Block b:liquids){
+                                    blocksToBeChanged.add(b.getState());
+                                }
+                                for(Block b:blockInLiquids){
+                                    blocksToBeChanged.add(b.getState());
+                                }
+                                if(!blocksToBeChanged.isEmpty()){
+                                    AddUtils.sendMessage(p,"&a搜索完成,正在吸取液体");
+                                    BukkitUtils.executeSync(()->{
+                                        SpongeAbsorbEvent spongeAbsorbEvent=new SpongeAbsorbEvent(loc.getBlock(),blocksToBeChanged);
+                                        Bukkit.getPluginManager().callEvent(spongeAbsorbEvent);
+                                        if(spongeAbsorbEvent.isCancelled()){
+                                            AddUtils.sendMessage(p,"&c抱歉,你没有在这里吸取液体的权限");
+                                        }else {
+                                            for(Block b:liquids){
+                                                b.setType(Material.AIR);
+                                            }
+                                            for(Block b:blockInLiquids){
+                                                BlockData data=b.getBlockData();
+                                                if(data instanceof Waterlogged wl){
+                                                    wl.setWaterlogged(false);
+                                                    b.setBlockData(data,true);
+                                                }
+                                            }
+                                            AddUtils.sendMessage(p,"&a成功移除液体!");
+                                        }
+                                    });
+                                }else{
+                                    AddUtils.sendMessage(p,"&c附近没有剩余的液体");
+                                }
+                            }finally {
+                                COOL_DOWN.remove(p);
+                            }
+                        },0,false,0);
+                    }
+                    else{
+                        AddUtils.sendMessage(p,"&c抱歉,你没有在这里吸水的权限");
+                    }
+
+                }
             }
             event.cancel();
         }
@@ -2072,6 +2165,10 @@ public class AddSlimefunItems {
     public static final SlimefunItem LASER_GUN= new LaserGun(AddGroups.SPECIAL, AddItem.LASER_GUN, RecipeType.ANCIENT_ALTAR,
             recipe(AddItem.STAR_GOLD_INGOT, AddItem.LSINGULARITY, AddItem.STAR_GOLD_INGOT, "ENERGIZED_CAPACITOR", AddItem.LASER, "ENERGIZED_CAPACITOR",
                     AddItem.STAR_GOLD_INGOT, AddItem.LSINGULARITY, AddItem.STAR_GOLD_INGOT))
+            .register();
+    public static final SlimefunItem TRACE_ARROW=new TrackingArrowLauncher(AddGroups.SPECIAL,AddItem.TRACE_ARROW,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(AddItem.LSINGULARITY,"EXPLOSIVE_BOW",AddItem.LSINGULARITY,"ENERGIZED_CAPACITOR",AddItem.ATOM_INGOT,"ENERGIZED_CAPACITOR",
+                    AddItem.LSINGULARITY,"ICY_BOW",AddItem.LSINGULARITY))
             .register();
     public static final SlimefunItem RADIATION_CLEAR=new CustomProps(AddGroups.SPECIAL, AddItem.RADIATION_CLEAR, RecipeType.NULL,
             AddUtils.NULL_RECIPE.clone(), null) {

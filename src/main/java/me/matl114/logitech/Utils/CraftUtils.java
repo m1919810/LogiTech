@@ -52,6 +52,10 @@ public class CraftUtils {
     private static final HashSet<Material> INDISTINGUISHABLE_MATERIALS = new HashSet<Material>() {{
         add(Material.SHULKER_BOX);
         add(Material.BUNDLE);
+        add(Material.CHEST);
+        add(Material.SHULKER_BOX);
+        add(Material.BARREL);
+        
     }};
     public static final ItemStack DEFAULT_ITEMSTACK=new ItemStack(Material.STONE);
     public static final ItemMeta NULL_META=(DEFAULT_ITEMSTACK.getItemMeta());
@@ -1512,7 +1516,7 @@ public class CraftUtils {
             }
             if(optionalStackId1.get().equals(optionalStackId2.get())) {
                 SlimefunItem it=SlimefunItem.getById(optionalStackId1.get());
-                if(it instanceof CustomSlimefunItem ){
+                if( it instanceof CustomSlimefunItem ){
                     return true;
                 }
                 if(it instanceof DistinctiveItem dt){
@@ -1839,6 +1843,7 @@ public class CraftUtils {
     public static boolean canQuickEscapeMetaVariant(@Nonnull ItemMeta metaOne, @Nonnull ItemMeta metaTwo) {
         if(metaOne instanceof BlockStateMeta  m1) {
             if(metaTwo instanceof BlockStateMeta m2){
+
                 if(!m1.hasBlockState()||!m2.hasBlockState()){
                     if(m1.hasBlockState()!=m2.hasBlockState())
                         return true;

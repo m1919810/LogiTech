@@ -14,10 +14,7 @@ import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockTypes;
 import me.matl114.logitech.SlimefunItem.Cargo.Storages;
-import me.matl114.logitech.Utils.BukkitUtils;
-import me.matl114.logitech.Utils.CraftUtils;
-import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bukkit.Bukkit;
@@ -106,7 +103,9 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         RadiationRegion.setup();
         //加载配方工具
         CraftUtils.setup();
-        //加载原版工作台注入
+        //加载世界操作工具
+        WorldUtils.setup();
+        //加载Bukkit操作工具
         BukkitUtils.setup();
         Debug.logger("指令注册完毕");
         command.register();
