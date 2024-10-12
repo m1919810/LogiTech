@@ -6,12 +6,15 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunChunkData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.LocationUtils;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
@@ -52,6 +55,7 @@ public class DataCache {
         SlimefunBlockData data= safeGetBlockDataFromCache(loc);
         return data==null?null:SlimefunItem.getById(data.getSfId());
     }
+
     /**
      * about recipe history get
      * @param loc
@@ -189,6 +193,29 @@ public class DataCache {
     private static void safeSetData(Location loc,String key,String value){
         runAfterSafeLoad(loc,(data)-> data.setData(key,value),false);
     }
+    public static HashSet<SlimefunBlockData> getAllSfItemInChunk(World world,int x,int z){
+        if(INVOKE_LOADEDCHUNK){
+            String chunkkey= world.getName() + ";" + x + ":" +z;
+            try{
+                SlimefunChunkData data=loadedChunkData.get(chunkkey);
+                if(data!=null){
+                    return new HashSet<>(data.getAllBlockData());
+                }
+            }catch (Throwable e){
+                Debug.debug("getAllSfItemInChunk INVOKE FAILED! DISABLING BETTER GETBLOCKFROMCACHE");
+                Debug.debug(e);
+                INVOKE_LOADEDCHUNK=false;
+            }
+        }
+        return new HashSet<>( CONTROLLER.getChunkData(world.getChunkAt(x,z)).getAllBlockData());
+    }
+    public static void removeBlockData(Location loc){
+        SlimefunItem item=getSfItem(loc);
+        CONTROLLER.removeBlock(loc);
+        if(item instanceof MachineProcessHolder<?> mmp){
+            mmp.getMachineProcessor().endOperation(loc);
+        }
+    }
     private static SlimefunBlockData safeGetBlockDataFromCache(Location loc){
         if(INVOKE_LOADEDCHUNK){
             String chunkKey=getChunkKey(loc);
@@ -205,7 +232,7 @@ public class DataCache {
         }
         return CONTROLLER.getBlockDataFromCache(loc);
     }
-    private static SlimefunBlockData safeGetBlockCacheWithLoad(Location loc){
+    public static SlimefunBlockData safeGetBlockCacheWithLoad(Location loc){
         SlimefunBlockData data=safeGetBlockDataFromCache(loc);
         if (data==null){
             return null;
@@ -228,6 +255,26 @@ public class DataCache {
         }
         return data;
     }
+    public static void requestLoad(SlimefunBlockData data){
+        StorageCacheUtils.requestLoad(data);
+    }
+    public static boolean moveSlimefunBlockData(Location loc1,Location loc2){
+        SlimefunBlockData data=safeGetBlockCacheWithLoad(loc1);
+        SlimefunBlockData data2=safeGetBlockCacheWithLoad(loc2);
+        if(data!=null){
+            if(data2!=null){
+                Debug.debug("remove called");
+                CONTROLLER.removeBlock(loc2);
+            }
+            CONTROLLER.setBlockDataLocation(data,loc2);
+            return true;
+        }
+        else {return false;
+        }
+        //这里是否要发出SlimefunBlockPlaceEvent?
+    }
+
+
     public static BlockMenu getMenu(Location loc) {
         SlimefunBlockData blockData = safeLoadBlock(loc);
         if (blockData == null) {

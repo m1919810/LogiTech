@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import me.matl114.logitech.Depends.DependencyInfinity;
 import me.matl114.logitech.Depends.DependencyNetwork;
 import me.matl114.logitech.Listeners.ListenerManager;
+import me.matl114.logitech.Listeners.ProtectionManager;
 import me.matl114.logitech.Schedule.PersistentEffects.CustomEffects;
 import me.matl114.logitech.Schedule.PersistentEffects.RadiationRegion;
 import me.matl114.logitech.Schedule.Schedules;
@@ -13,6 +14,7 @@ import me.matl114.logitech.SlimefunItem.AddGroups;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockTypes;
+import me.matl114.logitech.SlimefunItem.Cargo.SpaceStorage.StorageSpace;
 import me.matl114.logitech.SlimefunItem.Cargo.Storages;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
@@ -25,6 +27,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 
 public class MyAddon extends JavaPlugin implements SlimefunAddon {
     public static boolean testmod=false;
+    public static boolean clearConfig=false;
     public static boolean testmode(){
         return testmod;
     }
@@ -78,16 +81,24 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         AddGroups.registerGroups(this);
         Debug.logger("物品组加载完毕");
         Debug.logger("自定义物品加载完毕");
+        //物品注册
         AddItem.registerItemStack();
         Debug.logger("物品模板加载完毕");
+        //粘液物品注册
         AddSlimefunItems.registerSlimefunItems();
         Debug.logger("粘液物品注册完毕");
+        //世界配置
+        StorageSpace.setup();
+        Debug.logger("空间存储世界配置完毕");
         //注册关于依赖的相关内容
         AddDepends.setup(this);
         Debug.logger("依赖注册完毕");
         Schedules.setupSchedules(this);
         Debug.logger("计划线程设立完毕");
+        //载入监听器
         ListenerManager.registerListeners(getInstance(),getManager());
+        //载入粘液保护模块
+        ProtectionManager.registerProtection(getInstance(),getManager());
         Debug.logger("监听器注册完毕");
         //加载bs工具
         DataCache.setup();

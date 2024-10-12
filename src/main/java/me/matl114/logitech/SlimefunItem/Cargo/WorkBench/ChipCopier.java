@@ -139,8 +139,6 @@ public class ChipCopier extends AbstractSyncTickCargo {
                     ChipCardCode.setConfigCode(meta2,tar);
                     ChipCardCode.updateConfigCodeDisplay(meta2,tar);
                     //防止异步导致数量不符 如果有数量更改则直接删除
-
-                    if(it2.getAmount()==1)
                     it2.setItemMeta(meta2);
                 }
             }},0,false,0);

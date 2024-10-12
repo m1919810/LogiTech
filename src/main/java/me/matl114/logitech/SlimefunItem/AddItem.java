@@ -3,10 +3,12 @@ package me.matl114.logitech.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import me.matl114.logitech.Items.CustomFireworkStar;
 import me.matl114.logitech.Items.CustomHead;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.Utils.AddUtils;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
@@ -17,8 +19,11 @@ public class AddItem {
         for (ItemStack it :ADDGLOW){
             AddUtils.addGlow(it);
         }
+        AddItem.TRACE_ARROW.addUnsafeEnchantment(Enchantment.ARROW_INFINITE,1);
         AddUtils.hideAllFlags(CARGO_CONFIG);
         AddUtils.hideAllFlags(ENTITY_FEAT);
+        AddUtils.hideAllFlags(SPACE_CARD);
+        AddUtils.setUnbreakable(UNBREAKING_SHIELD,true);
     }
 
     //Groups
@@ -259,6 +264,14 @@ public class AddItem {
             Language.get("Items.SUPERSPONGE_USED.Name"),Language.getList("Items.SUPERSPONGE_USED.Lore"));
     public static final SlimefunItemStack TRACE_ARROW=AddUtils.themed("TRACE_ARROW",Material.CHERRY_SAPLING,AddUtils.Theme.ITEM1,
             Language.get("Items.TRACE_ARROW.Name"),Language.getList("Items.TRACE_ARROW.Lore"));
+    public static final SlimefunItemStack DIMENSIONAL_SINGULARITY=AddUtils.themed("DIMENSIONAL_SINGULARITY",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
+            Language.get("Items.DIMENSIONAL_SINGULARITY.Name"),Language.getList("Items.DIMENSIONAL_SINGULARITY.Lore"));
+    public static final SlimefunItemStack RTP_RUNE=AddUtils.themed("RTP_RUNE", CustomFireworkStar.RTP_RUNE.getItem(),AddUtils.Theme.ITEM1,
+            Language.get("Items.RTP_RUNE.Name"),Language.getList("Items.RTP_RUNE.Lore"));
+    public static final SlimefunItemStack SPACE_CARD=AddUtils.themed("SPACE_CARD",Material.SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE,AddUtils.Theme.ITEM1,
+            Language.get("Items.SPACE_CARD.Name"),Language.getList("Items.SPACE_CARD.Lore"));
+    public static final ItemStack UNBREAKING_SHIELD=AddUtils.themed(Material.SHIELD, AddUtils.Theme.ITEM1,
+            Language.get("Items.UNBREAKING_SHIELD.Name"),Language.getList("Items.UNBREAKING_SHIELD.Lore"));
     //nachines
     public static final SlimefunItemStack HEAD_ANALYZER=AddUtils.themed("HEAD_ANALYZER",Material.SOUL_CAMPFIRE, AddUtils.Theme.MACHINE1,
             Language.get("Machines.HEAD_ANALYZER.Name"),Language.getList("Machines.HEAD_ANALYZER.Lore"));
@@ -339,6 +352,16 @@ public class AddItem {
             Language.get("Machines.ADVANCE_BREWER.Name"),Language.getList("Machines.ADVANCE_BREWER.Lore"));
     public static final SlimefunItemStack SIMU_LVOID=AddUtils.themed("SIMU_LVOID",Material.SOUL_TORCH,AddUtils.Theme.MACHINE1,
             Language.get("Machines.SIMU_LVOID.Name"),Language.getList("Machines.SIMU_LVOID.Lore"));
+    public static final SlimefunItemStack SPACETOWER =AddUtils.themed("SPACETOWER",Material.SHROOMLIGHT,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.SPACETOWER.Name"),Language.getList("Machines.SPACETOWER.Lore"));
+    public static final SlimefunItemStack SPACETOWER_FRAME=AddUtils.themed("SPACETOWER_FRAME",Material.AMETHYST_BLOCK,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.SPACETOWER_FRAME.Name"),Language.getList("Machines.SPACETOWER_FRAME.Lore"));
+    public static final SlimefunItemStack ITEM_OP=AddUtils.themed("ITEM_OP",Material.SMITHING_TABLE,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.ITEM_OP.Name"),Language.getList("Machines.ITEM_OP.Lore"));
+    public static final SlimefunItemStack CHUNK_CHARGER=AddUtils.themed("CHUNK_CHARGER",Material.SCULK_SHRIEKER,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.CHUNK_CHARGER.Name"),Language.getList("Machines.CHUNK_CHARGER.Lore"));
+    public static final SlimefunItemStack INGOT_CONVERTOR=AddUtils.themed("INGOT_CONVERTOR",Material.PINK_GLAZED_TERRACOTTA,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.INGOT_CONVERTOR.Name"),Language.getList("Machines.INGOT_CONVERTOR.Lore"));
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Manuals.MANUAL_CORE.Name"),Language.getList("Manuals.MANUAL_CORE.Lore"));
@@ -630,6 +653,7 @@ public class AddItem {
         add(WITHERPROOF_REDSTONE);
         add(WITHERPROOF_REDS);
         add(BEDROCK_BREAKER);
-        add(TRACE_ARROW);
+        add(DIMENSIONAL_SINGULARITY);
+        add(SPACETOWER_FRAME);
     }};
 }

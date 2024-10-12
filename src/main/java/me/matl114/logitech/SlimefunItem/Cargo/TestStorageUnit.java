@@ -15,6 +15,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.data.Orientable;
 import org.bukkit.inventory.ItemStack;
 
@@ -67,10 +68,21 @@ public class TestStorageUnit extends AbstractMachine {
             Debug.logger("check blockstatemeta", ((Orientable)bLock.getRelative(BlockFace.UP).getBlockData()).getAxis());
             return false;
         }));
+        inv.replaceExistingItem(18,new ItemStack(Material.GREEN_STAINED_GLASS_PANE));
         inv.addMenuClickHandler(18,((player, i, itemStack, clickAction) -> {
-            try{
-                Thread.sleep(100);
-            }catch(InterruptedException e){}
+           Block b=bLock.getRelative(BlockFace.UP);
+           Block c= bLock.getRelative(BlockFace.DOWN);
+          // b.setBlockData(c.getBlockData());
+            if(WorldUtils.copyBlockState(c.getState(),b)){
+                AddUtils.sendMessage(player,"&a好得很");
+            }else{
+                AddUtils.sendMessage(player,"&a寄了");
+            }
+
+//           BlockState state= b.getState();
+//           state.setRawData(b.getState().getRawData());
+//
+//           state.update(true,false);
             return false;
         }));
         inv.addMenuClickHandler(20,((player, i, itemStack, clickAction) -> {
@@ -119,6 +131,8 @@ public class TestStorageUnit extends AbstractMachine {
                 Debug.logger(c.getBlockData().getClass());
                 Debug.logger(c.getState());
                 Debug.logger(c.getState().getClass());
+                Debug.logger(c.getState().getData());
+                Debug.logger(c.getState().getData().getClass());
             }
         }
     }

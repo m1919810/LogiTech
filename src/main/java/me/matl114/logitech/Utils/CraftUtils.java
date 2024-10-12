@@ -12,6 +12,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
+import org.bukkit.block.BlockState;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
 
@@ -50,12 +51,8 @@ public class CraftUtils {
         add(Material.PLAYER_WALL_HEAD);
     }};
     private static final HashSet<Material> INDISTINGUISHABLE_MATERIALS = new HashSet<Material>() {{
-        add(Material.SHULKER_BOX);
+        //add(Material.SHULKER_BOX);
         add(Material.BUNDLE);
-        add(Material.CHEST);
-        add(Material.SHULKER_BOX);
-        add(Material.BARREL);
-        
     }};
     public static final ItemStack DEFAULT_ITEMSTACK=new ItemStack(Material.STONE);
     public static final ItemMeta NULL_META=(DEFAULT_ITEMSTACK.getItemMeta());
@@ -135,11 +132,15 @@ public class CraftUtils {
     @Nullable
     public static String parseSfId(ItemStack item) {
         Optional<String> itemID = Slimefun.getItemDataService().getItemData(item);
-        return itemID.isPresent() ? (String)itemID.get() : null;
+        return  itemID.orElse(null) ;
     }
     public static String parseSfId(ItemMeta meta){
         Optional<String> itemID = Slimefun.getItemDataService().getItemData(meta);
-        return itemID.isPresent() ? (String)itemID.get() : null;
+        return itemID.orElse(null);
+    }
+    public static SlimefunItem parseSfItem(ItemMeta meta){
+        Optional<String> itemID = Slimefun.getItemDataService().getItemData(meta);
+        return itemID.map((id)->SlimefunItem.getById(id)).orElse(null);
     }
     /**
      * get Consumer for recipe Item
@@ -1616,6 +1617,27 @@ public class CraftUtils {
             return meta1.getDisplayName().equals(meta2.getDisplayName());
         }
     }
+    private static Class CraftMetaBlockState;
+    private static Field blockEntityTag;
+    private static boolean hasFailed;
+    public static boolean matchBlockStateMetaOnInvoke(BlockStateMeta meta1, BlockStateMeta meta2){
+        if(!hasFailed){
+            try{
+                if(CraftMetaBlockState==null){
+                    var field=ReflectUtils.getDeclaredFieldsRecursively(meta1.getClass(),"blockEntityTag");
+                    CraftMetaBlockState=field.getSecondValue();
+                    blockEntityTag=field.getFirstValue();
+                    blockEntityTag.setAccessible(true);
+                    Debug.debug(CraftMetaBlockState);
+                    Debug.debug(blockEntityTag);
+                }
+                return Objects.equals(blockEntityTag.get(meta1),blockEntityTag.get(meta2));
+            }catch (Throwable e){
+                hasFailed=true;
+            }
+        }
+        return meta1.equals(meta2);
+    }
     public static boolean matchItemStack(ItemStack stack1, ItemStack stack2,boolean strictCheck){
         if(stack1==null || stack2==null){
             return stack1 == stack2;
@@ -1841,20 +1863,30 @@ public class CraftUtils {
      * @return
      */
     public static boolean canQuickEscapeMetaVariant(@Nonnull ItemMeta metaOne, @Nonnull ItemMeta metaTwo) {
-        if(metaOne instanceof BlockStateMeta  m1) {
-            if(metaTwo instanceof BlockStateMeta m2){
-
-                if(!m1.hasBlockState()||!m2.hasBlockState()){
-                    if(m1.hasBlockState()!=m2.hasBlockState())
-                        return true;
-                }
-                else if(  !m1.getBlockState().equals(m2.getBlockState())){
+        if (metaOne instanceof BlockDataMeta instanceOne ) {
+            if(metaTwo instanceof BlockDataMeta instanceTwo){
+                if (instanceOne.hasBlockData() != instanceTwo.hasBlockData()) {
                     return true;
                 }
+            }else return true;
+        }
+        if(metaOne instanceof BlockStateMeta  m1) {
+            if(metaTwo instanceof BlockStateMeta m2){
+                if(m1.hasBlockState()||m2.hasBlockState()){
+                    return !matchBlockStateMetaOnInvoke(m1,m2);
+                }
+//                if(!m1.hasBlockState()||!m2.hasBlockState()){
+//                    if(m1.hasBlockState()!=m2.hasBlockState())
+//                        return true;
+//                }
+//                else if(  !m1.getBlockState().equals(m2.getBlockState())){
+//                    return true;
+//                }
             }else{
                 return true;
             }
         }
+
         // Damageable (first as everything can be damageable apparently)
         if (metaOne instanceof Damageable instanceOne && metaTwo instanceof Damageable instanceTwo) {
             if (instanceOne.getDamage() != instanceTwo.getDamage()) {

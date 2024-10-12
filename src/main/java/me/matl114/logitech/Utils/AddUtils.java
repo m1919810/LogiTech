@@ -22,6 +22,7 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -49,6 +50,7 @@ public class AddUtils {
     private static final double SF_TPS = 20.0 / (double) Slimefun.getTickerTask().getTickRate();
     private static final DecimalFormat FORMAT = new DecimalFormat("###,###,###,###,###,###.#");
     private static Random random=new Random();
+
     public static String formatDouble(double s){
         return FORMAT.format(s);
     }
@@ -68,6 +70,9 @@ public class AddUtils {
         return "&3"+ADDON_NAME+" " + str;
     }
     public static final String[] COLOR_MAP=new String[]{"&0","&1","&2","&3","&4","&5","&6","&7","&8","&9","&a","&b","&c","&d","&e","&f"};
+    protected final HashMap<String, Color> STR2COLOR=new HashMap<>(){{
+        //put("",Color.AQUA)
+    }};
     public static String resolveRGB(int rgb){
         if(rgb>16777216){
             rgb=16777216;
@@ -749,6 +754,24 @@ public class AddUtils {
         stack.setItemMeta(meta);
         return stack;
     }
+    public static ItemStack showAllFlags(ItemStack stack){
+        ItemMeta meta=stack.getItemMeta();
+        meta.removeItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.removeItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.removeItemFlags(ItemFlag.HIDE_ARMOR_TRIM);
+        meta.removeItemFlags(ItemFlag.HIDE_DESTROYS);
+        meta.removeItemFlags(ItemFlag.HIDE_DYE);
+        meta.removeItemFlags(ItemFlag.HIDE_PLACED_ON);
+        meta.removeItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        stack.setItemMeta(meta);
+        return stack;
+    }
+    public static ItemStack setUnbreakable(ItemStack stack,boolean unbreakable){
+        ItemMeta meta=stack.getItemMeta();
+        meta.setUnbreakable(unbreakable);
+        stack.setItemMeta(meta);
+        return stack;
+    }
     /**
      * get a info display item to present in SF machineRecipe display
      * @param title
@@ -797,6 +820,9 @@ public class AddUtils {
 
     public static void sendMessage(Player p,String msg){
         p.sendMessage(ChatColors.color(msg));
+    }
+    public static void sendTitle(Player p,String title,String subtitle){
+        p.sendTitle(ChatColors.color(title),ChatColors.color(subtitle),-1,-1,-1);
     }
     public static ItemStack[] formatInfoRecipe(ItemStack stack,String source){
         return new ItemStack[]{

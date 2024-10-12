@@ -2,8 +2,12 @@ package me.matl114.logitech.Schedule;
 
 
 import me.matl114.logitech.Utils.Debug;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.function.Consumer;
 
 public class Schedules {
     private static BukkitRunnable autoSaveThread;
@@ -67,6 +71,64 @@ public class Schedules {
     }
     public static void launchSchedules(Runnable thread ,int delay,boolean isSync,int period){
         launchSchedules(getRunnable(thread),delay,isSync,period);
+    }
+    public static void launchRepeatingSchedule(Consumer<Integer> thread , int delay, boolean isSync, int period,int repeatTime){
+        launchSchedules(new BukkitRunnable() {
+            int runTime=0;
+            @Override
+            public void run() {
+                try{
+                    thread.accept(runTime);
+                }catch (Throwable e){
+                    e.printStackTrace();
+                }
+                finally {
+                    this.runTime+=1;
+                    if(this.runTime>=repeatTime){
+                        this.cancel();
+                    }
+                }
+            }
+        },delay,isSync,period);
+    }
+    //this method should be called async
+    public static void asyncWaitSchedule(Runnable thread,int delay,boolean isSync){
+        //不得阻塞主线程
+        assert !Bukkit.isPrimaryThread();
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        launchSchedules(()->{thread.run();countDownLatch.countDown();},delay,isSync,0);
+        try{
+            countDownLatch.await();
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+    public static void asyncWaithRepeatingSchedule(Consumer<Integer> thread , int delay, boolean isSync, int period,int repeatTime){
+        assert !Bukkit.isPrimaryThread();
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        launchSchedules(new BukkitRunnable() {
+            int runTime=0;
+            @Override
+            public void run() {
+                try{
+                    thread.accept(runTime);
+                }catch (Throwable e){
+                    e.printStackTrace();
+                }
+                finally {
+                    this.runTime+=1;
+                    if(this.runTime>=repeatTime){
+                        countDownLatch.countDown();
+                        this.cancel();
+                    }
+                }
+            }
+        },delay,isSync,period);
+        try{
+            countDownLatch.await();
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
     }
     public static BukkitRunnable getRunnable(Runnable runnable){
         return new BukkitRunnable() {

@@ -3,10 +3,9 @@ package me.matl114.logitech.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoBrewer;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
@@ -17,6 +16,9 @@ import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Blocks.*;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.*;
 import me.matl114.logitech.SlimefunItem.Cargo.CargoMachine.*;
+import me.matl114.logitech.SlimefunItem.Cargo.SpaceStorage.SpaceStorageCard;
+import me.matl114.logitech.SlimefunItem.Cargo.SpaceStorage.SpaceTower;
+import me.matl114.logitech.SlimefunItem.Cargo.SpaceStorage.SpaceTowerFrame;
 import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.IOPort;
 import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.Storage;
 import me.matl114.logitech.SlimefunItem.Cargo.Transportation.*;
@@ -28,10 +30,8 @@ import me.matl114.logitech.SlimefunItem.Cargo.WorkBench.CargoConfigurator;
 import me.matl114.logitech.SlimefunItem.Cargo.WorkBench.ChipBiConsumer;
 import me.matl114.logitech.SlimefunItem.Cargo.WorkBench.ChipConsumer;
 import me.matl114.logitech.SlimefunItem.Items.*;
-import me.matl114.logitech.SlimefunItem.Machines.AbstractAdvancedProcessor;
 import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.*;
 import me.matl114.logitech.SlimefunItem.Machines.Electrics.*;
-import me.matl114.logitech.SlimefunItem.Machines.FinalFeature;
 import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.FinalManual;
 import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.ManualCrafter;
 import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.ManualMachine;
@@ -45,30 +45,29 @@ import me.matl114.logitech.SlimefunItem.Cargo.TestStorageUnit;
 import me.matl114.logitech.SlimefunItem.Machines.WorkBenchs.EWorkBench;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.CommandClass.CommandShell;
+import me.matl114.logitech.Utils.UtilClass.FunctionalClass.AsyncResultRunnable;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Waterlogged;
-import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.SpongeAbsorbEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * register main
@@ -294,7 +293,9 @@ public class AddSlimefunItems {
         put(Biome.WINDSWEPT_GRAVELLY_HILLS,1);
         put(Biome.MUSHROOM_FIELDS,1);
     }}) .registerGeo();
-
+    public static final SlimefunItem DIMENSIONAL_SINGULARITY=new MaterialItem(AddGroups.MATERIAL,AddItem.DIMENSIONAL_SINGULARITY,RecipeType.NULL,
+            AddUtils.formatInfoRecipe(AddItem.SEQ_CONSTRUCTOR,Language.get("Machines.SEQ_CONSTRUCTOR.Name")),null)
+            .register();
     public static final SlimefunItem STAR_GOLD=new MaterialItem(AddGroups.MATERIAL,AddItem.STAR_GOLD,RecipeType.NULL    ,
             recipe(null,AddItem.END_MINER,null,null,AddUtils.getInfoShow("&f获取方式","&7在本附属的矿机中获取")),null)
             .register();
@@ -503,6 +504,9 @@ public class AddSlimefunItems {
             recipe("REDSTONE","LEAD_INGOT","REDSTONE","LEAD_INGOT","WITHER_PROOF_OBSIDIAN","LEAD_INGOT",
                     "REDSTONE","LEAD_INGOT","REDSTONE")).setOutput(setC(AddItem.WITHERPROOF_REDS,4))
             .register();
+    public static final MyVanillaItem UNBREAKING_SHIELD=new MyVanillaItem(AddGroups.SPECIAL,AddItem.UNBREAKING_SHIELD,"UNBREAKING_SHIELD",BukkitUtils.VANILLA_CRAFTTABLE,
+            recipe("IRON_BLOCK","DAMASCUS_STEEL_INGOT","IRON_BLOCK","IRON_BLOCK","OBSIDIAN","IRON_BLOCK",
+            null,"IRON_BLOCK",null)).register();
     //machines
     public static final SlimefunItem BOOL_GENERATOR=new BoolGenerator(AddGroups.BASIC,AddItem.BOOL_GENERATOR,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("OBSERVER","REDSTONE","OBSERVER",
@@ -556,7 +560,7 @@ public class AddSlimefunItems {
                 for (MachineRecipe recipe:elecpress){
                     recipes.add(MachineRecipeUtils.stackFrom(4,recipe.getInput(),recipe.getOutput()));
                 }
-                List<MachineRecipe> compressorRecipes=RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItem.getById("ELECTRIC_PRESS"));
+                List<MachineRecipe> compressorRecipes=RecipeSupporter.MACHINE_RECIPELIST.getOrDefault(SlimefunItem.getById("ELECTRIC_PRESS"),new ArrayList<>());
                 for(MachineRecipe recipe:compressorRecipes){
                     ItemStack stack=recipe.getOutput()[0];
                     SlimefunItem stackItem=SlimefunItem.getByItem(stack);
@@ -577,7 +581,7 @@ public class AddSlimefunItems {
                     AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LENGINE,AddItem.LENGINE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT), AddUtils.addGlow( new ItemStack(Material.DIAMOND_CHESTPLATE))
             ,125,64_00,()->{
         List<MachineRecipe> recipelist=new ArrayList<>();
-        List<MachineRecipe> rp=RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItem.getById("ELECTRIC_ORE_GRINDER_3"));
+        List<MachineRecipe> rp=RecipeSupporter.MACHINE_RECIPELIST.getOrDefault(SlimefunItem.getById("ELECTRIC_ORE_GRINDER_3"),new ArrayList<>());
         for (MachineRecipe rps:rp){
             recipelist.add(MachineRecipeUtils.stackFromMachine(rps));
         }
@@ -595,7 +599,7 @@ public class AddSlimefunItems {
             ()->{
 
                 List<MachineRecipe> recipelist=new ArrayList<>();
-                List<MachineRecipe> rp=RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItem.getById("ELECTRIC_SMELTERY"));
+                List<MachineRecipe> rp=RecipeSupporter.MACHINE_RECIPELIST.getOrDefault(SlimefunItem.getById("ELECTRIC_SMELTERY"),new ArrayList<>());
                 for (MachineRecipe rps:rp){
                     recipelist.add(MachineRecipeUtils.stackFrom(0,rps.getInput(),rps.getOutput()));
                 }
@@ -659,20 +663,61 @@ public class AddSlimefunItems {
                     AddItem.LPLATE,AddItem.LMOTOR,"4ELECTRIC_INGOT_FACTORY_3","4ELECTRIC_INGOT_FACTORY_3",AddItem.LMOTOR,AddItem.LPLATE,
                     setC(AddItem.PAGOLD,1),setC(AddItem.METAL_CORE,1),setC(AddItem.PAGOLD,1),setC(AddItem.PAGOLD,1),setC(AddItem.SMELERY_CORE,1),setC(AddItem.PAGOLD,1)),
             new ItemStack(Material.LANTERN),2400,129600,
-            mkMp(
-                    mkP(mkl("64IRON_DUST"),mkl("64IRON_INGOT")),0,
-                    mkP(mkl("64GOLD_DUST"),mkl("64GOLD_INGOT")),0,
-                    mkP(mkl("64COPPER_DUST"),mkl("64COPPER_INGOT")),0,
-                    mkP(mkl("64TIN_DUST"),mkl("64TIN_INGOT")),0,
-                    mkP(mkl("64ZINC_DUST"),mkl("64ZINC_INGOT")),0,
-                    mkP(mkl("64ALUMINUM_DUST"),mkl("64ALUMINUM_INGOT")),0,
-                    mkP(mkl("64SILVER_DUST"),mkl("64SILVER_INGOT")),0,
-                    mkP(mkl("64MAGNESIUM_DUST"),mkl("64MAGNESIUM_INGOT")),0,
-                    mkP(mkl("64LEAD_DUST"),mkl("64LEAD_INGOT")),0
-
-
-            )
+//            mkMp(
+//                    mkP(mkl("64IRON_DUST"),mkl("64IRON_INGOT")),0,
+//                    mkP(mkl("64GOLD_DUST"),mkl("64GOLD_INGOT")),0,
+//                    mkP(mkl("64COPPER_DUST"),mkl("64COPPER_INGOT")),0,
+//                    mkP(mkl("64TIN_DUST"),mkl("64TIN_INGOT")),0,
+//                    mkP(mkl("64ZINC_DUST"),mkl("64ZINC_INGOT")),0,
+//                    mkP(mkl("64ALUMINUM_DUST"),mkl("64ALUMINUM_INGOT")),0,
+//                    mkP(mkl("64SILVER_DUST"),mkl("64SILVER_INGOT")),0,
+//                    mkP(mkl("64MAGNESIUM_DUST"),mkl("64MAGNESIUM_INGOT")),0,
+//                    mkP(mkl("64LEAD_DUST"),mkl("64LEAD_INGOT")),0
+//
+//
+//            )
+            ()->{
+                List<MachineRecipe> recipes=new ArrayList<>();
+                List<MachineRecipe> recipes2=RecipeSupporter.MACHINE_RECIPELIST.getOrDefault(SlimefunItem.getById("ELECTRIC_INGOT_FACTORY"),new ArrayList<>());
+                for(MachineRecipe recipe : recipes2) {
+                    ItemStack[] input=new ItemStack[recipe.getInput().length];
+                    for (int i=0;i<input.length;++i){
+                        input[i]=recipe.getInput()[i].clone();
+                        input[i].setAmount(input[i].getAmount()*64);
+                    }
+                    ItemStack[] output =new ItemStack[recipe.getOutput().length];
+                    for(int i=0;i<output.length;++i){
+                        output[i]=recipe.getOutput()[i].clone();
+                        if(CraftUtils.parseSfId(output[i])=="GOLD_4K"){
+                            output[i]=new ItemStack(Material.GOLD_INGOT);
+                        }
+                        output[i].setAmount(output[i].getAmount()*64);
+                    }
+                    recipes.add(MachineRecipeUtils.stackFrom(0,input,output));
+                }
+                return recipes;
+            }
     )
+            .register();
+    public static final  SlimefunItem INGOT_CONVERTOR=new MTMachine(AddGroups.BASIC, AddItem.INGOT_CONVERTOR,COMMON_TYPE,
+            recipe(AddItem.LPLATE,AddItem.TECH_CORE,AddItem.PAGOLD,AddItem.PAGOLD,AddItem.MASS_CORE,AddItem.LPLATE,
+                    AddItem.LPLATE,setC(AddItem.ATOM_INGOT,4),AddItem.CHIP_CORE,AddItem.CHIP_CORE,setC(AddItem.ATOM_INGOT,4),AddItem.LPLATE,
+                    AddItem.LPLATE,AddItem.LENGINE,"4ENHANCED_AUTO_CRAFTER","4ENHANCED_AUTO_CRAFTER",AddItem.LENGINE,AddItem.LPLATE,
+                    AddItem.LPLATE,AddItem.LIOPORT,"4REINFORCED_FURNACE","4REINFORCED_FURNACE",AddItem.LIOPORT,AddItem.LPLATE,
+                    AddItem.LPLATE,AddItem.LMOTOR,"4ELECTRIC_INGOT_FACTORY","4ELECTRIC_INGOT_FACTORY",AddItem.LMOTOR,AddItem.LPLATE,
+                    AddItem.PAGOLD,AddItem.TECH_CORE,AddItem.PAGOLD,AddItem.PAGOLD,AddItem.MASS_CORE,AddItem.PAGOLD),new ItemStack(Material.BEACON),2400,129600,
+            mkMp(
+                    mkP(mkl("64GOLD_INGOT"),mkl("64GOLD_4K")),0,
+                    mkP(mkl("64GOLD_4K"),mkl("64GOLD_INGOT")),0,
+                    mkP(mkl("16COPPER_INGOT"),mkl(new ItemStack(Material.COPPER_INGOT,16))),0,
+                    mkP(mkl(new ItemStack(Material.COPPER_INGOT,16)),mkl("16COPPER_INGOT")),0,
+                    mkP(mkl("9GOLD_DUST"),mkl("GOLD_24K")),0,
+                    mkP(mkl("8STEEL_INGOT"),mkl("4DAMASCUS_STEEL_INGOT")),0,
+                    mkP(mkl("4DAMASCUS_STEEL_INGOT"),mkl("8STEEL_INGOT")),0,
+                    mkP(mkl("4CARBONADO"),mkl("8CARBON_CHUNK")),0,
+                    mkP(mkl("8CARBON_CHUNK"),mkl("4CARBONADO")),0,
+                    mkP(mkl("8QUARTZ"),mkl("2SILICON")),0
+            ))
             .register();
     public static final  SlimefunItem CRAFTER=new SpecialCrafter(AddGroups.BASIC, AddItem.CRAFTER, RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.ABSTRACT_INGOT, AddItem.NOLOGIC, AddItem.ABSTRACT_INGOT, AddItem.LBOOLIZER, AddItem.LCRAFT, AddItem.LBOOLIZER,
@@ -809,6 +854,14 @@ public class AddSlimefunItems {
     public static final SlimefunItem ENERGY_AMPLIFIER=new EnergyAmplifier(AddGroups.ENERGY,AddItem.ENERGY_AMPLIFIER,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),1_000_000_000,2.0)
             .register();
+    public static final  SlimefunItem CHUNK_CHARGER=new ChunkEnergyProvider(AddGroups.ENERGY, AddItem.CHUNK_CHARGER,COMMON_TYPE,
+            recipe("4ENERGY_REGULATOR","8ENERGY_CONNECTOR",AddItem.LPLATE,AddItem.LPLATE,"8ENERGY_CONNECTOR","4ENERGY_REGULATOR",
+                    "8ENERGY_CONNECTOR",setC(AddItem.LSINGULARITY,4),setC(AddItem.STAR_GOLD_INGOT,2),setC(AddItem.STAR_GOLD_INGOT,2),setC(AddItem.LSINGULARITY,4),"8ENERGY_CONNECTOR",
+                    AddItem.LPLATE,setC(AddItem.STAR_GOLD_INGOT,2),setC(AddItem.ATOM_INGOT,16),setC(AddItem.ATOM_INGOT,16),setC(AddItem.STAR_GOLD_INGOT,2),AddItem.LPLATE,
+                    AddItem.LPLATE,AddItem.LDIGITIZER,AddItem.LSCHEDULER,AddItem.LSCHEDULER,AddItem.LDIGITIZER,AddItem.LPLATE,
+                    "8ENERGY_CONNECTOR",AddItem.LDIGITIZER,AddItem.TECH_CORE,AddItem.TECH_CORE,AddItem.LDIGITIZER,"8ENERGY_CONNECTOR",
+                    "4ENERGY_REGULATOR","8ENERGY_CONNECTOR",AddItem.LPLATE,AddItem.LPLATE,"8ENERGY_CONNECTOR","4ENERGY_REGULATOR"),1_000_000_000)
+            .register();
     public static final  SlimefunItem SPECIAL_CRAFTER=new SpecialTypeCrafter(AddGroups.BASIC, AddItem.SPECIAL_CRAFTER,COMMON_TYPE,
             recipe(AddItem.ABSTRACT_INGOT,AddItem.LFIELD,AddItem.LOGIC,AddItem.LOGIC,AddItem.LFIELD,AddItem.ABSTRACT_INGOT,
                     AddItem.LFIELD,AddItem.LDIGITIZER,AddItem.LPLATE,AddItem.LPLATE,AddItem.LMOTOR,AddItem.LFIELD,
@@ -871,6 +924,7 @@ public class AddSlimefunItems {
                     mkP(mkl("512MAGNESIUM_INGOT","512LEAD_INGOT","512TIN_INGOT","512ZINC_INGOT"),mkl(AddItem.SMELERY_CORE)),3,
                     mkP(mkl("512SILVER_INGOT","512ALUMINUM_INGOT","512DIAMOND","512REDSTONE"),mkl(AddItem.TECH_CORE)),3,
                     mkP(mkl("512COAL","512LAPIS_LAZULI","512QUARTZ","512EMERALD"),mkl(AddItem.MASS_CORE)),3,
+                    mkP(mkl(setC(AddItem.DIMENSIONAL_SHARD,1024)),mkl(AddItem.DIMENSIONAL_SINGULARITY)),3,
                     mkP(mkl(AddItem.METAL_CORE,AddItem.SMELERY_CORE,AddItem.TECH_CORE,AddItem.MASS_CORE),mkl(AddItem.EASYSTACKMACHINE)),3
             ))
             .register();
@@ -929,6 +983,10 @@ public class AddSlimefunItems {
             recipe("AUTO_DISENCHANTER_2",AddItem.LENGINE,"AUTO_DISENCHANTER_2",AddItem.STAR_GOLD_INGOT,"BOOK_BINDER",AddItem.STAR_GOLD_INGOT,
                     "AUTO_ENCHANTER_2",AddItem.LENGINE,"AUTO_ENCHANTER_2"), 1200,120)
             .register();
+    public static final  SlimefunItem ITEM_OP=new ItemOperator(AddGroups.SPECIAL, AddItem.ITEM_OP,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe("NAME_TAG","CRYING_OBSIDIAN","NAME_TAG","AUTO_DISENCHANTER_2","AUTO_ANVIL_2","AUTO_ENCHANTER_2",
+                    "ENCHANTING_TABLE","ANVIL","SMITHING_TABLE"), 0,0)
+            .register();
     public static final  SlimefunItem TNT_GEN=new TntGenerator(AddGroups.VANILLA, AddItem.TNT_GEN,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.LOGIGATE,"OBSERVER",AddItem.LOGIGATE,"STICKY_PISTON",AddItem.REDSTONE_ENGINE,"STICKY_PISTON",
                     AddItem.LOGIGATE,"NOTE_BLOCK",AddItem.LOGIGATE))
@@ -947,7 +1005,7 @@ public class AddSlimefunItems {
                 if(WorldUtils.hasPermission(event.getPlayer(),loc,Interaction.BREAK_BLOCK,Interaction.PLACE_BLOCK)&&canUse(event.getPlayer(),false)){
                     if(DataCache.getSfItem(loc)==null){
                         if(WorldUtils.consumeItem(event.getPlayer(),CONSUMED)){
-                            if(WorldUtils.breakVanillaBlockByPlayer(block,event.getPlayer(),false)){
+                            if(WorldUtils.breakVanillaBlockByPlayer(block,event.getPlayer(),true,false)){
                                 AddUtils.sendMessage(event.getPlayer(),"&a已成功破坏方块");
                             }else{
                                 AddUtils.sendMessage(event.getPlayer(),"&c抱歉,您没有在这里破坏方块的权限");
@@ -1054,6 +1112,8 @@ public class AddSlimefunItems {
             event.cancel();
         }
     }
+            .register();
+    public static final SlimefunItem SUPERSPONGE_USED=new MaterialItem(AddGroups.FUNCTIONAL,AddItem.SUPERSPONGE_USED,RecipeType.NULL,AddUtils.NULL_RECIPE.clone())
             .register();
 
     //Material Generators
@@ -1842,7 +1902,7 @@ public class AddSlimefunItems {
     public static final SlimefunItem MANUAL_CORE=new MaterialItem(AddGroups.MANUAL,AddItem.MANUAL_CORE,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("SAND","COBBLESTONE","GRAVEL",
                     "SAND","COBBLESTONE","GRAVEL",
-                    "SAND","COBBLESTONE","GRAVEL"),null).setOutput(setC(AddItem.MANUAL_CORE,8))
+                    "SAND","COBBLESTONE","GRAVEL"),null).setOutput(setC(AddItem.MANUAL_CORE,3))
             .register();
     public static final SlimefunItem CRAFT_MANUAL=new ManualCrafter(AddGroups.MANUAL,AddItem.CRAFT_MANUAL,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.BUG,"CRAFTING_TABLE",AddItem.BUG,
@@ -1914,7 +1974,7 @@ public class AddSlimefunItems {
             recipe("TERRACOTTA",AddItem.MANUAL_CORE,"TERRACOTTA",
                     "TERRACOTTA",AddItem.BUG,"TERRACOTTA",
                     "TERRACOTTA","FLINT_AND_STEEL","TERRACOTTA"),0,0,()->{
-                        return RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItems.ELECTRIFIED_CRUCIBLE.getItem());
+                        return RecipeSupporter.MACHINE_RECIPELIST.getOrDefault(SlimefunItems.ELECTRIFIED_CRUCIBLE.getItem(),new ArrayList<>());
                 })
             .register();
     public static final SlimefunItem PULVERIZER_MANUAL=new ManualMachine(AddGroups.MANUAL,AddItem.PULVERIZER_MANUAL,RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -1922,7 +1982,7 @@ public class AddSlimefunItems {
                     "LEAD_INGOT",AddItem.BUG,"LEAD_INGOT",
                     "MEDIUM_CAPACITOR","HEATING_COIL","MEDIUM_CAPACITOR"),0,0,()->{
         //keep a question,if we get 铸锭机 recipe.
-                        return RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItems.ELECTRIC_INGOT_PULVERIZER.getItem());
+                        return RecipeSupporter.MACHINE_RECIPELIST.getOrDefault(SlimefunItems.ELECTRIC_INGOT_PULVERIZER.getItem(),new ArrayList<>());
             })
             .register();
     public static final SlimefunItem MULTICRAFTTABLE_MANUAL=new ManualCrafter(AddGroups.MANUAL,AddItem.MULTICRAFTTABLE_MANUAL,RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -1941,7 +2001,7 @@ public class AddSlimefunItems {
             recipe("OAK_SLAB",AddItem.MANUAL_CORE,"OAK_SLAB",
                     "OAK_SLAB",AddItem.BUG,"OAK_SLAB",
                     "OAK_SLAB","CAULDRON","OAK_SLAB"),0,0,()->{
-                return RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItems.COMPOSTER.getItem());
+                return RecipeSupporter.MACHINE_RECIPELIST.getOrDefault(SlimefunItems.COMPOSTER.getItem(),new ArrayList<>());
             })
             .register();
     public static final SlimefunItem MULTIMACHINE_MANUAL=new ManualMachine(AddGroups.MANUAL,AddItem.MULTIMACHINE_MANUAL,COMMON_TYPE,
@@ -1952,11 +2012,11 @@ public class AddSlimefunItems {
                     null,AddItem.LFIELD,"HEATED_PRESSURE_CHAMBER","HEATED_PRESSURE_CHAMBER",AddItem.LFIELD,null,
                     null,null,AddItem.LFIELD,AddItem.LFIELD,null,null),0,0,()->{
                 List<MachineRecipe> recipelist=new ArrayList<>();
-                recipelist.addAll(RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItems.HEATED_PRESSURE_CHAMBER.getItem()));
-                recipelist.addAll(RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItems.AUTO_DRIER.getItem()));
-                recipelist.addAll(RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItems.REFINERY.getItem()));
-                recipelist.addAll(RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItems.FOOD_COMPOSTER.getItem()));
-                recipelist.addAll(RecipeSupporter.MACHINE_RECIPELIST.get(SlimefunItems.FOOD_FABRICATOR.getItem()));
+                recipelist.addAll(RecipeSupporter.MACHINE_RECIPELIST.getOrDefault(SlimefunItems.HEATED_PRESSURE_CHAMBER.getItem(),new ArrayList<>()));
+                recipelist.addAll(RecipeSupporter.MACHINE_RECIPELIST.getOrDefault(SlimefunItems.AUTO_DRIER.getItem(),new ArrayList<>()));
+                recipelist.addAll(RecipeSupporter.MACHINE_RECIPELIST.getOrDefault(SlimefunItems.REFINERY.getItem(),new ArrayList<>()));
+                recipelist.addAll(RecipeSupporter.MACHINE_RECIPELIST.getOrDefault(SlimefunItems.FOOD_COMPOSTER.getItem(),new ArrayList<>()));
+                recipelist.addAll(RecipeSupporter.MACHINE_RECIPELIST.getOrDefault(SlimefunItems.FOOD_FABRICATOR.getItem(),new ArrayList<>()));
                 return recipelist;
             })
             .register();
@@ -2166,9 +2226,189 @@ public class AddSlimefunItems {
             recipe(AddItem.STAR_GOLD_INGOT, AddItem.LSINGULARITY, AddItem.STAR_GOLD_INGOT, "ENERGIZED_CAPACITOR", AddItem.LASER, "ENERGIZED_CAPACITOR",
                     AddItem.STAR_GOLD_INGOT, AddItem.LSINGULARITY, AddItem.STAR_GOLD_INGOT))
             .register();
-    public static final SlimefunItem TRACE_ARROW=new TrackingArrowLauncher(AddGroups.SPECIAL,AddItem.TRACE_ARROW,RecipeType.ENHANCED_CRAFTING_TABLE,
+    public static final SlimefunItem TRACE_ARROW=new TrackingArrowLauncher(AddGroups.SPECIAL,AddItem.TRACE_ARROW,RecipeType.ANCIENT_ALTAR,
             recipe(AddItem.LSINGULARITY,"EXPLOSIVE_BOW",AddItem.LSINGULARITY,"ENERGIZED_CAPACITOR",AddItem.ATOM_INGOT,"ENERGIZED_CAPACITOR",
                     AddItem.LSINGULARITY,"ICY_BOW",AddItem.LSINGULARITY))
+            .register();
+    public static final SlimefunItem RTP_RUNE=new ItemWithHandler<ItemDropHandler>(AddGroups.SPACE,AddItem.RTP_RUNE,RecipeType.ANCIENT_ALTAR,
+            recipe("ANCIENT_RUNE_EARTH","ANCIENT_RUNE_ENDER","ANCIENT_RUNE_FIRE",AddItem.HYPER_LINK,AddItem.DIMENSIONAL_SINGULARITY,AddItem.HYPER_LINK,
+                    "ANCIENT_RUNE_WATER","ANCIENT_RUNE_ENDER","ANCIENT_RUNE_AIR"),null) {
+        HashSet<String> BANNED_WORLD_NAME=new HashSet<>(){{
+           add("logispace" );
+        }};
+        int DELAY_BEFORE_TP=60;
+        int RETRY_TIME=5;
+        public boolean onDrop(PlayerDropItemEvent var1, Player var2, Item var3){
+            if(isItem(var3.getItemStack())){
+                if(canUse(var2,true)){
+                    Schedules.launchSchedules(
+                            ()-> {
+                                if(!var3.isValid())return;
+                                ItemStack stack=var3.getItemStack();
+                                int amount=stack.getAmount();
+                                stack.setAmount(0);
+                                var3.setItemStack(stack);
+                                Location center= var3.getLocation();
+                                center.getWorld().strikeLightningEffect(center);
+                                int ranges=1<<Math.min(10+amount/2,24);
+                                AddUtils.sendMessage(var2,"&a即将开始随机传送,传送范围: "+ranges);
+                                BukkitUtils.executeAsync(
+                                        ()->{
+                                            onRtp(var2,center,ranges,RETRY_TIME);
+                                        }
+                                );
+                            }
+                            ,30,true,0 );
+                }
+                return true;
+            }
+            return false;
+        }
+        public Random rand=new Random();
+        public double validCoord(double origin,double min,double max){
+            return Math.max(min,Math.min(origin,max));
+        }
+        public void onRtp(Player player,Location center,int range,int leftTime){
+            AsyncResultRunnable<Boolean> effectResult=new AsyncResultRunnable<Boolean>() {
+                @Override
+                public Boolean result() {
+                    return onEffect(player);
+                }
+            };
+            CountDownLatch latch=effectResult.runThreadBackground();
+            Location loc=onRandomLocationFind(center,range);
+            //预加载的过程中执行例子效果
+            try{
+                latch.await();
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+            if(!effectResult.getResult()){
+                return;
+            }
+            if(loc!=null){
+                Schedules.launchSchedules(()->{
+                    player.teleport(loc);
+                    AddUtils.sendTitle(player,"&a传送成功!","");
+                },0,true,0);
+            }
+            else{
+                if(leftTime>0){
+                    AddUtils.sendTitle(player,"&c传送失败!剩余次数%d次".formatted(leftTime),"&e将在三秒后重新传送");
+                    Schedules.launchSchedules(()->{
+                        onRtp(player,center,range,leftTime-1);
+                    },50,false,0);
+                }else{
+                    AddUtils.sendTitle(player,"&c传送失败!","");
+                }
+            }
+        }
+        int EFFECT_RANGE=3;
+        int EFFECT_PERIOD=4;
+        public Location onRandomLocationFind(Location center,int range){
+            World world;
+            if(rand.nextInt(20)%2==0){
+                world=center.getWorld();
+            }else{
+                do{
+                    world=Bukkit.getWorlds().get(rand.nextInt(Bukkit.getWorlds().size()));
+                }while (BANNED_WORLD_NAME.contains(world.getName()));
+            }
+            WorldBorder border=world.getWorldBorder();
+            Location worldcenter=border.getCenter();
+            double size=border.getSize()/2;
+            double minX=worldcenter.getX()-size;
+            double maxX=worldcenter.getX()+size;
+            double minZ=worldcenter.getZ()-size;
+            double maxZ=worldcenter.getZ()+size;
+            Location newLocation=new Location(world,validCoord(center.getBlockX()+rand.nextDouble(-range,range),minX,maxX),
+                    rand.nextDouble(world.getMinHeight()+16, world.getMaxHeight()-16),
+                    validCoord(center.getBlockZ()+rand.nextDouble(-range,range),minZ,maxZ));
+            int x=newLocation.getBlockX()>>4;
+            int z=newLocation.getBlockZ()>>4;
+            //执行预加载 提前生成3x3范围
+            Schedules.launchRepeatingSchedule((i)->{
+
+                newLocation.getWorld().getChunkAt(x-1+i%3,z-1+i/3,true);
+
+
+            },1,false,6,9);
+            while(true){
+                if(newLocation.getBlock().getType().isAir()){
+                    return newLocation;
+                }
+                newLocation.add(0,-1,0);
+
+                if(newLocation.getY()<world.getMinHeight()+16){
+                    return null;
+                }
+            }
+
+        }
+        public boolean onEffect(Player player){
+            HashSet<Location> originLocations=new HashSet<>();
+            Location loc=player.getLocation();
+            World world=player.getWorld();
+            for(int i=-89;i<89;i+=2){
+                for(int j=0;j<4;++j){
+                    Location testLoc=loc.clone();
+                    testLoc.setYaw(testLoc.getYaw()+45+j*90 );
+                    testLoc.setPitch(i);
+                    originLocations.add(testLoc);
+                }
+            }
+            HashSet<Location> effectLocations=new HashSet<>(originLocations);
+            AtomicBoolean hasCancelled=new AtomicBoolean(false);
+            Schedules.asyncWaithRepeatingSchedule((i)->{
+                if(!hasCancelled.get() ){
+                    if(player.getWorld()!=world||player.getLocation().distance(loc)>0.25){
+                        hasCancelled.set(true);
+                        AddUtils.sendTitle(player,"&c传送已被取消!","&e您的位置移动了!");
+                        return;
+                    }
+
+
+                    if((DELAY_BEFORE_TP-EFFECT_PERIOD*i) %20<EFFECT_PERIOD){
+                        AddUtils.sendTitle(player,"&a即将传送,请勿移动!","&e倒计时 %d 秒".formatted((DELAY_BEFORE_TP-EFFECT_PERIOD*i) /20));
+                    }
+                    for(Location location:originLocations){
+                        Location testLoc2=location.clone();
+                        testLoc2.setYaw(location.getYaw()+(i*90*EFFECT_PERIOD)/DELAY_BEFORE_TP);
+                        effectLocations.add(testLoc2);
+                    }
+                    for(Location location:effectLocations){
+                        Location particlePosition=location.clone().add(location.getDirection().multiply(3));
+                        world.spawnParticle(Particle.SOUL_FIRE_FLAME,particlePosition,0,0.0,0.0,0.0,1,null,true);
+                    }
+                }
+            },0,false,EFFECT_PERIOD,DELAY_BEFORE_TP/EFFECT_PERIOD);
+            return !hasCancelled.get();
+        }
+        public ItemDropHandler[] getItemHandler(){
+            return new ItemDropHandler[]{this::onDrop};
+        }
+    }.setOutput(setC(AddItem.RTP_RUNE,2))
+            .register();
+    public static final SlimefunItem SPACE_CARD=new SpaceStorageCard(AddGroups.SPACE,AddItem.SPACE_CARD,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(AddItem.STAR_GOLD_INGOT,AddItem.BISILVER,AddItem.STAR_GOLD_INGOT,AddItem.BISILVER,AddItem.LSINGULARITY,AddItem.BISILVER,
+                    AddItem.STAR_GOLD_INGOT,AddItem.BISILVER,AddItem.STAR_GOLD_INGOT))
+            .register();
+    public static final  SlimefunItem SPACETOWER_FRAME=new SpaceTowerFrame(AddGroups.SPACE, AddItem.SPACETOWER_FRAME,COMMON_TYPE,
+            recipe(AddItem.BISILVER,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.BISILVER,
+                    AddItem.STAR_GOLD_INGOT,AddItem.WORLD_FEAT,AddItem.VIRTUAL_SPACE,AddItem.VIRTUAL_SPACE,AddItem.WORLD_FEAT,AddItem.STAR_GOLD_INGOT,
+                    AddItem.STAR_GOLD_INGOT,setC(AddItem.ATOM_INGOT,16),AddItem.STACKFRAME,AddItem.STACKFRAME,setC(AddItem.ATOM_INGOT,16),AddItem.STAR_GOLD_INGOT,
+                    AddItem.STAR_GOLD_INGOT,setC(AddItem.ATOM_INGOT,16),AddItem.STACKFRAME,AddItem.STACKFRAME,setC(AddItem.ATOM_INGOT,16),AddItem.STAR_GOLD_INGOT,
+                    AddItem.STAR_GOLD_INGOT,AddItem.WORLD_FEAT,AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,AddItem.WORLD_FEAT,AddItem.STAR_GOLD_INGOT,
+                    AddItem.BISILVER,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.BISILVER))
+            .setOutput(setC(AddItem.SPACETOWER_FRAME,16))
+            .register();
+    public static final  SlimefunItem SPACETOWER=new SpaceTower(AddGroups.SPACE, AddItem.SPACETOWER,COMMON_TYPE,
+            recipe(AddItem.DIMENSIONAL_SINGULARITY,AddItem.LIOPORT,AddItem.LENGINE,AddItem.LENGINE,AddItem.LIOPORT,AddItem.DIMENSIONAL_SINGULARITY,
+                    AddItem.LIOPORT,AddItem.SPACE_PLATE,AddItem.HGTLPBBI,AddItem.HGTLPBBI,AddItem.SPACE_PLATE,AddItem.LIOPORT,
+                    AddItem.SPACE_PLATE,AddItem.DIMENSIONAL_SINGULARITY,AddItem.LSCHEDULER,AddItem.LSCHEDULER,AddItem.DIMENSIONAL_SINGULARITY,AddItem.SPACE_PLATE,
+                    AddItem.SPACE_PLATE,AddItem.DIMENSIONAL_SINGULARITY,"ENERGIZED_CAPACITOR","ENERGIZED_CAPACITOR",AddItem.DIMENSIONAL_SINGULARITY,AddItem.SPACE_PLATE,
+                    AddItem.LIOPORT,AddItem.SPACE_PLATE,AddItem.HGTLPBBI,AddItem.HGTLPBBI,AddItem.SPACE_PLATE,AddItem.LIOPORT,
+                    AddItem.DIMENSIONAL_SINGULARITY,AddItem.LIOPORT,AddItem.VIRTUAL_SPACE,AddItem.VIRTUAL_SPACE,AddItem.LIOPORT,AddItem.DIMENSIONAL_SINGULARITY),0,0)
             .register();
     public static final SlimefunItem RADIATION_CLEAR=new CustomProps(AddGroups.SPECIAL, AddItem.RADIATION_CLEAR, RecipeType.NULL,
             AddUtils.NULL_RECIPE.clone(), null) {
@@ -2298,14 +2538,6 @@ public class AddSlimefunItems {
                     )
             ))
             .register();
-
-    public static final  SlimefunItem FINAL_STACKMACHINE=new FinalStackMachine(AddGroups.BEYOND, AddItem.FINAL_STACKMACHINE,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")), Material.STONE,100,400_000_000,64)
-            .register();
-    public static final SlimefunItem FINAL_STACKMGENERATOR=new FinalStackMGenerator(AddGroups.BEYOND, AddItem.FINAL_STACKMGENERATOR,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),1,400_000_000,100,
-            32)
-            .register();
     public static final  SlimefunItem RAND_EDITOR=new RandomEditor(AddGroups.BEYOND, AddItem.RAND_EDITOR,COMMON_TYPE,
             recipe(AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,AddItem.FINAL_FRAME,AddItem.FINAL_FRAME,AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,
                     AddItem.SPACE_PLATE,AddItem.HGTLPBBI,AddItem.ATTR_OP,AddItem.ATTR_OP,AddItem.HGTLPBBI,AddItem.SPACE_PLATE,
@@ -2314,6 +2546,14 @@ public class AddSlimefunItems {
                     AddItem.SPACE_PLATE,AddItem.HGTLPBBI,AddItem.FINAL_CONVERTOR,AddItem.FINAL_CONVERTOR,AddItem.HGTLPBBI,AddItem.SPACE_PLATE,
                     AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,AddItem.FINAL_FRAME,AddItem.FINAL_FRAME,AddItem.SPACE_PLATE,AddItem.SPACE_PLATE), 200_000_000,25_000_000)
             .register();
+    public static final  SlimefunItem FINAL_STACKMACHINE=new FinalStackMachine(AddGroups.BEYOND, AddItem.FINAL_STACKMACHINE,RecipeType.NULL,
+            AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")), Material.STONE,100,400_000_000,64)
+            .register();
+    public static final SlimefunItem FINAL_STACKMGENERATOR=new FinalStackMGenerator(AddGroups.BEYOND, AddItem.FINAL_STACKMGENERATOR,RecipeType.NULL,
+            AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),1,400_000_000,100,
+            32)
+            .register();
+
 
     public static final SlimefunItem TMP1=new MaterialItem(AddGroups.FUNCTIONAL,AddItem.TMP1,RecipeType.NULL,
             AddUtils.NULL_RECIPE.clone())

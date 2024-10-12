@@ -2,6 +2,7 @@ package me.matl114.logitech.Listeners;
 
 
 import me.matl114.logitech.Listeners.Listeners.*;
+import me.matl114.logitech.SlimefunItem.Cargo.SpaceStorage.StorageSpace;
 import me.matl114.logitech.Unittest;
 import me.matl114.logitech.Utils.Debug;
 import org.bukkit.event.Listener;
@@ -25,6 +26,10 @@ public class ListenerManager {
         register(ENTITYFEAT_LISTENER);
         register(LASER_ON_HEAD_LISTENER);
         register(SUPERSPONGE_DRY_LISTENER);
+        if(StorageSpace.ENABLED){
+            register(STORAGESPACE_PROTECTION);
+        }
+        register(BLOCKMENU_PROTECT_LISTENER);
     }
     public static Plugin plugin;
     public static PluginManager manager;
@@ -42,4 +47,6 @@ public class ListenerManager {
     public static final Listener ENTITYFEAT_LISTENER=new SpawnerListener();
     public static final Listener LASER_ON_HEAD_LISTENER=new LaserGunOnHeadListener();
     public static final Listener SUPERSPONGE_DRY_LISTENER=new SuperSpongeDryListener();
+    public static final Listener STORAGESPACE_PROTECTION=new StorageWorldListener();
+    public static final Listener BLOCKMENU_PROTECT_LISTENER=new BlockMenuClickProtectListener();
 }

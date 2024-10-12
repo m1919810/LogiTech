@@ -28,7 +28,6 @@ public class TestWorkBench extends AbstractWorkBench {
         super(category, item, recipeType, recipe, energybuffer, energyConsumption,9, shapedRecipes);
     }
     public void constructMenu(BlockMenuPreset preset){
-        preset.setSize(45);
         int[] border = BORDER;
         int len=border.length;
         for(int var4 = 0; var4 < len; ++var4) {

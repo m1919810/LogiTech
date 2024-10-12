@@ -25,6 +25,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 import java.util.Set;
 //TODO 实现 代理+货运
@@ -91,13 +92,73 @@ public abstract class AbstractIOPort extends AbstractMachine {
         inv.addMenuCloseHandler(player -> {
             updateMenu(inv,b,Settings.RUN);
         });
+        inv.addMenuClickHandler(getStorageSlot(),((player, i, itemStack, clickAction) -> {
+            if(itemStack==null){
+                return true;
+            }else{
+                //当有人企图从中间取出物品时
+                ItemStorageCache cache= ItemStorageCache.getCache(inv.getLocation());
+                if(cache!=null){
+                    if(cache.keepRelated(itemStack)){
+                        ItemStorageCache.removeCache(inv.getLocation());
+                        inv.replaceExistingItem(getDisplaySlot(),ITEM_DISPLAY_NULL );
+                        return true;
+                    }else {
+                        AddUtils.sendMessage(player,"&c存储物品与缓存并不同步,请稍后再试");
+                        return false;
+                    }
+                }else{
+                    return true;
+                }
+            }
+        }));
+        //清除可能的残留
+        ItemStack stack=inv.getItemInSlot(getStorageSlot());
+        if(stack==null||stack.getAmount()!=1){
+            ItemStorageCache.removeCache(inv.getLocation());
+        }else{
+            int history=getStorageAmount(inv.getLocation());
+            if(history>=0){
+                ItemStorageCache cache=ItemStorageCache.getOrCreate(stack,stack.getItemMeta(),getStorageSlot(),i->!i.isStorageProxy());
+                if(cache==null){
+                    if(getDisplaySlot()>=0){
+                        inv.replaceExistingItem(getDisplaySlot(),ITEM_DISPLAY_NULL );
+                    }
+                    ItemStorageCache.removeCache(inv.getLocation());
+                }
+                else {//重启之时
+                    cache.setSaveSlot(getStorageSlot());
+                    //载入history
+                    cache.setAmount(history);
+                    //设置为长期存在的 不会实时clone保存
+                    cache.updateMenu(inv);
+                    cache.setPersistent(true);
+                    ItemStorageCache.setCache(inv, cache);
+                }
+            }else{
+                ItemStorageCache.removeCache(inv.getLocation());
+            }
+        }
 
+    }
+    public boolean listenDoubleClick(){
+        return true;
     }
     public static int getStorageAmount(Location loc){
         return DataCache.getCustomData(loc,"amt",-1);
     }
-    public static void setStorageAmount(Location loc,int t){
-        DataCache.setCustomData(loc,"amt",t);
+    public static void setStorageAmount(Location loc,int t,boolean withException){
+        SlimefunBlockData data=DataCache.safeGetBlockCacheWithLoad(loc);
+        if(data!=null&&SlimefunItem.getById(data.getSfId()) instanceof AbstractIOPort){
+            setAmount(data,t);
+
+        }else {
+            if(withException)
+                throw new IllegalArgumentException("该位置的粘液数据不是AbstractIOPort!");
+        }
+    }
+    protected static void setAmount(SlimefunBlockData data,int t){
+        DataCache.setCustomData(data,"amt",t);
     }
 
     public void process(Block b, BlockMenu menu, SlimefunBlockData data){
@@ -113,7 +174,9 @@ public abstract class AbstractIOPort extends AbstractMachine {
                 cache.updateStorage();
             }
             //删除cache后 物品record变为-1个
-            setStorageAmount(loc,-1);
+            //在remove中已经有操作了，删除
+            //setAmount(data,-1);
+
             if(menu.hasViewer()&&getDisplaySlot()>=0){
                 menu.replaceExistingItem(getDisplaySlot(),ITEM_DISPLAY_NULL );
             }
@@ -124,20 +187,18 @@ public abstract class AbstractIOPort extends AbstractMachine {
         //cache不存在或者    cache和现在的奇点记录的不同 记录不同只有可能是玩家替换,这时候是因为
         if(cache == null||(!cache.keepRelated(stack))){
             //对不上了自然要丢掉废弃的
-            int history=-1;
-            if(cache==null){//考虑是不是无cache到有cache 如果是之前没有cache但是有record 说明cache被某种神秘力量清理了，比如重启
-                //重启后未保存的数据进行恢复
-                history=getStorageAmount(loc);
+//            int history=-1;
+//            if(cache==null){//考虑是不是无cache到有cache 如果是之前没有cache但是有record 说明cache被某种神秘力量清理了，比如重启
+//                //重启后未保存的数据进行恢复
+//                history=getStorageAmount(loc);
+//            }
+            if(cache!=null){
+                //当cache不为null的时候才需要setAmount
+                ItemStorageCache.removeCache(loc);
             }
-
-            ItemStorageCache.removeCache(loc);
             //don't support proxy ,that's a nightmare
             cache=ItemStorageCache.getOrCreate(stack,stack.getItemMeta(),getStorageSlot(),i->!i.isStorageProxy());
-            //cache=ItemStorageCache.getOrCreate(stack,stack.getItemMeta(),getStorageSlot(), Storages.SINGULARITY);
             if(cache==null){
-                if(history!=-1){
-                    setStorageAmount(loc,-1);
-                }
                 if(menu.hasViewer()&&getDisplaySlot()>=0){
                     menu.replaceExistingItem(getDisplaySlot(),ITEM_DISPLAY_NULL );
                 }
@@ -145,14 +206,14 @@ public abstract class AbstractIOPort extends AbstractMachine {
             }
             else {
                 cache.setSaveSlot(getStorageSlot());
-                if(history!=-1){
-                    cache.setAmount(history);
-                }
+                //只有重启的时候需要使用history 其他时间物品都是同步的
+//                if(history!=-1){
+//                    cache.setAmount(history);
+//                }
                 //设置为长期存在的 不会实时clone保存
                 cache.updateMenu(menu);
                 cache.setPersistent(true);
                 ItemStorageCache.setCache(menu, cache);
-
             }
         }
         ItemPusher[] cachelst=new ItemPusher[]{cache};

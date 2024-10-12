@@ -87,7 +87,7 @@ public class TntGenerator extends AbstractMachine {
                         location=e.getKey();
                         BlockMenu inv=e.getValue();
                         SlimefunItem item=DataCache.getSfItem(location);
-                        if(item==null){
+                        if(!(item instanceof TntGenerator)){
                             iterator.remove();
                         }
                         ItemStack it=inv.getItemInSlot(START_SLOT);

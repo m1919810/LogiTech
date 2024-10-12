@@ -858,6 +858,9 @@ public class RecipeSupporter {
                 PROVIDED_SHAPED_RECIPES.put(recipeType,new ArrayList<>());
                 PROVIDED_UNSHAPED_RECIPES.put(recipeType,new ArrayList<>());
             }
+            if(recipeType==BukkitUtils.VANILLA_CRAFTTABLE){
+                BukkitUtils.sendRecipeToVanilla(item);
+            }
         }
         //先解析多方块机器的配方
         for(RecipeType recipeType :RECIPE_TYPES){
@@ -1423,7 +1426,13 @@ public class RecipeSupporter {
         }else if(ReflectUtils.isExtendedFrom(item.getClass(),"Quarry")){
             int ticks=0;
             try {
-                ticks=(Integer) ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"speed");
+                ticks=(Integer) ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"INTERVAL");
+            }catch (Throwable a){
+                return false;
+            }
+            int amount;
+            try{
+                amount=(Integer)ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"speed");
             }catch (Throwable a){
                 return false;
             }
@@ -1431,14 +1440,14 @@ public class RecipeSupporter {
             try{
                 HashMap OSCILLATORS_MAP=(HashMap) ReflectUtils.invokeGetRecursively(null,OscillatorClass,Settings.FIELD,"OSCILLATORS");
                 Material[] outputlist=(Material[]) ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"outputs");
-                List<ItemStack> outputItemlist= Arrays.stream(outputlist).map((material -> new ItemStack(material))).toList();
+                List<ItemStack> outputItemlist= Arrays.stream(outputlist).map((material -> new ItemStack(material,amount))).toList();
                 ItemStack outputRandGroup=AddUtils.eqRandItemStackFactory(outputItemlist);
                 recipes.add(MachineRecipeUtils.mgFrom(ticks,new ItemStack[]{new ItemStack(Material.COBBLESTONE)},new ItemStack[]{outputRandGroup}));
                 for(Object e:OSCILLATORS_MAP.values()){
                     try {
                         SlimefunItem oscillatorsInstance = (SlimefunItem) e;
                         double chance = (Double) ReflectUtils.invokeGetRecursively(oscillatorsInstance, Settings.FIELD, "chance");
-                        ItemStack oscillatorsType=new ItemStack(oscillatorsInstance.getItem().getType());
+                        ItemStack oscillatorsType=new ItemStack(oscillatorsInstance.getItem().getType(),amount);
                         int chanceToInt=(int)(chance*100);
                         ItemStack randOut=AddUtils.randItemStackFactory(new LinkedHashMap<>(){{
                             put(oscillatorsType,chanceToInt);

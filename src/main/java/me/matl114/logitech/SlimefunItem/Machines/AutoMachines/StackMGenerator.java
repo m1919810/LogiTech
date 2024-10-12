@@ -231,6 +231,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
     public final void updateMenu(BlockMenu inv, Block block, Settings mod){
         SlimefunBlockData data=DataCache.safeLoadBlock(inv.getLocation());
         if(data==null){
+            Debug.logger("DATA NOT LOAD! PLEASE REPORT THIS LOG TO THE AUTHOR");
             Schedules.launchSchedules(()->{
               updateMenu(  inv,block,mod);
             },20,false,0);

@@ -72,4 +72,13 @@ public class BukkitUtils {
             );
         }
     }
+    public static void executeAsync(Runnable runnable){
+        if(Bukkit.isPrimaryThread()){
+            Schedules.launchSchedules(
+                    runnable,0,false,0
+            );
+        }else {
+            runnable.run();
+        }
+    }
 }

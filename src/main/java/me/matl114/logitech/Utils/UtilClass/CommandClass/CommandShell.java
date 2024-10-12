@@ -10,20 +10,16 @@ import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.ReflectUtils;
 import me.matl114.logitech.Utils.UtilClass.FunctionalClass.AsyncResultRunnable;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.checkerframework.checker.units.qual.A;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 import java.io.*;
 import java.lang.reflect.*;
 import java.util.*;
-import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
@@ -828,7 +824,7 @@ public class CommandShell {
                     return shell.user.getWorld().getNearbyEntities(shell.user.getLocation(),nearby,nearby,nearby);
                 }
             };
-            result=getNearby.waitForDone(true);
+            result=getNearby.waitThreadDone(true);
             Entity[] entities=new Entity[result.size()];
             int index=0;
             for (Entity  e:result){

@@ -75,30 +75,67 @@ public interface MenuBlock extends InventoryBlock {
         //handle blockPlaceEvent
         handleBlock(item);
     }
+    default boolean listenDoubleClick(){
+        return false;
+    }
+    public static abstract class AdvancedBlockMenuPreset extends BlockMenuPreset{
+        //双击 拖拽都无法监听！
+        boolean doubleClick;
+        public AdvancedBlockMenuPreset(String id,String name,boolean doubleClick){
+            super(id,name);
+            this.doubleClick=doubleClick;
+        }
+    }
     default void createPreset(final SlimefunItem item, String title, final Consumer<BlockMenuPreset> setup) {
-        BlockMenuPreset var10001 = new BlockMenuPreset(item.getId(), title) {
-            public void init() {
-                setup.accept(this);
-            }
-
-            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-                return MenuBlock.this.getSlotsAccessedByItemTransport(flow);
-            }
-            public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item){
-                return  MenuBlock.this.getSlotsAccessedByItemTransportPlus(menu,flow,item);
-            }
-
-            public boolean canOpen(Block b, Player p) {
-                if (p.hasPermission("slimefun.inventory.bypass")) {
-                    return true;
-                } else {
-                    return item.canUse(p, false) && Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK);
+        if(listenDoubleClick()){
+            BlockMenuPreset var10001 = new AdvancedBlockMenuPreset(item.getId(), title,listenDoubleClick())  {
+                public void init() {
+                    setup.accept(this);
                 }
-            }
-            public void newInstance(@Nonnull BlockMenu blockMenu, @Nonnull Block block){
-                MenuBlock.this.newMenuInstance(blockMenu, block);
-            }
-        };
+
+                public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
+                    return MenuBlock.this.getSlotsAccessedByItemTransport(flow);
+                }
+                public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item){
+                    return  MenuBlock.this.getSlotsAccessedByItemTransportPlus(menu,flow,item);
+                }
+
+                public boolean canOpen(Block b, Player p) {
+                    if (p.hasPermission("slimefun.inventory.bypass")) {
+                        return true;
+                    } else {
+                        return item.canUse(p, false) && Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK);
+                    }
+                }
+                public void newInstance(@Nonnull BlockMenu blockMenu, @Nonnull Block block){
+                    MenuBlock.this.newMenuInstance(blockMenu, block);
+                }
+            };
+        }else {
+            BlockMenuPreset var10001 = new BlockMenuPreset(item.getId(), title)  {
+                public void init() {
+                    setup.accept(this);
+                }
+
+                public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
+                    return MenuBlock.this.getSlotsAccessedByItemTransport(flow);
+                }
+                public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item){
+                    return  MenuBlock.this.getSlotsAccessedByItemTransportPlus(menu,flow,item);
+                }
+
+                public boolean canOpen(Block b, Player p) {
+                    if (p.hasPermission("slimefun.inventory.bypass")) {
+                        return true;
+                    } else {
+                        return item.canUse(p, false) && Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK);
+                    }
+                }
+                public void newInstance(@Nonnull BlockMenu blockMenu, @Nonnull Block block){
+                    MenuBlock.this.newMenuInstance(blockMenu, block);
+                }
+            };
+        }
     }
 
     default int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {

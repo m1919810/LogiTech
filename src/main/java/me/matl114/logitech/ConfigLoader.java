@@ -14,33 +14,40 @@ import java.nio.file.NoSuchFileException;
 
 public class ConfigLoader {
     public static boolean TESTMODE = MyAddon.testmode();
+
     public static void load(Plugin plugin) {
         ConfigLoader.plugin=plugin;
         init();
         //final File scAddonFile = new File(plugin.getDataFolder(), "language.yml");
         //copyFile(scAddonFile, "language");
+        CONFIG=loadExternalConfig("config");
         INNERCONFIG=loadInternalConfig("config");
         if(INNERCONFIG.getBoolean("options.test")) {
             MyAddon.testmod=true;
             TESTMODE=true;
             Debug.debug("Addon is running on TEST MODE");
         }
+        if(INNERCONFIG.getBoolean("options.clear-old-config")) {
+            MyAddon.testmod=true;
+        }
         LANGUAGE=loadInternalConfig("language");   //new Config(plugin,"language.yml");
         MACHINES=loadExternalConfig("machines");
         INNER_MACHINES=loadInternalConfig("addon-machines");
-
+        SPACE_STORAGE= loadExternalConfig("space-storage");
     }
     public static Plugin plugin;
+    public static Config CONFIG;
     public static Config INNERCONFIG;
     public static Config LANGUAGE;
     public static Config MACHINES;
     public static Config INNER_MACHINES;
+    public static Config SPACE_STORAGE;
     public static File NULL_FILE;
     public static void init() {
         NULL_FILE=new File(plugin.getDataFolder(), "configure.yml");
     }
     public static void copyFile(File file, String name) {
-        if(TESTMODE){
+        if(MyAddon.clearConfig){
             try{
                 Files.delete(file.toPath());
             }catch(Throwable e){

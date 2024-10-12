@@ -7,6 +7,7 @@ import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.AbstractIOPort;
 import me.matl114.logitech.SlimefunItem.Cargo.Storages;
 import me.matl114.logitech.Utils.CraftUtils;
+import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.MenuUtils;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
@@ -47,6 +48,8 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
         }
     }
     public static ItemStorageCache removeCache(Location loc) {
+        //prevent dupe from last record,
+        AbstractIOPort.setStorageAmount(loc,-1,false);
         synchronized(lock){
             return cacheMap.remove(loc);
         }
@@ -224,11 +227,13 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
     /**
      * check if cache can continue bind on this item,or just a item change,
      * if continue bind, reset source to this item and return True,else return False
+     * check if someOne tend to replace it with a similar one or add its amount or do sth else
      * @param item
      * @return
      */
     public boolean keepRelated(ItemStack item){
         if(item==null)return false;
+        if(item.getAmount()!=1)return false;
         else if(CraftUtils.sameCraftItem(item,source)){
             return true;
         }
@@ -258,7 +263,15 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
      * @param loc
      */
     public void syncLocation(Location loc){
-        AbstractIOPort.setStorageAmount(loc,storageAmount);
+        try{
+            AbstractIOPort.setStorageAmount(loc,storageAmount,true);
+        }catch (Throwable e){
+            Debug.logger("存储cache与粘液机器不对应!位置[%s]疑似出现刷物行为,移除相应存储cache并抛出错误:".formatted(DataCache.locationToDisplayString(loc)));
+
+            ItemStorageCache cache= removeCache(loc);
+            cache.updateStorage();
+            throw e;
+        }
     }
     public void updateStorage(){
         storageType.onStorageAmountWrite(sourceMeta,storageAmount);

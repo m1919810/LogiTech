@@ -65,7 +65,6 @@ public class SimulateTestGenerator extends AbstractMachine {
         this.RANDOM_THREASHOLD= 2*this.ENERGY_ABSMAX+1;
     }
     public void constructMenu(BlockMenuPreset preset){
-        preset.setSize(9);
         preset.addItem(INFO_SLOT,ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
     }
     public void newMenuInstance(BlockMenu menu, Block block){

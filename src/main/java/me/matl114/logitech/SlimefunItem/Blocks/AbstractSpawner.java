@@ -12,6 +12,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.CreatureSpawner;
+import org.bukkit.block.TileState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -35,14 +36,16 @@ public class AbstractSpawner extends AbstractBlock{
             ItemStack it=event.getItemInHand();
             if(it.getItemMeta() instanceof BlockStateMeta bsm){
                 if(bsm.getBlockState() instanceof CreatureSpawner cs2){
-                    cs.setSpawnedType(cs2.getSpawnedType());
-                    cs.setMinSpawnDelay(cs2.getMinSpawnDelay());
-                    cs.setMaxSpawnDelay(cs2.getMaxSpawnDelay());
-                    cs.setMaxNearbyEntities(cs2.getMaxNearbyEntities());
-                    cs.setRequiredPlayerRange(cs2.getRequiredPlayerRange());
-                    cs.setSpawnRange(cs2.getSpawnRange());
-                    cs.setSpawnCount(cs2.getSpawnCount());
-                    cs.update(true,false);
+                    cs2.copy(e.getLocation());
+//                    cs.setSpawnedType(cs2.getSpawnedType());
+//                    cs.setMinSpawnDelay(cs2.getMinSpawnDelay());
+//                    cs.setMaxSpawnDelay(cs2.getMaxSpawnDelay());
+//                    cs.setMaxNearbyEntities(cs2.getMaxNearbyEntities());
+//                    cs.setRequiredPlayerRange(cs2.getRequiredPlayerRange());
+//                    cs.setSpawnRange(cs2.getSpawnRange());
+//                    cs.setSpawnCount(cs2.getSpawnCount());
+                    e.getState().update(true,false);
+                    //cs.update(true,false);
                 }
             }
         }

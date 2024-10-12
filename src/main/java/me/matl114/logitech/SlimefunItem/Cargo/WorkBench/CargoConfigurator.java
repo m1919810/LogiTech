@@ -18,6 +18,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -37,25 +38,28 @@ public class CargoConfigurator extends AbstractBlock {
     protected final int OUTPUT_SLOT=31;
     protected final ItemStack[] INFO_ITEMS=new ItemStack[]{
             new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,
-                    "&6点击构建货运配置卡","&e将任意货运配置卡置于下方槽位","&7并在对应的配置槽位中放入指定物品","&7点击该物品,即可进行配置","&a支持一次配置多个配置卡",
-                    "&c当放入的配置卡已有货运配置","&c留空指定配置项槽位会保持原配置项不变!放入物品则会覆盖原配置项!"),
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 强对称",
+                    "&6点击构建货运配置卡","&e将任意货运配置卡置于下方槽位","&7并在对应的配置槽位中放入指定物品",
+                    "&a若配置卡上已有配置,只有非空配置槽位的配置会覆盖原有配置项!",
+                   "&c若配置卡上没有配置, 留空将默认false/0",
+                   "&a点击这个按钮,即可进行配置",
+                    "&e支持一次配置一组配置卡"),
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 强对称 的配置槽位",
                     "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置是否使用强对称传输","&7即是否将物品按槽位进行对应的运输"),
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 仅空运输",
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 仅空运输 的配置槽位",
                     "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置是否使用仅空传输","&7即是否只传向空槽位"),
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 懒惰模式",
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 懒惰模式 的配置槽位",
                     "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置是否使用懒惰模式","&7即是否在传输一次后停止"),
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 白名单",
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 白名单 的配置槽位",
                     "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置是否使用白名单","&7即是否将物品列表视为白名单,默认黑名单"),
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 取自输入槽",
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 取自输入槽 的配置槽位",
                     "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置是否取自输入槽","&7即只选择源方块的输入槽进行传输,默认为只选择输出槽"),
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 传向输出槽",
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 传向输出槽 的配置槽位",
                     "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置是否传向输出槽","&7即只选择目标方块的输出槽进行传输,默认为只选择输入槽"),
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 逆向传输",
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 逆向传输 的配置槽位",
             "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置是否使用逆向传输","&7即是否从目标方块指定槽位向源方块指定槽位传输"),
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 传输数量限制",
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 传输数量限制x64 的配置槽位",
                     "&e将[%s]置于下方".formatted(Language.get("Items.CARGO_PART.Name")),"&7配置传输数量","&a传输数量增加<物品数量>*64"),
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 传输数量限制",
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 传输数量限制x1 的配置槽位",
                     "&e将[%s]置于下方".formatted(Language.get("Items.CARGO_PART.Name")),"&7配置传输数量","&a传输数量增加<物品数量>"),
     };
     protected final ItemStack TIPS_ITEM=AddUtils.randItemStackFactory(
@@ -100,9 +104,10 @@ public class CargoConfigurator extends AbstractBlock {
             preset.addItem(slot[i],INFO_ITEMS[i],ChestMenuUtils.getEmptyClickHandler());
         }
     }
-    public boolean craft(BlockMenu inv){
+    public boolean craft(BlockMenu inv,Player player){
         ItemStack it=inv.getItemInSlot(getConfigCardSlot());
         if(it==null){
+            AddUtils.sendMessage(player,"&c配置失败,请放入货运配置卡");
             return false;
         }
         int[] slots=getConfigureSlots();
@@ -122,10 +127,14 @@ public class CargoConfigurator extends AbstractBlock {
                     //有附魔是true 没是false
                     int icode=stack.getEnchantments().isEmpty()?0:1;
                    code=  CargoConfigs.setConfigBit(code,icode,i);
-                }else return false;
+                }else {
+                    AddUtils.sendMessage(player,"&c配置失败,这不是布尔组件");
+                    return false;
+                }
             }
             stack=inv.getItemInSlot(slots[7]);
             if(stack!=null&&stack.getType()!=Material.SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE){
+                AddUtils.sendMessage(player,"&c配置失败,配置传输数量限制的物品不符");
                 return false;
             }
             int stackAmount=0;
@@ -134,6 +143,7 @@ public class CargoConfigurator extends AbstractBlock {
             }
             stack=inv.getItemInSlot(slots[8]);
             if(stack!=null&&stack.getType()!=Material.SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE){
+                AddUtils.sendMessage(player,"&c配置失败,配置传输数量限制的物品不符");
                 return false;
             }
             if(stack!=null){
@@ -143,6 +153,7 @@ public class CargoConfigurator extends AbstractBlock {
                 code=CargoConfigs.TRANSLIMIT.setConfig(code,stackAmount);
             }
             if(CargoConfigs.TRANSLIMIT.getConfigInt(code)<=0){
+                AddUtils.sendMessage(player,"&c配置失败,传输数量限制不能为0!");
                 return false;
             }
             CargoConfigCard.setConfig(meta,code);
@@ -152,6 +163,7 @@ public class CargoConfigurator extends AbstractBlock {
             }
             return true;
         }
+        AddUtils.sendMessage(player,"&c配置失败,请放入货运配置卡");
         return false;
     }
     public void newMenuInstance(BlockMenu inv, Block block){
@@ -159,10 +171,8 @@ public class CargoConfigurator extends AbstractBlock {
             inv.replaceExistingItem(TIPS_SLOT,TIPS_ITEM.clone());
         });
         inv.addMenuClickHandler(INFO_SLOTS[0],((player, i, itemStack, clickAction) -> {
-            if(craft(inv)){
+            if(craft(inv,player)){
                 AddUtils.sendMessage(player,"&a配置成功!");
-            }else{
-                AddUtils.sendMessage(player,"&c配置失败,请检查槽位的内容!");
             }
             return false;
         }));

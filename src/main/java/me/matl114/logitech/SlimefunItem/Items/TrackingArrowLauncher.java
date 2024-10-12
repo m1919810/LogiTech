@@ -27,15 +27,15 @@ public class TrackingArrowLauncher extends ChargableProps {
     }
     protected final float MAX_CHARGE=9_000_000.0f;
     protected Random rand = new Random();
-    protected final float ARROW_SPEED=1.2F;
-    protected final int ARROW_AMOUNT=10;
-    protected final int ARROW_EXIST_TIME=15;
+    protected final float ARROW_SPEED=1.25F;
+    protected final int ARROW_AMOUNT=16;
+    protected final int ARROW_EXIST_TIME=8;
     protected final float RAYTRACE_RANGE=60;
     protected final int MAX_TRACETIME=150;
     protected final int PERIOD_TRACETIME=2;
-    protected final int BASIC_DAMAGE=80;
+    protected final int BASIC_DAMAGE=40;
     protected final float ENERGYCONSUMPTION=640.0f;
-    protected final float DEFLECTION_RATE=0.15f;
+    protected final float DEFLECTION_RATE=0.2f;
     protected final float LOCATION_DELTA=0.4f;
     protected final float SIGHT_DELTA=10f;
     public float getMaxItemCharge(ItemStack var1){
@@ -64,7 +64,7 @@ public class TrackingArrowLauncher extends ChargableProps {
         ItemMeta meta=item.getItemMeta();
         int powerLevel=meta.getEnchantLevel(Enchantment.ARROW_DAMAGE);
         int sharpnessLevel=meta.getEnchantLevel(Enchantment.DAMAGE_ALL);
-        int damage=40+2*powerLevel+sharpnessLevel;
+        int damage=(int)BASIC_DAMAGE+2*powerLevel+sharpnessLevel;
         //随机生成若干箭矢，需要针对location 朝向 motion做改动
         Location loc = WorldUtils.getHandLocation(p);
         HashSet<Arrow> arrows=new HashSet<>();
@@ -90,20 +90,34 @@ public class TrackingArrowLauncher extends ChargableProps {
         loc2.setPitch(loc2.getPitch()+rand.nextFloat(-SIGHT_DELTA,SIGHT_DELTA));
         loc2.setYaw(loc2.getYaw()+rand.nextFloat(-SIGHT_DELTA,SIGHT_DELTA));
         Arrow a= loc.getWorld().spawnArrow(loc2,loc2.getDirection(),ARROW_SPEED,ARROW_EXIST_TIME);
-        a.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
         a.setDamage(damage);
         a.setCritical(false);
         a.setShooter(p);
         a.setGravity(false);
-        a.setPierceLevel(4);
+        a.setPickupStatus(AbstractArrow.PickupStatus.DISALLOWED);
+
+        //这样才有伤害
         return a;
+    }
+    public void onArrowCancelTrace(Arrow arrow){
+        arrow.setGravity(true);
     }
     public void launchAutoTrace(HashSet<Arrow> arrows,HashSet<LivingEntity> targetEntities){
         HashSet<Arrow> runningArrows=new HashSet<>(arrows);
         BukkitRunnable task = new BukkitRunnable() {
             protected int runTime;
             protected boolean isRunning=false;
+            public void cancel(){
+                super.cancel();
+                //runningArrows.forEach((a)->{onArrowCancelTrace(a);});
+                BukkitUtils.executeSync(()->{
+                    arrows.forEach((a)->{
+                        a.remove();
+                    });
+                });
 
+
+            }
             public void run(){
                 if(isRunning){
                     return;
@@ -120,10 +134,9 @@ public class TrackingArrowLauncher extends ChargableProps {
                             while(iterator.hasNext()){
                                 Arrow arrow=iterator.next();
                                 if(arrow.isOnGround()||arrow.isDead()||!arrow.isValid()||arrow.isInBlock()){
+                                    onArrowCancelTrace(arrow);
                                     iterator.remove();
                                     arrows.remove(arrow);
-                                }else if(arrow.getPierceLevel()<=0){
-                                    iterator.remove();
                                 }
                                 else {
                                     Location loc=arrow.getLocation();
@@ -145,6 +158,7 @@ public class TrackingArrowLauncher extends ChargableProps {
                                     if(choosedEntity!=null){
                                         targetMap.put(arrow,choosedEntity);
                                     }else {
+                                        onArrowCancelTrace(arrow);
                                         iterator.remove();
                                     }
                                 }
@@ -162,6 +176,7 @@ public class TrackingArrowLauncher extends ChargableProps {
                             arrow.getWorld().spawnParticle(Particle.CHERRY_LEAVES,arrow.getLocation(),3,0.0,0.0,0.0,1,null,true);
                             if(runTime%2==0&&runTime>5)
                                 arrow.getWorld().spawnParticle(Particle.FLAME,arrow.getLocation(),0,0.0,0.0,0.0,1,null,true);
+
                         }
                     }finally {
                         isRunning=false;
@@ -174,10 +189,10 @@ public class TrackingArrowLauncher extends ChargableProps {
     public void retrackArrow(Arrow arrow,LivingEntity target){
         Location loc=arrow.getLocation();
         Location targetLoc=target.getEyeLocation();
-        if(loc.distance(targetLoc)<2.0f){
-            return;
+        if(loc.distance(targetLoc)>1.0f) {
+            arrow.setVelocity(targetLoc.subtract(loc).toVector().normalize().multiply(ARROW_SPEED * DEFLECTION_RATE).add(arrow.getVelocity().multiply(1.0f - DEFLECTION_RATE)));
         }else {
-            arrow.setVelocity(targetLoc.subtract(loc).toVector().normalize().multiply(ARROW_SPEED*DEFLECTION_RATE).add(arrow.getVelocity().multiply(1.0f-DEFLECTION_RATE)));
+            arrow.setVelocity(arrow.getVelocity().normalize().multiply(ARROW_SPEED));
         }
     }
 }

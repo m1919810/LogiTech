@@ -29,6 +29,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
@@ -36,6 +37,8 @@ import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -52,6 +55,34 @@ public class WorldUtils {
     }
     public static void setAir(Location loc) {
         loc.getBlock().setType(Material.AIR);
+    }
+    protected static Class CraftBlockStateClass;
+    protected static Field IBlockDataField;
+    protected static Field BlockPositionField;
+    protected static Field WorldField;
+    protected static Field WeakWorldField;
+    protected static boolean invokeBlockStateSuccess=false;
+    static {
+        try{
+            Debug.debug( Bukkit.getBukkitVersion());
+            World sampleWorld= Bukkit.getWorlds().get(0);
+            Debug.debug(sampleWorld.getName());
+            BlockState blockstate=sampleWorld.getBlockAt(0, 0, 0).getState();
+            var result=ReflectUtils.getDeclaredFieldsRecursively(blockstate.getClass(),"data");
+            IBlockDataField=result.getFirstValue();
+            IBlockDataField.setAccessible(true);
+            CraftBlockStateClass=result.getSecondValue();
+            BlockPositionField=ReflectUtils.getDeclaredFieldsRecursively(CraftBlockStateClass,"position").getFirstValue();
+            BlockPositionField.setAccessible(true);
+            WorldField=ReflectUtils.getDeclaredFieldsRecursively(CraftBlockStateClass,"world").getFirstValue();
+            WorldField.setAccessible(true);
+            WeakWorldField=ReflectUtils.getDeclaredFieldsRecursively(CraftBlockStateClass,"weakWorld").getFirstValue();
+            WeakWorldField.setAccessible(true);
+            Debug.debug("CraftBlockStateClass: "+CraftBlockStateClass.getName());
+            invokeBlockStateSuccess=true;
+        }catch (Throwable e){
+           Debug.logger(e);
+        }
     }
     public static void setup(){
 
@@ -272,7 +303,7 @@ public class WorldUtils {
         World world= start.getWorld();
         if(end.getWorld()!=world)return;
         if(count==1){
-            world.spawnParticle(type,start,0);
+            world.spawnParticle(type,start,0,0.0,0.0,0.0,1,null,true);
         }else {
             Location walk=start.clone();
             double dx=(end.getX()-start.getX())/(count-1);
@@ -352,19 +383,48 @@ public class WorldUtils {
 
     }
     //IF SF DATA EXISTS,SF BLOCK WILL ALSO BE BREAKED, MAY CAUSE PROBLEMS
-    public static boolean breakVanillaBlockByPlayer(Block block,Player player,boolean withDrop){
-        if(WorldUtils.hasPermission(player,block.getLocation(),Interaction.BREAK_BLOCK)){
+    public static boolean breakVanillaBlockByPlayer(Block block,Player player,boolean hasCheckedProtection,boolean withDrop){
+        if(hasCheckedProtection||WorldUtils.hasPermission(player,block.getLocation(),Interaction.BREAK_BLOCK)){
+            if(block.getType()!=Material.AIR){
+                BlockBreakEvent event=new BlockBreakEvent(block,player);
+                Bukkit.getPluginManager().callEvent(event);
+                if(event.isCancelled()){
+                    return false;
+                }
+                event.setDropItems(withDrop);
+                block.setType(Material.AIR);
+                return true;
+            }else return true;
+        }else return false;
+    }
+    public static boolean moveVanillaBlockByPlayer(Block block1,Block block2,Player player,boolean checkFromPerms,boolean checkToPerms,boolean hasCheckedProtection,boolean applyPhysics){
+        if(hasCheckedProtection||((!checkFromPerms||WorldUtils.hasPermission(player,block1,Interaction.BREAK_BLOCK))&&(!checkToPerms||WorldUtils.hasPermission(player,block2,Interaction.PLACE_BLOCK)))){
+            if(checkFromPerms){
+                BlockBreakEvent event=new BlockBreakEvent(block1,player);
+                Bukkit.getPluginManager().callEvent(event);
+                if(event.isCancelled()){
+                    return false;
+                }
+                event.setDropItems(false);
+            }
+            block2.setType(block1.getType());
+            block2.setBlockData(block1.getBlockData(),applyPhysics);
+            block1.setType(Material.AIR);
+            return true;
+        }else return false;
+    }
+    public static boolean testVanillaBlockBreakPermission(Block block,Player player,boolean hasCheckedProtection){
+        if(hasCheckedProtection||(WorldUtils.hasPermission(player,block,Interaction.BREAK_BLOCK, Interaction.PLACE_BLOCK))){
             BlockBreakEvent event=new BlockBreakEvent(block,player);
             Bukkit.getPluginManager().callEvent(event);
             if(event.isCancelled()){
                 return false;
             }
-            event.setDropItems(withDrop);
-            block.setType(Material.AIR);
-            block.getState().update(true,true);
+            event.setDropItems(false);
             return true;
         }else return false;
     }
+
 
 
     public static void forceLoadChunk(Location loc,int tick){
@@ -388,5 +448,21 @@ public class WorldUtils {
         Location playerLocation=p.getLocation();
         loc.add(playerLocation.subtract(loc).multiply(0.3).toVector());
         return loc;
+    }
+    public static boolean copyBlockState(BlockState state,Block block2){
+        if(invokeBlockStateSuccess){
+            BlockState state2=block2.getState();
+            if(CraftBlockStateClass.isInstance(state2)&&CraftBlockStateClass.isInstance(state)){
+                try{
+                    BlockPositionField.set(state,BlockPositionField.get(state2));
+                    WorldField.set(state,WorldField.get(state2));
+                    WeakWorldField.set(state,WeakWorldField.get(state2));
+                    state.update(true,false);
+                    return true;
+                }catch (Throwable e){
+                    return false;
+                }
+            }else return false;
+        }else return false;
     }
 }
