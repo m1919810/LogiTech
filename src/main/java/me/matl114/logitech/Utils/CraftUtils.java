@@ -460,30 +460,26 @@ public class CraftUtils {
         //应该不会有很多2b作者给这么高效的机器设置两个输出
         else if (cnt2==1){
             recipeCounter2[0]=getGreedyConsumer(recipeOutput[0]);
-                for(int i=0;i<len2;++i) {
-                    ItemPusher itemCounter=outputCounters.get(i);
-                    if(itemCounter.getItem()==null){
-                        itemCounter.setFrom(recipeCounter2[0]);
-                        recipeCounter2[0].addRelate(itemCounter);
-                        recipeCounter2[0].addMatchAmount(recipeCounter2[0].getMaxStackCnt());
-                    }
-                    else if(itemCounter.getMaxStackCnt()<=itemCounter.getAmount()){
-                        continue;
-                    }
-                    else if(CraftUtils.matchItemCounter(recipeCounter2[0],itemCounter,false)){
-                        recipeCounter2[0].addRelate(itemCounter);
-                        recipeCounter2[0].addMatchAmount(itemCounter.getMaxStackCnt()-itemCounter.getAmount());
-                    }
-                    if(recipeCounter2[0].getStackNum()>=maxAmount2){
-                        break;
-                    }
+            for(int i=0;i<len2;++i) {
+                ItemPusher itemCounter=outputCounters.get(i);
+                if(itemCounter.getItem()==null){
+                    itemCounter.setFrom(recipeCounter2[0]);
+                    recipeCounter2[0].addRelate(itemCounter);
+                    recipeCounter2[0].addMatchAmount(recipeCounter2[0].getMaxStackCnt());
                 }
-
-
-
-
-                 maxAmount2=Math.min(recipeCounter2[0].getStackNum(),maxAmount2);
-                if(maxAmount2<=0){return null;}
+                else if(itemCounter.getMaxStackCnt()<=itemCounter.getAmount()){
+                    continue;
+                }
+                else if(CraftUtils.matchItemCounter(recipeCounter2[0],itemCounter,false)){
+                    recipeCounter2[0].addRelate(itemCounter);
+                    recipeCounter2[0].addMatchAmount(itemCounter.getMaxStackCnt()-itemCounter.getAmount());
+                }
+                if(recipeCounter2[0].getStackNum()>=maxAmount2){
+                    break;
+                }
+            }
+            maxAmount2=Math.min(recipeCounter2[0].getStackNum(),maxAmount2);
+            if(maxAmount2<=0){return null;}
         }
         //如果真的有,你喜欢就好
         //有可能是桶或者什么
@@ -505,6 +501,7 @@ public class CraftUtils {
                 if(itemCounter.getItem()==null){
                     itemCounter.setFrom(itemCounter2);
                     itemCounter2.addRelate(itemCounter);
+                    //can output maxCnt amount
                     itemCounter2.addMatchAmount(itemCounter2.getMaxStackCnt());
                     hasNextPushSlot=true;
                     break;
@@ -513,13 +510,20 @@ public class CraftUtils {
                     continue;
                 }
                 else if(CraftUtils.matchItemCounter(itemCounter2,itemCounter,false)){
-                    itemCounter.setFrom(itemCounter2);
+                    //what the fuck????
+                    //为什么他妈的会覆盖啊 谁写的答辩玩意啊
+                    //itemCounter.setFrom(itemCounter2);
                     itemCounter2.addRelate(itemCounter);
-                    itemCounter2.addMatchAmount(itemCounter2.getMaxStackCnt()-itemCounter.getAmount());
+                    //must use itemCounter.getMaxStackCnt because ItemStorage
+                    itemCounter2.addMatchAmount(itemCounter.getMaxStackCnt()-itemCounter.getAmount());
                     hasNextPushSlot=true;
                     break;
                 }
             }
+            //?
+            //这是什么鬼玩意
+            //哦
+            //要判断是否有nextSlot
             if(hasNextPushSlot&&itemCounter2.getStackNum()<=maxAmount2){
                 priorityRecipeOutput.add(itemCounter2);
             }else{
@@ -577,7 +581,6 @@ public class CraftUtils {
                     continue;
                 }
                 else if(CraftUtils.matchItemCounter(recipeCounter2[0],itemCounter,false)){
-                    itemCounter.setFrom(recipeCounter2[0]);
                     recipeCounter2[0].addRelate(itemCounter);
                     recipeCounter2[0].addMatchAmount(recipeCounter2[0].getMaxStackCnt()-itemCounter.getAmount());
                 }

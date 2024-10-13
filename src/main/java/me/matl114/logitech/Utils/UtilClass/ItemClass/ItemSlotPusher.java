@@ -109,7 +109,9 @@ public class ItemSlotPusher extends ItemPusher {
         return super.transportFrom(source,limit);
     }
     public void setFrom(ItemCounter source){
-        if(wasNull||(source!=null&&source.getItem()!=null)){
+        //only when null AND source not null, can we setFrom
+        //we don't support cache change
+        if(wasNull&&(source!=null&&source.getItem()!=null)){
             item=source.getItem();
             maxStackCnt=item!=null?item.getMaxStackSize():0;
             cnt=0;

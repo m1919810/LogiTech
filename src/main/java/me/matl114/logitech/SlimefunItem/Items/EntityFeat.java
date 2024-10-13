@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
@@ -186,7 +187,7 @@ public class EntityFeat extends ItemWithHandler<ItemDropHandler> {
     }
     public boolean canStack(ItemMeta meta1,ItemMeta meta2){
         if(meta1 instanceof BlockStateMeta bsm1 &&meta2 instanceof BlockStateMeta bsm2){
-            return bsm1.getBlockState().equals(bsm2.getBlockState());
+            return CraftUtils.matchBlockStateMetaOnInvoke(bsm1,bsm2);
         }
         return false;
     }

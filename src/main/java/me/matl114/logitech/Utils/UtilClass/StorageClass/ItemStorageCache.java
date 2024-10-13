@@ -245,7 +245,7 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
     }
     public void updateItemStack(){
         if(dirty) {
-            if (wasNull == true) {
+            if (wasNull) {
                 if (getItem() != null) {
                     item = item.clone();
                     item.setAmount(1);
@@ -279,7 +279,6 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
         source.setItemMeta(sourceMeta);
     }
     public void updateMenu(@Nonnull BlockMenu menu){
-
         if (getItem()!=null&&!getItem().getType().isAir()){
             updateItemStack();
             if(persistent){
