@@ -90,7 +90,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.20.4-R0.1-SNAPSHOT</version>
+            <version>1.21.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -115,12 +115,6 @@
             <groupId>com.github.SlimefunGuguProject</groupId>
             <artifactId>InfinityExpansion</artifactId>
             <version>bebf0bd0f9</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.SlimefunGuguProject</groupId>
-            <artifactId>Networks</artifactId>
-            <version>1514bf728b</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
