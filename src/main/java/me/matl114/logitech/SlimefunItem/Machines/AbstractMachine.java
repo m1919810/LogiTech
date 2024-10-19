@@ -33,7 +33,6 @@ import java.util.function.Function;
 public abstract  class AbstractMachine extends CustomSlimefunItem implements Ticking, MenuBlock,  EnergyNetComponent, NotHopperable  {
     //我们的目标是 最广的需求 最好的性能 最大的答辩(bushi
     public  List<MachineRecipe> machineRecipes ;
-    private final String id;
     /**
      * energy stuff
      */
@@ -59,7 +58,6 @@ public abstract  class AbstractMachine extends CustomSlimefunItem implements Tic
         this.energyConsumption = energyConsumption>0?energyConsumption:-energyConsumption;
         this.energyNetComponent=(energybuffer==0)?(EnergyNetComponentType.NONE) :
                 ((energyConsumption>0)?(EnergyNetComponentType.CONSUMER):(energyConsumption==0?EnergyNetComponentType.CAPACITOR: EnergyNetComponentType.GENERATOR));
-        this.id = item.getItemId();
         switch (this.energyNetComponent){
             case GENERATOR:
                 this.handleProcess = (inv) -> {

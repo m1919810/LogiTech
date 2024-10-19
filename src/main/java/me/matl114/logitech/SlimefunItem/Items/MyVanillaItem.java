@@ -56,6 +56,10 @@ public class MyVanillaItem extends VanillaItem implements RecipeDisplay {
         }
         return this;
     }
+    public void postRegister(){
+        super.postRegister();
+        this.addWikiPage("Overview");
+    }
 
 
 }

@@ -118,7 +118,7 @@ public class LogicReactor extends AbstractProcessor {
             inv.replaceExistingItem(SWITCH_SLOT,SWITCH_OFF);
         }
         inv.addMenuClickHandler(SWITCH_SLOT,((player, i, itemStack, clickAction) -> {
-            if(itemStack.getType()==Material.SOUL_TORCH){
+            if(itemStack!=null&&itemStack.getType()==Material.SOUL_TORCH){
                 inv.replaceExistingItem(SWITCH_SLOT,SWITCH_ON);
             }else{
                 inv.replaceExistingItem(SWITCH_SLOT,SWITCH_OFF);
@@ -179,7 +179,8 @@ public class LogicReactor extends AbstractProcessor {
         }
     }
     public boolean conditionHandle(Block b,BlockMenu menu){
-        if(menu.getItemInSlot(SWITCH_SLOT).getType()==Material.SOUL_TORCH){
+        ItemStack switchItem=menu.getItemInSlot(SWITCH_SLOT);
+        if(switchItem!=null&&switchItem.getType()==Material.SOUL_TORCH){
             return false;
         }else return super.conditionHandle(b,menu);
     }

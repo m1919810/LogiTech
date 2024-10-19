@@ -188,6 +188,5 @@ public class CargoConfigurator extends AbstractBlock {
     public void preRegister() {
         super.preRegister();
         this.registerBlockMenu(this);
-        this.handleBlock(this);
     }
 }

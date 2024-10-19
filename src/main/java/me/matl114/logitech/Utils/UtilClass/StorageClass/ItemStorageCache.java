@@ -30,11 +30,22 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
     /**
      * should be the reference to the exact slotItem in menu
      */
+    //由何种存储解析器所解析
     protected StorageType storageType;
+    //存储物品的物品源,记录一个CraftItemStack
     protected ItemStack source;
+    //存储物品的物品meta 记录着含有存储数据的pdc的meta
     protected ItemMeta sourceMeta;
+    //这个成员是记录该cache是否是长期cache
+    //长期cache会被记录在Map中,并且代表着一个AbstractIOPort
+    //短期cache比如存储解析器产物
     protected boolean persistent=false;
+    //这个成员是记录存储数目的
     protected int storageAmount;
+    //这个成员是用来记录这个cache是否还可以使用的
+    //当玩家尝试从menu里取出存储物品时 该物品将被标记为deprecated 之后的远程访问将不能访问该存储cache
+    boolean deprecated = false;
+    //
     private static byte[] lock=new byte[0];
     public static final HashMap<Location, ItemStorageCache> cacheMap=new HashMap<>();
     public static void setCache(BlockMenu inv,ItemStorageCache cache) {
@@ -222,6 +233,13 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
     public void setSaveSlot(int slot){
         this.slot=slot;
     }
+    public void setDeprecated(boolean deprecated){
+        this.deprecated=deprecated;
+        this.dirty=true;
+    }
+    public boolean getDeprecated(){
+        return this.deprecated;
+    }
 
 
     /**
@@ -240,6 +258,7 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
         //only check pdc, else ignored
         else if (sourceMeta.getPersistentDataContainer().equals(item.getItemMeta().getPersistentDataContainer())){
             source=item;
+            this.dirty=true;
             return true;
         }else return false;
     }

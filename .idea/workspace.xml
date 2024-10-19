@@ -4,44 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="fix :progress">
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Items/CustomFireworkStar.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Listeners/Listeners/BlockMenuClickProtectListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Listeners/Listeners/StorageWorldListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Listeners/ProtectionManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Listeners/ProtectionModule/StorageWorldProtection.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Cargo/SpaceStorage/SpaceStorageCard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Cargo/SpaceStorage/SpaceTower.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Cargo/SpaceStorage/SpaceTowerFrame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Cargo/SpaceStorage/StorageSpace.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/space-storage.yml" afterDir="false" />
+    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="fix :energency fix">
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/DirectionalBlock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/AbstractEnergyCharger.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/AbstractEnergyMachine.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/LineEnergyCharger.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/ConfigLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/ConfigLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Listeners/ListenerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Listeners/ListenerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Language.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Language.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/MyAddon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/MyAddon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Schedule/Schedules.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Schedule/Schedules.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddGroups.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddGroups.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddSlimefunItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddSlimefunItems.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/AbstractSpawner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/AbstractSpawner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Cargo/StorageMachines/AbstractIOPort.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Cargo/StorageMachines/AbstractIOPort.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Cargo/TestStorageUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Cargo/TestStorageUnit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Cargo/WorkBench/ChipCopier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Cargo/WorkBench/ChipCopier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Items/TrackingArrowLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Items/TrackingArrowLauncher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/AutoMachines/StackMGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/AutoMachines/StackMGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/SimulateTestGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/SimulateTestGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/MenuBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/MenuBlock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/SpecialMachines/TntGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/SpecialMachines/TntGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/WorkBenchs/TestWorkBench.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/WorkBenchs/TestWorkBench.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/AbstractMachine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/AbstractMachine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/ChunkEnergyProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/ChunkEnergyCharger.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Unittest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Unittest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/AddUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/AddUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/BukkitUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/BukkitUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/CraftUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/CraftUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/DataCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/DataCache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/CommandClass/CommandShell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/CommandClass/CommandShell.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/FunctionalClass/AsyncResultRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/FunctionalClass/AsyncResultRunnable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/StorageClass/ItemStorageCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/StorageClass/ItemStorageCache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/WorldUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/WorldUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/language.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/language.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -117,7 +92,7 @@
     "Shell Script.Unnamed.executor": "Run",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Intellij_Idea/workspace/MomoTech-汉化版",
+    "last_opened_file_path": "C:/Intellij_Idea/workspace/LogiTech-master",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -327,23 +302,9 @@
       <workItem from="1728070381774" duration="645000" />
       <workItem from="1728129360877" duration="102125000" />
       <workItem from="1728379469987" duration="4823000" />
-      <workItem from="1728545965082" duration="2948000" />
-    </task>
-    <task id="LOCAL-00077" summary="feat: progress">
-      <option name="closed" value="true" />
-      <created>1726340171158</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1726340171158</updated>
-    </task>
-    <task id="LOCAL-00078" summary="feat: progress">
-      <option name="closed" value="true" />
-      <created>1726479943513</created>
-      <option name="number" value="00078" />
-      <option name="presentableId" value="LOCAL-00078" />
-      <option name="project" value="LOCAL" />
-      <updated>1726479943513</updated>
+      <workItem from="1728545965082" duration="79663000" />
+      <workItem from="1729080899448" duration="7946000" />
+      <workItem from="1729248551641" duration="6663000" />
     </task>
     <task id="LOCAL-00079" summary="feat: progress">
       <option name="closed" value="true" />
@@ -721,7 +682,23 @@
       <option name="project" value="LOCAL" />
       <updated>1728199200651</updated>
     </task>
-    <option name="localTasksCounter" value="126" />
+    <task id="LOCAL-00126" summary="fix :progress">
+      <option name="closed" value="true" />
+      <created>1728755768708</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1728755768708</updated>
+    </task>
+    <task id="LOCAL-00127" summary="fix :energency fix">
+      <option name="closed" value="true" />
+      <created>1728799422757</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1728799422757</updated>
+    </task>
+    <option name="localTasksCounter" value="128" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -795,7 +772,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: fix menu backHandler problem ,upgrade menu generation" />
     <MESSAGE value="feat: fix WorkBench" />
     <MESSAGE value="feat: add support to rscCustomRecipe and configured AbstractItemStack" />
     <MESSAGE value="feat: first pre version" />
@@ -820,7 +796,8 @@
     <MESSAGE value="fix :adjustments" />
     <MESSAGE value="fix :mark changes" />
     <MESSAGE value="fix :progress" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix :progress" />
+    <MESSAGE value="fix :energency fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix :energency fix" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

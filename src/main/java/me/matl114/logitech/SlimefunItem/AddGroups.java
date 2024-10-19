@@ -3,15 +3,12 @@ package me.matl114.logitech.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.chat.ChatInput;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Items.CustomHead;
 import me.matl114.logitech.Listeners.Listeners.PlayerQuiteListener;
-import me.matl114.logitech.Schedule.PersistentEffects.AbstractEffect;
 import me.matl114.logitech.Schedule.PersistentEffects.CustomEffects;
 import me.matl114.logitech.Schedule.PersistentEffects.PlayerEffects;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
@@ -26,15 +23,9 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.damage.DamageSource;
-import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -85,41 +76,38 @@ public class AddGroups {
     public static final ItemGroup ENERGY= new DummyItemGroup(AddUtils.getNameKey("energy"),AddItem.ENERGY);
 
     public static final ItemGroup FUNCTIONAL=new DummyItemGroup(AddUtils.getNameKey("functional"),AddItem.FUNCTIONAL);
-    public static ItemGroup MORE2=new CustomItemGroup(AddUtils.getNameKey("more2"),AddUtils.color("更多说明"),AddItem.MORE2,54,36,new LinkedHashMap<>()) {
+    public static ItemGroup MORE2=new CustomItemGroup(AddUtils.getNameKey("more2"),AddUtils.color("宇宙安全说明"),AddItem.MORE2,54,36,new LinkedHashMap<>()) {
         @Override
         protected void init(MenuFactory menuFactory) {
-            menuFactory.addInventory(0,AddUtils.getInfoShow("&f致歉说明",
+            menuFactory.addInventory(0,AddUtils.getInfoShow("&f宇宙安全说明",
                     "&7感谢您能点开到这里,看到这份说明",
                     "&7本附属为我开发的首个附属,无人问津是应该的",
                     "&7您能点进这一分类已经是对我最大的鼓励和支持",
-                    "&7本人水平很次,也没有很好的创作能力创作让玩家满意的附属",
+                    "&7本人水平很次,也没有很好的创作能力创作让所有玩家满意的附属",
                     "&7还请包容"));
-            menuFactory.addInventory(1,AddUtils.getInfoShow("&f致歉说明",
-                    "&7这个附属很烂",
+            menuFactory.addInventory(1,AddUtils.getInfoShow("&f宇宙安全说明",
+                    "&7这个附属在某些方面可以说很烂",
                     "&7他拥有冗长的机制说明书和昂贵的合成表",
                     "&7以及作者乱填的,毫无道理的材料消耗",
                     "&7为什么呢",
                     "&7因为作者并不知道怎么编一个让玩家满意的合成表",
                     "&7很可能有些时候,在这方面给玩家带来很大的困扰"));
-            menuFactory.addInventory(2,AddUtils.getInfoShow("&f致歉说明",
+            menuFactory.addInventory(2,AddUtils.getInfoShow("&f宇宙安全说明",
                     "&7作者也不知道为什么作者要写这一个附属",
-                    "&7作者已经投入整个暑假的晚上8点到凌晨4点来进行附属编写",
-                    "&7作者也&a希望这个附属能变得更好&7,而不是更恶心",
+                    "&7作者已经投入很多闲暇时间进行附属编写",
+                    "&7作者也&a希望这个附属能变得更好&7,而不是更让玩家恶心",
                     "&7作者&a希望附属对玩家有帮助,而不是对玩家造成困扰"
                     ));
-            menuFactory.addInventory(3,AddUtils.getInfoShow("&f致歉说明",
-                    "&7作者在此恳请大家",
-                    "&a多多包容作者,并把自己的想法跟作者讨论",
-                    "&a不管如何,作者都会听取玩家的意见,争取将附属做得更好"));
-            menuFactory.addInventory(4,AddUtils.getInfoShow("&f致歉说明",
-                    "&7这个附属还是很烂",
+
+            menuFactory.addInventory(3,AddUtils.getInfoShow("&f宇宙安全说明",
+                    "&7这个附属还很糟糕,他没有一个所谓的\"主题\"",
                     "&7他既没有乱码科技的制造台,也没有乱序技艺的尘埃反应堆",
                     "&7作者一开始的目标是制作优秀的机器,虽然现在改为了制作高效的机器",
                     "&7但是并没有非常超标的机器存在",
                     "&7还请玩家包容",
                     "&7如果你只是想找op机器",
                     "&7那么本附属可能并不符合你的心意"));
-            menuFactory.addInventory(5,AddUtils.getInfoShow("&f致歉说明",
+            menuFactory.addInventory(4,AddUtils.getInfoShow("&f宇宙安全说明",
                     "&7作者能拿的出手的机制就这几个",
                     "&7虽说抱歉,但是作者也不会因此而做op机器和刷物机器",
                     "&a但是玩家有什么好的想法或者急切的机器需求",
@@ -127,19 +115,25 @@ public class AddGroups {
                     "",
                     "&7作者真心希望该附属越做越好,而不是越来越烂",
                     "&a所以我在此恳请大家主动发表自己的看法"));
-            menuFactory.addInventory(6,AddUtils.getInfoShow("&f致歉说明",
+            menuFactory.addInventory(5,AddUtils.getInfoShow("&f宇宙安全说明",
+                    "&7所以,作者在此恳请大家",
+                    "&a多多包容作者,并把自己的想法跟作者讨论",
+                    "&a你可以在版本与说明中找到作者的qq号和作者进行交流",
+                    "&a也可以上附属github链接提出issue",
+                    "&a不管如何,作者都会听取玩家的意见,争取将附属做得更好"));
+            menuFactory.addInventory(6,AddUtils.getInfoShow("&f宇宙安全说明",
                     "&7虽说致歉,但是作者还是会&a坚定的继续开发和维护这个附属",
                     "&7虽然作者也曾想过放弃该附属",
                     "&7但是也只是一时之念,大家不要当真",
                     "&7请大家放心,作者并不会丢下一堆烂摊子跑路"));
-            menuFactory.addInventory(7,AddUtils.getInfoShow("&f致歉说明",
+            menuFactory.addInventory(7,AddUtils.getInfoShow("&f宇宙安全说明",
                     "&7最后,在此对&e所有觉得这个附属没救的玩家&7致辞","",
                     "&7粘液圈虽然不大,但是比本附属好的附属也是比比皆是",
                     "&7作者的生活中也不只是有粘液,作者也要有自己的生活,并不能帮你救活这个附属",
-                    "&7您也不必拘泥于我的附属,我们好聚好散,对大家都好"));
-            menuFactory.addInventory(8,AddUtils.getInfoShow("&f致歉说明",
+                    "&7您也不必拘泥于这个附属,我们好聚好散,对大家都好"));
+            menuFactory.addInventory(8,AddUtils.getInfoShow("&f宇宙安全说明",
                     "&7最后声明:本说明并不针对某一特定玩家",
-                    "&7当您对号入座时,请不要座岔了,谢谢."
+                    "&7当您对号入座时,请不要坐岔了,谢谢."
                     ));
         }
 
@@ -303,7 +297,7 @@ public class AddGroups {
                     "&7增加破基岩棒",
                     "&7修复逻辑反应堆槽位提供异常",
                     ""));
-            factory.addInventory(16,AddUtils.getInfoShow("&f2024.10.12更新",
+            factory.addInventory(19,AddUtils.getInfoShow("&f2024.10.12更新",
                     "&7修复部分bug,虽然忘了修了啥了",
                     "&7增加了激光发射器 进阶版",
                     "&7增加桃花飞针,好吃",
@@ -326,6 +320,10 @@ public class AddGroups {
                     "&7做好了区块充电器,按理论讲耗时可控,比能源电网要好",
                     "&7这次更新就先做到这里吧 剩下的放到下次更新",
                     "&7更新到了v1.0.3"
+            ));
+            factory.addInventory(20,AddUtils.getInfoShow("&f2024.?更新",
+                    "&7修复部分bug,虽然忘了修了啥了",
+                    "&7增加了wiki"
             ));
         }
 
@@ -437,10 +435,10 @@ public class AddGroups {
             factory.addInventory(7,AddItem.INFO4);
             factory.addInventory(15,AddItem.INFO5);
             factory.addInventory(23,AddItem.INFO6);
-            factory.addInventory(13,AddItem.URL,(Player player1, int i1, ItemStack itemstack1, ClickAction clickAction) -> {
-                final TextComponent link = new TextComponent("单击此处访问Github");
+            factory.addInventory(13,AddItem.WIKI,(Player player1, int i1, ItemStack itemstack1, ClickAction clickAction) -> {
+                final TextComponent link = new TextComponent("单击此处访问附属wiki");
                 link.setColor(ChatColor.YELLOW);
-                link.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/m1919810/LogiTech"));
+                link.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/m1919810/LogiTech/wiki"));
                 player1.spigot().sendMessage(link);
                 return false;
             });
@@ -528,6 +526,10 @@ public class AddGroups {
                 link.setColor(ChatColor.YELLOW);
                 link.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/m1919810/LogiTech"));
                 player1.spigot().sendMessage(link);
+                final TextComponent link2 = new TextComponent("单击此处访问附属wiki");
+                link2.setColor(ChatColor.YELLOW);
+                link2.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/m1919810/LogiTech/wiki"));
+                player1.spigot().sendMessage(link2);
                 return false;
             });
             factory.setBackGround(menuBackGround);
@@ -554,7 +556,9 @@ public class AddGroups {
             ItemStack h4=new CustomItemStack(CustomHead.SUPPORTER2.getItem(),AddUtils.color("HgTlPbBi"),"&7点击查看详情");
             ItemStack h5=new CustomItemStack(CustomHead.getHead("8e434215b5616bf37dccbacdb240bd16de59507e62a5371ceca80327b398e65"),AddUtils.color("Tmatsuki_rui"),"&7点击查看详情");
             ItemStack h6=new CustomItemStack(AddItem.MATL114,"  ","&8..?");
+            ItemStack h7=new CustomItemStack(CustomHead.TOURUYA.getItem(),AddUtils.color("TouRuya"),"&7点击查看详情");
             ItemStack h8=new CustomItemStack(CustomHead.BIG_SNAKE.getItem(),AddUtils.color("某不知名大蛇"),"&7年轻人,你想刷物么");
+            ItemStack h9=new CustomItemStack(CustomHead.MOYU.getItem(),AddUtils.color("xiaoUI1"),"&7点击查看详情");
 
             factory.addInventory(40,info1);
             factory.addInventory(56, h1,(cm)-> new ChestMenu.MenuClickHandler() {
@@ -616,6 +620,15 @@ public class AddGroups {
                     return false;
                 }
             });
+            factory.addInventory(66,h7,(cm)-> new ChestMenu.MenuClickHandler() {
+                boolean has=false;
+                public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+                    if(!has&&itemStack!=null){has=true;
+                        itemStack.setItemMeta(s7);
+                    }
+                    return false;
+                }
+            });
             factory.addInventory(67, h8,(cm)-> new ChestMenu.MenuClickHandler() {
                 boolean has=false;
                 @Override
@@ -629,7 +642,18 @@ public class AddGroups {
                     return false;
                 }
             });
-            this.s7metas=new ItemMeta[6];
+            factory.addInventory(68,h9,(cm -> new ChestMenu.MenuClickHandler() {
+                boolean has=false;
+                @Override
+                public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
+                    if(!has&&itemStack!=null){has=true;
+                        itemStack.setType(Material.CHORUS_PLANT);
+                        itemStack.setItemMeta(s9);
+                    }
+                    return false;
+                }
+            }));
+            this.smetas =new ItemMeta[6];
             String continueStr="&7点击继续";
             ItemStack it=new CustomItemStack(AddItem.MATL114,AddUtils.color("你觉得..."),continueStr);
             factory.addInventory(71,it,(cm)->new ChestMenu.MenuClickHandler() {
@@ -637,21 +661,58 @@ public class AddGroups {
                 @Override
                 public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
                     if(itemStack!=null)
-                        itemStack.setItemMeta(s7metas[index]);
+                        itemStack.setItemMeta(smetas[index]);
                     index=(index+1)%5;
                     return false;
                 }
             });
             it=new CustomItemStack(AddItem.MATL114,AddUtils.color("我能在患有痴呆症的情况下完成逻辑工艺的编写吗?"),continueStr);
-            s7metas[0]=it.getItemMeta();
+            smetas[0]=it.getItemMeta();
             it=new CustomItemStack(AddItem.MATL114,AddUtils.color("这能被完成么,这可能完成么?"),continueStr);
-            s7metas[1]=it.getItemMeta();
+            smetas[1]=it.getItemMeta();
             it=new CustomItemStack(AddItem.MATL114,AddUtils.color("我知道这有点难"),continueStr);
-            s7metas[2]=it.getItemMeta();
+            smetas[2]=it.getItemMeta();
             it=new CustomItemStack(AddItem.MATL114,AddUtils.color("所以,我想"),continueStr);
-            s7metas[3]=it.getItemMeta();
+            smetas[3]=it.getItemMeta();
             it=new CustomItemStack(AddItem.MATL114,AddUtils.color("今年我要进行一项从未有人达成过的挑战"),continueStr);
-            s7metas[4]=it.getItemMeta();
+            smetas[4]=it.getItemMeta();
+            final String PREFIX1=AddUtils.resolveColor("&6今日运势:");
+            final String PREFIX2=AddUtils.resolveColor(AddUtils.color("财运: ")+"&7");
+            final String PREFIX3=AddUtils.resolveColor(AddUtils.color("桃花运: ")+"&7");
+            final String PREFIX4=AddUtils.resolveColor(AddUtils.color("事业运: ")+"&7");
+            final ItemStack luckButton=new CustomItemStack(CustomHead.LUCKY_BOX.getItem(),"&6每日运势","&7看看你的运势如何?");
+            final int MAX_SIZE=101;
+            factory.addInventory(44,luckButton,((player, i, itemStack, clickAction) -> {
+                if(itemStack!=null){
+                    ItemMeta meta=itemStack.getItemMeta();
+                    List<String> lores=meta.getLore();
+                    if(lores==null)lores=new ArrayList<>();
+                    lores.subList(1,lores.size()).clear();
+                    lores.add(PREFIX1);
+                    String dateString=AddUtils.getDateString();
+                    String name=player.getName();
+                    String token=AddUtils.concat(dateString,name,"abcdiaeifg");
+                    int code1=Math.abs(MathUtils.sha256(token,4))%MAX_SIZE;
+                    int code2=Math.abs(MathUtils.sha512(token,4))%MAX_SIZE;
+                    int code3=Math.abs(MathUtils.sha384(token,4))%MAX_SIZE;
+                    lores.add(PREFIX2+code1);
+                    lores.add(PREFIX3+code2);
+                    lores.add(PREFIX4+code3);
+                    String date=LASTLY_CALCUATED_DATE.getOrDefault(player.getUniqueId(),"");
+                    if(dateString.equals(date)){
+                        AddUtils.sendMessage(player,"&e你今天已经测过一次了,不再进行公告");
+                    }else{
+                        AddUtils.broadCast("&6玩家 %s 今日的运势为".formatted(player.getName()));
+                        AddUtils.broadCast(PREFIX2+code1);
+                        AddUtils.broadCast(PREFIX3+code2);
+                        AddUtils.broadCast(PREFIX4+code3);
+                        LASTLY_CALCUATED_DATE.put(player.getUniqueId(),dateString);
+                    }
+                    meta.setLore(lores);
+                    itemStack.setItemMeta(meta);
+                }
+                return false    ;
+            }));
         }
         final ItemMeta s1=new CustomItemStack(CustomHead.getHead("fd524332cdb381c9e51f77d4cec9bc6d4d1c5bdec1499d206d8383e9176bdfb0"),AddUtils.color("haiman"),"&7haiman科技作者","&7海曼科技会为你提供足够的物质支持").getItemMeta();
         final ItemMeta s2=new CustomItemStack(CustomHead.getHead("a9b046531a6182de634d6fed1f3b4f885ee99bfe2bc0c1684f7b97d396c2059f"),AddUtils.color("mmmjjkx"),"&7rsc开发者","&3纯大蛇\uD83D\uDE0B").getItemMeta();
@@ -660,8 +721,11 @@ public class AddGroups {
         final ItemMeta s5=new CustomItemStack(CustomHead.getHead("8e434215b5616bf37dccbacdb240bd16de59507e62a5371ceca80327b398e65"),AddUtils.color("Tmatsuki_rui"),"&7凉城服的祸源","&7纯傻逼,给爷死啊\uD83D\uDE21").getItemMeta();
         final ItemMeta s6=new CustomItemStack(CustomHead.BUSHIGEMEN.getItem(),"  ","&7看得出你的视力很好","&7所以一定要仔细阅读","&7版本说明与机器说明哦").getItemMeta();
         final ItemStack head=new CustomItemStack(Material.PLAYER_HEAD,AddUtils.color("逝者的头颅"));
+        final ItemMeta s7=new CustomItemStack(CustomHead.TOURUYA.getItem(),AddUtils.color("TouRuya"),"&7人机服腐竹","&7纯人迹","&3\"堆叠开局 怎么输?\uD83D\uDE0B\"").getItemMeta();
         final ItemMeta s8=new CustomItemStack(CustomHead.BIG_SNAKE.getItem(),AddUtils.color("taitaia"),"&7刷物?你在想屁吃\uD83D\uDE0B").getItemMeta();
-        ItemMeta[] s7metas;
+        final ItemMeta s9 =new CustomItemStack(Material.CHORUS_PLANT,AddUtils.color("xiaoUI1"),"&7知名服务器-&b魔芋&7 的腐竹","&7感谢UI对本项目的支持").getItemMeta();
+        ItemMeta[] smetas;
+        final HashMap<UUID,String> LASTLY_CALCUATED_DATE=new HashMap<>();
         //used to set GUIDE based handlers,an interface to adapt CustomMenu menus
         public void addGuideRelated(ChestMenu menu, Player p, PlayerProfile profile, SlimefunGuideMode mode, int page){
             //加入实例化之后的handler和item,同打开玩家等数据有关的handler

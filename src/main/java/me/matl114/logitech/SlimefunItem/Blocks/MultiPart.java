@@ -39,8 +39,8 @@ public class MultiPart extends AbstractBlock implements MultiBlockPart{
 //        if(redirectMenu()){
 //            this.addHandler((BlockUseHandler)this::onMenuRedirect);
 //        }
+        super.preRegister();
         handleMultiBlockPart(this);
         registerTick(this);
-        super.preRegister();
     }
 }

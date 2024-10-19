@@ -47,6 +47,8 @@ public class AddItem {
             Language.get("Groups.INFO6.Name"), Language.getList("Groups.INFO6.Lore"));
     public static final ItemStack URL=AddUtils.themed(Material.BOOK,AddUtils.Theme.NONE,
             Language.get("Groups.URL.Name"), Language.getList("Groups.URL.Lore"));
+    public static final ItemStack WIKI=AddUtils.themed(Material.KNOWLEDGE_BOOK,AddUtils.Theme.NONE,
+            Language.get("Groups.WIKI.Name"), Language.getList("Groups.WIKI.Lore"));
     public static final ItemStack ALLMACHINE=AddUtils.themed(Material.BLAST_FURNACE,AddUtils.Theme.MENU1,
             Language.get("Groups.ALLMACHINE.Name"), Language.getList("Groups.ALLMACHINE.Lore"));
     public static final ItemStack ALLRECIPE=AddUtils.themed(Material.KNOWLEDGE_BOOK,AddUtils.Theme.MENU1,

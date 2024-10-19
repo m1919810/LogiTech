@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedE
 import me.matl114.logitech.SlimefunItem.Items.Singularity;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.DataCache;
+import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.UtilClass.PdcClass.AbstractStorageType;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.ItemStorageCache;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.LocationProxy;
@@ -13,6 +14,7 @@ import me.matl114.logitech.Utils.UtilClass.StorageClass.StorageType;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -48,6 +50,8 @@ public class SingularityProxy extends StorageType implements LocationProxy {
         if(cache!=null){
             cache.setAmount(amount);
             cache.updateItemStack();
+        }else{
+            throw new RuntimeException("AN ERROR OCCURS WHILE ATTEMPTING TO SET AMOUNT OF NULL CACHE,MAYBE SOME PLAYER IS TRYING TO DUPE !");
         }
     }
     public int getMaxAmount(Location loc) {
@@ -67,7 +71,11 @@ public class SingularityProxy extends StorageType implements LocationProxy {
     }
     public boolean isStorage(ItemMeta meta) {
         //only when this loc is in cache map
-        return getCache(meta)!=null;
+        ItemStorageCache cache=getCache(meta);
+        return cache!=null&&!cache.getDeprecated();
+        //废弃后不会删除 但是无法读取 就只能卡在这
+        //防止有人移走存储目标然后再使用它读取卡bug
+       // return getCache(meta)!=null;
     }
     public boolean canStorage(ItemMeta meta) {
         //该位置禁止

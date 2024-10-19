@@ -28,6 +28,10 @@ public class AbstractBlock extends CustomSlimefunItem implements MenuBlock {
     public int[] getOutputSlots(){
         return new int[0];
     }
+    public void preRegister() {
+        super.preRegister();
+        this.handleBlock(this);
+    }
 
 
 }

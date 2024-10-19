@@ -1,6 +1,9 @@
 package me.matl114.logitech.Utils;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import javax.annotation.Nonnull;
+import java.security.MessageDigest;
 import java.util.function.Supplier;
 
 public class MathUtils {
@@ -36,6 +39,7 @@ public class MathUtils {
             mask[i]=(1<<i) -1;
         }
         mask[32]=-1;
+
     }
     public static int getBitPos(int k){
         return POW[k];
@@ -230,6 +234,39 @@ public class MathUtils {
             return a==0?0:Integer.MAX_VALUE;
         }else {
             return a / b;
+        }
+    }
+    public static int sha256(String data,int size){
+        assert (size<=8);
+        String output= DigestUtils.sha256Hex(data);
+        String hashCode=output.substring(Math.max( output.length()-size,0));
+        try{
+            return Integer.parseInt(hashCode,16);
+        }catch (Throwable e){
+            e.printStackTrace();
+            return -336;
+        }
+    }
+    public static int sha512(String data,int size){
+        assert (size<=8);
+        String output= DigestUtils.sha512Hex(data);
+        String hashCode=output.substring(Math.max( output.length()-size,0));
+        try{
+            return Integer.parseInt(hashCode,16);
+        }catch (Throwable e){
+            e.printStackTrace();
+            return -336;
+        }
+    }
+    public static int sha384(String data,int size){
+        assert (size<=8);
+        String output= DigestUtils.sha384Hex(data);
+        String hashCode=output.substring(Math.max( output.length()-size,0));
+        try{
+            return Integer.parseInt(hashCode,16);
+        }catch (Throwable e){
+            e.printStackTrace();
+            return -336;
         }
     }
 }

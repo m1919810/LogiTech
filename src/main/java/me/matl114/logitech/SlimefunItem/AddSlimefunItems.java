@@ -854,7 +854,7 @@ public class AddSlimefunItems {
     public static final SlimefunItem ENERGY_AMPLIFIER=new EnergyAmplifier(AddGroups.ENERGY,AddItem.ENERGY_AMPLIFIER,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),1_000_000_000,2.0)
             .register();
-    public static final  SlimefunItem CHUNK_CHARGER=new ChunkEnergyProvider(AddGroups.ENERGY, AddItem.CHUNK_CHARGER,COMMON_TYPE,
+    public static final  SlimefunItem CHUNK_CHARGER=new ChunkEnergyCharger(AddGroups.ENERGY, AddItem.CHUNK_CHARGER,COMMON_TYPE,
             recipe("4ENERGY_REGULATOR","8ENERGY_CONNECTOR",AddItem.LPLATE,AddItem.LPLATE,"8ENERGY_CONNECTOR","4ENERGY_REGULATOR",
                     "8ENERGY_CONNECTOR",setC(AddItem.LSINGULARITY,4),setC(AddItem.STAR_GOLD_INGOT,2),setC(AddItem.STAR_GOLD_INGOT,2),setC(AddItem.LSINGULARITY,4),"8ENERGY_CONNECTOR",
                     AddItem.LPLATE,setC(AddItem.STAR_GOLD_INGOT,2),setC(AddItem.ATOM_INGOT,16),setC(AddItem.ATOM_INGOT,16),setC(AddItem.STAR_GOLD_INGOT,2),AddItem.LPLATE,
@@ -1667,7 +1667,7 @@ public class AddSlimefunItems {
                             AddUtils.getInfoShow("&f机制",
                                     "&7该机器在构建/待机/运行时候拥有相同的电力消耗量",
                                     "&7当电力不足时会强制关机",
-                                    "&7注意:当你使用远程传输时,请确认机器所在区块的加载状态",
+                                    "&7注意:为了防止意外发生,当重启/使用不安全的远程传输时,请确认机器所在区块的加载状态",
                                     "&7并确保能源网络在加载范围内并且能给机器提供足够电力"),null,
                             AddUtils.getInfoShow("&f机制",
                                     "&7机器自动关闭且&e进程未结束时&c会发生爆炸",
@@ -1879,7 +1879,7 @@ public class AddSlimefunItems {
                             AddUtils.getInfoShow("&f机制",
                                     "&7该机器在构建/待机/运行时候拥有相同的电力消耗量",
                                     "&7当电力不足时会强制关机",
-                                    "&7注意:当你使用远程传输时,请确认机器所在区块的加载状态",
+                                    "&7注意:为了防止意外发生,当重启/使用不安全的远程传输时,请确认机器所在区块的加载状态",
                                     "&7并确保能源网络在加载范围内并且能给机器提供足够电力"),null,
                             AddUtils.getInfoShow("&f机制",
                                     "&7机器自动关闭且&e进程未结束时&c会发生&c熔毁",

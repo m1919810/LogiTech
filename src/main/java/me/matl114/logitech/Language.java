@@ -27,7 +27,7 @@ public class Language {
         for (String ns : keys) {
             loadRecursively(cfg,ns);
         }
-        Debug.logger(Language.get("Language.0"));
+        Debug.logger("语言配置加载完毕");
         return true;
     }
     public static void loadRecursively(Config config,String path){

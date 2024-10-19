@@ -19,4 +19,11 @@ public class Unittest {
     //TODO 时间加速器
     //TODO 高级快捷工作台
     //TODO 粘液机器填充棒
+    //TODO 每日运势
+    //TODO 配置器 和增加是否可以配置方法接口
+
+    //TODO 射电器
+    //TODO 和发电机相关的 电线 射电收集器 新概念电容 电池
+    //TODO 电线 从出口搜索
+    //TODO 修复刷物
 }

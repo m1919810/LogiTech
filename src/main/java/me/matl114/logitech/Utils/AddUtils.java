@@ -36,6 +36,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import javax.annotation.Nonnull;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
@@ -904,5 +905,8 @@ public class AddUtils {
     public static ItemMeta setName(String name,ItemMeta meta){
         meta.setDisplayName(AddUtils.resolveColor(name));
         return meta;
+    }
+    public static String getDateString(){
+        return new SimpleDateFormat("yyyyMMdd").format(new Date());
     }
 }
