@@ -85,7 +85,6 @@
             </resource>
         </resources>
     </build>
-
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
