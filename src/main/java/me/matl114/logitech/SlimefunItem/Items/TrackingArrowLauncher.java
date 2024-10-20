@@ -62,8 +62,10 @@ public class TrackingArrowLauncher extends ChargableProps {
     }
     public void onArrowLaunched(Player p,ItemStack item){
         ItemMeta meta=item.getItemMeta();
-        int powerLevel=meta.getEnchantLevel(Enchantment.ARROW_DAMAGE);
-        int sharpnessLevel=meta.getEnchantLevel(Enchantment.DAMAGE_ALL);
+        //ARROW_DAMAGE
+        int powerLevel=meta.getEnchantLevel(Enchantment.POWER);
+        //DAMAGE_ALL
+        int sharpnessLevel=meta.getEnchantLevel(Enchantment.SHARPNESS);
         int damage=(int)BASIC_DAMAGE+2*powerLevel+sharpnessLevel;
         //随机生成若干箭矢，需要针对location 朝向 motion做改动
         Location loc = WorldUtils.getHandLocation(p);
