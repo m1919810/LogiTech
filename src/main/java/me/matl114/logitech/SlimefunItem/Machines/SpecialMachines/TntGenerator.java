@@ -105,7 +105,7 @@ public class TntGenerator extends AbstractMachine {
                                     final int fuse=dh.getInt(1);
 
                                     Schedules.launchSchedules(()->{
-                                       Entity et= loc.getWorld().spawnEntity(loc, EntityType.PRIMED_TNT);
+                                       Entity et= loc.getWorld().spawnEntity(loc, EntityType.TNT);
                                        if(et instanceof TNTPrimed tnt){
                                            tnt.setFuseTicks(fuse);
                                        }
