@@ -57,7 +57,7 @@ public class CustomEffects {
         public void tickEffect(Player p,int level) {
             p.addPotionEffect(new PotionEffect( PotionEffectType.DARKNESS,140,10*level,false ),true);
             p.addPotionEffect(new PotionEffect( PotionEffectType.WITHER,140,10*level,false ),true);
-            p.addPotionEffect(new PotionEffect( PotionEffectType.SLOW,140,10*level,false ),true);
+            p.addPotionEffect(new PotionEffect( PotionEffectType.SLOWNESS,140,10*level,false ),true);
             p.addPotionEffect(new PotionEffect( PotionEffectType.HUNGER,140,10*level,false ),true);
             p.addPotionEffect(new PotionEffect( PotionEffectType.POISON,140,10*level,false ),true);
             if(level==1){
