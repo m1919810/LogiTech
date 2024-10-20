@@ -19,7 +19,7 @@ public class AddItem {
         for (ItemStack it :ADDGLOW){
             AddUtils.addGlow(it);
         }
-        AddItem.TRACE_ARROW.addUnsafeEnchantment(Enchantment.ARROW_INFINITE,1);
+        AddItem.TRACE_ARROW.addUnsafeEnchantment(Enchantment.INFINITY,1);
         AddUtils.hideAllFlags(CARGO_CONFIG);
         AddUtils.hideAllFlags(ENTITY_FEAT);
         AddUtils.hideAllFlags(SPACE_CARD);
