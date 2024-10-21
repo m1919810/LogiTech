@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="fix :energency fix">
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/DirectionalBlock.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/AbstractEnergyCharger.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/AbstractEnergyMachine.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/LineEnergyCharger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Language.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Language.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/MyAddon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/MyAddon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddGroups.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddGroups.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddSlimefunItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddSlimefunItems.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/AbstractMachine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/AbstractMachine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/ChunkEnergyProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/ChunkEnergyCharger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Unittest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Unittest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/language.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/language.yml" afterDir="false" />
-    </list>
+    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="feat :progress" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -92,7 +78,7 @@
     "Shell Script.Unnamed.executor": "Run",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Intellij_Idea/workspace/LogiTech-master",
+    "last_opened_file_path": "C:/Intellij_Idea/workspace/Slimefun4-master",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -305,22 +291,7 @@
       <workItem from="1728545965082" duration="79663000" />
       <workItem from="1729080899448" duration="7946000" />
       <workItem from="1729248551641" duration="6663000" />
-    </task>
-    <task id="LOCAL-00079" summary="feat: progress">
-      <option name="closed" value="true" />
-      <created>1726480562731</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1726480562731</updated>
-    </task>
-    <task id="LOCAL-00080" summary="feat: progress">
-      <option name="closed" value="true" />
-      <created>1726517986257</created>
-      <option name="number" value="00080" />
-      <option name="presentableId" value="LOCAL-00080" />
-      <option name="project" value="LOCAL" />
-      <updated>1726517986257</updated>
+      <workItem from="1729276244891" duration="21822000" />
     </task>
     <task id="LOCAL-00081" summary="feat: progress">
       <option name="closed" value="true" />
@@ -698,7 +669,23 @@
       <option name="project" value="LOCAL" />
       <updated>1728799422757</updated>
     </task>
-    <option name="localTasksCounter" value="128" />
+    <task id="LOCAL-00128" summary="fix :progress">
+      <option name="closed" value="true" />
+      <created>1729343583030</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1729343583030</updated>
+    </task>
+    <task id="LOCAL-00129" summary="feat :progress">
+      <option name="closed" value="true" />
+      <created>1729343635900</created>
+      <option name="number" value="00129" />
+      <option name="presentableId" value="LOCAL-00129" />
+      <option name="project" value="LOCAL" />
+      <updated>1729343635900</updated>
+    </task>
+    <option name="localTasksCounter" value="130" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -772,7 +759,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: fix WorkBench" />
     <MESSAGE value="feat: add support to rscCustomRecipe and configured AbstractItemStack" />
     <MESSAGE value="feat: first pre version" />
     <MESSAGE value="feat: emergency fix data load problem" />
@@ -795,9 +781,10 @@
     <MESSAGE value="fix :emergency fix of antimass cant craft" />
     <MESSAGE value="fix :adjustments" />
     <MESSAGE value="fix :mark changes" />
-    <MESSAGE value="fix :progress" />
     <MESSAGE value="fix :energency fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix :energency fix" />
+    <MESSAGE value="fix :progress" />
+    <MESSAGE value="feat :progress" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat :progress" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

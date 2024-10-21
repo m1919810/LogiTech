@@ -37,15 +37,15 @@ public class AbstractSpawner extends AbstractBlock{
             if(it.getItemMeta() instanceof BlockStateMeta bsm){
                 if(bsm.getBlockState() instanceof CreatureSpawner cs2){
                     cs2.copy(e.getLocation());
-//                    cs.setSpawnedType(cs2.getSpawnedType());
-//                    cs.setMinSpawnDelay(cs2.getMinSpawnDelay());
-//                    cs.setMaxSpawnDelay(cs2.getMaxSpawnDelay());
-//                    cs.setMaxNearbyEntities(cs2.getMaxNearbyEntities());
-//                    cs.setRequiredPlayerRange(cs2.getRequiredPlayerRange());
-//                    cs.setSpawnRange(cs2.getSpawnRange());
-//                    cs.setSpawnCount(cs2.getSpawnCount());
-                    e.getState().update(true,false);
-                    //cs.update(true,false);
+                    cs.setSpawnedType(cs2.getSpawnedType());
+                    cs.setMinSpawnDelay(cs2.getMinSpawnDelay());
+                    cs.setMaxSpawnDelay(cs2.getMaxSpawnDelay());
+                    cs.setMaxNearbyEntities(cs2.getMaxNearbyEntities());
+                    cs.setRequiredPlayerRange(cs2.getRequiredPlayerRange());
+                    cs.setSpawnRange(cs2.getSpawnRange());
+                    cs.setSpawnCount(cs2.getSpawnCount());
+                 //   e.getState().update(true,false);
+                    cs.update(true,false);
                 }
             }
         }
