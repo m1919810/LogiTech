@@ -229,11 +229,14 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
         }
     }
     public final void updateMenu(BlockMenu inv, Block block, Settings mod){
-        SlimefunBlockData data=DataCache.safeLoadBlock(inv.getLocation());
+        SlimefunBlockData data=DataCache.safeGetBlockCacheWithLoad(inv.getLocation());
         if(data==null){
-            Debug.logger("DATA NOT LOAD! PLEASE REPORT THIS LOG TO THE AUTHOR");
+            Debug.logger("SF DATA LOST AT %s! PLEASE REPORT THIS LOG TO THE AUTHOR".formatted(DataCache.locationToString(inv.getLocation())));
+            return;
+        }else if(!data.isDataLoaded()){
+            Debug.logger("SF DATA NOT LOAD YET IN %s! PLEASE REPORT THIS LOG TO THE AUTHOR".formatted(DataCache.locationToString(inv.getLocation())));
             Schedules.launchSchedules(()->{
-              updateMenu(  inv,block,mod);
+                updateMenu(  inv,block,mod);
             },20,false,0);
             return;
         }

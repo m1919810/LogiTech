@@ -261,9 +261,15 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
         this.removeCharge(inv.getLocation(),consumption);
     }
     public void updateMenu(BlockMenu inv, Block block, Settings mod){
-        SlimefunBlockData data=DataCache.safeLoadBlock(inv.getLocation());
+        SlimefunBlockData data=DataCache.safeGetBlockCacheWithLoad(inv.getLocation());
         if(data==null){
-            Schedules.launchSchedules(()->updateMenu(inv,block,mod),20,false,0);
+            Debug.logger("SF DATA LOST AT %s! PLEASE REPORT THIS LOG TO THE AUTHOR".formatted(DataCache.locationToString(inv.getLocation())));
+            return;
+        }else if(!data.isDataLoaded()){
+            Debug.logger("SF DATA NOT LOAD YET IN %s! PLEASE REPORT THIS LOG TO THE AUTHOR".formatted(DataCache.locationToString(inv.getLocation())));
+            Schedules.launchSchedules(()->{
+                updateMenu(  inv,block,mod);
+            },20,false,0);
             return;
         }
         ItemPusher it=this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT);
