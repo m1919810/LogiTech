@@ -115,6 +115,7 @@ public abstract class MultiBlockType implements AbstractMultiBlockType {
                 return null;
             }else{
                 //use record but target block uuid not match core uuid
+                //used to  reload multiblock Structure after server restart
                 if(hasPrevRecord&&(!(id.equals( MultiBlockService.safeGetUUID(partloc))))){
                 //    Debug.logger("wrong at ",delta.toString());
                     return null;

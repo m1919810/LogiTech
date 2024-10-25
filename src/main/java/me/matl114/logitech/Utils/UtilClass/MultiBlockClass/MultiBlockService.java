@@ -41,6 +41,8 @@ public class MultiBlockService {
     public static final String MBID_COMMONSFBLOCK="sf";
     public static final HashMap<String,AbstractMultiBlockHandler> MULTIBLOCK_CACHE = new LinkedHashMap<>();
     public static final HashMap<Location, DisplayGroup> HOLOGRAM_CACHE=new HashMap<>();
+    public static final Random rand=new Random();
+    public static final int MAX_MB_NUMBER=1_000_000;
     public static boolean validHandler(String uid){
         AbstractMultiBlockHandler handler=MULTIBLOCK_CACHE.get(uid);
         if(handler==null){
@@ -219,13 +221,21 @@ public class MultiBlockService {
         }
         return block;
     }
+
+    public static String getRandomId(){
+        String nextValue;
+        do{
+            nextValue=String.valueOf(rand.nextInt(MAX_MB_NUMBER));
+        }while (MULTIBLOCK_CACHE.containsKey(nextValue));
+        return nextValue;
+    }
     public static boolean createNewHandler(Location loc,MultiBlockBuilder builder,AbstractMultiBlockType type){
         int statusCode=safeGetStatus(loc);
         if(statusCode==0){
             AbstractMultiBlock block= tryCreateMultiBlock(loc,type);
             if(block!=null){
                 Direction.setDirection(loc,block.getDirection());
-                String uid=AddUtils.getUUID();
+                String uid=getRandomId();
                 AbstractMultiBlockHandler handler=builder.build(loc,block,uid);
                 MULTIBLOCK_CACHE.put(uid,handler);
                 return true;
@@ -312,9 +322,9 @@ public class MultiBlockService {
                 //找不到handler 但是code非0 说明是意外中断，尝试重建handler
                 AbstractMultiBlock block=type.genMultiBlockFrom(loc,Direction.getDirection(loc),true);
                 if(block!=null){
-                    String newuid=AddUtils.getUUID();
+                    String newuid=getRandomId();
                     while(MULTIBLOCK_CACHE.containsKey(newuid)){
-                        newuid=AddUtils.getUUID();
+                        newuid=getRandomId();
                     }
                     AbstractMultiBlockHandler handler2=reconnect.build(loc,block,newuid);
                     MULTIBLOCK_CACHE.put(newuid,handler2);

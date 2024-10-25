@@ -235,6 +235,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
             return;
         }else if(!data.isDataLoaded()){
             Debug.logger("SF DATA NOT LOAD YET IN %s! PLEASE REPORT THIS LOG TO THE AUTHOR".formatted(DataCache.locationToString(inv.getLocation())));
+
             Schedules.launchSchedules(()->{
                 updateMenu(  inv,block,mod);
             },20,false,0);

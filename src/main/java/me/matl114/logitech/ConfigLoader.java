@@ -42,12 +42,13 @@ public class ConfigLoader {
     public static Config MACHINES;
     public static Config INNER_MACHINES;
     public static Config SPACE_STORAGE;
-    public static File NULL_FILE;
+    public static Config SERVER_CONFIG;
     public static void init() {
-        NULL_FILE=new File(plugin.getDataFolder(), "configure.yml");
+        SERVER_CONFIG=new Config(plugin);
     }
     public static void copyFile(File file, String name) {
         if(MyAddon.clearConfig){
+
             try{
                 Files.delete(file.toPath());
             }catch(Throwable e){
@@ -56,8 +57,12 @@ public class ConfigLoader {
         }
         if (!file.exists()) {
             try {
-                Files.copy(plugin.getClass().getResourceAsStream("/"+ name + ".yml"), file.toPath());
+                if(!file.toPath().getParent().toFile().exists()) {
+                    Files.createDirectories(file.toPath().getParent());
+                }
+                Files.copy(plugin.getClass().getResourceAsStream("/"+ name + ".yml"),file.toPath());
             } catch (Throwable e) {
+
                 Debug.logger("创建配置文件时找不到相关默认配置文件,即将生成空文件");
                 try{
                     Files.createDirectories(file.toPath().getParent());

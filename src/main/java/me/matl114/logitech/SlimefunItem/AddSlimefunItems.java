@@ -811,12 +811,12 @@ public class AddSlimefunItems {
             .register();
     public static final  SlimefunItem SIMU_LVOID=new SimulateTestGenerator(AddGroups.ENERGY, AddItem.SIMU_LVOID,COMMON_TYPE,
             recipe(null,AddItem.LVOID_GENERATOR,AddItem.LVOID_GENERATOR,AddItem.LVOID_GENERATOR,AddItem.LVOID_GENERATOR,null,
-                    AddItem.LVOID_GENERATOR,AddItem.SPACE_PLATE,AddItem.LPLATE,AddItem.LPLATE,AddItem.SPACE_PLATE,AddItem.LVOID_GENERATOR,
+                    AddItem.LVOID_GENERATOR,AddItem.LPLATE,AddItem.LPLATE,AddItem.LPLATE,AddItem.LPLATE,AddItem.LVOID_GENERATOR,
                     AddItem.LVOID_GENERATOR,AddItem.LPLATE,AddItem.LSINGULARITY,AddItem.LSINGULARITY,AddItem.LPLATE,AddItem.LVOID_GENERATOR,
                     AddItem.HGTLPBBI,AddItem.LPLATE,AddItem.VIRTUAL_SPACE,AddItem.VIRTUAL_SPACE,AddItem.LPLATE,AddItem.HGTLPBBI,
                     AddItem.PDCECDMD,AddItem.SPACE_PLATE,setC(AddItem.TRANSMUTATOR_ROD,2),setC(AddItem.TRANSMUTATOR_ROD,2),AddItem.SPACE_PLATE,AddItem.PDCECDMD,
                     setC(AddItem.TRANSMUTATOR_ROD,2),setC(AddItem.TRANSMUTATOR_ROD,2),setC(AddItem.TRANSMUTATOR_ROD,2),setC(AddItem.TRANSMUTATOR_ROD,2),setC(AddItem.TRANSMUTATOR_ROD,2),setC(AddItem.TRANSMUTATOR_ROD,2))
-            , 2333,180,1000,1145).setOutput(setC(AddItem.SIMU_LVOID,4))
+            , 2333,180,1000,1145).setOutput(setC(AddItem.SIMU_LVOID,5))
             .register();
     public static final  SlimefunItem ENERGY_TRASH=new EnergyTrash(AddGroups.ENERGY, AddItem.ENERGY_TRASH,RecipeType.ANCIENT_ALTAR,
             recipe(AddItem.BUG,"ENERGY_REGULATOR",AddItem.BUG,"ENERGY_CONNECTOR","TRASH_CAN_BLOCK","ENERGY_CONNECTOR",

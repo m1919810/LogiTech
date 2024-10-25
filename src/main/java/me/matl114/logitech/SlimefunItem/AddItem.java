@@ -344,7 +344,7 @@ public class AddItem {
             Language.get("Machines.INF_GEOQUARRY.Name"),Language.getList("Machines.INF_GEOQUARRY.Lore"));
     public static final SlimefunItemStack RAND_EDITOR=AddUtils.themed("RAND_EDITOR",Material.ENCHANTING_TABLE,AddUtils.Theme.MACHINE1,
             Language.get("Machines.RAND_EDITOR.Name"),Language.getList("Machines.RAND_EDITOR.Lore"));
-    public static final SlimefunItemStack ATTR_OP=AddUtils.themed("ATTR_OP",Material.ANVIL,AddUtils.Theme.MACHINE1,
+    public static final SlimefunItemStack ATTR_OP=AddUtils.themed("ATTR_OP",Material.ENCHANTING_TABLE,AddUtils.Theme.MACHINE1,
             Language.get("Machines.ATTR_OP.Name"),Language.getList("Machines.ATTR_OP.Lore"));
     public static final SlimefunItemStack GRIND_FACTORY=AddUtils.themed("GRIND_FACTORY",Material.GRINDSTONE,AddUtils.Theme.MACHINE1,
             Language.get("Machines.GRIND_FACTORY.Name"),Language.getList("Machines.GRIND_FACTORY.Lore"));
@@ -375,7 +375,7 @@ public class AddItem {
             Language.get("Manuals.ENHANCED_CRAFT_MANUAL.Name"),Language.getList("Manuals.ENHANCED_CRAFT_MANUAL.Lore"));
     public static final SlimefunItemStack GRIND_MANUAL=AddUtils.themed("GRIND_MANUAL",Material.DISPENSER,AddUtils.Theme.MANUAL1,
             Language.get("Manuals.GRIND_MANUAL.Name"),Language.getList("Manuals.GRIND_MANUAL.Lore"));
-    public static final SlimefunItemStack ARMOR_FORGE_MANUAL=AddUtils.themed("ARMOR_FORGE_MANUAL",Material.ANVIL,AddUtils.Theme.MANUAL1,
+    public static final SlimefunItemStack ARMOR_FORGE_MANUAL=AddUtils.themed("ARMOR_FORGE_MANUAL",Material.IRON_BLOCK,AddUtils.Theme.MANUAL1,
             Language.get("Manuals.ARMOR_FORGE_MANUAL.Name"),Language.getList("Manuals.ARMOR_FORGE_MANUAL.Lore"));
     public static final SlimefunItemStack ORE_CRUSHER_MANUAL=AddUtils.themed("ORE_CRUSHER_MANUAL",Material.DROPPER,AddUtils.Theme.MANUAL1,
             Language.get("Manuals.ORE_CRUSHER_MANUAL.Name"),Language.getList("Manuals.ORE_CRUSHER_MANUAL.Lore"));
