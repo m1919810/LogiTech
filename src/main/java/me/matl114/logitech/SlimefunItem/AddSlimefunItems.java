@@ -15,6 +15,8 @@ import me.matl114.logitech.Schedule.PersistentEffects.RadiationRegion;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Blocks.*;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.*;
+import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore.MultiBlockTypes;
+import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore.MultiPart;
 import me.matl114.logitech.SlimefunItem.Cargo.CargoMachine.*;
 import me.matl114.logitech.SlimefunItem.Cargo.SpaceStorage.SpaceStorageCard;
 import me.matl114.logitech.SlimefunItem.Cargo.SpaceStorage.SpaceTower;

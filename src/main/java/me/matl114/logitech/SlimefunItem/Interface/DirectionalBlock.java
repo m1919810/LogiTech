@@ -1,4 +1,4 @@
-package me.matl114.logitech.SlimefunItem;
+package me.matl114.logitech.SlimefunItem.Interface;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;

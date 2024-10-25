@@ -5,21 +5,11 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
-import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
-import me.matl114.logitech.SlimefunItem.Machines.ChunkLimit;
-import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.SlimefunItem.Interface.ChunkLimit;
 import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.Settings;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -56,6 +46,9 @@ public class ChunkEnergyCharger extends AbstractEnergyCharger implements ChunkLi
     }
     protected boolean isChargeable(SlimefunItem that){
         return !(that instanceof AbstractEnergyMachine);
+    }
+    public int getMaxChargeAmount(){
+        return 64;
     }
     @Override
     public void onBreak(BlockBreakEvent e, BlockMenu menu) {

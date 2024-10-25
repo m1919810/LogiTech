@@ -19,14 +19,10 @@ import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.SlimefunItem.AddDepends;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
-import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.MultiBlockProcessor;
-import me.matl114.logitech.SlimefunItem.Blocks.MultiCore;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
-import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
 import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.AEMachine;
 import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.EMachine;
 import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.MTMachine;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.EqProRandomStack;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ProbItemStack;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.MGeneratorRecipe;
@@ -34,16 +30,9 @@ import me.matl114.logitech.SlimefunItem.Machines.AbstractTransformer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.*;
-import org.bukkit.block.CreatureSpawner;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.*;
-import org.bukkit.loot.LootTable;
-import org.bukkit.loot.LootTables;
 
-import java.sql.Ref;
 import java.util.*;
 
 public class RecipeSupporter {

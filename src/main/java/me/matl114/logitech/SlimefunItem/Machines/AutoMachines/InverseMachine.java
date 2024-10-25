@@ -11,7 +11,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractAdvancedProcessor;
-import me.matl114.logitech.SlimefunItem.Machines.MultiCraftType;
+import me.matl114.logitech.SlimefunItem.Interface.MultiCraftType;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.AbstractItemStack;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;

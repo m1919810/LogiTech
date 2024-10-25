@@ -2,9 +2,7 @@ package me.matl114.logitech;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import me.matl114.logitech.Depends.DependencyInfinity;
 import me.matl114.logitech.Depends.DependencyNetwork;
 import me.matl114.logitech.Listeners.ListenerManager;
@@ -16,7 +14,7 @@ import me.matl114.logitech.SlimefunItem.AddDepends;
 import me.matl114.logitech.SlimefunItem.AddGroups;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
-import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockTypes;
+import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore.MultiBlockTypes;
 import me.matl114.logitech.SlimefunItem.Cargo.SpaceStorage.StorageSpace;
 import me.matl114.logitech.SlimefunItem.Cargo.Storages;
 import me.matl114.logitech.Utils.*;

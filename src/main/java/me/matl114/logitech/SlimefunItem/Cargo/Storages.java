@@ -35,7 +35,7 @@ public class Storages {
                     "&7如果你认为这是网络版本问题,请更换网络版本以重新兼容该物品"));
             ((CustomSlimefunItem)AddSlimefunItems.QUANTUM_LINK).addDisplayRecipe(null);
         }catch (Throwable es){
-
+            Debug.logger(es);
         }
     }
     public static final StorageType NTWSTORAGE_PROXY =((Supplier<StorageType>)(()->{

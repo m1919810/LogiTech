@@ -1,19 +1,16 @@
-package me.matl114.logitech.SlimefunItem.Blocks;
+package me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
-import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
-import me.matl114.logitech.Utils.UtilClass.TickerClass.Ticking;
+import me.matl114.logitech.SlimefunItem.Blocks.AbstractBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class MultiPart extends AbstractBlock implements MultiBlockPart{
+public class MultiPart extends AbstractBlock implements MultiBlockPart {
     public final String BLOCKID;
     public MultiPart(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String blockId) {
         super(itemGroup, item, recipeType, recipe);

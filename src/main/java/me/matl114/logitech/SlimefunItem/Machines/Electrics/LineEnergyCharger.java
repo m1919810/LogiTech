@@ -4,23 +4,13 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import me.matl114.logitech.SlimefunItem.Machines.ChunkLimit;
-import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.UtilClass.CargoClass.Directions;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
-import java.util.HashMap;
 
 public class LineEnergyCharger extends AbstractEnergyCharger  {
     protected final int MAX_LEN=64;
@@ -40,6 +30,9 @@ public class LineEnergyCharger extends AbstractEnergyCharger  {
     public Collection<SlimefunBlockData> getChargeRange(BlockMenu inv, Block block, SlimefunBlockData data){
         Location loc=block.getLocation();
         return DataCache.getAllSfItemInChunk(loc.getWorld(),loc.getBlockX()>>4,loc.getBlockZ()>>4);
+    }
+    public int getMaxChargeAmount(){
+        return 1024;
     }
 
 

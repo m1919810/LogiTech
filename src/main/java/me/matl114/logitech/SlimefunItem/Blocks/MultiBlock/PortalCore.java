@@ -10,7 +10,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.AddItem;
-import me.matl114.logitech.SlimefunItem.Blocks.MultiCore;
+import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore.MultiCore;
 import me.matl114.logitech.SlimefunItem.Cargo.Links.HyperLink;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.AbstractMultiBlockHandler;

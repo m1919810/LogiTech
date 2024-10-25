@@ -4,13 +4,9 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
-import me.matl114.logitech.SlimefunItem.Machines.MenuBlock;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.matl114.logitech.SlimefunItem.Interface.MenuBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.ArrayList;
 
 public class AbstractBlock extends CustomSlimefunItem implements MenuBlock {
     public AbstractBlock(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

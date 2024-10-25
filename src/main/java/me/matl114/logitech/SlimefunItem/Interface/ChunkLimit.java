@@ -1,8 +1,6 @@
-package me.matl114.logitech.SlimefunItem.Machines;
+package me.matl114.logitech.SlimefunItem.Interface;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.BukkitUtils;
 import me.matl114.logitech.Utils.DataCache;

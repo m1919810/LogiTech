@@ -10,6 +10,9 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.Schedule.Schedules;
+import me.matl114.logitech.SlimefunItem.Interface.MultiCraftType;
+import me.matl114.logitech.SlimefunItem.Interface.RecipeDisplay;
+import me.matl114.logitech.SlimefunItem.Interface.RecipeLock;
 import me.matl114.logitech.SlimefunItem.Machines.*;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
@@ -161,7 +164,7 @@ public abstract class AdvancedSpecialCrafter extends AbstractProcessor implement
         menu.dropItems(loc,MACHINEITEM_SLOT);
     }
     public MachineRecipe getRecordRecipe(SlimefunBlockData data){
-        int index=MultiCraftType.getRecipeTypeIndex(data);
+        int index= MultiCraftType.getRecipeTypeIndex(data);
         if(index>=0){
             RecipeType[] types=getCraftTypes();
             if(index>=types.length){//下标越界检查

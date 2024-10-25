@@ -58,7 +58,7 @@ public abstract class AbstractEnergyCharger extends AbstractEnergyMachine {
 
     protected ItemStack getInfoShow(int charge,int machine,int errors){
         return new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6信息","&7已存储: %dJ/%dJ".formatted(charge,energybuffer),
-                "&7范围用电器数目: %d".formatted(machine),
+                "&7范围用电器数目: %d/%d(max)".formatted(machine,getMaxChargeAmount()),
                 "&7充电报错数目: %d".formatted(errors));
     }
     public void constructMenu(BlockMenuPreset preset){
@@ -93,6 +93,7 @@ public abstract class AbstractEnergyCharger extends AbstractEnergyMachine {
     protected boolean isChargeable(SlimefunItem that){
         return true;
     }
+    public abstract int getMaxChargeAmount();
     @Override
     public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int ticker) {
         Location loc=menu.getLocation();
@@ -128,6 +129,9 @@ public abstract class AbstractEnergyCharger extends AbstractEnergyMachine {
                             }catch (Throwable e){
                                 errorMachine++;
                             }
+                        }
+                        if(energyConsumer>=getMaxChargeAmount()){
+                            break;
                         }
                     }
                 }

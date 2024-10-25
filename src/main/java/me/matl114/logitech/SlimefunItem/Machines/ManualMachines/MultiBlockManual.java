@@ -10,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
+import me.matl114.logitech.SlimefunItem.Interface.MultiCraftType;
 import me.matl114.logitech.SlimefunItem.Machines.*;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MultiBlockManual extends AbstractManual implements MultiCraftType , ImportRecipes {
+public class MultiBlockManual extends AbstractManual implements MultiCraftType, ImportRecipes {
 
     protected final int[] INPUT_SLOT=new int[]{4,5,6,7,8,13,14,15,16,17,22,23,24,25,26,31,32,33,34,35,40,41,42,43,44,49,50,51,52,53};
     protected final int[] OUTPUT_SLOT=new int[]{31,32,33,34,35,40,41,42,43,44,49,50,51,52,53,4,5,6,7,8,13,14,15,16,17,22,23,24,25,26};
