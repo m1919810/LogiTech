@@ -34,6 +34,13 @@ public class RemoteCargo extends AbstractCargo {
     protected final int[] INFO_SLOT=new int[]{
             3,5
     };
+    protected final String[] savedKeys=new String[0];
+    public String[] getSaveKeys(){
+        return savedKeys;
+    }
+    public int[] getDirectionSlots(){
+        return new int[0];
+    }
     protected final ItemStack[] INFO_ITEM=new ItemStack[]{
             new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&b机制",
                     "&7在左侧配置源方方块超链接","&7在中间的槽位插入[%s]".formatted(Language.get("Items.CARGO_CONFIG.Name")),"&7在下方放入黑/白名单物品",

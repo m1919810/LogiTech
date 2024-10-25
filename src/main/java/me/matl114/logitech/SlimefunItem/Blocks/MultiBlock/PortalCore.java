@@ -141,7 +141,7 @@ public class PortalCore extends MultiCore {
     public void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler, MultiBlockService.DeleteCause cause){
         super.onMultiBlockDisable(loc,handler,cause);
         deletePortal(loc.getBlock());
-        BlockMenu inv= StorageCacheUtils.getMenu(loc);
+        BlockMenu inv= DataCache.getMenu(loc);
         if(inv!=null){
             inv.replaceExistingItem(TOGGLE_SLOT,TOGGLE_ITEM_OFF);
         }

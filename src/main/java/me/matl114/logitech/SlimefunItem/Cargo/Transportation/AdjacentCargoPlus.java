@@ -9,11 +9,8 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.SlimefunItem.Cargo.AbstractCargo;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.Settings;
-import me.matl114.logitech.Utils.TransportUtils;
+import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.Directions;
-import me.matl114.logitech.Utils.Utils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
@@ -42,13 +39,13 @@ public class AdjacentCargoPlus extends AdjacentCargo {
     }
     public void cargoTask(Block b, BlockMenu menu, SlimefunBlockData data, int configCode){
         Location loc=menu.getLocation();
-        Directions from_dir=getDirection("from_dir",data);
-        BlockMenu from= StorageCacheUtils.getMenu(from_dir.relate(loc));
+        Directions from_dir=getDirection(0,data);
+        BlockMenu from= DataCache.getMenu(from_dir.relate(loc));
         if(from==null){
             return;
         }
-        Directions to_dir=getDirection("to_dir",data);
-        BlockMenu to= StorageCacheUtils.getMenu(to_dir.relate( loc));
+        Directions to_dir=getDirection(1,data);
+        BlockMenu to= DataCache.getMenu(to_dir.relate( loc));
         if(to==null){
             return;
         }

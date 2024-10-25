@@ -11,6 +11,7 @@ import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore.MultiBlockPart;
 import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.AbstractTransportor;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.CraftUtils;
+import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.TransportUtils;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -67,7 +68,7 @@ public class MultiIOPort extends AbstractTransportor implements MultiBlockPart {
     public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int ticker){
         Location core= MultiBlockService.acceptPartRequest(b.getLocation());
         if(core!=null){
-            BlockMenu inv= StorageCacheUtils.getMenu(core);
+            BlockMenu inv= DataCache.getMenu(core);
             if (inv!=null){
                 if(CONFIG_TO){
                     TransportUtils.transportItem(menu,getOutputSlots(),inv,TransportUtils.getInvInputSlot(inv),

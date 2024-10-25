@@ -47,7 +47,7 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
         //启用部件的响应
         MultiBlockService.setStatus(core,1);
         //on enable
-        SlimefunItem it=StorageCacheUtils.getSfItem(core);
+        SlimefunItem it=DataCache.getSfItem(core);
         if(it instanceof MultiBlockCore){
             ((MultiBlockCore) it).onMultiBlockEnable(core,multiBlockHandler);
         }
@@ -141,18 +141,19 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
 
     }
     public static int getPartIndex(Location loc){
-        try{
-            String __= StorageCacheUtils.getData(loc,"mb-idx");
-            if(__!=null){
-                return Integer.parseInt(__);
-            }
-        }catch(Throwable e){
-        }
-        setPartIndex(loc,-1);
-        return -1;
+        return DataCache.getCustomData(loc,"mb-idx",-1);
+//        try{
+//            String __= StorageCacheUtils.getData(loc,"mb-idx");
+//            if(__!=null){
+//                return Integer.parseInt(__);
+//            }
+//        }catch(Throwable e){
+//        }
+//        setPartIndex(loc,-1);
+//        return -1;
     }
     public static void setPartIndex(Location loc,int index){
-        StorageCacheUtils.setData(loc,"mb-idx",String.valueOf(index));
+        DataCache.setCustomData(loc,"mb-idx",index);
     }
 
     public boolean checkIfOnline(){

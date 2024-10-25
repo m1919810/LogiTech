@@ -46,12 +46,12 @@ public class RedstoneAdjacentCargo extends AdjacentCargo {
         if(DataCache.getCustomData(data,POWERED_KEY,0)!=0){
             Location loc=menu.getLocation();
             Directions from_dir=getDirection("from_dir",data);
-            BlockMenu from= StorageCacheUtils.getMenu(from_dir.relate(loc));
+            BlockMenu from= DataCache.getMenu(from_dir.relate(loc));
             if(from==null){
                 return;
             }
             Directions to_dir=getDirection("to_dir",data);
-            BlockMenu to= StorageCacheUtils.getMenu(to_dir.relate( loc));
+            BlockMenu to= DataCache.getMenu(to_dir.relate( loc));
             if(to==null){
                 return;
             }

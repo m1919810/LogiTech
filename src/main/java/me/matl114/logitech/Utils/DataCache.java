@@ -303,6 +303,10 @@ public class DataCache {
     public static void setCustomData(SlimefunBlockData data,String key,int value){
         safeSetData(data,key,String.valueOf(value));
     }
+    public static String getCustomString(Location loc,String key,String defaultValue){
+        SlimefunBlockData data= safeLoadBlock(loc);
+        return getCustomString(data,key,defaultValue);
+    }
     public static String getCustomString(SlimefunBlockData data,String key,String defaultVal){
         try{
             String csd= data.getData(key);

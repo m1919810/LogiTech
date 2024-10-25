@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.inventory.meta.Repairable;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 public class Debug {
@@ -84,6 +85,9 @@ public class Debug {
         t.printStackTrace();
 
     }
+    public static void logger(Supplier<String> str){
+        logger(str.get());
+    }
     public static void debug(Object ...msgs) {
         String msg="";
         for(Object m : msgs){
@@ -96,6 +100,7 @@ public class Debug {
             t.printStackTrace();
         }
     }
+
     public static void test(Object ...msgs) {
         if(start){
             logger(msgs);

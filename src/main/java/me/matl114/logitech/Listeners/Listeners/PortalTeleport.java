@@ -43,8 +43,8 @@ public class PortalTeleport implements Listener {
                 Player player = event.getPlayer();
 
                 if(dst!=null&&DataCache.getSfItem(dst) instanceof PortalCore pc){
-                    SlimefunBlockData data=DataCache.safeLoadBlock(dst);
-                    if(data!=null){
+                    SlimefunBlockData data=DataCache.safeGetBlockCacheWithLoad(dst);
+                    if(data!=null&&data.isDataLoaded()){
                         if (MultiBlockService.getStatus(data)!=0) {
 
                             player.setPortalCooldown(60);
@@ -89,7 +89,7 @@ public class PortalTeleport implements Listener {
         if(loc.getBlock().getType()!= Material.CRYING_OBSIDIAN){
             return;
         }
-        SlimefunItem it = StorageCacheUtils.getSfItem(loc);
+        SlimefunItem it = DataCache.getSfItem(loc);
         if (it instanceof PortalCore) {
             player.setPortalCooldown(180);
             Location dst = ((PortalCore) it).checkLink(loc);

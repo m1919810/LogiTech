@@ -263,16 +263,21 @@ public class SolarReactorCore extends MultiBlockProcessor {
             }
         },0,true,0);
         Schedules.launchSchedules(Schedules.getRunnable(()->{
-            //延后特效
-            //防止重新构建
             MultiBlockService.deleteMultiBlock(center,TWICE_EXPLODE);
             //清除方块
-            BlockMenu inv=StorageCacheUtils.getMenu(loc);
+            BlockMenu inv=DataCache.getMenu(loc);
             if(inv!=null){
                 inv.close();
             }
+            //TODO need test
+            //防止重新发起
+            this.processor.endOperation(loc);
             WorldUtils.removeSlimefunBlock(center,true);
             center.getBlock().setType(Material.CRYING_OBSIDIAN);
+        }),1,true,0);
+        Schedules.launchSchedules(Schedules.getRunnable(()->{
+            //延后特效
+            //防止重新构建
             int len=handler.getSize();
             for (int i=0;i<len;++i){
                 int chance=rand.nextInt(3);
@@ -288,8 +293,6 @@ public class SolarReactorCore extends MultiBlockProcessor {
                 loc2.getBlock().setType(Material.CRYING_OBSIDIAN);
                 WorldUtils.removeSlimefunBlock(loc2,true);
             }
-            //防止重新发起
-            this.processor.endOperation(loc);
             loc.getWorld().createExplosion(center.clone().add(6,1,0),90,true,true);
             loc.getWorld().createExplosion(center.clone().add(0,1,6),90,true,true);
             loc.getWorld().createExplosion(center.clone().add(-6,1,0),90,true,true);

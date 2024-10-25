@@ -134,7 +134,7 @@ public class FinalAltarCore  extends MultiCore {
         //要设置上面的机器,清除里面的force level数据
         Location poweredLoc =loc.clone().add(0,1,0);
         FinalAltarChargable.clearForced(poweredLoc);
-        BlockMenu inv= StorageCacheUtils.getMenu(loc);
+        BlockMenu inv= DataCache.getMenu(loc);
         if(inv!=null){
             inv.replaceExistingItem(STATUS_SLOT,STATUS_ITEM_OFF);
         }

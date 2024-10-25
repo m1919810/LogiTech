@@ -9,11 +9,8 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.SlimefunItem.Cargo.AbstractCargo;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.Settings;
-import me.matl114.logitech.Utils.TransportUtils;
+import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.Directions;
-import me.matl114.logitech.Utils.Utils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
@@ -84,6 +81,16 @@ public class AdjacentCargo extends AbstractCargo {
             preset.addItem(INFO_SLOT[i],INFO_ITEM[i],ChestMenuUtils.getEmptyClickHandler());
         }
     }
+    protected final String[] savedKeys=new String[]{
+            "from_dir",
+            "to_dir"
+    };
+    public String[] getSaveKeys(){
+        return savedKeys;
+    }
+    public int[] getDirectionSlots(){
+        return DIRECTION_SLOT;
+    }
     public void newMenuInstance(BlockMenu inv, Block b){
         inv.addMenuOpeningHandler((player -> {
             updateMenu(inv,b,Settings.RUN);
@@ -91,24 +98,24 @@ public class AdjacentCargo extends AbstractCargo {
         inv.addMenuCloseHandler(player -> {
             updateMenu(inv,b,Settings.RUN);
         });
-        inv.addMenuClickHandler(DIRECTION_SLOT[0],getDirectionHandler("from_dir",inv));
-        inv.addMenuClickHandler(DIRECTION_SLOT[1],getDirectionHandler("to_dir",inv));
+        inv.addMenuClickHandler(DIRECTION_SLOT[0],getDirectionHandler(0,inv));
+        inv.addMenuClickHandler(DIRECTION_SLOT[1],getDirectionHandler(1,inv));
         updateMenu(inv,b, Settings.INIT);
     }
     public void updateMenu(BlockMenu inv ,Block b,Settings mod){
         loadConfig(inv,b);
-        updateDirectionSlot("from_dir",inv,DIRECTION_SLOT[0]);
-        updateDirectionSlot("to_dir",inv,DIRECTION_SLOT[1]);
+        updateDirectionSlots(0,inv);
+        updateDirectionSlots(1,inv);
     }
     public void cargoTask(Block b, BlockMenu menu, SlimefunBlockData data, int configCode){
         Location loc=menu.getLocation();
-        Directions from_dir=getDirection("from_dir",data);
-        BlockMenu from= StorageCacheUtils.getMenu(from_dir.relate(loc));
+        Directions from_dir=getDirection(0,data);
+        BlockMenu from= DataCache.getMenu(from_dir.relate(loc));
         if(from==null){
             return;
         }
-        Directions to_dir=getDirection("to_dir",data);
-        BlockMenu to= StorageCacheUtils.getMenu(to_dir.relate( loc));
+        Directions to_dir=getDirection(1,data);
+        BlockMenu to= DataCache.getMenu(to_dir.relate( loc));
         if(to==null){
             return;
         }

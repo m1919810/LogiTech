@@ -155,19 +155,14 @@ public class MultiBlockService {
             return -x*dy+z*dx;
         }
         public static Direction getDirection(Location loc){
-            try{
-                String __= StorageCacheUtils.getData(loc,"mb-dir");
-                switch(__){
-                    case "0":return Direction.NORTH;
-                    case "1":return Direction.EAST;
-                    case "2":return Direction.SOUTH;
-                    case "3":return Direction.WEST;
-                    default:
-                }
-            }catch(Throwable e){
+            String __= DataCache.getCustomString(loc,"mb-dir","0");
+            switch(__){
+                case "0":return Direction.NORTH;
+                case "1":return Direction.EAST;
+                case "2":return Direction.SOUTH;
+                case "3":return Direction.WEST;
+                default: return Direction.NORTH;
             }
-            setDirection(loc,Direction.NORTH);
-            return Direction.NORTH;
 
         }
         public static void setDirection(Location loc,Direction dir){
@@ -179,7 +174,7 @@ public class MultiBlockService {
                 case NORTH:
                 default:str1="0";
             }
-            StorageCacheUtils.setData(loc,"mb-dir",str1);
+            DataCache.setCustomString(loc,"mb-dir",str1);
         }
         public static Direction fromInt(int i){
             switch(i){
@@ -477,7 +472,7 @@ public class MultiBlockService {
      * @return
      */
     public static String getPartId(Location location){
-        SlimefunItem blocks= StorageCacheUtils.getSfItem(location);
+        SlimefunItem blocks= DataCache.getSfItem(location);
         if(blocks==null){
             return MBID_NOSFBLOCK;
         }else if(blocks instanceof MultiBlockPart){

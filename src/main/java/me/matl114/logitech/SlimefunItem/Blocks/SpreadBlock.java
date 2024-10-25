@@ -110,7 +110,7 @@ public class SpreadBlock extends AbstractBlock implements Ticking {
                                 if(SPREAD_TICKER.containsKey(loc2)){
                                     continue;
                                 }
-                                SlimefunItem it=StorageCacheUtils.getSfItem(loc2);
+                                SlimefunItem it=DataCache.getSfItem(loc2);
                                 if(it!=SpreadBlock.this&&it!=RESULT&&!loc2.getBlock().getType().isAir()){
                                     runPerTick++;
                                     SPREAD_TICKER.put(loc2,lifeToSet);

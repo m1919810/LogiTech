@@ -7,6 +7,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.SlimefunItem.Cargo.Config.CargoConfigCard;
 import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
+import me.matl114.logitech.SlimefunItem.Interface.DirectionalBlock;
 import me.matl114.logitech.SlimefunItem.Interface.MenuBlock;
 import me.matl114.logitech.SlimefunItem.Interface.RecipeDisplay;
 import me.matl114.logitech.Utils.UtilClass.TickerClass.Ticking;
@@ -29,7 +30,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractCargo extends CustomSlimefunItem implements RecipeDisplay , MenuBlock, Ticking {
+public abstract class AbstractCargo extends CustomSlimefunItem implements RecipeDisplay , MenuBlock, Ticking, DirectionalBlock {
     public abstract int[] getInputSlots();
     public abstract int[] getOutputSlots();
     public abstract int getConfigSlot();
@@ -57,38 +58,6 @@ public abstract class AbstractCargo extends CustomSlimefunItem implements Recipe
         for(int i=0;i<len;i++){
             displayedMemory.add(displayList.get(i));
             displayedMemory.add(null);
-        }
-    }
-    public ChestMenu.MenuClickHandler getDirectionHandler(String saveKey, BlockMenu blockMenu){
-        return ((player, i, itemStack, clickAction) -> {
-            SlimefunBlockData data=DataCache.safeLoadBlock(blockMenu.getLocation());
-            if(data!=null){
-                int direction=DataCache.getCustomData(data,saveKey,0);
-                Directions dir=Directions.fromInt(direction);
-                int next=dir.getNext().toInt();
-                blockMenu.replaceExistingItem(i,DIRECTION_ITEM[next]);
-                DataCache.setCustomData(data,saveKey,next);
-            }
-            return false;
-        });
-    }
-
-    /**
-     * used in cargoTask
-     * @param saveKey
-     * @param data
-     * @return
-     */
-    public Directions getDirection(String saveKey,SlimefunBlockData data){
-        int direction=DataCache.getCustomData(data,saveKey,0);
-            return Directions.fromInt(direction);
-    }
-    public void updateDirectionSlot(String saveKey, BlockMenu blockMenu,int slot){
-        SlimefunBlockData data=DataCache.safeLoadBlock(blockMenu.getLocation());
-        if(data!=null){
-            int direction=DataCache.getCustomData(data,saveKey,0);
-            int dir=Directions.fromInt(direction).toInt();
-            blockMenu.replaceExistingItem(slot,DIRECTION_ITEM[dir]);
         }
     }
     public abstract void constructMenu(BlockMenuPreset preset);

@@ -8,6 +8,7 @@ import me.matl114.logitech.Utils.UtilClass.CargoClass.Directions;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 public interface DirectionalBlock {
@@ -20,7 +21,9 @@ public interface DirectionalBlock {
             AddUtils.addGlow( new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6点击切换方向","&3当前方向: 向上")),
             AddUtils.addGlow( new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6点击切换方向","&3当前方向: 向下"))
     };
+    //keep index num
     String[] getSaveKeys();
+    //leave -1 in array if skip update
     int[] getDirectionSlots();
     default ChestMenu.MenuClickHandler getDirectionHandler(String saveKey, BlockMenu blockMenu){
         return ((player, i, itemStack, clickAction) -> {
@@ -35,6 +38,9 @@ public interface DirectionalBlock {
             return false;
         });
     }
+    default ChestMenu.MenuClickHandler getDirectionHandler(int index, BlockMenu blockMenu){
+        return getDirectionHandler(getSaveKeys()[index],blockMenu);
+    }
 
     /**
      * used in cargoTask
@@ -46,15 +52,40 @@ public interface DirectionalBlock {
         int direction=DataCache.getCustomData(data,saveKey,0);
         return Directions.fromInt(direction);
     }
-    default void setDirection(String saveKey,SlimefunBlockData data,Directions dir){
-
+    default Directions getDirection(int index,SlimefunBlockData data){
+        return getDirection(getSaveKeys()[index],data);
     }
-    default void updateDirectionSlot(String saveKey, BlockMenu blockMenu,int slot){
+    default void setDirection(String saveKey,SlimefunBlockData data,Directions dir){
+        DataCache.setCustomData(data,saveKey,dir.toInt());
+    }
+    default void updateDirectionSlots(int index, BlockMenu blockMenu){
+        updateDirectionSlots(getSaveKeys()[index],blockMenu,getDirectionSlots()[index] );
+    }
+    default void updateDirectionSlots(String saveKey, BlockMenu blockMenu,int slot){
         SlimefunBlockData data=DataCache.safeLoadBlock(blockMenu.getLocation());
         if(data!=null){
             int direction=DataCache.getCustomData(data,saveKey,0);
             int dir=Directions.fromInt(direction).toInt();
             blockMenu.replaceExistingItem(slot,DirectionalBlock.DIRECTION_ITEM[dir]);
         }
+    }
+    default void updateSlot(BlockMenu menu,int iSlot,Directions dir){
+        if(menu!=null&&iSlot>=0){
+            menu.replaceExistingItem(iSlot,DirectionalBlock.DIRECTION_ITEM[dir.toInt()]);
+        }
+    }
+    //返回拷贝的数量
+    default int copyDirectionSettings(SlimefunBlockData data ,Directions[] dir){
+        String[] saveKeys=getSaveKeys();
+        int[] slots=getDirectionSlots();
+        int len=Math.min(saveKeys.length,dir.length);
+        int slotlens=slots.length;
+        BlockMenu menu=data.getBlockMenu();
+        for (int i=0;i<len;i++){
+            setDirection(saveKeys[i],data,dir[i]);
+            if(i<slotlens)
+                updateSlot(menu,slots[i],dir[i]);
+        }
+        return len;
     }
 }

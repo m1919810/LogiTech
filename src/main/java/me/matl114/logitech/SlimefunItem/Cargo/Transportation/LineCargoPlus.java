@@ -43,12 +43,12 @@ public class LineCargoPlus extends LineCargo {
         );
     }
     public void cargoTask(Block b, BlockMenu menu, SlimefunBlockData data, int configCode){
-        Directions dir=getDirection("line_dir",data);
+        Directions dir=getDirection(0,data);
         if(dir==Directions.NONE||dir==null)return;
         //非null 非空
         boolean loop =getConfigValue(0,data)==1;
         Location loc=dir.relate(menu.getLocation());
-        BlockMenu inv= StorageCacheUtils.getMenu(loc);
+        BlockMenu inv= DataCache.getMenu(loc);
         if(inv!=null){
             HashSet<ItemStack> bwset=new HashSet<>();
             ItemStack it;
@@ -65,7 +65,7 @@ public class LineCargoPlus extends LineCargo {
             int limit=MAX_LINE_LEN;
             while(limit>0){
                 loc=dir.relate(loc);
-                nextTo=StorageCacheUtils.getMenu(loc);
+                nextTo=DataCache.getMenu(loc);
                 if(nextTo==null){
                     break;
                 }

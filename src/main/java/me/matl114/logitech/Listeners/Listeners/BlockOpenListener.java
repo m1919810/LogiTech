@@ -10,6 +10,7 @@ import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore.MultiBlockPart;
 import me.matl114.logitech.SlimefunItem.Interface.MenuBlock;
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
@@ -84,32 +85,16 @@ public class BlockOpenListener implements Listener {
             if (!p.isSneaking() || event.getItem().getType() == Material.AIR) {
                 event.getInteractEvent().setCancelled(true);
 
-                var blockData = StorageCacheUtils.getBlock(clickedBlock.getLocation());
+                var blockData = DataCache.safeGetBlockCacheWithLoad(clickedBlock.getLocation());
                 if (blockData == null) {
                     return;
                 }
-
-                if (blockData.isDataLoaded()) {
-                    openMenu(blockData.getBlockMenu(), clickedBlock, p);
-                } else {
-                    Slimefun.getDatabaseManager()
-                            .getBlockDataController()
-                            .loadBlockDataAsync(blockData, new IAsyncReadCallback<>() {
-                                @Override
-                                public boolean runOnMainThread() {
-                                    return true;
-                                }
-
-                                @Override
-                                public void onResult(SlimefunBlockData result) {
-                                    if (!p.isOnline()) {
-                                        return;
-                                    }
-
-                                    openMenu(result.getBlockMenu(), clickedBlock, p);
-                                }
-                            });
-                }
+                DataCache.runAfterSafeLoad(clickedBlock.getLocation(),(data)->{
+                    if (!p.isOnline()) {
+                        return;
+                    }
+                    openMenu(data.getBlockMenu(), clickedBlock, p);
+                },true);
             }
         } catch (Exception | LinkageError x) {
             item.error("An Exception was caught while trying to open the Inventory", x);

@@ -1,7 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Machines;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -129,7 +128,7 @@ public abstract class AbstractEnergyProcessor extends AbstractEnergyProvider imp
     }
     public int getGeneratedOutput(@Nonnull Location l, @Nonnull SlimefunBlockData data){
 
-        BlockMenu inv= StorageCacheUtils.getMenu(l);
+        BlockMenu inv= DataCache.getMenu(l);
         //增加电力检测
         if(inv!=null&&conditionHandle(null,inv)){
             EnergyProviderOperation currentOperation = (EnergyProviderOperation)this.processor.getOperation(l);

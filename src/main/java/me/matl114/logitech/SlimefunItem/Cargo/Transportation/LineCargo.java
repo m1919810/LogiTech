@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.SlimefunItem.Cargo.AbstractCargo;
+import me.matl114.logitech.SlimefunItem.Interface.DirectionalBlock;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.Directions;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -18,7 +19,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.HashSet;
 import java.util.List;
@@ -54,7 +54,9 @@ public class LineCargo extends AbstractCargo {
             0,2
     };
     protected final int DIRECTION_SLOT=10;
-
+    protected final int[] DIRECTION_SLOTS=new int[]{
+            DIRECTION_SLOT
+    };
     public int[] getBWListSlot(){
         return BWSLOT;
     }
@@ -68,6 +70,7 @@ public class LineCargo extends AbstractCargo {
     public int getConfigSlot(){
         return 4;
     }
+
     public LineCargo(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, List<ItemStack> displayList) {
         super(itemGroup, item, recipeType, recipe, displayList);
         setDisplayRecipes(
@@ -99,6 +102,15 @@ public class LineCargo extends AbstractCargo {
             preset.addItem(INFO_SLOT[i],INFO_ITEM[i],ChestMenuUtils.getEmptyClickHandler());
         }
     }
+    protected final String[] savedKeys=new String[]{
+            "line_dir"
+    };
+    public String[] getSaveKeys(){
+        return savedKeys;
+    }
+    public int[] getDirectionSlots(){
+        return DIRECTION_SLOTS;
+    }
     public void newMenuInstance(BlockMenu inv, Block b){
         inv.addMenuOpeningHandler((player -> {
             updateMenu(inv,b,Settings.RUN);
@@ -106,7 +118,7 @@ public class LineCargo extends AbstractCargo {
         inv.addMenuCloseHandler(player -> {
             updateMenu(inv,b,Settings.RUN);
         });
-        inv.addMenuClickHandler(DIRECTION_SLOT,getDirectionHandler("line_dir",inv));
+        inv.addMenuClickHandler(DIRECTION_SLOT,getDirectionHandler(0,inv));
         int len=CONFIG_SLOT.length;
         for (int i=0;i<len;++i){
             inv.addMenuClickHandler(CONFIG_SLOT[i],getConfigHandlers(i,inv));
@@ -151,16 +163,16 @@ public class LineCargo extends AbstractCargo {
     }
     public void updateMenu(BlockMenu inv ,Block b,Settings mod){
         loadConfig(inv,b);
-        updateDirectionSlot("line_dir",inv,DIRECTION_SLOT);
+        updateDirectionSlots(0,inv);
         updateConfigSlots(inv);
     }
     public void cargoTask(Block b, BlockMenu menu, SlimefunBlockData data, int configCode){
-        Directions dir=getDirection("line_dir",data);
+        Directions dir=getDirection(0,data);
         if(dir==Directions.NONE||dir==null)return;
         //非null 非空
         boolean loop =getConfigValue(0,data)==1;
         Location loc=dir.relate(menu.getLocation());
-        BlockMenu inv=StorageCacheUtils.getMenu(loc);
+        BlockMenu inv=DataCache.getMenu(loc);
         if(inv!=null){
             HashSet<ItemStack> bwset=new HashSet<>();
             ItemStack it;
@@ -177,7 +189,7 @@ public class LineCargo extends AbstractCargo {
             int limit=MAX_LINE_LEN;
             while(limit>0){
                 loc=dir.relate(loc);
-                nextTo=StorageCacheUtils.getMenu(loc);
+                nextTo=DataCache.getMenu(loc);
                 if(nextTo==null){
                     break;
                 }

@@ -70,7 +70,7 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
                 ()->{
                     synchronized(lock){
                         for(Map.Entry<Location, ItemStorageCache> a:cacheMap.entrySet()){
-                            BlockMenu menu= StorageCacheUtils.getMenu(a.getKey());
+                            BlockMenu menu= DataCache.getMenu(a.getKey());
                             if(menu!=null){
                                 a.getValue().setPersistent(false);
                                 a.getValue().updateMenu(menu);
@@ -81,16 +81,7 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
                 }
         );
         ScheduleSave.addPeriodicTask(()->{
-//            synchronized(lock){
-//                for(Map.Entry<Location, ItemStorageCache> a:cacheMap.entrySet()){
-//                    BlockMenu menu= StorageCacheUtils.getMenu(a.getKey());
-//                    if (menu!=null){
-//                        a.getValue().setPersistent(false);
-//                        a.getValue().updateMenu(menu);
-//                        a.getValue().setPersistent(true);
-//                    }
-//                }
-//            }
+
         });
         Storages.setup();
     }
