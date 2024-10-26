@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
@@ -191,7 +192,7 @@ public class AddSlimefunItems {
             recipe("SILVER_INGOT","REDSTONE_TORCH","SILVER_INGOT",
                         "REDSTONE",null,"REDSTONE",
                     "SILVER_INGOT","REDSTONE_TORCH","SILVER_INGOT"))
-            .setOutput(setC(AddItem.LOGIGATE,3)).register();
+            .register().setOutput(setC(AddItem.LOGIGATE,3));
     public static final SlimefunItem LOGIC=new MaterialItem(AddGroups.MATERIAL,AddItem.LOGIC,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.LOGIC_REACTOR,Language.get("Machines.LOGIC_REACTOR.Name")))
             .register();
@@ -217,7 +218,7 @@ public class AddSlimefunItems {
                     AddItem.ABSTRACT_INGOT,"ELECTRIC_MOTOR",AddItem.LOGIC,AddItem.LOGIC,"ELECTRIC_MOTOR",AddItem.ABSTRACT_INGOT,
                     AddItem.ABSTRACT_INGOT,"ELECTRIC_MOTOR",AddItem.LOGIC,AddItem.LOGIC,"ELECTRIC_MOTOR",AddItem.ABSTRACT_INGOT,
                     "REINFORCED_ALLOY_INGOT","REINFORCED_ALLOY_INGOT","REINFORCED_ALLOY_INGOT","REINFORCED_ALLOY_INGOT","REINFORCED_ALLOY_INGOT","REINFORCED_ALLOY_INGOT"),null)
-            .setOutput(AddItem.LENGINE).register();
+            .register().setOutput(AddItem.LENGINE);
 
 
     public static final SlimefunItem LFIELD=new MaterialItem(AddGroups.MATERIAL,AddItem.LFIELD,COMMON_TYPE,
@@ -227,8 +228,7 @@ public class AddSlimefunItems {
                     AddItem.UNIQUE,AddItem.EXISTE,AddItem.UNIQUE,AddItem.EXISTE,AddItem.UNIQUE,AddItem.EXISTE,
                     null,AddItem.UNIQUE,null,AddItem.UNIQUE,null,AddItem.UNIQUE,
                     "SOLDER_INGOT","SOLDER_INGOT","SOLDER_INGOT","SOLDER_INGOT","SOLDER_INGOT","SOLDER_INGOT"),null)
-            .setOutput(setC(AddItem.LFIELD,17))
-            .register();
+            .register().setOutput(setC(AddItem.LFIELD,17));
 
 
 
@@ -247,7 +247,7 @@ public class AddSlimefunItems {
                     "CARGO_MOTOR","CRAFTING_MOTOR", setC(AddItem.LENGINE,1),"ENHANCED_AUTO_CRAFTER","CRAFTING_MOTOR","CARGO_MOTOR",
                     AddItem.LFIELD, AddItem.LFIELD,"CRAFTING_MOTOR","CRAFTING_MOTOR",AddItem.LFIELD,AddItem.LFIELD,
                     AddItem.LFIELD,AddItem.LFIELD,"CARGO_MOTOR","CARGO_MOTOR",AddItem.LFIELD,AddItem.LFIELD),null)
-            .setOutput(setC(AddItem.LCRAFT,8)).register();
+            .register().setOutput(setC(AddItem.LCRAFT,8));
     public static final SlimefunItem LBOOLIZER=new MaterialItem(AddGroups.MATERIAL,AddItem.LBOOLIZER,COMMON_TYPE,
             recipe(AddItem.TRUE_,AddItem.FALSE_,AddItem.FALSE_,AddItem.FALSE_,AddItem.FALSE_,AddItem.TRUE_,
                     AddItem.FALSE_,AddItem.TRUE_,AddItem.TRUE_,AddItem.TRUE_,AddItem.TRUE_,AddItem.FALSE_,
@@ -263,7 +263,7 @@ public class AddSlimefunItems {
                     "ELECTRIC_MOTOR",setC(AddItem.LBOOLIZER,1),AddItem.LENGINE,"ELECTRIC_MOTOR",setC(AddItem.LBOOLIZER,1),"ELECTRIC_MOTOR",
                     AddItem.LFIELD,"ELECTRO_MAGNET",setC(AddItem.LBOOLIZER,1),setC(AddItem.LBOOLIZER,1),"ELECTRO_MAGNET",AddItem.LFIELD,
                     AddItem.LFIELD,AddItem.LFIELD,"ELECTRIC_MOTOR","ELECTRIC_MOTOR",AddItem.LFIELD,AddItem.LFIELD),null)
-            .setOutput(setC(AddItem.LMOTOR,4)).register();
+            .register().setOutput(setC(AddItem.LMOTOR,4));
     public static final SlimefunItem LDIGITIZER=new MaterialItem(AddGroups.MATERIAL,AddItem.LDIGITIZER,COMMON_TYPE,
             recipe(AddItem.UNIQUE,AddItem.LFIELD,AddItem.LOGIGATE,AddItem.LOGIGATE,AddItem.LFIELD,AddItem.UNIQUE
                     ,AddItem.LFIELD,setC(AddItem.LBOOLIZER,1),setC(AddItem.LBOOLIZER,1),setC(AddItem.LBOOLIZER,1),setC(AddItem.LBOOLIZER,1)
@@ -280,7 +280,7 @@ public class AddSlimefunItems {
                     "HOPPER","CARGO_NODE_INPUT", AddItem.LENGINE,"CARGO_NODE_OUTPUT_ADVANCED","CARGO_NODE_INPUT","HOPPER",
                     AddItem.LFIELD, "GPS_TRANSMITTER","CARGO_NODE","CARGO_NODE","GPS_TRANSMITTER",AddItem.LFIELD,
                     AddItem.LFIELD,AddItem.LFIELD,"HOPPER","HOPPER",AddItem.LFIELD, AddItem.LFIELD),null)
-            .setOutput(setC(AddItem.LIOPORT,2)).register();
+            .register().setOutput(setC(AddItem.LIOPORT,2));
     public static final SlimefunItem LPLATE=new MaterialItem(AddGroups.MATERIAL,AddItem.LPLATE,RecipeType.SMELTERY,
             recipe(setC(AddItem.ABSTRACT_INGOT,2),"BATTERY","POTATO",AddItem.CHIP_INGOT),null)
             .register();
@@ -366,8 +366,8 @@ public class AddSlimefunItems {
                     setC(SlimefunItems.COPPER_INGOT,4),"2SILICON","4ALUMINUM_INGOT"))
             .register();
     public static final SlimefunItem ABSTRACT_INGOT=new MaterialItem(AddGroups.MATERIAL,AddItem.ABSTRACT_INGOT,RecipeType.SMELTERY,
-            recipe(AddItem.TRUE_,AddItem.EXISTE,AddItem.LOGIC,AddItem.NOLOGIC,AddItem.UNIQUE,AddItem.FALSE_)).setOutput(setC(AddItem.ABSTRACT_INGOT,4))
-            .register();
+            recipe(AddItem.TRUE_,AddItem.EXISTE,AddItem.LOGIC,AddItem.NOLOGIC,AddItem.UNIQUE,AddItem.FALSE_))
+            .register().setOutput(setC(AddItem.ABSTRACT_INGOT,4));
     public static final SlimefunItem PALLADIUM_INGOT=new MaterialItem(AddGroups.MATERIAL,AddItem.PALLADIUM_INGOT,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.SOLAR_REACTOR,Language.get("MultiBlock.SOLAR_REACTOR.Name")),null)
             .register();
@@ -444,8 +444,7 @@ public class AddSlimefunItems {
                     AddItem.LIOPORT,AddItem.PAGOLD,AddItem.CHIP_CORE,AddItem.CHIP_CORE,AddItem.PAGOLD,AddItem.LIOPORT,
                     AddItem.BISILVER,AddItem.LDIGITIZER,AddItem.PAGOLD,AddItem.PAGOLD,AddItem.LDIGITIZER,AddItem.BISILVER,
                     AddItem.SPACE_PLATE,AddItem.BISILVER,setC(AddItem.ATOM_INGOT,8),setC(AddItem.ATOM_INGOT,8),AddItem.BISILVER,AddItem.SPACE_PLATE),null)
-            .setOutput(setC(AddItem.VIRTUAL_SPACE,8))
-            .register();
+            .register().setOutput(setC(AddItem.VIRTUAL_SPACE,8));
 
     public static final SlimefunItem REDSTONE_ENGINE=new MaterialItem(AddGroups.VANILLA,AddItem.REDSTONE_ENGINE,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("TNT","SLIME_BLOCK","ANVIL",
@@ -484,7 +483,7 @@ public class AddSlimefunItems {
                     AddItem.PAGOLD,setC(AddItem.STAR_GOLD_INGOT,1),AddItem.LSCHEDULER,AddItem.SPACE_PLATE,setC(AddItem.STAR_GOLD_INGOT,1),AddItem.PAGOLD,
                     setC(AddItem.ATOM_INGOT,8),AddItem.BISILVER,setC(AddItem.STAR_GOLD_INGOT,1),setC(AddItem.STAR_GOLD_INGOT,1),AddItem.BISILVER,setC(AddItem.ATOM_INGOT,8),
                     AddItem.LDIGITIZER,setC(AddItem.ATOM_INGOT,8),AddItem.CHIP_CORE,AddItem.CHIP_CORE,setC(AddItem.ATOM_INGOT,8),AddItem.LCRAFT),null)
-            .setOutput(setC(AddItem.STACKFRAME,64)).register();
+            .register().setOutput(setC(AddItem.STACKFRAME,64));
     public static final SlimefunItem LASER=new MaterialItem(AddGroups.ADVANCED,AddItem.LASER,COMMON_TYPE,
             recipe(AddItem.HYDRAGYRUM,AddItem.MOLYBDENUM,AddItem.BORON,AddItem.BORON,AddItem.MOLYBDENUM,AddItem.HYDRAGYRUM,
                     AddItem.ANTIMONY_INGOT,AddItem.BORON,AddItem.MOLYBDENUM,AddItem.MOLYBDENUM,AddItem.BORON,AddItem.ANTIMONY_INGOT,
@@ -500,12 +499,12 @@ public class AddSlimefunItems {
 
     public static final SlimefunItem WITHERPROOF_REDSTONE=new WitherProofBlock(AddGroups.VANILLA,AddItem.WITHERPROOF_REDSTONE,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("REDSTONE_BLOCK","LEAD_INGOT","REDSTONE_BLOCK","LEAD_INGOT","WITHER_PROOF_OBSIDIAN","LEAD_INGOT",
-                    "REDSTONE_BLOCK","LEAD_INGOT","REDSTONE_BLOCK")).setOutput(setC(AddItem.WITHERPROOF_REDSTONE,4))
-            .register();
+                    "REDSTONE_BLOCK","LEAD_INGOT","REDSTONE_BLOCK"))
+            .register().setOutput(setC(AddItem.WITHERPROOF_REDSTONE,4));
     public static final SlimefunItem WITHERPROOF_REDS=new WitherProofBlock(AddGroups.VANILLA,AddItem.WITHERPROOF_REDS,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("REDSTONE","LEAD_INGOT","REDSTONE","LEAD_INGOT","WITHER_PROOF_OBSIDIAN","LEAD_INGOT",
-                    "REDSTONE","LEAD_INGOT","REDSTONE")).setOutput(setC(AddItem.WITHERPROOF_REDS,4))
-            .register();
+                    "REDSTONE","LEAD_INGOT","REDSTONE"))
+            .register().setOutput(setC(AddItem.WITHERPROOF_REDS,4));
     public static final MyVanillaItem UNBREAKING_SHIELD=new MyVanillaItem(AddGroups.SPECIAL,AddItem.UNBREAKING_SHIELD,"UNBREAKING_SHIELD",BukkitUtils.VANILLA_CRAFTTABLE,
             recipe("IRON_BLOCK","DAMASCUS_STEEL_INGOT","IRON_BLOCK","IRON_BLOCK","OBSIDIAN","IRON_BLOCK",
             null,"IRON_BLOCK",null)).register();
@@ -818,8 +817,8 @@ public class AddSlimefunItems {
                     AddItem.HGTLPBBI,AddItem.LPLATE,AddItem.VIRTUAL_SPACE,AddItem.VIRTUAL_SPACE,AddItem.LPLATE,AddItem.HGTLPBBI,
                     AddItem.PDCECDMD,AddItem.SPACE_PLATE,setC(AddItem.TRANSMUTATOR_ROD,2),setC(AddItem.TRANSMUTATOR_ROD,2),AddItem.SPACE_PLATE,AddItem.PDCECDMD,
                     setC(AddItem.TRANSMUTATOR_ROD,2),setC(AddItem.TRANSMUTATOR_ROD,2),setC(AddItem.TRANSMUTATOR_ROD,2),setC(AddItem.TRANSMUTATOR_ROD,2),setC(AddItem.TRANSMUTATOR_ROD,2),setC(AddItem.TRANSMUTATOR_ROD,2))
-            , 2333,180,1000,1145).setOutput(setC(AddItem.SIMU_LVOID,5))
-            .register();
+            , 2333,180,1000,1145)
+            .register().setOutput(setC(AddItem.SIMU_LVOID,5));
     public static final  SlimefunItem ENERGY_TRASH=new EnergyTrash(AddGroups.ENERGY, AddItem.ENERGY_TRASH,RecipeType.ANCIENT_ALTAR,
             recipe(AddItem.BUG,"ENERGY_REGULATOR",AddItem.BUG,"ENERGY_CONNECTOR","TRASH_CAN_BLOCK","ENERGY_CONNECTOR",
                     AddItem.BUG,"ENERGIZED_CAPACITOR",AddItem.BUG), 100_000_000)
@@ -856,6 +855,63 @@ public class AddSlimefunItems {
     public static final SlimefunItem ENERGY_AMPLIFIER=new EnergyAmplifier(AddGroups.ENERGY,AddItem.ENERGY_AMPLIFIER,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),1_000_000_000,2.0)
             .register();
+    public static final  SlimefunItem ENERGY_PIPE=new EnergyPipe(AddGroups.ENERGY, AddItem.ENERGY_PIPE,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe("COPPER_INGOT","SILVER_INGOT","COPPER_INGOT","COPPER_INGOT","SILVER_INGOT","COPPER_INGOT",
+                    "COPPER_INGOT","SILVER_INGOT","COPPER_INGOT"), 1_000_000,0.0f)
+            .register().setOutput(setC(AddItem.ENERGY_PIPE,8));
+    public static final  SlimefunItem ENERGY_PIPE_PLUS=new EnergyPipe(AddGroups.ENERGY, AddItem.ENERGY_PIPE_PLUS,COMMON_TYPE,
+            recipe(null,AddItem.ENERGY_PIPE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ENERGY_PIPE,null,
+                    null,AddItem.ENERGY_PIPE,AddItem.CHIP_INGOT,AddItem.CHIP_INGOT,AddItem.ENERGY_PIPE,null,
+                    null,AddItem.ENERGY_PIPE,AddItem.NOLOGIC,AddItem.NOLOGIC,AddItem.ENERGY_PIPE,null,
+                    null,AddItem.ENERGY_PIPE,AddItem.NOLOGIC,AddItem.NOLOGIC,AddItem.ENERGY_PIPE,null,
+                    null,AddItem.ENERGY_PIPE,AddItem.CHIP_INGOT,AddItem.CHIP_INGOT,AddItem.ENERGY_PIPE,null,
+                    null,AddItem.ENERGY_PIPE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ENERGY_PIPE,null),2_000_000_000,0.0f)
+            .register().setOutput(setC(AddItem.ENERGY_PIPE_PLUS,8));
+    public static final  SlimefunItem ENERGY_STORAGE_NONE=new EnergyStorage(AddGroups.ENERGY, AddItem.ENERGY_STORAGE_NONE,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(AddItem.ABSTRACT_INGOT,AddItem.NOLOGIC,AddItem.ABSTRACT_INGOT,AddItem.NOLOGIC,"ENERGY_CONNECTOR",AddItem.NOLOGIC,
+                    AddItem.ABSTRACT_INGOT,AddItem.NOLOGIC,AddItem.ABSTRACT_INGOT), 1_000_000_000, EnergyNetComponentType.NONE)
+            .register();
+    public static final  SlimefunItem ENERGY_STORAGE_IN=new EnergyStorage(AddGroups.ENERGY, AddItem.ENERGY_STORAGE_IN,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(AddItem.ABSTRACT_INGOT,AddItem.LOGIC,AddItem.ABSTRACT_INGOT,AddItem.LOGIC,"CARBONADO_EDGED_CAPACITOR",AddItem.LOGIC,
+                    AddItem.ABSTRACT_INGOT,AddItem.LOGIC,AddItem.ABSTRACT_INGOT), 1_000_000_000,EnergyNetComponentType.CONSUMER)
+            .register();
+    public static final  SlimefunItem ENERGY_STORAGE_IO=new EnergyIOStorage(AddGroups.ENERGY, AddItem.ENERGY_STORAGE_IO,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(AddItem.ABSTRACT_INGOT,AddItem.LENGINE,AddItem.ABSTRACT_INGOT,AddItem.NOLOGIC,"ENERGIZED_CAPACITOR",AddItem.NOLOGIC,
+                    AddItem.ABSTRACT_INGOT,AddItem.LENGINE,AddItem.ABSTRACT_INGOT),2_000_000)
+            .register();
+
+    public static final  SlimefunItem ADJ_COLLECTOR=new AdjacentEnergyCollector(AddGroups.ENERGY, AddItem.ADJ_COLLECTOR,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(AddItem.ABSTRACT_INGOT,AddItem.LOGIC,AddItem.ABSTRACT_INGOT,AddItem.LOGIC,"ENERGY_REGULATOR",AddItem.LOGIC,
+                    AddItem.ABSTRACT_INGOT,"SMALL_CAPACITOR",AddItem.ABSTRACT_INGOT), 1_000_000)
+            .register();
+    public static final  SlimefunItem LINE_COLLECTOR=new LineEnergyCollector(AddGroups.ENERGY, AddItem.LINE_COLLECTOR,COMMON_TYPE,
+            recipe("ENERGY_REGULATOR","ENERGY_CONNECTOR",AddItem.LPLATE,AddItem.LPLATE,"ENERGY_CONNECTOR","ENERGY_REGULATOR",
+                    "ENERGY_CONNECTOR",AddItem.LMOTOR,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.LMOTOR,"ENERGY_CONNECTOR",
+                    AddItem.LPLATE,AddItem.ABSTRACT_INGOT,AddItem.ADJ_COLLECTOR,AddItem.ADJ_COLLECTOR,AddItem.ABSTRACT_INGOT,AddItem.LPLATE,
+                    AddItem.LPLATE,AddItem.ABSTRACT_INGOT,AddItem.ADJ_COLLECTOR,AddItem.ADJ_COLLECTOR,AddItem.ABSTRACT_INGOT,AddItem.LPLATE,
+                    "ENERGY_CONNECTOR",AddItem.LENGINE,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.LENGINE,"ENERGY_CONNECTOR",
+                    "ENERGY_REGULATOR","ENERGY_CONNECTOR",AddItem.LPLATE,AddItem.LPLATE,"ENERGY_CONNECTOR","ENERGY_REGULATOR"), 16_000_000)
+            .register();
+    public static final  SlimefunItem ADJ_CHARGER=new AdjacentEnergyCharger(AddGroups.ENERGY, AddItem.ADJ_CHARGER,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(AddItem.ABSTRACT_INGOT,AddItem.NOLOGIC,AddItem.ABSTRACT_INGOT,AddItem.NOLOGIC,"CHARGING_BENCH",AddItem.NOLOGIC,
+                    AddItem.ABSTRACT_INGOT,"SMALL_CAPACITOR",AddItem.ABSTRACT_INGOT), 1_000_000)
+            .register();
+    public static final  SlimefunItem LINE_CHARGER=new LineEnergyCharger(AddGroups.ENERGY, AddItem.LINE_CHARGER,COMMON_TYPE,
+            recipe("ENERGY_REGULATOR","ENERGY_CONNECTOR",AddItem.LPLATE,AddItem.LPLATE,"ENERGY_CONNECTOR","ENERGY_REGULATOR",
+                    "ENERGY_CONNECTOR",AddItem.LDIGITIZER,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.LDIGITIZER,"ENERGY_CONNECTOR",
+                    AddItem.LPLATE,AddItem.STAR_GOLD_INGOT,AddItem.ADJ_CHARGER,AddItem.ADJ_CHARGER,AddItem.STAR_GOLD_INGOT,AddItem.LPLATE,
+                    AddItem.LPLATE,AddItem.STAR_GOLD_INGOT,AddItem.ADJ_CHARGER,AddItem.ADJ_CHARGER,AddItem.STAR_GOLD_INGOT,AddItem.LPLATE,
+                    "ENERGY_CONNECTOR",AddItem.LDIGITIZER,AddItem.LENGINE,AddItem.LENGINE,AddItem.LDIGITIZER,"ENERGY_CONNECTOR",
+                    "ENERGY_REGULATOR","ENERGY_CONNECTOR",AddItem.LPLATE,AddItem.LPLATE,"ENERGY_CONNECTOR","ENERGY_REGULATOR"),1_000_000)
+            .register()
+            .setOutput(setC(AddItem.LINE_CHARGER,4));
+
+    public static final  SlimefunItem LINE_CHARGER_PLUS=new LineEnergyCharger(AddGroups.ENERGY, AddItem.LINE_CHARGER_PLUS,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(AddItem.LINE_CHARGER,"CARBONADO_EDGED_CAPACITOR",AddItem.LINE_CHARGER,"CARBONADO_EDGED_CAPACITOR",null,"CARBONADO_EDGED_CAPACITOR",
+                    AddItem.LINE_CHARGER,"CARBONADO_EDGED_CAPACITOR",AddItem.LINE_CHARGER),1_000_000_000)
+
+            .register()
+            .setOutput(setC(AddItem.LINE_CHARGER_PLUS,4));
     public static final  SlimefunItem CHUNK_CHARGER=new ChunkEnergyCharger(AddGroups.ENERGY, AddItem.CHUNK_CHARGER,COMMON_TYPE,
             recipe("4ENERGY_REGULATOR","8ENERGY_CONNECTOR",AddItem.LPLATE,AddItem.LPLATE,"8ENERGY_CONNECTOR","4ENERGY_REGULATOR",
                     "8ENERGY_CONNECTOR",setC(AddItem.LSINGULARITY,4),setC(AddItem.STAR_GOLD_INGOT,2),setC(AddItem.STAR_GOLD_INGOT,2),setC(AddItem.LSINGULARITY,4),"8ENERGY_CONNECTOR",
@@ -1904,8 +1960,9 @@ public class AddSlimefunItems {
     public static final SlimefunItem MANUAL_CORE=new MaterialItem(AddGroups.MANUAL,AddItem.MANUAL_CORE,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("SAND","COBBLESTONE","GRAVEL",
                     "SAND","COBBLESTONE","GRAVEL",
-                    "SAND","COBBLESTONE","GRAVEL"),null).setOutput(setC(AddItem.MANUAL_CORE,3))
-            .register();
+                    "SAND","COBBLESTONE","GRAVEL"),null)
+            .register()
+            .setOutput(setC(AddItem.MANUAL_CORE,3));
     public static final SlimefunItem CRAFT_MANUAL=new ManualCrafter(AddGroups.MANUAL,AddItem.CRAFT_MANUAL,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.BUG,"CRAFTING_TABLE",AddItem.BUG,
                     null,"CRAFTING_TABLE",null,
@@ -2064,12 +2121,12 @@ public class AddSlimefunItems {
             recipe("CARGO_NODE","CARGO_NODE_OUTPUT","CARGO_NODE"
                     ,AddItem.FALSE_,null,AddItem.TRUE_,
                     "CARGO_NODE","CARGO_NODE_INPUT","CARGO_NODE"),null)
-            .setOutput(setC(AddItem.CARGO_PART,64)).register();
+            .register().setOutput(setC(AddItem.CARGO_PART,64));
     public static final SlimefunItem CARGO_CONFIG=new ConfigCard(AddGroups.CARGO,AddItem.CARGO_CONFIG,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.TRUE_,AddItem.CARGO_PART,AddItem.TRUE_,
                     AddItem.NOLOGIC,AddItem.BUG,AddItem.LOGIC,
                     AddItem.FALSE_,AddItem.CARGO_PART,AddItem.FALSE_))
-            .setOutput(setC(AddItem.CARGO_CONFIG,32)).register();
+            .register().setOutput(setC(AddItem.CARGO_CONFIG,32));
     public static final SlimefunItem CARGO_CONFIGURATOR=new CargoConfigurator(AddGroups.CARGO,AddItem.CARGO_CONFIGURATOR,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.BUG,AddItem.ABSTRACT_INGOT,AddItem.BUG,AddItem.ABSTRACT_INGOT,AddItem.BUG,AddItem.ABSTRACT_INGOT,
                     "OAK_PLANKS","CARTOGRAPHY_TABLE","OAK_PLANKS"))
@@ -2167,12 +2224,12 @@ public class AddSlimefunItems {
             .register();
     public static final  SlimefunItem REDSTONE_ADJACENT_CARGO=new RedstoneAdjacentCargo(AddGroups.CARGO, AddItem.REDSTONE_ADJACENT_CARGO,RecipeType.MAGIC_WORKBENCH,
             recipe(AddItem.ADV_ADJACENT_CARGO,AddItem.PARADOX,AddItem.ADV_ADJACENT_CARGO,AddItem.LOGIGATE,AddItem.REDSTONE_ENGINE,AddItem.LOGIGATE,
-                    AddItem.ADV_ADJACENT_CARGO,AddItem.LOGIGATE,AddItem.ADV_ADJACENT_CARGO), null).setOutput(setC(AddItem.REDSTONE_ADJACENT_CARGO,4))
-            .register();
+                    AddItem.ADV_ADJACENT_CARGO,AddItem.LOGIGATE,AddItem.ADV_ADJACENT_CARGO), null)
+            .register().setOutput(setC(AddItem.REDSTONE_ADJACENT_CARGO,4));
     public static final SlimefunItem CHIP_ADJ_CARGO=new ChipAdjacentCargo(AddGroups.CARGO,AddItem.CHIP_ADJ_CARGO,RecipeType.MAGIC_WORKBENCH,
             recipe(AddItem.ADV_ADJACENT_CARGO,AddItem.PARADOX,AddItem.ADV_ADJACENT_CARGO,AddItem.LOGIGATE,AddItem.CHIP_CORE,AddItem.LOGIGATE,
-                    AddItem.ADV_ADJACENT_CARGO,AddItem.LOGIGATE,AddItem.ADV_ADJACENT_CARGO),null).setOutput(setC(AddItem.CHIP_ADJ_CARGO,4))
-            .register();
+                    AddItem.ADV_ADJACENT_CARGO,AddItem.LOGIGATE,AddItem.ADV_ADJACENT_CARGO),null)
+            .register().setOutput(setC(AddItem.CHIP_ADJ_CARGO,4));
     public static final SlimefunItem RESETTER=new StorageCleaner(AddGroups.SINGULARITY,AddItem.RESETTER,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("CRAFTING_TABLE",AddItem.ABSTRACT_INGOT,"CRAFTING_TABLE",AddItem.ABSTRACT_INGOT,"TRASH_CAN_BLOCK",AddItem.ABSTRACT_INGOT,
                     "CRAFTING_TABLE",AddItem.ABSTRACT_INGOT,"CRAFTING_TABLE"))
@@ -2389,8 +2446,8 @@ public class AddSlimefunItems {
         public ItemDropHandler[] getItemHandler(){
             return new ItemDropHandler[]{this::onDrop};
         }
-    }.setOutput(setC(AddItem.RTP_RUNE,2))
-            .register();
+    }
+            .register().setOutput(setC(AddItem.RTP_RUNE,2));
     public static final SlimefunItem SPACE_CARD=new SpaceStorageCard(AddGroups.SPACE,AddItem.SPACE_CARD,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.STAR_GOLD_INGOT,AddItem.BISILVER,AddItem.STAR_GOLD_INGOT,AddItem.BISILVER,AddItem.LSINGULARITY,AddItem.BISILVER,
                     AddItem.STAR_GOLD_INGOT,AddItem.BISILVER,AddItem.STAR_GOLD_INGOT))
@@ -2402,8 +2459,7 @@ public class AddSlimefunItems {
                     AddItem.STAR_GOLD_INGOT,setC(AddItem.ATOM_INGOT,16),AddItem.STACKFRAME,AddItem.STACKFRAME,setC(AddItem.ATOM_INGOT,16),AddItem.STAR_GOLD_INGOT,
                     AddItem.STAR_GOLD_INGOT,AddItem.WORLD_FEAT,AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,AddItem.WORLD_FEAT,AddItem.STAR_GOLD_INGOT,
                     AddItem.BISILVER,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.BISILVER))
-            .setOutput(setC(AddItem.SPACETOWER_FRAME,16))
-            .register();
+            .register().setOutput(setC(AddItem.SPACETOWER_FRAME,16));
     public static final  SlimefunItem SPACETOWER=new SpaceTower(AddGroups.SPACE, AddItem.SPACETOWER,COMMON_TYPE,
             recipe(AddItem.DIMENSIONAL_SINGULARITY,AddItem.LIOPORT,AddItem.LENGINE,AddItem.LENGINE,AddItem.LIOPORT,AddItem.DIMENSIONAL_SINGULARITY,
                     AddItem.LIOPORT,AddItem.SPACE_PLATE,AddItem.HGTLPBBI,AddItem.HGTLPBBI,AddItem.SPACE_PLATE,AddItem.LIOPORT,

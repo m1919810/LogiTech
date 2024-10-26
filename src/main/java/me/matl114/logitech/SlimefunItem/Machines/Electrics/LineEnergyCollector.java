@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class LineEnergyCharger extends AbstractEnergyCharger  implements DirectionalBlock {
+public class LineEnergyCollector extends AbstractEnergyCollector implements DirectionalBlock {
     protected final int MAX_LEN=64;
 
     protected final String[] savedKeys = new String[]{
@@ -31,11 +31,11 @@ public class LineEnergyCharger extends AbstractEnergyCharger  implements Directi
     public int[] getDirectionSlots(){
         return DIRECTION_SLOTS;
     }
-    public LineEnergyCharger(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
-                              int energybuffer){
+    public LineEnergyCollector(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
+                             int energybuffer){
         super(category, item, recipeType, recipe, energybuffer);
     }
-    public Collection<SlimefunBlockData> getChargeRange(BlockMenu inv, Block block, SlimefunBlockData data){
+    public Collection<SlimefunBlockData> getCollectRange(BlockMenu inv, Block block, SlimefunBlockData data){
         Location loc=block.getLocation();
         Directions dir=getDirection(0,data);
         HashSet<SlimefunBlockData> ret=new HashSet<>();
@@ -44,13 +44,17 @@ public class LineEnergyCharger extends AbstractEnergyCharger  implements Directi
         }
         for (int i=0;i<MAX_LEN;i++){
             loc=dir.relate(loc);
-            if(getChargeableComponent(DataCache.getSfItem(loc))!=null){
+            SlimefunItem item=DataCache.getSfItem(loc);
+            if(item instanceof AbstractEnergyCollector){
+                break;
+            }
+            else if(getEnergyProvider(item)!=null){
                 ret.add(DataCache.safeLoadBlock(loc));
             }
         }
         return ret;
     }
-    public int getMaxChargeAmount(){
+    public int getMaxCollectAmount(){
         return MAX_LEN;
     }
     public void newMenuInstance(BlockMenu menu, Block block){
@@ -58,6 +62,5 @@ public class LineEnergyCharger extends AbstractEnergyCharger  implements Directi
         menu.addMenuClickHandler(DIRECTION_SLOTS[0],getDirectionHandler(0,menu));
         updateDirectionSlots(0,menu);
     }
-
 
 }

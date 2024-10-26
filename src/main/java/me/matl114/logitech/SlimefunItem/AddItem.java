@@ -364,6 +364,26 @@ public class AddItem {
             Language.get("Machines.CHUNK_CHARGER.Name"),Language.getList("Machines.CHUNK_CHARGER.Lore"));
     public static final SlimefunItemStack INGOT_CONVERTOR=AddUtils.themed("INGOT_CONVERTOR",Material.PINK_GLAZED_TERRACOTTA,AddUtils.Theme.MACHINE1,
             Language.get("Machines.INGOT_CONVERTOR.Name"),Language.getList("Machines.INGOT_CONVERTOR.Lore"));
+    public static final SlimefunItemStack LINE_CHARGER=AddUtils.themed("LINE_CHARGER",Material.DEEPSLATE_TILE_WALL,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.LINE_CHARGER.Name"),Language.getList("Machines.LINE_CHARGER.Lore"));
+    public static final SlimefunItemStack LINE_CHARGER_PLUS=AddUtils.themed("LINE_CHARGER_PLUS",Material.DEEPSLATE_TILE_WALL,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.LINE_CHARGER_PLUS.Name"),Language.getList("Machines.LINE_CHARGER_PLUS.Lore"));
+    public static final SlimefunItemStack ADJ_COLLECTOR=AddUtils.themed("ADJ_COLLECTOR",Material.RED_NETHER_BRICKS,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.ADJ_COLLECTOR.Name"),Language.getList("Machines.ADJ_COLLECTOR.Lore"));
+    public static final SlimefunItemStack LINE_COLLECTOR=AddUtils.themed("LINE_COLLECTOR",Material.RED_NETHER_BRICK_WALL,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.LINE_COLLECTOR.Name"),Language.getList("Machines.LINE_COLLECTOR.Lore"));
+    public static final SlimefunItemStack ENERGY_STORAGE_NONE=AddUtils.themed("ENERGY_STORAGE_NONE",Material.CRACKED_DEEPSLATE_TILES,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.ENERGY_STORAGE_NONE.Name"),Language.getList("Machines.ENERGY_STORAGE_NONE.Lore"));
+    public static final SlimefunItemStack ENERGY_STORAGE_IN=AddUtils.themed("ENERGY_STORAGE_IN",Material.CHISELED_DEEPSLATE,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.ENERGY_STORAGE_IN.Name"),Language.getList("Machines.ENERGY_STORAGE_IN.Lore"));
+    public static final SlimefunItemStack ENERGY_STORAGE_IO=AddUtils.themed("ENERGY_STORAGE_IO",Material.CHISELED_POLISHED_BLACKSTONE,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.ENERGY_STORAGE_IO.Name"),Language.getList("Machines.ENERGY_STORAGE_IO.Lore"));
+    public static final SlimefunItemStack ADJ_CHARGER=AddUtils.themed("ADJ_CHARGER",Material.DEEPSLATE_BRICKS,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.ADJ_CHARGER.Name"),Language.getList("Machines.ADJ_CHARGER.Lore"));
+    public static final SlimefunItemStack ENERGY_PIPE=AddUtils.themed("ENERGY_PIPE",Material.LIGHTNING_ROD,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.ENERGY_PIPE.Name"),Language.getList("Machines.ENERGY_PIPE.Lore"));
+    public static final SlimefunItemStack ENERGY_PIPE_PLUS=AddUtils.themed("ENERGY_PIPE_PLUS",Material.END_ROD,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.ENERGY_PIPE_PLUS.Name"),Language.getList("Machines.ENERGY_PIPE_PLUS.Lore"));
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Manuals.MANUAL_CORE.Name"),Language.getList("Manuals.MANUAL_CORE.Lore"));

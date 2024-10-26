@@ -26,5 +26,5 @@ public class Unittest {
     //TODO 和发电机相关的 电线 射电收集器 新概念电容 电池
     //TODO 电线 从出口搜索
     //TODO 修复刷物
-    //TODO 自动跑图机
+    //TODO 自动跑图机 + 随机进度条
 }

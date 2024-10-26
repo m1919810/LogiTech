@@ -68,7 +68,7 @@ public abstract class CustomSlimefunItem extends SlimefunItem implements RecipeD
         this.recipeOutput= AddUtils.resolveItem(obj);
         return this;
     }
-    public SlimefunItem register(){
+    public CustomSlimefunItem register(){
         if(AddSlimefunItems.INSTANCE!=null){
             register(AddSlimefunItems.INSTANCE);
         }else{

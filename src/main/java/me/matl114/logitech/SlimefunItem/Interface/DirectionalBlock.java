@@ -74,18 +74,23 @@ public interface DirectionalBlock {
             menu.replaceExistingItem(iSlot,DirectionalBlock.DIRECTION_ITEM[dir.toInt()]);
         }
     }
+    default boolean canModify(){
+        return true;
+    }
     //返回拷贝的数量
     default int copyDirectionSettings(SlimefunBlockData data ,Directions[] dir){
-        String[] saveKeys=getSaveKeys();
-        int[] slots=getDirectionSlots();
-        int len=Math.min(saveKeys.length,dir.length);
-        int slotlens=slots.length;
-        BlockMenu menu=data.getBlockMenu();
-        for (int i=0;i<len;i++){
-            setDirection(saveKeys[i],data,dir[i]);
-            if(i<slotlens)
-                updateSlot(menu,slots[i],dir[i]);
-        }
-        return len;
+        if(this.canModify()){
+            String[] saveKeys=getSaveKeys();
+            int[] slots=getDirectionSlots();
+            int len=Math.min(saveKeys.length,dir.length);
+            int slotlens=slots.length;
+            BlockMenu menu=data.getBlockMenu();
+            for (int i=0;i<len;i++){
+                setDirection(saveKeys[i],data,dir[i]);
+                if(i<slotlens)
+                    updateSlot(menu,slots[i],dir[i]);
+            }
+            return len;
+        }else return -1;
     }
 }

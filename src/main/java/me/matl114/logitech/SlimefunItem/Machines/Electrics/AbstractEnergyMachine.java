@@ -16,6 +16,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -30,7 +31,6 @@ public abstract class AbstractEnergyMachine extends CustomSlimefunItem implement
         this.energybuffer = energybuffer;
         this.energyConsumption = energyConsumption;
         this.energyNetComponent = energyNetComponent;
-
     }
     public void addInfo(ItemStack stack){
         stack.setItemMeta(AddUtils.capacitorInfoAdd(stack,this.energybuffer).getItemMeta());

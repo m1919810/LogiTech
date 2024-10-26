@@ -1,32 +1,34 @@
 package me.matl114.logitech.SlimefunItem.Machines.Electrics;
 
+import city.norain.slimefun4.utils.MathUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
+import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.Settings;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.matl114.logitech.Utils.MathUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
-public abstract class AbstractEnergyCharger extends AbstractEnergyMachine {
+public abstract class AbstractEnergyCollector extends AbstractEnergyMachine implements EnergyNetProvider {
     protected final int[] INPUT_SLOTS=new int[0];
     protected final int[] OUTPUT_SLOTS=new int[0];
     public int[] getInputSlots(){
@@ -47,19 +49,19 @@ public abstract class AbstractEnergyCharger extends AbstractEnergyMachine {
         return INFO_SLOT;
     }
     protected final ItemStack LAZY_ITEM_OFF=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&6点击切换懒惰模式","&7当前状态: &c关闭",
-            "&7当启用懒惰模式时,只有电力剩余不足50%的机器会被充能","&7这会大幅度的减少充能耗时");
+            "&7当启用懒惰模式时,只有自身电力不满时","&7才会尝试收集发电机电力");
     protected final ItemStack LAZY_ITEM_ON=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换懒惰模式","&7当前状态: &a开启",
-            "&7当启用懒惰模式时,只有电力剩余不足50%的机器会被充能","&7这会大幅度的减少充能耗时");
+            "&7当启用懒惰模式时,只有自身电力不满时","&7才会尝试收集发电机电力");
 
-    public AbstractEnergyCharger(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
-                               int energybuffer){
-        super(category, item, recipeType, recipe, energybuffer, 0,EnergyNetComponentType.CONSUMER);
+    public AbstractEnergyCollector(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
+                                 int energybuffer){
+        super(category, item, recipeType, recipe, energybuffer, 0, EnergyNetComponentType.GENERATOR);
     }
 
     protected ItemStack getInfoShow(int charge,int machine,int errors){
-        return new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&7已存储: %sJ/%sJ".formatted(AddUtils.formatDouble(charge),AddUtils.formatDouble(this.energybuffer)),
-                "&7范围用电器数目: %d/%d(max)".formatted(machine,getMaxChargeAmount()),
-                "&7充电报错数目: %d".formatted(errors));
+        return new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6信息","&7已存储: %sJ/%sJ".formatted(AddUtils.formatDouble(charge),AddUtils.formatDouble(this.energybuffer)),
+                "&7范围发电机数目: %d/%d(max)".formatted(machine, getMaxCollectAmount()),
+                "&7发电机报错数目: %d".formatted(errors));
     }
     public void constructMenu(BlockMenuPreset preset){
         int[] border=BORDER;
@@ -89,62 +91,73 @@ public abstract class AbstractEnergyCharger extends AbstractEnergyMachine {
     public void onBreak(BlockBreakEvent e, BlockMenu menu) {
         super.onBreak(e, menu);
     }
-    public abstract Collection<SlimefunBlockData> getChargeRange(BlockMenu menu,Block block,SlimefunBlockData data);
-    protected boolean isChargeable(SlimefunItem that){
+    public abstract Collection<SlimefunBlockData> getCollectRange(BlockMenu menu, Block block, SlimefunBlockData data);
+    protected boolean isCollectable(SlimefunItem that){
         return true;
     }
-    protected EnergyNetComponent getChargeableComponent(SlimefunItem item){
-        if(item!=null&&isChargeable(item)&&item instanceof EnergyNetComponent ec){
+    protected EnergyNetProvider getEnergyProvider(SlimefunItem item){
+        if(item!=null&& isCollectable(item)&&item instanceof EnergyNetProvider ec){
             return ec;
         }else return null;
     }
-    public abstract int getMaxChargeAmount();
+    public abstract int getMaxCollectAmount();
+
     @Override
     public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int ticker) {
         Location loc=menu.getLocation();
         int charge=this.getCharge(loc,data);
-        int energyConsumer=0;
+        int energyProvider=0;
         int errorMachine=0;
         ItemStack lazymodItem= menu.getItemInSlot(getLazySlot());
         boolean lazymod= lazymodItem==null||lazymodItem.getType()!=Material.RED_STAINED_GLASS_PANE;
-        Collection<SlimefunBlockData> allDatas=getChargeRange(menu,b,data); //DataCache.getAllSfItemInChunk(loc.getWorld(),loc.getBlockX()>>4,loc.getBlockZ()>>4);
+        Collection<SlimefunBlockData> allDatas= getCollectRange(menu,b,data);
         if(allDatas!=null&&!allDatas.isEmpty()){
             Location testLocation;
-            EnergyNetComponent ec;
+            EnergyNetProvider ec;
             for (SlimefunBlockData sf : allDatas) {
                 SlimefunItem item=SlimefunItem.getById(sf.getSfId());
-                if((ec=getChargeableComponent(item))!=null){
-                    if(ec.getEnergyComponentType()== EnergyNetComponentType.CONSUMER){
-                        if(!sf.isDataLoaded()){
-                            DataCache.requestLoad(sf);
-                            continue;
-                        }
-                        energyConsumer++;
-                        if(charge>0){
-                            testLocation=sf.getLocation();
-                            try{
-                                int testCharge=ec.getCharge(testLocation,sf);
-                                int buffer=ec.getCapacity();
-                                int left=buffer-testCharge;
-                                if(left>0&&(!lazymod||left>=testCharge)){
-                                    int add=Math.min(left,charge);
-                                    ec.setCharge(testLocation,add+testCharge);
-                                    charge-=add;
-                                }
-                            }catch (Throwable e){
-                                errorMachine++;
-                            }
-                        }
-                        if(energyConsumer>=getMaxChargeAmount()){
-                            break;
-                        }
+                if((ec= getEnergyProvider(item))!=null){
+                    //懒惰模式且满了
+                    if(lazymod&&(charge>this.energybuffer)){
+                        break;
                     }
+                    if(!sf.isDataLoaded()){
+                        DataCache.requestLoad(sf);
+                        continue;
+                    }
+                    testLocation=sf.getLocation();
+                    try{
+                        int energy = ec.getGeneratedOutput(testLocation,sf);
+                        //尝试加入新energy
+                        charge =Math.min(MathUtils.safeAdd(charge, energy),this.energybuffer);
+                        if (ec.isChargeable()) {
+                            int stored=ec.getCharge(testLocation,sf);
+                            int transfered=Math.min(stored,this.energybuffer-charge);
+                            charge+=transfered;
+                            ec.setCharge(testLocation, stored-transfered);
+                        }
+                        if (ec.willExplode(testLocation,sf)) {
+                            DataCache.removeBlockData(testLocation);
+                            Slimefun.runSync(() -> {
+                                loc.getBlock().setType(Material.LAVA);
+                                loc.getWorld().createExplosion(loc, 0F, false);
+                            });
+                        }
+                        energyProvider+=1;
+                    }catch (Exception | LinkageError throwable) {
+                        errorMachine+=1;
+                        new ErrorReport<>(throwable, testLocation, item);
+                    }
+                    if(energyProvider>= getMaxCollectAmount()){
+                        break;
+                    }
+
                 }
             }
         }
         this.setCharge(loc,charge);
         if(menu.hasViewer()){
-            menu.replaceExistingItem(getInfoSlot(),getInfoShow(charge,energyConsumer, errorMachine));
+            menu.replaceExistingItem(getInfoSlot(),getInfoShow(charge,energyProvider, errorMachine));
         }
     }
 }

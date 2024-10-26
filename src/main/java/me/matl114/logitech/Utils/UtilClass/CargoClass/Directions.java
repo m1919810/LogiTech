@@ -2,6 +2,7 @@ package me.matl114.logitech.Utils.UtilClass.CargoClass;
 
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
+import org.bukkit.util.Vector;
 
 public enum Directions {
     NORTH(0,0,-1,"N",1),
@@ -104,6 +105,19 @@ public enum Directions {
             case DOWN: return Directions.DOWN;
             default: return Directions.NONE;
         }
+    }
+    public static Directions[] nonnullValues(){
+        return new Directions[]{
+                NORTH,WEST,SOUTH,EAST,UP,DOWN
+        };
+    }
+    public static Directions fromVector(Vector v){
+        for(Directions d : values()){
+            if(d.dx==v.getBlockX()&&d.dy==v.getBlockY()&&d.dz==v.getBlockZ()){
+                return d;
+            }
+        }
+        return null;
     }
 
 

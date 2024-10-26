@@ -234,7 +234,7 @@ public class DataCache {
     }
     public static SlimefunBlockData safeGetBlockCacheWithLoad(Location loc){
         SlimefunBlockData data=safeGetBlockDataFromCache(loc);
-        if (data==null){
+        if (data==null||data.isPendingRemove()){
             return null;
         }
         if(!data.isDataLoaded()){
@@ -245,7 +245,7 @@ public class DataCache {
     }
     public static SlimefunBlockData safeLoadBlock(Location loc){
         SlimefunBlockData data= safeGetBlockDataFromCache(loc);
-        if(data==null){
+        if(data==null||data.isPendingRemove()){
             return null;
         }
         if(!data.isDataLoaded()){
