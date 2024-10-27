@@ -428,9 +428,9 @@ public class AddUtils {
     public static ItemStack resolveItem(Object a){
         if(a==null)return null;
         if(a instanceof ItemStack){
-            return  (ItemStack) a;
+            return  new ItemStack( (ItemStack) a);
         }else if(a instanceof SlimefunItem){
-            return ((SlimefunItem) a).getItem().clone();
+            return new ItemStack(((SlimefunItem) a).getItem());
         }else if(a instanceof  Material){
             return  new ItemStack((Material) a);
         }else if(a instanceof String){
@@ -451,9 +451,8 @@ public class AddUtils {
                 id=(String) a;
             }
             try{
-            ItemStack b=SlimefunItem.getById(id).getItem();
+            ItemStack b=new ItemStack(SlimefunItem.getById(id).getItem());
             if(cnt>0&&cnt!=b.getAmount()){
-                b=b.clone();
                 b.setAmount(cnt);
             }
             return b;

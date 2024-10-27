@@ -4,8 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="feat: change almost all StorageCacheUtils to DataCache">
+    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="feat:new energy system">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddGroups.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddGroups.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/AbstractMachine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/AbstractMachine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/AbstractEnergyCollector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/AbstractEnergyCollector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/AbstractEnergyMachine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/AbstractEnergyMachine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/EnergyPipe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/EnergyPipe.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +85,7 @@
     &quot;Shell Script.Unnamed.executor&quot;: &quot;Run&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Intellij_Idea/workspace/LogiTech-master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Intellij_Idea/workspace/SafeTestServer&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -298,15 +303,8 @@
       <workItem from="1729611559114" duration="431000" />
       <workItem from="1729642776176" duration="97000" />
       <workItem from="1729760906977" duration="1706000" />
-      <workItem from="1729877641184" duration="10892000" />
-    </task>
-    <task id="LOCAL-00086" summary="fix :serious bugs in configs">
-      <option name="closed" value="true" />
-      <created>1726658569981</created>
-      <option name="number" value="00086" />
-      <option name="presentableId" value="LOCAL-00086" />
-      <option name="project" value="LOCAL" />
-      <updated>1726658569981</updated>
+      <workItem from="1729877641184" duration="39828000" />
+      <workItem from="1730024418846" duration="601000" />
     </task>
     <task id="LOCAL-00087" summary="fix :logger not removed">
       <option name="closed" value="true" />
@@ -692,7 +690,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729887785246</updated>
     </task>
-    <option name="localTasksCounter" value="135" />
+    <task id="LOCAL-00135" summary="feat:new energy system">
+      <option name="closed" value="true" />
+      <created>1729969970109</created>
+      <option name="number" value="00135" />
+      <option name="presentableId" value="LOCAL-00135" />
+      <option name="project" value="LOCAL" />
+      <updated>1729969970109</updated>
+    </task>
+    <option name="localTasksCounter" value="136" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -766,7 +772,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: add messages in multiblocks" />
     <MESSAGE value="feat: progress" />
     <MESSAGE value="fix :serious bugs in configs" />
     <MESSAGE value="fix :logger not removed" />
@@ -791,7 +796,8 @@
     <MESSAGE value="fix: update Multiblock ID storage,balancing adjustments, bugFixes of gravity block" />
     <MESSAGE value="feat: reconstruct file structure" />
     <MESSAGE value="feat: change almost all StorageCacheUtils to DataCache" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: change almost all StorageCacheUtils to DataCache" />
+    <MESSAGE value="feat:new energy system" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:new energy system" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

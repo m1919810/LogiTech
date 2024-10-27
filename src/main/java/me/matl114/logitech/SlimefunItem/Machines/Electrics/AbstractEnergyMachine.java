@@ -51,7 +51,9 @@ public abstract class AbstractEnergyMachine extends CustomSlimefunItem implement
      * @return
      */
     public abstract int[] getOutputSlots();
-
+    public void setCharge(@Nonnull Location l, int charge){
+        EnergyNetComponent.super.setCharge(l,Math.max(0,charge));
+    }
     public void removeCharge(@Nonnull Location l, int charge){
         if(charge>0){
             EnergyNetComponent.super.removeCharge(l,charge);

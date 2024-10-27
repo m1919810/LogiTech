@@ -323,7 +323,12 @@ public class AddGroups {
             ));
             factory.addInventory(20,AddUtils.getInfoShow("&f2024.?更新",
                     "&7修复部分bug,虽然忘了修了啥了",
-                    "&7增加了wiki"
+                    "&7增加了wiki",
+                    "&7好像修了点bug",
+                    "&7重构部分代码,优化了多方块结构数据存储",
+                    "&7限制了区块充能器",
+                    "&7完善了一个较为完整的电力系统",
+                    "&7完成了电线"
             ));
         }
 

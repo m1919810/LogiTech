@@ -145,9 +145,10 @@ public class EnergyPipe extends AbstractMachine implements DirectionalBlock {
                 if(ec1.isChargeable()&&ec2.isChargeable()){
                     int fromCharge=ec2.getCharge(fromLocation);
                     int toCharge=ec1.getCharge(toLocation);
-                    int transfer=Math.min( Math.min(fromCharge,MAX_TRANSFER),ec1.getCapacity()-toCharge);
+                    int transfer=Math.min( Math.min(fromCharge,MAX_TRANSFER), ((int)(((double)(ec1.getCapacity()-toCharge))/(1-TRANSFER_COST))));
+
                     ec2.setCharge(fromLocation,fromCharge-transfer);
-                    ec1.setCharge(toLocation,toCharge+ (int)(((double)transfer)*(1-TRANSFER_COST)));
+                    ec1.setCharge(toLocation,toCharge+(int)(((double)transfer)*(1-TRANSFER_COST)) );
                 }
             }
         }

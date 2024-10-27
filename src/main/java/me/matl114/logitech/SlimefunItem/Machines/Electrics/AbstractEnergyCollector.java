@@ -155,7 +155,8 @@ public abstract class AbstractEnergyCollector extends AbstractEnergyMachine impl
                 }
             }
         }
-        this.setCharge(loc,charge);
+        this.setCharge(loc, charge);
+
         if(menu.hasViewer()){
             menu.replaceExistingItem(getInfoSlot(),getInfoShow(charge,energyProvider, errorMachine));
         }
