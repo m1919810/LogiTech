@@ -857,15 +857,15 @@ public class AddSlimefunItems {
             .register();
     public static final  SlimefunItem ENERGY_PIPE=new EnergyPipe(AddGroups.ENERGY, AddItem.ENERGY_PIPE,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("COPPER_INGOT","SILVER_INGOT","COPPER_INGOT","COPPER_INGOT","SILVER_INGOT","COPPER_INGOT",
-                    "COPPER_INGOT","SILVER_INGOT","COPPER_INGOT"), 1_000_000,0.0f)
-            .register().setOutput(setC(AddItem.ENERGY_PIPE,8));
+                    "COPPER_INGOT","SILVER_INGOT","COPPER_INGOT"), 100_000,0.10f)
+            .register();
     public static final  SlimefunItem ENERGY_PIPE_PLUS=new EnergyPipe(AddGroups.ENERGY, AddItem.ENERGY_PIPE_PLUS,COMMON_TYPE,
             recipe(null,AddItem.ENERGY_PIPE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ENERGY_PIPE,null,
                     null,AddItem.ENERGY_PIPE,AddItem.CHIP_INGOT,AddItem.CHIP_INGOT,AddItem.ENERGY_PIPE,null,
                     null,AddItem.ENERGY_PIPE,AddItem.NOLOGIC,AddItem.NOLOGIC,AddItem.ENERGY_PIPE,null,
                     null,AddItem.ENERGY_PIPE,AddItem.NOLOGIC,AddItem.NOLOGIC,AddItem.ENERGY_PIPE,null,
                     null,AddItem.ENERGY_PIPE,AddItem.CHIP_INGOT,AddItem.CHIP_INGOT,AddItem.ENERGY_PIPE,null,
-                    null,AddItem.ENERGY_PIPE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ENERGY_PIPE,null),2_000_000_000,0.0f)
+                    null,AddItem.ENERGY_PIPE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.ENERGY_PIPE,null),1_000_000_000,0.0f)
             .register().setOutput(setC(AddItem.ENERGY_PIPE_PLUS,6));
     public static final  SlimefunItem ENERGY_STORAGE_NONE=new EnergyStorage(AddGroups.ENERGY, AddItem.ENERGY_STORAGE_NONE,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.ABSTRACT_INGOT,AddItem.NOLOGIC,AddItem.ABSTRACT_INGOT,AddItem.NOLOGIC,"ENERGY_CONNECTOR",AddItem.NOLOGIC,
@@ -884,7 +884,7 @@ public class AddSlimefunItems {
             recipe(AddItem.ABSTRACT_INGOT,AddItem.LOGIC,AddItem.ABSTRACT_INGOT,AddItem.LOGIC,"ENERGY_REGULATOR",AddItem.LOGIC,
                     AddItem.ABSTRACT_INGOT,"SMALL_CAPACITOR",AddItem.ABSTRACT_INGOT), 1_000_000)
             .register();
-    public static final  SlimefunItem ADJ_COLLECTOR_PLUS=new LineEnergyCharger(AddGroups.ENERGY, AddItem.ADJ_COLLECTOR_PLUS,RecipeType.ENHANCED_CRAFTING_TABLE,
+    public static final  SlimefunItem ADJ_COLLECTOR_PLUS=new AdjacentEnergyCollector(AddGroups.ENERGY, AddItem.ADJ_COLLECTOR_PLUS,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.ADJ_COLLECTOR,"ENERGIZED_CAPACITOR",AddItem.ADJ_COLLECTOR,"ENERGIZED_CAPACITOR",null,"ENERGIZED_CAPACITOR",
                     AddItem.ADJ_COLLECTOR,"ENERGIZED_CAPACITOR",AddItem.ADJ_COLLECTOR),1_000_000_000)
 
@@ -898,7 +898,7 @@ public class AddSlimefunItems {
                     "ENERGY_CONNECTOR",AddItem.LENGINE,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.LENGINE,"ENERGY_CONNECTOR",
                     "ENERGY_REGULATOR","ENERGY_CONNECTOR",AddItem.LPLATE,AddItem.LPLATE,"ENERGY_CONNECTOR","ENERGY_REGULATOR"), 16_000_000)
             .register();
-    public static final  SlimefunItem LINE_COLLECTOR_PLUS=new LineEnergyCharger(AddGroups.ENERGY, AddItem.LINE_COLLECTOR_PLUS,RecipeType.ENHANCED_CRAFTING_TABLE,
+    public static final  SlimefunItem LINE_COLLECTOR_PLUS=new LineEnergyCollector(AddGroups.ENERGY, AddItem.LINE_COLLECTOR_PLUS,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.LINE_COLLECTOR,"ENERGIZED_CAPACITOR",AddItem.LINE_COLLECTOR,"ENERGIZED_CAPACITOR",null,"ENERGIZED_CAPACITOR",
                     AddItem.LINE_COLLECTOR,"ENERGIZED_CAPACITOR",AddItem.LINE_COLLECTOR),2_000_000_000)
 
@@ -908,7 +908,7 @@ public class AddSlimefunItems {
             recipe(AddItem.ABSTRACT_INGOT,AddItem.NOLOGIC,AddItem.ABSTRACT_INGOT,AddItem.NOLOGIC,"CHARGING_BENCH",AddItem.NOLOGIC,
                     AddItem.ABSTRACT_INGOT,"SMALL_CAPACITOR",AddItem.ABSTRACT_INGOT), 1_000_000)
             .register();
-    public static final  SlimefunItem ADJ_CHARGER_PLUS=new LineEnergyCharger(AddGroups.ENERGY, AddItem.ADJ_CHARGER_PLUS,RecipeType.ENHANCED_CRAFTING_TABLE,
+    public static final  SlimefunItem ADJ_CHARGER_PLUS=new AdjacentEnergyCharger(AddGroups.ENERGY, AddItem.ADJ_CHARGER_PLUS,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.ADJ_CHARGER,"CARBONADO_EDGED_CAPACITOR",AddItem.ADJ_CHARGER,"CARBONADO_EDGED_CAPACITOR",null,"CARBONADO_EDGED_CAPACITOR",
                     AddItem.ADJ_CHARGER,"CARBONADO_EDGED_CAPACITOR",AddItem.ADJ_CHARGER),1_000_000_000)
 

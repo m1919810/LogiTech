@@ -1,5 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Interface;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
@@ -24,7 +25,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public interface MenuBlock extends InventoryBlock {
-    public interface MenuNotAccessible{
+    public interface MenuNotAccessible {
 
     }
     /**

@@ -42,17 +42,15 @@ public class AdjacentEnergyCollector extends AbstractEnergyCollector implements 
         if(dir!=Directions.NONE){
             loc=dir.relate(loc);
             SlimefunItem item= DataCache.getSfItem(loc);
-            if(item instanceof AbstractEnergyCollector){
-                return ret;
-            }
-            else if(getEnergyProvider(item)!=null){
+
+            if(getEnergyProvider(item)!=null){
                 ret.add(DataCache.safeLoadBlock(loc));
             }
         }else {
             for (Directions d : Directions.nonnullValues()) {
                 Location testloc=d.relate(loc);
                 SlimefunItem item= DataCache.getSfItem(testloc);
-                if(!(item instanceof AbstractEnergyCollector) &&getEnergyProvider(item)!=null){
+                if(getEnergyProvider(item)!=null){
                     ret.add(DataCache.safeLoadBlock(testloc));
                 }
 

@@ -119,9 +119,12 @@ public abstract class AbstractEnergyCharger extends AbstractEnergyMachine {
                             DataCache.requestLoad(sf);
                             continue;
                         }
+                        testLocation=sf.getLocation();
+                        if(loc.equals(testLocation)){
+                            continue;
+                        }
                         energyConsumer++;
                         if(charge>0){
-                            testLocation=sf.getLocation();
                             try{
                                 int testCharge=ec.getCharge(testLocation,sf);
                                 int buffer=ec.getCapacity();

@@ -5,11 +5,15 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Interface.DirectionalBlock;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.Directions;
+import me.matl114.logitech.Utils.WorldUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
@@ -42,12 +46,17 @@ public class LineEnergyCharger extends AbstractEnergyCharger  implements Directi
         if(dir==Directions.NONE){
             return ret;
         }
+        Location loc2=loc.clone().add(0.5,0.5,0.5);
         for (int i=0;i<MAX_LEN;i++){
             loc=dir.relate(loc);
             if(getChargeableComponent(DataCache.getSfItem(loc))!=null){
                 ret.add(DataCache.safeLoadBlock(loc));
             }
         }
+        Location loc3=loc.clone().add(0.5,0.5,0.5);
+        Schedules.launchSchedules(()->{
+            WorldUtils.spawnLineParticle(loc2,loc3, Particle.WAX_ON,MAX_LEN);
+        },0,false,0);
         return ret;
     }
     public int getMaxChargeAmount(){

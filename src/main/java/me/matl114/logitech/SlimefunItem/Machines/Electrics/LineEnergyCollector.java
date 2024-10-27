@@ -5,11 +5,14 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Interface.DirectionalBlock;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.Directions;
+import me.matl114.logitech.Utils.WorldUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
@@ -42,16 +45,27 @@ public class LineEnergyCollector extends AbstractEnergyCollector implements Dire
         if(dir==Directions.NONE){
             return ret;
         }
-        for (int i=0;i<MAX_LEN;i++){
+        Location loc2=loc.clone().add(0.5,0.5,0.5);
+        int i;
+        for (i=0;i<MAX_LEN;i++){
             loc=dir.relate(loc);
             SlimefunItem item=DataCache.getSfItem(loc);
-            if(item instanceof AbstractEnergyCollector){
-                break;
-            }
-            else if(getEnergyProvider(item)!=null){
+
+            if(getEnergyProvider(item)!=null){
                 ret.add(DataCache.safeLoadBlock(loc));
             }
+            if(item instanceof LineEnergyCollector){
+                break;
+            }
         }
+        Location loc3=loc.clone().add(0.5,0.5,0.5);
+        final int num=i;
+        Schedules.launchSchedules(()->{
+            WorldUtils.doLineOperation(loc2,loc3,num,(location)->{
+                location.getWorld().spawnParticle(Particle.REDSTONE,location,0,0.0,0.0,0.0,0,WorldUtils.DustPreset.REDSTONE.getOptions(),true);
+            });
+
+        },0,false,0);
         return ret;
     }
     public int getMaxCollectAmount(){

@@ -87,6 +87,17 @@ public class WorldUtils {
     public static void setup(){
 
     }
+    public static enum DustPreset{
+        REDSTONE(Color.fromRGB(255,0,0),1.0f);
+
+        Particle.DustOptions dustOptions;
+        public Particle.DustOptions getOptions(){
+            return dustOptions;
+        }
+        DustPreset(Color color,float size){
+            dustOptions=new Particle.DustOptions(color,size);
+        }
+    }
     public static HashSet<Material> WATER_LOGGABLE_TYPES=new HashSet<>(){{
         for (Material m : Material.values()) {
             if(m.isBlock()){
@@ -295,26 +306,30 @@ public class WorldUtils {
      * no need to sync
      * @param start
      * @param end
-     * @param type
+
      * @param count
      */
-    public static void spawnLineParticle(Location start, Location end, Particle type, int count){
+    public static void doLineOperation(Location start,Location end,int count,Consumer<Location> task){
         if(count<=0)return;
         World world= start.getWorld();
         if(end.getWorld()!=world)return;
         if(count==1){
-            world.spawnParticle(type,start,0,0.0,0.0,0.0,1,null,true);
+            task.accept(start);
         }else {
             Location walk=start.clone();
             double dx=(end.getX()-start.getX())/(count-1);
             double dy=(end.getY()-start.getY())/(count-1);
             double dz=(end.getZ()-start.getZ())/(count-1);
             for(int i=0;i<count;++i){
-                world.spawnParticle(type,walk,0,0.0,0.0,0.0,1,null,true);
+                task.accept(walk);
                 walk.add(dx,dy,dz);
             }
         }
-
+    }
+    public static void spawnLineParticle(Location start, Location end, Particle type, int count){
+        doLineOperation(start,end,count,(loc)->{
+            loc.getWorld().spawnParticle(type,loc,0,0.0,0.0,0.0,1,null,true);
+        });
     }
     private static final ItemStack effectivePickaxe = new ItemStack(Material.DIAMOND_PICKAXE);
 

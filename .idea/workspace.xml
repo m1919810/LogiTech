@@ -4,14 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="feat:change itemStack to cleaned itemStack">
+    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="feat:remove unused multiblock data">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddSlimefunItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddSlimefunItems.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/AdjacentEnergyCharger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/AdjacentEnergyCharger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/AdjacentEnergyCollector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/AdjacentEnergyCollector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MultiBlockClass/MultiBlockHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MultiBlockClass/MultiBlockHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/language.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/language.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +80,7 @@
     "Shell Script.Unnamed.executor": "Run",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Intellij_Idea/workspace/Slimefun-changed",
+    "last_opened_file_path": "C:/Intellij_Idea/workspace/LogiWiki",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -306,15 +300,7 @@
       <workItem from="1729760906977" duration="1706000" />
       <workItem from="1729877641184" duration="39828000" />
       <workItem from="1730024418846" duration="601000" />
-      <workItem from="1730025479976" duration="3626000" />
-    </task>
-    <task id="LOCAL-00088" summary="fix :logger not removed">
-      <option name="closed" value="true" />
-      <created>1726799848810</created>
-      <option name="number" value="00088" />
-      <option name="presentableId" value="LOCAL-00088" />
-      <option name="project" value="LOCAL" />
-      <updated>1726799848811</updated>
+      <workItem from="1730025479976" duration="6851000" />
     </task>
     <task id="LOCAL-00089" summary="fix :logger not removed">
       <option name="closed" value="true" />
@@ -700,7 +686,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730025942229</updated>
     </task>
-    <option name="localTasksCounter" value="137" />
+    <task id="LOCAL-00137" summary="feat:remove unused multiblock data">
+      <option name="closed" value="true" />
+      <created>1730029952496</created>
+      <option name="number" value="00137" />
+      <option name="presentableId" value="LOCAL-00137" />
+      <option name="project" value="LOCAL" />
+      <updated>1730029952496</updated>
+    </task>
+    <option name="localTasksCounter" value="138" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -774,7 +768,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix :serious bugs in configs" />
     <MESSAGE value="fix :logger not removed" />
     <MESSAGE value="fix :huge bug,maxCraftTime Wrongly Calculated!" />
     <MESSAGE value="fix :upgrade slotAccess algorithm" />
@@ -799,7 +792,8 @@
     <MESSAGE value="feat: change almost all StorageCacheUtils to DataCache" />
     <MESSAGE value="feat:new energy system" />
     <MESSAGE value="feat:change itemStack to cleaned itemStack" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:change itemStack to cleaned itemStack" />
+    <MESSAGE value="feat:remove unused multiblock data" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:remove unused multiblock data" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

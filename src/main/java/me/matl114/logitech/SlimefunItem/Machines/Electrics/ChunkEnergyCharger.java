@@ -5,11 +5,14 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Interface.ChunkLimit;
 import me.matl114.logitech.Utils.DataCache;
+import me.matl114.logitech.Utils.WorldUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -28,8 +31,20 @@ public class ChunkEnergyCharger extends AbstractEnergyCharger implements ChunkLi
                               int energybuffer){
         super(category, item, recipeType, recipe, energybuffer);
     }
+    protected final String PARTICLE_TICK="pt";
+    protected final int PERIOD=8;
     public Collection<SlimefunBlockData> getChargeRange(BlockMenu inv,Block block,SlimefunBlockData data){
         Location loc=block.getLocation();
+        Schedules.launchSchedules(()->{
+            int t;
+            if((t=DataCache.getCustomData(data,PARTICLE_TICK,0))<PERIOD){
+                DataCache.setCustomData(data,PARTICLE_TICK,t+1);
+            }else {
+                DataCache.setCustomData(data,PARTICLE_TICK,0);
+                WorldUtils.spawnLineParticle(loc.clone().add(0.5,0.5,0.5),loc.clone().add(0.5,128,0.5),Particle.SONIC_BOOM,80);
+
+            }
+        },0,false,0);
         return DataCache.getAllSfItemInChunk(loc.getWorld(),loc.getBlockX()>>4,loc.getBlockZ()>>4);
     }
     public void newMenuInstance(BlockMenu menu, Block block){

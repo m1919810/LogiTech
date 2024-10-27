@@ -13,6 +13,8 @@ import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponen
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.Schedule.Schedules;
+import me.matl114.logitech.SlimefunItem.Interface.EnergyProvider;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.MathUtils;
@@ -24,11 +26,9 @@ import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
-public abstract class AbstractEnergyCollector extends AbstractEnergyMachine implements EnergyNetProvider {
+public abstract class AbstractEnergyCollector extends AbstractEnergyMachine implements EnergyProvider{
     protected final int[] INPUT_SLOTS=new int[0];
     protected final int[] OUTPUT_SLOTS=new int[0];
     public int[] getInputSlots(){
@@ -114,6 +114,7 @@ public abstract class AbstractEnergyCollector extends AbstractEnergyMachine impl
         if(allDatas!=null&&!allDatas.isEmpty()){
             Location testLocation;
             EnergyNetProvider ec;
+            HashMap<SlimefunBlockData,EnergyNetProvider> tickedGenerators=new HashMap<>();
             for (SlimefunBlockData sf : allDatas) {
                 SlimefunItem item=SlimefunItem.getById(sf.getSfId());
                 if((ec= getEnergyProvider(item))!=null){
@@ -124,8 +125,13 @@ public abstract class AbstractEnergyCollector extends AbstractEnergyMachine impl
                     if(!sf.isDataLoaded()){
                         DataCache.requestLoad(sf);
                         continue;
+                    }else if(sf.isPendingRemove()){
+                        continue;
                     }
                     testLocation=sf.getLocation();
+                    if(loc.equals(testLocation)){
+                        continue;
+                    }
                     try{
                         int energy = ec.getGeneratedOutput(testLocation,sf);
                         //尝试加入新energy
@@ -136,13 +142,7 @@ public abstract class AbstractEnergyCollector extends AbstractEnergyMachine impl
                             charge+=transfered;
                             ec.setCharge(testLocation, stored-transfered);
                         }
-                        if (ec.willExplode(testLocation,sf)) {
-                            DataCache.removeBlockData(testLocation);
-                            Slimefun.runSync(() -> {
-                                loc.getBlock().setType(Material.LAVA);
-                                loc.getWorld().createExplosion(loc, 0F, false);
-                            });
-                        }
+                        tickedGenerators.put(sf,ec);
                         energyProvider+=1;
                     }catch (Exception | LinkageError throwable) {
                         errorMachine+=1;
@@ -151,9 +151,26 @@ public abstract class AbstractEnergyCollector extends AbstractEnergyMachine impl
                     if(energyProvider>= getMaxCollectAmount()){
                         break;
                     }
-
                 }
             }
+            Schedules.launchSchedules(
+                    ()->{
+                        for(Map.Entry<SlimefunBlockData,EnergyNetProvider> entry: tickedGenerators.entrySet()){
+                            try{
+                                Location location=entry.getKey().getLocation();
+                                if (entry.getValue().willExplode(location,entry.getKey())) {
+                                    DataCache.removeBlockData(location);
+                                    Slimefun.runSync(() -> {
+                                        location.getBlock().setType(Material.LAVA);
+                                        location.getWorld().createExplosion(location, 0F, false);
+                                    });
+                                }
+                            }catch (Exception | LinkageError throwable) {
+                                new ErrorReport<>(throwable, entry.getKey().getLocation(), SlimefunItem.getById(entry.getKey().getSfId()));
+                            }
+                        }
+                    },0,false,0
+            );
         }
         this.setCharge(loc, charge);
 

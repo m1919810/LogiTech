@@ -66,7 +66,7 @@ public class EnergyPipe extends AbstractMachine implements DirectionalBlock {
         this.TRANSFER_COST=transferCost;
     }
     public void addInfo(ItemStack stack){
-        stack.setItemMeta( AddUtils.addLore(stack,"&7最大电力传输速率: %sJ/t".formatted(AddUtils.formatDouble(MAX_TRANSFER)),"&7能量传输损耗率: %s%%".formatted(AddUtils.formatDouble(this.TRANSFER_COST))).getItemMeta());
+        stack.setItemMeta( AddUtils.addLore(stack,"&7最大电力传输速率: %sJ/t".formatted(AddUtils.formatDouble(MAX_TRANSFER)),"&7能量传输损耗率: %s%%".formatted(AddUtils.formatDouble(100*this.TRANSFER_COST))).getItemMeta());
     }
     public void registerBlockMenu(SlimefunItem item){
         //不用menu
@@ -141,7 +141,7 @@ public class EnergyPipe extends AbstractMachine implements DirectionalBlock {
         }
         if((toLocation=(counter.read(ticker)))!=null){
             Location fromLocation= dir.remote(loc,-1);
-            if(DataCache.getSfItem(toLocation) instanceof EnergyNetComponent ec1&&DataCache.getSfItem(fromLocation) instanceof EnergyNetComponent ec2){
+            if(!fromLocation.equals(toLocation)&& DataCache.getSfItem(toLocation) instanceof EnergyNetComponent ec1&&DataCache.getSfItem(fromLocation) instanceof EnergyNetComponent ec2){
                 if(ec1.isChargeable()&&ec2.isChargeable()){
                     int fromCharge=ec2.getCharge(fromLocation);
                     int toCharge=ec1.getCharge(toLocation);
