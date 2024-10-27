@@ -45,12 +45,10 @@ public class AdjacentEnergyCharger extends AbstractEnergyCharger implements Dire
                 ret.add(DataCache.safeLoadBlock(loc));
             }
         }else {
-            for (Directions d : Directions.values()) {
-                if(d!=Directions.NONE){
-                    Location testloc=dir.relate(loc);
-                    if(getChargeableComponent(DataCache.getSfItem(testloc))!=null){
-                        ret.add(DataCache.safeLoadBlock(testloc));
-                    }
+            for (Directions d : Directions.nonnullValues()) {
+                Location testloc=d.relate(loc);
+                if(getChargeableComponent(DataCache.getSfItem(testloc))!=null){
+                    ret.add(DataCache.safeLoadBlock(testloc));
                 }
             }
         }

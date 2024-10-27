@@ -34,13 +34,11 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
 
             Vector delta= type.getStructurePart(i);
             Location partloc=core.clone().add(delta);
-
             //设置部件的响应目标
             DataCache.setLastUUID(partloc,uid);
             //启用部件的响应
             MultiBlockService.setStatus(partloc,1);
             //设置部件的响应码
-            setPartIndex(partloc,i);
         }
         //设置部件的响应目标
         DataCache.setLastUUID(core,uid);
@@ -140,22 +138,6 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
         return checkIfOnline();
 
     }
-    public static int getPartIndex(Location loc){
-        return DataCache.getCustomData(loc,"mb-idx",-1);
-//        try{
-//            String __= StorageCacheUtils.getData(loc,"mb-idx");
-//            if(__!=null){
-//                return Integer.parseInt(__);
-//            }
-//        }catch(Throwable e){
-//        }
-//        setPartIndex(loc,-1);
-//        return -1;
-    }
-    public static void setPartIndex(Location loc,int index){
-        DataCache.setCustomData(loc,"mb-idx",index);
-    }
-
     public boolean checkIfOnline(){
 
         return this.active;

@@ -49,14 +49,13 @@ public class AdjacentEnergyCollector extends AbstractEnergyCollector implements 
                 ret.add(DataCache.safeLoadBlock(loc));
             }
         }else {
-            for (Directions d : Directions.values()) {
-                if(d!=Directions.NONE){
-                    Location testloc=dir.relate(loc);
-                    SlimefunItem item= DataCache.getSfItem(testloc);
-                    if(!(item instanceof AbstractEnergyCollector) &&getEnergyProvider(item)!=null){
-                        ret.add(DataCache.safeLoadBlock(testloc));
-                    }
+            for (Directions d : Directions.nonnullValues()) {
+                Location testloc=d.relate(loc);
+                SlimefunItem item= DataCache.getSfItem(testloc);
+                if(!(item instanceof AbstractEnergyCollector) &&getEnergyProvider(item)!=null){
+                    ret.add(DataCache.safeLoadBlock(testloc));
                 }
+
             }
         }
         return ret;
