@@ -35,7 +35,23 @@ public class MultiBlockService {
      * returned mbid when no sf block and not multipart
      */
     public static final String MBID_NOSFBLOCK="nu";
-    public static final String MBID_COMMONSFBLOCK="sf";
+    protected static final String MBID_COMMONSFBLOCK="sf";
+    public static String getAutoKey(){
+        return MB_AUTO_KEY;
+    }
+    protected static final String MB_AUTO_KEY="auto";
+    public static String getHologramKey(){
+        return MB_HOLOGRAM_KEY;
+    }
+    protected static final String MB_HOLOGRAM_KEY="holo";
+    public static String getStatueKey(){
+        return MB_STATUS_KEY;
+    }
+    protected static final String MB_STATUS_KEY="mb-sta";
+    public static String getUidKey(){
+        return MB_UUID_KEY;
+    }
+    protected static final String MB_UUID_KEY="uuid";
     public static final HashMap<String,AbstractMultiBlockHandler> MULTIBLOCK_CACHE = new LinkedHashMap<>();
     public static final HashMap<Location, DisplayGroup> HOLOGRAM_CACHE=new HashMap<>();
     public static final Random rand=new Random();
@@ -406,7 +422,7 @@ public class MultiBlockService {
                 displayGroup.remove();
             });
         }
-        DataCache.setCustomData(loc,"holo",0);
+        DataCache.setCustomData(loc,MB_HOLOGRAM_KEY,0);
     }
 
     /**
@@ -415,13 +431,13 @@ public class MultiBlockService {
      */
     public static int getStatus(SlimefunBlockData data){
         try{
-            String __= data.getData("mb-sta");
+            String __= data.getData(MB_STATUS_KEY);
             if(__!=null){
                 return Integer.parseInt(__);
             }
         }catch(Throwable e){
         }
-        data.setData("mb-sta","0");
+        data.setData(MB_STATUS_KEY,"0");
         return 0;
     }
     public static  int getStatus(Location loc){
@@ -437,13 +453,13 @@ public class MultiBlockService {
         SlimefunBlockData data=DataCache.safeLoadBlock(loc);
         if(data!=null){
             try{
-                String __=  data.getData("mb-sta");
+                String __=  data.getData(MB_STATUS_KEY);
                 if(__!=null){
                     return Integer.parseInt(__);
                 }
             }catch(Throwable e){
             }
-            data.setData("mb-sta","0");
+            data.setData(MB_STATUS_KEY,"0");
             return 0;
         }else {
             return -1;
@@ -451,22 +467,22 @@ public class MultiBlockService {
     }
     public static void setStatus(Location loc, int status){
         SlimefunBlockData data= DataCache.safeLoadBlock(loc);
-        DataCache.setCustomString(data,"mb-sta",String.valueOf(status));
+        DataCache.setCustomString(data,MB_STATUS_KEY,String.valueOf(status));
     }
     public static void setStatus(SlimefunBlockData data, int status){
-        data.setData("mb-sta",String.valueOf(status));
+        data.setData(MB_STATUS_KEY,String.valueOf(status));
     }
     public static String safeGetUUID(Location loc){
         String uuid;
         SlimefunBlockData data=DataCache.safeLoadBlock(loc);
         try{
-            uuid= data.getData("uuid");
+            uuid= data.getData(MB_UUID_KEY);
             if(uuid!=null)
                 return uuid;
         }catch (Throwable a){
 
         }
-        data.setData("uuid","null");
+        data.setData(MB_UUID_KEY,"null");
         return "null";
     }
 

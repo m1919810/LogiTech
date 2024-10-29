@@ -238,7 +238,7 @@ public class Transmutator extends MultiBlockAdvancedProcessor  {
     }
     public void updateMenu(BlockMenu inv, Block block, Settings mod){
         Location loc=block.getLocation();
-        int holoStatus=DataCache.getCustomData(loc,"holo",0);
+        int holoStatus=DataCache.getCustomData(loc,MultiBlockService.getHologramKey(),0);
         if(holoStatus==0){
             inv.replaceExistingItem(HOLOGRAM_SLOT,HOLOGRAM_ITEM_OFF);
 
@@ -247,7 +247,7 @@ public class Transmutator extends MultiBlockAdvancedProcessor  {
         }
         int status=MultiBlockService.getStatus(loc)==0?0:1;
         //负数为
-        int autoRec=DataCache.getCustomData(loc,"auto",0)<=0?0:1;
+        int autoRec=DataCache.getCustomData(loc,MultiBlockService.getAutoKey(),0)<=0?0:1;
         inv.replaceExistingItem(TOGGLE_SLOT,TOGGLE_ITEM[status*2+autoRec]);
         if(status==0){
             inv.replaceExistingItem(INFO_SLOT,INFO_ITEM);
@@ -266,9 +266,9 @@ public class Transmutator extends MultiBlockAdvancedProcessor  {
         inv.addMenuClickHandler(TOGGLE_SLOT,((player, i, itemStack, clickAction) -> {
             Location loc=inv.getLocation();
             int statusCode=MultiBlockService.getStatus(loc);
-            int autoCode=DataCache.getCustomData(loc,"auto",0)<=0?0:1;
+            int autoCode=DataCache.getCustomData(loc,MultiBlockService.getAutoKey(),0)<=0?0:1;
             if(clickAction.isShiftClicked()){
-                DataCache.setCustomData(loc,"auto",1-autoCode);
+                DataCache.setCustomData(loc,MultiBlockService.getAutoKey(),1-autoCode);
             }
             else if(autoCode==0){
                 if(statusCode==0){
@@ -293,10 +293,10 @@ public class Transmutator extends MultiBlockAdvancedProcessor  {
             updateMenu(inv,block,Settings.RUN);
             return false;
         }));
-        DataCache.setCustomData(inv.getLocation(),"holo",0);
+        DataCache.setCustomData(inv.getLocation(),MultiBlockService.getHologramKey(),0);
         inv.addMenuClickHandler(HOLOGRAM_SLOT,((player, i, itemStack, clickAction) -> {
             Location loc=inv.getLocation();
-            int holoStatus=DataCache.getCustomData(inv.getLocation(),"holo",0);
+            int holoStatus=DataCache.getCustomData(inv.getLocation(),MultiBlockService.getHologramKey(),0);
             int statusCode=MultiBlockService.getStatus(loc);
             MultiBlockService.removeHologramSync(loc);
             if(statusCode==0){
@@ -306,7 +306,7 @@ public class Transmutator extends MultiBlockAdvancedProcessor  {
                     else
                         AddUtils.sendMessage(player,"&a全息投影已切换方向!");
                     MultiBlockService.createHologram(loc,MBTYPE, MultiBlockService.Direction.fromInt(holoStatus), MBID_TO_ITEM);
-                    DataCache.setCustomData(loc,"holo",holoStatus+1);
+                    DataCache.setCustomData(loc,MultiBlockService.getHologramKey(),holoStatus+1);
                 }
                 else {
                     AddUtils.sendMessage(player,"&a全息投影已关闭!");
@@ -358,7 +358,7 @@ public class Transmutator extends MultiBlockAdvancedProcessor  {
         int statusCode=MultiBlockService.getStatus(data);
         Location loc=b.getLocation();
         int charge=this.getCharge(loc);
-        String code=data.getData("auto");
+        String code=data.getData(MultiBlockService.getAutoKey());
         int autoCode=code==null?0:Integer.parseInt(code);
         if(statusCode==0){
             if(autoCode>0&&charge>2*energyConsumption){//自动构建开启 且有能量

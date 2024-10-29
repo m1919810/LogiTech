@@ -56,7 +56,7 @@ public interface MultiBlockCore extends MultiBlockPart, Ticking {
         }else {
             autoCode+=1;
         }
-        data.setData("auto",String.valueOf(autoCode));
+        data.setData(MultiBlockService.getAutoKey(),String.valueOf(autoCode));
     }
 
     /**
@@ -81,6 +81,6 @@ public interface MultiBlockCore extends MultiBlockPart, Ticking {
         }else {
             autoCode+=sgn;
         }
-        data.setData("auto",String.valueOf(autoCode));
+        data.setData(MultiBlockService.getAutoKey(),String.valueOf(autoCode));
     }
 }

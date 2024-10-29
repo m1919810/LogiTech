@@ -9,20 +9,6 @@ public class MultiBlockTypes {
     public static void setup(){
 
     }
-    public static final MultiBlockType TEST_TYPE=new MultiBlockType() {
-        @Override
-        public void init() {
-            addBlock(0,0,0,"test.part");
-            addBlock(0,1,0,"test.part");
-            addBlock(0,2,0,"test.part");
-            addBlock(0,3,0,"test.part");
-            addBlock(1,3,0,"test.part");
-            addBlock(0,3,1,"test.part");
-            addBlock(-1,3,0,"test.part");
-            addBlock(0,3,-1,"test.part");
-            this.isSymmetric=true;
-        }
-    }.build();
     public static final MultiBlockType PORTAL_TYPE=new MultiBlockType() {
         public void  init(){
             addBlock(0,0,0,"portal.core");

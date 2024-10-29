@@ -153,7 +153,7 @@ public class PortalCore extends MultiCore {
     }
     public MultiBlockService.DeleteCause NOLINK=new MultiBlockService.DeleteCause("不存在超链接",false);
     public void updateMenu(BlockMenu inv, Block block, Settings mod){
-        int holoStatus=DataCache.getCustomData(inv.getLocation(),"holo",0);
+        int holoStatus=DataCache.getCustomData(inv.getLocation(),MultiBlockService.getHologramKey(),0);
         if(holoStatus==0){
             inv.replaceExistingItem(HOLOGRAM_SLOT,HOLOGRAM_ITEM_OFF);
 
@@ -197,21 +197,21 @@ public class PortalCore extends MultiCore {
             }
             return false;
         }));
-        DataCache.setCustomData(inv.getLocation(),"holo",0);
+        DataCache.setCustomData(inv.getLocation(),MultiBlockService.getHologramKey(),0);
         inv.addMenuClickHandler(HOLOGRAM_SLOT,((player, i, itemStack, clickAction) -> {
             Location loc=inv.getLocation();
-            int holoStatus=DataCache.getCustomData(inv.getLocation(),"holo",0);
+            int holoStatus=DataCache.getCustomData(inv.getLocation(),MultiBlockService.getHologramKey(),0);
             int statusCode=MultiBlockService.getStatus(loc);
             MultiBlockService.removeHologramSync(loc);
             if(statusCode==0){
                 if(holoStatus==0){
                     AddUtils.sendMessage(player,"&a全息投影已切换至南北向!");
                     MultiBlockService.createHologram(loc,MBTYPE, MultiBlockService.Direction.NORTH, MBID_TO_ITEM);
-                    DataCache.setCustomData(loc,"holo",1);
+                    DataCache.setCustomData(loc,MultiBlockService.getHologramKey(),1);
                 }else if(holoStatus==1){
                     AddUtils.sendMessage(player,"&a全息投影已切换至东西向!");
                     MultiBlockService.createHologram(loc,MBTYPE, MultiBlockService.Direction.WEST, MBID_TO_ITEM);
-                    DataCache.setCustomData(loc,"holo",2);
+                    DataCache.setCustomData(loc,MultiBlockService.getHologramKey(),2);
                 }else {
                     AddUtils.sendMessage(player,"&a全息投影已关闭!");
                 }

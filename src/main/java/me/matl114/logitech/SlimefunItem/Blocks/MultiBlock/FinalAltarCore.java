@@ -144,7 +144,7 @@ public class FinalAltarCore  extends MultiCore {
         super.onMultiBlockEnable(loc,handler);
     }
     public void updateMenu(BlockMenu inv, Block block, Settings mod){
-        int holoStatus=DataCache.getCustomData(inv.getLocation(),"holo",0);
+        int holoStatus=DataCache.getCustomData(inv.getLocation(),MultiBlockService.getHologramKey(),0);
         if(holoStatus==0){
             inv.replaceExistingItem(HOLOGRAM_SLOT,HOLOGRAM_ITEM_OFF);
 
@@ -187,21 +187,21 @@ public class FinalAltarCore  extends MultiCore {
             }
             return false;
         }));
-        DataCache.setCustomData(inv.getLocation(),"holo",0);
+        DataCache.setCustomData(inv.getLocation(),MultiBlockService.getHologramKey(),0);
         inv.addMenuClickHandler(HOLOGRAM_SLOT,((player, i, itemStack, clickAction) -> {
             Location loc=inv.getLocation();
-            int holoStatus=DataCache.getCustomData(inv.getLocation(),"holo",0);
+            int holoStatus=DataCache.getCustomData(inv.getLocation(),MultiBlockService.getHologramKey(),0);
             int statusCode=MultiBlockService.getStatus(loc);
             MultiBlockService.removeHologramSync(loc);
             if(statusCode==0){
                 if(holoStatus==0){
                     AddUtils.sendMessage(player,"&a全息投影已切换至一级祭坛!");
                     MultiBlockService.createHologram(loc,MBTYPE.getSubParts(0), MultiBlockService.Direction.NORTH, MBID_TO_ITEM);
-                    DataCache.setCustomData(loc,"holo",1);
+                    DataCache.setCustomData(loc,MultiBlockService.getHologramKey(),1);
                 }else if(holoStatus==1){
                     AddUtils.sendMessage(player,"&a全息投影已切换至二级祭坛!");
                     MultiBlockService.createHologram(loc,MBTYPE, MultiBlockService.Direction.WEST, MBID_TO_ITEM);
-                    DataCache.setCustomData(loc,"holo",2);
+                    DataCache.setCustomData(loc,MultiBlockService.getHologramKey(),2);
                 }else {
                     AddUtils.sendMessage(player,"&a全息投影已关闭!");
                 }
@@ -215,7 +215,7 @@ public class FinalAltarCore  extends MultiCore {
         //in this case .blockMenu is null
 
         if(MultiBlockService.acceptCoreRequest(b.getLocation(),getBuilder(),getMultiBlockType())){
-            int autoCode=DataCache.getCustomData(data,"auto",0);
+            int autoCode=DataCache.getCustomData(data,MultiBlockService.getAutoKey(),0);
             runtimeCheck(menu.getLocation(),data,autoCode);
             processCore(b,menu);
         }
