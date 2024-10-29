@@ -142,6 +142,10 @@ public class CraftUtils {
         Optional<String> itemID = Slimefun.getItemDataService().getItemData(meta);
         return itemID.map((id)->SlimefunItem.getById(id)).orElse(null);
     }
+    public static SlimefunItem parseSfItem(ItemStack item){
+        Optional<String> itemID = Slimefun.getItemDataService().getItemData(item);
+        return itemID.map((id)->SlimefunItem.getById(id)).orElse(null);
+    }
     /**
      * get Consumer for recipe Item
      * @param a
@@ -1515,17 +1519,21 @@ public class CraftUtils {
             return false;
         }
         if (optionalStackId1.isPresent()) {
-            if(!strictCheck){
-                return optionalStackId1.get().equals(optionalStackId2.get());
-            }
             if(optionalStackId1.get().equals(optionalStackId2.get())) {
                 SlimefunItem it=SlimefunItem.getById(optionalStackId1.get());
+                //自动跳过当前附属的物品
                 if( it instanceof CustomSlimefunItem ){
                     return true;
                 }
+                //distinctive物品必须判断
                 if(it instanceof DistinctiveItem dt){
                     return dt.canStack(meta1,meta2);
                 }
+                if(!strictCheck){
+                    return true;
+                }
+            }else if(!strictCheck){
+                return false;
             }
         }
 
@@ -1550,8 +1558,6 @@ public class CraftUtils {
         }else if(!strictCheck){
             return true;
         }
-
-
         // Make sure enchantments match
         if (!meta1.getEnchants().equals(meta2.getEnchants())) {
             return false;
@@ -1575,10 +1581,7 @@ public class CraftUtils {
         } else if (hasAttributeTwo) {
             return false;
         }
-
-
         return true;
-
     }
     public static boolean matchLoreOnInvoke(ItemMeta meta1,ItemMeta meta2){
         try{

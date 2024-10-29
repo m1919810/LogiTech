@@ -3,6 +3,7 @@ package me.matl114.logitech.Utils.UtilClass.MultiBlockClass;
 
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.Utils.UtilClass.FunctionalClass.OutputStream;
 import org.bukkit.Location;
 import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
@@ -102,7 +103,7 @@ public abstract class MultiBlockType implements AbstractMultiBlockType {
         REQUIREMENT_MAP.put(new BlockVector(x,y,z),id);
         return this;
     }
-    public AbstractMultiBlock genMultiBlockFrom(Location loc, MultiBlockService.Direction dir,boolean hasPrevRecord){
+    public AbstractMultiBlock genMultiBlockFrom(Location loc, MultiBlockService.Direction dir, boolean hasPrevRecord, OutputStream errorOut){
         int len=this.getSchemaSize();
         String id= MultiBlockService.safeGetUUID(loc);
         for(int i=0;i<len;i++){
@@ -112,16 +113,22 @@ public abstract class MultiBlockType implements AbstractMultiBlockType {
             //如果当前匹配 且并未在响应任意其他的多方块才能通过，否则任意一条均为false
             if(!this.getSchemaPartId(i).equals(MultiBlockService.safeGetPartId(partloc))){
               //  Debug.logger("wrong at ",delta.toString());
+                final int a=i;
+                errorOut.out(()->{
+                    return "位于%s的多方块部件并不是有效的多方块部件,需要%s,检测到%s".formatted(DataCache.locationToDisplayString(partloc),this.getSchemaPartId(a),MultiBlockService.safeGetPartId(partloc));
+                });
                 return null;
             }else{
                 //use record but target block uuid not match core uuid
                 //used to  reload multiblock Structure after server restart
                 if(hasPrevRecord&&(!(id.equals( MultiBlockService.safeGetUUID(partloc))))){
                 //    Debug.logger("wrong at ",delta.toString());
+                    errorOut.out(()->"错误!你不该看见该消息,请联系作者");
                     return null;
                     //no record but target block has been occupied by sth
                 }else if(!hasPrevRecord&&MultiBlockService.validHandler(MultiBlockService.safeGetUUID(partloc))){//如果是当前已经注册的别的机器的
                    // Debug.logger("wrong at ",delta.toString());
+                        errorOut.out(()->{return "&c结构冲突!位于%s的多方块部件已经属于另一个多方块了: id-%s,位于%s".formatted(DataCache.locationToDisplayString(partloc),MultiBlockService.safeGetUUID(partloc),MultiBlockService.getCore(MultiBlockService.safeGetUUID(partloc)));});
                         return null;
                 }
             }
@@ -132,6 +139,8 @@ public abstract class MultiBlockType implements AbstractMultiBlockType {
                 Location reqLoc=loc.clone().add(REQUIREMENT_LOC[i]);
                 if(!REQUIREMENT_IDS[i].equals(MultiBlockService.safeGetPartId(reqLoc))){
                     //Debug.logger("wrong at ",entry.getKey().toString());
+                    int a=i;
+                    errorOut.out(()-> {return "位于%s的方块并不满足构建所需要的额外条件,需要%s,检测到%s".formatted(DataCache.locationToDisplayString(reqLoc),REQUIREMENT_IDS[a],MultiBlockService.safeGetPartId(reqLoc));});
                     return null;
                 }
             }

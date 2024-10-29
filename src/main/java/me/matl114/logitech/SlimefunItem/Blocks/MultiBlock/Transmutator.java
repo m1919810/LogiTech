@@ -14,6 +14,7 @@ import me.matl114.logitech.Schedule.ScheduleSave;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.Utils.UtilClass.FunctionalClass.OutputStream;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.*;
@@ -276,7 +277,7 @@ public class Transmutator extends MultiBlockAdvancedProcessor  {
                         AddUtils.sendMessage(player,"&c电力不足,无法构建多方块结构!");
                     }
                     else {
-                        if(MultiBlockService.createNewHandler(loc,getBuilder(),getMultiBlockType())){
+                        if(MultiBlockService.createNewHandler(loc,getBuilder(),getMultiBlockType(), OutputStream.getPlayerOut(player))){
                             AddUtils.sendMessage(player,"&a成功激活多方块结构!");
                         }else {
                             AddUtils.sendMessage(player,"&c多方块结构不全或者结构冲突!");

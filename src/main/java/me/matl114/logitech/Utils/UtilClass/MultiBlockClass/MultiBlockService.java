@@ -8,6 +8,7 @@ import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore.MultiBlockPart;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.EntityClass.ItemDisplayBuilder;
 import me.matl114.logitech.Utils.UtilClass.EntityClass.TransformationBuilder;
+import me.matl114.logitech.Utils.UtilClass.FunctionalClass.OutputStream;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Display;
@@ -196,12 +197,12 @@ public class MultiBlockService {
      * @param type
      * @return
      */
-    public static AbstractMultiBlock tryCreateMultiBlock(Location loc, AbstractMultiBlockType type){
+    public static AbstractMultiBlock tryCreateMultiBlock(Location loc, AbstractMultiBlockType type,OutputStream errorOut){
         //may not be loaded ,use safe read
         AbstractMultiBlock block=null;
         for (MultiBlockService.Direction direction:MultiBlockService.Direction.values()){
             //test this direction
-            block=type.genMultiBlockFrom(loc,direction,false);
+            block=type.genMultiBlockFrom(loc,direction,false,errorOut);
             if(block!=null){
                 return block;
             }
@@ -220,10 +221,13 @@ public class MultiBlockService {
         }while (MULTIBLOCK_CACHE.containsKey(nextValue));
         return nextValue;
     }
-    public static boolean createNewHandler(Location loc,MultiBlockBuilder builder,AbstractMultiBlockType type){
+    public static boolean createNewHandler(Location loc, MultiBlockBuilder builder, AbstractMultiBlockType type){
+        return createNewHandler(loc,builder,type,OutputStream.getNullStream());
+    }
+    public static boolean createNewHandler(Location loc, MultiBlockBuilder builder, AbstractMultiBlockType type, OutputStream errorOut){
         int statusCode=safeGetStatus(loc);
         if(statusCode==0){
-            AbstractMultiBlock block= tryCreateMultiBlock(loc,type);
+            AbstractMultiBlock block= tryCreateMultiBlock(loc,type,errorOut);
             if(block!=null){
                 Direction.setDirection(loc,block.getDirection());
                 String uid=getRandomId();
@@ -311,7 +315,7 @@ public class MultiBlockService {
             AbstractMultiBlockHandler handler=MULTIBLOCK_CACHE.get(uid);
             if(handler==null){
                 //找不到handler 但是code非0 说明是意外中断，尝试重建handler
-                AbstractMultiBlock block=type.genMultiBlockFrom(loc,Direction.getDirection(loc),true);
+                AbstractMultiBlock block=type.genMultiBlockFrom(loc,Direction.getDirection(loc),true,OutputStream.getNullStream());
                 if(block!=null){
                     String newuid=getRandomId();
                     while(MULTIBLOCK_CACHE.containsKey(newuid)){

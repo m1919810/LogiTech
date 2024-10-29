@@ -13,6 +13,7 @@ import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore.MultiCore;
 import me.matl114.logitech.SlimefunItem.Cargo.Links.HyperLink;
 import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.Utils.UtilClass.FunctionalClass.OutputStream;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.AbstractMultiBlockHandler;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockHandler;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
@@ -179,7 +180,7 @@ public class PortalCore extends MultiCore {
                 if(loadLink(inv)){
                     AddUtils.sendMessage(player,"&a成功检测到目标传送门,成功建立超链接");
 
-                    if(MultiBlockService.createNewHandler(loc,getBuilder(),getMultiBlockType())){
+                    if(MultiBlockService.createNewHandler(loc,getBuilder(),getMultiBlockType(), OutputStream.getPlayerOut(player))){
                         inv.replaceExistingItem(TOGGLE_SLOT,TOGGLE_ITEM_ON);
                         AddUtils.sendMessage(player,"&a成功激活传送门!");
                     }else {

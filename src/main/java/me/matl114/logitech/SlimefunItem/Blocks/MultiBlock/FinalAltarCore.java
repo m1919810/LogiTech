@@ -14,6 +14,7 @@ import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore.MultiCore;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Settings;
+import me.matl114.logitech.Utils.UtilClass.FunctionalClass.OutputStream;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.*;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiLevelBlock.MultiLevelBlock;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiLevelBlock.MultiLevelBlockType;
@@ -165,7 +166,7 @@ public class FinalAltarCore  extends MultiCore {
         inv.addMenuClickHandler(STATUS_SLOT,((player, i, itemStack, clickAction) -> {
             Location loc=inv.getLocation();
             if(MultiBlockService.getStatus(loc)==0){//not working
-                if(MultiBlockService.createNewHandler(loc,getBuilder(),getMultiBlockType())){
+                if(MultiBlockService.createNewHandler(loc,getBuilder(),getMultiBlockType(), OutputStream.getPlayerOut(player))){
                     int code=DataCache.getCustomData(loc,LVL_KEY,0);
                     if(code>0){
                         inv.replaceExistingItem(STATUS_SLOT,code==1? STATUS_ITEM_ON_1:STATUS_ITEM_ON_2);

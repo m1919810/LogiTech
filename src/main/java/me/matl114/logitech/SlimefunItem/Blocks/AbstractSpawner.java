@@ -52,6 +52,9 @@ public class AbstractSpawner extends AbstractBlock{
     }
     public void onBreak(BlockBreakEvent event, BlockMenu e) {
         super.onBreak(event, e);
+
+    }
+    public void onSpawnerBreak(BlockBreakEvent event){
         BlockState data =event.getBlock().getState();
         if(data instanceof CreatureSpawner cs){
             event.getBlock().getWorld().dropItemNaturally(
@@ -59,6 +62,8 @@ public class AbstractSpawner extends AbstractBlock{
                     EntityFeat.generateSpawnerFrom(cs.getSpawnedType(),cs.getMinSpawnDelay(),
                             cs.getMaxNearbyEntities(),cs.getRequiredPlayerRange(),cs.getSpawnRange(),cs.getSpawnCount(),true)
             );
+            event.setDropItems(false);
+            event.setExpToDrop(0);
         }
     }
     public Collection<ItemStack> getDrops() {

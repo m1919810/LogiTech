@@ -47,10 +47,12 @@ public class LineEnergyCharger extends AbstractEnergyCharger  implements Directi
             return ret;
         }
         Location loc2=loc.clone().add(0.5,0.5,0.5);
+        SlimefunBlockData testdata;
         for (int i=0;i<MAX_LEN;i++){
             loc=dir.relate(loc);
             if(getChargeableComponent(DataCache.getSfItem(loc))!=null){
-                ret.add(DataCache.safeLoadBlock(loc));
+                if((testdata=DataCache.safeLoadBlock(loc))!=null)
+                    ret.add(testdata);
             }
         }
         Location loc3=loc.clone().add(0.5,0.5,0.5);

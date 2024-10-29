@@ -39,19 +39,22 @@ public class AdjacentEnergyCollector extends AbstractEnergyCollector implements 
         Location loc=block.getLocation();
         Directions dir=getDirection(0,data);
         HashSet<SlimefunBlockData> ret=new HashSet<>();
+        SlimefunBlockData testData;
         if(dir!=Directions.NONE){
             loc=dir.relate(loc);
             SlimefunItem item= DataCache.getSfItem(loc);
 
             if(getEnergyProvider(item)!=null){
-                ret.add(DataCache.safeLoadBlock(loc));
+                if((testData=DataCache.safeLoadBlock(loc))!=null)
+                    ret.add(testData);
             }
         }else {
             for (Directions d : Directions.nonnullValues()) {
                 Location testloc=d.relate(loc);
                 SlimefunItem item= DataCache.getSfItem(testloc);
                 if(getEnergyProvider(item)!=null){
-                    ret.add(DataCache.safeLoadBlock(testloc));
+                    if((testData=DataCache.safeLoadBlock(testloc))!=null)
+                        ret.add(testData);
                 }
 
             }

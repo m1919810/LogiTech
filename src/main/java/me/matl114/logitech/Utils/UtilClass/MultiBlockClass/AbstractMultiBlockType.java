@@ -1,5 +1,6 @@
 package me.matl114.logitech.Utils.UtilClass.MultiBlockClass;
 
+import me.matl114.logitech.Utils.UtilClass.FunctionalClass.OutputStream;
 import org.bukkit.Location;
 import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
@@ -67,6 +68,6 @@ public interface AbstractMultiBlockType {
      * @param hasPrevRecord
      * @return
      */
-    public AbstractMultiBlock genMultiBlockFrom(Location loc, MultiBlockService.Direction dir,boolean hasPrevRecord);
+    public AbstractMultiBlock genMultiBlockFrom(Location loc, MultiBlockService.Direction dir, boolean hasPrevRecord, OutputStream errorStream);
 
 }

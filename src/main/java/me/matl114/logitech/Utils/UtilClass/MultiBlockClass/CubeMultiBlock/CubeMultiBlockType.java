@@ -1,7 +1,9 @@
 package me.matl114.logitech.Utils.UtilClass.MultiBlockClass.CubeMultiBlock;
 
 import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedException;
+import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.Utils.UtilClass.FunctionalClass.OutputStream;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.AbstractMultiBlock;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.AbstractMultiBlockType;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlock;
@@ -120,7 +122,7 @@ public abstract class CubeMultiBlockType implements AbstractMultiBlockType {
 
 
 
-    public AbstractMultiBlock genMultiBlockFrom(Location loc, MultiBlockService.Direction dir, boolean hasPrevRecord){
+    public AbstractMultiBlock genMultiBlockFrom(Location loc, MultiBlockService.Direction dir, boolean hasPrevRecord, OutputStream errorOut){
         int len=this.sizeB;
         String id= MultiBlockService.safeGetUUID(loc);
         //底部匹配
@@ -131,15 +133,21 @@ public abstract class CubeMultiBlockType implements AbstractMultiBlockType {
             //如果当前匹配 且并未在响应任意其他的多方块才能通过，否则任意一条均为false
             if(!this.BOTTOM_IDS[i].equals(MultiBlockService.safeGetPartId(partloc))){
                 //  Debug.logger("wrong at ",delta.toString());
+                int a=i;
+                errorOut.out(()->{
+                    return "位于%s的多方块部件并不是有效的底部多方块部件,需要%s,检测到%s".formatted(DataCache.locationToDisplayString(partloc),this.BOTTOM_IDS[a],MultiBlockService.safeGetPartId(partloc));
+                });
                 return null;
             }else{
                 //use record but target block uuid not match core uuid
                 if(hasPrevRecord&&(!(id.equals( MultiBlockService.safeGetUUID(partloc))))){
                     //    Debug.logger("wrong at ",delta.toString());
+                    errorOut.out(()->"错误!你不该看见该消息,请联系作者");
                     return null;
                     //no record but target block has been occupied by sth
                 }else if(!hasPrevRecord&&MultiBlockService.validHandler(MultiBlockService.safeGetUUID(partloc))){//如果是当前已经注册的别的机器的
                     // Debug.logger("wrong at ",delta.toString());
+                    errorOut.out(()->{return "&c结构冲突!位于%s的多方块部件已经属于另一个多方块了: id-%s,位于%s".formatted(DataCache.locationToDisplayString(partloc),MultiBlockService.safeGetUUID(partloc),MultiBlockService.getCore(MultiBlockService.safeGetUUID(partloc)));});
                     return null;
                 }
             }
@@ -186,15 +194,22 @@ public abstract class CubeMultiBlockType implements AbstractMultiBlockType {
             //如果当前匹配 且并未在响应任意其他的多方块才能通过，否则任意一条均为false
             if(!this.TOP_IDS[i].equals(MultiBlockService.safeGetPartId(partloc))){
                 //  Debug.logger("wrong at ",delta.toString());
+                int a=i;
+                int h=height;
+                errorOut.out(()->{
+                    return "位于%s的多方块部件并不是有效的顶层多方块部件,当前中间层高度:%s,需要%s,检测到%s".formatted(DataCache.locationToDisplayString(partloc),String.valueOf(h),this.TOP_IDS[a],MultiBlockService.safeGetPartId(partloc));
+                });
                 return null;
             }else{
                 //use record but target block uuid not match core uuid
                 if(hasPrevRecord&&(!(id.equals( MultiBlockService.safeGetUUID(partloc))))){
                     //    Debug.logger("wrong at ",delta.toString());
+                    errorOut.out(()->"错误!你不该看见该消息,请联系作者");
                     return null;
                     //no record but target block has been occupied by sth
                 }else if(!hasPrevRecord&&MultiBlockService.validHandler(MultiBlockService.safeGetUUID(partloc))){//如果是当前已经注册的别的机器的
                     // Debug.logger("wrong at ",delta.toString());
+                    errorOut.out(()->{return "&c结构冲突!位于%s的多方块部件已经属于另一个多方块了: id-%s,位于%s".formatted(DataCache.locationToDisplayString(partloc),MultiBlockService.safeGetUUID(partloc),MultiBlockService.getCore(MultiBlockService.safeGetUUID(partloc)));});
                     return null;
                 }
             }

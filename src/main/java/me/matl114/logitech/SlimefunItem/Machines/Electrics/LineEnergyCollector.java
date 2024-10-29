@@ -47,12 +47,14 @@ public class LineEnergyCollector extends AbstractEnergyCollector implements Dire
         }
         Location loc2=loc.clone().add(0.5,0.5,0.5);
         int i;
+        SlimefunBlockData testData;
         for (i=0;i<MAX_LEN;i++){
             loc=dir.relate(loc);
             SlimefunItem item=DataCache.getSfItem(loc);
 
             if(getEnergyProvider(item)!=null){
-                ret.add(DataCache.safeLoadBlock(loc));
+                if((testData=DataCache.safeLoadBlock(loc))!=null)
+                    ret.add(testData);
             }
             if(item instanceof LineEnergyCollector){
                 break;

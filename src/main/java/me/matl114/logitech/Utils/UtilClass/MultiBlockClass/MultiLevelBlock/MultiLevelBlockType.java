@@ -1,5 +1,6 @@
 package me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiLevelBlock;
 
+import me.matl114.logitech.Utils.UtilClass.FunctionalClass.OutputStream;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.AbstractMultiBlock;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.AbstractMultiBlockType;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
@@ -63,16 +64,19 @@ public abstract class MultiLevelBlockType implements AbstractMultiBlockType {
         }
         return this;
     }
-    public AbstractMultiBlock genMultiBlockFrom(Location loc, MultiBlockService.Direction dir,boolean hasPrevRecord){
+    public AbstractMultiBlock genMultiBlockFrom(Location loc, MultiBlockService.Direction dir, boolean hasPrevRecord, OutputStream errorOut){
         int level=0;
         List<AbstractMultiBlock> subparts=new ArrayList<>();
         AbstractMultiBlock part;
         for (;level<SUB_NUM;++level){
-            part=SUBMULTIBLOCKS[level].genMultiBlockFrom(loc,dir,hasPrevRecord);
+            part=SUBMULTIBLOCKS[level].genMultiBlockFrom(loc,dir,hasPrevRecord,errorOut);
             if(part==null)break;
             subparts.add(part);
         }
-        if(level==0)return null;
+        if(level==0){
+            errorOut.out(()->"&c创建1级多方块结构失败!");
+            return null;
+        }
         return new   MultiLevelBlock(this,level,dir,subparts);
     }
 
