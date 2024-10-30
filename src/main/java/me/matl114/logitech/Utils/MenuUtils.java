@@ -15,6 +15,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -463,6 +464,10 @@ public class MenuUtils {
             ++i;
         }
         return a;
+    }
+    public BlockMenu createBlockMenuFromChest(Block b){
+        //new BlockMenu()
+        return null;
     }
 
 

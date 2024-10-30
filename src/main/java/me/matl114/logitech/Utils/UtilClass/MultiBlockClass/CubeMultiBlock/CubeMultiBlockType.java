@@ -135,19 +135,19 @@ public abstract class CubeMultiBlockType implements AbstractMultiBlockType {
                 //  Debug.logger("wrong at ",delta.toString());
                 int a=i;
                 errorOut.out(()->{
-                    return "位于%s的多方块部件并不是有效的底部多方块部件,需要%s,检测到%s".formatted(DataCache.locationToDisplayString(partloc),this.BOTTOM_IDS[a],MultiBlockService.safeGetPartId(partloc));
+                    return "&c位于%s的多方块部件并不是有效的底部部件,需要%s".formatted(DataCache.locationToDisplayString(partloc),this.BOTTOM_IDS[a]);
                 });
                 return null;
             }else{
                 //use record but target block uuid not match core uuid
                 if(hasPrevRecord&&(!(id.equals( MultiBlockService.safeGetUUID(partloc))))){
                     //    Debug.logger("wrong at ",delta.toString());
-                    errorOut.out(()->"错误!你不该看见该消息,请联系作者");
+                    errorOut.out(()->"&c错误!你不该看见该消息,请联系作者");
                     return null;
                     //no record but target block has been occupied by sth
                 }else if(!hasPrevRecord&&MultiBlockService.validHandler(MultiBlockService.safeGetUUID(partloc))){//如果是当前已经注册的别的机器的
                     // Debug.logger("wrong at ",delta.toString());
-                    errorOut.out(()->{return "&c结构冲突!位于%s的多方块部件已经属于另一个多方块了: id-%s,位于%s".formatted(DataCache.locationToDisplayString(partloc),MultiBlockService.safeGetUUID(partloc),MultiBlockService.getCore(MultiBlockService.safeGetUUID(partloc)));});
+                    errorOut.out(()->{return "&c结构冲突!位于%s的部件属于另个机器! id-%s,位于%s".formatted(DataCache.locationToDisplayString(partloc),MultiBlockService.safeGetUUID(partloc),DataCache.locationToDisplayString( MultiBlockService.getCore(MultiBlockService.safeGetUUID(partloc))));});
                     return null;
                 }
             }
@@ -197,19 +197,19 @@ public abstract class CubeMultiBlockType implements AbstractMultiBlockType {
                 int a=i;
                 int h=height;
                 errorOut.out(()->{
-                    return "位于%s的多方块部件并不是有效的顶层多方块部件,当前中间层高度:%s,需要%s,检测到%s".formatted(DataCache.locationToDisplayString(partloc),String.valueOf(h),this.TOP_IDS[a],MultiBlockService.safeGetPartId(partloc));
+                    return "&c位于%s的多方块部件并不是有效的顶层部件,当前中间层高度:%s,需要%s".formatted(DataCache.locationToDisplayString(partloc),String.valueOf(h),this.TOP_IDS[a]);
                 });
                 return null;
             }else{
                 //use record but target block uuid not match core uuid
                 if(hasPrevRecord&&(!(id.equals( MultiBlockService.safeGetUUID(partloc))))){
                     //    Debug.logger("wrong at ",delta.toString());
-                    errorOut.out(()->"错误!你不该看见该消息,请联系作者");
+                    errorOut.out(()->"&c错误!你不该看见该消息,请联系作者");
                     return null;
                     //no record but target block has been occupied by sth
                 }else if(!hasPrevRecord&&MultiBlockService.validHandler(MultiBlockService.safeGetUUID(partloc))){//如果是当前已经注册的别的机器的
                     // Debug.logger("wrong at ",delta.toString());
-                    errorOut.out(()->{return "&c结构冲突!位于%s的多方块部件已经属于另一个多方块了: id-%s,位于%s".formatted(DataCache.locationToDisplayString(partloc),MultiBlockService.safeGetUUID(partloc),MultiBlockService.getCore(MultiBlockService.safeGetUUID(partloc)));});
+                    errorOut.out(()->{return "&c结构冲突!位于%s的部件属于另个机器! id-%s,位于%s".formatted(DataCache.locationToDisplayString(partloc),MultiBlockService.safeGetUUID(partloc),DataCache.locationToDisplayString( MultiBlockService.getCore(MultiBlockService.safeGetUUID(partloc))));});
                     return null;
                 }
             }

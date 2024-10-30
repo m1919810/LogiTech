@@ -26,9 +26,7 @@ public class SpawnerListener implements Listener {
         //drop entity feat
         Block b=event.getBlock();
         if(b.getType()== Material.SPAWNER){
-            if(DataCache.getSfItem(b.getLocation()) instanceof AbstractSpawner as){
-                as.onSpawnerBreak(event);
-            }else if(rand.nextInt(100)<=chance){
+            if(rand.nextInt(100)<=chance){
                 Location loc= event.getBlock().getLocation();
                 EntityType entityType=entityTypes[rand.nextInt(entityTypes.length)];
                 if(entityType.isSpawnable())

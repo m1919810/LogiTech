@@ -18,10 +18,13 @@ public class PlayerEffects {
         this.pendingMove = false;
     }
     public final boolean isFinished(){
-        return duration <= 0;
+        return duration <= 0 || this.pendingMove;
     }
     public final void finish(){
         this.duration=0;
+    }
+    public final void halt(){
+        this.pendingMove=true;
     }
     public void tick(Player p){
 

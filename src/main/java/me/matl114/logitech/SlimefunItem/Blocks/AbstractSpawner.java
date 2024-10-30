@@ -9,6 +9,7 @@ import me.matl114.logitech.SlimefunItem.Items.EntityFeat;
 import me.matl114.logitech.Utils.Debug;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.CreatureSpawner;
@@ -52,7 +53,7 @@ public class AbstractSpawner extends AbstractBlock{
     }
     public void onBreak(BlockBreakEvent event, BlockMenu e) {
         super.onBreak(event, e);
-
+        onSpawnerBreak(event);
     }
     public void onSpawnerBreak(BlockBreakEvent event){
         BlockState data =event.getBlock().getState();
@@ -62,6 +63,7 @@ public class AbstractSpawner extends AbstractBlock{
                     EntityFeat.generateSpawnerFrom(cs.getSpawnedType(),cs.getMinSpawnDelay(),
                             cs.getMaxNearbyEntities(),cs.getRequiredPlayerRange(),cs.getSpawnRange(),cs.getSpawnCount(),true)
             );
+            event.getBlock().setType(Material.AIR);
             event.setDropItems(false);
             event.setExpToDrop(0);
         }

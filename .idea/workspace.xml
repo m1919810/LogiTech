@@ -4,27 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="feat:add Particles,remove wrong codes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/FunctionalClass/OutputStream.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Listeners/Listeners/SpawnerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Listeners/Listeners/SpawnerListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Schedule/PersistentEffects/CustomEffects.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Schedule/PersistentEffects/CustomEffects.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/AbstractSpawner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/AbstractSpawner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlock/FinalAltarCore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlock/FinalAltarCore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlock/PortalCore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlock/PortalCore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlock/SolarReactorCore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlock/SolarReactorCore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlock/Transmutator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/MultiBlock/Transmutator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/AdjacentEnergyCharger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/AdjacentEnergyCharger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/AdjacentEnergyCollector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/AdjacentEnergyCollector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/LineEnergyCharger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/LineEnergyCharger.java" afterDir="false" />
+    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="feat:rewrite code">
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/AbstractPipe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Schedule/PersistentEffects/PlayerEffects.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Schedule/PersistentEffects/PlayerEffects.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Schedule/ScheduleEffects.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Schedule/ScheduleEffects.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/EnergyPipe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/EnergyPipe.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/LineEnergyCollector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/LineEnergyCollector.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Unittest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Unittest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/CraftUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/CraftUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MultiBlockClass/AbstractMultiBlockType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MultiBlockClass/AbstractMultiBlockType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/DataCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/DataCache.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/MenuUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/MenuUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MultiBlockClass/CubeMultiBlock/CubeMultiBlockType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MultiBlockClass/CubeMultiBlock/CubeMultiBlockType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MultiBlockClass/MultiBlockService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MultiBlockClass/MultiBlockService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MultiBlockClass/MultiBlockType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MultiBlockClass/MultiBlockType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MultiBlockClass/MultiLevelBlock/MultiLevelBlockType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MultiBlockClass/MultiLevelBlock/MultiLevelBlockType.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,8 +27,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -99,7 +89,7 @@
     "Shell Script.Unnamed.executor": "Run",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Intellij_Idea/workspace/SafeTestServer",
+    "last_opened_file_path": "C:/Intellij_Idea/workspace/shitExpansion",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -321,23 +311,7 @@
       <workItem from="1730024418846" duration="601000" />
       <workItem from="1730025479976" duration="6851000" />
       <workItem from="1730041632987" duration="16952000" />
-      <workItem from="1730189233190" duration="7181000" />
-    </task>
-    <task id="LOCAL-00090" summary="fix :logger not removed">
-      <option name="closed" value="true" />
-      <created>1726844633400</created>
-      <option name="number" value="00090" />
-      <option name="presentableId" value="LOCAL-00090" />
-      <option name="project" value="LOCAL" />
-      <updated>1726844633400</updated>
-    </task>
-    <task id="LOCAL-00091" summary="fix :logger not removed">
-      <option name="closed" value="true" />
-      <created>1726848404471</created>
-      <option name="number" value="00091" />
-      <option name="presentableId" value="LOCAL-00091" />
-      <option name="project" value="LOCAL" />
-      <updated>1726848404471</updated>
+      <workItem from="1730189233190" duration="16757000" />
     </task>
     <task id="LOCAL-00092" summary="fix :logger not removed">
       <option name="closed" value="true" />
@@ -715,7 +689,23 @@
       <option name="project" value="LOCAL" />
       <updated>1730055461245</updated>
     </task>
-    <option name="localTasksCounter" value="139" />
+    <task id="LOCAL-00139" summary="feat:bugfix , add Multiblock buildFailed message">
+      <option name="closed" value="true" />
+      <created>1730202406203</created>
+      <option name="number" value="00139" />
+      <option name="presentableId" value="LOCAL-00139" />
+      <option name="project" value="LOCAL" />
+      <updated>1730202406203</updated>
+    </task>
+    <task id="LOCAL-00140" summary="feat:rewrite code">
+      <option name="closed" value="true" />
+      <created>1730204091757</created>
+      <option name="number" value="00140" />
+      <option name="presentableId" value="LOCAL-00140" />
+      <option name="project" value="LOCAL" />
+      <updated>1730204091757</updated>
+    </task>
+    <option name="localTasksCounter" value="141" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -789,8 +779,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix :huge bug,maxCraftTime Wrongly Calculated!" />
-    <MESSAGE value="fix :upgrade slotAccess algorithm" />
     <MESSAGE value="fix :upgrade item display ,remove sefilib" />
     <MESSAGE value="fix :fix entity clear issue" />
     <MESSAGE value="fix :fix final locationProxy problem of concurrent modifying" />
@@ -814,21 +802,9 @@
     <MESSAGE value="feat:change itemStack to cleaned itemStack" />
     <MESSAGE value="feat:remove unused multiblock data" />
     <MESSAGE value="feat:add Particles,remove wrong codes" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:add Particles,remove wrong codes" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/Electrics/AbstractEnergyCollector.java</url>
-          <line>100</line>
-          <properties>
-            <option name="lambda-ordinal" value="-1" />
-          </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="feat:bugfix , add Multiblock buildFailed message" />
+    <MESSAGE value="feat:rewrite code" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:rewrite code" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -128,7 +128,7 @@ public class DataCache {
     }
     public static final String DISPLAY_PATTERN="[%s,%.0f,%.0f,%.0f]";
     public static String locationToDisplayString(Location loc){
-        return DISPLAY_PATTERN.formatted(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ());
+        return loc!=null? DISPLAY_PATTERN.formatted(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ()):"null";
     }
     public static Location getLocation(String key,SlimefunBlockData data){
         if(data==null)return null;

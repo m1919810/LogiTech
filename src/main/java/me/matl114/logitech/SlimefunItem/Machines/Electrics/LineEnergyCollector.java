@@ -63,10 +63,8 @@ public class LineEnergyCollector extends AbstractEnergyCollector implements Dire
         Location loc3=loc.clone().add(0.5,0.5,0.5);
         final int num=i;
         Schedules.launchSchedules(()->{
-            WorldUtils.doLineOperation(loc2,loc3,num,(location)->{
-                location.getWorld().spawnParticle(Particle.REDSTONE,location,0,0.0,0.0,0.0,0,WorldUtils.DustPreset.REDSTONE.getOptions(),true);
-            });
 
+            WorldUtils.spawnLineParticle(loc2,loc3, Particle.WAX_OFF,num);
         },0,false,0);
         return ret;
     }

@@ -25,10 +25,12 @@ public class Unittest {
     // 射电器
     // 和发电机相关的 电线 射电收集器 新概念电容 电池
     // 电线 从出口搜索
-    //TODO 修复刷物
+    // 修复刷物
     //TODO 自动跑图机 + 随机进度条
     //TODO logisuit
     //TODO 物流管道
     //TODO 限制存储单元
     //TODO 白名单机器接口
+    //TODO change BlockMenu to ChestMenu! for abstract interface about other inventory
+    //TODO 快捷多方块加入填充物
 }

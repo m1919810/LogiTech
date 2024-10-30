@@ -74,7 +74,7 @@ public class ScheduleEffects {
                 if(eff!=null){
                     eff.getType().onDeathEvent(e,eff.level);
                     if(eff.getType().onDeathClear()){
-                        eff.finish();
+                        eff.halt();
                     }
                 }
             }
@@ -148,7 +148,6 @@ public class ScheduleEffects {
                         PlayerEffects effect = entry.getValue();
                         if(effect.isFinished()){
                             effect.end(player);
-
                             effects.remove(entry.getKey());
 
                         }else {
