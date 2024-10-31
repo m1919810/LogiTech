@@ -46,7 +46,7 @@ public class LineEnergyCharger extends AbstractEnergyCharger  implements Directi
         if(dir==Directions.NONE){
             return ret;
         }
-        Location loc2=loc.clone().add(0.5,0.5,0.5);
+        Location loc2=dir.relate(loc).add(0.5,0.5,0.5);
         SlimefunBlockData testdata;
         for (int i=0;i<MAX_LEN;i++){
             loc=dir.relate(loc);

@@ -45,7 +45,7 @@ public class LineEnergyCollector extends AbstractEnergyCollector implements Dire
         if(dir==Directions.NONE){
             return ret;
         }
-        Location loc2=loc.clone().add(0.5,0.5,0.5);
+        Location loc2=dir.relate(loc).add(0.5,0.5,0.5);
         int i;
         SlimefunBlockData testData;
         for (i=0;i<MAX_LEN;i++){
