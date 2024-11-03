@@ -112,7 +112,7 @@ public class EntityFeat extends ItemWithHandler<ItemDropHandler> {
         if(displayAttribute){
             List<String> lore =new ArrayList<>();
             lore.add(SPAWNER_ATTRIBUTE);
-            lore.add(AddUtils.resolveColor(      AddUtils.concat("&7类型: &b",ChatUtils.humanize(type.name()))));
+            lore.add(AddUtils.resolveColor( AddUtils.concat("&7类型: &b",ChatUtils.humanize(type.name()))));
             lore.add(AddUtils.resolveColor( AddUtils.concat("&7最小生成延迟: &b",String.valueOf(delay))));
             lore.add(AddUtils.resolveColor( AddUtils.concat("&7最大邻近实体: &b",String.valueOf(maxNearbyEntities))));
             lore.add(AddUtils.resolveColor( AddUtils.concat("&7玩家激活范围: &b",String.valueOf(requirePlayerRange))));

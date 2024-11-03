@@ -425,12 +425,40 @@ public class AddUtils {
             return (its.getAmount()==1?"":String.valueOf(its.getAmount()))+sfitem.getId();
         }
     }
+    public static ItemStack getCopy(ItemStack stack){
+        ItemStack result;
+        if(stack instanceof AbstractItemStack abs){
+            return abs.copy();
+        }else if((result=resolveRandomizedItemStack(stack))!=null){
+            return result;
+        }else {
+            return new ItemStack(stack);
+        }
+    }
+    public static ItemStack resolveRandomizedItemStack(ItemStack stack){
+        ItemStack result=null;
+        if(stack.getClass().getName().endsWith("RandomizedItemStack")){
+            try{
+                Object itemlist=ReflectUtils.invokeGetRecursively(stack,Settings.FIELD,"items");
+                if(itemlist!=null){
+                    ItemStack[] list1=(ItemStack[])itemlist;
+                    result=AddUtils.eqRandItemStackFactory(Arrays.stream(list1).toList());
+                }else if((itemlist=ReflectUtils.invokeGetRecursively(stack,Settings.FIELD,"itemStacks"))!=null){
+                    ItemStack[] list1=(ItemStack[])itemlist;
+                    result=AddUtils.eqRandItemStackFactory(Arrays.stream(list1).toList());
+                }
+            }catch (Throwable e){
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
     public static ItemStack resolveItem(Object a){
         if(a==null)return null;
-        if(a instanceof ItemStack){
-            return  new ItemStack( (ItemStack) a);
+        if(a instanceof ItemStack item){
+            return  getCopy(item);
         }else if(a instanceof SlimefunItem){
-            return new ItemStack(((SlimefunItem) a).getItem());
+            return getCopy(((SlimefunItem) a).getItem());
         }else if(a instanceof  Material){
             return  new ItemStack((Material) a);
         }else if(a instanceof String){

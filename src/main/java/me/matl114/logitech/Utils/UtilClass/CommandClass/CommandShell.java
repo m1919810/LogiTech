@@ -19,9 +19,11 @@ import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 import java.io.*;
 import java.lang.reflect.*;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 public class CommandShell {
     protected static String ROOT_PASSWORD="...";
@@ -290,6 +292,7 @@ public class CommandShell {
             case "byte": obj=Byte.valueOf(val); break;
             case "char": obj=val.charAt(0); break;
             case "class": try{
+
                 obj=cls.forName(val);
                 break;
             }catch(ClassNotFoundException e){
@@ -714,7 +717,6 @@ public class CommandShell {
         public int cmd(String[] argv,CommandShell shell){
             Class clazz;
            if(argv.length==0){
-
                Object obj=getVariable(shell,getPathVarName());
                if(obj instanceof Class cls){
                    clazz=cls;
@@ -970,6 +972,8 @@ public class CommandShell {
         };
         public int cmd(String[] argv,CommandShell shell){
             String result=null;
+            ArrayList a=new ArrayList<String>();
+
             if("set".equals(argv[0])){
                 result=argv[1];
                 argv=Arrays.copyOfRange(argv,2,argv.length);

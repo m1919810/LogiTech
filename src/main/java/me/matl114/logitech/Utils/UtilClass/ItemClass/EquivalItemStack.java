@@ -79,6 +79,17 @@ public class EquivalItemStack extends ItemStack implements MultiItemStack ,Equal
     public ItemStack clone(){
         return itemList[0].clone();
     }
+    public EquivalItemStack copy(){
+        EquivalItemStack stack;
+        stack=(EquivalItemStack)super.clone();
+        stack.itemList=Arrays.copyOf(this.itemList,this.itemList.length);
+        stack.counterList=Arrays.copyOf(this.counterList,this.counterList.length);
+        stack.sum=this.sum;
+        stack.weightSum=Arrays.copyOf(this.weightSum,this.weightSum.length);
+        stack.itemWeight=Arrays.copyOf(this.itemWeight,this.itemWeight.length);
+        return stack;
+
+    }
     public boolean matchItem(ItemStack item,boolean strickCheck){
         for (int i = 0; i < counterList.length; i++) {
             if(CraftUtils.matchItemStack(item,counterList[i],strickCheck)){

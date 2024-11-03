@@ -1344,15 +1344,10 @@ public class RecipeSupporter {
             String[] item=(String[]) ReflectUtils.invokeGetRecursively(recipe,Settings.FIELD,"strings");
             int[] counts=(int[]) ReflectUtils.invokeGetRecursively(recipe,Settings.FIELD,"amounts");
             ItemStack stack=(ItemStack)ReflectUtils.invokeGetRecursively(recipe,Settings.FIELD,"output");
-            try{
-                //尝试判断是不是randomizedItemStack
-                Object itemlist=ReflectUtils.invokeGetRecursively(stack,Settings.FIELD,"items");
-                if(itemlist!=null){
-                    ItemStack[] list1=(ItemStack[])itemlist;
-                    stack=AddUtils.eqRandItemStackFactory(Arrays.stream(list1).toList());
-
-                }
-            }catch (Throwable a){}
+            ItemStack result;
+            if((result=AddUtils.resolveRandomizedItemStack(stack))!=null){
+                stack=result;
+            }
             int len=item.length;
             ItemStack[] input=new ItemStack[len];
             for (int i=0;i<len;i++){

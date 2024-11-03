@@ -33,4 +33,6 @@ public class Unittest {
     //TODO 白名单机器接口
     //TODO change BlockMenu to ChestMenu! for abstract interface about other inventory
     //TODO 快捷多方块加入填充物
+    //TODO 修复配方空桶合并失败的问题 增加通用随机物品解析
+    //TODO 增加服务器信息显示
 }

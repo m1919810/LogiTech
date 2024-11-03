@@ -29,4 +29,7 @@ public class RandAmountStack extends ItemStack implements AbstractItemStack,Rand
     public ItemStack getInstance(){
         return this.clone();
     }
+    public RandAmountStack copy(){
+        return new RandAmountStack(this,min,min+len-1);
+    }
 }

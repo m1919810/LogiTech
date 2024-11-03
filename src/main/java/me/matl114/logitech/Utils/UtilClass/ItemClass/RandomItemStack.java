@@ -10,16 +10,14 @@ import java.util.*;
 public class RandomItemStack extends ItemStack implements MultiItemStack,RandOutItem {
     public Random rand=new Random();
     public ItemStack[] itemList;
-    public Double[] itemWeight;
-    //public int[] weightSum;
+    public double[] itemWeight;
     public int sum;
     public int[] weightSum;
-    //private TreeMap<Integer,ItemStack> weightMap = new TreeMap<Integer,ItemStack>();
     public RandomItemStack(LinkedHashMap<ItemStack ,Integer> itemSettings) {
         super(itemSettings.keySet().iterator().next());
         this.sum=itemSettings.keySet().size();
         this.itemList=new ItemStack[sum];
-        this.itemWeight=new Double[sum];
+        this.itemWeight=new double[sum];
         int weight = 0;
         for(Integer entry : itemSettings.values()) {
             weight += entry;
@@ -73,6 +71,16 @@ public class RandomItemStack extends ItemStack implements MultiItemStack,RandOut
     public ItemStack clone(){
         int i=weightedRandom(this.weightSum);
         return this.itemList[i].clone();
+    }
+    public RandomItemStack copy(){
+        RandomItemStack stack;
+        stack=(RandomItemStack)super.clone();
+        stack.itemList=Arrays.copyOf(this.itemList,this.itemList.length);
+        stack.sum=this.sum;
+        stack.weightSum=Arrays.copyOf(this.weightSum,this.weightSum.length);
+        stack.itemWeight=Arrays.copyOf(this.itemWeight,this.itemWeight.length);
+        return stack;
+
     }
     public ItemStack getInstance(){
         long a,s;

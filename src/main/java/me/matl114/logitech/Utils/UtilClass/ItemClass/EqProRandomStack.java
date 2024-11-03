@@ -2,6 +2,7 @@ package me.matl114.logitech.Utils.UtilClass.ItemClass;
 
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Random;
@@ -15,6 +16,12 @@ public class EqProRandomStack extends RandomItemStack  {
                this.put(item, 1);
            });
         }});
+    }
+    public EqProRandomStack copy(){
+        EqProRandomStack stack;
+        stack=(EqProRandomStack) super.copy();
+        return stack;
+
     }
 
     public EqProRandomStack(LinkedHashMap<ItemStack,Integer> itemSettings) {

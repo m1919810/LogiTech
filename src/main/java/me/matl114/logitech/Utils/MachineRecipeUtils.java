@@ -45,8 +45,8 @@ public class MachineRecipeUtils {
         for(int i = 0; i < items.length; i++){
             ItemStack a = items[i];
             if(a==null)continue;
-            ItemCounter ac=ItemCounter.get(a);
-            if(a instanceof RandOutItem){
+            ItemCounter ac=ItemCounter.get(AddUtils.getCopy(a));
+            if(ac.getItem() instanceof RandOutItem){
                 stacks.add(ac);
                 continue;
             }
@@ -58,28 +58,29 @@ public class MachineRecipeUtils {
                     break;
                 }
             }
-            if(__flag==false){
+            if(!__flag){
                 stacks.add(ac);
             }
         }
         ItemStack[] result = new ItemStack[stacks.size()];
         int cnt=0;
-        for(ItemCounter stack : stacks){
-            if(stack.getItem() instanceof RandOutItem){
-                result[cnt] = stack.getItem();
-            }else if(stack.getItem() instanceof EqualInItem ei){
-                if(stack.getItem() instanceof EquivalItemStack eqi){
-                    result[cnt] = AddUtils.equalItemStackFactory(eqi.getItemStacks(),stack.getAmount());
+        for(ItemCounter stackCounter : stacks){
+
+            if(stackCounter.getItem() instanceof EqualInItem ei){
+                if(stackCounter.getItem() instanceof EquivalItemStack eqi){
+                    result[cnt] = AddUtils.equalItemStackFactory(eqi.getItemStacks(),stackCounter.getAmount());
                 }
                 else{
                     //no other equalInItem till now
-                    result[cnt] = stack.getItem().clone();
-                    result[cnt].setAmount(stack.getAmount());
+                    result[cnt] = stackCounter.getItem();
+                    result[cnt].setAmount(stackCounter.getAmount());
                 }
+            }else if(stackCounter.getItem() instanceof AbstractItemStack){
+                result[cnt] = stackCounter.getItem();
             }
             else {
-                result[cnt] = stack.getItem().clone();
-                result[cnt].setAmount(stack.getAmount());
+                result[cnt] = stackCounter.getItem();
+                result[cnt].setAmount(stackCounter.getAmount());
             }
             ++cnt;
         }
@@ -96,7 +97,7 @@ public class MachineRecipeUtils {
         for(int i = 0; i < items.length; i++){
             ItemStack a = items[i];
             if(a!=null){
-                result.add(a);
+                result.add(AddUtils.getCopy(a));
             }
 
         }
@@ -117,15 +118,15 @@ public class MachineRecipeUtils {
      * @return
      */
     public static ItemStack[] i(ItemStack[] stacklist){
-        //ItemStack[] stacks;
-//        int len=stacklist.length;
-//        for(int i = 0; i<len; i++){
-//            if(stacklist[i]!=null){
-//                if(!(stacklist[i] instanceof AbstractItemStack)){
-//                    stacklist[i]= new ConstItemStack(stacklist[i]);
-//                }
-//            }
-//        }
+        ItemStack[] stacks=new ItemStack[stacklist.length];
+        int len=stacklist.length;
+        for(int i = 0; i<len; i++){
+            if(stacklist[i]!=null){
+                stacks[i]=AddUtils.getCopy(stacklist[i]);
+            }else {
+                stacks[i]=null;
+            }
+        }
         return stacklist;
     }
 
@@ -169,16 +170,24 @@ public class MachineRecipeUtils {
         }
         ItemStack[] input=recipe.getInput();
          boolean hasChanged=false;
+         HashMap<ItemStack,Integer> NOCONSUME_RETURN=new HashMap<>();
         for(int i = 0; i < input.length; i++){
             if(input[i]==null)continue;
             if(NOCONSUME_MAP.containsKey(input[i].getType())){
+                ItemStack returned=NOCONSUME_MAP.get(input[i].getType());
                 if(CraftUtils.matchItemStack(new ItemStack(input[i].getType()),input[i],true)){
-                    outputs.add(NOCONSUME_MAP.get(input[i].getType()));
+
+                    NOCONSUME_RETURN.put(returned,NOCONSUME_RETURN.getOrDefault(returned,0)+input[i].getAmount());
                     hasChanged=true;
                 }
             }
         }
         if(hasChanged){
+            for (Map.Entry<ItemStack,Integer> entry : NOCONSUME_RETURN.entrySet()){
+                ItemStack returned=entry.getKey().clone();
+                returned.setAmount(entry.getValue());
+                outputs.add(returned);
+            }
             return constructor.construct(recipe.getTicks(),input,outputs.toArray(new ItemStack[outputs.size()]));
 
         }else {

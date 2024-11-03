@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -36,6 +37,17 @@ public class ProbItemStack extends ItemStack implements MultiItemStack,RandOutIt
             return stack.clone();
         }
         return new ItemStack(Material.AIR);
+    }
+    public ProbItemStack copy(){
+        ProbItemStack stack;
+        stack=(ProbItemStack) super.clone();
+        stack.stack=this.stack;
+        stack.air=this.air;
+        stack.prob=this.prob;
+        stack.stacklist=new ArrayList<>(this.stacklist);
+        stack.problist=new ArrayList<>(this.problist);
+        return stack;
+
     }
     public ItemStack getInstance(){
         if(rand.nextDouble()<this.prob){

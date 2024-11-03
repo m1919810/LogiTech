@@ -62,9 +62,9 @@ public class VirtualKiller extends AbstractMachine {
     public ItemStack getInfoItem(EntityType type,int amount) {
         return new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,
                 "&6机制",
-                "&7上方放入带生物种类的笼子",
+                "&7上方放入带生物种类的任意笼子",
                 "&7下方输出该生物可能的特殊掉落物",
-                "&7输出倍率=<笼子数量>*%d".formatted(MULTIPLY),
+                "&7输出倍率=%d".formatted(MULTIPLY),
                AddUtils.concat( "&7当前生物: &a",type==null?"&c无生物": ChatUtils.humanize(type.name())),
                 AddUtils.concat("&7当前数量: &a",String.valueOf(amount)));
     }
@@ -178,7 +178,7 @@ public class VirtualKiller extends AbstractMachine {
         if(entity!=null&&amount>0){
             if(entity instanceof EntityType et){
                 progressorCost(b,menu);
-                CraftUtils.multiPushItems(getEntityMap().get(et),menu,getOutputSlots(),this.MULTIPLY*amount,this.CRAFT_PROVIDER);
+                CraftUtils.multiPushItems(getEntityMap().get(et),menu,getOutputSlots(),this.MULTIPLY,this.CRAFT_PROVIDER);
             }
         }
     }
