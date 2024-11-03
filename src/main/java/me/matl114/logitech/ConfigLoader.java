@@ -34,6 +34,7 @@ public class ConfigLoader {
         MACHINES=loadExternalConfig("machines");
         INNER_MACHINES=loadInternalConfig("addon-machines");
         SPACE_STORAGE= loadExternalConfig("space-storage");
+
     }
     public static Plugin plugin;
     public static Config CONFIG;
@@ -78,6 +79,7 @@ public class ConfigLoader {
         FileConfiguration config = new YamlConfiguration();
         try{
             config.load((Reader)( new InputStreamReader(plugin.getClass().getResourceAsStream("/"+ name + ".yml"), Charsets.UTF_8)));
+
         }catch (Throwable e){
             Debug.logger("failed to load internal config " + name + ".yml, Error: " + e.getMessage());
             return null;

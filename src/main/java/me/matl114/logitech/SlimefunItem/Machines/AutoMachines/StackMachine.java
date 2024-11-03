@@ -286,7 +286,13 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
                 if(sfitem==historyMachine){
                     //和历史机器一样
                     //设置当前数量
-                    db.setInt(0,it.getAmount());
+                    int lastCount=db.getInt(0);
+                    if(lastCount!=it.getAmount()){
+                        //切换机器数目 想逃？
+                        db.setInt(0,it.getAmount());
+                        this.processor.endOperation(inv.getLocation());
+                        inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
+                    }
                     int charge=getEnergy(index);
                     db.setInt(1,charge==-1?energyConsumption:charge);
                     return;
@@ -306,6 +312,9 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
                           //  DataCache.setCustomData(data,"mae",charge==-1?energyConsumption:charge);
                             db.setInt(0,it.getAmount());
                             db.setInt(1,charge==-1?energyConsumption:charge);
+                            //切换机器数目 想逃？
+                            this.processor.endOperation(inv.getLocation());
+                            inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
                             return;
                         }
                     }
@@ -316,6 +325,9 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
             MultiCraftType.forceSetRecipeTypeIndex(data,-1);
         db.setInt(0,0);
         db.setInt(1,0);
+        //拿走机器,想逃?
+        this.processor.endOperation(inv.getLocation());
+        inv.replaceExistingItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL);
     }
 
     public void tick(Block b, @Nullable BlockMenu inv, SlimefunBlockData data, int tickCount){

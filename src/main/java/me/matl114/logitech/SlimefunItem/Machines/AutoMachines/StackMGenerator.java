@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.ConfigLoader;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Interface.MultiCraftType;
@@ -172,6 +173,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
         inv.addMenuCloseHandler((player -> {
             updateMenu(inv,block,Settings.RUN);
         }));
+
         inv.addMenuClickHandler(RECIPEMENU_SLOT,((player, i, itemStack, clickAction) -> {
             int index=MultiCraftType.getRecipeTypeIndex(inv.getLocation());
             if(index>=0&&index<getListSize()){
@@ -255,7 +257,12 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
                 if(sfitem==historyMachine){
                     //和历史机器一样
                     //设置当前数量
-                    db.setInt(0,it.getAmount());
+                    int lastCount=db.getInt(0);
+                    if(lastCount!=it.getAmount()){
+                        db.setInt(0,it.getAmount());
+                        db.setInt(2,-1);
+                        inv.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_NULL);
+                    }
                     int charge=getEnergy(index);
                     db.setInt(1,charge==-1?energyConsumption:charge);
                     if( CraftUtils.matchNextRecipe(inv, getInputSlots(),RecipeSupporter.MACHINE_RECIPELIST.get(historyMachine),
@@ -282,8 +289,12 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
                             db.setInt(1,charge==-1?energyConsumption:charge);
                             //重置机器时间
                             db.setInt(2,-1);
-                            CraftUtils.matchNextRecipe(inv, getInputSlots(),RecipeSupporter.MACHINE_RECIPELIST.get(sfitem),
-                                    true, Settings.SEQUNTIAL,CRAFT_PROVIDER);
+                            inv.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_NULL);
+
+                            if( CraftUtils.matchNextRecipe(inv, getInputSlots(),RecipeSupporter.MACHINE_RECIPELIST.get(sfitem),
+                                    true, Settings.SEQUNTIAL,CRAFT_PROVIDER)==null){
+                                DataCache.setLastRecipe(inv.getLocation(),-1);
+                            }
                             return;
                         }
                     }
@@ -295,6 +306,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
         db.setInt(0,0);
         db.setInt(1,0);
         db.setInt(2,-1);
+        inv.replaceExistingItem(this.PROCESSOR_SLOT,this.INFO_NULL);
     }
     public void progressorCost(Block b, BlockMenu inv){
         DataMenuClickHandler dh=getDataHolder(b,inv);

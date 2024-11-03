@@ -1079,15 +1079,21 @@ public class AddSlimefunItems {
                 Location loc=block.getLocation();
                     //不是sf方块
                 if(WorldUtils.hasPermission(event.getPlayer(),loc,Interaction.BREAK_BLOCK,Interaction.PLACE_BLOCK)&&canUse(event.getPlayer(),false)){
-                    if(DataCache.getSfItem(loc)==null){
+                    SlimefunItem item;
+                    if((item=DataCache.getSfItem(loc))==null||item==LOGIC_CORE||item==ENDFRAME_MACHINE||item==ENDDUPE_MG){
                         if(WorldUtils.consumeItem(event.getPlayer(),CONSUMED)){
                             if(WorldUtils.breakVanillaBlockByPlayer(block,event.getPlayer(),true,false)){
+                                if(item!=null){
+                                    WorldUtils.removeSlimefunBlock(loc,event.getPlayer(),false);
+                                }
                                 AddUtils.sendMessage(event.getPlayer(),"&a已成功破坏方块");
                             }else{
                                 AddUtils.sendMessage(event.getPlayer(),"&c抱歉,您没有在这里破坏方块的权限");
                             }
                         }else{
+
                             AddUtils.sendMessage(event.getPlayer(),"&c所需物品不足!");
+
                         }
                     }else{
                         AddUtils.sendMessage(event.getPlayer(),"&c该方块是粘液方块!不能被该道具破坏");

@@ -211,7 +211,7 @@ public abstract class CustomItemGroup extends FlexItemGroup {
 
         openPage(var1,var2,var3,page);
     }
-    //public GuideMenuHandler getPrevGuideHandler(){}
+
     public void openPage(Player var1, PlayerProfile var2, SlimefunGuideMode var3,int page){
         assert page>=1&&page<=pages;
         var2.getGuideHistory().add(this,page);

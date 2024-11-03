@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
@@ -63,7 +64,7 @@ public class SpreadBlock extends AbstractBlock implements Ticking {
     protected Random rand = new Random();
     protected final int LIFE_DEFAULT=13;
     protected final int ONE_TICK_SPREAD_MAXCNT=2000;
-    protected final int CHANCE_KEEP_MATERIAL=5;
+    protected final int CHANCE_KEEP_MATERIAL=2;
     protected final ConcurrentHashMap<Location, Player> SPREAD_PLAYER=new ConcurrentHashMap<>();
     public Map<Location,Player> getSpreadOwner(){
         return SPREAD_PLAYER;
