@@ -1558,8 +1558,8 @@ public class AddSlimefunItems {
     public static final SlimefunItem VIRTUAL_MINER = new MMGenerator(AddGroups.GENERATORS, AddItem.VIRTUAL_MINER, COMMON_TYPE,
             recipe(AddItem.BISILVER,setC(AddItem.TECH_CORE,1),AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,setC(AddItem.SMELERY_CORE,1),AddItem.BISILVER,
                     AddItem.LDIGITIZER,AddItem.BISILVER,null,null,AddItem.BISILVER,AddItem.LDIGITIZER,
-                    AddItem.BISILVER,setC(AddItem.LMOTOR,1),setC(AddItem.VIRTUAL_SPACE,1),AddItem.DIMENSION_MINER,setC(AddItem.LMOTOR,1),AddItem.BISILVER,
-                    AddItem.BISILVER,setC(AddItem.LENGINE,1),AddItem.DIMENSION_MINER,setC(AddItem.VIRTUAL_SPACE,1),,setC(AddItem.LENGINE,1),AddItem.BISILVER,
+                    AddItem.BISILVER,AddItem.LMOTOR,AddItem.VIRTUAL_SPACE,AddItem.DIMENSION_MINER,AddItem.LMOTOR,AddItem.BISILVER,
+                    AddItem.BISILVER,AddItem.LENGINE,AddItem.DIMENSION_MINER,AddItem.VIRTUAL_SPACE,AddItem.LENGINE,AddItem.BISILVER,
                     AddItem.LIOPORT,AddItem.BISILVER,null,null,AddItem.BISILVER,AddItem.LIOPORT,
                     AddItem.BISILVER,setC(AddItem.MASS_CORE,1),AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,setC(AddItem.METAL_CORE,1),AddItem.BISILVER), 1, 129_600, 5400,
             new LinkedHashMap<>(){{
