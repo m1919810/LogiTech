@@ -35,6 +35,7 @@ import me.matl114.logitech.SlimefunItem.Cargo.WorkBench.ChipConsumer;
 import me.matl114.logitech.SlimefunItem.Items.*;
 import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.*;
 import me.matl114.logitech.SlimefunItem.Machines.Electrics.*;
+import me.matl114.logitech.SlimefunItem.Machines.FinalFeature;
 import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.FinalManual;
 import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.ManualCrafter;
 import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.ManualMachine;
@@ -1462,8 +1463,12 @@ public class AddSlimefunItems {
                     "REDSTONE_BLOCK",setC(AddItem.NOLOGIC,1),AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,setC(AddItem.NOLOGIC,1),"REDSTONE_BLOCK",
                     null,"REDSTONE_BLOCK","REDSTONE_BLOCK","REDSTONE_BLOCK","REDSTONE_BLOCK",null),1,10000,250,
             AddUtils.randItemStackFactory(
-                    mkMp("REDSTONE_TORCH",16,"OBSERVER",16,"PISTON",16,"STICKY_PISTON",16,"REPEATER",16,"COMPARATOR",16,"LEVER",16,"NOTE_BLOCK",16,"REDSTONE_LAMP",16,
-                            AddUtils.randItemStackFactory(mkMp("SLIME_BALL",26,"HONEY_BLOCK",3,"TNT",2,"REDSTONE",1)),16)
+                    mkMp(
+                            AddUtils.randItemStackFactory(mkMp("PISTON",1,"STICKY_PISTON",1,"OBSERVER",1)),1,
+                            AddUtils.randItemStackFactory(mkMp("REDSTONE_TORCH",1,"REPEATER",1,"COMPARATOR",1,"LEVER",1)),1,
+                            AddUtils.randItemStackFactory(mkMp("NOTE_BLOCK",1, "REDSTONE_LAMP",1)),1,
+                            AddUtils.randItemStackFactory(mkMp("DISPENSER",1,"DROPPER",1)),1,
+                            AddUtils.randItemStackFactory(mkMp("SLIME_BALL",1,"HONEY_BLOCK",1,"TNT",1,"REDSTONE",1)),1)
             ))
             .register();
     public static final SlimefunItem TNT_MG=new SMGenerator(AddGroups.VANILLA, AddItem.TNT_MG,RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -1999,8 +2004,8 @@ public class AddSlimefunItems {
             .register();
     public static final SlimefunItem ENHANCED_CRAFT_MANUAL=new ManualCrafter(AddGroups.MANUAL,AddItem.ENHANCED_CRAFT_MANUAL,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("COBBLESTONE","COBBLESTONE","COBBLESTONE",
-                    null,"CRAFTING_TABLE",null,
-                    "COBBLESTONE","COBBLESTONE","COBBLESTONE"),0,0,RecipeType.ENHANCED_CRAFTING_TABLE)
+                    "COBBLESTONE","CRAFTING_TABLE","COBBLESTONE",
+                    "COBBLESTONE","REDSTONE","COBBLESTONE"),0,0,RecipeType.ENHANCED_CRAFTING_TABLE)
             .register();
     public static final SlimefunItem GRIND_MANUAL=new ManualCrafter(AddGroups.MANUAL,AddItem.GRIND_MANUAL,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(null,AddItem.BUG,null,
@@ -2121,13 +2126,19 @@ public class AddSlimefunItems {
                 List<MachineRecipe> shapedRecipesVanilla=RecipeSupporter.PROVIDED_SHAPED_RECIPES.get(BukkitUtils.VANILLA_CRAFTTABLE);
                 List<MachineRecipe> cardRecipe=new ArrayList<>();
                 cardRecipe.addAll(RecipeSupporter.UNUSTACKABLE_ITEM_RECIPES);
+
                 for(MachineRecipe rp:shapedRecipesVanilla){
                     if(rp.getOutput()[0].getType().getMaxStackSize()==1){
                         cardRecipe.add(MachineRecipeUtils.shapeFrom(-1,rp.getInput(),recipe(REPLACE_CARD.getReplaceCard(rp.getOutput()[0].getType()))));
                     }
                 }
                 return cardRecipe;
-            }).setDisplayRecipes(
+            }){
+        {
+            CRAFT_PROVIDER= FinalFeature.MANUAL_CARD_READER;
+        }
+    }
+            .setDisplayRecipes(
                     Utils.list(
                             AddUtils.getInfoShow("&f配方说明",
                                     "&7你将会在这里的配方中找到所有可以在原版工作台中合成的物品的替代卡配方",

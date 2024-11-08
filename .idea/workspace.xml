@@ -4,23 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="feat:bugfix">
+    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="feat:rebuild">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddSlimefunItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddSlimefunItems.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/AbstractSpawner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Blocks/AbstractSpawner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Items/EntityFeat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Items/EntityFeat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/SpecialMachines/VirtualKiller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/SpecialMachines/VirtualKiller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Unittest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Unittest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/AddUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/AddUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/MachineRecipeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/MachineRecipeUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/RecipeSupporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/RecipeSupporter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/AbstractItemStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/AbstractItemStack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/DisplayItemStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/DisplayItemStack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/EqProRandomStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/EqProRandomStack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/EquivalItemStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/EquivalItemStack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/ProbItemStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/ProbItemStack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/RandAmountStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/RandAmountStack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/RandomItemStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/ItemClass/RandomItemStack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MenuClass/CustomItemGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Utils/UtilClass/MenuClass/CustomItemGroup.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,39 +64,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Run Test.executor": "Run",
-    "Maven.Algorithm test.executor": "Run",
-    "Maven.Clean.executor": "Run",
-    "Maven.LogiTech [-Dtest=Tests#main,test,-e].executor": "Run",
-    "Maven.LogiTech [-Dtest=Tests#main,test].executor": "Run",
-    "Maven.LogiTech [-Dtest=Tests,test].executor": "Run",
-    "Maven.LogiTech [clean].executor": "Run",
-    "Maven.LogiTech [compile].executor": "Run",
-    "Maven.LogiTech [install,-Dmaven.test.skip=true].executor": "Run",
-    "Maven.LogiTech [install].executor": "Run",
-    "Maven.LogiTech [package].executor": "Run",
-    "Maven.SlimefunAddon [install].executor": "Run",
-    "Maven.TestAddon [install].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Shell Script.Build and Start Server.executor": "Run",
-    "Shell Script.Unnamed.executor": "Run",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Intellij_Idea/workspace/LogiTech-master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "editor.preferences.completion",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Run Test.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Algorithm test.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Clean.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.LogiTech [-Dtest=Tests#main,test,-e].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.LogiTech [-Dtest=Tests#main,test].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.LogiTech [-Dtest=Tests,test].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.LogiTech [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.LogiTech [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.LogiTech [install,-Dmaven.test.skip=true].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.LogiTech [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.LogiTech [package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.SlimefunAddon [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.TestAddon [install].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Shell Script.Build and Start Server.executor&quot;: &quot;Run&quot;,
+    &quot;Shell Script.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Intellij_Idea/workspace/LogiTech-master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.completion&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="me.matl114.slimefunaddon.Utils" />
@@ -328,38 +317,12 @@
       <workItem from="1730496319152" duration="470000" />
       <workItem from="1730530115354" duration="1296000" />
       <workItem from="1730554179566" duration="965000" />
-    </task>
-    <task id="LOCAL-00094" summary="fix :logger not removed">
-      <option name="closed" value="true" />
-      <created>1727006580285</created>
-      <option name="number" value="00094" />
-      <option name="presentableId" value="LOCAL-00094" />
-      <option name="project" value="LOCAL" />
-      <updated>1727006580285</updated>
-    </task>
-    <task id="LOCAL-00095" summary="fix :logger not removed">
-      <option name="closed" value="true" />
-      <created>1727071222082</created>
-      <option name="number" value="00095" />
-      <option name="presentableId" value="LOCAL-00095" />
-      <option name="project" value="LOCAL" />
-      <updated>1727071222082</updated>
-    </task>
-    <task id="LOCAL-00096" summary="fix :logger not removed">
-      <option name="closed" value="true" />
-      <created>1727083082521</created>
-      <option name="number" value="00096" />
-      <option name="presentableId" value="LOCAL-00096" />
-      <option name="project" value="LOCAL" />
-      <updated>1727083082521</updated>
-    </task>
-    <task id="LOCAL-00097" summary="fix :logger not removed">
-      <option name="closed" value="true" />
-      <created>1727103848467</created>
-      <option name="number" value="00097" />
-      <option name="presentableId" value="LOCAL-00097" />
-      <option name="project" value="LOCAL" />
-      <updated>1727103848467</updated>
+      <workItem from="1730576022800" duration="28461000" />
+      <workItem from="1730825821846" duration="5868000" />
+      <workItem from="1730854336106" duration="16000" />
+      <workItem from="1730879788131" duration="5187000" />
+      <workItem from="1730964961385" duration="2189000" />
+      <workItem from="1730982253792" duration="4711000" />
     </task>
     <task id="LOCAL-00098" summary="fix :logger not removed">
       <option name="closed" value="true" />
@@ -721,7 +684,39 @@
       <option name="project" value="LOCAL" />
       <updated>1730401428922</updated>
     </task>
-    <option name="localTasksCounter" value="143" />
+    <task id="LOCAL-00143" summary="feat:fix ItemStack getCopy,compate RandomizedItemStack">
+      <option name="closed" value="true" />
+      <created>1730626426772</created>
+      <option name="number" value="00143" />
+      <option name="presentableId" value="LOCAL-00143" />
+      <option name="project" value="LOCAL" />
+      <updated>1730626426773</updated>
+    </task>
+    <task id="LOCAL-00144" summary="feat:fix ItemStack getCopy,compate RandomizedItemStack">
+      <option name="closed" value="true" />
+      <created>1730642972381</created>
+      <option name="number" value="00144" />
+      <option name="presentableId" value="LOCAL-00144" />
+      <option name="project" value="LOCAL" />
+      <updated>1730642972381</updated>
+    </task>
+    <task id="LOCAL-00145" summary="feat:progress">
+      <option name="closed" value="true" />
+      <created>1730655872505</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1730655872505</updated>
+    </task>
+    <task id="LOCAL-00146" summary="feat:rebuild">
+      <option name="closed" value="true" />
+      <created>1730719486508</created>
+      <option name="number" value="00146" />
+      <option name="presentableId" value="LOCAL-00146" />
+      <option name="project" value="LOCAL" />
+      <updated>1730719486508</updated>
+    </task>
+    <option name="localTasksCounter" value="147" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -795,9 +790,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix :fix entity clear issue" />
-    <MESSAGE value="fix :fix final locationProxy problem of concurrent modifying" />
-    <MESSAGE value="fix :updating to v1.0.2 with bugFixs" />
     <MESSAGE value="fix :balancing adjustments" />
     <MESSAGE value="fix :merge replace card pr" />
     <MESSAGE value="fix :update shapeRecipe match" />
@@ -820,7 +812,10 @@
     <MESSAGE value="feat:bugfix , add Multiblock buildFailed message" />
     <MESSAGE value="feat:rewrite code" />
     <MESSAGE value="feat:bugfix" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:bugfix" />
+    <MESSAGE value="feat:fix ItemStack getCopy,compate RandomizedItemStack" />
+    <MESSAGE value="feat:progress" />
+    <MESSAGE value="feat:rebuild" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:rebuild" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -80,7 +80,8 @@
                 <directory>${basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>*</include>
+<!--                    include all files and folders-->
+                    <include>**/*</include>
                 </includes>
             </resource>
         </resources>

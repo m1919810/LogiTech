@@ -1,19 +1,25 @@
 package me.matl114.logitech.Utils.UtilClass.MenuClass;
 
+import city.norain.slimefun4.VaultIntegration;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.chat.ChatInput;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.MenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -262,6 +268,57 @@ public abstract class CustomItemGroup extends FlexItemGroup {
         addGuideRelated(menu,var1,var2,var3,page);
 
         menu.open(var1);
+    }
+    private void displaySlimefunItem(ChestMenu menu, ItemGroup itemGroup, Player p, PlayerProfile profile, SlimefunItem sfitem, SlimefunGuideMode mode, int page, int index) {
+        Research research = sfitem.getResearch();
+        if (SlimefunGuideMode.CHEAT_MODE!=mode && !Slimefun.getPermissionsService().hasPermission(p, sfitem)) {
+            List<String> message = Slimefun.getPermissionsService().getLore(sfitem);
+            menu.addItem(index, new CustomItemStack(ChestMenuUtils.getNoPermissionItem(), sfitem.getItemName(), (String[])message.toArray(new String[0])));
+            menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
+        } else if (SlimefunGuideMode.CHEAT_MODE!=mode&& research != null && !profile.hasUnlocked(research)) {
+            String lore;
+            if (VaultIntegration.isEnabled()) {
+                Object[] var10001 = new Object[]{research.getCurrencyCost()};
+                lore = String.format("%.2f", var10001) + " 游戏币";
+            } else {
+                lore = research.getLevelCost() + " 级经验";
+            }
+
+            menu.addItem(index, new CustomItemStack(new CustomItemStack(ChestMenuUtils.getNoPermissionItem(), "&f" + ItemUtils.getItemName(sfitem.getItem()), new String[]{"&7" + sfitem.getId(), "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"), "", "&a> 单击解锁", "", "&7需要 &b", lore})));
+            menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
+                research.unlockFromGuide(Slimefun.getRegistry().getSlimefunGuide(mode), p, profile, sfitem, itemGroup, page);
+                return false;
+            });
+        } else {
+            menu.addItem(index, sfitem.getItem());
+            menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
+                try {
+                    if (SlimefunGuideMode.CHEAT_MODE!=mode) {
+                        Slimefun.getRegistry().getSlimefunGuide(mode).displayItem(profile, sfitem, true);
+                    } else if (pl.hasPermission("slimefun.cheat.items")) {
+                        if (sfitem instanceof MultiBlockMachine) {
+                            Slimefun.getLocalization().sendMessage(pl, "guide.cheat.no-multiblocks");
+                        } else {
+                            ItemStack clonedItem = sfitem.getItem().clone();
+                            if (action.isShiftClicked()) {
+                                clonedItem.setAmount(clonedItem.getMaxStackSize());
+                            }
+
+                            pl.getInventory().addItem(new ItemStack[]{clonedItem});
+                        }
+                    } else {
+                        Slimefun.getLocalization().sendMessage(pl, "messages.no-permission", true);
+                    }
+                } catch (LinkageError | Exception var8) {
+                    Throwable x = var8;
+                    p.sendMessage(ChatColor.DARK_RED + "An internal server error has occurred. Please inform an admin, check the console for further info.");
+                    sfitem.error("This item has caused an error message to be thrown while viewing it in the Slimefun guide.", x);
+                }
+
+                return false;
+            });
+        }
+
     }
     //modified from guizhan Infinity Expansion 2
     private int getLastPage(Player var1, PlayerProfile var2, SlimefunGuideMode var3){
