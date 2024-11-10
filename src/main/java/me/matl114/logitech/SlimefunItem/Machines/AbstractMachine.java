@@ -163,6 +163,9 @@ public abstract  class AbstractMachine extends CustomSlimefunItem implements Tic
             EnergyNetComponent.super.removeCharge(l,charge);
         }
     }
+    public void addCharge(@Nonnull Location l, int charge){
+        EnergyNetComponent.super.addCharge(l,charge);
+    }
 
     /**
      * provided for craft counter-generate

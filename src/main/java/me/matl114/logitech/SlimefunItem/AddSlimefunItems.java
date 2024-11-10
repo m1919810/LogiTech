@@ -1205,7 +1205,7 @@ public class AddSlimefunItems {
                     "PISTON",AddItem.LOGIGATE,"PISTON",
                     "COBALT_PICKAXE","WATER_BUCKET","COBALT_PICKAXE"),16,500,33,
             AddUtils.randItemStackFactory(
-                    mkMp("64COBBLESTONE",72,
+                    mkMp("32COBBLESTONE",72,
                             "2COAL",7,
                             "4REDSTONE",6,
                             "2IRON_INGOT",5,
