@@ -94,13 +94,22 @@ public class ItemPusher extends ItemCounter {
      * @return
      */
     public int transportFrom(ItemCounter counter,int limit){
+        //该物品槽能转运的最大数量
         int left=Math.min( maxStackCnt-cnt,limit);
+        //如果这个数量比提供的少
         if(left>counter.getAmount()){
+            //设置真正被传输的数量是... 提供的数量 小于预期left
             left=counter.getAmount();
-            addAmount(left);
+            //counter清空
             counter.setAmount(0);
+            //加上
+            addAmount(left);
+
         }else{
-            setAmount(maxStackCnt);
+            //否则这个数量提供的比那个多
+            //设置数量+=left
+            setAmount(cnt+left);
+            //left <= counter.getAmount()
             counter.addAmount(-left);
         }
         return limit-left;

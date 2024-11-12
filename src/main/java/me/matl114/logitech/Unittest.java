@@ -37,4 +37,7 @@ public class Unittest {
     //TODO 增加服务器信息显示
     //TODO 展示框
     //TODO 修复传送门加载缓慢的问题
+    //todo 增加充电器
+    //todo 增加量子堆叠 使用量子链接特性但是非终极
+    //todo 增加辐射清除器功能
 }

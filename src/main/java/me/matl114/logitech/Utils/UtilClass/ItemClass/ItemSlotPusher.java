@@ -102,8 +102,9 @@ public class ItemSlotPusher extends ItemPusher {
     }
     public int transportFrom(ItemCounter source,int limit){
         if(this.item==null){
-            if(source!=null&&source.getItem()!=null)
-            setFrom(source);
+            if(source!=null&&source.getItem()!=null){
+                setFrom(source);
+            }
             else return limit;
         }
         return super.transportFrom(source,limit);

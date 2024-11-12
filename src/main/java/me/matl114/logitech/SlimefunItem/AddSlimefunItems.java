@@ -1205,14 +1205,14 @@ public class AddSlimefunItems {
                     "PISTON",AddItem.LOGIGATE,"PISTON",
                     "COBALT_PICKAXE","WATER_BUCKET","COBALT_PICKAXE"),16,500,33,
             AddUtils.randItemStackFactory(
-                    mkMp("32COBBLESTONE",72,
-                            "2COAL",7,
-                            "4REDSTONE",6,
-                            "2IRON_INGOT",5,
-                            "8LAPIS_LAZULI",4,
-                            "2GOLD_INGOT",3,
-                            "2DIAMOND",2,
-                            "2EMERALD",1
+                    mkMp("32COBBLESTONE",75,
+                            "2COAL",5,
+                            "2REDSTONE",5,
+                            "IRON_INGOT",5,
+                            "4LAPIS_LAZULI",4,
+                            "GOLD_INGOT",3,
+                            "DIAMOND",2,
+                            "EMERALD",1
                     )
             ))
             .register();
@@ -1230,19 +1230,19 @@ public class AddSlimefunItems {
             }})
             .register();
     public static final SlimefunItem OVERWORLD_MINER=new SMGenerator(AddGroups.GENERATORS, AddItem.OVERWORLD_MINER,RecipeType.ENHANCED_CRAFTING_TABLE,
-            recipe(AddItem.ABSTRACT_INGOT,AddItem.MAGIC_STONE,AddItem.ABSTRACT_INGOT,
+            recipe("REINFORCED_PLATE",AddItem.MAGIC_STONE,"REINFORCED_PLATE",
                     AddItem.UNIQUE,AddItem.LENGINE,AddItem.EXISTE
                     ,AddItem.WORLD_FEAT,AddItem.MAGIC_STONE,AddItem.WORLD_FEAT
             ),12,2_500,400,
             AddUtils.randItemStackFactory(
-                    mkMp("64COBBLESTONE",40,
-                            "4COAL",9,
-                            "4REDSTONE",9,
-                            "4IRON_INGOT",9,
-                            "8LAPIS_LAZULI",9,
-                            "4GOLD_INGOT",9,
-                            "4DIAMOND",8,
-                            "4EMERALD",7
+                    mkMp("32COBBLESTONE",40,
+                            "3COAL",9,
+                            "3REDSTONE",9,
+                            "3IRON_INGOT",9,
+                            "6LAPIS_LAZULI",9,
+                            "3GOLD_INGOT",9,
+                            "3DIAMOND",8,
+                            "3EMERALD",7
                     )
             ))
             .register();
@@ -1254,8 +1254,8 @@ public class AddSlimefunItems {
                   ),10,3_000,600,
             AddUtils.randItemStackFactory(
                     mkMp(
-                            "64NETHERRACK",30,
-                            "10QUARTZ",40,
+                            "32NETHERRACK",30,
+                            "6QUARTZ",40,
                             "16MAGMA_BLOCK",7,
                             "16BLACKSTONE",7,
                             "16BASALT",7,
@@ -1273,9 +1273,9 @@ public class AddSlimefunItems {
             ),8,6_000,1000,
             AddUtils.randItemStackFactory(
                     mkMp(
-                            "64END_STONE",150,
+                            "32END_STONE",150,
                             "10OBSIDIAN",100,
-                            "4CHORUS_FLOWER",30,
+                            "2CHORUS_FLOWER",30,
                             "2SHULKER_SHELL",35,
                             "DRAGON_BREATH",35,
                             setC(AddItem.DIMENSIONAL_SHARD,2),30,
