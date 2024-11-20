@@ -76,7 +76,7 @@ public class Debug {
     public static void logger(Object ... msgs){
         String msg="";
         for(Object m : msgs){
-            msg+=" "+m.toString();
+            msg+=" "+(m==null?"null":m.toString());
         }
         logger(msg);
     }

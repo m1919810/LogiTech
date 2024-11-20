@@ -762,6 +762,13 @@ public class AddUtils {
      * no clone in this method
      * @param stack
      */
+    public static ItemStack removeGlow(ItemStack stack){
+        //stack.addEnchantment(Enchantment.ARROW_INFINITE, 1);
+        ItemMeta meta=stack.getItemMeta();
+        meta.removeEnchant(Enchantment.ARROW_INFINITE);
+        stack.setItemMeta(meta);
+        return stack;
+    }
     public static ItemStack addGlow(ItemStack stack){
         //stack.addEnchantment(Enchantment.ARROW_INFINITE, 1);
         ItemMeta meta=stack.getItemMeta();

@@ -87,16 +87,6 @@ public abstract class AbstractWorkBench extends AbstractMachine {
                 return false;
             }));
         });
-
-//        return MenuUtils.createMRecipeListDisplay(getItem(),getMachineRecipes(),((player, i, itemStack, clickAction) -> {
-//            inv.open(player);
-//            return false;
-//        }),(itemstack,recipes,backhandler)->{
-//            return MenuUtils.createMRecipeDisplay(itemstack,recipes,backhandler).overrideItem(8,LAZY_ONECLICK).overrideHandler(8,((player, i, itemStack, clickAction) -> {
-//                moveRecipe(player,inv,recipes, clickAction.isRightClicked());
-//                return false;
-//            }));
-//        });
     }
     public int getCraftLimit(Block b,BlockMenu inv){
         return CRAFT_LIMIT;
@@ -187,7 +177,7 @@ public abstract class AbstractWorkBench extends AbstractMachine {
         }
     }
     //modified from INFINITY EXPANSION
-    private void moveRecipe(@Nonnull Player player, @Nonnull BlockMenu menu, MachineRecipe machinerecipe, boolean max) {
+    protected void moveRecipe(@Nonnull Player player, @Nonnull BlockMenu menu, MachineRecipe machinerecipe, boolean max) {
         ItemStack[] recipe =machinerecipe.getInput();
         PlayerInventory inv = player.getInventory();
         int[] inputs=getRecipeSlots();

@@ -48,7 +48,9 @@ public abstract class AbstractPipe extends AbstractMachine implements Directiona
     public int[] getDirectionSlots(){
         return DIRECTION_SLOTS;
     }
-
+    public boolean canModify(){
+        return false;
+    }
     public void constructMenu(BlockMenuPreset preset){
     }
     public void newMenuInstance(BlockMenu menu, Block block){
@@ -130,7 +132,9 @@ public abstract class AbstractPipe extends AbstractMachine implements Directiona
         }
         if((toLocation=(counter.read(ticker)))!=null){
             Location fromLocation= dir.remote(loc,-1);
-            transfer(fromLocation,toLocation);
+            if(!fromLocation.equals(toLocation)){
+                transfer(fromLocation,toLocation);
+            }
         }
     }
     public abstract boolean avalibleDestination(Location toLocation);

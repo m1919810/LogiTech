@@ -78,7 +78,7 @@ public interface DirectionalBlock {
         return true;
     }
     //返回拷贝的数量
-    default int copyDirectionSettings(SlimefunBlockData data ,Directions[] dir){
+    default int pasteDirectionSettings(SlimefunBlockData data ,Directions[] dir){
         if(this.canModify()){
             String[] saveKeys=getSaveKeys();
             int[] slots=getDirectionSlots();
@@ -92,5 +92,15 @@ public interface DirectionalBlock {
             }
             return len;
         }else return -1;
+    }
+    default Directions[] copyDirectionSettings(SlimefunBlockData data){
+        if(this.canModify()){
+            String[] saveKeys=getSaveKeys();
+            Directions[] dir=new Directions[saveKeys.length];
+            for (int i=0;i<saveKeys.length;i++){
+                dir[i]=getDirection(saveKeys[i],data);
+            }
+            return dir;
+        }else return null;
     }
 }

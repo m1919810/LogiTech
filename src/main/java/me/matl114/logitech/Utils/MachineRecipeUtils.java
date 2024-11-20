@@ -102,14 +102,6 @@ public class MachineRecipeUtils {
 
         }
         ItemStack[] stacklist= result.toArray(new ItemStack[result.size()]);
-//        int len=stacklist.length;
-//        for(int i = 0; i<len; i++){
-//            if(stacklist[i]!=null){
-//                if(!(stacklist[i] instanceof AbstractItemStack)){
-//                    stacklist[i]=new ConstItemStack(stacklist[i]);
-//                }
-//            }
-//        }
         return stacklist;
     }
 

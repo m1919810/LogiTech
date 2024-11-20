@@ -20,7 +20,13 @@ public enum Settings {
     OUTPUT(),
     INPUT(),
     METHOD(),
-    FIELD();
+    FIELD(),
+    //for comparasion
+    NEGATIVE(),
+    POSITIVE(),
+    ZERO(),
+    NULL()
+    ;
 
     private static int cnt=0;
     private static int get(){

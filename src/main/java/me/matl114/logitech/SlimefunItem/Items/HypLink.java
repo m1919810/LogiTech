@@ -61,9 +61,7 @@ public class HypLink extends CustomSlimefunItem {
             if(HyperLink.isLink(im)){
                 Location loc=HyperLink.getLink(im);
                 if(loc!=null) {
-                    if (WorldUtils.hasPermission(
-                            event.getPlayer(), loc, Interaction.INTERACT_BLOCK)
-                    ) {
+                    if (WorldUtils.hasPermission(event.getPlayer(), loc, Interaction.INTERACT_BLOCK)) {
                         SlimefunBlockData data = DataCache.safeLoadBlock(loc);
                         if (data != null) {
                             BlockMenu menu = data.getBlockMenu();

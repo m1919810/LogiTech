@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
@@ -36,10 +37,7 @@ import me.matl114.logitech.SlimefunItem.Items.*;
 import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.*;
 import me.matl114.logitech.SlimefunItem.Machines.Electrics.*;
 import me.matl114.logitech.SlimefunItem.Machines.FinalFeature;
-import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.FinalManual;
-import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.ManualCrafter;
-import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.ManualMachine;
-import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.MultiBlockManual;
+import me.matl114.logitech.SlimefunItem.Machines.ManualMachines.*;
 import me.matl114.logitech.SlimefunItem.Machines.SpecialMachines.*;
 import me.matl114.logitech.SlimefunItem.Machines.WorkBenchs.BugCrafter;
 import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.InputPort;
@@ -52,8 +50,10 @@ import me.matl114.logitech.Utils.UtilClass.CommandClass.CommandShell;
 import me.matl114.logitech.Utils.UtilClass.FunctionalClass.AsyncResultRunnable;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.*;
@@ -67,6 +67,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.SpongeAbsorbEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -619,7 +621,7 @@ public class AddSlimefunItems {
             mkMp(
                     mkP(mkl(setC(AddItem.END_FEAT,1),"64END_STONE"),mkl("END_PORTAL_FRAME")),6,
                         mkP(mkl(AddItem.STAR_GOLD,"END_PORTAL_FRAME"),mkl(AddItem.PORTAL_FRAME)),6,
-                        mkP(mkl(AddItem.STAR_GOLD_INGOT,"16QUARTZ_BLOCK"),mkl(AddItem.SOLAR_REACTOR_FRAME)),6,
+                        mkP(mkl(setC(AddItem.STAR_GOLD_INGOT,3),"16QUARTZ_BLOCK"),mkl(AddItem.SOLAR_REACTOR_FRAME)),6,
                         mkP(mkl(setC(AddItem.LPLATE,2),"16GLASS"),mkl(AddItem.SOLAR_REACTOR_GLASS)),6,
                         mkP(mkl(AddItem.STACKFRAME,AddItem.TRUE_),mkl(AddItem.STACKMACHINE)),6,
                         mkP(mkl(AddItem.STACKFRAME,AddItem.FALSE_),mkl(AddItem.STACKMGENERATOR)),6,
@@ -1259,7 +1261,7 @@ public class AddSlimefunItems {
                             "16MAGMA_BLOCK",7,
                             "16BLACKSTONE",7,
                             "16BASALT",7,
-                            "16NETHER_WART",7,
+                            "8NETHER_WART",7,
                             "4ANCIENT_DEBRIS",2
                     )
             ))
@@ -1276,10 +1278,10 @@ public class AddSlimefunItems {
                             "32END_STONE",150,
                             "10OBSIDIAN",100,
                             "2CHORUS_FLOWER",30,
-                            "2SHULKER_SHELL",35,
-                            "DRAGON_BREATH",35,
-                            setC(AddItem.DIMENSIONAL_SHARD,2),30,
-                            AddItem.STAR_GOLD,20
+                            "SHULKER_SHELL",50,
+                            "DRAGON_BREATH",40,
+                            AddItem.DIMENSIONAL_SHARD,20,
+                            AddItem.STAR_GOLD,10
                     )
             ))
             .register();
@@ -1300,7 +1302,7 @@ public class AddSlimefunItems {
 
             AddUtils.randItemStackFactory(
                     mkMp(
-                            AddItem.DIMENSIONAL_SHARD,2,
+                            AddItem.DIMENSIONAL_SHARD,3,
                             AddItem.STAR_GOLD,1
                     )
             ),
@@ -2038,12 +2040,12 @@ public class AddSlimefunItems {
                     "BOOKSHELF","CRAFTING_TABLE","DISPENSER",
                     "COBBLESTONE",null,"COBBLESTONE"),0,0,RecipeType.MAGIC_WORKBENCH)
             .register();
-    public static final SlimefunItem ORE_WASHER_MANUAL=new ManualCrafter(AddGroups.MANUAL,AddItem.ORE_WASHER_MANUAL,RecipeType.ENHANCED_CRAFTING_TABLE,
+    public static final SlimefunItem ORE_WASHER_MANUAL=new RandOutManulCrafter(AddGroups.MANUAL,AddItem.ORE_WASHER_MANUAL,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.BUG,"DISPENSER",AddItem.BUG,
             null,"OAK_FENCE",null,
                     AddItem.BUG,"CAULDRON",AddItem.BUG),0,0,RecipeType.ORE_WASHER)
             .register();
-    public static final SlimefunItem GOLD_PAN_MANUAL=new ManualCrafter(AddGroups.MANUAL,AddItem.GOLD_PAN_MANUAL,RecipeType.ENHANCED_CRAFTING_TABLE,
+    public static final SlimefunItem GOLD_PAN_MANUAL=new RandOutManulCrafter(AddGroups.MANUAL,AddItem.GOLD_PAN_MANUAL,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.BUG,null,AddItem.BUG,
                    null,"OAK_TRAPDOOR",null,
                     AddItem.BUG,"CAULDRON",AddItem.BUG),0,0,RecipeType.GOLD_PAN)
@@ -2116,9 +2118,16 @@ public class AddSlimefunItems {
                     AddItem.BUG,AddItem.LFIELD,"DISPENSER","DISPENSER",AddItem.LFIELD,AddItem.BUG,
                     AddItem.STAR_GOLD_INGOT,AddItem.BUG,AddItem.BUG,AddItem.BUG,AddItem.BUG,AddItem.STAR_GOLD_INGOT),0,0,null)
             .register();
+    public static final SlimefunItem FAKE_UI=new MaterialItem(AddGroups.MANUAL,AddItem.FAKE_UI,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe("COBBLESTONE","GLASS_PANE","COBBLESTONE","COBBLESTONE","GLASS_PANE","COBBLESTONE",
+                    "COBBLESTONE","GLASS_PANE","COBBLESTONE"),List.of(AddUtils.getInfoShow("&f机制 - &7伪装","&7该物品可以在快捷多方块结构模拟器中","&7填充多方块模拟部分的空白","&7多方块模拟检测会忽视该物品")))
+            .register();
     public static final ReplaceCard REPLACE_CARD=(ReplaceCard) (new ReplaceCard(AddGroups.MANUAL,AddItem.REPLACE_CARD,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.CARD_MAKER,Language.get("Manuals.CARD_MAKER.Name")))
+            AddUtils.formatInfoRecipe(AddItem.CARD_MAKER,Language.get("Manuals.CARD_MAKER.Name")), ReplaceCard.ReplaceType.MATERIAL)
             .register());
+    public static final ReplaceCard REPLACE_SF_CARD=(ReplaceCard) new ReplaceCard(AddGroups.MANUAL,AddItem.REPLACE_SF_CARD,RecipeType.NULL,
+            AddUtils.formatInfoRecipe(AddItem.CARD_MAKER,Language.get("Manuals.CARD_MAKER.Name")), ReplaceCard.ReplaceType.SLIMEFUN)
+            .register();
     public static final  SlimefunItem CARD_MAKER=new EWorkBench(AddGroups.MANUAL, AddItem.CARD_MAKER,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.MANUAL_CORE,AddItem.MANUAL_CORE,AddItem.MANUAL_CORE,AddItem.MANUAL_CORE,"CRAFTING_TABLE",AddItem.MANUAL_CORE,
                     AddItem.MANUAL_CORE,AddItem.MANUAL_CORE,AddItem.MANUAL_CORE),0,0,64,
@@ -2132,10 +2141,57 @@ public class AddSlimefunItems {
                         cardRecipe.add(MachineRecipeUtils.shapeFrom(-1,rp.getInput(),recipe(REPLACE_CARD.getReplaceCard(rp.getOutput()[0].getType()))));
                     }
                 }
+                HashSet<RecipeType> supportedType=new HashSet<>(){{
+                    add(RecipeType.ENHANCED_CRAFTING_TABLE);
+                    add(RecipeType.MAGIC_WORKBENCH);
+                    add(RecipeType.ANCIENT_ALTAR);
+                    add(RecipeType.SMELTERY);
+                }};
+                for(SlimefunItem item: Slimefun.getRegistry().getAllSlimefunItems()){
+                    if(item.getItem().getType().getMaxStackSize()==1&& supportedType.contains( item.getRecipeType())&&item.getRecipe().length==9){
+                        cardRecipe.add(MachineRecipeUtils.shapeFrom(-1,item.getRecipe(),recipe(REPLACE_SF_CARD.getReplaceCard(item))));
+                    }
+                }
                 return cardRecipe;
             }){
+        private List<MachineRecipe> unreplacedRecipe=null;
+        private List<MachineRecipe> getUnreplacedRecipe(){
+            if(unreplacedRecipe==null){
+                List<MachineRecipe> targetRecipe = new ArrayList<>();
+                int size=machineRecipes.size();
+                for (int i=0;i<size;++i) {
+                    targetRecipe.add(MachineRecipeUtils.shapeFrom(machineRecipes.get(i).getTicks(),
+                            machineRecipes.get(i).getInput(),
+                            new ItemStack[]{CRAFT_PROVIDER.get(Settings.INPUT,machineRecipes.get(i).getOutput()[0],-1).getItem()} ));
+                }
+                unreplacedRecipe=targetRecipe;
+            }
+            return unreplacedRecipe;
+        }
         {
             CRAFT_PROVIDER= FinalFeature.MANUAL_CARD_READER;
+        }
+        @Override
+        public List<MachineRecipe> provideDisplayRecipe(){
+            List<MachineRecipe> machineRecipes =  getUnreplacedRecipe();
+            List<MachineRecipe> targetRecipe = new ArrayList<>();
+            int size=machineRecipes.size();
+            for (int i=0;i<size;++i) {
+                targetRecipe.add(MachineRecipeUtils.stackFrom(machineRecipes.get(i).getTicks(),
+                        Utils.array(AddUtils.getInfoShow("&f有序配方合成","&7请在配方显示界面或者机器界面查看")),
+                        machineRecipes.get(i).getOutput() ));
+            }
+            return targetRecipe;
+        }
+        @Override
+        public MenuFactory getRecipeMenu(Block b, BlockMenu inv){
+
+            return MenuUtils.createMRecipeListDisplay(getItem(),getUnreplacedRecipe(),null,(MenuUtils.RecipeMenuConstructor)(itemstack, recipes, backhandler,history)->{
+                return MenuUtils.createMRecipeDisplay(itemstack,recipes,backhandler).addOverrides(8,LAZY_ONECLICK).addHandler(8,((player, i, itemStack, clickAction) -> {
+                    moveRecipe(player,inv,recipes, clickAction.isRightClicked());
+                    return false;
+                }));
+            });
         }
     }
             .setDisplayRecipes(
@@ -2148,7 +2204,9 @@ public class AddSlimefunItems {
                     )
             )
             .register();
-
+    public static final SlimefunItem ADV_MANUAL=new AdvancedManual(AddGroups.MANUAL,AddItem.ADV_MANUAL,RecipeType.NULL,
+            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")))
+            .register();
 
 
     //cargo items
@@ -2166,6 +2224,10 @@ public class AddSlimefunItems {
             recipe(AddItem.BUG,AddItem.ABSTRACT_INGOT,AddItem.BUG,AddItem.ABSTRACT_INGOT,AddItem.BUG,AddItem.ABSTRACT_INGOT,
                     "OAK_PLANKS","CARTOGRAPHY_TABLE","OAK_PLANKS"))
             .register();
+    public static final SlimefunItem CONFIGURE=new ConfigCopier(AddGroups.CARGO,AddItem.CONFIGURE,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(AddItem.ABSTRACT_INGOT,ChipCardCode.CHIP_0,AddItem.ABSTRACT_INGOT,AddItem.BUG,AddItem.CARGO_PART,AddItem.BUG,
+                    AddItem.ABSTRACT_INGOT,ChipCardCode.CHIP_1,AddItem.ABSTRACT_INGOT))
+            .register();
     public static final SlimefunItem ADV_TRASH=new TrashCan(AddGroups.CARGO,AddItem.ADV_TRASH,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("PORTABLE_DUSTBIN",AddItem.LOGIC,"PORTABLE_DUSTBIN",AddItem.LOGIC,"FLINT_AND_STEEL",AddItem.LOGIC,
                     "PORTABLE_DUSTBIN",AddItem.LOGIC,"PORTABLE_DUSTBIN"))
@@ -2182,6 +2244,10 @@ public class AddSlimefunItems {
             recipe(null,null,null,"CHEST",AddItem.BUG,"CHEST",
                     null,"HOPPER",null),new int[0],Storage.COMMON_OUTPUT_SLOT)
             .register();
+    public static final SlimefunItem CARGO_PIP=new CargoPipe(AddGroups.CARGO,AddItem.CARGO_PIP,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe("SOLDER_INGOT","HOPPER","SOLDER_INGOT","SOLDER_INGOT","BRASS_INGOT","SOLDER_INGOT",
+                    "SOLDER_INGOT","HOPPER","SOLDER_INGOT"))
+            .register().setOutput(setC(AddItem.CARGO_PIP,2));
     public static final SlimefunItem SIMPLE_CARGO=new AdjacentCargo(AddGroups.CARGO,AddItem.SIMPLE_CARGO,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.ABSTRACT_INGOT,"HOPPER",AddItem.ABSTRACT_INGOT,
                     null,AddItem.CARGO_PART ,null,
@@ -2483,6 +2549,31 @@ public class AddSlimefunItems {
         }
     }
             .register().setOutput(setC(AddItem.RTP_RUNE,2));
+    public static final SlimefunItem ANTIGRAVITY=new ChargableProps(AddGroups.SPACE, AddItem.ANTIGRAVITY, RecipeType.ANCIENT_ALTAR,
+            recipe(AddItem.STAR_GOLD_INGOT,AddItem.LSINGULARITY,AddItem.STAR_GOLD_INGOT,"ANCIENT_RUNE_ENDER",AddItem.DIMENSIONAL_SINGULARITY,"ANCIENT_RUNE_ENDER",
+                    AddItem.STAR_GOLD_INGOT,AddItem.LSINGULARITY,AddItem.STAR_GOLD_INGOT)) {
+        private final float maxCharge=1_296_000.0f;
+        private final float energyConsumption=640.0f;
+        @Override
+        public float getMaxItemCharge(ItemStack var1) {
+            return maxCharge;
+        }
+        @Override
+        public void onClickAction(PlayerRightClickEvent event) {
+            ItemStack item=event.getItem();
+            float itemCharge;
+            if(item==null||item.getType().isAir()){
+                return;
+            }
+            if( (itemCharge=getItemCharge(item))>=energyConsumption){
+                setItemCharge(item,itemCharge-energyConsumption);
+                event.getPlayer().addPotionEffect(PotionEffectType.LEVITATION.createEffect(160,255));
+            }else{
+                AddUtils.sendMessage(event.getPlayer(),AddUtils.concat("&c电力不足! ",String.valueOf(itemCharge),"J/",String.valueOf(energyConsumption),"J"));
+            }
+        }
+    }
+            .register();
     public static final SlimefunItem SPACE_CARD=new SpaceStorageCard(AddGroups.SPACE,AddItem.SPACE_CARD,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.STAR_GOLD_INGOT,AddItem.BISILVER,AddItem.STAR_GOLD_INGOT,AddItem.BISILVER,AddItem.LSINGULARITY,AddItem.BISILVER,
                     AddItem.STAR_GOLD_INGOT,AddItem.BISILVER,AddItem.STAR_GOLD_INGOT))
@@ -2508,7 +2599,11 @@ public class AddSlimefunItems {
                 public void onClickAction(PlayerRightClickEvent event) {
                     Optional<Block> b= event.getClickedBlock();
                     if(b.isPresent()){
-                        RadiationRegion.removeRadiation(b.get().getLocation());
+                        if(RadiationRegion.removeNearRadiation(b.get().getLocation(),40)){
+                            AddUtils.sendMessage(event.getPlayer(),"&a成功清除附近40格内的辐射区");
+                        }else {
+                            AddUtils.sendMessage(event.getPlayer(),"&c附近没有辐射区!");
+                        }
                     }
                 }
             }

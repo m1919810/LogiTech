@@ -1050,6 +1050,29 @@ public class CraftUtils {
         }
         return null;
     }
+    public static List<Integer> matchAllRecipe(BlockMenu inv ,int[] slots,List<MachineRecipe> recipes,ItemPusherProvider pusher,int matchAmount){
+        int delta=1;
+        int len = slots.length;
+        List<Integer> result=new ArrayList<>(matchAmount+1);
+        //final ArrayList<ItemPusher> slotCounter=new ArrayList<>(len);
+        final DynamicArray<ItemPusher> slotCounter=new DynamicArray<>(ItemPusher[]::new,len,pusher.getMenuInstance(Settings.INPUT,inv,slots));
+        int recipeAmount=recipes.size();
+        if(recipeAmount<=0){
+            return result;
+        }
+        //if usehistory ,will suggest a better place to start
+        MachineRecipe checkRecipe;
+        for(int __iter=0;__iter<recipeAmount;__iter++){
+            checkRecipe=recipes.get(__iter);
+            if(matchRecipe(slotCounter,checkRecipe)!=null) {
+                result.add(__iter);
+                if(result.size()>=matchAmount) {
+                    return result;
+                }
+            }
+        }
+        return result;
+    }
 
 
 //    public static Pair<MachineRecipe,ItemGreedyConsumer[]> matchNextMultiRecipe(BlockMenu inv ,int[] slots,List<MachineRecipe> recipes,boolean useHistory,int limit,Settings order){

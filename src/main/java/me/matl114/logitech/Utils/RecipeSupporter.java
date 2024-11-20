@@ -941,7 +941,7 @@ public class RecipeSupporter {
             put(EntityType.VINDICATOR, Utils.recipe("IRON_AXE", "EMERALD"));
             put(EntityType.RAVAGER, Utils.recipe("SADDLE"));
           //  put(EntityType.VEX, Utils.recipe("IRON_SWORD"));
-            put(EntityType.WITCH, Utils.recipe("REDSTONE", "GLASS_BOTTLE", "GUNPOWDER", "SPIDER_EYE", "STICK", "SUGAR"));
+            put(EntityType.WITCH, Utils.recipe(  AddUtils.eqRandItemStackFactory(Arrays.stream(Utils.recipe("REDSTONE", "GLASS_BOTTLE", "GUNPOWDER", "SPIDER_EYE", "STICK", "SUGAR")).toList())));
             put(EntityType.SLIME, Utils.recipe("SLIME_BALL"));
             put(EntityType.MAGMA_CUBE, Utils.recipe("MAGMA_CREAM"));
             put(EntityType.BLAZE, Utils.recipe("BLAZE_ROD"));
@@ -951,7 +951,7 @@ public class RecipeSupporter {
             put(EntityType.ZOGLIN, Utils.recipe("ROTTEN_FLESH", "LEATHER"));
             //BOSS
             put(EntityType.WITHER, Utils.recipe("NETHER_STAR", "WITHER_SKELETON_SKULL"));
-            put(EntityType.ENDER_DRAGON, Utils.recipe("DRAGON_EGG", "DRAGON_BREATH"));
+            put(EntityType.ENDER_DRAGON, Utils.recipe( "DRAGON_BREATH",AddUtils.probItemStackFactory(new ItemStack(Material.DRAGON_HEAD),5),new ProbItemStack( new ItemStack(Material.DRAGON_EGG),0.003)));
             put(EntityType.WARDEN, Utils.recipe("SCULK_CATALYST"));
             //实体
             put(EntityType.THROWN_EXP_BOTTLE, Utils.recipe("EXPERIENCE_BOTTLE"));

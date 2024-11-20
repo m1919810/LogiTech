@@ -27,7 +27,7 @@ public abstract class CustomSlimefunItem extends SlimefunItem implements RecipeD
     public CustomSlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,List<ItemStack> displayInfo){
         super(itemGroup, item, recipeType, recipe);
         if (displayInfo != null) {
-            this.originalMemory = displayInfo;
+            this.originalMemory = new ArrayList<>(displayInfo);
         }else{
             this.originalMemory = new ArrayList<>();
         }

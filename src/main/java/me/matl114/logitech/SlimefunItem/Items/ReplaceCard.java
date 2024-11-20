@@ -17,12 +17,27 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.function.Function;
 
 public class ReplaceCard extends CustomSlimefunItem {
     public final static String LOC_DISPLAY_PREFIX = AddUtils.resolveColor("&x&E&B&3&3&E&B替代的物品: &f");
     public final static NamespacedKey KEY_LOC = AddUtils.getNameKey("rep_mat_id");
-    public ReplaceCard(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public enum ReplaceType{
+        MATERIAL(i->new ItemStack(Material.getMaterial(i)),i->i.getType().toString()),
+        SLIMEFUN(i-> new ItemStack(SlimefunItem.getById(i).getItem()),i->SlimefunItem.getByItem(i).getId()),
+        UNKNOWN((i)->null,(i)->null);
+        ReplaceType(Function<String,ItemStack> deserializeFunc,Function<ItemStack,String> serializeFunc) {
+            this.deserializeFunc = deserializeFunc;
+            this.serializeFunc = serializeFunc;
+        }
+        public Function<String,ItemStack> deserializeFunc;
+        public Function<ItemStack,String> serializeFunc;
+    }
+    ReplaceType type=ReplaceType.UNKNOWN;
+    static HashSet<ReplaceCard> instances=new HashSet<>();
+    public ReplaceCard(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,ReplaceType type) {
         super(itemGroup, item, recipeType, recipe);
         this.setDisplayRecipes(
                 Utils.list(
@@ -31,11 +46,20 @@ public class ReplaceCard extends CustomSlimefunItem {
                                 "&7桶类物品会在合成之后返还铁通")
                 )
         );
+        this.type=type;
+        instances.add(this);
     }
 
     public  ItemStack getReplaceCard(Material item) {
         String id=item.toString();
-        String loreDisplay=AddUtils.concat(LOC_DISPLAY_PREFIX, ItemStackHelper.getDisplayName(new ItemStack(item)));
+        return getReplaceCard(id,ItemStackHelper.getDisplayName(new ItemStack(item)));
+    }
+    public ItemStack getReplaceCard(SlimefunItem item){
+        String id=item.getId();
+        return getReplaceCard(id,ItemStackHelper.getDisplayName(item.getItem()));
+    }
+    public ItemStack getReplaceCard(String id,String displayName){
+        String loreDisplay=AddUtils.concat(LOC_DISPLAY_PREFIX, displayName);
         ItemStack stack=getItem().clone();
         ItemMeta meta= stack.getItemMeta();
         PersistentDataContainer container=meta.getPersistentDataContainer();
@@ -44,12 +68,21 @@ public class ReplaceCard extends CustomSlimefunItem {
         lore.add(loreDisplay);
         meta.setLore(lore);
         String name=meta.getDisplayName();
-        name=AddUtils.concat(name," - ",ItemStackHelper.getDisplayName(new ItemStack(item)));
+        name=AddUtils.concat(name," - ",displayName);
         meta.setDisplayName(name);
         stack.setItemMeta(meta);
         return stack;
     }
-
+    public static ItemStack getAllCardReplacement(ItemStack item){
+        ItemStack result;
+        for(ReplaceCard replaceCard:instances){
+            result=replaceCard.getCardReplacement(item);
+            if(result!=item){
+                return result;
+            }
+        }
+        return item;
+    }
     public ItemStack getCardReplacement(ItemStack item) {
         if(item!=null&&item.getType()==this.getItem().getType()&&item.hasItemMeta()){
             ItemMeta meta=item.getItemMeta();
@@ -57,10 +90,12 @@ public class ReplaceCard extends CustomSlimefunItem {
             if(container.has(KEY_LOC)){
                 try {
                     String id = container.get(KEY_LOC, PersistentDataType.STRING);
-                    Material mat = Material.getMaterial(id);
-                    return new ItemStack(mat,item.getAmount());
+                    ItemStack newStack=type.deserializeFunc.apply(id);
+                    if(newStack!=null){
+                        newStack.setAmount(item.getAmount());
+                        return newStack;
+                    }
                 }catch (Throwable e){
-                    Debug.debug(e);
                 }
             }
         }

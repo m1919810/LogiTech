@@ -17,6 +17,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -160,7 +161,7 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
                         }
                     }
                     AbstractManual.this.updateMenu(menu,block,Settings.RUN);
-                    craft(menu,limit);
+                    craft(player,menu,limit);
                     AbstractManual.this.updateMenu(menu,block,Settings.RUN);
                     return false;
                 }
@@ -179,7 +180,7 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
                         }
                     }
                     AbstractManual.this.updateMenu(menu,block,Settings.RUN);
-                    craft(menu,limit);
+                    craft(player,menu,limit);
                     AbstractManual.this.updateMenu(menu,block,Settings.RUN);
                     return false;
                 }
@@ -216,31 +217,34 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
             }
         }
     }
+    public boolean preCraft(BlockMenu inv, Player player, boolean sendMessage){
+        return true;
+    }
+    public void craft(Player player,BlockMenu inv,int limit){
+        if(preCraft(inv,player,true)){
+            Location  loc=inv.getLocation();
+            int recordIndex=getNowRecordRecipe(loc);
+            List<MachineRecipe> mRecipe=getMachineRecipes(null,inv);
+            //没有匹配配方会直接返回失败
+            if(recordIndex<0||recordIndex>=mRecipe.size()){
+                return;
+            }
+            MachineRecipe recordRecipe=mRecipe.get(recordIndex);
+            //计算电力
 
-    public void craft(BlockMenu inv,int limit){
-        Location  loc=inv.getLocation();
-
-        int recordIndex=getNowRecordRecipe(loc);
-        List<MachineRecipe> mRecipe=getMachineRecipes(null,inv);
-        //没有匹配配方会直接返回失败
-        if(recordIndex<0||recordIndex>=mRecipe.size()){
-            return;
+            Pair<ItemGreedyConsumer[],ItemGreedyConsumer[]> results=
+                    CraftUtils.countMultiRecipe(inv,getInputSlots(),getOutputSlots(),recordRecipe,limit,CRAFT_PROVIDER);
+            //输出满了会返回null
+            if(results==null){
+                return;
+            }
+            if(this.energyConsumption>0){
+                int craftTime=CraftUtils.calMaxCraftTime(results.getSecondValue(),limit);
+                this.removeCharge(loc,craftTime*this.energyConsumption);
+            }
+            CraftUtils.multiUpdateInputMenu(results.getFirstValue(),inv);
+            CraftUtils.multiUpdateOutputMenu(results.getSecondValue(),inv);
         }
-        MachineRecipe recordRecipe=mRecipe.get(recordIndex);
-        //计算电力
-
-        Pair<ItemGreedyConsumer[],ItemGreedyConsumer[]> results=
-                CraftUtils.countMultiRecipe(inv,getInputSlots(),getOutputSlots(),recordRecipe,limit,CRAFT_PROVIDER);
-        //输出满了会返回null
-        if(results==null){
-            return;
-        }
-        if(this.energyConsumption>0){
-            int craftTime=CraftUtils.calMaxCraftTime(results.getSecondValue(),limit);
-            this.removeCharge(loc,craftTime*this.energyConsumption);
-        }
-        CraftUtils.multiUpdateInputMenu(results.getFirstValue(),inv);
-        CraftUtils.multiUpdateOutputMenu(results.getSecondValue(),inv);
     }
     /**
      * manual machine main tick,check recipe and update data,

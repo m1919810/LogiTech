@@ -9,7 +9,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class RadiationRegion {
     public static void setup(){
@@ -23,6 +25,22 @@ public class RadiationRegion {
                 it.cancel();
             }
         });
+    }
+    public static boolean removeNearRadiation(Location loc,double radius){
+        synchronized(lock){
+            Iterator<Map.Entry<Location,BukkitRunnable>> it=RADIATION_THREAD.entrySet().iterator();
+            while (it.hasNext()){
+                Map.Entry<Location,BukkitRunnable> entry=it.next();
+                Location loc2 = entry.getKey();
+                if(loc2!=null&&loc2.getWorld()==loc.getWorld()&&loc2.distance(loc)<radius){
+                    BukkitRunnable it2 = entry.getValue();
+                    it2.cancel();
+                    it.remove();
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     public static boolean removeRadiation(Location loc){
         BukkitRunnable t;

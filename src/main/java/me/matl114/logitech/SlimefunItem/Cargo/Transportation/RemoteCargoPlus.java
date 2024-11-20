@@ -43,19 +43,11 @@ public class RemoteCargoPlus extends RemoteCargo {
     }
     public void cargoTask(Block b, BlockMenu menu, SlimefunBlockData data, int configCode){
         //Location loc=menu.getLocation();
-        Location from_dir=getLocation("from_dir",data);
-        if(from_dir==null){
-            return;
-        }
-        BlockMenu from= DataCache.getMenu(from_dir);
+        Location from=getLocation("from_dir",data);
         if(from==null){
             return;
         }
-        Location to_dir=getLocation("to_dir",data);
-        if(to_dir==null){
-            return;
-        }
-        BlockMenu to= DataCache.getMenu(to_dir);
+        Location to=getLocation("to_dir",data);
         if(to==null){
             return;
         }
@@ -68,6 +60,6 @@ public class RemoteCargoPlus extends RemoteCargo {
                 bwset.add(it);
             }
         }
-        TransportUtils.transportItemSmarter(from,to,configCode,bwset);
+        ContainerUtils.transferWithContainer(from,to,configCode,bwset,true);
     }
 }

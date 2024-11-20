@@ -10,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
+import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
 import me.matl114.logitech.SlimefunItem.Interface.MultiCraftType;
 import me.matl114.logitech.SlimefunItem.Machines.*;
 import me.matl114.logitech.Utils.*;
@@ -38,7 +39,7 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType, 
     public MultiBlockMachine[] craftType ;
     protected static final ItemStack DISPLAY_DEFAULT_BKGROUND=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&c没有匹配的多方块机器");
     protected static final int DISPLAYEITEM_SLOT=27;
-    protected static final ItemStack INFO_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6机制:"," ","&6在上方的3x3区域摆入多方块机器构造","&6即可加载配方","&6在右边放入物品进行快捷合成");
+    protected static final ItemStack INFO_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6机制:"," ","&6在上方的3x3区域摆入多方块机器构造","&6即可加载配方","&a可以使用槽位伪装板填充空余的槽位!","&6在右边放入物品进行快捷合成");
     protected static final int INFO_SLOT=28;
     protected static final ItemStack PREV=new CustomItemStack(Material.YELLOW_STAINED_GLASS_PANE,"&3搜索上一个配方");
     protected static final int PREV_SLOT=36;
@@ -174,7 +175,7 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType, 
                         }
                     }
                     MultiBlockManual.this.updateMenu(menu,block,Settings.RUN);
-                    craft(menu,limit);
+                    craft(player,menu,limit);
                     MultiBlockManual.this.updateMenu(menu,block,Settings.RUN);
                     return false;
                 }
@@ -193,7 +194,7 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType, 
                         }
                     }
                     MultiBlockManual.this.updateMenu(menu,block,Settings.RUN);
-                    craft(menu,limit);
+                    craft(player,menu,limit);
                     MultiBlockManual.this.updateMenu(menu,block,Settings.RUN);
                     return false;
                 }
@@ -285,14 +286,13 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType, 
             boolean match=true;
             if(recipe!=null&&recipe.length>=9){
                 for(int j=0;j<9;j++){
-                   if(recipe[j]==null||multimachineRecipe[j]==null){
-                       if(recipe[j]!=multimachineRecipe[j]){
-
-                          match=false;
-                          break;
-                       }
-                   }else{
-                       if(recipe[j].getType()!=multimachineRecipe[j].getType()){
+                    if(recipe[j]==null){
+                        if(multimachineRecipe[j]!=null&&SlimefunItem.getByItem(multimachineRecipe[j])!= AddSlimefunItems.FAKE_UI){
+                            match=false;
+                        }
+                    }
+                    else{
+                       if(multimachineRecipe[j]==null|| recipe[j].getType()!=multimachineRecipe[j].getType()){
                            match=false;
                            break;
                        }
@@ -300,9 +300,8 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType, 
                 }
             }else {
                 match=false;
-                break;
             }
-            if(match==true){
+            if(match){
                 MultiCraftType.setRecipeTypeIndex(loc,index);
                 return true;
             }

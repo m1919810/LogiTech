@@ -3,8 +3,10 @@ package me.matl114.logitech;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import lombok.Getter;
 import me.matl114.logitech.Depends.DependencyInfinity;
 import me.matl114.logitech.Depends.DependencyNetwork;
+import me.matl114.logitech.Depends.SupportedPluginManager;
 import me.matl114.logitech.Listeners.ListenerManager;
 import me.matl114.logitech.Listeners.ProtectionManager;
 import me.matl114.logitech.Schedule.PersistentEffects.CustomEffects;
@@ -46,7 +48,9 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
     public static String username;
     public static String repo;
     public static String branch;
-    private final AddonCommand command = new AddonCommand(this);
+    private static  AddonCommand command;
+    @Getter
+    public static SupportedPluginManager supportedPluginManager;
     static{
         username="m1919810";
         repo="LogiTech";
@@ -57,6 +61,7 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         instance =this;
 
         manager=getServer().getPluginManager();
+
         checkVersion();
         // 从 config.yml 中读取插件配置
         Config cfg = new Config(this);
@@ -75,11 +80,19 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
             DependencyNetwork.init();
         }catch (Throwable e){
             Debug.logger("在加载软依赖 NETWORKS时出现错误! 出现版本不匹配的附属,禁用附属相应内容");
+            Debug.logger(e);
         }
         try{
             DependencyInfinity.init();
         }catch (Throwable e){
             Debug.logger("在加载软依赖 INFINITY时出现错误! 出现版本不匹配的附属,禁用附属相应内容");
+            Debug.logger(e);
+        }
+        try{
+            supportedPluginManager=new SupportedPluginManager();
+        }catch (Throwable e){
+            Debug.logger("在加载插件兼容时出现错误");
+            Debug.logger(e);
         }
         Debug.logger("软依赖检测完毕");
         AddGroups.registerGroups(this);
@@ -122,7 +135,10 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         WorldUtils.setup();
         //加载Bukkit操作工具
         BukkitUtils.setup();
+        //加载容器impl工具
+        ContainerUtils.setup();
         Debug.logger("指令注册完毕");
+        command = new AddonCommand(this);
         command.register();
 
 

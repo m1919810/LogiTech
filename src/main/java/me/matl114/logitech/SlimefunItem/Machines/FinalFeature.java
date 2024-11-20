@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
 import me.matl114.logitech.SlimefunItem.Blocks.Laser;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.FinalAltarCore;
+import me.matl114.logitech.SlimefunItem.Items.ReplaceCard;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.Settings;
@@ -107,7 +108,7 @@ public class FinalFeature {
             if(settings==Settings.OUTPUT){
                 return CraftUtils.getpusher.get(settings, item, slot);
             }
-            ItemStack stack= AddSlimefunItems.REPLACE_CARD.getCardReplacement(item);
+            ItemStack stack= ReplaceCard.getAllCardReplacement(item);
             if(stack==item){
                 return CraftUtils.getpusher.get(settings, item, slot);
             }else {

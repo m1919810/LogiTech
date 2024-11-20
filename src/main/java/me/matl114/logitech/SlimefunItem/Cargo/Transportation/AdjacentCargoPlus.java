@@ -40,15 +40,9 @@ public class AdjacentCargoPlus extends AdjacentCargo {
     public void cargoTask(Block b, BlockMenu menu, SlimefunBlockData data, int configCode){
         Location loc=menu.getLocation();
         Directions from_dir=getDirection(0,data);
-        BlockMenu from= DataCache.getMenu(from_dir.relate(loc));
-        if(from==null){
-            return;
-        }
+        Location from=from_dir.relate(loc);
         Directions to_dir=getDirection(1,data);
-        BlockMenu to= DataCache.getMenu(to_dir.relate( loc));
-        if(to==null){
-            return;
-        }
+        Location to=to_dir.relate(loc);
         int[] bwslots=getBWListSlot();
         HashSet<ItemStack> bwset=new HashSet<>();
         ItemStack it;
@@ -58,6 +52,6 @@ public class AdjacentCargoPlus extends AdjacentCargo {
                 bwset.add(it);
             }
         }
-        TransportUtils.transportItemSmarter(from,to,configCode,bwset);
+        ContainerUtils.transferWithContainer(from,to,configCode,bwset,true);
     }
 }

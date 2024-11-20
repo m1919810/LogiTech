@@ -63,7 +63,7 @@ public class ChunkEnergyCharger extends AbstractEnergyCharger implements ChunkLi
         return !(that instanceof AbstractEnergyMachine);
     }
     public int getMaxChargeAmount(){
-        return 1024;
+        return 114514;
     }
     @Override
     public void onBreak(BlockBreakEvent e, BlockMenu menu) {

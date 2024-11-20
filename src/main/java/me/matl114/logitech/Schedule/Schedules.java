@@ -1,6 +1,7 @@
 package me.matl114.logitech.Schedule;
 
 
+import lombok.Getter;
 import me.matl114.logitech.Utils.Debug;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -12,7 +13,8 @@ import java.util.function.Consumer;
 public class Schedules {
     private static BukkitRunnable autoSaveThread;
     private static BukkitRunnable effectThread;
-    public static Plugin plugin;
+    @Getter
+    private static Plugin plugin;
     public static void setupSchedules(Plugin plugin){
         Schedules.plugin=plugin;
         autoSaveThread = new BukkitRunnable() {

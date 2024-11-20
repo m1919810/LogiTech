@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import me.matl114.logitech.Depends.SupportedPluginManager;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.Utils.AddUtils;
@@ -154,30 +155,37 @@ public class EntityFeat extends ItemWithHandler<ItemDropHandler> {
             return;
         }
         ItemStack targetItemStack=var3.getItemStack();
-        EntityType type=getEntityTypeFromItem(targetItemStack);
-        if(type==null||!type.isSpawnable()){
-            AddUtils.sendMessage(var2,"&c该种类的刷怪笼并不支持获取!");
-            return;
-        }
-        ItemStack resultItemStack;
-        int amount=targetItemStack.getAmount();
+
+
+
+        int amount= SupportedPluginManager.getInstance().getStackAmount(var3);
         if(amount<3){
             AddUtils.sendMessage(var2,"&c数量不足!");
             return;
         }
-        if(amount<9){
-            targetItemStack.setAmount(amount%MIDDLE_MERGE);
-            resultItemStack=generateSpawnerFrom(type,true);
-            resultItemStack.setAmount(amount/MIDDLE_MERGE);
-            AddUtils.sendMessage(var2,"&a已合成%d个普通刷怪笼".formatted(amount/9));
-        }else {
-            targetItemStack.setAmount(amount%SUPER_MERGE);
-            resultItemStack=generateSpawnerFrom(type,2,60,64,6,10,true);
-            resultItemStack.setAmount(amount/SUPER_MERGE);
-            AddUtils.sendMessage(var2,"&a已合成1个超频刷怪笼");
+        else{
+            EntityType type=getEntityTypeFromItem(targetItemStack);
+            if(type==null||!type.isSpawnable()){
+                AddUtils.sendMessage(var2,"&c该种类的刷怪笼并不支持获取!");
+                return;
+            }
+            var3.remove();
+            ItemStack extraStack=targetItemStack.clone();
+            ItemStack resultItemStack;
+            if(amount<9){
+                resultItemStack=generateSpawnerFrom(type,true);
+                resultItemStack.setAmount(amount/MIDDLE_MERGE);
+                extraStack.setAmount(amount%MIDDLE_MERGE);
+                AddUtils.sendMessage(var2,"&a已合成%d个普通刷怪笼".formatted(amount/9));
+            }else {
+                resultItemStack=generateSpawnerFrom(type,2,60,64,6,10,true);
+                resultItemStack.setAmount(amount/SUPER_MERGE);
+                extraStack.setAmount(amount/SUPER_MERGE);
+                AddUtils.sendMessage(var2,"&a已合成1个超频刷怪笼");
+            }
+            var3.getWorld().dropItemNaturally(var3.getLocation(),extraStack);
+            var3.getWorld().dropItemNaturally(var3.getLocation(), resultItemStack);
         }
-        var3.setItemStack(targetItemStack);
-        var3.getWorld().dropItemNaturally(var3.getLocation(), resultItemStack);
     }
     @Override
     public ItemDropHandler[] getItemHandler() {

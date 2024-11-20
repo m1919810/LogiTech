@@ -7,6 +7,11 @@
       <option name="url" value="https://repo.destroystokyo.com/repository/maven-public/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="rosewood-repo" />
+      <option name="name" value="rosewood-repo" />
+      <option name="url" value="https://repo.rosewooddev.io/repository/public/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
       <option name="url" value="https://repo.maven.apache.org/maven2" />
@@ -22,6 +27,11 @@
       <option name="url" value="https://hub.jeff-media.com/nexus/repository/jeff-media-public/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="papermc" />
+      <option name="name" value="papermc" />
+      <option name="url" value="https://papermc.io/repo/repository/maven-public/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="spigot-repo" />
       <option name="name" value="spigot-repo" />
       <option name="url" value="https://hub.spigotmc.org/nexus/content/repositories/snapshots/" />
@@ -35,6 +45,11 @@
       <option name="id" value="jboss.community" />
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="bg-repo" />
+      <option name="name" value="bg-repo" />
+      <option name="url" value="https://repo.bg-software.com/repository/api/" />
     </remote-repository>
   </component>
 </project>

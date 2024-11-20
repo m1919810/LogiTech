@@ -30,7 +30,7 @@ import org.bukkit.util.Vector;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
-public class EnergyPipe extends AbstractPipe implements DirectionalBlock {
+public class EnergyPipe extends AbstractPipe  {
     protected final int MAX_TRANSFER;
     protected final double TRANSFER_COST;
     public  EnergyPipe(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,int maxTransfer,double transferCost){
@@ -51,7 +51,7 @@ public class EnergyPipe extends AbstractPipe implements DirectionalBlock {
 
     @Override
     public void transfer(Location fromLocation, Location toLocation) {
-        if(!fromLocation.equals(toLocation)&& DataCache.getSfItem(toLocation) instanceof EnergyNetComponent ec1&&DataCache.getSfItem(fromLocation) instanceof EnergyNetComponent ec2){
+        if(DataCache.getSfItem(toLocation) instanceof EnergyNetComponent ec1&&DataCache.getSfItem(fromLocation) instanceof EnergyNetComponent ec2){
             if(ec1.isChargeable()&&ec2.isChargeable()){
                 int fromCharge=ec2.getCharge(fromLocation);
                 int toCharge=ec1.getCharge(toLocation);
