@@ -351,7 +351,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
                     if(tick>=0){
                         inv.replaceExistingItem(this.PROCESSOR_SLOT,getWorkingItem(tick));
                     }
-                    inv.replaceExistingItem(MINFO_SLOT,getInfoItem(rawCraftLimit,consumption,energy,
+                    inv.replaceExistingItem(MINFO_SLOT,getInfoItem(getCraftLimit(b,inv),consumption,energy,
                             this.efficiency,ItemStackHelper.getDisplayName(inv.getItemInSlot(MACHINE_SLOT))));
                 }
                 progressorCost(b,inv);
@@ -403,7 +403,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
             }
             else  {
                 if (hasViewer)
-                    inv.replaceExistingItem(MINFO_SLOT,getInfoOffItem(rawCraftLimit,consumption,energy,
+                    inv.replaceExistingItem(MINFO_SLOT,getInfoOffItem(getCraftLimit(b,inv),consumption,energy,
                         ItemStackHelper.getDisplayName(inv.getItemInSlot(MACHINE_SLOT))));
                 if(tick!=-1){
                     db.setInt(2,-1);

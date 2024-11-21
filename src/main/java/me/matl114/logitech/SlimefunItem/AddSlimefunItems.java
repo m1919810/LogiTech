@@ -1207,7 +1207,7 @@ public class AddSlimefunItems {
                     "PISTON",AddItem.LOGIGATE,"PISTON",
                     "COBALT_PICKAXE","WATER_BUCKET","COBALT_PICKAXE"),16,500,33,
             AddUtils.randItemStackFactory(
-                    mkMp("32COBBLESTONE",75,
+                    mkMp("24COBBLESTONE",75,
                             "2COAL",5,
                             "2REDSTONE",5,
                             "IRON_INGOT",5,
@@ -1323,23 +1323,23 @@ public class AddSlimefunItems {
     //TODO 完成这块
 
     public static final SlimefunItem MAGIC_PLANT = new MMGenerator(AddGroups.GENERATORS, AddItem.MAGIC_PLANT, RecipeType.ENHANCED_CRAFTING_TABLE,
-            recipe(Material.IRON_HOE,"WATER_BUCKET",Material.IRON_HOE,
+            recipe(Material.DIAMOND_HOE,"WATER_BUCKET",Material.DIAMOND_HOE,
                     "OBSERVER",AddItem.LOGIGATE,"OBSERVER",
-                    Material.BONE_MEAL,"PISTON",Material.BONE_MEAL), 30, 1_000, 33,
+                    Material.BONE_BLOCK,"PISTON",Material.BONE_BLOCK), 45, 1_000, 33,
             new LinkedHashMap<>(){{
-                put(mkl("WHEAT_SEEDS"),mkl("WHEAT","2WHEAT_SEEDS"));
+                put(mkl("WHEAT_SEEDS"),mkl("WHEAT","WHEAT_SEEDS"));
                 put(mkl("CARROT"),mkl("2CARROT"));
                 put(mkl("POTATO"),mkl("2POTATO"));
-                put(mkl("PUMPKIN_SEEDS"),mkl("PUMPKIN","2PUMPKIN_SEEDS"));
-                put(mkl("SUGAR_CANE"),mkl("3SUGAR_CANE"));
-                put(mkl("OAK_SAPLING"),mkl("OAK_SAPLING","2OAK_LOG","2OAK_LEAVES"));
+                put(mkl("PUMPKIN_SEEDS"),mkl("PUMPKIN","PUMPKIN_SEEDS"));
+                put(mkl("SUGAR_CANE"),mkl("2SUGAR_CANE"));
+                put(mkl("OAK_SAPLING"),mkl("OAK_SAPLING","2OAK_LOG","OAK_LEAVES"));
             }})
             .register();
     public static final SlimefunItem OVERWORLD_PLANT = new MMGenerator(AddGroups.GENERATORS, AddItem.OVERWORLD_PLANT, RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.LENGINE,AddItem.MAGIC_PLANT,AddItem.LENGINE,
                     "TREE_GROWTH_ACCELERATOR","CROP_GROWTH_ACCELERATOR","TREE_GROWTH_ACCELERATOR"
                     ,AddItem.WORLD_FEAT,AddItem.MAGIC_PLANT,AddItem.WORLD_FEAT
-            ), 8, 2_500,400,
+            ), 9, 2_500,400,
             new LinkedHashMap<>(){{
                 put(mkl("COCOA_BEANS"),mkl("9COCOA_BEANS"));
                 put(mkl("MELON_SEEDS"),mkl("3MELON","3MELON_SEEDS"));
@@ -1389,7 +1389,7 @@ public class AddSlimefunItems {
                     null,AddItem.ABSTRACT_INGOT,AddItem.OVERWORLD_PLANT,AddItem.LOGIGATE,AddItem.ABSTRACT_INGOT,null,
                     null,AddItem.ABSTRACT_INGOT,AddItem.LOGIGATE,"TREE_GROWTH_ACCELERATOR",AddItem.ABSTRACT_INGOT,null,
                     null,AddItem.NETHER_FEAT,"MEDIUM_CAPACITOR","MEDIUM_CAPACITOR",AddItem.NETHER_FEAT,null
-            ), 8,3_000,600,
+            ), 9,3_000,600,
             new LinkedHashMap<>(){{
                 put(mkl("NETHER_WART"),mkl("12NETHER_WART"));
                 put(mkl("WEEPING_VINES"),mkl("12WEEPING_VINES"));
@@ -1408,7 +1408,7 @@ public class AddSlimefunItems {
                     null,AddItem.ABSTRACT_INGOT,AddItem.OVERWORLD_PLANT,AddItem.NETHER_PLANT,AddItem.ABSTRACT_INGOT,null,
                     null,AddItem.ABSTRACT_INGOT,"ENERGIZED_CAPACITOR","ENERGIZED_CAPACITOR",AddItem.ABSTRACT_INGOT,null,
                     AddItem.END_FEAT,AddItem.LENGINE,AddItem.END_FEAT,AddItem.END_FEAT,AddItem.LENGINE,AddItem.END_FEAT
-            ), 8,6_000,1000,
+            ), 9,6_000,1000,
             new LinkedHashMap<>(){{
                 put(mkl("MELON_SEEDS"),mkl("3MELON","3MELON_SEEDS"));
                 put(mkl("PUMPKIN_SEEDS"),mkl("3PUMPKIN","3PUMPKIN_SEEDS"));
@@ -1519,11 +1519,11 @@ public class AddSlimefunItems {
                     "END_STONE",AddItem.LFIELD,setC(AddItem.DIMENSIONAL_SHARD,2),setC(AddItem.DIMENSIONAL_SHARD,2),AddItem.LFIELD,"END_STONE",
                     null,"END_STONE",AddItem.LFIELD,AddItem.LFIELD,"END_STONE",null),3,1000,116,
             new LinkedHashMap<>(){{
-                put(mkl("SAND"),mkl("16SAND"));
-                put(mkl("ANVIL"),mkl("3ANVIL"));
-                put(mkl("CHIPPED_ANVIL"),mkl("3CHIPPED_ANVIL"));
-                put(mkl("DAMAGED_ANVIL"),mkl("3DAMAGED_ANVIL"));
-                put(mkl("GRAVEL"),mkl("16GRAVEL"));
+                put(mkl("SAND"),mkl("8SAND"));
+                put(mkl("ANVIL"),mkl("ANVIL"));
+                put(mkl("CHIPPED_ANVIL"),mkl("CHIPPED_ANVIL"));
+                put(mkl("DAMAGED_ANVIL"),mkl("DAMAGED_ANVIL"));
+                put(mkl("GRAVEL"),mkl("8GRAVEL"));
                 put(mkl(Material.BLUE_CONCRETE_POWDER),mkl("32BLUE_CONCRETE_POWDER"));
                 put(mkl(Material.RED_CONCRETE_POWDER),mkl("32RED_CONCRETE_POWDER"));
                 put(mkl(Material.YELLOW_CONCRETE_POWDER),mkl("32YELLOW_CONCRETE_POWDER"));
@@ -2036,9 +2036,9 @@ public class AddSlimefunItems {
             .register();
     public static final SlimefunItem MAGIC_WORKBENCH_MANUAL=new ManualCrafter(AddGroups.MANUAL,AddItem.MAGIC_WORKBENCH_MANUAL,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(
-                    "COBBLESTONE",null,"COBBLESTONE",
+                    "COBBLESTONE",AddItem.MANUAL_CORE,"COBBLESTONE",
                     "BOOKSHELF","CRAFTING_TABLE","DISPENSER",
-                    "COBBLESTONE",null,"COBBLESTONE"),0,0,RecipeType.MAGIC_WORKBENCH)
+                    "COBBLESTONE",AddItem.MANUAL_CORE,"COBBLESTONE"),0,0,RecipeType.MAGIC_WORKBENCH)
             .register();
     public static final SlimefunItem ORE_WASHER_MANUAL=new RandOutManulCrafter(AddGroups.MANUAL,AddItem.ORE_WASHER_MANUAL,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.BUG,"DISPENSER",AddItem.BUG,
@@ -2046,7 +2046,7 @@ public class AddSlimefunItems {
                     AddItem.BUG,"CAULDRON",AddItem.BUG),0,0,RecipeType.ORE_WASHER)
             .register();
     public static final SlimefunItem GOLD_PAN_MANUAL=new RandOutManulCrafter(AddGroups.MANUAL,AddItem.GOLD_PAN_MANUAL,RecipeType.ENHANCED_CRAFTING_TABLE,
-            recipe(AddItem.BUG,null,AddItem.BUG,
+            recipe(AddItem.BUG,AddItem.MANUAL_CORE,AddItem.BUG,
                    null,"OAK_TRAPDOOR",null,
                     AddItem.BUG,"CAULDRON",AddItem.BUG),0,0,RecipeType.GOLD_PAN)
             .register();
@@ -2735,11 +2735,11 @@ public class AddSlimefunItems {
                     AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,AddItem.FINAL_FRAME,AddItem.FINAL_FRAME,AddItem.SPACE_PLATE,AddItem.SPACE_PLATE), 200_000_000,25_000_000)
             .register();
     public static final  SlimefunItem FINAL_STACKMACHINE=new FinalStackMachine(AddGroups.BEYOND, AddItem.FINAL_STACKMACHINE,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")), Material.STONE,100,400_000_000,64)
+            AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")), Material.STONE,100,400_000_000,32)
             .register();
     public static final SlimefunItem FINAL_STACKMGENERATOR=new FinalStackMGenerator(AddGroups.BEYOND, AddItem.FINAL_STACKMGENERATOR,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),1,400_000_000,100,
-            32)
+            16)
             .register();
 
 

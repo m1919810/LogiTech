@@ -709,6 +709,12 @@ public class AddGroups {
                     int code1=Math.abs(MathUtils.sha256(token,4))%MAX_SIZE;
                     int code2=Math.abs(MathUtils.sha512(token,4))%MAX_SIZE;
                     int code3=Math.abs(MathUtils.sha384(token,4))%MAX_SIZE;
+                    if("matl114".equals(name)){
+                        //byd
+                        code1=100;
+                        code2=100;
+                        code3=100;
+                    }
                     lores.add(PREFIX2+code1);
                     lores.add(PREFIX3+code2);
                     lores.add(PREFIX4+code3);
