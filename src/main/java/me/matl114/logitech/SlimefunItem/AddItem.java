@@ -397,6 +397,8 @@ public class AddItem {
             Language.get("Machines.ENERGY_PIPE.Name"),Language.getList("Machines.ENERGY_PIPE.Lore"));
     public static final SlimefunItemStack ENERGY_PIPE_PLUS=AddUtils.themed("ENERGY_PIPE_PLUS",Material.END_ROD,AddUtils.Theme.MACHINE1,
             Language.get("Machines.ENERGY_PIPE_PLUS.Name"),Language.getList("Machines.ENERGY_PIPE_PLUS.Lore"));
+    public static final SlimefunItemStack FINAL_CRAFT=AddUtils.themed("FINAL_CRAFT",Material.BEACON,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.FINAL_CRAFT.Name"),Language.getList("Machines.FINAL_CRAFT.Lore"));
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Manuals.MANUAL_CORE.Name"),Language.getList("Manuals.MANUAL_CORE.Lore"));

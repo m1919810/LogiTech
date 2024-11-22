@@ -50,6 +50,7 @@ import me.matl114.logitech.Utils.UtilClass.CommandClass.CommandShell;
 import me.matl114.logitech.Utils.UtilClass.FunctionalClass.AsyncResultRunnable;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
+import me.matl114.logitech.Utils.UtilClass.MenuClass.DataMenuClickHandler;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -2740,6 +2741,24 @@ public class AddSlimefunItems {
     public static final SlimefunItem FINAL_STACKMGENERATOR=new FinalStackMGenerator(AddGroups.BEYOND, AddItem.FINAL_STACKMGENERATOR,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),1,400_000_000,100,
             16)
+            .register();
+    public static final  SlimefunItem FINAL_CRAFT=new SpecialCrafter(AddGroups.BEYOND, AddItem.FINAL_CRAFT,RecipeType.NULL,
+            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")), Material.CRAFTING_TABLE,0,18_000, 7_200_000){
+        {
+            CRAFT_PROVIDER=FinalFeature.STORAGE_AND_LOCPROXY_READER;
+            MACHINE_PROVIDER=FinalFeature.STORAGE_READER;
+        }
+        @Override
+        public HashMap<SlimefunItem, RecipeType> getRecipeTypeMap() {
+            return CRAFTTYPE_MANUAL_RECIPETYPE;
+        }
+        public boolean advanced(){
+            return true;
+        }
+        public int getCraftLimit(Block b,BlockMenu menu){
+            return super.getCraftLimit(b,menu)*8;
+        }
+    }
             .register();
 
 

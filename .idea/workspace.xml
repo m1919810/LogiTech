@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="feat:progres">
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddGroups.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddGroups.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddSlimefunItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/AddSlimefunItems.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/AutoMachines/StackMGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/SlimefunItem/Machines/AutoMachines/StackMGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Unittest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/matl114/logitech/Unittest.java" afterDir="false" />
+    <list default="true" id="7d7c955a-60f4-4897-88d6-ade9615a5245" name="Changes" comment="feat:bigfix and adjustments">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +80,7 @@
     "Shell Script.Unnamed.executor": "Run",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Intellij_Idea/workspace/minecraft_fabric_mod/slimefunhelper",
+    "last_opened_file_path": "C:/Intellij_Idea/workspace/MomoTech-汉化版",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -334,14 +331,8 @@
       <workItem from="1732032677743" duration="1268000" />
       <workItem from="1732035519402" duration="2168000" />
       <workItem from="1732088772984" duration="9727000" />
-    </task>
-    <task id="LOCAL-00102" summary="fix :fix entity clear issue">
-      <option name="closed" value="true" />
-      <created>1727333952142</created>
-      <option name="number" value="00102" />
-      <option name="presentableId" value="LOCAL-00102" />
-      <option name="project" value="LOCAL" />
-      <updated>1727333952142</updated>
+      <workItem from="1732226870651" duration="691000" />
+      <workItem from="1732264523056" duration="1242000" />
     </task>
     <task id="LOCAL-00103" summary="fix :fix entity clear issue">
       <option name="closed" value="true" />
@@ -727,7 +718,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732106205568</updated>
     </task>
-    <option name="localTasksCounter" value="151" />
+    <task id="LOCAL-00151" summary="feat:bigfix and adjustments">
+      <option name="closed" value="true" />
+      <created>1732226888115</created>
+      <option name="number" value="00151" />
+      <option name="presentableId" value="LOCAL-00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1732226888115</updated>
+    </task>
+    <option name="localTasksCounter" value="152" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -801,7 +800,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix :fix ai recipe with amount 0" />
     <MESSAGE value="fix :emergency fix of antimass cant craft" />
     <MESSAGE value="fix :adjustments" />
     <MESSAGE value="fix :mark changes" />
@@ -826,7 +824,8 @@
     <MESSAGE value="feat:change" />
     <MESSAGE value="bugfix bugfix bugfix" />
     <MESSAGE value="feat:progres" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:progres" />
+    <MESSAGE value="feat:bigfix and adjustments" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:bigfix and adjustments" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

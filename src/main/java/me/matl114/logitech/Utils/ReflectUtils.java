@@ -188,7 +188,7 @@ public class ReflectUtils {
         if(clazz==null){
             return false;
         }else {
-            if(clazz.getName().endsWith(s)){
+            if(clazz.toString().endsWith(s)){
                 return true;
             }else {
                 return isExtendedFrom(clazz.getSuperclass(),s);

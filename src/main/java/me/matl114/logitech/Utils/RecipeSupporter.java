@@ -1073,7 +1073,8 @@ public class RecipeSupporter {
                     }
                 }
                 else if (//item instanceof org.lins.mmmjjkx.rykenslimefuncustomizer.objects.customs.machine.CustomMaterialGenerator ||
-                        item.getClass().getName().endsWith("MaterialGenerator")){
+                       ReflectUtils.isExtendedFrom( item.getClass(),".CustomMaterialGenerator")){
+                    //CustomMaterialGenerator
 //                    //item instanceof CustomMaterialGenerator){//org.lins.mmmjjkx.rykenslimefuncustomizer.objects.customs.machine.CustomMaterialGenerator){
                     String methodName=null;
                     if(methodName==null){
@@ -1370,15 +1371,31 @@ public class RecipeSupporter {
                 if(a!=null){
                     ticks=a-1;
                 }
-            }catch (Throwable a){}
+            }catch (Throwable a){
+            }
             try{
                 EnumMap<Material,ItemStack[]> map=(EnumMap<Material, ItemStack[]>) ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"recipes");
                 for(Map.Entry<Material,ItemStack[]> entry:map.entrySet()){
                     recipes.add(MachineRecipeUtils.mgFrom(ticks,Utils.array(new ItemStack(entry.getKey())),entry.getValue()));
                 }
-            }catch (Throwable e){}
+            }catch (Throwable e){
+                Debug.logger(e);
+                return false;
+            }
             return true;
-        }else if(ReflectUtils.isExtendedFrom(item.getClass(),"AbstractQuarry")){
+        }else if(ReflectUtils.isExtendedFrom(item.getClass(),".MaterialGenerator")){
+            int ticks=1;
+            try{
+                int amount=(Integer) ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"speed");
+                Material material=(Material) ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"material");
+                recipes.add(MachineRecipeUtils.mgFrom(ticks,Utils.array(),Utils.array(new ItemStack(material,amount))));
+            }catch (Throwable e){
+                Debug.logger(e);
+                return false;
+            }
+            return true;
+        }
+        else if(ReflectUtils.isExtendedFrom(item.getClass(),".AbstractQuarry")){
             int ticks=0;
             try{
                 ticks=(Integer) ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"delaySpeed");
@@ -1390,7 +1407,9 @@ public class RecipeSupporter {
                 obj=ReflectUtils.invokeGetRecursively(obj,Settings.METHOD,"getCustomTickerDelay");
                 int a=(Integer)obj;
                 ticks*=a;
-            }catch (Throwable e){}
+            }catch (Throwable e){
+                Debug.logger(e);
+            }
             try{
                 Object output=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"output");
                 List outputlist=(List) ReflectUtils.invokeGetRecursively(output,Settings.FIELD,"outputItems");
@@ -1405,19 +1424,24 @@ public class RecipeSupporter {
                 ItemStack outputGroup=AddUtils.randItemStackFactory(stacklist,chancelist);
                 recipes.add(MachineRecipeUtils.mgFrom(ticks,new ItemStack[0],new ItemStack[]{outputGroup}));
             }catch (Throwable e){
+                Debug.logger(e);
                 return false;
             }
-        }else if(ReflectUtils.isExtendedFrom(item.getClass(),"Quarry")){
+        }
+        else if(ReflectUtils.isExtendedFrom(item.getClass(),".Quarry")){
             int ticks=0;
             try {
                 ticks=(Integer) ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"INTERVAL");
             }catch (Throwable a){
+                Debug.logger(item.getClass());
+                Debug.logger(a);
                 return false;
             }
             int amount;
             try{
                 amount=(Integer)ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"speed");
             }catch (Throwable a){
+                Debug.logger(a);
                 return false;
             }
             Class OscillatorClass=SlimefunItem.getById("QUARRY_OSCILLATOR_DIAMOND").getClass();
