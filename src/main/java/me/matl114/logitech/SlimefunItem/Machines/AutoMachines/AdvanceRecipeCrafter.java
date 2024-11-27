@@ -13,6 +13,7 @@ import me.matl114.logitech.SlimefunItem.Interface.RecipeDisplay;
 import me.matl114.logitech.SlimefunItem.Interface.RecipeLock;
 import me.matl114.logitech.SlimefunItem.Machines.*;
 import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.MultiCraftingOperation;
@@ -277,12 +278,48 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
     }
 
     @Override
+//    public int[] getSlotsAccessedByItemTransportPlus(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
+//        if (flow == ItemTransportFlow.WITHDRAW) return getOutputSlots();
+//        int [] inputSlots=getInputSlots();
+//        if(item==null||item.getType().isAir()||(!(menu instanceof  BlockMenu))){
+//            return inputSlots;
+//        }
+//        SlimefunBlockData data=DataCache.safeLoadBlock(((BlockMenu)menu).getLocation());
+//        if(data==null){
+//            return inputSlots;
+//        }
+//        MachineRecipe now=getRecordRecipe(data);
+//        if(now==null){
+//            return new int[0];
+//        }
+//        int craftlimit=getCraftLimit(null,null);
+//        int amountLimit=0;
+//        int maxStack=item.getMaxStackSize();
+//        ItemStack[] recipeInput=now.getInput();
+//        for (int i=0;i<recipeInput.length;++i){
+//            if(recipeInput[i].getType()==item.getType()&&recipeInput[i].hasItemMeta()==item.hasItemMeta()){
+//                amountLimit+=Math.max(recipeInput[i].getAmount()*craftlimit,maxStack);
+//            }
+//        }
+//        // Check the current amount
+//        int itemAmount = 0;
+//        for (int slot : getInputSlots()) {
+//            ItemStack itemInSlot = menu.getItemInSlot(slot);
+//            if(itemInSlot==null)continue;
+//            if (itemInSlot.getType()==item.getType()&&itemInSlot.hasItemMeta()==item.hasItemMeta()) {
+//                itemAmount+=itemInSlot.getAmount();
+//                // Amount has reached the limited, just return.
+//                if(itemAmount>=amountLimit){
+//                    return new int[0];
+//                }
+//            }
+//        }
+//        return inputSlots;
+//    }
     public int[] getSlotsAccessedByItemTransportPlus(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
         if (flow == ItemTransportFlow.WITHDRAW) return getOutputSlots();
         int [] inputSlots=getInputSlots();
-        if(item==null||item.getType().isAir()||(!(menu instanceof  BlockMenu))){
-            return inputSlots;
-        }
+        if(item==null||item.getType().isAir()||(!(menu instanceof BlockMenu)))return inputSlots;
         SlimefunBlockData data=DataCache.safeLoadBlock(((BlockMenu)menu).getLocation());
         if(data==null){
             return inputSlots;
@@ -295,21 +332,46 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
         int amountLimit=0;
         int maxStack=item.getMaxStackSize();
         ItemStack[] recipeInput=now.getInput();
+        ItemCounter pusher=null;
+        boolean hasOne=false;
         for (int i=0;i<recipeInput.length;++i){
             if(recipeInput[i].getType()==item.getType()&&recipeInput[i].hasItemMeta()==item.hasItemMeta()){
-                amountLimit+=Math.max(recipeInput[i].getAmount()*craftlimit,maxStack);
+                if(!hasOne){
+                    amountLimit=Math.max(recipeInput[i].getAmount()*craftlimit,maxStack);
+                    hasOne=true;
+                }else{
+                    if(pusher==null){
+                        //保证比较之前pusher非null，不用重复计算
+                        pusher=CraftUtils.getCounter(item);
+                    }
+                    //由于StackMachineRecipe 材料已经被折叠过了 只需要找到一个匹配就行
+                    if(CraftUtils.matchItemStack(recipeInput[i],pusher,false)){
+                        amountLimit=Math.max(recipeInput[i].getAmount()*craftlimit,maxStack);
+                        break;
+                    }
+                }
             }
         }
         // Check the current amount
         int itemAmount = 0;
-        for (int slot : getInputSlots()) {
+        if(!hasOne){
+            return inputSlots;
+        }
+        boolean hasItemMeta=item.hasItemMeta();
+        for (int slot : inputSlots) {
             ItemStack itemInSlot = menu.getItemInSlot(slot);
             if(itemInSlot==null)continue;
-            if (itemInSlot.getType()==item.getType()&&itemInSlot.hasItemMeta()==item.hasItemMeta()) {
+            //出现类型匹配
+            if (itemInSlot.getType()==item.getType()&&itemInSlot.hasItemMeta()==hasItemMeta) {
+                //如果pusher!=null,说明上面出现了两个相同type 需要比较
+                //如果比较不匹配 跳过
+                if(pusher!=null&&hasItemMeta&&!CraftUtils.matchItemStack(itemInSlot ,pusher,false)){
+                    continue;
+                }
                 itemAmount+=itemInSlot.getAmount();
                 // Amount has reached the limited, just return.
                 if(itemAmount>=amountLimit){
-                    return new int[0];
+                    return new int[]{slot};
                 }
             }
         }
