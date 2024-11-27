@@ -233,9 +233,9 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
                     if(clickAction.isRightClicked()){
                         limit=64;
                     }
-                    FinalManual.this.updateMenu(menu,block,Settings.RUN);
+                    //FinalManual.this.updateMenu(menu,block,Settings.RUN);
                     craft(player,menu,limit);
-                    FinalManual.this.updateMenu(menu,block,Settings.RUN);
+                    //FinalManual.this.updateMenu(menu,block,Settings.RUN);
 
                     return false;
                 }
@@ -246,9 +246,10 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
                     if(clickAction.isRightClicked()){
                         limit=9_999_999;
                     }
-                    FinalManual.this.updateMenu(menu,block,Settings.RUN);
+                    //do not refresh since some of them
+                    //FinalManual.this.updateMenu(menu,block,Settings.RUN);
                     craft(player,menu,limit);
-                    FinalManual.this.updateMenu(menu,block,Settings.RUN);
+                    //FinalManual.this.updateMenu(menu,block,Settings.RUN);
                     return false;
                 }
         );

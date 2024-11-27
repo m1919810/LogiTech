@@ -630,8 +630,9 @@ public class AddSlimefunItems {
                         mkP(mkl(AddItem.SPACE_PLATE,AddItem.MASS_CORE),mkl(AddItem.TRANSMUTATOR_FRAME)),6,
                         mkP(mkl(AddItem.SPACE_PLATE,setC(AddItem.LFIELD,24)),mkl(setC(AddItem.TRANSMUTATOR_GLASS,2))),6,
                         mkP(mkl(setC(AddItem.ATOM_INGOT,16),setC(AddItem.BISILVER,2)),mkl(AddItem.TRANSMUTATOR_ROD)),6,
-                        mkP(mkl(AddItem.VIRTUALWORLD,AddItem.TRUE_),mkl(setC(AddItem.FINAL_STACKMACHINE,1))),6,
-                        mkP(mkl(AddItem.VIRTUALWORLD,AddItem.FALSE_),mkl(setC(AddItem.FINAL_STACKMGENERATOR,1))),6
+                        mkP(mkl(AddItem.VIRTUALWORLD,AddItem.TRUE_),mkl(AddItem.FINAL_STACKMACHINE)),6,
+                        mkP(mkl(AddItem.VIRTUALWORLD,AddItem.FALSE_),mkl(AddItem.FINAL_STACKMGENERATOR)),6,
+                        mkP(mkl(setC(AddItem.VIRTUALWORLD,8),setC(AddItem.CRAFTER,16)),mkl(AddItem.FINAL_CRAFT)),6
             ))
             .register();
 
@@ -2133,7 +2134,7 @@ public class AddSlimefunItems {
     public static final SlimefunItem FAKE_UI=new MaterialItem(AddGroups.MANUAL,AddItem.FAKE_UI,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("COBBLESTONE","GLASS_PANE","COBBLESTONE","COBBLESTONE","GLASS_PANE","COBBLESTONE",
                     "COBBLESTONE","GLASS_PANE","COBBLESTONE"),List.of(AddUtils.getInfoShow("&f机制 - &7伪装","&7该物品可以在快捷多方块结构模拟器中","&7填充多方块模拟部分的空白","&7多方块模拟检测会忽视该物品")))
-            .register();
+            .register().setOutput(setC(AddItem.FAKE_UI,4));
     public static final ReplaceCard REPLACE_CARD=(ReplaceCard) (new ReplaceCard(AddGroups.MANUAL,AddItem.REPLACE_CARD,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.CARD_MAKER,Language.get("Manuals.CARD_MAKER.Name")), ReplaceCard.ReplaceType.MATERIAL)
             .register());
@@ -2216,8 +2217,13 @@ public class AddSlimefunItems {
                     )
             )
             .register();
-    public static final SlimefunItem ADV_MANUAL=new AdvancedManual(AddGroups.MANUAL,AddItem.ADV_MANUAL,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")))
+    public static final SlimefunItem ADV_MANUAL=new AdvancedManual(AddGroups.MANUAL,AddItem.ADV_MANUAL,COMMON_TYPE,
+            recipe(setC(AddItem.BUG,4),AddItem.ENHANCED_CRAFT_MANUAL,AddItem.ENHANCED_CRAFT_MANUAL,AddItem.ENHANCED_CRAFT_MANUAL,AddItem.ENHANCED_CRAFT_MANUAL,setC(AddItem.BUG,4),
+                    AddItem.SMELTERY_MANUAL,AddItem.LFIELD,AddItem.LENGINE,AddItem.LENGINE,AddItem.LFIELD,AddItem.FURNACE_MANUAL,
+                    AddItem.SMELTERY_MANUAL,AddItem.LFIELD,setC(AddItem.MANUAL_CORE,16),setC(AddItem.MANUAL_CORE,16),AddItem.LFIELD,AddItem.FURNACE_MANUAL,
+                    AddItem.SMELTERY_MANUAL,AddItem.LFIELD,setC(AddItem.MANUAL_CORE,16),setC(AddItem.MANUAL_CORE,16),AddItem.LFIELD,AddItem.FURNACE_MANUAL,
+                    AddItem.SMELTERY_MANUAL,AddItem.LFIELD,AddItem.LENGINE,AddItem.LENGINE,AddItem.LFIELD,AddItem.FURNACE_MANUAL,
+                    setC(AddItem.BUG,4),AddItem.ANCIENT_ALTAR_MANUAL,AddItem.ANCIENT_ALTAR_MANUAL,AddItem.ANCIENT_ALTAR_MANUAL,AddItem.ANCIENT_ALTAR_MANUAL,setC(AddItem.BUG,4)))
             .register();
 
 
@@ -2754,7 +2760,7 @@ public class AddSlimefunItems {
             16)
             .register();
     public static final  SlimefunItem FINAL_CRAFT=new SpecialCrafter(AddGroups.BEYOND, AddItem.FINAL_CRAFT,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")), Material.CRAFTING_TABLE,0,18_000, 7_200_000){
+            AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")), Material.CRAFTING_TABLE,0,18_000, 7_200_000){
         {
             CRAFT_PROVIDER=FinalFeature.STORAGE_AND_LOCPROXY_READER;
             MACHINE_PROVIDER=FinalFeature.STORAGE_READER;
@@ -2767,7 +2773,7 @@ public class AddSlimefunItems {
             return true;
         }
         public int getCraftLimit(Block b,BlockMenu menu){
-            return super.getCraftLimit(b,menu)*8;
+            return super.getCraftLimit(b,menu)*4;
         }
     }
             .register();

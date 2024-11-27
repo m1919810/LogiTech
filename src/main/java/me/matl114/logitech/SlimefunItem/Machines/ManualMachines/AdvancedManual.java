@@ -63,12 +63,16 @@ public class AdvancedManual extends AbstractBlock {
             BukkitUtils.VANILLA_FURNACE,
             RecipeType.ENHANCED_CRAFTING_TABLE,
             RecipeType.MAGIC_WORKBENCH,
-            RecipeType.GRIND_STONE,
-            RecipeType.ORE_CRUSHER,
-            RecipeType.SMELTERY,
             RecipeType.ANCIENT_ALTAR,
+            RecipeType.SMELTERY,
+            RecipeType.GRIND_STONE,
+            RecipeType.GOLD_PAN,
+            RecipeType.ORE_WASHER,
+            RecipeType.ORE_CRUSHER,
             RecipeType.COMPRESSOR,
-            RecipeType.ARMOR_FORGE
+            RecipeType.HEATED_PRESSURE_CHAMBER,
+            RecipeType.ARMOR_FORGE,
+            RecipeType.JUICER
     );
     private int rtypeAmount=supportedRtype.size();
     private ItemStack displayBorder=new CustomItemStack(Material.YELLOW_STAINED_GLASS_PANE," "," ");

@@ -99,7 +99,7 @@ public class AddDepends {
                           "INFINITE_INGOT","VOID_INGOT","INFINITY_FORGE","INFINITY_FORGE","VOID_INGOT","INFINITE_INGOT",
                           AddItem.LFIELD,AddItem.LMOTOR,"VOID_INGOT","VOID_INGOT",AddItem.LCRAFT,AddItem.LFIELD,
                             AddItem.LFIELD,AddItem.LFIELD,"INFINITE_INGOT","INFINITE_INGOT",AddItem.LFIELD,AddItem.LFIELD)
-                    , Material.STONE,150_000,1_500_000,8,INFINITYWORKBENCH_TYPE)
+                    , Material.STONE,100_000,1_500_000,8,INFINITYWORKBENCH_TYPE)
                     .register();
         }catch (Throwable e){
             Debug.logger("AN ERROR OCCURED WHILE REGISTERING ITEM: INFINITY_AUTOCRAFT,ITEM DISABLED");
