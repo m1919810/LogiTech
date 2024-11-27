@@ -52,7 +52,7 @@ public class VirtualKiller extends AbstractMachine {
     protected final int INFO_SLOT=13;
     protected final int MULTIPLY;
     protected final int SPAWNER_SLOT=4;
-
+    protected final int MAX_AMOUNT=16;
     public int[] getInputSlots(){
         return INPUT_SLOTS;
     }
@@ -64,7 +64,7 @@ public class VirtualKiller extends AbstractMachine {
                 "&6机制",
                 "&7上方放入带生物种类的任意笼子",
                 "&7下方输出该生物可能的特殊掉落物",
-                "&7输出倍率=%d".formatted(MULTIPLY),
+                "&7输出倍率=%d/%d(max)".formatted(amount*MULTIPLY,MAX_AMOUNT*MULTIPLY) ,
                AddUtils.concat( "&7当前生物: &a",type==null?"&c无生物": ChatUtils.humanize(type.name())),
                 AddUtils.concat("&7当前数量: &a",String.valueOf(amount)));
     }
@@ -155,7 +155,7 @@ public class VirtualKiller extends AbstractMachine {
         ItemStack stack=menu.getItemInSlot(SPAWNER_SLOT);
         EntityType e=EntityFeat.getEntityTypeFromItem(stack);
         if(e!=null){
-            int amount=stack.getAmount();
+            int amount=Math.min(MAX_AMOUNT, stack.getAmount());
             handler.setInt(0,amount);
             handler.setObject(0,e);
             menu.replaceExistingItem(INFO_SLOT,getInfoItem(e,amount));
@@ -178,7 +178,7 @@ public class VirtualKiller extends AbstractMachine {
         if(entity!=null&&amount>0){
             if(entity instanceof EntityType et){
                 progressorCost(b,menu);
-                CraftUtils.multiPushItems(getEntityMap().get(et),menu,getOutputSlots(),this.MULTIPLY,this.CRAFT_PROVIDER);
+                CraftUtils.multiPushItems(getEntityMap().get(et),menu,getOutputSlots(),this.MULTIPLY*amount,this.CRAFT_PROVIDER);
             }
         }
     }

@@ -1,6 +1,7 @@
 package me.matl114.logitech.Utils.UtilClass.CommandClass;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import me.matl114.logitech.Listeners.Listeners.PlayerQuiteListener;
 import me.matl114.logitech.MyAddon;
@@ -72,6 +73,7 @@ public class CommandShell {
         map.put(this.user.getUniqueId(),this);
         setVariable(this,"user",user);
         setVariable(this,"Bukkit",Bukkit.class);
+        setVariable(this,"null",null);
     }
     public List<String> outputStream=new ArrayList<>();
     public byte[] lock=new byte[0];
@@ -378,6 +380,9 @@ public class CommandShell {
     //TODO 放在外面
     public static Object getVariableRaw(CommandShell shell,String val){
         String[] vals=val.split("\\[");
+        if("null".equals(val)){
+            return null;
+        }
         Object result=shell.variables.get(vals[0]);
         if(result==null){
             try{
@@ -619,9 +624,7 @@ public class CommandShell {
                     return classFieldNotFound(shell,clazz);
                 }else {
                     Object obj2= argv.length==1?obj:getVariable(shell,argv[1]);
-                    if(obj2==null){
-                        return variableNotInit(shell,argv[1]);
-                    }
+
                     try{
                         result.getFirstValue().set(null,obj2);
                     }catch (Throwable err){
@@ -760,9 +763,7 @@ public class CommandShell {
                     return variableFieldNotFound(shell,argv[0]);
                 }else {
                     Object obj2=getVariable(shell,argv[2]);
-                    if(obj2==null){
-                        return variableNotInit(shell,argv[2]);
-                    }
+
                     try{
                         result.getFirstValue().set(obj,obj2);
                     }catch (Throwable err){

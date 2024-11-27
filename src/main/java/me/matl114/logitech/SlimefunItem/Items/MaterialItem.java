@@ -13,9 +13,11 @@ import java.util.List;
 public final class MaterialItem extends CustomSlimefunItem {
     public MaterialItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
+        this.checkCanStack=false;
     }
     public MaterialItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, List<ItemStack> recipeDisplay) {
         super(itemGroup, item, recipeType, recipe,recipeDisplay);
+        this.checkCanStack=false;
     }
     public void addInfo(ItemStack stack){
 

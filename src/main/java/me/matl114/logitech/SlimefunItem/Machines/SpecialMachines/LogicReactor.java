@@ -63,7 +63,7 @@ public class LogicReactor extends AbstractProcessor {
                         AddUtils.getInfoShow("&f机制",
                                 "&7机器还有一个&c正常输入槽&7和&e正常输出槽&7,分别位于第三排的&e左侧&7和&e右侧空格,分别用于输入所需的 [%s] 和输出产物 ".formatted(Language.get("Items.LOGIGATE.Name")),
                                 "&7机器中间一个开关,用于调控机器是否会进行合成进程,当点击关闭时,当前进程将被强制终止",
-                                "&7当机器为开启状态且为空闲,四对布尔输入槽&c非空&7且满足右侧某个输入条件时",
+                                "&7当机器为开启状态且为空闲,输出槽非满,四对布尔输入槽&c非空&7且满足右侧某个输入条件时",
                                 "&7才会尝试&e消耗&7正常输入槽内的 [%s] 进行合成".formatted(Language.get("Items.LOGIGATE.Name")),
                                 "&7警告:当机器尝试匹配输入条件进行合成时,四对布尔输入槽内的物品会被&c清空&7!",
                                 "&7指示:当机器在合成进程中运行时,四对布尔输入槽内的物品不会被&c清空!",
@@ -186,7 +186,8 @@ public class LogicReactor extends AbstractProcessor {
     }
     protected Pair<MachineRecipe, ItemConsumer[]> findNextRecipe(BlockMenu inv,int[] inputs,int[] outputs){
         ItemStack iv=inv.getItemInSlot(inputs[0]);
-        if(iv!=null&&CraftUtils.matchItemStack(iv, AddItem.LOGIGATE,false)){
+        ItemStack ov=inv.getItemInSlot(outputs[0]);
+        if(iv!=null&&CraftUtils.matchItemStack(iv, AddItem.LOGIGATE,false)&&(ov==null||ov.getAmount()<ov.getMaxStackSize())){
             int code=checkLogic(inv,BOOL_SLOT);
             if(code==-1){
                 return null;

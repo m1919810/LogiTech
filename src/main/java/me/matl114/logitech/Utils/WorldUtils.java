@@ -221,12 +221,12 @@ public class WorldUtils {
             Slimefun.getBlockDataService().setBlockData(block, item.getId());
         }
         CONTROLLER.createBlock(loc, item.getId());
-        try{
-            var placeEvent = new SlimefunBlockPlaceEvent(player, item.getItem(), block, item);
-            Bukkit.getPluginManager().callEvent(placeEvent);
-        }catch (Throwable e){
-
-        }
+//        try{
+//            var placeEvent = new SlimefunBlockPlaceEvent(player, item.getItem(), block, item);
+//            Bukkit.getPluginManager().callEvent(placeEvent);
+//        }catch (Throwable e){
+//
+//        }
     }
     public static boolean hasPermission( Player player, @Nonnull Block location, @Nonnull Interaction... interactions) {
         if(player==null)return true;

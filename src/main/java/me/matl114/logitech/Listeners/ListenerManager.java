@@ -30,6 +30,7 @@ public class ListenerManager {
             register(STORAGESPACE_PROTECTION);
         }
         register(BLOCKMENU_PROTECT_LISTENER);
+        register(SLIMEFUN_BLOCKLIMIT_LISTENER);
     }
     public static Plugin plugin;
     public static PluginManager manager;
@@ -49,4 +50,5 @@ public class ListenerManager {
     public static final Listener SUPERSPONGE_DRY_LISTENER=new SuperSpongeDryListener();
     public static final Listener STORAGESPACE_PROTECTION=new StorageWorldListener();
     public static final Listener BLOCKMENU_PROTECT_LISTENER=new BlockMenuClickProtectListener();
+    public static final Listener SLIMEFUN_BLOCKLIMIT_LISTENER=new SlimefunBlockPlaceLimitListener();
 }

@@ -1342,22 +1342,23 @@ public class AddSlimefunItems {
                     ,AddItem.WORLD_FEAT,AddItem.MAGIC_PLANT,AddItem.WORLD_FEAT
             ), 9, 2_500,400,
             new LinkedHashMap<>(){{
-                put(mkl("COCOA_BEANS"),mkl("9COCOA_BEANS"));
+                put(mkl("COCOA_BEANS"),mkl("6COCOA_BEANS"));
                 put(mkl("MELON_SEEDS"),mkl("3MELON","3MELON_SEEDS"));
                 put(mkl("PUMPKIN_SEEDS"),mkl("3PUMPKIN","3PUMPKIN_SEEDS"));
-                put(mkl("BEETROOT_SEEDS"),mkl("9BEETROOT","6BEETROOT_SEEDS"));
-                put(mkl("WHEAT_SEEDS"),mkl("9WHEAT","6WHEAT_SEEDS"));
+                put(mkl("BEETROOT_SEEDS"),mkl("8BEETROOT","6BEETROOT_SEEDS"));
+                put(mkl("WHEAT_SEEDS"),mkl("8WHEAT","6WHEAT_SEEDS"));
                 put(mkl("APPLE"),mkl("9APPLE"));
-                put(mkl("BROWN_MUSHROOM"),mkl("9BROWN_MUSHROOM"));
-                put(mkl("RED_MUSHROOM"),mkl("9RED_MUSHROOM"));
-                put(mkl("DEAD_BUSH"),mkl("9DEAD_BUSH","6STICK"));
-                put(mkl("CARROT"),mkl("9CARROT"));
-                put(mkl("POTATO"),mkl("9POTATO"));
-                put(mkl("SWEET_BERRIES"),mkl("9SWEET_BERRIES"));
-                put(mkl("SUGAR_CANE"),mkl("9SUGAR_CANE"));
-                put(mkl("BAMBOO"),mkl("9BAMBOO"));
-                put(mkl("CACTUS"),mkl("9CACTUS"));
-                put(mkl("DANDELION"),mkl("9DANDELION"));
+                put(mkl("BROWN_MUSHROOM"),mkl("6BROWN_MUSHROOM"));
+                put(mkl("RED_MUSHROOM"),mkl("6RED_MUSHROOM"));
+                put(mkl("DEAD_BUSH"),mkl("6DEAD_BUSH","2STICK"));
+                put(mkl("CARROT"),mkl("8CARROT"));
+                put(mkl("POTATO"),mkl("8POTATO"));
+                put(mkl("SWEET_BERRIES"),mkl("6SWEET_BERRIES"));
+                put(mkl("GLOW_BERRIES"),mkl("6GLOW_BERRIES"));
+                put(mkl("SUGAR_CANE"),mkl("6SUGAR_CANE"));
+                put(mkl("BAMBOO"),mkl("6BAMBOO"));
+                put(mkl("CACTUS"),mkl("6CACTUS"));
+                put(mkl("DANDELION"),mkl("6DANDELION"));
                 put(mkl("POPPY"),mkl("3POPPY"));
                 put(mkl("BLUE_ORCHID"),mkl("9BLUE_ORCHID"));
                 put(mkl("ALLIUM"),mkl("9ALLIUM"));
@@ -1374,15 +1375,15 @@ public class AddSlimefunItems {
                 put(mkl("LILAC"),mkl("6LILAC"));
                 put(mkl("ROSE_BUSH"),mkl("6ROSE_BUSH"));
                 put(mkl("PEONY"),mkl("6PEONY"));
-
-                put(mkl("OAK_SAPLING"),mkl("9OAK_SAPLING","18OAK_LOG","6APPLE","9OAK_LEAVES","6STICK"));
-                put(mkl("BIRCH_SAPLING"),mkl("9BIRCH_SAPLING","18BIRCH_LOG","6APPLE","9BIRCH_LEAVES","6STICK"));
-                put(mkl("SPRUCE_SAPLING"),mkl("9SPRUCE_SAPLING","18SPRUCE_LOG","6APPLE","9SPRUCE_LEAVES","6STICK"));
-                put(mkl("DARK_OAK_SAPLING"),mkl("9DARK_OAK_SAPLING","18DARK_OAK_LOG","6APPLE","9DARK_OAK_LEAVES","6STICK"));
-                put(mkl("JUNGLE_SAPLING"),mkl("9JUNGLE_SAPLING","18JUNGLE_LOG","6APPLE","9JUNGLE_LEAVES","6STICK"));
-                put(mkl("ACACIA_SAPLING"),mkl("9ACACIA_SAPLING","18ACACIA_LOG","6APPLE","9ACACIA_LEAVES","6STICK"));
-                put(mkl("MANGROVE_PROPAGULE"),mkl("9MANGROVE_PROPAGULE","18MANGROVE_LOG","9MANGROVE_LEAVES"));
-                put(mkl(Material.CHERRY_SAPLING),mkl(new ItemStack(Material.CHERRY_SAPLING,9),"18CHERRY_LOG","9CHERRY_LEAVES"));
+                put(mkl("MOSS_BLOCK"),mkl("4MOSS_BLOCK"));
+                put(mkl("OAK_SAPLING"),mkl("12OAK_LOG","6APPLE","6OAK_LEAVES","OAK_SAPLING","6STICK"));
+                put(mkl("BIRCH_SAPLING"),mkl("12BIRCH_LOG","6APPLE","6BIRCH_LEAVES","BIRCH_SAPLING","6STICK"));
+                put(mkl("SPRUCE_SAPLING"),mkl("12SPRUCE_LOG","6APPLE","6SPRUCE_LEAVES","SPRUCE_SAPLING","6STICK"));
+                put(mkl("DARK_OAK_SAPLING"),mkl("12DARK_OAK_LOG","6APPLE","6DARK_OAK_LEAVES","DARK_OAK_SAPLING","6STICK"));
+                put(mkl("JUNGLE_SAPLING"),mkl("12JUNGLE_LOG","6APPLE","6JUNGLE_LEAVES","JUNGLE_SAPLING","6STICK"));
+                put(mkl("ACACIA_SAPLING"),mkl("12ACACIA_LOG","6APPLE","6ACACIA_LEAVES","ACACIA_SAPLING","6STICK"));
+                put(mkl("MANGROVE_PROPAGULE"),mkl("12MANGROVE_LOG","6MANGROVE_LEAVES","MANGROVE_PROPAGULE"));
+                put(mkl(Material.CHERRY_SAPLING),mkl("12CHERRY_LOG","6CHERRY_LEAVES",new ItemStack(Material.CHERRY_SAPLING,1)));
             }})
             .register();
     public static final SlimefunItem NETHER_PLANT = new MMGenerator(AddGroups.GENERATORS, AddItem.NETHER_PLANT, COMMON_TYPE,
@@ -1422,6 +1423,7 @@ public class AddSlimefunItems {
                 put(mkl("CRIMSON_FUNGUS"),mkl("6CRIMSON_FUNGUS","18CRIMSON_STEM","6SHROOMLIGHT","12NETHER_WART_BLOCK"));
                 put(mkl("WARPED_FUNGUS"),mkl("6WARPED_FUNGUS","18WARPED_STEM","6SHROOMLIGHT","12WARPED_WART_BLOCK"));
                 put(mkl("CHORUS_FLOWER"),mkl("6CHORUS_FLOWER","24CHORUS_FRUIT"));
+                put(mkl("KELP"),mkl("9KELP"));
                 put(mkl("LILY_PAD"),mkl("9LILY_PAD"));
                 put(mkl("SEA_PICKLE"),mkl("9SEA_PICKLE"));
                 put(mkl("TUBE_CORAL_BLOCK"),mkl("6TUBE_CORAL_BLOCK"));
@@ -1456,6 +1458,7 @@ public class AddSlimefunItems {
                 put(mkl("DIORITE"),mkl(AddUtils.randAmountItemFactory(new ItemStack(Material.DIORITE),114,514)));
                 put(mkl("ANDESITE"),mkl(AddUtils.randAmountItemFactory(new ItemStack(Material.ANDESITE),114,514)));
                 put(mkl("STONE"),mkl(AddUtils.randAmountItemFactory(new ItemStack(Material.STONE),114,514)));
+                put(mkl("TUFF"),mkl(AddUtils.randAmountItemFactory(new ItemStack(Material.TUFF),114,514)));
             }})
             .register();
     public static final SlimefunItem REDSTONE_MG=new SMGenerator(AddGroups.VANILLA, AddItem.REDSTONE_MG,COMMON_TYPE,
@@ -1607,14 +1610,21 @@ public class AddSlimefunItems {
                     AddItem.LIOPORT,AddItem.BISILVER,null,null,AddItem.BISILVER,AddItem.LIOPORT,
                     AddItem.BISILVER,setC(AddItem.MASS_CORE,1),AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,setC(AddItem.METAL_CORE,1),AddItem.BISILVER), 1, 129_600, 5400,
             new LinkedHashMap<>(){{
+                put(mkl("COCOA_BEANS"),mkl("9COCOA_BEANS"));
                 put(mkl("MELON_SEEDS"),mkl("3MELON","3MELON_SEEDS"));
                 put(mkl("PUMPKIN_SEEDS"),mkl("3PUMPKIN","3PUMPKIN_SEEDS"));
                 put(mkl("BEETROOT_SEEDS"),mkl("9BEETROOT","6BEETROOT_SEEDS"));
                 put(mkl("WHEAT_SEEDS"),mkl("9WHEAT","6WHEAT_SEEDS"));
+                put(mkl("BROWN_MUSHROOM"),mkl("9BROWN_MUSHROOM"));
+                put(mkl("RED_MUSHROOM"),mkl("9RED_MUSHROOM"));
+                put(mkl("DEAD_BUSH"),mkl("9DEAD_BUSH","6STICK"));
                 put(mkl("CARROT"),mkl("9CARROT"));
                 put(mkl("POTATO"),mkl("9POTATO"));
+                put(mkl("DEAD_BUSH"),mkl("9DEAD_BUSH","6STICK"));
                 put(mkl("SWEET_BERRIES"),mkl("9SWEET_BERRIES"));
+                put(mkl("GLOW_BERRIES"),mkl("9GLOW_BERRIES"));
                 put(mkl("SUGAR_CANE"),mkl("9SUGAR_CANE"));
+                put(mkl("CACTUS"),mkl("9CACTUS"));
                 put(mkl("DANDELION"),mkl("9DANDELION"));
                 put(mkl("POPPY"),mkl("3POPPY"));
                 put(mkl("BLUE_ORCHID"),mkl("9BLUE_ORCHID"));
@@ -1632,20 +1642,21 @@ public class AddSlimefunItems {
                 put(mkl("LILAC"),mkl("6LILAC"));
                 put(mkl("ROSE_BUSH"),mkl("6ROSE_BUSH"));
                 put(mkl("PEONY"),mkl("6PEONY"));
-                put(mkl("OAK_SAPLING"),mkl("9OAK_SAPLING","18OAK_LOG","6APPLE","9OAK_LEAVES","6STICK"));
-                put(mkl("BIRCH_SAPLING"),mkl("9BIRCH_SAPLING","18BIRCH_LOG","6APPLE","9BIRCH_LEAVES","6STICK"));
-                put(mkl("SPRUCE_SAPLING"),mkl("9SPRUCE_SAPLING","18SPRUCE_LOG","6APPLE","9SPRUCE_LEAVES","6STICK"));
-                put(mkl("DARK_OAK_SAPLING"),mkl("9DARK_OAK_SAPLING","18DARK_OAK_LOG","6APPLE","9DARK_OAK_LEAVES","6STICK"));
-                put(mkl("JUNGLE_SAPLING"),mkl("9JUNGLE_SAPLING","18JUNGLE_LOG","6APPLE","9JUNGLE_LEAVES","6STICK"));
-                put(mkl("ACACIA_SAPLING"),mkl("9ACACIA_SAPLING","18ACACIA_LOG","6APPLE","9ACACIA_LEAVES","6STICK"));
-                put(mkl("MANGROVE_PROPAGULE"),mkl("9MANGROVE_PROPAGULE","18MANGROVE_LOG","9MANGROVE_LEAVES"));
-                put(mkl(Material.CHERRY_SAPLING),mkl(new ItemStack(Material.CHERRY_SAPLING,9),"18CHERRY_LOG","9CHERRY_LEAVES"));
+                put(mkl("OAK_SAPLING"),mkl("18OAK_LOG","6APPLE","9OAK_LEAVES","9OAK_SAPLING","6STICK"));
+                put(mkl("BIRCH_SAPLING"),mkl("18BIRCH_LOG","6APPLE","9BIRCH_LEAVES","9BIRCH_SAPLING","6STICK"));
+                put(mkl("SPRUCE_SAPLING"),mkl("18SPRUCE_LOG","6APPLE","9SPRUCE_LEAVES","9SPRUCE_SAPLING","6STICK"));
+                put(mkl("DARK_OAK_SAPLING"),mkl("18DARK_OAK_LOG","6APPLE","9DARK_OAK_LEAVES","9DARK_OAK_SAPLING","6STICK"));
+                put(mkl("JUNGLE_SAPLING"),mkl("18JUNGLE_LOG","6APPLE","9JUNGLE_LEAVES","9JUNGLE_SAPLING","6STICK"));
+                put(mkl("ACACIA_SAPLING"),mkl("18ACACIA_LOG","6APPLE","9ACACIA_LEAVES","9ACACIA_SAPLING","6STICK"));
+                put(mkl("MANGROVE_PROPAGULE"),mkl("18MANGROVE_LOG","9MANGROVE_LEAVES","9MANGROVE_PROPAGULE"));
+                put(mkl(Material.CHERRY_SAPLING),mkl("18CHERRY_LOG","9CHERRY_LEAVES",new ItemStack(Material.CHERRY_SAPLING,9)));
                 put(mkl("NETHER_WART"),mkl("12NETHER_WART"));
                 put(mkl("NETHER_SPROUTS"),mkl("12NETHER_SPROUTS"));
                 put(mkl("CRIMSON_FUNGUS"),mkl("6CRIMSON_FUNGUS","18CRIMSON_STEM","6SHROOMLIGHT","12NETHER_WART_BLOCK"));
                 put(mkl("WARPED_FUNGUS"),mkl("6WARPED_FUNGUS","18WARPED_STEM","6SHROOMLIGHT","12WARPED_WART_BLOCK"));
                 put(mkl("CHORUS_FLOWER"),mkl("6CHORUS_FLOWER","24CHORUS_FRUIT"));
                 put(mkl("LILY_PAD"),mkl("9LILY_PAD"));
+                put(mkl("KELP"),mkl("9KELP"));
             }})
             .register();
     public static final SlimefunItem STACKMGENERATOR=new StackMGenerator(AddGroups.GENERATORS, AddItem.STACKMGENERATOR,RecipeType.NULL,

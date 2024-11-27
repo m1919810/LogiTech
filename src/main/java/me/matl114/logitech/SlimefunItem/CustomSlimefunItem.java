@@ -21,6 +21,7 @@ import java.util.List;
 public abstract class CustomSlimefunItem extends SlimefunItem implements RecipeDisplay , DistinctiveItem {
     public List<ItemStack> displayedMemory;
     public List<ItemStack> originalMemory;
+    protected boolean checkCanStack=true;
     public CustomSlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         this(itemGroup, item, recipeType, recipe,new ArrayList<>());
     }
@@ -33,9 +34,11 @@ public abstract class CustomSlimefunItem extends SlimefunItem implements RecipeD
         }
     }
     public boolean canStack(@Nonnull ItemMeta var1, @Nonnull ItemMeta var2){
-        PersistentDataContainer container1 = var1.getPersistentDataContainer();
-        PersistentDataContainer container2 = var2.getPersistentDataContainer();
-        return (container1==null)||(container1.equals(container2));
+        if(checkCanStack){
+            PersistentDataContainer container1 = var1.getPersistentDataContainer();
+            PersistentDataContainer container2 = var2.getPersistentDataContainer();
+            return (container1==null)||(container1.equals(container2));
+        }else return true;
     }
     public void addInfo(ItemStack stack){
 

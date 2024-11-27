@@ -271,6 +271,11 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
             },20,false,0);
             return;
         }
+        if(mod== Settings.INIT) {
+            //new CraftItemStack instance to trigger slimefun save thread
+            ItemStack rawStack = inv.getItemInSlot(this.MACHINE_SLOT);
+            inv.replaceExistingItem(this.MACHINE_SLOT,rawStack);
+        }
         ItemPusher it=this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT);
         int index=MultiCraftType.getRecipeTypeIndex(data);
         DataMenuClickHandler db=this.getDataHolder(block,inv);
