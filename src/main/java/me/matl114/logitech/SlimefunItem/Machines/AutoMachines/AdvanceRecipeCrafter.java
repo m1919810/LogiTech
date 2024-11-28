@@ -211,14 +211,12 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
         MultiCraftingOperation currentOperation = this.processor.getOperation(b);
         ItemGreedyConsumer[] fastCraft=null;
         if(currentOperation==null){
-            ItemStack tmp=inv.getItemInSlot(RECIPEITEM_SLOT);
-            if(tmp==null||tmp.getType()==Material.AIR){
-                setNowRecordRecipe(inv.getLocation(),-1);
-                updateMenu(inv,b,Settings.RUN);
-            }
             MachineRecipe next=getRecordRecipe(data);
             if(next==null){
-                if(inv.hasViewer()){inv.replaceExistingItem(22, MenuUtils.PROCESSOR_NULL);
+                parseRecipe(inv);
+                if(inv.hasViewer()){
+                    updateMenu(inv,b,Settings.RUN);
+                    inv.replaceExistingItem(22, MenuUtils.PROCESSOR_NULL);
                 }
                 return ;
             }
