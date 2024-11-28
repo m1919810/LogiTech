@@ -34,9 +34,7 @@ public class TrashCan extends AbstractMachine {
     public void constructMenu(BlockMenuPreset preset){
         preset.setSize(54);
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<MachineRecipe>() ;
-    }
+
     public void process(Block b, BlockMenu preset, SlimefunBlockData data){
 
     }

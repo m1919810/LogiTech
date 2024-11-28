@@ -117,9 +117,7 @@ public class RegisteryLogger extends AbstractMachine {
         preset.addItem(ADDSFITEM_SLOT,ADDSFITEM_ITEM);
         preset.addItem(ID_SLOT,ID_ITEM);
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<MachineRecipe>();
-    }
+
     public void process(Block b, BlockMenu preset, SlimefunBlockData data){
 
     }

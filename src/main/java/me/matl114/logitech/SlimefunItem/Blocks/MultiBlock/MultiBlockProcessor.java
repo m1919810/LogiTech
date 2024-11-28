@@ -33,9 +33,6 @@ public abstract class MultiBlockProcessor extends AbstractProcessor implements M
 
     }
 
-    public List<MachineRecipe> getMachineRecipes(){
-        return this.machineRecipes;
-    }
     public MachineProcessor<SimpleCraftingOperation> getMachineProcessor() {
         return this.processor;
     }

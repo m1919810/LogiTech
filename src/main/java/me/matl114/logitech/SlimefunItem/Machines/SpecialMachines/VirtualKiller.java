@@ -146,9 +146,7 @@ public class VirtualKiller extends AbstractMachine {
     public void updateMenu(BlockMenu menu,Block block,Settings mod){
         parseItem(menu,block);
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<MachineRecipe>();
-    }
+
 
     public void parseItem(BlockMenu menu, Block block){
         DataMenuClickHandler handler= getDataHolder(block,menu);

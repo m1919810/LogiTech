@@ -56,9 +56,7 @@ public abstract class AbstractPipe extends AbstractMachine implements Directiona
     public void newMenuInstance(BlockMenu menu, Block block){
     }
     public void updateMenu(BlockMenu menu, Block block, Settings mod){}
-    public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<MachineRecipe>();
-    }
+
     public void process(Block b, BlockMenu menu, SlimefunBlockData data){}
     public  AbstractPipe(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe){
         super(category, item, recipeType, recipe, 0,0);

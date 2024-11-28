@@ -41,9 +41,7 @@ public class Storage extends AbstractMachine implements Ticking {
     public void constructMenu(BlockMenuPreset preset){
         preset.setSize(54);
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<>();
-    }
+
 
     public  int[] getInputSlots(){
         return INPUT_SLOT;

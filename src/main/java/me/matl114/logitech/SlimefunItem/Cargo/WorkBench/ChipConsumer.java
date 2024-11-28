@@ -74,9 +74,7 @@ public class ChipConsumer extends AbstractMachine {
             CraftUtils.getConsumer(  AddItem.EXISTE),
             CraftUtils.getConsumer(  AddItem.UNIQUE),
     };
-    public List<MachineRecipe> getMachineRecipes() {
-        return new ArrayList<MachineRecipe>();
-    }
+
     protected Material ChipMaterial=AddItem.CHIP.getType();
 
     public void constructMenu(BlockMenuPreset preset){

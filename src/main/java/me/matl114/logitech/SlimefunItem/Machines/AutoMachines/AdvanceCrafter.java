@@ -24,26 +24,5 @@ public class AdvanceCrafter  {
     }
 
 
-//    public List<MachineRecipe> getMachineRecipes() {
-//        //this should not be null ,unless you are sb
-//        if(this.machineRecipes.isEmpty()||this.craftType!=null) {
-//            if(this.craftType.length<=0){
-//                return new ArrayList<>();
-//            }
-//            else {
-//                this.machineRecipes=new ArrayList<>();
-//                for(RecipeType rt : this.craftType){
-//                    if(rt!=null){
-//                        List<MachineRecipe> rep=RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(rt);
-//                        if(rep==null)rep=new ArrayList<>();
-//                        this.machineRecipes.addAll(rep);
-//                    }
-//                }
-//            }
-//            if(this.machineRecipes==null) {
-//                this.machineRecipes = new ArrayList<>();
-//            }
-//        }
-//        return this.machineRecipes;
-//    }
+
 }

@@ -81,9 +81,6 @@ public abstract  class AbstractTransformer extends AbstractMachine {
         }
         return list;
     }
-    public List<MachineRecipe> getMachineRecipes() {
-        return machineRecipes;
-    }
     public void newMenuInstance(BlockMenu inv,Block b){
         inv.addMenuOpeningHandler((player -> {
             updateMenu(inv,b,Settings.RUN);

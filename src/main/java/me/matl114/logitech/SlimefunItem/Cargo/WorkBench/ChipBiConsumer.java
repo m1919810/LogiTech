@@ -71,9 +71,6 @@ public class ChipBiConsumer extends AbstractMachine {
     }
     protected Material ChipMaterial=AddItem.CHIP.getType();
 
-    public List<MachineRecipe> getMachineRecipes() {
-        return new ArrayList<MachineRecipe>();
-    }
     protected final ItemCounter[] MATCH_ITEM=new ItemCounter[]{
             CraftUtils.getConsumer( AddItem.TRUE_),
             CraftUtils.getConsumer(  AddItem.FALSE_),

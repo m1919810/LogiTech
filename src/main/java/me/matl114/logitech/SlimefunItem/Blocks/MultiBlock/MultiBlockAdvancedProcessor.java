@@ -37,9 +37,6 @@ public abstract class MultiBlockAdvancedProcessor extends AbstractAdvancedProces
 
     }
     protected final String HEIGHT_KEY="h";
-    public List<MachineRecipe> getMachineRecipes(){
-        return this.machineRecipes;
-    }
     public MachineProcessor<MultiCraftingOperation> getMachineProcessor() {
         return this.processor;
     }

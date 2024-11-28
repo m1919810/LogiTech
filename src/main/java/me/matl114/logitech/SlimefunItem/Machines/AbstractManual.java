@@ -75,9 +75,6 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
             item.setItemMeta(AddUtils.workBenchInfoAdd(item,this.energybuffer,this.energyConsumption).getItemMeta());
         }
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        return machineRecipes;
-    }
 
     public MachineRecipe getRecordRecipe(Location loc){
         return getMachineRecipes().get(getNowRecordRecipe(loc));

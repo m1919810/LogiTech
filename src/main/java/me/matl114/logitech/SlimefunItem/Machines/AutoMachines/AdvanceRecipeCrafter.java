@@ -69,7 +69,7 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
         );
     }
     public List<MachineRecipe> getMachineRecipes() {
-        if(this.machineRecipes == null) {
+        if(this.machineRecipes == null||this.machineRecipes.isEmpty()) {
             this.machineRecipes = new ArrayList<>();
             if(this.craftType!=null){
                 if(publicTime==0){
@@ -90,7 +90,6 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
                     //reset ticks to ...
                 }else{
                     //@TODO new MachineRecipe to reset ticks
-                    this.machineRecipes=new ArrayList<>();
                     for(int i=0;i<this.craftType.length;i++){
                         RecipeType rt = this.craftType[i];
                         if(rt!=null){

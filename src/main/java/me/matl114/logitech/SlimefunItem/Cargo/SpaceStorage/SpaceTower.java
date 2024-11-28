@@ -266,9 +266,7 @@ public class SpaceTower extends AbstractMachine {
                     "&7空间大小: "+String.join("x",String.valueOf(dx),String.valueOf(dy),String.valueOf(dz))));
         }
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<MachineRecipe>();
-    }
+
     public void tick(Block b, @Nullable BlockMenu menu, SlimefunBlockData data, int tickCount){
         if(menu.hasViewer()){
             updateMenu(menu,b,Settings.RUN);

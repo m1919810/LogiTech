@@ -18,7 +18,6 @@ import java.util.function.Supplier;
 
 public class ManualMachine extends AbstractManual implements ImportRecipes {
     public  List<ItemStack> displayedMemory = null;
-    protected final Supplier<List<MachineRecipe>> machineRecipeSupplier;
     public ManualMachine(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                          int energybuffer, int energyConsumption,
                          Supplier<List<MachineRecipe>> machineRecipeSupplier) {
@@ -30,14 +29,5 @@ public class ManualMachine extends AbstractManual implements ImportRecipes {
         });
     }
     public void registerDefaultRecipes(){
-    }
-    public List<MachineRecipe> getMachineRecipes() {
-        //this should not be null ,unless you are sb
-        if(this.machineRecipes == null||this.machineRecipes.isEmpty()||this.machineRecipeSupplier!=null) {
-            this.machineRecipes=new ArrayList<>();
-            this.machineRecipes.addAll(this. machineRecipeSupplier.get());
-
-        }
-        return this.machineRecipes;
     }
 }

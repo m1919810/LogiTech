@@ -22,27 +22,21 @@ public class ManualCrafter extends AbstractManual implements ImportRecipes {
                           RecipeType... craftType) {
         super(category,item,recipeType,recipe,energybuffer,energyConsumption,null);
         this.craftType = craftType;
-        SchedulePostRegister.addPostRegisterTask(()->{
-            getDisplayRecipes();
-        });
-    }
-    public List<MachineRecipe> getMachineRecipes() {
-        //this should not be null ,unless you are sb
-        if(this.machineRecipes == null||this.machineRecipes.isEmpty()||this.craftType!=null) {
-            if(this.craftType.length<=0){
+        this.machineRecipeSupplier=()->{
+            if(this.craftType==null||this.craftType.length<=0){
                 return new ArrayList<>();
             }
             else {
-                this.machineRecipes=new ArrayList<>();
+                List<MachineRecipe> recipes = new ArrayList<>();
                 for(RecipeType rt : this.craftType){
                     if(rt!=null)
-                        this.machineRecipes.addAll( RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(rt));
+                        recipes.addAll(RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(rt));
                 }
+                return recipes;
             }
-            if(this.machineRecipes==null) {
-                this.machineRecipes = new ArrayList<>();
-            }
-        }
-        return this.machineRecipes;
+        };
+        SchedulePostRegister.addPostRegisterTask(()->{
+            getDisplayRecipes();
+        });
     }
 }

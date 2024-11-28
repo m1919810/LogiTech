@@ -25,7 +25,6 @@ public class EMachine extends AbstractProcessor implements ImportRecipes {
         super(category,item,recipeType,recipe,processbar,energyConsumption,energyBuffer,customRecipes);
 
     }
-    protected Supplier<List<MachineRecipe>> machineRecipeSupplier=null;
     public EMachine(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                     Material processbar, int energyConsumption, int energyBuffer,
                      Supplier<List<MachineRecipe>> machineRecipeSupplier) {
@@ -54,15 +53,7 @@ public class EMachine extends AbstractProcessor implements ImportRecipes {
            }
        });
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        if(this.machineRecipes.isEmpty()&&this.machineRecipeSupplier!=null){
-            this.machineRecipes=this.machineRecipeSupplier.get();
-            if(this.machineRecipes==null) {
-                this.machineRecipes = new ArrayList<>();
-            }
-        }
-        return this.machineRecipes;
-    }
+
     public void addInfo(ItemStack stack){
         super.addInfo(stack);
     }

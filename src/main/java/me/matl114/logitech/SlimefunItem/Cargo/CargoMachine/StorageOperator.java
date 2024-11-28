@@ -48,10 +48,7 @@ public class StorageOperator extends AbstractMachine {
         return OUTPUT_SLOT;
     }
 
-    @Override
-    public List<MachineRecipe> getMachineRecipes() {
-        return new ArrayList<>();
-    }
+
 
     protected final ItemStack[] INFO_ITEMS=new ItemStack[]{
             new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&a输入槽1"),

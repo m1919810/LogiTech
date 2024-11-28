@@ -88,9 +88,7 @@ public class BiReactor extends AbstractEnergyProvider {
                         formatted(this.energyConsumptionFalse)),
                 new DisplayItemStack(AddItem.FALSE_)));
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<>();
-    }
+
     public void constructMenu(BlockMenuPreset preset){
         int[] border=BORDER;
         int len= border.length;

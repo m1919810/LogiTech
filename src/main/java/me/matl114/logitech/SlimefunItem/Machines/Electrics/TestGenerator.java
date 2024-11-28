@@ -71,9 +71,7 @@ public class TestGenerator extends AbstractEnergyProvider {
         this.machineRecipes=new ArrayList<>();
         this.RANDOM_THREASHOLD= 2*this.ENERGY_ABSMAX+1;
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        return machineRecipes;
-    }
+
     public EnergyNetComponentType getEnergyComponentType(){
             return EnergyNetComponentType.GENERATOR;
     }

@@ -122,9 +122,6 @@ public abstract class AbstractEnergyProcessor extends AbstractEnergyProvider imp
     public int[] getOutputSlots(){
         return new int[]{24,25};
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        return this.machineRecipes;
-    }
     public int getGeneratedOutput(@Nonnull Location l, @Nonnull SlimefunBlockData data){
 
         BlockMenu inv= DataCache.getMenu(l);

@@ -323,9 +323,6 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
     public final int getCraftLimit(Block b,BlockMenu inv){
         return (this.efficiency*getDataHolder(b,inv).getInt(0));
     }
-    public List<MachineRecipe> getMachineRecipes() {
-        return new ArrayList<>();
-    }
     public List<MachineRecipe> getMachineRecipes(Block b, BlockMenu inv){
         return getMachineRecipes(DataCache.safeLoadBlock(inv.getLocation()));
     }

@@ -34,8 +34,5 @@ public  class EmptyMachineSample extends AbstractMachine{
     public void newMenuInstance(BlockMenu menu, Block block){
     }
     public void updateMenu(BlockMenu menu, Block block, Settings mod){}
-    public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<MachineRecipe>();
-    }
     public void process(Block b, BlockMenu menu, SlimefunBlockData data){}
 }

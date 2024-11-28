@@ -120,9 +120,6 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
     public final List<RecipeType> BW_LIST;
     public RecipeType[] craftType=new RecipeType[]{RecipeType.ENHANCED_CRAFTING_TABLE};
     protected boolean isWhiteList=true;
-    public List<MachineRecipe> getMachineRecipes(){
-        return machineRecipes;
-    }
     public List<MachineRecipe> getMachineRecipes(Block b,BlockMenu inv){
         Location loc=inv.getLocation();
         int index=MultiCraftType.getRecipeTypeIndex(loc);

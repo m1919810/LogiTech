@@ -145,9 +145,7 @@ public abstract class AbstractProcessor extends AbstractMachine implements Machi
         return new int[]{24,25};
     }
 
-    public List<MachineRecipe> getMachineRecipes(){
-        return this.machineRecipes;
-    }
+
     protected boolean USE_HISTORY=true;
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         SimpleCraftingOperation currentOperation = (SimpleCraftingOperation)this.processor.getOperation(b);

@@ -147,10 +147,6 @@ public class VirtualExplorer extends AbstractMachine implements MachineProcessHo
         menu.replaceExistingItem(WORLD_SLOT,env);
     }
     public void updateMenu(BlockMenu menu, Block block, Settings mod){}
-    public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<MachineRecipe>();
-    }
-
     protected int isFood(ItemStack item){
         if(item==null||!item.isSimilar(new ItemStack(item.getType()))){
             return 0;

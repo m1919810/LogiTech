@@ -146,9 +146,7 @@ public class AttributeOperator extends AbstractMachine {
             return dh;
         }
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<MachineRecipe>();
-    }
+
     public int[] getInputSlots(){
         return INPUT_SLOT;
     }

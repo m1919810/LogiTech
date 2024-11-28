@@ -48,9 +48,7 @@ public class EnergyAmplifier extends AbstractEnergyProvider {
     protected final int STATUS_SLOT=4;
     protected final int MACHINE_SLOT=13;
     protected final ItemStack STATUS_ITEM_OFF=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&c当前状态: 未发电");
-    public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<>();
-    }
+
     protected ItemPusherProvider MACHINE_PROVIDER= FinalFeature.STORAGE_READER;
     protected double multiply;
     protected final ItemStack RUNWHENFULL_OFF=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&6过载模式: &c关","&7点击切换过载模式",

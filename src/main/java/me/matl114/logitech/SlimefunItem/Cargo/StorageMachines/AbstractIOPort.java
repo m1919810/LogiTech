@@ -65,9 +65,6 @@ public abstract class AbstractIOPort extends AbstractMachine {
     public abstract void constructMenu(BlockMenuPreset preset);
     public abstract int[] getInputSlots();
     public abstract int[] getOutputSlots();
-    public List<MachineRecipe> getMachineRecipes(){
-        return null;
-    }
     public abstract int getStorageSlot();
     public abstract int getDisplaySlot();
     public void updateMenu(BlockMenu inv, Block b, Settings mod){

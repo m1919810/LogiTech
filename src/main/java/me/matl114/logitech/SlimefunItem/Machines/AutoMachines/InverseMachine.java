@@ -177,9 +177,7 @@ public class InverseMachine extends AbstractAdvancedProcessor {
         }
         return null;
     }
-    public List<MachineRecipe> getMachineRecipes() {
-        return new ArrayList<>();
-    }
+
     public List<MachineRecipe> getMachineRecipes(Block b, BlockMenu inv){
         return getMachineRecipes(DataCache.safeLoadBlock(inv.getLocation()));
     }

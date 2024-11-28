@@ -110,10 +110,6 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
         preset.addItem(STATUS_SLOT,STATUS_OFF,ChestMenuUtils.getEmptyClickHandler());
         preset.addItem(INFO_SLOT,INFO_ITEM,ChestMenuUtils.getEmptyClickHandler());
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        List<MachineRecipe> recipes=new ArrayList<>();
-        return recipes;
-    }
     public void tick(Block b, @Nullable BlockMenu menu, SlimefunBlockData data, int tickCount){
         if(menu==null)return;
         if(conditionHandle(b,menu)&& FinalFeature.isFinalAltarCharged(this,data)){

@@ -278,9 +278,7 @@ public class ItemOperator extends AbstractMachine {
         }));
     }
     public void updateMenu(BlockMenu menu, Block block, Settings mod){}
-    public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<MachineRecipe>();
-    }
+
 
     @Override
     public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int ticker) {

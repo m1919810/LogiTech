@@ -78,11 +78,6 @@ public abstract class AdvancedSpecialCrafter extends AbstractProcessor implement
     public ItemStack getProgressBar(){
         return this.progressbar;
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<>(){{
-
-        }};
-    }
     public int getCraftLimit(Block b,BlockMenu inv){
         return 64;
     }

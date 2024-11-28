@@ -21,7 +21,7 @@ public class MTMachine extends AbstractMultiThreadProcessor {
                                         LinkedHashMap<Object, Integer> customRecipes){
         super(category, item, recipeType, recipe, progressItem, energyConsumption, energyBuffer, customRecipes);
     }
-    protected Supplier<List<MachineRecipe>> machineRecipeSupplier=null;
+
     public MTMachine(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                      ItemStack processbar, int energyConsumption, int energyBuffer,
                     Supplier<List<MachineRecipe>> machineRecipeSupplier) {
@@ -50,13 +50,5 @@ public class MTMachine extends AbstractMultiThreadProcessor {
             }
         });
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        if(this.machineRecipes.isEmpty()&&this.machineRecipeSupplier!=null){
-            this.machineRecipes=this.machineRecipeSupplier.get();
-            if(this.machineRecipes==null) {
-                this.machineRecipes = new ArrayList<>();
-            }
-        }
-        return this.machineRecipes;
-    }
+
 }

@@ -90,9 +90,7 @@ public class HeadAnalyzer extends AbstractMachine{
         preset.addItem(ENCODE_SLOT,ENCODE_ITEM, ChestMenuUtils.getEmptyClickHandler());
         preset.addItem(CHANGE_SLOT,CHANGE_ITEM, ChestMenuUtils.getEmptyClickHandler());
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<MachineRecipe>();
-    }
+
     public void process(Block b, BlockMenu preset, SlimefunBlockData data){
 
     }

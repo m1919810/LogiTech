@@ -22,9 +22,7 @@ public class Capacitor extends AbstractMachine {
     public int[] getOutputSlots(){
         return new int[0];
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<MachineRecipe>();
-    }
+
     public Capacitor(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                      int energybuffer){
         super(category,item,recipeType,recipe,energybuffer,0);

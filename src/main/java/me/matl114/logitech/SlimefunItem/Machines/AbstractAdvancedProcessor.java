@@ -125,9 +125,6 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
         return OUTPUT_SLOT;
     }
 
-    public List<MachineRecipe> getMachineRecipes(){
-        return this.machineRecipes;
-    }
 
 
     public int getCraftLimit(Block b,BlockMenu inv){

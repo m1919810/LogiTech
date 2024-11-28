@@ -70,9 +70,7 @@ public class SimulateTestGenerator extends AbstractMachine {
     public void newMenuInstance(BlockMenu menu, Block block){
     }
     public void updateMenu(BlockMenu menu, Block block, Settings mod){}
-    public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<MachineRecipe>();
-    }
+
     public ItemStack[] OUTPUTS=new ItemStack[]{OUTPUT};
     protected final int MULTIPLE_TIME=4;
     public void tick(Block b, BlockMenu inv, SlimefunBlockData data,int tick){

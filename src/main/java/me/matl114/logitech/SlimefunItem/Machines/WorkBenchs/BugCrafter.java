@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Language;
+import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractWorkBench;
 import me.matl114.logitech.Utils.AddUtils;
@@ -39,13 +40,12 @@ public class BugCrafter extends AbstractWorkBench implements ImportRecipes {
     public BugCrafter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                          int energybuffer, int energyConsumption,int limit) {
         super(category, item, recipeType, recipe, energybuffer, energyConsumption,limit,null);
-    }
-    public List<MachineRecipe> getMachineRecipes() {
-        if(this.machineRecipes==null||this.machineRecipes.isEmpty()){
-            this.machineRecipes=new ArrayList<>();
-            this.machineRecipes.addAll( RecipeSupporter.PROVIDED_SHAPED_RECIPES.get(TYPE));
-        }
-        return this.machineRecipes;
+        this.machineRecipeSupplier=()->{
+            List<MachineRecipe> recipes=new ArrayList<>();
+            recipes.addAll( RecipeSupporter.PROVIDED_SHAPED_RECIPES.get(TYPE));
+            return recipes;
+        };
+        SchedulePostRegister.addPostRegisterTask(this::getMachineRecipes);
     }
     public void constructMenu(BlockMenuPreset preset){
         int[] border = BORDER_IN;

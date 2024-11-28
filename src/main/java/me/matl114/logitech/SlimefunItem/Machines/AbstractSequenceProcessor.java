@@ -81,9 +81,6 @@ public abstract class AbstractSequenceProcessor extends AbstractMachine implemen
             this.machineRecipes=new ArrayList<>();
         }
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        return this.machineRecipes;
-    }
     public MachineProcessor<SequenceCraftingOperation> getMachineProcessor() {
         return this.processor;
     }

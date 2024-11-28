@@ -104,9 +104,6 @@ public abstract class AbstractWorkBench extends AbstractMachine {
     public abstract int[] getOutputSlots();
 
     public abstract int[] getRecipeSlots();
-    public List<MachineRecipe> getMachineRecipes(){
-        return machineRecipes;
-    }
     public void registerTick(SlimefunItem item){
         //no ticker
     }

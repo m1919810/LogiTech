@@ -165,9 +165,6 @@ public class AbstractMultiThreadProcessor extends AbstractMachine implements Mac
         }
     }
 
-    public List<MachineRecipe> getMachineRecipes(){
-        return this.machineRecipes;
-    }
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         int run=0;
         boolean hasViewer=inv.hasViewer();

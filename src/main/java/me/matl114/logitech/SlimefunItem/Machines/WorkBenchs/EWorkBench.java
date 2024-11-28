@@ -32,7 +32,6 @@ public class EWorkBench extends AbstractWorkBench {
                          int energybuffer, int energyConsumption,int craftlimit, LinkedHashMap<Object,Integer> shapedRecipes) {
         super(category, item, recipeType, recipe, energybuffer, energyConsumption,craftlimit, shapedRecipes);
     }
-    public Supplier<List<MachineRecipe>> machineRecipeSupplier=null;
     public EWorkBench(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                       int energybuffer, int energyConsumption,int craftlimit, Supplier<List<MachineRecipe>> machineRecipeSupplier) {
         super(category, item, recipeType, recipe, energybuffer, energyConsumption,craftlimit,new LinkedHashMap<>());
@@ -40,15 +39,6 @@ public class EWorkBench extends AbstractWorkBench {
         SchedulePostRegister.addPostRegisterTask(()->{
             getMachineRecipes();
         });
-    }
-    public List<MachineRecipe> getMachineRecipes(){
-        if(this.machineRecipes.isEmpty()&&this.machineRecipeSupplier!=null){
-            this.machineRecipes=this.machineRecipeSupplier.get();
-            if(this.machineRecipes==null) {
-                this.machineRecipes = new ArrayList<>();
-            }
-        }
-        return this.machineRecipes;
     }
     public void constructMenu(BlockMenuPreset preset){
         //preset.setSize(45);

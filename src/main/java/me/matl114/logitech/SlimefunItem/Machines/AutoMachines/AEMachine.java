@@ -39,7 +39,6 @@ public class AEMachine extends AbstractAdvancedProcessor {
         super(category,item,recipeType,recipe,processbar,energyConsumption,energyBuffer,customRecipes);
         this.machineRecipeSupplier=null;
     }
-    protected Supplier<List<MachineRecipe>> machineRecipeSupplier=null;
     public AEMachine(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                      Material processbar, int energyConsumption, int energyBuffer,Supplier<List<MachineRecipe>> machineRecipeSupplier){
         super(category,item,recipeType,recipe,processbar,energyConsumption,energyBuffer,null);
@@ -74,15 +73,7 @@ public class AEMachine extends AbstractAdvancedProcessor {
         });
     }
     public String MAXCRAFT_KEY="p";
-    public List<MachineRecipe> getMachineRecipes(){
-        if(this.machineRecipes.isEmpty()&&this.machineRecipeSupplier!=null){
-            this.machineRecipes=this.machineRecipeSupplier.get();
-            if(this.machineRecipes==null) {
-                this.machineRecipes = new ArrayList<>();
-            }
-        }
-        return this.machineRecipes;
-    }
+
     public void newMenuInstance(BlockMenu inv,Block b){
         inv.addMenuOpeningHandler(player -> {
             updateMenu(inv,b,Settings.RUN);

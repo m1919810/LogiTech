@@ -41,10 +41,7 @@ public class StorageCleaner extends AbstractMachine {
     public int[] getOutputSlots(){
         return OUTPUT_SLOT;
     }
-    @Override
-    public List<MachineRecipe> getMachineRecipes() {
-        return new ArrayList<>();
-    }
+
     protected final int BOTTON_SLOT=22;
     protected final ItemStack BOTTON_ITEM=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&a信息",
             "&7上方输入槽,下方输出槽",

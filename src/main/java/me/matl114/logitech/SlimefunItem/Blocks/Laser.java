@@ -40,9 +40,7 @@ public class Laser extends AbstractMachine implements MultiBlockPart, FinalAltar
     public int[] getOutputSlots(){
         return new int[0];
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<>();
-    }
+
     public final String PARTID;
     public Laser(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                                        int energybuffer, int energyConsumption,String partId) {

@@ -119,9 +119,6 @@ public class TestStorageUnit extends AbstractMachine {
     public int[] getOutputSlots(){
         return OUTPUT_SLOT;
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<MachineRecipe>();
-    }
     public void process(Block b, BlockMenu menu, SlimefunBlockData data){
         Block c=b.getRelative(BlockFace.UP);
         if (c!=null){

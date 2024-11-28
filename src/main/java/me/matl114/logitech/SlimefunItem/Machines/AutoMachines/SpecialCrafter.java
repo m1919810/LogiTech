@@ -79,9 +79,6 @@ public abstract class SpecialCrafter extends AbstractAdvancedProcessor implement
     public ItemStack getProgressBar(){
         return this.progressbar;
     }
-    public List<MachineRecipe> getMachineRecipes(){
-        return new ArrayList<>();
-    }
     public abstract HashMap<SlimefunItem,RecipeType> getRecipeTypeMap();
     public abstract boolean advanced();
     public int getCraftLimit(Block b,BlockMenu menu){
