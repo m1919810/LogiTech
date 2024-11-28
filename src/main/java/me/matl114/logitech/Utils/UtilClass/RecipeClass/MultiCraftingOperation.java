@@ -1,9 +1,8 @@
 package me.matl114.logitech.Utils.UtilClass.RecipeClass;
 
-import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
 
-public class MultiCraftingOperation implements MachineOperation {
+public class MultiCraftingOperation implements CustomMachineOperation {
     private ItemGreedyConsumer[] outputItems;
     private int totalTicks;
     private int currentTicks;
@@ -15,7 +14,9 @@ public class MultiCraftingOperation implements MachineOperation {
             outputItems[i].clearRelated();
         }
     }
-    public void addProgress(int var1){
+
+
+    public void progress(int var1){
         this.currentTicks += var1;
     }
 

@@ -3,7 +3,7 @@ package me.matl114.logitech.Utils.UtilClass.RecipeClass;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 
-public class EnergyProviderOperation implements MachineOperation {
+public class EnergyProviderOperation implements CustomMachineOperation {
     private ItemConsumer[] outputItems;
     private int energyPertick;
     private int totalTicks;
@@ -14,7 +14,7 @@ public class EnergyProviderOperation implements MachineOperation {
         this.currentTicks = 0;
         this.energyPertick = energyPerTick;
     }
-    public void addProgress(int var1){
+    public void progress(int var1){
         this.currentTicks += var1;
     }
 

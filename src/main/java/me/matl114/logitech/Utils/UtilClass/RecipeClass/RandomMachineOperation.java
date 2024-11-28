@@ -6,18 +6,31 @@ import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 
 import java.util.Random;
 
-public class RandomMachineOperation extends SimpleCraftingOperation {
-    public RandomMachineOperation(ItemConsumer[] outputItems,int time) {
-        super(outputItems,time);
+public class RandomMachineOperation implements CustomMachineOperation {
+    int totalTicks;
+    long key;
+    int currentTick;
+    public RandomMachineOperation(int time,long key) {
+        this.totalTicks = time;
+        this.key = key;
+        this.currentTick = 0;
     }
     static Random rand=new Random();
-    public void addProgress(int var1){
-        this.currentTicks += rand.nextInt(2*var1+1)-var1;
-        this.currentTicks=Math.max(this.currentTicks,0);
+    public void progress(int var1){
     }
-    public int getProgress(){
-        return
-                Math.min(this.currentTicks,this.totalTicks);
+    public void randProgress(int amount,long value){
+        if(key==value){
+            currentTick+=amount;
+        }else {
+            int offset=((rand.nextInt(0,4)==0)^(key<value))?1:-1;
+            currentTick+=amount*offset;
+        }
+    }
+
+
+    @Override
+    public int getProgress() {
+        return this.currentTick;
     }
 
     public int getTotalTicks(){
@@ -25,7 +38,7 @@ public class RandomMachineOperation extends SimpleCraftingOperation {
     }
 
     public int getRemainingTicks() {
-        return Math.max(0, this.totalTicks-this.currentTicks);
+        return Math.max(0, this.totalTicks-this.currentTick);
     }
 
 

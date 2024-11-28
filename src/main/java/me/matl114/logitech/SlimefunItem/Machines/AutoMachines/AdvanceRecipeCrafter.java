@@ -69,35 +69,35 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
         );
     }
     public List<MachineRecipe> getMachineRecipes() {
-        if(this.machineRecipes == null||this.craftType!=null) {
-            if(this.machineRecipes==null) {
-                this.machineRecipes = new ArrayList<>();
-            }
-            if(publicTime==0){
-                if(this.craftType.length<=0){
-                    return new ArrayList<>();
-                }
-                else {
+        if(this.machineRecipes == null) {
+            this.machineRecipes = new ArrayList<>();
+            if(this.craftType!=null){
+                if(publicTime==0){
+                    if(this.craftType.length<=0){
+                        return new ArrayList<>();
+                    }
+                    else {
 
+                        this.machineRecipes=new ArrayList<>();
+                        for(RecipeType rt : this.craftType){
+                            if(rt!=null){
+                                List<MachineRecipe> rep=RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(rt);
+                                if(rep==null)rep=new ArrayList<>();
+                                this.machineRecipes.addAll(rep);
+                            }
+                        }
+                    }
+                    //reset ticks to ...
+                }else{
+                    //@TODO new MachineRecipe to reset ticks
                     this.machineRecipes=new ArrayList<>();
-                    for(RecipeType rt : this.craftType){
+                    for(int i=0;i<this.craftType.length;i++){
+                        RecipeType rt = this.craftType[i];
                         if(rt!=null){
                             List<MachineRecipe> rep=RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(rt);
                             if(rep==null)rep=new ArrayList<>();
                             this.machineRecipes.addAll(rep);
                         }
-                    }
-                }
-                //reset ticks to ...
-            }else{
-                //@TODO new MachineRecipe to reset ticks
-                this.machineRecipes=new ArrayList<>();
-                for(int i=0;i<this.craftType.length;i++){
-                    RecipeType rt = this.craftType[i];
-                    if(rt!=null){
-                        List<MachineRecipe> rep=RecipeSupporter.PROVIDED_UNSHAPED_RECIPES.get(rt);
-                        if(rep==null)rep=new ArrayList<>();
-                        this.machineRecipes.addAll(rep);
                     }
                 }
             }
@@ -219,15 +219,12 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
             }
             MachineRecipe next=getRecordRecipe(data);
             if(next==null){
-
                 if(inv.hasViewer()){inv.replaceExistingItem(22, MenuUtils.PROCESSOR_NULL);
                 }
                 return ;
             }
-
             Pair<ItemGreedyConsumer[],ItemGreedyConsumer[]> nextP=CraftUtils.countMultiRecipe(inv,getInputSlots(),
                     getOutputSlots(),next,getCraftLimit(b,inv),CRAFT_PROVIDER);
-
             if (nextP != null) {
 
                     CraftUtils.multiUpdateInputMenu(nextP.getFirstValue(),inv);
@@ -255,7 +252,6 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
             CraftUtils.multiUpdateOutputMenu(fastCraft,inv);
         }else if(currentOperation.isFinished()){
             ItemGreedyConsumer[] var4=currentOperation.getResults();
-            int var5 = var4.length;
             CraftUtils.multiForcePush(var4,inv,getOutputSlots(),CRAFT_PROVIDER);
             if(inv.hasViewer()){inv.replaceExistingItem(22, MenuUtils.PROCESSOR_NULL);
             }
@@ -266,8 +262,7 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
                 this.processor.updateProgressBar(inv, 22, currentOperation);
 
             }
-            currentOperation.addProgress(1);
-
+            currentOperation.progress(1);
         }
 
 

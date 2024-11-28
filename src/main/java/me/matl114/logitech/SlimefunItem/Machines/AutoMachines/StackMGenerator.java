@@ -357,7 +357,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
                         inv.replaceExistingItem(this.PROCESSOR_SLOT,getWorkingItem(tick));
                     }
                     inv.replaceExistingItem(MINFO_SLOT,getInfoItem(getCraftLimit(b,inv),consumption,energy,
-                            this.efficiency,ItemStackHelper.getDisplayName(inv.getItemInSlot(MACHINE_SLOT))));
+                            this.efficiency,ItemStackHelper.getDisplayName(this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT).getItem())));
                 }
                 progressorCost(b,inv);
                 if(tick<=0){

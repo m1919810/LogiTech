@@ -3,7 +3,7 @@ package me.matl114.logitech.Utils.UtilClass.RecipeClass;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 
-public class SimpleCraftingOperation implements MachineOperation {
+public class SimpleCraftingOperation implements CustomMachineOperation {
     protected ItemConsumer[] outputItems;
     protected int totalTicks;
     protected int currentTicks;
@@ -12,7 +12,7 @@ public class SimpleCraftingOperation implements MachineOperation {
         this.totalTicks = time;
         this.currentTicks = 0;
     }
-    public void addProgress(int var1){
+    public void progress(int var1){
         this.currentTicks += var1;
     }
 

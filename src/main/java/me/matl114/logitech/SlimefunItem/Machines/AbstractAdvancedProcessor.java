@@ -10,8 +10,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.MultiCraftingOperation;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -203,7 +201,7 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
                 this.processor.updateProgressBar(inv, PROCESSOR_SLOT, currentOperation);
 
             }
-            currentOperation.addProgress(1);
+            currentOperation.progress(1);
 
         }
     }

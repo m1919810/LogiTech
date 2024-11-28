@@ -11,7 +11,6 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.EnergyProviderOperation;
-import me.matl114.logitech.Utils.UtilClass.RecipeClass.SimpleCraftingOperation;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -171,7 +170,7 @@ public abstract class AbstractEnergyProcessor extends AbstractEnergyProvider imp
                     this.processor.updateProgressBar(inv, PROCESSOR_SLOT, currentOperation);
 
                 }
-                currentOperation.addProgress(1);
+                currentOperation.progress(1);
 
             }
             return currentOperation.getEnergy();

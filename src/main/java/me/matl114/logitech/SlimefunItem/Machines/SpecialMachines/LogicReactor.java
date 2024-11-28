@@ -7,7 +7,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import jdk.jshell.execution.Util;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
@@ -21,13 +20,11 @@ import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class LogicReactor extends AbstractProcessor {
     protected final int[] BORDER=new int[]{0, 2, 4, 6,  8, 9, 10, 11, 12,  14, 15, 16, 17, 18,
@@ -251,7 +248,7 @@ public class LogicReactor extends AbstractProcessor {
                     this.processor.updateProgressBar(inv, PROCESSOR_SLOT[var5], currentOperation);
                 }
             }
-            currentOperation.addProgress(1);
+            currentOperation.progress(1);
         }
     }
     public int[] getSlotsAccessedByItemTransportPlus(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item){

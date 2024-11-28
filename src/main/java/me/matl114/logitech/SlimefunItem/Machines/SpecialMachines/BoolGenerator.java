@@ -174,7 +174,7 @@ public class BoolGenerator extends AbstractProcessor {
                     this.processor.updateProgressBar(inv, PROCESSOR_SLOT[var5], currentOperation);
                 }
             }
-            currentOperation.addProgress(1);
+            currentOperation.progress(1);
         }
     }
 

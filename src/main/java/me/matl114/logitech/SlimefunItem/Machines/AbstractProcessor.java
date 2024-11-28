@@ -10,7 +10,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.SimpleCraftingOperation;
 import me.matl114.logitech.Utils.MachineRecipeUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -193,7 +192,7 @@ public abstract class AbstractProcessor extends AbstractMachine implements Machi
                      this.processor.updateProgressBar(inv, PROCESSOR_SLOT, currentOperation);
 
                 }
-                currentOperation.addProgress(1);
+                currentOperation.progress(1);
 
             }
 

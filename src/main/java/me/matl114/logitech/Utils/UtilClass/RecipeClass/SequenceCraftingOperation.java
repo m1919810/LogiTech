@@ -1,12 +1,9 @@
 package me.matl114.logitech.Utils.UtilClass.RecipeClass;
 
-import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
-import io.github.thebusybiscuit.slimefun4.implementation.operations.CraftingOperation;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -14,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SequenceCraftingOperation implements MachineOperation {
+public class SequenceCraftingOperation implements CustomMachineOperation {
     private ItemConsumer[] inputItems;
     private MachineRecipe recipe;
     private int tickPerSeq;
@@ -34,7 +31,7 @@ public class SequenceCraftingOperation implements MachineOperation {
         this.currentSeqTicks=0;
 
     }
-    public void addProgress(int var1){
+    public void progress(int var1){
         if(this.currentSeqTicks<this.tickPerSeq){
             this.currentSeqTicks+=var1;
         }
