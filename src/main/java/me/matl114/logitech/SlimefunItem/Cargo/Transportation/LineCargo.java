@@ -166,6 +166,8 @@ public class LineCargo extends AbstractCargo {
         updateDirectionSlots(0,inv);
         updateConfigSlots(inv);
     }
+    protected boolean transportSmarter=false;
+    //todo async
     public void cargoTask(Block b, BlockMenu menu, SlimefunBlockData data, int configCode){
         Directions dir=getDirection(0,data);
         if(dir==Directions.NONE||dir==null)return;
@@ -193,12 +195,12 @@ public class LineCargo extends AbstractCargo {
                 if(nextTo==null){
                     break;
                 }
-                TransportUtils.transportItemGeneral(next,nextTo,configCode,bwset);
+                TransportUtils.transportItem(next,nextTo,configCode,transportSmarter,bwset,CraftUtils.getpusher);
                 next=nextTo;
                 --limit;
             }
             if(loop&&limit!=MAX_LINE_LEN){
-                TransportUtils.transportItemGeneral(next,first,configCode,bwset);
+                TransportUtils.transportItem(next,first,configCode,transportSmarter,bwset,CraftUtils.getpusher);
             }
         }
 

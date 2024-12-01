@@ -94,17 +94,6 @@ public class Schedules {
         },delay,isSync,period);
     }
     //this method should be called async
-    public static void asyncWaitSchedule(Runnable thread,int delay,boolean isSync){
-        //不得阻塞主线程
-        assert !Bukkit.isPrimaryThread();
-        CountDownLatch countDownLatch = new CountDownLatch(1);
-        launchSchedules(()->{thread.run();countDownLatch.countDown();},delay,isSync,0);
-        try{
-            countDownLatch.await();
-        }catch (InterruptedException e){
-            e.printStackTrace();
-        }
-    }
     public static void asyncWaithRepeatingSchedule(Consumer<Integer> thread , int delay, boolean isSync, int period,int repeatTime){
         assert !Bukkit.isPrimaryThread();
         CountDownLatch countDownLatch = new CountDownLatch(1);

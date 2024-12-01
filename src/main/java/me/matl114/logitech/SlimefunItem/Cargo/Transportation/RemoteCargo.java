@@ -123,22 +123,15 @@ public class RemoteCargo extends AbstractCargo {
         updateLocationSlot("from_dir",inv,LOCATION_SLOT[0]);
         updateLocationSlot("to_dir",inv,LOCATION_SLOT[1]);
     }
+    protected boolean transportSmarter=false;
     public void cargoTask(Block b, BlockMenu menu, SlimefunBlockData data, int configCode){
         //Location loc=menu.getLocation();
         Location from_dir=getLocation("from_dir",data);
         if(from_dir==null){
             return;
         }
-        BlockMenu from=DataCache.getMenu(from_dir);
-        if(from==null){
-            return;
-        }
         Location to_dir=getLocation("to_dir",data);
         if(to_dir==null){
-            return;
-        }
-        BlockMenu to= DataCache.getMenu(to_dir);
-        if(to==null){
             return;
         }
         int[] bwslots=getBWListSlot();
@@ -150,7 +143,7 @@ public class RemoteCargo extends AbstractCargo {
                 bwset.add(it);
             }
         }
-        TransportUtils.transportItemGeneral(from,to,configCode,bwset);
+        ContainerUtils.transferWithContainer(from_dir,to_dir,configCode,bwset,transportSmarter);
     }
     public void onBreak(BlockBreakEvent e, BlockMenu menu){
         super.onBreak(e, menu);

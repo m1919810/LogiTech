@@ -36,22 +36,7 @@ public class AdjacentCargoPlus extends AdjacentCargo {
                                 "&7本机器可以选择与其相邻的方块参与传输"),null
                 )
         );
+        this.transportSmarter=true;
     }
-    public void cargoTask(Block b, BlockMenu menu, SlimefunBlockData data, int configCode){
-        Location loc=menu.getLocation();
-        Directions from_dir=getDirection(0,data);
-        Location from=from_dir.relate(loc);
-        Directions to_dir=getDirection(1,data);
-        Location to=to_dir.relate(loc);
-        int[] bwslots=getBWListSlot();
-        HashSet<ItemStack> bwset=new HashSet<>();
-        ItemStack it;
-        for (int i=0;i<bwslots.length;++i){
-            it=menu.getItemInSlot(bwslots[i]);
-            if(it!=null){
-                bwset.add(it);
-            }
-        }
-        ContainerUtils.transferWithContainer(from,to,configCode,bwset,true);
-    }
+
 }

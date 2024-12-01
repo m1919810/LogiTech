@@ -453,7 +453,7 @@ public class AddSlimefunItems {
     public static final SlimefunItem REDSTONE_ENGINE=new MaterialItem(AddGroups.VANILLA,AddItem.REDSTONE_ENGINE,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("TNT","SLIME_BLOCK","ANVIL",
                     "OBSERVER","STICKY_PISTON","STICKY_PISTON",
-                    "REDSTONE_TORCH",AddItem.LOGIGATE,"2REPEATER"),null)
+                    "REDSTONE_TORCH",AddItem.LOGIGATE,"REPEATER"),null)
             .register();
 
     public static final SlimefunItem SAMPLE_HEAD=new AbstractBlock(AddGroups.SPECIAL,AddItem.SAMPLE_HEAD,RecipeType.NULL,
@@ -735,7 +735,6 @@ public class AddSlimefunItems {
         public boolean advanced(){
             return true;
         }
-
     }
             .register();
     public static final  SlimefunItem CONVERTOR=new EMachine(AddGroups.BASIC, AddItem.CONVERTOR,COMMON_TYPE,
@@ -1068,6 +1067,7 @@ public class AddSlimefunItems {
             recipe("NAME_TAG","CRYING_OBSIDIAN","NAME_TAG","AUTO_DISENCHANTER_2","AUTO_ANVIL_2","AUTO_ENCHANTER_2",
                     "ENCHANTING_TABLE","ANVIL","SMITHING_TABLE"), 0,0)
             .register();
+
     public static final  SlimefunItem TNT_GEN=new TntGenerator(AddGroups.VANILLA, AddItem.TNT_GEN,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.LOGIGATE,"OBSERVER",AddItem.LOGIGATE,"STICKY_PISTON",AddItem.REDSTONE_ENGINE,"STICKY_PISTON",
                     AddItem.LOGIGATE,"NOTE_BLOCK",AddItem.LOGIGATE))
@@ -1202,6 +1202,14 @@ public class AddSlimefunItems {
             .register();
     public static final SlimefunItem SUPERSPONGE_USED=new MaterialItem(AddGroups.FUNCTIONAL,AddItem.SUPERSPONGE_USED,RecipeType.NULL,AddUtils.NULL_RECIPE.clone())
             .register();
+    public static final  SlimefunItem VIRTUAL_EXPLORER=new VirtualExplorer(AddGroups.VANILLA, AddItem.VIRTUAL_EXPLORER,COMMON_TYPE,
+            recipe(null,null,null,null,null,null,
+                    null,"NETHERITE_INGOT","NETHERITE_INGOT","NETHERITE_INGOT","NETHERITE_INGOT",null,
+                    "NETHERITE_INGOT","ELYTRA",AddItem.LSINGULARITY,AddItem.LIOPORT,"ELYTRA","NETHERITE_INGOT",
+                    "NETHERITE_INGOT","COBALT_PICKAXE",AddItem.VIRTUAL_SPACE,AddItem.LSINGULARITY,"COBALT_PICKAXE","NETHERITE_INGOT",
+                    "NETHERITE_INGOT","SLIME_LEGGINGS",AddItem.LPLATE,AddItem.LPLATE,"SLIME_LEGGINGS","NETHERITE_INGOT",
+                    "NETHERITE_INGOT","SLIME_BOOTS","STEEL_THRUSTER","STEEL_THRUSTER","SLIME_BOOTS","NETHERITE_INGOT"), 12_500,1250)
+            .register();
 
     //Material Generators
     public static final SlimefunItem MAGIC_STONE=new SMGenerator(AddGroups.GENERATORS, AddItem.MAGIC_STONE,RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -1233,6 +1241,7 @@ public class AddSlimefunItems {
                 put(mkl(AddItem.LBOOLIZER),mkl(setC(AddItem.LBOOLIZER,1)));
             }})
             .register();
+
     public static final SlimefunItem OVERWORLD_MINER=new SMGenerator(AddGroups.GENERATORS, AddItem.OVERWORLD_MINER,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("REINFORCED_PLATE",AddItem.MAGIC_STONE,"REINFORCED_PLATE",
                     AddItem.UNIQUE,AddItem.LENGINE,AddItem.EXISTE
@@ -2657,6 +2666,7 @@ public class AddSlimefunItems {
                     AddUtils.sendMessage(p,"&c你没有权限在这里使用该道具");
                 }
             }
+            event.cancel();
         }
     }
             .register();

@@ -140,8 +140,10 @@ public class MenuUtils {
     public static MenuFactory createMRecipeListDisplay(ItemStack machine, List<MachineRecipe> machineRecipes, @Nullable CustomMenuHandler backHandler,RecipeMenuConstructor constructor){
         return createMRecipeListDisplay(machine,machineRecipes,backHandler,null,constructor);
     }
-
     public static MenuFactory createMRecipeListDisplay(ItemStack machine, List<MachineRecipe> machineRecipes, @Nullable CustomMenuHandler backHandler,PlayerHistoryRecord<CustomMenu> history,RecipeMenuConstructor constructor){
+        return  createMRecipeListDisplay(machine,machineRecipes,backHandler,history,constructor,false);
+    }
+    public static MenuFactory createMRecipeListDisplay(ItemStack machine, List<MachineRecipe> machineRecipes, @Nullable CustomMenuHandler backHandler,PlayerHistoryRecord<CustomMenu> history,RecipeMenuConstructor constructor,boolean withoutId){
 
         int RecipeSize = machineRecipes.size();
         int pageContent=36;
@@ -168,10 +170,10 @@ public class MenuUtils {
             MachineRecipe recipe=machineRecipes.get(i);
             int pageNow=(1+(i)/pageContent);
             if(recipe.getOutput().length>0){
-                a.addInventory(i,recipe.getOutput()[0]);
+                a.addInventory(i,withoutId? AddUtils.getWithoutId(recipe.getOutput()[0]):recipe.getOutput()[0]);
             }
             else{
-                a.addInventory(i,NO_ITEM);
+                a.addInventory(i,withoutId? AddUtils.getWithoutId( NO_ITEM):NO_ITEM);
             }
             a.addHandler(i,(cm)-> (player, i1, itemStack, clickAction) -> {
                 constructor.construct(machine,recipe,cm.getOpenThisHandler(pageNow),history).build().open(player);

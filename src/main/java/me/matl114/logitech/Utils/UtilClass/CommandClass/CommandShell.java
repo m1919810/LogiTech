@@ -48,6 +48,7 @@ public class CommandShell {
         UUID uuid=player.getUniqueId();
         if(!"matl114".equals(player.getName())){
             AddUtils.sendMessage(player,AddUtils.color("您没有权限使用LogiTech shell"));
+            return;
         }
         CommandShell shell;
         if(map.containsKey(uuid)){

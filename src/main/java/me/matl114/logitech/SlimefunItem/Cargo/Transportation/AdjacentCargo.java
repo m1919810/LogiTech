@@ -107,28 +107,23 @@ public class AdjacentCargo extends AbstractCargo {
         updateDirectionSlots(0,inv);
         updateDirectionSlots(1,inv);
     }
+    protected boolean transportSmarter=false;
     public void cargoTask(Block b, BlockMenu menu, SlimefunBlockData data, int configCode){
         Location loc=menu.getLocation();
         Directions from_dir=getDirection(0,data);
-        BlockMenu from= DataCache.getMenu(from_dir.relate(loc));
-        if(from==null){
-            return;
-        }
         Directions to_dir=getDirection(1,data);
-        BlockMenu to= DataCache.getMenu(to_dir.relate( loc));
-        if(to==null){
-            return;
-        }
-        int[] bwslots=getBWListSlot();
-        HashSet<ItemStack> bwset=new HashSet<>();
-        ItemStack it;
-        for (int i=0;i<bwslots.length;++i){
-            it=menu.getItemInSlot(bwslots[i]);
-            if(it!=null){
-                bwset.add(it);
+        if(from_dir!=Directions.NONE&&to_dir!=Directions.NONE){
+            int[] bwslots=getBWListSlot();
+            HashSet<ItemStack> bwset=new HashSet<>();
+            ItemStack it;
+            for (int i=0;i<bwslots.length;++i){
+                it=menu.getItemInSlot(bwslots[i]);
+                if(it!=null){
+                    bwset.add(it);
+                }
             }
+            ContainerUtils.transferWithContainer(from_dir.relate(loc),to_dir.relate(loc),configCode,bwset,transportSmarter);
         }
-        TransportUtils.transportItemGeneral(from,to,configCode,bwset);
     }
 
 }

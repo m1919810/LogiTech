@@ -102,7 +102,7 @@ public class ChipConsumer extends AbstractMachine {
                 break;
             }
         }
-        if(index==-1){return;}
+        if(index>=3){return;}
         ItemMeta meta=it.getItemMeta();
         if(ChipCardCode.isConfig(meta)){
             it.setAmount(it.getAmount()-1);

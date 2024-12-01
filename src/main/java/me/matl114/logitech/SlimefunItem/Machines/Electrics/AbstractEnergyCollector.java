@@ -27,6 +27,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 public abstract class AbstractEnergyCollector extends AbstractEnergyMachine implements EnergyProvider{
     protected final int[] INPUT_SLOTS=new int[0];
@@ -153,24 +154,21 @@ public abstract class AbstractEnergyCollector extends AbstractEnergyMachine impl
                     }
                 }
             }
-            Schedules.launchSchedules(
-                    ()->{
-                        for(Map.Entry<SlimefunBlockData,EnergyNetProvider> entry: tickedGenerators.entrySet()){
-                            try{
-                                Location location=entry.getKey().getLocation();
-                                if (entry.getValue().willExplode(location,entry.getKey())) {
-                                    DataCache.removeBlockData(location);
-                                    Slimefun.runSync(() -> {
-                                        location.getBlock().setType(Material.LAVA);
-                                        location.getWorld().createExplosion(location, 0F, false);
-                                    });
-                                }
-                            }catch (Exception | LinkageError throwable) {
-                                new ErrorReport<>(throwable, entry.getKey().getLocation(), SlimefunItem.getById(entry.getKey().getSfId()));
-                            }
-                        }
-                    },0,false,0
-            );
+            CompletableFuture.runAsync(()->{
+                for(Map.Entry<SlimefunBlockData,EnergyNetProvider> entry: tickedGenerators.entrySet()){
+                try{
+                    Location location=entry.getKey().getLocation();
+                    if (entry.getValue().willExplode(location,entry.getKey())) {
+                        DataCache.removeBlockData(location);
+                        Slimefun.runSync(() -> {
+                            location.getBlock().setType(Material.LAVA);
+                            location.getWorld().createExplosion(location, 0F, false);
+                        });
+                    }
+                }catch (Exception | LinkageError throwable) {
+                    new ErrorReport<>(throwable, entry.getKey().getLocation(), SlimefunItem.getById(entry.getKey().getSfId()));
+                }
+            }});
         }
         this.setCharge(loc, charge);
 

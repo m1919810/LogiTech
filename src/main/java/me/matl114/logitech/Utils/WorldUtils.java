@@ -1,5 +1,6 @@
 package me.matl114.logitech.Utils;
 
+import com.bgsoftware.wildstacker.api.loot.LootTable;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.BlockDataController;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -33,16 +34,14 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.loot.LootTables;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -139,6 +138,82 @@ public class WorldUtils {
         put(Material.COOKIE,44);
         put(Material.DRIED_KELP,26);
         put(Material.COOKED_BEEF,288);
+    }};
+    public static List<LootTables> OVERWORLD_STRUCTURE_CHESTS=new ArrayList<>(){{
+        add(LootTables.ABANDONED_MINESHAFT);
+        add(LootTables.BURIED_TREASURE);
+        add(LootTables.DESERT_PYRAMID);
+        add(LootTables.IGLOO_CHEST);
+        add(LootTables.JUNGLE_TEMPLE);
+        add(LootTables.JUNGLE_TEMPLE_DISPENSER);
+        add(LootTables.PILLAGER_OUTPOST);
+        add(LootTables.ANCIENT_CITY);
+        add(LootTables.ANCIENT_CITY_ICE_BOX);
+        add(LootTables.RUINED_PORTAL);
+        try{
+            add(LootTables.TRIAL_CHAMBERS_REWARD);
+            add(LootTables.TRIAL_CHAMBERS_SUPPLY);
+            add(LootTables.TRIAL_CHAMBERS_CORRIDOR);
+            add(LootTables.TRIAL_CHAMBERS_INTERSECTION);
+            add(LootTables.TRIAL_CHAMBERS_INTERSECTION_BARREL);
+            add(LootTables.TRIAL_CHAMBERS_ENTRANCE);
+            add(LootTables.TRIAL_CHAMBERS_CORRIDOR_DISPENSER);
+            add(LootTables.TRIAL_CHAMBERS_CHAMBER_DISPENSER);
+            add(LootTables.TRIAL_CHAMBERS_WATER_DISPENSER);
+            add(LootTables.TRIAL_CHAMBERS_CORRIDOR_POT);
+        }catch (Throwable e){
+            Debug.logger("1.21 LootTable not supported");
+        }
+        add(LootTables.SHIPWRECK_MAP);
+        add(LootTables.SHIPWRECK_SUPPLY);
+        add(LootTables.SHIPWRECK_TREASURE);
+        add(LootTables.SIMPLE_DUNGEON);
+        add(LootTables.SPAWN_BONUS_CHEST);
+        add(LootTables.STRONGHOLD_CORRIDOR);
+        add(LootTables.STRONGHOLD_CROSSING);
+        add(LootTables.STRONGHOLD_LIBRARY);
+        add(LootTables.UNDERWATER_RUIN_BIG);
+        add(LootTables.UNDERWATER_RUIN_SMALL);
+        add(LootTables.VILLAGE_ARMORER);
+        add(LootTables.VILLAGE_BUTCHER);
+        add(LootTables.VILLAGE_CARTOGRAPHER);
+        add(LootTables.VILLAGE_DESERT_HOUSE);
+        add(LootTables.VILLAGE_FISHER);
+        add(LootTables.VILLAGE_FLETCHER);
+        add(LootTables.VILLAGE_MASON);
+        add(LootTables.VILLAGE_PLAINS_HOUSE);
+        add(LootTables.VILLAGE_SAVANNA_HOUSE);
+        add(LootTables.VILLAGE_SHEPHERD);
+        add(LootTables.VILLAGE_SNOWY_HOUSE);
+        add(LootTables.VILLAGE_TAIGA_HOUSE);
+        add(LootTables.VILLAGE_TANNERY);
+        add(LootTables.VILLAGE_TEMPLE);
+        add(LootTables.VILLAGE_TOOLSMITH);
+        add(LootTables.VILLAGE_WEAPONSMITH);
+        add(LootTables.WOODLAND_MANSION);
+        //archaeology
+        add(LootTables.DESERT_WELL_ARCHAEOLOGY);
+        add(LootTables.DESERT_PYRAMID_ARCHAEOLOGY);
+        add(LootTables.TRAIL_RUINS_ARCHAEOLOGY_COMMON);
+        add(LootTables.TRAIL_RUINS_ARCHAEOLOGY_RARE);
+        add(LootTables.OCEAN_RUIN_WARM_ARCHAEOLOGY);
+        add(LootTables.OCEAN_RUIN_COLD_ARCHAEOLOGY);
+        //sniffer
+        add(LootTables.SNIFFER_DIGGING);
+
+    }};
+    public static List<LootTables> NETHER_STRUCTURE_CHESTS=new ArrayList<>(){{
+        add(LootTables.NETHER_BRIDGE);
+        add(LootTables.BASTION_TREASURE);
+        add(LootTables.BASTION_OTHER);
+        add(LootTables.BASTION_BRIDGE);
+        add(LootTables.BASTION_HOGLIN_STABLE);
+        //PIGLING
+        //this need piglin entity
+        add(LootTables.PIGLIN_BARTERING);
+    }};
+    public static List<LootTables> END_STRUCTURE_CHESTS=new ArrayList<>(){{
+        add(LootTables.END_CITY_TREASURE);
     }};
 
     protected static Class CraftBlockStateClass;

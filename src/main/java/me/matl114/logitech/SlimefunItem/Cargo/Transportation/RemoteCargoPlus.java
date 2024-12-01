@@ -39,27 +39,6 @@ public class RemoteCargoPlus extends RemoteCargo {
                                 "将绑定目标方块的%s插入指定槽位以选择参与的方块".formatted(Language.get("Items.HYPER_LINK.Name"))),null
                 )
         );
-
-    }
-    public void cargoTask(Block b, BlockMenu menu, SlimefunBlockData data, int configCode){
-        //Location loc=menu.getLocation();
-        Location from=getLocation("from_dir",data);
-        if(from==null){
-            return;
-        }
-        Location to=getLocation("to_dir",data);
-        if(to==null){
-            return;
-        }
-        int[] bwslots=getBWListSlot();
-        HashSet<ItemStack> bwset=new HashSet<>();
-        ItemStack it;
-        for (int i=0;i<bwslots.length;++i){
-            it=menu.getItemInSlot(bwslots[i]);
-            if(it!=null){
-                bwset.add(it);
-            }
-        }
-        ContainerUtils.transferWithContainer(from,to,configCode,bwset,true);
+        this.transportSmarter=true;
     }
 }

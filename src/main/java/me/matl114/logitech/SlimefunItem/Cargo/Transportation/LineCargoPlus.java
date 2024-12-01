@@ -41,42 +41,7 @@ public class LineCargoPlus extends LineCargo {
                                 "&7开启首位循环使搜索链上尾部机器向首部机器传输"),null
                 )
         );
+        this.transportSmarter=true;
     }
-    public void cargoTask(Block b, BlockMenu menu, SlimefunBlockData data, int configCode){
-        Directions dir=getDirection(0,data);
-        if(dir==Directions.NONE||dir==null)return;
-        //非null 非空
-        boolean loop =getConfigValue(0,data)==1;
-        Location loc=dir.relate(menu.getLocation());
-        BlockMenu inv= DataCache.getMenu(loc);
-        if(inv!=null){
-            HashSet<ItemStack> bwset=new HashSet<>();
-            ItemStack it;
-            int[] bwslots=getBWListSlot();
-            for (int i=0;i<bwslots.length;++i){
-                it=menu.getItemInSlot(bwslots[i]);
-                if(it!=null){
-                    bwset.add(it);
-                }
-            }
-            BlockMenu first=inv;
-            BlockMenu next=inv;
-            BlockMenu nextTo;
-            int limit=MAX_LINE_LEN;
-            while(limit>0){
-                loc=dir.relate(loc);
-                nextTo=DataCache.getMenu(loc);
-                if(nextTo==null){
-                    break;
-                }
-                TransportUtils.transportItemSmarter(next,nextTo,configCode,bwset);
-                next=nextTo;
-                --limit;
-            }
-            if(loop&&limit!=MAX_LINE_LEN){
-                TransportUtils.transportItemSmarter(next,first,configCode,bwset);
-            }
-        }
 
-    }
 }

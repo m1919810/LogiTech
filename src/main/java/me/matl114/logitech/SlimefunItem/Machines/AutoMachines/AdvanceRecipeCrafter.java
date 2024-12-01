@@ -48,6 +48,9 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
     protected final ItemStack progressItem;
     protected final RecipeType[] craftType;
     protected final int publicTime;
+    protected final String KEY_CTIME="ct";
+    protected final int CTIME_SLOT=5;
+    protected final ItemStack CTIME_ITEM=new CustomItemStack(Material.CLOCK,"&6自定义进度时间","&7点击输入自定义进度时常");
     public AdvanceRecipeCrafter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                                 Material processbar, int energyConsumption, int energyBuffer,
                                 LinkedHashMap<Object, Integer> customRecipes)  {
@@ -139,6 +142,28 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
         }
     }
     public void newMenuInstance(BlockMenu menu,Block block){
+        if(publicTime>0){
+            if(menu.getItemInSlot(CTIME_SLOT)==null||menu.getItemInSlot(CTIME_SLOT).getType()!=Material.CLOCK){
+                menu.replaceExistingItem(CTIME_SLOT,CTIME_ITEM);
+
+            }
+            menu.addMenuClickHandler(CTIME_SLOT,((player, i, itemStack, clickAction) -> {
+                AddUtils.sendMessage(player,"&6[&7自动无尽工作台&6]&a 请输入自定义的进度时长(单位:sf tick)&e(必须>%s)".formatted(String.valueOf(publicTime)));
+                player.closeInventory();
+                AddUtils.asyncWaitPlayerInput(player,(str)->{
+                    try{
+                        int a=Integer.parseInt(str);
+                        assert a>=this.publicTime;
+                        DataCache.setCustomData(menu.getLocation(),KEY_CTIME,a);
+                        menu.replaceExistingItem(CTIME_SLOT,AddUtils.addLore(CTIME_ITEM,"&c当前的自定义进度时长为: &f%s".formatted(String.valueOf(a))));
+                        AddUtils.sendMessage(player,"&6[&7自动无尽工作台&6]&a 成功设置!");
+                    }catch (Throwable e){
+                        AddUtils.sendMessage(player,"&6[&7自动无尽工作台&6]&c 这不是有效的进度时常&e(必须>%s)");
+                    }
+                });
+                return false;
+            }));
+        }
         menu.replaceExistingItem(PARSE_SLOT,PARSE_ITEM);
         menu.addMenuClickHandler(PARSE_SLOT,(player, i, itemStack, clickAction)->{
             parseRecipe(menu);
@@ -227,7 +252,7 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
                     CraftUtils.multiUpdateInputMenu(nextP.getFirstValue(),inv);
                     int ticks=next.getTicks();
                     if(next.getTicks()<0){
-                        ticks=this.publicTime;
+                        ticks=DataCache.getCustomData(data,KEY_CTIME, this.publicTime) ;
                     }
                 if(ticks>0){
 

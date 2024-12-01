@@ -51,8 +51,14 @@ public class EnergyPipe extends AbstractPipe  {
 
     @Override
     public void transfer(Location fromLocation, Location toLocation) {
-        if(DataCache.getSfItem(toLocation) instanceof EnergyNetComponent ec1&&DataCache.getSfItem(fromLocation) instanceof EnergyNetComponent ec2){
+        SlimefunBlockData toData=DataCache.safeLoadBlock(toLocation);
+        SlimefunBlockData fromData=DataCache.safeLoadBlock(fromLocation);
+        if(toData==null||fromData==null){
+            return;
+        }
+        if(SlimefunItem.getById(toData.getSfId()) instanceof EnergyNetComponent ec1&&SlimefunItem.getById(fromData.getSfId()) instanceof EnergyNetComponent ec2){
             if(ec1.isChargeable()&&ec2.isChargeable()){
+
                 int fromCharge=ec2.getCharge(fromLocation);
                 int toCharge=ec1.getCharge(toLocation);
                 int transfer=Math.min( Math.min(fromCharge,MAX_TRANSFER), ((int)(((double)(ec1.getCapacity()-toCharge))/(1-TRANSFER_COST))));

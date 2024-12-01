@@ -28,7 +28,7 @@ public class ContainerUtils {
     public static void setup(){
         ContainerBlockMenuWrapper.setup();
     }
-    private static int[][] preCalculatedSlots= IntStream.range(0,54).mapToObj(i->{
+    private static int[][] preCalculatedSlots= IntStream.range(0,73).mapToObj(i->{
         if(i<9||i%9==0){
             return IntStream.range(0,i).toArray();
         }else return null;

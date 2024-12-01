@@ -341,20 +341,9 @@ public class MultiBlockService {
                     MULTIBLOCK_CACHE.put(newuid,handler2);
                     return true;
                 }else{
-                    if(statusCode>0){//之前还在运行
-                        //为了给loadrequest一个缓冲。
-                        //防止直接返回0直接爆
-                        statusCode=-20;//自动重连20次
-                    }
-                    if(statusCode==-18){
-                        Debug.debug("LOADING PLAN B !");
-                    }
-                    setStatus(loc,statusCode+1);
-                    if(statusCode==-1){
-                        DataCache.setLastUUID(loc,"null");
-                        return false;
-                    }
-                    return true;
+                    //不进行倒计时,
+                    setStatus(loc,-20);
+                    return false;
                 }
             }else {
                 if( handler.acceptCoreRequest()){

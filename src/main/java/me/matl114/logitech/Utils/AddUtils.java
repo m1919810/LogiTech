@@ -943,4 +943,14 @@ public class AddUtils {
     public static String getDateString(){
         return new SimpleDateFormat("yyyyMMdd").format(new Date());
     }
+    static NamespacedKey idkey=Slimefun.getItemDataService().getKey();
+    public static ItemStack getWithoutId(ItemStack stack){
+        stack=stack.clone();
+        ItemMeta meta = stack.getItemMeta();
+        if(meta.getPersistentDataContainer().has(idkey)){
+            meta.getPersistentDataContainer().remove(idkey);
+        }
+        stack.setItemMeta(meta);
+        return stack;
+    }
 }

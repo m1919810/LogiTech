@@ -23,6 +23,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -67,6 +69,12 @@ public class HypLink extends CustomSlimefunItem {
                             BlockMenu menu = data.getBlockMenu();
                             if (menu != null){
                                 menu.open(event.getPlayer());
+                            }
+                        }else{
+                            BlockState state = loc.getBlock().getState();
+                            if(state instanceof InventoryHolder ivHolder){
+                                //todo do test
+                                event.getPlayer().openInventory(ivHolder.getInventory());
                             }
                         }
                     }else {

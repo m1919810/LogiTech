@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class RedstoneAdjacentCargo extends AdjacentCargo {
     public RedstoneAdjacentCargo (ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, List<ItemStack> displayList) {
@@ -44,33 +45,13 @@ public class RedstoneAdjacentCargo extends AdjacentCargo {
     public void cargoTask(Block b, BlockMenu menu, SlimefunBlockData data, int configCode){
 
         if(DataCache.getCustomData(data,POWERED_KEY,0)!=0){
-            Location loc=menu.getLocation();
-            Directions from_dir=getDirection("from_dir",data);
-            BlockMenu from= DataCache.getMenu(from_dir.relate(loc));
-            if(from==null){
-                return;
-            }
-            Directions to_dir=getDirection("to_dir",data);
-            BlockMenu to= DataCache.getMenu(to_dir.relate( loc));
-            if(to==null){
-                return;
-            }
-            int[] bwslots=getBWListSlot();
-            HashSet<ItemStack> bwset=new HashSet<>();
-            ItemStack it;
-            for (int i=0;i<bwslots.length;++i){
-                it=menu.getItemInSlot(bwslots[i]);
-                if(it!=null){
-                    bwset.add(it);
-                }
-            }
-            TransportUtils.transportItemSmarter(from,to,configCode,bwset);
+            super.cargoTask(b,menu,data,configCode);
         }
-        Schedules.launchSchedules(()->{
+        CompletableFuture.runAsync(()->{
             BlockData data1=b.getBlockData();
             if(data1 instanceof Lightable la){
                 DataCache.setCustomData(data,POWERED_KEY,la.isLit()?1:0);
             }
-        },0,false,0);
+        });
     }
 }

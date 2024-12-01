@@ -396,7 +396,7 @@ public class AddGroups {
         MenuFactory subRecipes=null;
         public void initCustomMenus(){
             subRecipes=MenuUtils.createMRecipeListDisplay(AddItem.BUG_CRAFTER,RecipeSupporter.PROVIDED_SHAPED_RECIPES.get(BugCrafter.TYPE),
-                    null,historyHandler,MenuUtils::createMRecipeDisplay);
+                    null,historyHandler,MenuUtils::createMRecipeDisplay,true);
         }
         public MenuFactory getSubRecipes() {
             if(subRecipes==null){
@@ -472,7 +472,7 @@ public class AddGroups {
             for(int s=0;s<2;++s){
                 int rand=AddUtils.random(36);
                 if(menu.getItemInSlot(rand+9)==null){
-                    menu.replaceExistingItem(rand+9,AddItem.BUG);
+                    menu.replaceExistingItem(rand+9,AddUtils.getWithoutId( AddItem.BUG));
                     menu.addMenuClickHandler(rand+9,((player, i, itemStack, clickAction) -> {
                         AddUtils.forceGive(player,AddItem.BUG,1);
                         menu.replaceExistingItem(rand+9,null);

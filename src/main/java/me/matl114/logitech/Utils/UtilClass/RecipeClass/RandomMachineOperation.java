@@ -25,6 +25,7 @@ public class RandomMachineOperation implements CustomMachineOperation {
             int offset=((rand.nextInt(0,4)==0)^(key<value))?1:-1;
             currentTick+=amount*offset;
         }
+        currentTick=Math.max(currentTick,-1);
     }
 
 

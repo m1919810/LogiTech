@@ -102,7 +102,7 @@ public class ChipBiConsumer extends AbstractMachine {
                 break;
             }
         }
-        if(index==-1){return;}
+        if(index>=3){return;}
         ItemMeta meta=it.getItemMeta();
         ItemMeta meta3=it3.getItemMeta();
         if(ChipCardCode.isConfig(meta)&&ChipCardCode.isConfig(meta3)){
