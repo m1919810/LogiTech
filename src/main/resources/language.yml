@@ -454,7 +454,7 @@ zh_CN:
     RADIATION_CLEAR:
       Name: '辐射区域清除器'
       Lore:
-        - '清除附近40格内的辐射区'
+        - '清除附近40格内的辐射中心'
     ANTIMASS_CLEAR:
       Name: '反概念物质清除器'
       Lore:

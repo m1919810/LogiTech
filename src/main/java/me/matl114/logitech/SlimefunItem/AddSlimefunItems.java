@@ -1829,9 +1829,9 @@ public class AddSlimefunItems {
                                 setC(AddItem.ATOM_INGOT,128),
                                 AddUtils.randItemStackFactory(
                                         Utils.list(
-                                                AddUtils.randAmountItemFactory(AddItem.PALLADIUM_INGOT,37,43),
-                                                AddUtils.randAmountItemFactory(AddItem.PLATINUM_INGOT,23,40),
-                                                AddUtils.randAmountItemFactory(AddItem.CADMIUM_INGOT,6,45),
+                                                AddUtils.randAmountItemFactory(AddItem.PALLADIUM_INGOT,37,53),
+                                                AddUtils.randAmountItemFactory(AddItem.PLATINUM_INGOT,27,50),
+                                                AddUtils.randAmountItemFactory(AddItem.CADMIUM_INGOT,34,64),
                                                 AddUtils.randAmountItemFactory(AddItem.BISMUTH_INGOT,40,54)
                                         ),
                                         Utils.list(1,1,1,1)
@@ -1853,11 +1853,11 @@ public class AddSlimefunItems {
                         )
 
                     ),8000,
-                    mkP(   mkl(setC(AddItem.BISILVER,3) )  ,
+                    mkP(   mkl(setC(AddItem.BISILVER,2) )  ,
 
                             mkl(
                                     setC(AddItem.ATOM_INGOT,48),
-                                    setC(AddItem.PARADOX,24),
+                                    setC(AddItem.PARADOX,64),
                                     AddUtils.randItemStackFactory(
                                             Utils.list(
                                                     AddUtils.randAmountItemFactory(AddItem.PALLADIUM_INGOT,15,61),
@@ -1884,16 +1884,16 @@ public class AddSlimefunItems {
                             )
 
                     ),10000,
-                    mkP(   mkl(setC(AddItem.PAGOLD,3) )  ,
+                    mkP(   mkl(setC(AddItem.PAGOLD,2) )  ,
 
                             mkl(
                                     setC(AddItem.ATOM_INGOT,48),
-                                    setC(AddItem.PARADOX,24),
+                                    setC(AddItem.PARADOX,64),
                                     AddUtils.randItemStackFactory(
                                             Utils.list(
                                                     AddUtils.randAmountItemFactory(AddItem.PALLADIUM_INGOT,17,43),
                                                     AddUtils.randAmountItemFactory(AddItem.PLATINUM_INGOT,11,36),
-                                                    AddUtils.randAmountItemFactory(AddItem.CADMIUM_INGOT,12,53),
+                                                    AddUtils.randAmountItemFactory(AddItem.CADMIUM_INGOT,15,53),
                                                     AddUtils.randAmountItemFactory(AddItem.BISMUTH_INGOT,23,49)
                                             ),
                                             Utils.list(1,1,1,1)
@@ -1915,11 +1915,11 @@ public class AddSlimefunItems {
                             )
 
                     ),10000,
-                    mkP(   mkl(setC(AddItem.PLATINUM_INGOT,24) )  ,
+                    mkP(   mkl(setC(AddItem.PLATINUM_INGOT,12) )  ,
 
                             mkl(
                                     setC(AddItem.STAR_GOLD_INGOT,128),
-                                    setC(AddItem.PARADOX,32),
+                                    setC(AddItem.PARADOX,64),
                                     AddUtils.randItemStackFactory(
                                             Utils.list(
                                                     AddUtils.randAmountItemFactory(AddItem.PALLADIUM_INGOT,23,53),
@@ -1946,26 +1946,26 @@ public class AddSlimefunItems {
                             )
 
                     ),10000,
-                    mkP(   mkl(setC(AddItem.CADMIUM_INGOT,24) )  ,
+                    mkP(   mkl(setC(AddItem.CADMIUM_INGOT,12) )  ,
 
                             mkl(
                                     setC(AddItem.STAR_GOLD_INGOT,128),
-                                    setC(AddItem.PARADOX,16),
+                                    setC(AddItem.PARADOX,64),
                                     AddUtils.randItemStackFactory(
                                             Utils.list(
                                                     AddUtils.randAmountItemFactory(AddItem.PALLADIUM_INGOT,17,43),
                                                     AddUtils.randAmountItemFactory(AddItem.PLATINUM_INGOT,13,50),
-                                                    AddUtils.randAmountItemFactory(AddItem.CADMIUM_INGOT,6,55),
+                                                    AddUtils.randAmountItemFactory(AddItem.CADMIUM_INGOT,17,55),
                                                     AddUtils.randAmountItemFactory(AddItem.BISMUTH_INGOT,20,34)
                                             ),
                                             Utils.list(1,1,1,1)
                                     ),
                                     AddUtils.randItemStackFactory(
                                             Utils.list(
-                                                    AddUtils.randAmountItemFactory(AddItem.MOLYBDENUM,3,21),
+                                                    AddUtils.randAmountItemFactory(AddItem.MOLYBDENUM,6,21),
                                                     AddUtils.randAmountItemFactory(AddItem.CERIUM,6,17),
                                                     AddUtils.randAmountItemFactory(AddItem.MENDELEVIUM,7,13),
-                                                    AddUtils.randAmountItemFactory(AddItem.DYSPROSIUM,2,31),
+                                                    AddUtils.randAmountItemFactory(AddItem.DYSPROSIUM,7,31),
                                                     AddUtils.randAmountItemFactory(AddItem.MOLYBDENUM,12,14),
                                                     AddUtils.randAmountItemFactory(AddItem.ANTIMONY_INGOT,10,24),
                                                     AddUtils.randAmountItemFactory(AddItem.THALLIUM,7,22),
@@ -2746,11 +2746,14 @@ public class AddSlimefunItems {
                            setC(  AddItem.STAR_GOLD_INGOT,64),
                          setC(AddItem.ATOM_INGOT,64),
                             setC(AddItem.LSINGULARITY,64),
-                            AddItem.ANTIMASS,
-                            AddUtils.probItemStackFactory(AddItem.VIRTUAL_SPACE,10)
+                            AddUtils.randItemStackFactory(
+                                    Utils.list(AddItem.HGTLPBBI,AddItem.PDCECDMD,AddItem.ANTIMASS),
+                                    Utils.list(4,4,1)
+                            ),
+                            AddUtils.probItemStackFactory(AddItem.VIRTUAL_SPACE,50)
                     ),
                     Utils.list(
-                            1,1,1,1,1,1
+                            1,1,1,1,2,1
                     )
             ))
             .register();

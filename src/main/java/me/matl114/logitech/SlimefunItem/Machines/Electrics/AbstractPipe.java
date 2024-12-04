@@ -117,13 +117,16 @@ public abstract class AbstractPipe extends AbstractMachine implements Directiona
     }
     protected final HashMap<Location, Counter<Location>> PIP_DIRECTION=new HashMap<>();
     protected final HashMap<Location,Location> POINTING_RECORD=new HashMap<>();
+    protected final boolean avalEnd(Location loc){
+        return DataCache.getSfItem(loc)!=this&&avalibleDestination(loc);
+    }
     @Override
     public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int ticker) {
         Location loc=b.getLocation();
         Counter<Location> counter=PIP_DIRECTION.computeIfAbsent(loc,(s)->{return new Counter<Location>(0,null);});
         Directions dir= getDirection(0,data);
         Location toLocation=POINTING_RECORD.computeIfAbsent(loc,dir::relate);
-        if(avalibleDestination(toLocation)){
+        if(avalEnd(toLocation)){
             counter.setCounter(ticker);
             counter.setValue(toLocation);
             bfssearchPipNet(loc,toLocation,ticker);

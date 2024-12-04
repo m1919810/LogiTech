@@ -86,7 +86,7 @@ public abstract class CustomSlimefunItem extends SlimefunItem implements RecipeD
     }
     public void postRegister(){
         super.postRegister();
-        this.addWikiPage("Overview");
+        this.addWikiPage("");
     }
 
 }
