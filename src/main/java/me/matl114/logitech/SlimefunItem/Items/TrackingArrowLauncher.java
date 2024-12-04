@@ -145,7 +145,7 @@ public class TrackingArrowLauncher extends ChargableProps {
                                     Iterator<LivingEntity> iterator2=targetEntities.iterator();
                                     while(iterator2.hasNext()){
                                         LivingEntity targetEntity=iterator2.next();
-                                        if(targetEntity.isDead()||!targetEntity.isValid()){
+                                        if(targetEntity.isDead()||!targetEntity.isValid()||loc.getWorld()!=targetEntity.getLocation().getWorld()){
                                             iterator2.remove();
                                         }else {
                                             float distance=(float) loc.distance(targetEntity.getLocation());
@@ -189,7 +189,7 @@ public class TrackingArrowLauncher extends ChargableProps {
     public void retrackArrow(Arrow arrow,LivingEntity target){
         Location loc=arrow.getLocation();
         Location targetLoc=target.getEyeLocation();
-        if(loc.distance(targetLoc)>1.0f) {
+        if(loc.getWorld()==targetLoc.getWorld()&&loc.distance(targetLoc)>1.0f) {
             arrow.setVelocity(targetLoc.subtract(loc).toVector().normalize().multiply(ARROW_SPEED * DEFLECTION_RATE).add(arrow.getVelocity().multiply(1.0f - DEFLECTION_RATE)));
         }else {
             arrow.setVelocity(arrow.getVelocity().normalize().multiply(ARROW_SPEED));
