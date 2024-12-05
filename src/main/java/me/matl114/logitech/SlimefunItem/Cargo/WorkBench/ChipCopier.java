@@ -23,6 +23,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.concurrent.CompletableFuture;
+
 public class ChipCopier extends AbstractSyncTickCargo {
     protected final int[] BORDER=new int[]{
             3,4,5,12,14,21,22,23
@@ -123,11 +125,11 @@ public class ChipCopier extends AbstractSyncTickCargo {
             ItemMeta meta2=it2.getItemMeta();
             final int syncTick=synTickCount%32;
             //获取meta2副本之后直接开启异步计算
-            Schedules.launchSchedules(()->{
+            CompletableFuture.runAsync(()->{
             if(meta2!=null&&ChipCardCode.isConfig(meta2)){
                 int code1=ChipCardCode.getConfig(meta1);
                 int code2=ChipCardCode.getConfig(meta2);
-                int pos= code1&MathUtils.getBitPos(syncTick);
+                int pos= MathUtils.getBitPos(syncTick);
                 int pos2=code1&pos;
                 int tar;
                 if(pos2==0){
@@ -141,7 +143,7 @@ public class ChipCopier extends AbstractSyncTickCargo {
                     //防止异步导致数量不符 如果有数量更改则直接删除
                     it2.setItemMeta(meta2);
                 }
-            }},0,false,0);
+            }});
         }
     }
     public void onBreak(BlockBreakEvent e,BlockMenu inv){

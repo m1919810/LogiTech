@@ -64,7 +64,7 @@ public class CraftUtils {
     public static Field CRAFTDISPLAYNAME;
     public static Field CRAFTHANDLER;
     public static Class NMSITEMCLASS;
-    public static Field ITEMSTACKMETA;
+    //public static Field ITEMSTACKMETA;
     public static boolean INVOKE_SUCCESS;
     public static boolean INVOKE_STACK_SUCCESS;
     static{
@@ -96,12 +96,13 @@ public class CraftUtils {
 //            Field[] fields= NMSITEMCLASS.getDeclaredFields();
 //            for(int i=0;i<fields.length;++i){
 //            }
-            ITEMSTACKMETA=DEFAULT_ITEMSTACK.getClass().getDeclaredField("meta");
-            ITEMSTACKMETA.setAccessible(true);
-            INVOKE_STACK_SUCCESS=true;
+            //ITEMSTACKMETA=DEFAULT_ITEMSTACK.getClass().getDeclaredField("meta");
+            //ITEMSTACKMETA.setAccessible(true);
+            //INVOKE_STACK_SUCCESS=true;
+            INVOKE_STACK_SUCCESS=false;
+
         }catch (Throwable e){
             Debug.logger("INVOKE STACK FAILED,PLEASE CHECK LOGGER!!!!!!");
-            INVOKE_STACK_SUCCESS=false;
             Debug.logger(e);
             Debug.logger("DISABLING RELEVENT FEATURE");
 
@@ -1617,26 +1618,21 @@ public class CraftUtils {
         }
     }
 
-    /**
-     * still needs test
-     * @param it
-     * @return
-     */
-    public static ItemMeta getItemMeta(ItemStack it){
-//        if(!INVOKE_STACK_SUCCESS)return it.getItemMeta();
-//        if(CRAFTITEMSTACKCLASS.isInstance(it)){
-//            return it.getItemMeta();
+//    public static ItemMeta getItemMeta(ItemStack it){
+////        if(!INVOKE_STACK_SUCCESS)return it.getItemMeta();
+////        if(CRAFTITEMSTACKCLASS.isInstance(it)){
+////            return it.getItemMeta();
+////        }
+//        if(it.getClass()!=CRAFTITEMSTACKCLASS) {
+//            try{
+//            return (ItemMeta) ITEMSTACKMETA.get(it);
+//            }catch (Throwable e){
+//
+//            }
 //        }
-        if(it.getClass()!=CRAFTITEMSTACKCLASS) {
-            try{
-            return (ItemMeta) ITEMSTACKMETA.get(it);
-            }catch (Throwable e){
-
-            }
-        }
-        return it.getItemMeta();
-
-    }
+//        return it.getItemMeta();
+//
+//    }
     public static boolean matchDisplayNameOnInvoke(ItemMeta meta1,ItemMeta meta2){
         try{
             Object name1=(CRAFTDISPLAYNAME.get(meta1));

@@ -145,15 +145,16 @@ public class LaserGun extends ChargableProps{
                             if(entity instanceof Player player){
                                 if(p!=player){
                                     hasTarget=true;
-
-                                    if(WorldUtils.testAttackPermission(p,player)){
+                                    float damage=4*(level+1);
+                                    damage=0.5f*damage*damage;
+                                    if(WorldUtils.testAttackPermission(p,player,damage)){
                                         PlayerEffects.grantEffect(CustomEffects.LASER,player,4*(level+1),1);
                                     }
                                 }
                             }else {
                                 if(entity instanceof Damageable le){
                                     hasTarget=true;
-                                    if(WorldUtils.testAttackPermission(p,le)){
+                                    if(WorldUtils.testAttackPermission(p,le,0)){
                                         le.damage(100*(level+1),p);
                                     }
                                 }

@@ -44,8 +44,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AddUtils {
-    public static final String ADDON_NAME="逻辑工艺";
+    public static final String ADDON_NAME=Language.getPlaceHolder("PLUGIN");
     public static final String ADDON_ID="LOGITECH";
+    public static final String VERSION=Language.getPlaceHolder("VERSION");
     public static final SlimefunAddon ADDON_INSTANCE=MyAddon.getInstance();
     public static boolean USE_IDDECORATOR=true;
     private static final double SF_TPS = 20.0 / (double) Slimefun.getTickerTask().getTickRate();

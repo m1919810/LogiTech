@@ -13,6 +13,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import me.matl114.logitech.Listeners.Events.AttackPermissionTestEvent;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
@@ -406,10 +407,10 @@ public class WorldUtils {
         }
         return true;
     }
-    public static boolean testAttackPermission(Player player, Damageable entity){
+    public static boolean testAttackPermission(Player player, Damageable entity,float expectedDamage){
         //entity.damage(0,player);
         try{
-            EntityDamageEvent event=new EntityDamageByEntityEvent(player,entity, EntityDamageEvent.DamageCause.ENTITY_ATTACK,0.0);
+            EntityDamageEvent event=new AttackPermissionTestEvent(player,entity,expectedDamage);
             Bukkit.getPluginManager().callEvent(event);
             if(event.isCancelled()){
                 return false;

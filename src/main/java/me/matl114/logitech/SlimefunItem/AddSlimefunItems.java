@@ -1540,8 +1540,8 @@ public class AddSlimefunItems {
                 put(mkl("CHIPPED_ANVIL"),mkl("CHIPPED_ANVIL"));
                 put(mkl("DAMAGED_ANVIL"),mkl("DAMAGED_ANVIL"));
                 put(mkl("GRAVEL"),mkl("8GRAVEL"));
-                put(mkl("SNOW"),mkl("8SNOW"));
-                put(mkl("POINTED_DRIPSTONE"),mkl("8POINTED_DRIPSTONE"));
+                put(mkl("SNOW"),mkl("4SNOW"));
+                put(mkl("POINTED_DRIPSTONE"),mkl("4POINTED_DRIPSTONE"));
                 put(mkl(Material.BLUE_CONCRETE_POWDER),mkl("32BLUE_CONCRETE_POWDER"));
                 put(mkl(Material.RED_CONCRETE_POWDER),mkl("32RED_CONCRETE_POWDER"));
                 put(mkl(Material.YELLOW_CONCRETE_POWDER),mkl("32YELLOW_CONCRETE_POWDER"));
