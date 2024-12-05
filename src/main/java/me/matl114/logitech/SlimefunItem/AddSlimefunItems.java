@@ -1480,11 +1480,11 @@ public class AddSlimefunItems {
                     null,"REDSTONE_BLOCK","REDSTONE_BLOCK","REDSTONE_BLOCK","REDSTONE_BLOCK",null),1,10000,250,
             AddUtils.randItemStackFactory(
                     mkMp(
-                            AddUtils.randItemStackFactory(mkMp("PISTON",1,"STICKY_PISTON",1,"OBSERVER",1)),1,
-                            AddUtils.randItemStackFactory(mkMp("REDSTONE_TORCH",1,"REPEATER",1,"COMPARATOR",1,"LEVER",1)),1,
-                            AddUtils.randItemStackFactory(mkMp("NOTE_BLOCK",1, "REDSTONE_LAMP",1)),1,
-                            AddUtils.randItemStackFactory(mkMp("DISPENSER",1,"DROPPER",1)),1,
-                            AddUtils.randItemStackFactory(mkMp("SLIME_BALL",1,"HONEY_BLOCK",1,"TNT",1,"REDSTONE",1)),1)
+                            AddUtils.randItemStackFactory(mkMp("PISTON",1,"STICKY_PISTON",1,"OBSERVER",1,"HOPPER",1,"CHISELED_BOOKSHELF",1,"LIGHT_WEIGHTED_PRESSURE_PLATE",1)),1,
+                            AddUtils.randItemStackFactory(mkMp("REDSTONE_TORCH",1,"REPEATER",1,"COMPARATOR",1,"LEVER",1,"OAK_PRESSURE_PLATE",1,"STONE_PRESSURE_PLATE",1)),1,
+                            AddUtils.randItemStackFactory(mkMp("NOTE_BLOCK",1, "REDSTONE_LAMP",1, "TARGET",1, "REDSTONE_BLOCK",1, "TRIPWIRE_HOOK",1,"JUKEBOX",1 )),1,
+                            AddUtils.randItemStackFactory(mkMp("DISPENSER",1,"DROPPER",1, "DAYLIGHT_DETECTOR",1, "LECTERN",1, "LIGHTNING_ROD",1,"HEAVY_WEIGHTED_PRESSURE_PLATE",1)),1,
+                            AddUtils.randItemStackFactory(mkMp("SLIME_BALL",1,"HONEY_BLOCK",1,"TNT",1,"REDSTONE",1,"OAK_BUTTON",1,"STONE_BUTTON",1,"BELL",1,"TRAPPED_CHEST",1,"COMPOSTER",1)),1)
             ))
             .register();
     public static final SlimefunItem TNT_MG=new SMGenerator(AddGroups.VANILLA, AddItem.TNT_MG,RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -1522,6 +1522,7 @@ public class AddSlimefunItems {
                 put(mkl(Material.PURPLE_CARPET),mkl("32PURPLE_CARPET"));
                 put(mkl(Material.GRAY_CARPET),mkl("32GRAY_CARPET"));
                 put(mkl(Material.LIGHT_GRAY_CARPET),mkl("32LIGHT_GRAY_CARPET"));
+                put(mkl(Material.MOSS_CARPET),mkl("32MOSS_CARPET"));
 
             }})
             .register();
@@ -1534,10 +1535,13 @@ public class AddSlimefunItems {
                     null,"END_STONE",AddItem.LFIELD,AddItem.LFIELD,"END_STONE",null),3,1000,116,
             new LinkedHashMap<>(){{
                 put(mkl("SAND"),mkl("8SAND"));
+                put(mkl("RED_SAND"),mkl("8RED_SAND"));
                 put(mkl("ANVIL"),mkl("ANVIL"));
                 put(mkl("CHIPPED_ANVIL"),mkl("CHIPPED_ANVIL"));
                 put(mkl("DAMAGED_ANVIL"),mkl("DAMAGED_ANVIL"));
                 put(mkl("GRAVEL"),mkl("8GRAVEL"));
+                put(mkl("SNOW"),mkl("8SNOW"));
+                put(mkl("POINTED_DRIPSTONE"),mkl("8POINTED_DRIPSTONE"));
                 put(mkl(Material.BLUE_CONCRETE_POWDER),mkl("32BLUE_CONCRETE_POWDER"));
                 put(mkl(Material.RED_CONCRETE_POWDER),mkl("32RED_CONCRETE_POWDER"));
                 put(mkl(Material.YELLOW_CONCRETE_POWDER),mkl("32YELLOW_CONCRETE_POWDER"));
