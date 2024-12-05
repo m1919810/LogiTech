@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import me.matl114.logitech.SlimefunItem.AddHandlers;
 import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
+import me.matl114.logitech.SlimefunItem.DistinctiveCustomItemStack;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.Utils;
@@ -21,7 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.function.Function;
 
-public class ReplaceCard extends CustomSlimefunItem {
+public class ReplaceCard extends DistinctiveCustomItemStack {
     public final static String LOC_DISPLAY_PREFIX = AddUtils.resolveColor("&x&E&B&3&3&E&B替代的物品: &f");
     public final static NamespacedKey KEY_LOC = AddUtils.getNameKey("rep_mat_id");
     public enum ReplaceType{

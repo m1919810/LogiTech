@@ -6,9 +6,10 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import me.matl114.logitech.SlimefunItem.AddHandlers;
 import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
+import me.matl114.logitech.SlimefunItem.DistinctiveCustomItemStack;
 import org.bukkit.inventory.ItemStack;
 
-public class ItemNotUsable extends CustomSlimefunItem {
+public class ItemNotUsable extends DistinctiveCustomItemStack {
     public ItemNotUsable(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }

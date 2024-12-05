@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CustomSlimefunItem extends SlimefunItem implements RecipeDisplay , DistinctiveItem {
+public abstract class CustomSlimefunItem extends SlimefunItem implements RecipeDisplay{
     public List<ItemStack> displayedMemory;
     public List<ItemStack> originalMemory;
     protected boolean checkCanStack=true;
@@ -33,13 +33,7 @@ public abstract class CustomSlimefunItem extends SlimefunItem implements RecipeD
             this.originalMemory = new ArrayList<>();
         }
     }
-    public boolean canStack(@Nonnull ItemMeta var1, @Nonnull ItemMeta var2){
-        if(checkCanStack){
-            PersistentDataContainer container1 = var1.getPersistentDataContainer();
-            PersistentDataContainer container2 = var2.getPersistentDataContainer();
-            return (container1==null)||(container1.equals(container2));
-        }else return true;
-    }
+
     public void addInfo(ItemStack stack){
 
     }

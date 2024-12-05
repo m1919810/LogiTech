@@ -8,9 +8,10 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import me.matl114.logitech.Schedule.PersistentEffects.CustomEffects;
 import me.matl114.logitech.Schedule.PersistentEffects.PlayerEffects;
 import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
+import me.matl114.logitech.SlimefunItem.DistinctiveCustomItemStack;
 import org.bukkit.inventory.ItemStack;
 
-public class AntiGravityBar extends CustomSlimefunItem {
+public class AntiGravityBar extends DistinctiveCustomItemStack {
     public AntiGravityBar(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }

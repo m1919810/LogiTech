@@ -11,6 +11,7 @@ import me.matl114.logitech.Language;
 import me.matl114.logitech.SlimefunItem.Cargo.Links.HyperLink;
 import me.matl114.logitech.SlimefunItem.Cargo.Links.StorageLink;
 import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
+import me.matl114.logitech.SlimefunItem.DistinctiveCustomItemStack;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Utils;
@@ -24,7 +25,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class QuantumLink extends CustomSlimefunItem {
+public class QuantumLink extends DistinctiveCustomItemStack {
     public QuantumLink(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe,new ArrayList<>());
         this.setDisplayRecipes(

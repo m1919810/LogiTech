@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
+import me.matl114.logitech.SlimefunItem.DistinctiveCustomItemStack;
 import me.matl114.logitech.SlimefunItem.Interface.MenuBlock;
 import me.matl114.logitech.Utils.UtilClass.TickerClass.Ticking;
 import me.matl114.logitech.Utils.Settings;
@@ -16,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public abstract class AbstractTransportor extends CustomSlimefunItem implements Ticking, MenuBlock, NotHopperable{
+public abstract class AbstractTransportor extends DistinctiveCustomItemStack implements Ticking, MenuBlock, NotHopperable{
     public AbstractTransportor(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe){
         super(category,item , recipeType, recipe);
     }

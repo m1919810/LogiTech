@@ -77,6 +77,9 @@ public class AbstractSpawner extends AbstractBlock{
         this.handleBlock(this);
    }
     public boolean canStack(ItemMeta meta1, ItemMeta meta2){
+        if(!super.canStack(meta1,meta2)){
+            return false;
+        }
         if(meta1 instanceof BlockStateMeta bsm1 &&meta2 instanceof BlockStateMeta bsm2){
             return bsm1.getBlockState().equals(bsm2.getBlockState());
         }

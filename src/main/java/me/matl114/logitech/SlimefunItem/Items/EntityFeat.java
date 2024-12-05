@@ -194,6 +194,9 @@ public class EntityFeat extends ItemWithHandler<ItemDropHandler> {
         };
     }
     public boolean canStack(ItemMeta meta1,ItemMeta meta2){
+        if(!super.canStack(meta1,meta2)){
+            return false;
+        }
         if(meta1 instanceof BlockStateMeta bsm1 &&meta2 instanceof BlockStateMeta bsm2){
             return CraftUtils.matchBlockStateMetaOnInvoke(bsm1,bsm2);
         }
