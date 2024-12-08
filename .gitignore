@@ -10,3 +10,4 @@ workspace.xml
 .gitignore
 .idea/*
 .idea
+log.txt
