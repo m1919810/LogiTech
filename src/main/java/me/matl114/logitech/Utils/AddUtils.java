@@ -25,6 +25,7 @@ import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
@@ -854,7 +855,7 @@ public class AddUtils {
         return stack;
     }
 
-    public static void sendMessage(Player p,String msg){
+    public static void sendMessage(CommandSender p, String msg){
         p.sendMessage(ChatColors.color(msg));
     }
     public static void sendTitle(Player p,String title,String subtitle){
@@ -935,7 +936,7 @@ public class AddUtils {
         return sb.toString();
     }
     public static void damageGeneric(Damageable e, double f){
-        e.setHealth(Math.max( e.getHealth()-f,0.0));
+        e.setHealth(Math.min( Math.max( e.getHealth()-f,0.0),e.getMaxHealth()));
     }
     public static ItemMeta setName(String name,ItemMeta meta){
         meta.setDisplayName(AddUtils.resolveColor(name));

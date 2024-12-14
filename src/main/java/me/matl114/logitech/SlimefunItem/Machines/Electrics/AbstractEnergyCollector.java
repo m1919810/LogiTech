@@ -15,6 +15,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Interface.EnergyProvider;
+import me.matl114.logitech.SlimefunItem.Interface.MenuTogglableBlock;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.MathUtils;
@@ -29,7 +30,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-public abstract class AbstractEnergyCollector extends AbstractEnergyMachine implements EnergyProvider{
+public abstract class AbstractEnergyCollector extends AbstractEnergyMachine implements EnergyProvider, MenuTogglableBlock {
     protected final int[] INPUT_SLOTS=new int[0];
     protected final int[] OUTPUT_SLOTS=new int[0];
     public int[] getInputSlots(){
@@ -74,16 +75,31 @@ public abstract class AbstractEnergyCollector extends AbstractEnergyMachine impl
         }
         preset.addItem(getInfoSlot(),getInfoShow(0,0,0),ChestMenuUtils.getEmptyClickHandler());
     }
+    @Override
+    public boolean[] getStatus(BlockMenu inv) {
+        ItemStack itemStack=inv.getItemInSlot(getLazySlot());
+        if(itemStack!=null&&itemStack.getType()==Material.GREEN_STAINED_GLASS_PANE){
+            return new boolean[]{true};
+        }else {
+            return new boolean[]{false};
+        }
+    }
+
+    @Override
+    public void toggleStatus(BlockMenu inv, boolean... result) {
+        if(result[0]){
+            inv.replaceExistingItem(getLazySlot(),LAZY_ITEM_ON);
+        }else {
+            inv.replaceExistingItem(getLazySlot(),LAZY_ITEM_OFF);
+        }
+    }
     public void newMenuInstance(BlockMenu menu, Block block){
         if(menu.getItemInSlot(getLazySlot())==null){
             menu.replaceExistingItem(getLazySlot(),LAZY_ITEM_ON);
         }
         menu.addMenuClickHandler(getLazySlot(),((player, i, itemStack, clickAction) -> {
-            if(itemStack!=null&&itemStack.getType()==Material.GREEN_STAINED_GLASS_PANE){
-                menu.replaceExistingItem(getLazySlot(),LAZY_ITEM_OFF);
-            }else {
-                menu.replaceExistingItem(getLazySlot(),LAZY_ITEM_ON);
-            }
+            boolean t=getStatus(menu)[0];
+            toggleStatus(menu,!t);
             return false;
         }));
     }
@@ -109,8 +125,7 @@ public abstract class AbstractEnergyCollector extends AbstractEnergyMachine impl
         int charge=this.getCharge(loc,data);
         int energyProvider=0;
         int errorMachine=0;
-        ItemStack lazymodItem= menu.getItemInSlot(getLazySlot());
-        boolean lazymod= lazymodItem==null||lazymodItem.getType()!=Material.RED_STAINED_GLASS_PANE;
+        boolean lazymod= getStatus(menu)[0];
         Collection<SlimefunBlockData> allDatas= getCollectRange(menu,b,data);
         if(allDatas!=null&&!allDatas.isEmpty()){
             Location testLocation;

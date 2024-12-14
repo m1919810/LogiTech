@@ -27,6 +27,7 @@ import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
+import javax.xml.crypto.Data;
 import java.util.HashMap;
 
 public class FinalAltarCore  extends MultiCore {
@@ -102,17 +103,24 @@ public class FinalAltarCore  extends MultiCore {
                    "&7两者的构造在内置的投影中均可查看",
                    "&7当你需要在壹,贰级终极祭坛切换时,请关闭多方块并重启,或者尝试点击刷新祭坛按钮")
         ));
+        this.setAutoBuildDefault(false);
     }
     public MultiLevelBlockType getMultiBlockType(){
         return MBTYPE;
     }
     public MultiBlockService.MultiBlockBuilder BUILDER=( (core, type, uid) -> {
-        AbstractMultiBlockHandler blockHandler=MultiBlockHandler.createHandler(core,type,uid);
-        AbstractMultiBlock block=blockHandler.getMultiBlock();
+        int previouslevel=DataCache.getCustomData(core,LVL_KEY,0);
+        AbstractMultiBlock block=type;
         int level=0;
         if(block instanceof MultiLevelBlock lb){
             level=lb.getLevel();
         }
+        if(previouslevel!=0&&level!=previouslevel){
+            //not matched
+            return null;
+        }
+        AbstractMultiBlockHandler blockHandler=MultiBlockHandler.createHandler(core,type,uid);
+
         DataCache.setCustomData(core,LVL_KEY,level);
         return blockHandler;
     });
@@ -142,6 +150,11 @@ public class FinalAltarCore  extends MultiCore {
     }
     public void onMultiBlockEnable(Location loc,AbstractMultiBlockHandler handler){
         super.onMultiBlockEnable(loc,handler);
+        BlockMenu inv= DataCache.getMenu(loc);
+        if(inv!=null){
+            updateMenu(inv,loc.getBlock(),Settings.RUN);
+        }
+
     }
     public void updateMenu(BlockMenu inv, Block block, Settings mod){
         int holoStatus=DataCache.getCustomData(inv.getLocation(),MultiBlockService.getHologramKey(),0);
@@ -153,6 +166,13 @@ public class FinalAltarCore  extends MultiCore {
 
         }else{
             inv.replaceExistingItem(HOLOGRAM_SLOT,HOLOGRAM_ITEM_ON_2);
+        }
+        int status=MultiBlockService.getStatus(inv.getLocation());
+        if(status!=0){
+            int code=DataCache.getCustomData(inv.getLocation(),LVL_KEY,0);
+            inv.replaceExistingItem(STATUS_SLOT,code==1? STATUS_ITEM_ON_1:STATUS_ITEM_ON_2);
+        }else {
+            inv.replaceExistingItem(STATUS_SLOT,STATUS_ITEM_OFF);
         }
     }
     public void newMenuInstance(BlockMenu inv, Block block){
@@ -211,16 +231,7 @@ public class FinalAltarCore  extends MultiCore {
         }));
         updateMenu(inv,block,Settings.RUN);
     }
-    public void tick(Block b, BlockMenu menu,SlimefunBlockData data, int tickCount){
-        //in this case .blockMenu is null
 
-        if(MultiBlockService.acceptCoreRequest(b.getLocation(),getBuilder(),getMultiBlockType())){
-            int autoCode=DataCache.getCustomData(data,MultiBlockService.getAutoKey(),0);
-            runtimeCheck(menu.getLocation(),data,autoCode);
-            processCore(b,menu);
-        }
-        process(b,menu,data);
-    }
     public void processCore(Block b, BlockMenu menu){
         if(menu.hasViewer()){
             updateMenu(menu,b,Settings.RUN);
@@ -230,7 +241,6 @@ public class FinalAltarCore  extends MultiCore {
     public void onBreak(BlockBreakEvent e, BlockMenu inv){
         super.onBreak(e,inv);
     }
-
 
 
 }

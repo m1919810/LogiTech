@@ -1,6 +1,5 @@
 package me.matl114.logitech.SlimefunItem.Interface;
 
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
@@ -17,6 +16,9 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -75,20 +77,38 @@ public interface MenuBlock extends InventoryBlock {
         //handle blockPlaceEvent
         handleBlock(item);
     }
-    default boolean listenDoubleClick(){
+    default boolean useAdvancedMenu(){
         return false;
+    }
+    default void listenDragClick(BlockMenu inv,InventoryDragEvent e){
+        //do nothing
+
+    }
+    default void listenOriginClick(BlockMenu inv, InventoryClickEvent e){
+        if(e.getClick()== ClickType.DOUBLE_CLICK){
+            e.setCancelled(true);
+            return;
+        }
     }
     public static abstract class AdvancedBlockMenuPreset extends BlockMenuPreset{
         //双击 拖拽都无法监听！
         boolean doubleClick;
-        public AdvancedBlockMenuPreset(String id,String name,boolean doubleClick){
+        MenuBlock instance;
+        public AdvancedBlockMenuPreset(String id,String name,boolean doubleClick,MenuBlock instance){
             super(id,name);
             this.doubleClick=doubleClick;
+            this.instance=instance;
+        }
+        public void handleDragEvent(BlockMenu inv,InventoryDragEvent e) {
+            instance.listenDragClick(inv,e);
+        }
+        public void handleOriginClick(BlockMenu inv,InventoryClickEvent e) {
+            instance.listenOriginClick(inv,e);
         }
     }
     default void createPreset(final SlimefunItem item, String title, final Consumer<BlockMenuPreset> setup) {
-        if(listenDoubleClick()){
-            BlockMenuPreset var10001 = new AdvancedBlockMenuPreset(item.getId(), title,listenDoubleClick())  {
+        if(useAdvancedMenu()){
+            BlockMenuPreset var10001 = new AdvancedBlockMenuPreset(item.getId(), title, useAdvancedMenu(),this)  {
                 public void init() {
                     setup.accept(this);
                 }

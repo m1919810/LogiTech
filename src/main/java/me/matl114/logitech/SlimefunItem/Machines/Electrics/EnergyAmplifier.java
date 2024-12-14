@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.SlimefunItem.AddItem;
+import me.matl114.logitech.SlimefunItem.Interface.MenuTogglableBlock;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractEnergyProvider;
 import me.matl114.logitech.SlimefunItem.Machines.FinalFeature;
 import me.matl114.logitech.Utils.*;
@@ -33,7 +34,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EnergyAmplifier extends AbstractEnergyProvider {
+public class EnergyAmplifier extends AbstractEnergyProvider implements MenuTogglableBlock {
     protected final int[] NULL_SLOT=new int[0];
     public int[] getInputSlots(){
         return NULL_SLOT;
@@ -132,8 +133,7 @@ public class EnergyAmplifier extends AbstractEnergyProvider {
                 }
                 int charge=this.getCharge(l);
                 int amplify=dh.getInt(0);
-                ItemStack runWhenFullCharged=inv.getItemInSlot(RUNWHENFULL_SLOT);
-                if((runWhenFullCharged==null||runWhenFullCharged.getType()==Material.RED_STAINED_GLASS_PANE)&&charge>=this.energybuffer){
+                if(!getStatus(inv)[0]&&charge>=this.energybuffer){
                     if(inv.hasViewer()){
                         inv.replaceExistingItem(STATUS_SLOT,getStatusItem(0,charge,amplify));
                     }
@@ -198,11 +198,8 @@ public class EnergyAmplifier extends AbstractEnergyProvider {
         });
         ItemStack stack=inv.getItemInSlot(RUNWHENFULL_SLOT);
         inv.addMenuClickHandler(RUNWHENFULL_SLOT,((player, i, itemStack, clickAction) -> {
-            if(itemStack==null||itemStack.getType()!=Material.RED_STAINED_GLASS_PANE){
-                inv.replaceExistingItem(RUNWHENFULL_SLOT,RUNWHENFULL_OFF);
-            }else {
-                inv.replaceExistingItem(RUNWHENFULL_SLOT,RUNWHENFULL_ON );
-            }
+            boolean t=getStatus(inv)[0];
+            toggleStatus(inv,!t);
             return false;
         }));
 
@@ -233,6 +230,24 @@ public class EnergyAmplifier extends AbstractEnergyProvider {
         super.onBreak(e,inv);
         if(inv!=null){
             inv.dropItems(inv.getLocation(),MACHINE_SLOT);
+        }
+    }
+
+    @Override
+    public boolean[] getStatus(BlockMenu inv) {
+        ItemStack itemStack=inv.getItemInSlot(RUNWHENFULL_SLOT);
+        if(itemStack==null||itemStack.getType()!=Material.RED_STAINED_GLASS_PANE){
+            return new boolean[]{true};
+        }else {
+            return new boolean[]{false};
+        }
+    }
+    @Override
+    public void toggleStatus(BlockMenu inv, boolean... result) {
+        if(result[0]){
+            inv.replaceExistingItem(RUNWHENFULL_SLOT,RUNWHENFULL_ON);
+        }else {
+            inv.replaceExistingItem(RUNWHENFULL_SLOT,RUNWHENFULL_OFF);
         }
     }
 }

@@ -1,46 +1,28 @@
 package me.matl114.logitech.Utils;
 
-import com.bgsoftware.wildstacker.api.loot.LootTable;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.BlockDataController;
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.api.events.AndroidMineEvent;
-import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.matl114.logitech.Listeners.Events.AttackPermissionTestEvent;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Waterlogged;
-import org.bukkit.damage.DamageSource;
-import org.bukkit.damage.DamageType;
-import org.bukkit.entity.Damageable;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootTables;
-import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -216,6 +198,204 @@ public class WorldUtils {
     public static List<LootTables> END_STRUCTURE_CHESTS=new ArrayList<>(){{
         add(LootTables.END_CITY_TREASURE);
     }};
+    public static Set<Material> BLOCKTYPE_WITH_ENTITY=new HashSet<>(){{
+        add(Material.DROPPER);
+        add(Material.SCULK_CATALYST);
+        add(Material.DISPENSER);
+        add(Material.WITHER_SKELETON_WALL_SKULL);
+        add(Material.ACACIA_WALL_SIGN);
+        add(Material.DARK_OAK_WALL_HANGING_SIGN);
+        add(Material.WHITE_SHULKER_BOX);
+        add(Material.SKELETON_SKULL);
+        add(Material.LIGHT_GRAY_SHULKER_BOX);
+        add(Material.BLACK_BANNER);
+        add(Material.BIRCH_SIGN);
+        add(Material.SOUL_CAMPFIRE);
+        add(Material.ACACIA_WALL_HANGING_SIGN);
+        add(Material.FURNACE);
+        add(Material.BEACON);
+        add(Material.PURPLE_BED);
+        add(Material.SPRUCE_WALL_SIGN);
+        add(Material.BLUE_WALL_BANNER);
+        add(Material.JIGSAW);
+        add(Material.RED_BANNER);
+        add(Material.ORANGE_BED);
+        add(Material.ORANGE_WALL_BANNER);
+        add(Material.GREEN_BANNER);
+        add(Material.BLAST_FURNACE);
+        add(Material.MANGROVE_WALL_SIGN);
+        add(Material.PLAYER_WALL_HEAD);
+        add(Material.PINK_SHULKER_BOX);
+        add(Material.CHERRY_WALL_SIGN);
+        add(Material.WARPED_HANGING_SIGN);
+        add(Material.WHITE_BANNER);
+        add(Material.MANGROVE_SIGN);
+        add(Material.MAGENTA_BANNER);
+        add(Material.LIGHT_BLUE_WALL_BANNER);
+        add(Material.MOVING_PISTON);
+        add(Material.SHULKER_BOX);
+        add(Material.CYAN_SHULKER_BOX);
+        add(Material.JUNGLE_HANGING_SIGN);
+        add(Material.DAYLIGHT_DETECTOR);
+        add(Material.BLUE_SHULKER_BOX);
+        add(Material.ORANGE_SHULKER_BOX);
+        add(Material.TRAPPED_CHEST);
+        add(Material.SUSPICIOUS_SAND);
+        add(Material.MAGENTA_WALL_BANNER);
+        add(Material.DECORATED_POT);
+        add(Material.CRIMSON_HANGING_SIGN);
+        add(Material.BROWN_WALL_BANNER);
+        add(Material.SPAWNER);
+        add(Material.OAK_SIGN);
+        add(Material.DRAGON_HEAD);
+        add(Material.LIGHT_GRAY_WALL_BANNER);
+        add(Material.OAK_WALL_HANGING_SIGN);
+        add(Material.BROWN_BANNER);
+        add(Material.BREWING_STAND);
+        add(Material.PURPLE_WALL_BANNER);
+        add(Material.MANGROVE_WALL_HANGING_SIGN);
+        add(Material.ENCHANTING_TABLE);
+        add(Material.DARK_OAK_SIGN);
+        add(Material.ZOMBIE_WALL_HEAD);
+        add(Material.GRAY_BANNER);
+        add(Material.YELLOW_BED);
+        add(Material.MANGROVE_HANGING_SIGN);
+        add(Material.DARK_OAK_WALL_SIGN);
+        add(Material.CREEPER_HEAD);
+        add(Material.YELLOW_BANNER);
+        add(Material.LECTERN);
+        add(Material.BIRCH_HANGING_SIGN);
+        add(Material.COMPARATOR);
+        add(Material.GRAY_BED);
+        add(Material.BLACK_WALL_BANNER);
+        add(Material.BLACK_SHULKER_BOX);
+        add(Material.CALIBRATED_SCULK_SENSOR);
+        add(Material.WHITE_WALL_BANNER);
+        add(Material.PINK_WALL_BANNER);
+        add(Material.LIME_BED);
+        add(Material.JUNGLE_SIGN);
+        add(Material.HOPPER);
+        add(Material.BLUE_BANNER);
+        add(Material.SKELETON_WALL_SKULL);
+        add(Material.END_PORTAL);
+        add(Material.CONDUIT);
+        add(Material.BAMBOO_WALL_SIGN);
+        add(Material.WARPED_WALL_HANGING_SIGN);
+        add(Material.STRUCTURE_BLOCK);
+        add(Material.LIGHT_GRAY_BED);
+        add(Material.DRAGON_WALL_HEAD);
+        add(Material.WITHER_SKELETON_SKULL);
+        add(Material.CRIMSON_WALL_SIGN);
+        add(Material.BAMBOO_SIGN);
+        add(Material.YELLOW_WALL_BANNER);
+        add(Material.CHEST);
+        add(Material.DARK_OAK_HANGING_SIGN);
+        add(Material.LIGHT_BLUE_SHULKER_BOX);
+        add(Material.BELL);
+        add(Material.MAGENTA_SHULKER_BOX);
+        add(Material.LIGHT_BLUE_BED);
+        add(Material.PIGLIN_WALL_HEAD);
+        add(Material.SUSPICIOUS_GRAVEL);
+        add(Material.JUNGLE_WALL_SIGN);
+        add(Material.BLUE_BED);
+        add(Material.LIME_BANNER);
+        add(Material.ACACIA_SIGN);
+        add(Material.BIRCH_WALL_HANGING_SIGN);
+        add(Material.CRIMSON_WALL_HANGING_SIGN);
+        add(Material.END_GATEWAY);
+        add(Material.CHERRY_WALL_HANGING_SIGN);
+        add(Material.PINK_BANNER);
+        add(Material.PURPLE_BANNER);
+        add(Material.OAK_WALL_SIGN);
+        add(Material.SMOKER);
+        add(Material.CHERRY_SIGN);
+        add(Material.OAK_HANGING_SIGN);
+        add(Material.BROWN_BED);
+        add(Material.CHISELED_BOOKSHELF);
+        add(Material.CREEPER_WALL_HEAD);
+        add(Material.BEE_NEST);
+        add(Material.SCULK_SENSOR);
+        add(Material.LIME_WALL_BANNER);
+        add(Material.BLACK_BED);
+        add(Material.CYAN_WALL_BANNER);
+        add(Material.BROWN_SHULKER_BOX);
+        add(Material.MAGENTA_BED);
+        add(Material.JUNGLE_WALL_HANGING_SIGN);
+        add(Material.CHERRY_HANGING_SIGN);
+        add(Material.CYAN_BED);
+        add(Material.GRAY_SHULKER_BOX);
+        add(Material.SPRUCE_WALL_HANGING_SIGN);
+        add(Material.LIGHT_BLUE_BANNER);
+        add(Material.GRAY_WALL_BANNER);
+        add(Material.RED_SHULKER_BOX);
+        add(Material.JUKEBOX);
+        add(Material.GREEN_BED);
+        add(Material.ORANGE_BANNER);
+        add(Material.YELLOW_SHULKER_BOX);
+        add(Material.CRIMSON_SIGN);
+        add(Material.WARPED_WALL_SIGN);
+        add(Material.WARPED_SIGN);
+        add(Material.SPRUCE_SIGN);
+        add(Material.ENDER_CHEST);
+        add(Material.SPRUCE_HANGING_SIGN);
+        add(Material.COMMAND_BLOCK);
+        add(Material.WHITE_BED);
+        add(Material.PINK_BED);
+        add(Material.BAMBOO_HANGING_SIGN);
+        add(Material.RED_BED);
+        add(Material.PLAYER_HEAD);
+        add(Material.PIGLIN_HEAD);
+        add(Material.REPEATING_COMMAND_BLOCK);
+        add(Material.PURPLE_SHULKER_BOX);
+        add(Material.GREEN_WALL_BANNER);
+        add(Material.ZOMBIE_HEAD);
+        add(Material.BEEHIVE);
+        add(Material.CYAN_BANNER);
+        add(Material.CHAIN_COMMAND_BLOCK);
+        add(Material.BAMBOO_WALL_HANGING_SIGN);
+        add(Material.LIGHT_GRAY_BANNER);
+        add(Material.RED_WALL_BANNER);
+        add(Material.CAMPFIRE);
+        add(Material.SCULK_SHRIEKER);
+        add(Material.GREEN_SHULKER_BOX);
+        add(Material.ACACIA_HANGING_SIGN);
+        add(Material.BARREL);
+        add(Material.BIRCH_WALL_SIGN);
+        add(Material.LIME_SHULKER_BOX);
+    }};
+    public static Set<Material> BLOCKTYPE_WITH_TICKER=new HashSet<>(){{
+        add(Material.DROPPER);
+        add(Material.SCULK_CATALYST);
+        add(Material.DISPENSER);
+        add(Material.SOUL_CAMPFIRE);
+        add(Material.FURNACE);
+        add(Material.BEACON);
+        add(Material.BLAST_FURNACE);
+        add(Material.MOVING_PISTON);
+        add(Material.DAYLIGHT_DETECTOR);
+        add(Material.DECORATED_POT);
+        add(Material.SPAWNER);
+        add(Material.BREWING_STAND);
+        add(Material.ENCHANTING_TABLE);
+        add(Material.LECTERN);
+        add(Material.CALIBRATED_SCULK_SENSOR);
+        add(Material.HOPPER);
+        add(Material.END_PORTAL);
+        add(Material.CONDUIT);
+        add(Material.BELL);
+        add(Material.END_GATEWAY);
+        add(Material.SMOKER);
+        add(Material.CHISELED_BOOKSHELF);
+        add(Material.BEE_NEST);
+        add(Material.SCULK_SENSOR);
+        add(Material.JUKEBOX);
+        add(Material.COMMAND_BLOCK);
+        add(Material.REPEATING_COMMAND_BLOCK);
+        add(Material.BEEHIVE);
+        add(Material.CHAIN_COMMAND_BLOCK);
+        add(Material.CAMPFIRE);
+        add(Material.SCULK_SHRIEKER);
+    }};
 
     protected static Class CraftBlockStateClass;
     protected static Field IBlockDataField;
@@ -277,6 +457,17 @@ public class WorldUtils {
     public static void setBlock(Block block, Material material) {
 
     }
+    public static boolean isEntityBlock(Material type){
+        return BLOCKTYPE_WITH_ENTITY.contains(type);
+    }
+    public static boolean isBlockLocation(Location location){
+        if(location==null){
+            return false;
+        }
+        return location.getX()==location.getBlockX() && location.getY()==location.getBlockY() && location.getZ()==location.getBlockZ();
+    }
+
+
     public static Location getBlockLocation(Location loc){
         return new Location(loc.getWorld(),loc.getBlockX(),loc.getBlockY(),loc.getBlockZ());
     }
@@ -614,8 +805,11 @@ public class WorldUtils {
             chunk.setForceLoaded(isForceload);
         },tick,true,0);
     }
-    public static boolean isLivingEntity(Entity e){
+    public static boolean isTargetableLivingEntity(Entity e){
         if(e.isValid()&&!e.isDead()&&e instanceof LivingEntity le&&!le.isInvulnerable()){
+            if(e instanceof ArmorStand stand && (stand.isMarker()||stand.isSmall())){
+                return false;
+            }
             return true;
         }return false;
     }

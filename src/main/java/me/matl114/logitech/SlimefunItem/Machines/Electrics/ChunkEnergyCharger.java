@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Listeners.Listeners.SlimefunBlockPlaceLimitListener;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Interface.ChunkLimit;
@@ -13,6 +14,7 @@ import me.matl114.logitech.Utils.WorldUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -42,14 +44,40 @@ public class ChunkEnergyCharger extends AbstractEnergyCharger implements ChunkLi
                 DataCache.setCustomData(data,PARTICLE_TICK,t+1);
             }else {
                 DataCache.setCustomData(data,PARTICLE_TICK,0);
-                WorldUtils.spawnLineParticle(loc.clone().add(0.5,0.5,0.5),loc.clone().add(0.5,128,0.5),Particle.SONIC_BOOM,80);
+                if(getStatus(inv)[1]){
+                    WorldUtils.spawnLineParticle(loc.clone().add(0.5,0.5,0.5),loc.clone().add(0.5,128,0.5),Particle.SONIC_BOOM,80);
+                }
 
             }
         },0,false,0);
         return DataCache.getAllSfItemInChunk(loc.getWorld(),loc.getBlockX()>>4,loc.getBlockZ()>>4);
     }
+    private final int PARTICLE_SLOT=0;
+    private ItemStack PARTICLE_OFF=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&a点击切换粒子效果","&7当前状态: &c关");
+    private ItemStack PARTICLE_ON=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&a点击切换粒子效果","&7当前状态: &a开");
+    @Override
+    public boolean[] getStatus(BlockMenu inv) {
+        ItemStack itemStack=inv.getItemInSlot(PARTICLE_SLOT);
+        if(itemStack!=null&&itemStack.getType()== Material.GREEN_STAINED_GLASS_PANE){
+            return new boolean[]{super.getStatus(inv)[0],true};
+        }else {
+            return new boolean[]{super.getStatus(inv)[0],false};
+        }
+    }
+
+    @Override
+    public void toggleStatus(BlockMenu inv, boolean... result) {
+        super.toggleStatus(inv, result[0]);
+        if(result.length==2){
+            if(result[1]){
+                inv.replaceExistingItem(PARTICLE_SLOT,PARTICLE_ON);
+            }else {
+                inv.replaceExistingItem(PARTICLE_SLOT,PARTICLE_OFF);
+            }
+        }
+    }
     public void newMenuInstance(BlockMenu menu, Block block){
-        if(!onChunkPlace(menu.getLocation(),this)){
+        if(!onChunkPlace(menu.getLocation(),ChunkEnergyCharger.class)){
             onChunkReachLimit(menu.getLocation(),this,(str)->{menu.getLocation().getWorld().getNearbyEntities(menu.getLocation(),10,10,10,(e)->{
                 if(e instanceof Player player){
                     player.sendMessage(str);
@@ -59,6 +87,15 @@ public class ChunkEnergyCharger extends AbstractEnergyCharger implements ChunkLi
             return;
         }
         super.newMenuInstance(menu, block);
+        ItemStack icon=menu.getItemInSlot(PARTICLE_SLOT);
+        if(icon==null||(icon.getType()!=Material.RED_STAINED_GLASS_PANE)||icon.getType()!=Material.GREEN_STAINED_GLASS_PANE){
+            menu.replaceExistingItem(PARTICLE_SLOT,PARTICLE_OFF);
+        }
+        menu.addMenuClickHandler(PARTICLE_SLOT,((player, i, itemStack, clickAction) -> {
+            boolean t=getStatus(menu)[1];
+            toggleStatus(menu,!t);
+            return false;
+        }));
     }
     protected boolean isChargeable(SlimefunItem that){
         return !(that instanceof AbstractEnergyMachine);
@@ -69,13 +106,13 @@ public class ChunkEnergyCharger extends AbstractEnergyCharger implements ChunkLi
     @Override
     public void onBreak(BlockBreakEvent e, BlockMenu menu) {
         super.onBreak(e, menu);
-        onChunkBreak(menu.getLocation(),this);
+        onChunkBreak(menu.getLocation());
     }
     public void preRegister(){
         super.preRegister();
         SlimefunBlockPlaceLimitListener.registerBlockLimit(this,(event)->{
             Location loc=event.getBlockPlaced().getLocation();
-            if(!onChunkPlace(loc,this)){
+            if(!onChunkPlace(loc,ChunkEnergyCharger.class)){
                 onChunkReachLimit(loc,this,(str)-> {
                     if (event.getPlayer() != null) {
                         event.getPlayer().sendMessage(str);

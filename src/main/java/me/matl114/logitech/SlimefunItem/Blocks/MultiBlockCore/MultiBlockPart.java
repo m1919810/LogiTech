@@ -24,6 +24,11 @@ public interface MultiBlockPart extends Ticking {
         String uid= MultiBlockService.safeGetUUID(e.getBlock().getLocation());
         MultiBlockService.deleteMultiBlock(uid, MultiBlockService.MultiBlockBreakCause.get(e.getBlock()));
     }
+
+    /**
+     * we override the handleBlock in @MenuBlock ,invoke this method in preRegister!
+     * @param it
+     */
     default void handleMultiBlockPart(SlimefunItem it){
         it.addItemHandler(new BlockBreakHandler(false, false) {
             @ParametersAreNonnullByDefault

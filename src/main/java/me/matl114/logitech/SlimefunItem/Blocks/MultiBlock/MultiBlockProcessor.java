@@ -14,6 +14,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.LinkedHashMap;
@@ -45,10 +46,6 @@ public abstract class MultiBlockProcessor extends AbstractProcessor implements M
     public MultiBlockService.MultiBlockBuilder getBuilder(){
         return MultiBlockHandler::createHandler;
     }
-    public void onMultiBlockDisable(Location loc, AbstractMultiBlockHandler handler, MultiBlockService.DeleteCause cause){
-        processor.endOperation(loc);
-        MultiBlockCore.super.onMultiBlockDisable(loc,handler,cause);
-    }
     public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int tickCount){
         //in this case .blockMenu is null
         if(MultiBlockService.acceptCoreRequest(b.getLocation(),getBuilder(),getMultiBlockType())){
@@ -58,10 +55,13 @@ public abstract class MultiBlockProcessor extends AbstractProcessor implements M
     public boolean isSync(){
         return false;
     }
-
-    public void preRegister(){
-        super.preRegister();
-        handleMultiBlockPart(this);
+    protected boolean endOperationWhenBreak=false;
+    public void onBreak(BlockBreakEvent e, BlockMenu menu){
+        super.onBreak(e,menu);
+        if(endOperationWhenBreak&& menu!=null){
+            this.processor.endOperation(menu.getLocation());
+        }
+        //合理性:processor可能需要在MultiBlockBreak中处理processor
     }
 
 }

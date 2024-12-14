@@ -105,7 +105,6 @@ public abstract class MultiBlockType implements AbstractMultiBlockType {
     }
     public AbstractMultiBlock genMultiBlockFrom(Location loc, MultiBlockService.Direction dir, boolean hasPrevRecord, OutputStream errorOut){
         int len=this.getSchemaSize();
-        String id= MultiBlockService.safeGetUUID(loc);
         for(int i=0;i<len;i++){
             Vector delta= dir.rotate(this.getSchemaPart(i));
             Location partloc=loc.clone().add(delta);
@@ -121,12 +120,13 @@ public abstract class MultiBlockType implements AbstractMultiBlockType {
             }else{
                 //use record but target block uuid not match core uuid
                 //used to  reload multiblock Structure after server restart
-                if(hasPrevRecord&&(!(id.equals( MultiBlockService.safeGetUUID(partloc))))){
-                //    Debug.logger("wrong at ",delta.toString());
-                    errorOut.out(()->"&c错误!你不该看见该消息,请联系作者");
-                    return null;
-                    //no record but target block has been occupied by sth
-                }else if(!hasPrevRecord&&MultiBlockService.validHandler(MultiBlockService.safeGetUUID(partloc))){//如果是当前已经注册的别的机器的
+//                if(hasPrevRecord&&false){
+//                //    Debug.logger("wrong at ",delta.toString());
+//                    errorOut.out(()->"&c错误!你不该看见该消息,请联系作者");
+//                    return null;
+//                    //no record but target block has been occupied by sth
+//                }else
+                if(!hasPrevRecord&&MultiBlockService.validHandler(MultiBlockService.safeGetUUID(partloc))){//如果是当前已经注册的别的机器的
                    // Debug.logger("wrong at ",delta.toString());
                     errorOut.out(()->{return "&c结构冲突!位于%s的部件属于另个机器! id-%s,位于%s".formatted(DataCache.locationToDisplayString(partloc),MultiBlockService.safeGetUUID(partloc),DataCache.locationToDisplayString( MultiBlockService.getCore(MultiBlockService.safeGetUUID(partloc))));});
                         return null;

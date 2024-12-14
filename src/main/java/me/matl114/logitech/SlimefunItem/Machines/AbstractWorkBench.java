@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractWorkBench extends AbstractMachine {
-    public List<MachineRecipe> machineRecipes;
     protected final int CRAFT_LIMIT;
 
     protected int getRecipeMenuSlot(){

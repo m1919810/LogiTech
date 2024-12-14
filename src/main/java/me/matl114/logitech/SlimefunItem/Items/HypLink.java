@@ -1,30 +1,25 @@
 package me.matl114.logitech.SlimefunItem.Items;
 
-import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.LocationUtils;
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import io.github.sefiraat.networks.slimefun.network.grid.NetworkGrid;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
-import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
 import me.matl114.logitech.SlimefunItem.Cargo.Links.HyperLink;
 import me.matl114.logitech.SlimefunItem.DistinctiveCustomItemStack;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.WorldUtils;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.bukkit.Chunk;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -70,14 +65,25 @@ public class HypLink extends DistinctiveCustomItemStack {
                             BlockMenu menu = data.getBlockMenu();
                             if (menu != null){
                                 menu.open(event.getPlayer());
-                            }
-                        }else{
-                            BlockState state = loc.getBlock().getState();
-                            if(state instanceof InventoryHolder ivHolder){
-                                //todo do test
-                                event.getPlayer().openInventory(ivHolder.getInventory());
+                                return;
                             }
                         }
+                        Block b = loc.getBlock();
+                        PlayerInteractEvent interactTarget=new PlayerInteractEvent(event.getPlayer(), Action.RIGHT_CLICK_BLOCK,null,b, BlockFace.UP);
+                        try{
+                            Bukkit.getPluginManager().callEvent(interactTarget);
+                            if(interactTarget.isCancelled()){
+                                AddUtils.sendMessage(event.getPlayer(), "&c点击该方块的行为被阻止!");
+                                return;
+                            }
+                        }catch (Throwable ignored){
+                        }
+                        BlockState state = b.getState();
+                        if(state instanceof InventoryHolder ivHolder){
+                            //todo do test
+                            event.getPlayer().openInventory(ivHolder.getInventory());
+                        }
+
                     }else {
                         AddUtils.sendMessage(event.getPlayer(), "&c抱歉,但您似乎并没有访问该位置的权限.");
                     }

@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.matl114.logitech.SlimefunItem.Interface.DirectionalBlock;
+import me.matl114.logitech.SlimefunItem.Interface.MenuTogglableBlock;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.DataCache;
@@ -20,6 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import javax.swing.text.html.Option;
 import javax.xml.crypto.Data;
@@ -33,6 +35,7 @@ public class ConfigCopier extends CustomProps{
         super(itemGroup, item, recipeType, recipe);
     }
     private NamespacedKey KEY_DIR= AddUtils.getNameKey("dir-cfg");
+    private NamespacedKey KEY_SET= AddUtils.getNameKey("tog-set");
     private NamespacedKey KEY_BWL= AddUtils.getNameKey("bwl-cfg");
     @Override
     public void onClickAction(PlayerRightClickEvent event) {
@@ -54,9 +57,20 @@ public class ConfigCopier extends CustomProps{
                                 Directions[] directions = directional.copyDirectionSettings(data);
                                 List<String> cfgs= Arrays.stream(directions).map(Directions::toString).toList();
                                 container.set(KEY_DIR, AbstractStringList.TYPE,cfgs);
-                                AddUtils.sendMessage(p,"&6[方向配置] &a已保存方块的方向配置");
+                                AddUtils.sendMessage(p,"&6[方向配置] &a已保存方块的方向配置,共 %s 项".formatted(cfgs.size()));
                             }else {
                                 AddUtils.sendMessage(p,"&6[方向配置] &c该方块不含有方向配置");
+                            }
+                            if(item instanceof MenuTogglableBlock togglableBlock ){
+                                boolean[] settings=togglableBlock.getStatus(data.getBlockMenu());
+                                byte[] byteArray=new byte[settings.length];
+                                for (int i=0;i<settings.length;++i){
+                                    byteArray[i]=settings[i]?(byte) 1:(byte) 0;
+                                }
+                                container.set(KEY_SET, PersistentDataType.BYTE_ARRAY,byteArray);
+                                AddUtils.sendMessage(p,"&6[特殊选项] &c已保存方块的特殊选项,共 %s 项".formatted(byteArray.length));
+                            }else {
+                                AddUtils.sendMessage(p,"&6[特殊选项] &c该方块不含特殊选项");
                             }
 
 
@@ -78,6 +92,21 @@ public class ConfigCopier extends CustomProps{
                                 }
                             }else{
                                 AddUtils.sendMessage(p,"&6[方向配置] &c该方块不含有方向配置");
+                            }
+                            if(item instanceof MenuTogglableBlock togglableBlock){
+                                byte[] byteArray=container.get(KEY_SET, PersistentDataType.BYTE_ARRAY);
+                                if(byteArray!=null&&byteArray.length>0) {
+                                    boolean[] settings=new boolean[byteArray.length];
+                                    for (int i=0;i<settings.length;++i){
+                                        settings[i]=byteArray[i]!=0;
+                                    }
+                                    togglableBlock.toggleStatus(data.getBlockMenu(), settings);
+                                    AddUtils.sendMessage(p,"&6[特殊选项] &c已应用保存的特殊选项");
+                                }else {
+                                    AddUtils.sendMessage(p,"&6[特殊选项] &c配置器没有保存特殊选项");
+                                }
+                            }else{
+                                AddUtils.sendMessage(p,"&6[特殊选项] &c该方块不含特殊选项");
                             }
 
 

@@ -12,37 +12,42 @@ import java.util.function.Consumer;
 
 public interface ChunkLimit {
     public HashMap<Chunk, Location> getRecords();
-    default boolean onChunkPlace(Location location, SlimefunItem slimefunItem){
+    default <T extends SlimefunItem> boolean onChunkPlace(Location location,Class<T> instance){
         Chunk chunk = location.getChunk();
         Location loc=getRecords().get(chunk);
         if(loc==null||loc.equals(location)) {
             getRecords().put(chunk, location);
             return true;
         }else {
-            SlimefunItem item= DataCache.getSfItem(loc);
-            if(item!=slimefunItem) {
+            SlimefunItem item=DataCache.getSfItem(loc);
+            if(instance.isInstance(item)){
+                return false;
+            }else{
                 getRecords().put(chunk, location);
                 return true;
-            }else{
-                return false;
             }
         }
     }
-    default boolean checkChunkPlace(Location location,SlimefunItem slimefunItem){
+    default <T extends SlimefunItem> boolean checkChunkPlace(Location location,Class<T> instance){
         Chunk chunk = location.getChunk();
         Location loc=getRecords().get(chunk);
         if(loc==null||loc.equals(location)) {
             return true;
         }else {
             SlimefunItem item= DataCache.getSfItem(loc);
-            if(item!=slimefunItem) {
-                return true;
-            }else{
+            if(instance.isInstance(item)){
                 return false;
+            }else{
+                return true;
             }
+//            if(item!=slimefunItem) {
+//                return true;
+//            }else{
+//                return false;
+//            }
         }
     }
-    default boolean onChunkBreak(Location location, SlimefunItem slimefunItem){
+    default boolean onChunkBreak(Location location){
         Chunk chunk = location.getChunk();
         Location loc=getRecords().remove(chunk);
         return true;

@@ -10,8 +10,11 @@ import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractWorkBench;
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.Utils.CraftUtils;
+import me.matl114.logitech.Utils.MachineRecipeUtils;
 import me.matl114.logitech.Utils.RecipeSupporter;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
+import me.matl114.matlib.Implements.Slimefun.core.CustomRecipeType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -23,7 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BugCrafter extends AbstractWorkBench implements ImportRecipes {
-    public static final RecipeType TYPE=new RecipeType(
+
+    public static final CustomRecipeType TYPE=new CustomRecipeType(
             AddUtils.getNameKey("bug_crafter"),
             new CustomItemStack(AddItem.BUG_CRAFTER, AddItem.BUG_CRAFTER.getDisplayName(),
                     "", "&c配方显示不完整，请从%s查看正确的配方!".formatted(Language.get("Machines.BUG_CRAFTER.Name")))
@@ -40,12 +44,18 @@ public class BugCrafter extends AbstractWorkBench implements ImportRecipes {
     public BugCrafter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                          int energybuffer, int energyConsumption,int limit) {
         super(category, item, recipeType, recipe, energybuffer, energyConsumption,limit,null);
-        this.machineRecipeSupplier=()->{
-            List<MachineRecipe> recipes=new ArrayList<>();
-            recipes.addAll( RecipeSupporter.PROVIDED_SHAPED_RECIPES.get(TYPE));
-            return recipes;
-        };
-        SchedulePostRegister.addPostRegisterTask(this::getMachineRecipes);
+        this.machineRecipes=new ArrayList<>();
+        TYPE.relatedTo((in,out)->{
+            this.machineRecipes.add(MachineRecipeUtils.shapeFrom(-1,in,new ItemStack[]{out}));
+        },(in,out)->{
+            this.machineRecipes.removeIf(i-> CraftUtils.matchItemStack(i.getOutput()[0],out,true ));
+        });
+//        this.machineRecipeSupplier=()->{
+//            List<MachineRecipe> recipes=new ArrayList<>();
+//            recipes.addAll( RecipeSupporter.PROVIDED_SHAPED_RECIPES.get(TYPE));
+//            return recipes;
+//        };
+      //  SchedulePostRegister.addPostRegisterTask(this::getMachineRecipes);
     }
     public void constructMenu(BlockMenuPreset preset){
         int[] border = BORDER_IN;

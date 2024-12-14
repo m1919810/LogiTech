@@ -4,9 +4,12 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import lombok.Setter;
+import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.AbstractMultiBlockType;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,12 +22,26 @@ public abstract class MultiCore extends MultiPart implements MultiBlockCore {
     }
     public abstract MultiBlockService.MultiBlockBuilder getBuilder();
     public abstract AbstractMultiBlockType getMultiBlockType();
-    public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int tickCount){
-        //in this case .blockMenu is null
-        if(MultiBlockService.acceptCoreRequest(b.getLocation(),getBuilder(),getMultiBlockType())){
-            processCore(b,menu);
+    @Setter
+    protected boolean autoBuildDefault=true;
+    public final void tick(Block b, BlockMenu menu,SlimefunBlockData data, int tickCount){
+        //in this case .blockMenu is null?
+        Location loc=b.getLocation();
+        if(preCondition(b,menu,data)){
+            int autoCode=DataCache.getCustomData(data,MultiBlockService.getAutoKey(),autoBuildDefault?1:0);
+            if(MultiBlockService.acceptCoreRequest(loc,getBuilder(),getMultiBlockType())){
+                runtimeCheck(menu.getLocation(),data,autoCode);
+                processCore(b,menu);
+            }else{
+                if(autoCode>0){
+                    autoBuild(loc,data,autoCode);
+                }
+            }
         }
         process(b,menu,data);
+    }
+    public boolean preCondition(Block b,BlockMenu inv,SlimefunBlockData data){
+        return true;
     }
     public boolean redirectMenu(){
         return false;
@@ -34,7 +51,7 @@ public abstract class MultiCore extends MultiPart implements MultiBlockCore {
     }
     public void preRegister(){
         this.registerBlockMenu(this);
-        super.preRegister();
+        this.registerTick(this);
     }
     public boolean isSync(){
         return false;

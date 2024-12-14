@@ -16,15 +16,15 @@ public class Unittest {
     //物品命名机
     //禁用双击取出
     // 区块供电机
-    //TODO 时间加速器
-    // 增加无尽自动工作台进度条改速度
+    //half complete 时间加速器
+    //增加无尽自动工作台进度条改速度
     //多方块重启重构倒计时删除
 
     // 高级快捷工作台 ///?
     //不做了 粘液机器填充棒
     //每日运势
     // 配置器 和增加是否可以配置方法接口
-    //TODO 配置器 增加白名单接口
+    //配置器 增加白名单接口
 
     // 射电器
     // 和发电机相关的 电线 射电收集器 新概念电容 电池
@@ -41,7 +41,8 @@ public class Unittest {
     //物流管道
     //TODO 限制存储单元?这啥
     //TODO 白名单机器接口
-    //TODO add AbstractBlockMenu for abstract interface about other inventory
+    //特殊设置接口
+    //add AbstractBlockMenu for abstract interface about other inventory
     //快捷多方块加入填充物
     //修复配方空桶合并失败的问题 TODO 增加通用随机物品解析
     //TODO 增加服务器信息显示
@@ -51,7 +52,11 @@ public class Unittest {
     //todo 增加量子堆叠 使用量子链接特性但是非终极
     //todo 自动搅拌工厂
     //todo 使用投影 做棋子  农耕那种
+    //增加特殊设置接口
+    //add FieldAccess design
     //增加货运的
     //增加辐射清除器功能
     //平衡性调整星辰金使用量和超新星框架
+    //todo 锻造台设计 增加锻造接口,增加充电接口 增加增幅组件
+    //todo a possibility to handle vanilla block in MultiBlock structures ,maybe we need more listeners and fix the getStatus and getUUID method in MultiBlockService
 }

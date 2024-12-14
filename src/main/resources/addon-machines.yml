@@ -43,6 +43,30 @@ Slimefun:
     mode: w
     type: machine
     energy: 30
+  NUCLEAR_REACTOR:
+    recipe:
+      '0':
+        input:
+          '1': URANIUM
+          '2': 20REACTOR_COLLANT_CELL
+        output:
+          '1': NEPTUNIUM
+        tick: 2400
+      '1':
+        input:
+          '1': NEPTUNIUM
+          '2': 10REACTOR_COLLANT_CELL
+        output:
+          '1': PLUTONIUM
+        tick: 1200
+      '2':
+        input:
+          '1': BOOSTED_URANIUM
+          '2': 25REACTOR_COLLANT_CELL
+        tick: 3000
+    mode: w
+    type: machine
+    energy: 0
 MomoTech:
   enable: true
   MOMOTECH_INGOT_CONSTRUCTOR:

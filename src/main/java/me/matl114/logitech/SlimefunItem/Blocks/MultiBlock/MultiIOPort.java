@@ -21,7 +21,10 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+
+import javax.xml.crypto.Data;
 
 public class MultiIOPort extends AbstractTransportor implements MultiBlockPart {
     protected final boolean CONFIG_TO;
@@ -98,6 +101,14 @@ public class MultiIOPort extends AbstractTransportor implements MultiBlockPart {
         }else {
             return super.getSlotsAccessedByItemTransportPlus(menu,flow,item);
         }
+    }
+    public void preRegister(){
+        super.preRegister();
+        handleMultiBlockPart(this);
+    }
+    public void onMultiBlockBreak(BlockBreakEvent e) {
+        super.onBreak(e, DataCache.getMenu(e.getBlock().getLocation()));
+        MultiBlockPart.super.onMultiBlockBreak(e);
     }
 
 }

@@ -128,4 +128,10 @@ public class Debug {
             }
         }
     }
+    public static void stackTrace(){
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        for(StackTraceElement stackTraceElement : stackTraceElements) {
+            Debug.logger(stackTraceElement.toString());
+        }
+    }
 }

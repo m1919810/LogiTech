@@ -72,6 +72,8 @@ public class AddItem {
             Language.get("Groups.MANUAL.Name"),Language.getList("Groups.MANUAL.Lore") );
     public static final ItemStack SPECIAL=AddUtils.themed(Material.SCULK_CATALYST,AddUtils.Theme.CATEGORY2,
             Language.get("Groups.SPECIAL.Name"),Language.getList("Groups.SPECIAL.Lore"));
+    public static final ItemStack TOOLS=AddUtils.themed(Material.NETHERITE_AXE, AddUtils.Theme.CATEGORY2,
+            Language.get("Groups.TOOLS.Name"),Language.getList("Groups.TOOLS.Lore"));
     //public static final ItemStack TEMPLATE=AddUtils.themed()
     public static final ItemStack TOBECONTINUE=AddUtils.themed(Material.STRUCTURE_VOID,AddUtils.Theme.CATEGORY2,
             Language.get("Groups.TOBECONTINUE.Name"),Language.getList("Groups.TOBECONTINUE.Lore"));
@@ -281,6 +283,12 @@ public class AddItem {
             Language.get("Items.ANTIGRAVITY.Name"),Language.getList("Items.ANTIGRAVITY.Lore"));
     public static final SlimefunItemStack CONFIGURE=AddUtils.themed("CONFIGURE",Material.BLAZE_ROD,AddUtils.Theme.CARGO1,
             Language.get("Items.CONFIGURE.Name"),Language.getList("Items.CONFIGURE.Lore"));
+    public static final SlimefunItemStack AMPLIFY_BASE=AddUtils.themed("AMPLIFY_BASE",Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE,AddUtils.Theme.ITEM1,
+            Language.get("Items.AMPLIFY_BASE.Name"),Language.getList("Items.AMPLIFY_BASE.Lore"));
+    public static final SlimefunItemStack SWAMP_SPEED=AddUtils.themed("SWAMP_SPEED",Material.MUSIC_DISC_13,AddUtils.Theme.ITEM1,
+            Language.get("Items.SWAMP_SPEED.Name"),Language.getList("Items.SWAMP_SPEED.Lore"));
+    public static final SlimefunItemStack SWAMP_RANGE=AddUtils.themed("SWAMP_RANGE",Material.MUSIC_DISC_CHIRP,AddUtils.Theme.ITEM1,
+            Language.get("Items.SWAMP_RANGE.Name"),Language.getList("Items.SWAMP_RANGE.Lore"));
     //nachines
     public static final SlimefunItemStack HEAD_ANALYZER=AddUtils.themed("HEAD_ANALYZER",Material.SOUL_CAMPFIRE, AddUtils.Theme.MACHINE1,
             Language.get("Machines.HEAD_ANALYZER.Name"),Language.getList("Machines.HEAD_ANALYZER.Lore"));
@@ -401,6 +409,12 @@ public class AddItem {
             Language.get("Machines.FINAL_CRAFT.Name"),Language.getList("Machines.FINAL_CRAFT.Lore"));
     public static final SlimefunItemStack VIRTUAL_EXPLORER=AddUtils.themed("VIRTUAL_EXPLORER",Material.DECORATED_POT,AddUtils.Theme.MACHINE1,
             Language.get("Machines.VIRTUAL_EXPLORER.Name"),Language.getList("Machines.VIRTUAL_EXPLORER.Lore"));
+    public static final SlimefunItemStack TIMER_BLOCKENTITY=AddUtils.themed("TIMER_BLOCKENTITY",Material.REDSTONE_TORCH,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.TIMER_BLOCKENTITY.Name"),Language.getList("Machines.TIMER_BLOCKENTITY.Lore"));
+    public static final SlimefunItemStack TIMER_SF=AddUtils.themed("TIMER_SF",Material.SOUL_TORCH,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.TIMER_SF.Name"),Language.getList("Machines.TIMER_SF.Lore"));
+    public static final SlimefunItemStack TIMER_SF_SEQ=AddUtils.themed("TIMER_SF_SEQ",Material.SOUL_TORCH,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.TIMER_SF_SEQ.Name"),Language.getList("Machines.TIMER_SF_SEQ.Lore"));
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Manuals.MANUAL_CORE.Name"),Language.getList("Manuals.MANUAL_CORE.Lore"));
@@ -587,7 +601,12 @@ public class AddItem {
             Language.get("MultiBlock.FINAL_BASE.Name"),Language.getList("MultiBlock.FINAL_BASE.Lore"));
     public static final SlimefunItemStack FINAL_ALTAR=AddUtils.themed("FINAL_ALTAR",Material.CHISELED_DEEPSLATE,AddUtils.Theme.MULTIBLOCK2,
             Language.get("MultiBlock.FINAL_ALTAR.Name"),Language.getList("MultiBlock.FINAL_ALTAR.Lore"));
-
+    public static final SlimefunItemStack SMITH_WORKSHOP=AddUtils.themed("SMITH_WORKSHOP",Material.RESPAWN_ANCHOR,AddUtils.Theme.MACHINE1,
+            Language.get("MultiBlock.SMITH_WORKSHOP.Name"),Language.getList("MultiBlock.SMITH_WORKSHOP.Lore"));
+    public static final SlimefunItemStack SMITH_INTERFACE_NONE=AddUtils.themed("SMITH_INTERFACE_NONE",Material.SEA_LANTERN,AddUtils.Theme.MACHINE1,
+            Language.get("MultiBlock.SMITH_INTERFACE_NONE.Name"),Language.getList("MultiBlock.SMITH_INTERFACE_NONE.Lore"));
+    public static final SlimefunItemStack SMITH_INTERFACE_CRAFT=AddUtils.themed("SMITH_INTERFACE_CRAFT",Material.TARGET,AddUtils.Theme.MACHINE1,
+            Language.get("MultiBlock.SMITH_INTERFACE_CRAFT.Name"),Language.getList("MultiBlock.SMITH_INTERFACE_CRAFT.Lore"));
     //feat
     public static final SlimefunItemStack CUSTOM1=
             AddUtils.themed("CUSTOM1",new ItemStack(Material.COMMAND_BLOCK),AddUtils.Theme.ITEM1,"测试物件1","只是一个简单的测试");
@@ -704,5 +723,6 @@ public class AddItem {
         add(LINE_COLLECTOR_PLUS);
         add(ENERGY_PIPE_PLUS);
         add(CONFIGURE);
+        add(TOOLS);
     }};
 }

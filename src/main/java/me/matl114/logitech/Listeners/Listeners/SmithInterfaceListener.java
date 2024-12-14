@@ -1,0 +1,229 @@
+package me.matl114.logitech.Listeners.Listeners;
+
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.SmithWorkShop.SmithInterfaceProcessor;
+import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.SmithWorkShop.SmithingInterface;
+import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.Utils.UtilClass.CargoClass.ContainerBlockMenuWrapper;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
+import me.matl114.logitech.Utils.UtilClass.RecipeClass.MultiCraftingOperation;
+import me.matl114.matlib.Implements.Slimefun.core.CustomRecipeType;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.*;
+import org.bukkit.inventory.*;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.function.*;
+
+public class SmithInterfaceListener implements Listener {
+    private CustomRecipeType craftTable;
+    public SmithInterfaceListener() {
+        this.craftTable= SmithInterfaceProcessor.INTERFACED_CRAFTTABLE;
+
+    }
+    private final HashMap<Inventory, Location> openingCraftInventory= new HashMap<>();
+ //   private final HashMap<AnvilInventory,Location> openingAnvilTable= new HashMap<>();
+
+    private final ItemStack INTERFACED_NO_RECIPE=new CustomItemStack(Material.BARRIER,"&a点击进行合成","&7该工作方块已成功接入锻铸合成端口","&c暂无匹配的配方!");
+    private final ItemStack INTERFACED_CRAFTABLE=new CustomItemStack(Material.CRAFTING_TABLE,"&a点击进行合成","&7该工作方块已成功接入锻铸合成端口","&7点击后将于接口中输出合成结果");
+    private final ItemStack INTERFACED_ANVIL=new CustomItemStack(Material.ANVIL,"&a点击进行锻造","&7该工作方块已成功接入锻铸合成端口","&7点击后将于接口中输出合成结果");
+    public boolean isSupportType(Inventory inventory) {
+        return inventory instanceof CraftingInventory||inventory instanceof AnvilInventory; /*can add more types*/
+    }
+    public void addInventory(Inventory inventory,Location location) {
+        openingCraftInventory.put(inventory,location);
+
+        if(inventory instanceof CraftingInventory c) {
+            c.setResult(INTERFACED_NO_RECIPE);
+        }else if(inventory instanceof AnvilInventory anvil) {
+            if(anvil.getSize()>2){
+                anvil.setItem(2,INTERFACED_NO_RECIPE);
+            }
+        }
+    }
+    public void removeInventory(Inventory inventory) {
+        openingCraftInventory.remove(inventory);
+    }
+    @EventHandler(priority = EventPriority.MONITOR,ignoreCancelled = true)
+    public void onOpenInventory(InventoryOpenEvent e) {
+        //record inventory for quick match
+        Inventory inventory = e.getInventory();
+        if(isSupportType(inventory) ) {
+            Location craftTableLocation = inventory.getLocation();
+            if(craftTableLocation!=null&& WorldUtils.isBlockLocation(craftTableLocation)){
+                var re=SmithingInterface.getAdjacentInterface(craftTableLocation);
+                if(re!=null&&re.getSecondValue() instanceof SmithInterfaceProcessor outport) {
+                    addInventory(inventory,re.getFirstValue());
+                }
+            }
+        }
+    }
+    @EventHandler(priority = EventPriority.MONITOR,ignoreCancelled = true)
+    public void onCloseInventory(InventoryOpenEvent e) {
+        //record inventory for quick match
+        Inventory inventory = e.getInventory();
+        if(isSupportType(inventory)) {
+            var re=inventory.getViewers();
+            if(re!=null&&(re.size()>=2||re.stream().anyMatch(p->p.getUniqueId().equals(e.getPlayer().getUniqueId())))) {
+                //if any other player is viewing this inventory
+                return;
+            }
+            //no one is viewing this, remove this
+            removeInventory(inventory);
+        }
+    }
+    @EventHandler(ignoreCancelled = false)
+    public void onCraftClick(InventoryClickEvent event){
+        Inventory inventory = event.getClickedInventory();
+        int rawSlot=event.getRawSlot();
+        if( openingCraftInventory.containsKey(inventory)){
+            if(rawSlot==0&& inventory instanceof CraftingInventory craftingInventory){
+                event.setResult(Event.Result.DENY);
+                event.setCancelled(true);
+                onCraftTableCraft(craftingInventory,event.getWhoClicked());
+            }else if(event.getRawSlot()==2 &&inventory instanceof AnvilInventory anvilInventory){
+                event.setResult(Event.Result.DENY);
+                event.setCancelled(true);
+                onAnvilCraft(anvilInventory,event.getWhoClicked());
+
+            }
+        }
+        if(!event.isCancelled()){
+            Inventory inv=event.getWhoClicked().getOpenInventory().getTopInventory();
+            if(openingCraftInventory.containsKey(inv)){
+                if(inv instanceof AnvilInventory anvilInventory){//trigger refresh any click
+                    onAnvilPrepare(anvilInventory);
+                }
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR,ignoreCancelled = false)
+    public void onPrepareCraft(PrepareItemCraftEvent e) {
+        if(openingCraftInventory.containsKey(e.getInventory())) {
+            onCraftTablePrepare(e.getInventory());
+        }
+    }
+    @EventHandler(priority = EventPriority.MONITOR,ignoreCancelled = false)
+    public void onAnvilLogicStop(PrepareAnvilEvent e) {
+        if(openingCraftInventory.containsKey(e.getInventory())) {;
+            if(onAnvilPrepare(e.getInventory())){
+                e.setResult(INTERFACED_ANVIL);
+            }else {
+                e.setResult(INTERFACED_NO_RECIPE);
+            }
+        }
+    }
+
+
+
+    public <T extends Inventory,W extends Object> void onPlayerCraftCommon(T inventory, HumanEntity player, Function<T,W> craftProcess, BiFunction<W,Location, MultiCraftingOperation> callBack, Consumer<T> failCallback){
+        Location interfaceLocation = openingCraftInventory.get(inventory);
+        if(DataCache.getSfItem(interfaceLocation) instanceof SmithInterfaceProcessor outport) {
+            if(outport.acceptable(DataCache.getMenu(interfaceLocation))) {
+                W result=craftProcess.apply(inventory);
+                if(result!=null) {
+                    var output=callBack.apply(result, interfaceLocation);
+                    if(output!=null) {
+                        outport.acceptProgress(output,interfaceLocation);
+                        AddUtils.sendMessage(player,"&6[锻铸工坊] &a成功合成!");
+                    }else{
+                        AddUtils.sendMessage(player,"&6[锻铸工坊] &c该操作已被禁用!");
+                    }
+                }else {
+                    AddUtils.sendMessage(player,"&6[锻铸工坊] &c未知的合成配方或操作方式!");
+                    failCallback.accept(inventory);
+                }
+            }else {
+                AddUtils.sendMessage(player,"&6[锻铸工坊] &c该合成端口空间已满或被占用!");
+            }
+        }
+    }
+    public Function<CraftingInventory, Pair<MachineRecipe,IntFunction<ItemGreedyConsumer[]>>> CRAFT_PROCESSOR=(inventory1)->{
+        BlockMenu inv=ContainerBlockMenuWrapper.getContainerBlockMenu(inventory1,inventory1.getLocation(),10);
+        return CraftUtils.matchNextShapedRecipe(inv,new int[]{1,2,3,4,5,6,7,8,9},SmithInterfaceProcessor.getInterfacedCrafttableRecipes(),64,false,Settings.SEQUNTIAL,CraftUtils.getpusher);
+    };
+    public void onCraftTableCraft(CraftingInventory inventory, HumanEntity player){
+        onPlayerCraftCommon(inventory,player,CRAFT_PROCESSOR,(result,loc)->{
+            ItemStack output=result.getFirstValue().getOutput()[0];
+            SlimefunItem item=SlimefunItem.getByItem(output);
+            if(item!=null&&item.isDisabled()){
+                inventory.setResult(INTERFACED_CRAFTABLE);
+                return null;
+            }else{
+                inventory.setResult(INTERFACED_NO_RECIPE);
+                return new MultiCraftingOperation(result.getSecondValue().apply(64),result.getFirstValue().getTicks());
+            }
+        },(inventory1)->{
+            inventory1.setResult(INTERFACED_NO_RECIPE);
+        });
+    }
+    public Function<AnvilInventory,Supplier<MultiCraftingOperation>> ANVIL_PROCESSOR=(inventory1)->{
+        var logics=SmithInterfaceProcessor.getAnvilLogics();
+        Supplier<MultiCraftingOperation> matchedLogic=null;
+        for(var logic:logics) {
+            if((matchedLogic=logic.apply(inventory1))!=null){
+                return matchedLogic;
+            }
+        }
+        return null;
+    };
+    public void onAnvilCraft(AnvilInventory inventory,HumanEntity player){
+        onPlayerCraftCommon(inventory,player,ANVIL_PROCESSOR,(matchLogic,loc)->{
+            if(player instanceof Player p){
+                int level=p.getLevel();
+                int expNeed=inventory.getRepairCost();
+                if(level<expNeed){
+                    AddUtils.sendMessage(player,"&6[锻铸工坊] &c所需经验不足!");
+                    inventory.setItem(2,INTERFACED_ANVIL);
+                    return null;
+                }else{
+                    p.setLevel(level-expNeed);
+                    MultiCraftingOperation out=matchLogic.get();
+                    inventory.setItem(2,INTERFACED_NO_RECIPE);
+                    return out;
+                }
+            }
+            inventory.setItem(2,INTERFACED_NO_RECIPE);
+            return null;
+        },(inventory1)->{
+            inventory1.setItem(2,INTERFACED_NO_RECIPE);
+        });
+    }
+    public boolean onCraftTablePrepare(CraftingInventory inventory) {
+        var result= CRAFT_PROCESSOR.apply(inventory);
+        if(result!=null) {
+            inventory.setResult(INTERFACED_CRAFTABLE);
+            return true;
+        }else {
+            inventory.setResult(INTERFACED_NO_RECIPE);
+            return false;
+        }
+    }
+    public boolean onAnvilPrepare(AnvilInventory inventory) {
+        var result= ANVIL_PROCESSOR.apply(inventory);
+        if(inventory.getSize()>=3){
+            if(result!=null) {
+                inventory.setItem(2,INTERFACED_ANVIL);
+                return true;
+            }else {
+                inventory.setItem(2,INTERFACED_NO_RECIPE);
+                return false;
+            }
+        }
+        return false;
+    }
+
+}

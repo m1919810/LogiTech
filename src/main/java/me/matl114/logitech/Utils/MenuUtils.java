@@ -16,6 +16,7 @@ import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -29,6 +30,7 @@ import java.util.List;
 public class MenuUtils {
     public static final ItemStack PROCESSOR_NULL= new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " ");
     public static final ItemStack PROCESSOR_SPACE=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&6进程完成","&c空间不足");
+    public static final ItemStack PROCESSOR_ENERGY=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&c电力不足","");
     public static final ItemStack PREV_BUTTON_ACTIVE = new SlimefunItemStack("_UI_PREVIOUS_ACTIVE", Material.LIME_STAINED_GLASS_PANE, "&r⇦ Previous Page", new String[0]);
     public static final ItemStack NEXT_BUTTON_ACTIVE = new SlimefunItemStack("_UI_NEXT_ACTIVE", Material.LIME_STAINED_GLASS_PANE, "&rNext Page ⇨", new String[0]);
     public static final ItemStack PREV_BUTTON_INACTIVE = new SlimefunItemStack("_UI_PREVIOUS_INACTIVE", Material.BLACK_STAINED_GLASS_PANE, "&8⇦ Previous Page", new String[0]);
@@ -93,13 +95,45 @@ public class MenuUtils {
     public static ItemStack getBackButton( String... lore) {
         return new CustomItemStack(BACK_BUTTON, "&7⇦ " +"返回", lore);
     }
-    //TODO add permission check to handler
-    public static ChestMenu.MenuClickHandler getPermissionedHandler(ChestMenu.MenuClickHandler handler, Permission permission){
-        return handler;
-    }
+//clickType of InventoryClickEvnet
+// 左键
+//    LEFT,
+    //shift左键
+//    SHIFT_LEFT,
+    //右键
 
+//    RIGHT,
+    //shift右键
+//    SHIFT_RIGHT,
+    //左键点空白
+//    WINDOW_BORDER_LEFT,
+    //右键点空白
+//    WINDOW_BORDER_RIGHT,
+    //中键物品
+//    MIDDLE,
+    //用数字切换
+//    NUMBER_KEY,
+    //双击
+//    DOUBLE_CLICK,
+    //q
+//    DROP,
+    //ctrl+q
+//    CONTROL_DROP,
+    //创造
+//    CREATIVE,
+    //F切副手
+//    SWAP_OFFHAND,
+    //不知道
+//    UNKNOWN;
 
-
+    //sf不能监听的对槽位的修改
+    //SHIFT_..
+    //DOUBLE_CLICK
+    //NUMBER有一些没有监听
+    //
+//    public static void strictHandleInventoryClick(InventoryClickEvent e){
+//
+//    }
 
 
 

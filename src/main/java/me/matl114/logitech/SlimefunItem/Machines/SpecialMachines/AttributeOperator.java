@@ -10,9 +10,11 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.Schedules;
+import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.SmithWorkShop.SmithingInterface;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.DataMenuClickHandler;
+import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -20,6 +22,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import net.guizhanss.guizhanlib.minecraft.helper.attribute.AttributeHelper;
 import net.guizhanss.guizhanlib.minecraft.helper.enchantments.EnchantmentHelper;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -37,7 +40,7 @@ import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class AttributeOperator extends AbstractMachine {
+public class AttributeOperator extends SmithingInterface {
     protected final int[] BORDER=new int[]{0,1,2,3,4,5,6,7,8,11,12,14,15,18,19,25,26,29,30,32,33,36,37,38,39,40,41,42,43,44};
     protected final int[] INPUT_SLOT=new int[]{10,28};
     protected final int[] OUTPUT_SLOT=new int[]{16,34};
@@ -77,8 +80,11 @@ public class AttributeOperator extends AbstractMachine {
     protected final ItemStack FORCE_ENCHANT_ITEM_ON=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6强制附魔","&7当前模式: &a开",
             "&7关闭强制附魔将读取附魔书中存储的附魔","&7若目标物品为书本,则会自动转为附魔书","&e开启则会强制附魔书本和附魔书,并不会加入附魔存储");
     protected final ItemStack OUTPUT_BORDER_ITEM=new CustomItemStack(Material.PINK_STAINED_GLASS_PANE,"&6输出槽","&7对应输入槽的输出口");
+    protected final int STATUS_SLOT=4;
+    protected final ItemStack STATUS_ON=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6运行中","&7成功接入多方块结构");
+    protected final ItemStack NO_MULTIBLOCK_ITEM=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&c待机中","&7没有接入多方块结构");
     public AttributeOperator(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,int energyBuffer,int energyConsumption) {
-        super(category, item, recipeType, recipe, energyBuffer,energyConsumption);
+        super(category, item, recipeType, recipe, energyBuffer,energyConsumption,false);
         this.setDisplayRecipes(
                 Utils.list(
                         AddUtils.getInfoShow("&f机制",
@@ -153,20 +159,29 @@ public class AttributeOperator extends AbstractMachine {
     public int[] getOutputSlots(){
         return OUTPUT_SLOT;
     }
-    public void tick(Block b, BlockMenu inv, SlimefunBlockData data,int tixkwe){
+
+    @Override
+    public void processInterface(Block b, BlockMenu inv, SlimefunBlockData data, Location coreLocation,int speed) {
         if(inv.hasViewer()){
+            inv.replaceExistingItem(STATUS_SLOT,STATUS_ON);
             updateMenu(inv,b,Settings.RUN);
         }
         int code=getAutoTransferCode(inv);
         if(code>=0){
-                Schedules.launchSchedules(()-> {
-                    refreshInputItemData(inv, getDataHolder(b, inv), true);
-                    runTransferItemData(inv, code, true, null);
-                },0,false,0);
+            Schedules.launchSchedules(()-> {
+                refreshInputItemData(inv, getDataHolder(b, inv), true);
+                runTransferItemData(inv, code, true, null,speed+1);
+            },0,false,0);
         }
     }
-    public void process(Block b, BlockMenu inv, SlimefunBlockData data){
 
+    public void processFailed(Block b, BlockMenu inv, SlimefunBlockData data){
+        if(inv.hasViewer()){
+            inv.replaceExistingItem(STATUS_SLOT,NO_MULTIBLOCK_ITEM);
+        }
+    }
+    public boolean online(BlockMenu inv){
+        return MultiBlockService.getStatus(inv.getLocation())!=0;
     }
     protected String AUTOKEY_E="ate";
     protected String AUTOKEY_A="ata";
@@ -178,6 +193,10 @@ public class AttributeOperator extends AbstractMachine {
         inv.addMenuCloseHandler(player -> updateMenu(inv,block,Settings.RUN));
 
         inv.addMenuClickHandler(TRANSFER_ALLENCHANT_SLOT,((player, i, itemStack, clickAction) -> {
+            if(!online(inv)){
+                AddUtils.sendMessage(player,"&c当前机器并未接入多方块结构");
+                return false;
+            }
             int code=getAutoTransferCode(inv);
             if(clickAction.isShiftClicked()){
                 if(code==0||code==2){
@@ -201,6 +220,10 @@ public class AttributeOperator extends AbstractMachine {
             return false;
         }));
         inv.addMenuClickHandler(TRANSFER_ALLATTRIBUTE_SLOT,((player, i, itemStack, clickAction) -> {
+            if(!online(inv)){
+                AddUtils.sendMessage(player,"&c当前机器并未接入多方块结构");
+                return false;
+            }
             int code=getAutoTransferCode(inv);
             if(clickAction.isShiftClicked()){
                 if(code==1||code==2){
@@ -224,6 +247,10 @@ public class AttributeOperator extends AbstractMachine {
         }));
         inv.replaceExistingItem(TRANSFER_ONEENCHANT_SLOT,TRANSFER_ONEENCHANT_ITEM);
         inv.addMenuClickHandler(TRANSFER_ONEENCHANT_SLOT,((player, i, itemStack, clickAction) -> {
+            if(!online(inv)){
+                AddUtils.sendMessage(player,"&c当前机器并未接入多方块结构");
+                return false;
+            }
             if(getAutoTransferCode(inv)>=0){
                 AddUtils.sendMessage(player,"&c当前处于自动模式,禁止进行任何其余操作");
                 return false;
@@ -234,6 +261,10 @@ public class AttributeOperator extends AbstractMachine {
         }));
         inv.replaceExistingItem(TRANSFER_ONEATTRIBUTE_SLOT,TRANSFER_ONEATTRIBUTE_ITEM);
         inv.addMenuClickHandler(TRANSFER_ONEATTRIBUTE_SLOT,((player, i, itemStack, clickAction) -> {
+            if(!online(inv)){
+                AddUtils.sendMessage(player,"&c当前机器并未接入多方块结构");
+                return false;
+            }
             if(getAutoTransferCode(inv)>=0){
                 AddUtils.sendMessage(player,"&c当前处于自动模式,禁止进行任何其余操作");
                 return false;
@@ -243,6 +274,10 @@ public class AttributeOperator extends AbstractMachine {
             return false;
         }));
         inv.addMenuClickHandler(FORCE_ENCHANT_SLOT,((player, i, itemStack, clickAction) -> {
+            if(!online(inv)){
+                AddUtils.sendMessage(player,"&c当前机器并未接入多方块结构");
+                return false;
+            }
             if(itemStack!=null&& itemStack.getType()==Material.RED_STAINED_GLASS_PANE){
                 DataCache.setCustomString(inv.getLocation(),FORCEKEY,"1");
                 inv.replaceExistingItem(FORCE_ENCHANT_SLOT,FORCE_ENCHANT_ITEM_ON);
@@ -253,7 +288,12 @@ public class AttributeOperator extends AbstractMachine {
             updateMenu(inv,block,Settings.INIT);
             return false;
         }));
-        inv.addItem(CHOOSE_ATTRIBUTE_SLOT,CHOOSE_ATTRIBUTE_ITEM,((player, i, itemStack, clickAction) -> {
+        inv.replaceExistingItem(CHOOSE_ATTRIBUTE_SLOT,CHOOSE_ATTRIBUTE_ITEM);
+        inv.addMenuClickHandler(CHOOSE_ATTRIBUTE_SLOT,((player, i, itemStack, clickAction) -> {
+            if(!online(inv)){
+                AddUtils.sendMessage(player,"&c当前机器并未接入多方块结构");
+                return false;
+            }
             if(getAutoTransferCode(inv)>=0){
                 AddUtils.sendMessage(player,"&c当前处于自动模式,禁止进行任何其余操作");
                 return false;
@@ -263,7 +303,12 @@ public class AttributeOperator extends AbstractMachine {
             updateMenu(inv,block,Settings.RUN);
             return false;
         }));
-        inv.addItem(CHOOSE_ENCHANT_SLOT,CHOOSE_ENCHANT_ITEM,((player, i, itemStack, clickAction) -> {
+        inv.replaceExistingItem(CHOOSE_ENCHANT_SLOT,CHOOSE_ENCHANT_ITEM);
+        inv.addMenuClickHandler(CHOOSE_ENCHANT_SLOT,((player, i, itemStack, clickAction) -> {
+            if(!online(inv)){
+                AddUtils.sendMessage(player,"&c当前机器并未接入多方块结构");
+                return false;
+            }
             if(getAutoTransferCode(inv)>=0){
                 AddUtils.sendMessage(player,"&c当前处于自动模式,禁止进行任何其余操作");
                 return false;
@@ -523,6 +568,9 @@ public class AttributeOperator extends AbstractMachine {
         return new Pair(res1,res2);
     }
     public void runTransferItemData(BlockMenu inv,int mode,boolean transferAll, Consumer<String> outputStream){
+        runTransferItemData(inv,mode,transferAll,outputStream,1);
+    }
+    public void runTransferItemData(BlockMenu inv,int mode,boolean transferAll, Consumer<String> outputStream,int transferAmount){
         if(!this.conditionHandle(null,inv)){
             if(outputStream!=null){
                 outputStream.accept("&c电力不足!");
@@ -632,10 +680,14 @@ public class AttributeOperator extends AbstractMachine {
             }
             return;
         }
+        int transfer=Math.min(it1.getAmount(),it2.getAmount());
+        transfer=Math.min(transfer,transferAmount);
         inv.replaceExistingItem(OUTPUT_SLOT[0],transferResult.getFirstValue());
+        var a=inv.getItemInSlot(OUTPUT_SLOT[0]);if(a!=null)a.setAmount(transfer);
         inv.replaceExistingItem(OUTPUT_SLOT[1],transferResult.getSecondValue());
-        it1.setAmount(it1.getAmount()-1);
-        it2.setAmount(it2.getAmount()-1);
+        a=inv.getItemInSlot(OUTPUT_SLOT[1]);if(a!=null)a.setAmount(transfer);
+        it1.setAmount(it1.getAmount()-transfer);
+        it2.setAmount(it2.getAmount()-transfer);
         if(it1.getAmount()==0)
             refreshInputItemData(inv,handler,true);
         progressorCost(null,inv);

@@ -4,17 +4,15 @@ import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.BukkitUtils;
-import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.WorldUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -51,9 +49,11 @@ public class TrackingArrowLauncher extends ChargableProps {
             if(charge<ENERGYCONSUMPTION){
                 AddUtils.sendMessage(p,AddUtils.concat("&c电力不足! ",String.valueOf(charge),"J/",String.valueOf(ENERGYCONSUMPTION),"J"));
             }else {
-                if(canUse(p,true)){
+                if(canUse(p,false)&&WorldUtils.hasPermission(p,p.getEyeLocation(), Interaction.ATTACK_ENTITY)){
                     this.setItemCharge(item,charge-ENERGYCONSUMPTION);
                     onArrowLaunched(p,item);
+                }else{
+                    AddUtils.sendMessage(p,"&c你没有权限在这里攻击生物!");
                 }
             }
         }
@@ -73,7 +73,7 @@ public class TrackingArrowLauncher extends ChargableProps {
         }
         Location targetCenter=loc.add(loc.getDirection().normalize().multiply(RAYTRACE_RANGE));
         HashSet<Entity> targetEntities= WorldUtils.getEntityInDistance(targetCenter,1.2*RAYTRACE_RANGE,(e)->{return e!=p
-              && WorldUtils.isLivingEntity(e);});
+              && WorldUtils.isTargetableLivingEntity(e);});
         //索敌算法
         HashSet<LivingEntity> livingEntities=new HashSet<>();
         for(Entity entity:targetEntities){

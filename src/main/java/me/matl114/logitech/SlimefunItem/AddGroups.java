@@ -46,6 +46,9 @@ public class AddGroups {
         GENERATORS.register(plugin);
         ENERGY.register(plugin);
         FUNCTIONAL.register(plugin);
+        TOOLS.register(plugin);
+
+        ROOT.setTier(0);
     }
     // 给你的分类提供一个独一无二的ID
     protected static  final NamespacedKey itemGroupId = AddUtils.getNameKey("addon_category");
@@ -74,6 +77,8 @@ public class AddGroups {
     public static final ItemGroup GENERATORS = new DummyItemGroup(AddUtils.getNameKey("generators"),AddItem.GENERATORS);
 
     public static final ItemGroup ENERGY= new DummyItemGroup(AddUtils.getNameKey("energy"),AddItem.ENERGY);
+
+    public static final ItemGroup TOOLS=new DummyItemGroup(AddUtils.getNameKey("tools"),AddItem.TOOLS);
 
     public static final ItemGroup FUNCTIONAL=new DummyItemGroup(AddUtils.getNameKey("functional"),AddItem.FUNCTIONAL);
     public static ItemGroup MORE2=new CustomItemGroup(AddUtils.getNameKey("more2"),AddUtils.color("宇宙安全说明"),AddItem.MORE2,54,36,new LinkedHashMap<>()) {
@@ -495,13 +500,14 @@ public class AddGroups {
                     put(5,GENERATORS);
                     put(22, SPACE);
                     put(21,VANILLA);
-                    put(8,SPECIAL);
+                    put(17,SPECIAL);
                     put(20,CARGO);
                     put(23,ADVANCED);
                     put(24,SINGULARITY);
                     put(31,BEYOND);
                     put(36,UPDATELOG);
                     put(26,MORE2);
+                    put(8,TOOLS);
                 }}
             ){
         public MenuFactory MACHINEMENU=null;

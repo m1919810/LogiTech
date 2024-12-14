@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.SlimefunItem.AddItem;
+import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.SmithWorkShop.SWAmplifyComponent;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.ItemStorageCache;
@@ -23,6 +24,9 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.xml.crypto.Data;
@@ -146,9 +150,31 @@ public abstract class AbstractIOPort extends AbstractMachine {
         }
 
     }
-    public boolean listenDoubleClick(){
+    public boolean useAdvancedMenu(){
         return true;
     }
+
+    @Override
+    public void listenDragClick(BlockMenu inv,InventoryDragEvent e) {
+        if(e.getRawSlots().contains(getStorageSlot())){
+            e.setCancelled(true);
+        }
+    }
+    @Override
+    public void listenOriginClick(BlockMenu inv, InventoryClickEvent e) {
+        super.listenOriginClick(inv, e);
+        if(e.isCancelled()){return;}
+        if(e.getClick()== ClickType.SHIFT_LEFT||e.getClick()== ClickType.SHIFT_RIGHT){
+            if(e.getRawSlot()>=inv.getInventory().getSize()){
+                ItemStack stack=e.getCurrentItem();
+                ItemStack storage=inv.getItemInSlot(getStorageSlot());
+                if(storage!=null&&stack!=null&&CraftUtils.matchItemStack(stack,storage,false)){
+                    e.setCancelled(true);
+                }
+            }
+        }
+    }
+
     public static int getStorageAmount(Location loc){
         return DataCache.getCustomData(loc,"amt",-1);
     }

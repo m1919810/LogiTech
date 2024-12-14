@@ -1,15 +1,16 @@
 package me.matl114.logitech.Utils.UtilClass.MultiBlockClass;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.Schedule.ScheduleSave;
+import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore.MultiBlockCore;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore.MultiBlockPart;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.EntityClass.ItemDisplayBuilder;
 import me.matl114.logitech.Utils.UtilClass.EntityClass.TransformationBuilder;
 import me.matl114.logitech.Utils.UtilClass.FunctionalClass.OutputStream;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.Entity;
@@ -18,9 +19,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 
+import javax.annotation.Nullable;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MultiBlockService {
     //?
@@ -36,8 +39,8 @@ public class MultiBlockService {
     /**
      * returned mbid when no sf block and not multipart
      */
-    public static final String MBID_NOSFBLOCK="nu";
-    protected static final String MBID_COMMONSFBLOCK="sf";
+    public static final String MBID_AIR ="nu";
+   // protected static final String MBID_COMMONSFBLOCK="sf";
     public static String getAutoKey(){
         return MB_AUTO_KEY;
     }
@@ -53,8 +56,8 @@ public class MultiBlockService {
     @Deprecated
     private static final String MB_UUID_KEY="uuid";
     //move data key-value to cached status map
-    private static final HashMap<Location, AtomicBoolean> MB_STATUS_MAP=new HashMap<>();
-    private static final HashMap<Location, AtomicInteger> MB_UUID_MAP=new HashMap<>();
+    private static final ConcurrentHashMap<Location, AtomicInteger> MB_STATUS_MAP=new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Location, AtomicReference<String>> MB_UUID_MAP=new ConcurrentHashMap<>();
     public static final HashMap<String,AbstractMultiBlockHandler> MULTIBLOCK_CACHE = new LinkedHashMap<>();
     public static final HashMap<Location, DisplayGroup> HOLOGRAM_CACHE=new HashMap<>();
     public static final Random rand=new Random();
@@ -125,6 +128,12 @@ public class MultiBlockService {
     }
     public static DeleteCause MANUALLY=new DeleteCause("手动关闭",true);
     public static DeleteCause GENERIC=new DeleteCause("服务器重启",false);
+    public static void handleVanillaBlockBreak(Location loc){
+        if(getStatus(loc)!=0){
+            MultiBlockService.deleteMultiBlock(safeGetUUID(loc), MultiBlockService.MultiBlockBreakCause.get(loc.getBlock()));
+        }
+    }
+
     public static void deleteMultiBlock(String uid,DeleteCause cause){
         AbstractMultiBlockHandler handler = MULTIBLOCK_CACHE.remove(uid);
         if(handler != null){
@@ -207,6 +216,7 @@ public class MultiBlockService {
         }
     }
     public interface MultiBlockBuilder{
+        @Nullable
         AbstractMultiBlockHandler build(Location core,AbstractMultiBlock type,String uid );
     }
     /**
@@ -221,16 +231,19 @@ public class MultiBlockService {
         AbstractMultiBlock block=null;
         for (MultiBlockService.Direction direction:MultiBlockService.Direction.values()){
             //test this direction
+            errorOut.out(()->"&a尝试以朝向 &e%s&a 构建多方块".formatted(direction.name()));
             block=type.genMultiBlockFrom(loc,direction,false,errorOut);
+
             if(block!=null){
                 return block;
             }
 
             if(type.isSymmetric()){
+                errorOut.out(()->"&c本多方块结构为中心对称多方块结构,构建失败");
                 break;//only test one direction is Symmetric
             }
         }
-        return block;
+        return null;
     }
 
     public static String getRandomId(){
@@ -251,8 +264,13 @@ public class MultiBlockService {
                 Direction.setDirection(loc,block.getDirection());
                 String uid=getRandomId();
                 AbstractMultiBlockHandler handler=builder.build(loc,block,uid);
-                MULTIBLOCK_CACHE.put(uid,handler);
-                return true;
+                if(handler!=null){
+                    MULTIBLOCK_CACHE.put(uid,handler);
+                    return true;
+                }else{
+                    //builder refused
+                    return false;
+                }
             }else {
                 return false;
             }
@@ -261,7 +279,7 @@ public class MultiBlockService {
         }
     }
     public static boolean checkIfAbsentRuntime(SlimefunBlockData data){
-        String uid=DataCache.getLastUUID(data);
+        String uid=safeGetUUID(data.getLocation());
         AbstractMultiBlockHandler handler=MULTIBLOCK_CACHE.get(uid);
         if(handler==null){
             return false;
@@ -279,7 +297,7 @@ public class MultiBlockService {
     }
     public static void toggleOff(SlimefunBlockData data,DeleteCause cause){
         if(data==null)return;
-        String uid=DataCache.getLastUUID(data);
+        String uid=safeGetUUID(data.getLocation());
         AbstractMultiBlockHandler handler=MULTIBLOCK_CACHE.get(uid);
         if(handler!=null){
             handler.toggleOff(cause);
@@ -291,7 +309,7 @@ public class MultiBlockService {
         if(statusCode==0){
             return null;
         }
-        String uid=DataCache.getLastUUID(loc);
+        String uid=safeGetUUID(loc);
         AbstractMultiBlockHandler handler=MULTIBLOCK_CACHE.get(uid);
         if(statusCode==1){
             if(handler==null){
@@ -310,7 +328,7 @@ public class MultiBlockService {
             }//quit
             //no reconnect ,statusCode == -1 means 3tick reconnect time is end,toggleOff
             if(statusCode==-1){
-                DataCache.setLastUUID(loc,"null");
+                setUUID(loc,"null");
             }
             setStatus(loc,statusCode+1);
             return null;
@@ -330,7 +348,8 @@ public class MultiBlockService {
         if(statusCode==0){
             return false;
         }else {
-            String uid=DataCache.getLastUUID(loc);
+            //core are pure sf block
+            String uid=safeGetUUID(loc);
             AbstractMultiBlockHandler handler=MULTIBLOCK_CACHE.get(uid);
             if(handler==null){
                 //找不到handler 但是code非0 说明是意外中断，尝试重建handler
@@ -355,8 +374,7 @@ public class MultiBlockService {
                     //contains auto called delete
                     handler.destroy(handler.getLastDeleteCause());
                     setStatus(loc,0);
-                    DataCache.setLastUUID(loc,"null");
-
+                    MultiBlockService.setUUID(loc,"null");
                     return false;
                 }
             }
@@ -417,21 +435,7 @@ public class MultiBlockService {
         DataCache.setCustomData(loc,MB_HOLOGRAM_KEY,0);
     }
 
-    /**
-     * get status code ,0为暂停 1为正常运行 -3到-1为预备暂停
-     * @return
-     */
-    public static int getStatus(SlimefunBlockData data){
-        try{
-            String __= data.getData(MB_STATUS_KEY);
-            if(__!=null){
-                return Integer.parseInt(__);
-            }
-        }catch(Throwable e){
-        }
-        data.setData(MB_STATUS_KEY,"0");
-        return 0;
-    }
+    @Deprecated
     public static  int getStatus(Location loc){
         return safeGetStatus(loc);
     }
@@ -441,9 +445,17 @@ public class MultiBlockService {
      * @param loc
      * @return
      */
-    public static  int safeGetStatus(Location loc){
-        SlimefunBlockData data=DataCache.safeLoadBlock(loc);
-        if(data!=null){
+    /**
+     * get status code ,0为暂停 1为正常运行 -3到-1为预备暂停
+     * @return
+     */
+    public static int getStatus(SlimefunBlockData data){
+        SlimefunItem item=SlimefunItem.getById(data.getSfId());
+//        if(item==null){
+        //this case shouldn't be present
+//            return  MB_STATUS_MAP.getOrDefault(data.getLocation(),DEFAULT_STATUS).get();;
+//        }
+        if(item instanceof MultiBlockCore){
             try{
                 String __=  data.getData(MB_STATUS_KEY);
                 if(__!=null){
@@ -453,56 +465,139 @@ public class MultiBlockService {
             }
             data.setData(MB_STATUS_KEY,"0");
             return 0;
-        }else {
-            return -1;
+        }else return MB_STATUS_MAP.computeIfAbsent(data.getLocation(),(l)->new AtomicInteger(0)).get();
+    }
+    public static  int safeGetStatus(Location loc){
+        SlimefunItem item=DataCache.getSfItem(loc);
+        if(item==null){
+            //此处之后可以增加原版方块作为多方块部件?
+            //MB_STATUS_MAP.remove(loc);
+
+            return  MB_STATUS_MAP.getOrDefault(loc,DEFAULT_STATUS).get();
         }
+        if(item instanceof MultiBlockCore){
+            //with ticker ,should load automatically
+            SlimefunBlockData data=DataCache.safeLoadBlock(loc);
+            if(data!=null){
+                try{
+                    String __=  data.getData(MB_STATUS_KEY);
+                    if(__!=null){
+                        return Integer.parseInt(__);
+                    }
+                }catch(Throwable e){
+                }
+                data.setData(MB_STATUS_KEY,"0");
+                return 0;
+            }else {
+                return -1;
+            }
+        }else return MB_STATUS_MAP.computeIfAbsent(loc,(l)->new AtomicInteger(0)).get();
     }
     public static void setStatus(Location loc, int status){
-        SlimefunBlockData data= DataCache.safeLoadBlock(loc);
-        DataCache.setCustomString(data,MB_STATUS_KEY,String.valueOf(status));
-    }
-    public static void setStatus(SlimefunBlockData data, int status){
-        data.setData(MB_STATUS_KEY,String.valueOf(status));
-    }
-    public static String safeGetUUID(Location loc){
-        String uuid;
-        SlimefunBlockData data=DataCache.safeLoadBlock(loc);
-        try{
-            uuid= data.getData(MB_UUID_KEY);
-            if(uuid!=null)
-                return uuid;
-        }catch (Throwable a){
-
+//        SlimefunBlockData data= DataCache.safeLoadBlock(loc);
+//        DataCache.setCustomString(data,MB_STATUS_KEY,String.valueOf(status));
+        SlimefunItem item=DataCache.getSfItem(loc);
+        if(item==null){
+            //此处之后可以增加原版方块作为多方块部件?
+            //MB_STATUS_MAP.remove(loc);
+            if(status==0){
+                MB_STATUS_MAP.remove(loc);
+            }else {
+                MB_STATUS_MAP.computeIfAbsent(loc,(l)->new AtomicInteger(0)).set(status);
+            }
+            return;
         }
-        data.setData(MB_UUID_KEY,"null");
-        return "null";
+        if(item instanceof MultiBlockCore){
+            DataCache.setCustomString(loc,MB_STATUS_KEY,String.valueOf(status));
+        }else{
+            MB_STATUS_MAP.computeIfAbsent(loc,(l)->new AtomicInteger(0)).set(status);
+        }
     }
+    private static AtomicInteger DEFAULT_STATUS=new AtomicInteger(0);
+    private static AtomicReference<String> DEFAULT_UUID=new AtomicReference<>("null");
+    public static String safeGetUUID(Location loc){
+        SlimefunItem item=DataCache.getSfItem(loc);
+        if(item==null){
+            //此处之后可以增加原版方块作为多方块部件?
+            //MB_UUID_MAP.remove(loc);
+            return MB_UUID_MAP.getOrDefault(loc,DEFAULT_UUID).get();
+        }
+        if(item instanceof MultiBlockCore){
+            String uuid;
+            SlimefunBlockData data=DataCache.safeLoadBlock(loc);
+            if(data!=null){
+                try{
+                    uuid= data.getData(MB_UUID_KEY);
+                    if(uuid!=null)
+                        return uuid;
+                }catch (Throwable a){
 
+                }
+                data.setData(MB_UUID_KEY,"null");
+            }
+            return "null";
+        }else {
+            return MB_UUID_MAP.computeIfAbsent(loc,(l)->new AtomicReference<>("null")).get();
+        }
+    }
+    public static void setUUID(Location loc, String uuid){
+        SlimefunItem item=DataCache.getSfItem(loc);
+        if(item==null){
+            //此处之后可以增加原版方块作为多方块部件?
+            //MB_UUID_MAP.remove(loc);
+            if(uuid==null||"null".equals(uuid)){
+                MB_UUID_MAP.remove(loc);
+            }else {
+                MB_UUID_MAP.computeIfAbsent(loc,(l)->new AtomicReference<>(null)).set(uuid);
+            }
+            return ;
+        }
+        if(item instanceof MultiBlockCore){
+            DataCache.setCustomString(loc,MB_UUID_KEY,uuid);
+        }else {
+            MB_UUID_MAP.computeIfAbsent(loc,(l)->new AtomicReference<>(null)).set(uuid);
+        }
+    }
     /**
      *
      * @param location
      * @return
      */
+    private static HashMap<Material,String> TAG_GROUP=new HashMap<>();
+    public static void registerMaterialTag(Material material,String alias){
+        TAG_GROUP.put(material,alias);
+    }
+    static {
+        TAG_GROUP.put(Material.AIR,MBID_AIR);
+    }
     public static String getPartId(Location location){
         SlimefunItem blocks= DataCache.getSfItem(location);
         if(blocks==null){
-            return MBID_NOSFBLOCK;
+            Material type=location.getBlock().getType();
+            String alias=TAG_GROUP.get(type);
+            if(alias==null){
+                return type.toString();
+            }else {
+                return alias;
+            }
         }else if(blocks instanceof MultiBlockPart){
             return ((MultiBlockPart)blocks).getPartId();
-        }else return MBID_NOSFBLOCK;
+        }else return MBID_AIR;
     }
+    @Deprecated
     public static String safeGetPartId(Location location){
-        SlimefunBlockData blockdata= DataCache.safeLoadBlock(location);
-        if(blockdata!=null){
-            String blocks=blockdata.getSfId();
-            SlimefunItem block=blocks == null ? null : SlimefunItem.getById(blocks);
-            if(block==null){
-                return MBID_NOSFBLOCK;
-            }else if(block instanceof MultiBlockPart){
-                return ((MultiBlockPart)block).getPartId();
-            }else return MBID_COMMONSFBLOCK;
-        }else {
-            return MBID_NOSFBLOCK;
-        }
+        return getPartId(location);
+//        SlimefunBlockData blockdata= DataCache.safeLoadBlock(location);
+//        if(blockdata!=null){
+//            String blocks=blockdata.getSfId();
+//            SlimefunItem block=blocks == null ? null : SlimefunItem.getById(blocks);
+//            if(block==null){
+//                return MBID_AIR;
+//            }else if(block instanceof MultiBlockPart){
+//                return ((MultiBlockPart)block).getPartId();
+//            }else return MBID_COMMONSFBLOCK;
+//        }else {
+//            return MBID_AIR;
+//        }
     }
 }

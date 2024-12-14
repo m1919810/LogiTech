@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public final class MaterialItem extends CustomSlimefunItem {
+public class MaterialItem extends CustomSlimefunItem {
     public MaterialItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
         this.checkCanStack=false;

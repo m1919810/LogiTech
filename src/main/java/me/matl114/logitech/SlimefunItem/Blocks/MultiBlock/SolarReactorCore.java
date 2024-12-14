@@ -378,7 +378,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
                         }
                     }
                 }else {
-                    MultiBlockService.deleteMultiBlock(DataCache.getLastUUID(loc),MultiBlockService.MANUALLY);
+                    MultiBlockService.deleteMultiBlock(MultiBlockService.safeGetUUID(loc),MultiBlockService.MANUALLY);
                     AddUtils.sendMessage(player,"&a成功关闭多方块结构!");
                 }
             }else{
@@ -425,7 +425,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
             Schedules.launchSchedules(()->checkCondition(loc,data),0,false,0);
             if(charge<energyConsumption){
                 //避免重连的时候出现问题,重连的时候statusCode为-3到-1,但是如果没有电 直接寄
-                MultiBlockService.deleteMultiBlock(DataCache.getLastUUID(loc),MultiBlockService.EnergyOutCause.get(charge,energyConsumption));
+                MultiBlockService.deleteMultiBlock(MultiBlockService.safeGetUUID(loc),MultiBlockService.EnergyOutCause.get(charge,energyConsumption));
                 return;
             }
             if(inv.hasViewer()){
@@ -447,10 +447,5 @@ public class SolarReactorCore extends MultiBlockProcessor {
     public void progressorCost(Block b, BlockMenu inv){
         //覆盖父类 让process中不扣电
         //转到我的ticker里扣
-    }
-
-    public void preRegister(){
-
-        super.preRegister();
     }
 }

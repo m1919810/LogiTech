@@ -57,8 +57,16 @@ public class PortalCore extends MultiCore {
     public MultiBlockType getMultiBlockType(){
         return MBTYPE;
     }
+    public MultiBlockService.MultiBlockBuilder BUILDER=((core, type, uid) -> {
+        BlockMenu inv= DataCache.getMenu(core);
+        if(inv!=null&&loadLink(inv)){
+            return  MultiBlockHandler.createHandler(core,type,uid);
+        }else {
+            return null;
+        }
+    });
     public MultiBlockService.MultiBlockBuilder getBuilder(){
-        return MultiBlockHandler::createHandler;
+        return BUILDER;
     }
     public boolean loadLink(BlockMenu inv){
         ItemStack link=inv.getItemInSlot(LINK_SLOT);
@@ -221,19 +229,13 @@ public class PortalCore extends MultiCore {
         }));
         updateMenu(inv,block,Settings.RUN);
     }
-    public void tick(Block b, BlockMenu menu,SlimefunBlockData data, int tickCount){
-        //in this case .blockMenu is null
-
-        if(MultiBlockService.acceptCoreRequest(b.getLocation(),getBuilder(),getMultiBlockType())){
-            processCore(b,menu);
-        }
-        process(b,menu,data);
-
-    }
     public void processCore(Block b, BlockMenu menu){
         if(menu.hasViewer()){
             updateMenu(menu,b,Settings.RUN);
         }
+    }
+    public boolean preCondition(Block b,BlockMenu inv,SlimefunBlockData data){
+        return inv.getItemInSlot(LINK_SLOT)!=null;
     }
 
     public void onBreak(BlockBreakEvent e, BlockMenu inv){

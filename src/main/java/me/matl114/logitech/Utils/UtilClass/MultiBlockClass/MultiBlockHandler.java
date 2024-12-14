@@ -35,13 +35,13 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
             Vector delta= type.getStructurePart(i);
             Location partloc=core.clone().add(delta);
             //设置部件的响应目标
-            DataCache.setLastUUID(partloc,uid);
+            MultiBlockService.setUUID(partloc,uid);
             //启用部件的响应
             MultiBlockService.setStatus(partloc,1);
             //设置部件的响应码
         }
         //设置部件的响应目标
-        DataCache.setLastUUID(core,uid);
+        MultiBlockService.setUUID(core,uid);
         //启用部件的响应
         MultiBlockService.setStatus(core,1);
         //on enable
@@ -126,7 +126,7 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
         }else {
             //multiblock被关闭 被抛出但是有part恰好响应了，则手动关掉part
             MultiBlockService.setStatus(loc,0);
-            DataCache.setLastUUID(loc,"null");
+            MultiBlockService.setUUID(loc,"null");
         }
     }
 
@@ -153,18 +153,18 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
      */
     public void destroy(MultiBlockService.DeleteCause cause){
         this.active=false;
-        if(DataCache.hasData(CORE)){
-            DataCache.setLastUUID(CORE,"null");
-            MultiBlockService.setStatus(CORE,0);
-            SlimefunItem it=DataCache.getSfItem(CORE);
-            if(it instanceof MultiBlockCore){
-                ((MultiBlockCore) it).onMultiBlockDisable(CORE,this,cause);
-            }
+        //if(DataCache.hasData(CORE)){
+        MultiBlockService.setUUID(CORE,"null");
+        MultiBlockService.setStatus(CORE,0);
+        SlimefunItem it=DataCache.getSfItem(CORE);
+        if(it instanceof MultiBlockCore){
+            ((MultiBlockCore) it).onMultiBlockDisable(CORE,this,cause);
         }
+        //}
         for(int i=0;i<this.size;i++){
             Location loc=CORE.clone().add(STRUCTURE_TYPE.getStructurePart(i));
             if(DataCache.hasData(loc)){
-                DataCache.setLastUUID(loc,"null");
+                MultiBlockService.setUUID(loc,"null");
                 MultiBlockService.setStatus(loc,0);
             }
         }

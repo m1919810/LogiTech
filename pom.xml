@@ -66,6 +66,10 @@
                             <pattern>com.jeff_media.morepersistentdatatypes</pattern>
                             <shadedPattern>me.matl114.morepersistentdatatypes</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>me.matl114.matlib</pattern>
+                            <shadedPattern>me.matl114.logitech.matlib</shadedPattern>
+                        </relocation>
                     </relocations>
                     <filters>
                         <filter>
@@ -146,6 +150,12 @@
             <artifactId>junit-jupiter</artifactId>
             <version>5.7.2</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.m1919810</groupId>
+            <artifactId>matlib</artifactId>
+            <version>407f2ec</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

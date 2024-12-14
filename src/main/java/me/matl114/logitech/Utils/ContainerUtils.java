@@ -108,22 +108,32 @@ public class ContainerUtils {
         }
         SlimefunItem sfitem=DataCache.getSfItem(from);
         if(sfitem==null||((!(sfitem instanceof CustomSlimefunItem) ))) {
+            Material toMaterial=to.getBlock().getType();
             if(fromInv!=null&&toInv==null){
-                ContainerUtils.getBlockContainerMenuWrapperWithCallback((blockMenus -> {
-                    if(blockMenus[0]!=null)
-                        TransportUtils.transportItem(fromInv,blockMenus[0],configCode,smart,bwlist,CraftUtils.getpusher);
-                }),true, to);
-            }else if(fromInv==null&&toInv!=null){
-                ContainerUtils.getBlockContainerMenuWrapperWithCallback((blockMenus -> {
-                    if(blockMenus[0]!=null)
-                        TransportUtils.transportItem(blockMenus[0],toInv,configCode,smart,bwlist,CraftUtils.getpusher);
-                }),true, from);
-            }else if(fromInv==null&&toInv==null){
-                ContainerUtils.getBlockContainerMenuWrapperWithCallback((blockMenus -> {
-                    if(blockMenus[0]!=null&&blockMenus[1]!=null){
-                        TransportUtils.transportItem(blockMenus[0],blockMenus[1],configCode,smart,bwlist,CraftUtils.getpusher);
+                if(WorldUtils.isEntityBlock(toMaterial)){
+                    ContainerUtils.getBlockContainerMenuWrapperWithCallback((blockMenus -> {
+                        if(blockMenus[0]!=null)
+                            TransportUtils.transportItem(fromInv,blockMenus[0],configCode,smart,bwlist,CraftUtils.getpusher);
+                    }),true, to);
+                }
+            }else if(fromInv==null){
+                Material fromMaterial=from.getBlock().getType();
+                if(WorldUtils.isEntityBlock(fromMaterial)){
+                    if(toInv!=null){
+                        ContainerUtils.getBlockContainerMenuWrapperWithCallback((blockMenus -> {
+                            if(blockMenus[0]!=null)
+                                TransportUtils.transportItem(blockMenus[0],toInv,configCode,smart,bwlist,CraftUtils.getpusher);
+                        }),true, from);
+                    }else {
+                        if(WorldUtils.isEntityBlock(toMaterial)){
+                            ContainerUtils.getBlockContainerMenuWrapperWithCallback((blockMenus -> {
+                                if(blockMenus[0]!=null&&blockMenus[1]!=null){
+                                    TransportUtils.transportItem(blockMenus[0],blockMenus[1],configCode,smart,bwlist,CraftUtils.getpusher);
+                                }
+                            }),true, from,to);
+                        }
                     }
-                }),true, from,to);
+                }
             }
         }
     }

@@ -40,6 +40,10 @@
               <pattern>com.jeff_media.morepersistentdatatypes</pattern>
               <shadedPattern>me.matl114.morepersistentdatatypes</shadedPattern>
             </relocation>
+            <relocation>
+              <pattern>me.matl114.matlib</pattern>
+              <shadedPattern>me.matl114.logitech.matlib</shadedPattern>
+            </relocation>
           </relocations>
           <filters>
             <filter>

@@ -4,6 +4,9 @@ import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.CubeMultiBlock.CubeMu
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockType;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiLevelBlock.MultiLevelBlockType;
+import org.bukkit.Material;
+
+import java.util.HashSet;
 
 public class MultiBlockTypes {
     public static void setup(){
@@ -21,8 +24,8 @@ public class MultiBlockTypes {
             addBlock(-1,1,0,"portal.part");
             addBlock(-1,2,0,"portal.part");
             addBlock(-1,3,0,"portal.part");
-            addRequirement(0,1,0, MultiBlockService.MBID_NOSFBLOCK);
-            addRequirement(0,2,0, MultiBlockService.MBID_NOSFBLOCK);
+            addRequirement(0,1,0, MultiBlockService.MBID_AIR);
+            addRequirement(0,2,0, MultiBlockService.MBID_AIR);
             this.isSymmetric=false;
         }
     }.build();
@@ -40,18 +43,18 @@ public class MultiBlockTypes {
                         addBlock(i,-3,j,id);
                         addBlock(i,5,j,id);
                         //nulls in -2 and 4
-                        addRequirement(i,-2,j, MultiBlockService.MBID_NOSFBLOCK);
-                        addRequirement(i,4,j, MultiBlockService.MBID_NOSFBLOCK);
+                        addRequirement(i,-2,j, MultiBlockService.MBID_AIR);
+                        addRequirement(i,4,j, MultiBlockService.MBID_AIR);
                     }
                 }
             }
             for (int i=-2;i<=2;i++){
                 for (int j=-2;j<=2;j++){
-                    addRequirement(i,-1,j, MultiBlockService.MBID_NOSFBLOCK);
-                    addRequirement(i,0,j, MultiBlockService.MBID_NOSFBLOCK);
-                    addRequirement(i,1,j, MultiBlockService.MBID_NOSFBLOCK);
-                    addRequirement(i,2,j, MultiBlockService.MBID_NOSFBLOCK);
-                    addRequirement(i,3,j, MultiBlockService.MBID_NOSFBLOCK);
+                    addRequirement(i,-1,j, MultiBlockService.MBID_AIR);
+                    addRequirement(i,0,j, MultiBlockService.MBID_AIR);
+                    addRequirement(i,1,j, MultiBlockService.MBID_AIR);
+                    addRequirement(i,2,j, MultiBlockService.MBID_AIR);
+                    addRequirement(i,3,j, MultiBlockService.MBID_AIR);
                 }
             }
             //y=-2
@@ -257,4 +260,122 @@ public class MultiBlockTypes {
             addSubPart(FINAL_RING);
         }
     }.build();
+    public static final MultiBlockType SMITHING_WORKSHOP=new MultiBlockType() {
+        @Override
+        public void init() {
+            String frameId= Material.CUT_COPPER_STAIRS.toString();
+            MultiBlockService.registerMaterialTag(Material.CUT_COPPER_STAIRS,frameId);
+            MultiBlockService.registerMaterialTag(Material.WAXED_CUT_COPPER_STAIRS,frameId);
+            MultiBlockService.registerMaterialTag(Material.EXPOSED_CUT_COPPER_STAIRS,frameId);
+            MultiBlockService.registerMaterialTag(Material.WEATHERED_CUT_COPPER_STAIRS,frameId);
+            MultiBlockService.registerMaterialTag(Material.OXIDIZED_CUT_COPPER_STAIRS,frameId);
+            MultiBlockService.registerMaterialTag(Material.WAXED_EXPOSED_CUT_COPPER_STAIRS,frameId);
+            MultiBlockService.registerMaterialTag(Material.WAXED_WEATHERED_CUT_COPPER_STAIRS,frameId);
+            MultiBlockService.registerMaterialTag(Material.WAXED_OXIDIZED_CUT_COPPER_STAIRS,frameId);
+            String floorId=Material.COPPER_BLOCK.toString();
+            MultiBlockService.registerMaterialTag(Material.COPPER_BLOCK,floorId);
+            MultiBlockService.registerMaterialTag(Material.WAXED_COPPER_BLOCK,floorId);
+            MultiBlockService.registerMaterialTag(Material.EXPOSED_COPPER,floorId);
+            MultiBlockService.registerMaterialTag(Material.WEATHERED_COPPER,floorId);
+            MultiBlockService.registerMaterialTag(Material.OXIDIZED_COPPER,floorId);
+            MultiBlockService.registerMaterialTag(Material.WAXED_EXPOSED_COPPER,floorId);
+            MultiBlockService.registerMaterialTag(Material.WAXED_WEATHERED_COPPER,floorId);
+            MultiBlockService.registerMaterialTag(Material.WAXED_OXIDIZED_COPPER,floorId);
+            String oneId=Material.END_STONE_BRICKS.toString();
+            String twoId=Material.STONE_BRICKS.toString();
+            String threeId=Material.DEEPSLATE_BRICKS.toString();
+            String fourId=Material.RED_NETHER_BRICKS.toString();
+            String lightId=Material.SHROOMLIGHT.toString();
+            String wailId=Material.NETHERITE_BLOCK.toString();
+            String glassId=Material.GLASS.toString();
+            String decorationId=Material.CRYING_OBSIDIAN.toString();
+            String columnId=Material.CHAIN.toString();
+            String interfaceId="smith.interface";
+            String liquidId=Material.LAVA.toString();
+            //y=-1 && y=5
+            for(int y:new int[]{-1,5}){
+                for(int x=-3;x<=3;++x){
+                    for(int z=-3;z<=3;++z){
+                        addBlock(x,y,z,floorId);
+                    }
+                }
+                for (int i=-4;i<=4;++i){
+                    addBlock(i,y,-4,frameId);
+                    addBlock(i,y,4,frameId);
+                    addBlock(-4,y,i,frameId);
+                    addBlock(4,y,i,frameId);
+                }
+            }
+            //y=-1 decorations
+            for(int i=1;i<=3;++i){
+                addBlock(3,-1,i,oneId);
+                addBlock(i,-1,3,oneId);
+                addBlock(-3,-1,i,twoId);
+                addBlock(-i,-1,3,twoId);
+                addBlock(3,-1,-i,threeId);
+                addBlock(i,-1,-3,threeId);
+                addBlock(-3,-1,-i,fourId);
+                addBlock(-i,-1,-3,fourId);
+            }
+            //y=0
+            for(int i=-1;i<=1;++i){
+                for(int j=-1;j<=1;++j){
+                    addBlock(j,0,i,wailId);
+                }
+            }
+            for(int i=-2;i<=2;++i){
+                for(int j=-2;j<=2;++j){
+                    addBlock(j,4,i,wailId);
+                }
+            }
+            for(int y:new int[]{0,4}){
+                addBlock(-2,y,-2,lightId);
+                addBlock(2,y,-2,lightId);
+                addBlock(-2,y,2,lightId);
+                addBlock(2,y,2,lightId);
+            }
+
+            addBlock(2,0,0,interfaceId);
+            addBlock(-2,0,0,interfaceId);
+            addBlock(0,0,2,interfaceId);
+            addBlock(0,0,-2,interfaceId);
+            addBlock(2,4,0,decorationId);
+            addBlock(-2,4,0,decorationId);
+            addBlock(0,4,2,decorationId);
+            addBlock(0,4,-2,decorationId);
+            for (int y=0;y<=4;++y){
+                addBlock(3,y,3,columnId);
+                addBlock(-3,y,3,columnId);
+                addBlock(3,y,-3,columnId);
+                addBlock(-3,y,-3,columnId);
+            }
+            for(int y=1;y<=3;++y){
+                for(int i=-2;i<=2;++i){
+                    for(int j=-2;j<=2;++j){
+                        addBlock(j,y,i,(i%2==0&&j%2==0)? wailId:glassId);
+                    }
+                }
+                for(int i=-1;i<=1;++i){
+                    for(int j=-1;j<=1;++j){
+                        addBlock(j,y,i,liquidId);
+                    }
+                }
+            }
+        }
+    }.build();
+    public static final HashSet<Material> SMITHING_VANILLA_PART=new HashSet<>(){{
+        HashSet<Material> materials = new HashSet<>();
+        materials.add(Material.CUT_COPPER_STAIRS);
+        materials.add(Material.COPPER_BLOCK);
+        materials.add(Material.END_STONE_BRICKS);
+        materials.add(Material.STONE_BRICKS);
+        materials.add(Material.DEEPSLATE_BRICKS);
+        materials.add(Material.RED_NETHER_BRICKS);
+        materials.add(Material.SHROOMLIGHT);
+        materials.add(Material.NETHERITE_BLOCK);
+        materials.add(Material.GLASS);
+        materials.add(Material.CRYING_OBSIDIAN);
+        materials.add(Material.CHAIN);
+        addAll(materials);
+    }};
 }
