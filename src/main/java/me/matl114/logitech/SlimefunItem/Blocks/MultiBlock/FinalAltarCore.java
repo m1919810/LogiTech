@@ -77,9 +77,9 @@ public class FinalAltarCore  extends MultiCore {
             "&6点击切换祭坛状态","&6shift点击尝试刷新祭坛","&7祭坛状态: &a开启","&7等级: &6贰","&7关闭祭坛不会破坏祭坛本体,只会取消上方机器的激活状态");
     protected final ItemStack STATUS_ITEM_OFF=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,
             "&6点击切换祭坛状态","&6shift点击尝试刷新祭坛","&7祭坛状态: &c关闭","&7关闭祭坛不会破坏祭坛本体,只会取消上方机器的激活状态");
-    protected final ItemStack HOLOGRAM_ITEM_ON=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&7当前状态: &a一级祭坛");
-    protected final ItemStack HOLOGRAM_ITEM_ON_2=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&7当前状态: &a二级祭坛");
-    protected final ItemStack HOLOGRAM_ITEM_OFF=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&6点击切换全息投影","&7当前状态: &c关闭");
+    protected final ItemStack HOLOGRAM_ITEM_ON=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&e或使用/logitech multiblock 查看搭建教程","&7当前状态: &a一级祭坛");
+    protected final ItemStack HOLOGRAM_ITEM_ON_2=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&e或使用/logitech multiblock 查看搭建教程","&7当前状态: &a二级祭坛");
+    protected final ItemStack HOLOGRAM_ITEM_OFF=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&6点击切换全息投影","&e或使用/logitech multiblock 查看搭建教程","&7当前状态: &c关闭");
     protected final MultiLevelBlockType MBTYPE;
     public HashMap<String,ItemStack> MBID_TO_ITEM=new HashMap<>(){{
         put("final.sub", AddItem.FINAL_LASER.clone());

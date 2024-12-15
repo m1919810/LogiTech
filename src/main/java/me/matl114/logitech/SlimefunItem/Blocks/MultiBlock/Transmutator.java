@@ -51,12 +51,12 @@ public class Transmutator extends MultiBlockAdvancedProcessor  {
      * 不得中途破坏
      */
     protected final ItemStack[] HOLOGRAM_ITEM_ON=new ItemStack[]{
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&7当前状态: &a北向"),
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&7当前状态: &a东向"),
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&7当前状态: &a南向"),
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&7当前状态: &a西向")
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&e或使用/logitech multiblock 查看搭建教程","&7当前状态: &a北向"),
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&e或使用/logitech multiblock 查看搭建教程","&7当前状态: &a东向"),
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&e或使用/logitech multiblock 查看搭建教程","&7当前状态: &a南向"),
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&e或使用/logitech multiblock 查看搭建教程","&7当前状态: &a西向")
     };
-    protected final ItemStack HOLOGRAM_ITEM_OFF=new CustomItemStack(SlimefunItems.HOLOGRAM_PROJECTOR,"&6点击切换全息投影","&7当前状态: &c关闭");
+    protected final ItemStack HOLOGRAM_ITEM_OFF=new CustomItemStack(SlimefunItems.HOLOGRAM_PROJECTOR,"&6点击切换全息投影","&e或使用/logitech multiblock 查看搭建教程","&7当前状态: &c关闭");
     protected final ItemStack COOLER_INFO_ITEM=new CustomItemStack(SlimefunItems.NETHER_ICE_COOLANT_CELL,"&b冷却剂输入槽",
             "&7请保证冷却剂供应","&e上方填入冷却剂","&e下方填入下界冰冷却剂","&7冷却剂槽位会限制货运只传入冷却剂");
     protected final int COOLER_INFO_SLOT=27;

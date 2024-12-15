@@ -39,12 +39,12 @@ public class SmithingWorkshop extends MultiCore {
             "&6锻造核心信息","&7工坊状态: &a开启","&7自动构建:强制开启");
     protected final ItemStack STATUS_ITEM_OFF=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,
             "&6锻造核心信息","&c点击查看结构错误","&7工坊状态: &c关闭","&7自动构建:强制开启");
-    protected final ItemStack HOLOGRAM_ITEM_OFF=new CustomItemStack(SlimefunItems.HOLOGRAM_PROJECTOR,"&6点击切换全息投影","&7当前状态: &c关闭");
+    protected final ItemStack HOLOGRAM_ITEM_OFF=new CustomItemStack(SlimefunItems.HOLOGRAM_PROJECTOR,"&6点击切换全息投影","&e或使用/logitech multiblock 查看搭建教程","&7当前状态: &c关闭");
     protected final ItemStack[] HOLOGRAM_ITEM_ON=new ItemStack[]{
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&7当前状态: &a北向"),
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&7当前状态: &a东向"),
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&7当前状态: &a南向"),
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&7当前状态: &a西向")
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&e或使用/logitech multiblock 查看搭建教程","&7当前状态: &a北向"),
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&e或使用/logitech multiblock 查看搭建教程","&7当前状态: &a东向"),
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&e或使用/logitech multiblock 查看搭建教程","&7当前状态: &a南向"),
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6点击切换全息投影","&e或使用/logitech multiblock 查看搭建教程","&7当前状态: &a西向")
     };
     protected final ItemStack PLUGIN_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6工坊增幅组件槽","&7于下方插入工坊增幅组件");
     protected final int PLUGIN_SLOT=13;

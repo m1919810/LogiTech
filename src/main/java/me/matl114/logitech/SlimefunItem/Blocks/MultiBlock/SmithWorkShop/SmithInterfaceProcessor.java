@@ -76,7 +76,7 @@ public class SmithInterfaceProcessor extends SmithingInterface implements Machin
                             short cost=(short) Math.min( ( durability/250)+1,fix.getAmount());
                             if(cost>0){
                                 //here we set repair cost for judgements
-                                anvilInventory.setRepairCost(10*cost);
+                                anvilInventory.setRepairCost(-5*cost);
                                 return ()->{
                                     ItemStack toolCopy=tool.clone();
                                     tool.setAmount(0);

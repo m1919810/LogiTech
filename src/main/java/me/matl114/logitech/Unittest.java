@@ -60,4 +60,6 @@ public class Unittest {
     //todo 锻造台设计 增加锻造接口,增加充电接口 增加增幅组件
     //todo
     //todo a possibility to handle vanilla block in MultiBlock structures ,maybe we need more listeners and fix the getStatus and getUUID method in MultiBlockService
+    //todo 优化投影体系
+
 }

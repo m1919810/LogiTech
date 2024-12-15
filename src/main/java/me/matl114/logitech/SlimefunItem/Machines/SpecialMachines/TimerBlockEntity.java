@@ -240,7 +240,7 @@ public class TimerBlockEntity extends AbstractMachine implements MenuTogglableBl
         }
     }
     public static void addLocation(Location loc){
-        if(!DataCache.hasData(loc)){
+        if(DataCache.getMenu(loc)==null){
             synchronized (lock){
                 TIMED_MACHINES.keySet().stream().filter(l->l.getWorld()==loc.getWorld()).filter(l->inRange(loc,l,RANGE)).forEach(l->{
                     TIMED_MACHINES.computeIfAbsent(l,(le)->new HashSet<>()).add(loc);
@@ -347,7 +347,7 @@ public class TimerBlockEntity extends AbstractMachine implements MenuTogglableBl
                 for(int y=-RANGE;y<=RANGE;y++){
                     for(int z=-RANGE;z<=RANGE;z++){
                         Location testLocation=loc.clone().add(x,y,z);
-                        if(DataCache.hasData(testLocation)){
+                        if(DataCache.getMenu(testLocation)!=null){
                             continue;
                         }
                         Block block=testLocation.getBlock();

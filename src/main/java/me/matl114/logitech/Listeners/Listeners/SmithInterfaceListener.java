@@ -140,7 +140,7 @@ public class SmithInterfaceListener implements Listener {
                         outport.acceptProgress(output,interfaceLocation);
                         AddUtils.sendMessage(player,"&6[锻铸工坊] &a成功合成!");
                     }else{
-                        AddUtils.sendMessage(player,"&6[锻铸工坊] &c该操作已被禁用!");
+                        AddUtils.sendMessage(player,"&6[锻铸工坊] &c该操作已被阻止!");
                     }
                 }else {
                     AddUtils.sendMessage(player,"&6[锻铸工坊] &c未知的合成配方或操作方式!");
@@ -161,6 +161,7 @@ public class SmithInterfaceListener implements Listener {
             SlimefunItem item=SlimefunItem.getByItem(output);
             if(item!=null&&item.isDisabled()){
                 inventory.setResult(INTERFACED_CRAFTABLE);
+                AddUtils.sendMessage(player,"&6[锻铸工坊] &c物品被禁用!");
                 return null;
             }else{
                 inventory.setResult(INTERFACED_NO_RECIPE);
@@ -171,6 +172,7 @@ public class SmithInterfaceListener implements Listener {
         });
     }
     public Function<AnvilInventory,Supplier<MultiCraftingOperation>> ANVIL_PROCESSOR=(inventory1)->{
+        inventory1.setMaximumRepairCost(100_000);
         var logics=SmithInterfaceProcessor.getAnvilLogics();
         Supplier<MultiCraftingOperation> matchedLogic=null;
         for(var logic:logics) {
@@ -191,6 +193,7 @@ public class SmithInterfaceListener implements Listener {
                     return null;
                 }else{
                     p.setLevel(level-expNeed);
+                    inventory.setRepairCost(0);
                     MultiCraftingOperation out=matchLogic.get();
                     inventory.setItem(2,INTERFACED_NO_RECIPE);
                     return out;

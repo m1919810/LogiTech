@@ -20,7 +20,9 @@ import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore.MultiBlockTypes;
 import me.matl114.logitech.SlimefunItem.Cargo.SpaceStorage.StorageSpace;
 import me.matl114.logitech.SlimefunItem.Cargo.Storages;
 import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.Utils.UtilClass.CommandClass.LogitechMain;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
+import me.matl114.matlib.Utils.Command.CommandGroup.AbstractMainCommand;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -48,7 +50,7 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
     public static String username;
     public static String repo;
     public static String branch;
-    private static  AddonCommand command;
+    private static AbstractMainCommand command;
     @Getter
     public static SupportedPluginManager supportedPluginManager;
     static{
@@ -138,10 +140,9 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         //加载容器impl工具
         ContainerUtils.setup();
         Debug.logger("指令注册完毕");
-        command = new AddonCommand(this);
-        command.register();
-
-
+//        command = new AddonCommand(this);
+//        command.register();
+        command=new LogitechMain().registerCommand(this);
         //注册
         Debug.logger("附属特性注册完毕");
     }
