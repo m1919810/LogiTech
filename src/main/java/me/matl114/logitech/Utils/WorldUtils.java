@@ -11,6 +11,7 @@ import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
+import me.matl114.matlib.Utils.Reflect.FieldAccess;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.block.data.BlockData;
@@ -396,13 +397,27 @@ public class WorldUtils {
         add(Material.CAMPFIRE);
         add(Material.SCULK_SHRIEKER);
     }};
+    public static Set<Material> WATER_VARIENT=new HashSet<>(){{
+        add(Material.WATER);
+        add(Material.BUBBLE_COLUMN);
+    }};
+    public static Set<Material> BLOCK_MUST_WATERLOGGED=new HashSet<>(){{
+        add(Material.SEAGRASS);
+        add(Material.TALL_SEAGRASS);
+        add(Material.KELP);
+
+    }};
 
     protected static Class CraftBlockStateClass;
-    protected static Field IBlockDataField;
-    protected static Field BlockPositionField;
-    protected static Field WorldField;
-    protected static Field WeakWorldField;
+//    protected static Field IBlockDataField;
+//    protected static Field BlockPositionField;
+//    protected static Field WorldField;
+//    protected static Field WeakWorldField;
     protected static boolean invokeBlockStateSuccess=false;
+    protected static FieldAccess iBlockDataFieldAccess;
+    protected static FieldAccess blockPositionFieldAccess;
+    protected static FieldAccess worldFieldAccess;
+    protected static FieldAccess weakWorldFieldAccess;
     static {
         try{
             Debug.debug( Bukkit.getBukkitVersion());
@@ -410,15 +425,19 @@ public class WorldUtils {
             Debug.debug(sampleWorld.getName());
             BlockState blockstate=sampleWorld.getBlockAt(0, 0, 0).getState();
             var result=ReflectUtils.getDeclaredFieldsRecursively(blockstate.getClass(),"data");
-            IBlockDataField=result.getFirstValue();
+            var IBlockDataField=result.getFirstValue();
             IBlockDataField.setAccessible(true);
+            iBlockDataFieldAccess=FieldAccess.of(IBlockDataField);
             CraftBlockStateClass=result.getSecondValue();
-            BlockPositionField=ReflectUtils.getDeclaredFieldsRecursively(CraftBlockStateClass,"position").getFirstValue();
+            var BlockPositionField=ReflectUtils.getDeclaredFieldsRecursively(CraftBlockStateClass,"position").getFirstValue();
             BlockPositionField.setAccessible(true);
-            WorldField=ReflectUtils.getDeclaredFieldsRecursively(CraftBlockStateClass,"world").getFirstValue();
+            blockPositionFieldAccess=FieldAccess.of(BlockPositionField);
+            var WorldField=ReflectUtils.getDeclaredFieldsRecursively(CraftBlockStateClass,"world").getFirstValue();
             WorldField.setAccessible(true);
-            WeakWorldField=ReflectUtils.getDeclaredFieldsRecursively(CraftBlockStateClass,"weakWorld").getFirstValue();
+            worldFieldAccess=FieldAccess.of(WorldField);
+            var WeakWorldField=ReflectUtils.getDeclaredFieldsRecursively(CraftBlockStateClass,"weakWorld").getFirstValue();
             WeakWorldField.setAccessible(true);
+            weakWorldFieldAccess=FieldAccess.of(WeakWorldField);
             Debug.debug("CraftBlockStateClass: "+CraftBlockStateClass.getName());
             invokeBlockStateSuccess=true;
         }catch (Throwable e){
@@ -724,13 +743,13 @@ public class WorldUtils {
     }
     public static boolean isLightPassableBlock(Block block){
         Material material=block.getType();
-        if(material==Material.AIR||material.isTransparent()||material==Material.WATER||material==Material.LAVA){
+        if(material==Material.AIR||material.isTransparent()||WATER_VARIENT.contains(material)||material==Material.LAVA){
             return true;
         }else return false;
     }
     public static boolean isLiquid(Block block){
         Material material=block.getType();
-        if(material==Material.WATER||material==Material.LAVA){
+        if(WATER_VARIENT.contains(material)||material==Material.LAVA){
             return true;
         }else return false;
     }
@@ -824,9 +843,10 @@ public class WorldUtils {
             BlockState state2=block2.getState();
             if(CraftBlockStateClass.isInstance(state2)&&CraftBlockStateClass.isInstance(state)){
                 try{
-                    BlockPositionField.set(state,BlockPositionField.get(state2));
-                    WorldField.set(state,WorldField.get(state2));
-                    WeakWorldField.set(state,WeakWorldField.get(state2));
+                    blockPositionFieldAccess.ofAccess(state).set(blockPositionFieldAccess.getValue(state2));
+                    worldFieldAccess.ofAccess(state).set(worldFieldAccess.getValue(state2));
+                    worldFieldAccess.ofAccess(state).set(worldFieldAccess.getValue(state2));
+                    weakWorldFieldAccess.ofAccess(state).set(weakWorldFieldAccess.getValue(state2));
                     state.update(true,false);
                     return true;
                 }catch (Throwable e){

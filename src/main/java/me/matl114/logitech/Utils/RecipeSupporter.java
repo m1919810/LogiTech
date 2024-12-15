@@ -796,7 +796,7 @@ public class RecipeSupporter {
                         }
                         else {
                             inputs[3*i+j]=AddItem.RESOLVE_FAILED;
-                            Debug.logger(rc.getClass().getName());
+                            Debug.logger("Unknown RecipeChoice class",rc.getClass().getName());
                         }
                     }
                 }
@@ -817,7 +817,7 @@ public class RecipeSupporter {
                     }
                     else{
                         inputs[i]=AddItem.RESOLVE_FAILED;
-                        Debug.logger(rc.getClass().getName());
+                        Debug.logger("Unknown RecipeChoice class",rc.getClass().getName());
                     }
                 }
                // List<ItemStack> input = ((ShapelessRecipe) next).getIngredientList();
@@ -1379,7 +1379,8 @@ public class RecipeSupporter {
                     recipes.add(MachineRecipeUtils.mgFrom(ticks,Utils.array(new ItemStack(entry.getKey())),entry.getValue()));
                 }
             }catch (Throwable e){
-                Debug.logger(e);
+                Debug.logger("Error in loading Slimefun Item %s StackMachineRecipe: %s".formatted(item.getId(),e.getMessage()));
+
                 return false;
             }
             return true;
@@ -1390,7 +1391,7 @@ public class RecipeSupporter {
                 Material material=(Material) ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"material");
                 recipes.add(MachineRecipeUtils.mgFrom(ticks,Utils.array(),Utils.array(new ItemStack(material,amount))));
             }catch (Throwable e){
-                Debug.logger(e);
+                Debug.logger("Error in loading Slimefun Item %s StackMachineRecipe: %s".formatted(item.getId(),e.getMessage()));
                 return false;
             }
             return true;
@@ -1408,7 +1409,8 @@ public class RecipeSupporter {
                 int a=(Integer)obj;
                 ticks*=a;
             }catch (Throwable e){
-                Debug.logger(e);
+                Debug.logger("Error in loading Slimefun Item %s StackMachineRecipe: %s".formatted(item.getId(),e.getMessage()));
+                return false;
             }
             try{
                 Object output=ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"output");
@@ -1424,7 +1426,7 @@ public class RecipeSupporter {
                 ItemStack outputGroup=AddUtils.randItemStackFactory(stacklist,chancelist);
                 recipes.add(MachineRecipeUtils.mgFrom(ticks,new ItemStack[0],new ItemStack[]{outputGroup}));
             }catch (Throwable e){
-                Debug.logger(e);
+                Debug.logger("Error in loading Slimefun Item %s StackMachineRecipe: %s".formatted(item.getId(),e.getMessage()));
                 return false;
             }
         }
@@ -1432,16 +1434,15 @@ public class RecipeSupporter {
             int ticks=0;
             try {
                 ticks=(Integer) ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"INTERVAL");
-            }catch (Throwable a){
-                Debug.logger(item.getClass());
-                Debug.logger(a);
+            }catch (Throwable e){
+                Debug.logger("Error in loading Slimefun Item %s StackMachineRecipe: %s".formatted(item.getId(),e.getMessage()));
                 return false;
             }
             int amount;
             try{
                 amount=(Integer)ReflectUtils.invokeGetRecursively(item,Settings.FIELD,"speed");
-            }catch (Throwable a){
-                Debug.logger(a);
+            }catch (Throwable e){
+                Debug.logger("Error in loading Slimefun Item %s StackMachineRecipe: %s".formatted(item.getId(),e.getMessage()));
                 return false;
             }
             Class OscillatorClass=SlimefunItem.getById("QUARRY_OSCILLATOR_DIAMOND").getClass();
@@ -1462,13 +1463,17 @@ public class RecipeSupporter {
                             put(outputRandGroup,100-chanceToInt);
                         }});
                         recipes.add(MachineRecipeUtils.mgFrom(ticks,new ItemStack[]{oscillatorsInstance.getItem()},new ItemStack[]{randOut}));
-                    }catch (Throwable a){
-                        Debug.logger(a);
+                    }catch (Throwable E){
+                        if(e instanceof SlimefunItem sf){
+                            Debug.logger("Error in loading QUARRY_OSCILLATORS Item %s : %s".formatted(sf.getId(),E.getMessage()));
+                        }else {
+                            Debug.logger("Error in loading QUARRY_OSCILLATORS Item  : %s".formatted(E.getMessage()));
+                        }
                     }
                 }
                 return true;
             }catch (Throwable e){
-                Debug.logger(e);
+                Debug.logger("Error in loading Slimefun Item %s StackMachineRecipe: %s".formatted(item.getId(),e.getMessage()));
                 return false;
             }
 

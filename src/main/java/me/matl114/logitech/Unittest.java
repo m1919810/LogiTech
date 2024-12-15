@@ -58,5 +58,6 @@ public class Unittest {
     //增加辐射清除器功能
     //平衡性调整星辰金使用量和超新星框架
     //todo 锻造台设计 增加锻造接口,增加充电接口 增加增幅组件
+    //todo
     //todo a possibility to handle vanilla block in MultiBlock structures ,maybe we need more listeners and fix the getStatus and getUUID method in MultiBlockService
 }

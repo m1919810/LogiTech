@@ -45,6 +45,7 @@ public class ContainerUtils {
             for(int i=0;i<54;++i){
                 this.addMenuClickHandler(i, ChestMenuUtils.getEmptyClickHandler());
             }
+            this.setSize(54);
         }
         @Override
         public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {

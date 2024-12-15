@@ -1130,6 +1130,7 @@ public class AddSlimefunItems {
                         AddUtils.forceGive(p,AddItem.SUPERSPONGE_USED,1);
                         final HashSet<Block> liquids=new HashSet<>();
                         final HashSet<Block> blockInLiquids=new HashSet<>();
+                        final HashSet<Block> forceLiquids=new HashSet<>();
                         Schedules.launchSchedules(()->{
                             COOL_DOWN.add(p);
                             try{
@@ -1147,13 +1148,15 @@ public class AddSlimefunItems {
                                                 }
                                                 else if(WorldUtils.isWaterLogged(checkBlock)){
                                                     blockInLiquids.add(checkBlock);
+                                                }else if(WorldUtils.BLOCK_MUST_WATERLOGGED.contains(checkBlock.getType())){
+                                                    forceLiquids.add(checkBlock);
                                                 }
                                             }
 
                                         }
                                     }
                                 }
-                                if(!liquids.isEmpty()||!blockInLiquids.isEmpty()){
+                                if(!liquids.isEmpty()||!blockInLiquids.isEmpty()||!forceLiquids.isEmpty()){
                                     AddUtils.sendMessage(p,"&a搜索完成,正在吸取液体");
                                     BukkitUtils.executeSync(()->{
                                         List<BlockState> blocksToBeChanged=new ArrayList<>(liquids.size()+blockInLiquids.size()+2);
@@ -1178,7 +1181,16 @@ public class AddSlimefunItems {
                                                     b.setBlockData(data,true);
                                                 }
                                             }
+
                                             AddUtils.sendMessage(p,"&a成功移除液体!");
+                                        }
+                                        if(!forceLiquids.isEmpty()){
+                                            for(Block b:forceLiquids){
+                                                if(WorldUtils.testVanillaBlockBreakPermission(b,p,false)){
+                                                    b.setType(Material.AIR);
+                                                }
+                                            }
+                                            AddUtils.sendMessage(p,"&a成功移除海草和海带!");
                                         }
                                     });
                                 }else{

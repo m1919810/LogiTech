@@ -292,12 +292,9 @@ public class TimerBlockEntity extends AbstractMachine implements MenuTogglableBl
                         if(!TIMED_MACHINES.containsKey(loc)|| tickCount%20==tick){
                             initLocation(loc);
                         }
-
-                        if(tickCount%4==tick%4){
-                            BlockMenu menu=data.getBlockMenu();
-                            if(menu!=null&&getStatus(menu)[0]){
-                                doParticle(loc);
-                            }
+                        BlockMenu menu=data.getBlockMenu();
+                        if(menu!=null&&getStatus(menu)[0]){
+                            doParticle(loc);
                         }
                     }
                     @Override
@@ -315,7 +312,7 @@ public class TimerBlockEntity extends AbstractMachine implements MenuTogglableBl
         // 判断是否在上下面的边
         boolean onTopBottom = (j == -RANGE || j == RANGE+1) && (k == -RANGE || k == RANGE+1) ;
         // 判断是否在左右面的边
-        boolean onLeftRight = (k == -RANGE || k == RANGE+1) && (i >= -RANGE || i <= RANGE+1);
+        boolean onLeftRight = (k == -RANGE || k == RANGE+1) && (i == -RANGE || i == RANGE+1);
 
         // 只要满足任何一条边的条件，即为边框上的点
         return onFrontBack || onTopBottom || onLeftRight;
