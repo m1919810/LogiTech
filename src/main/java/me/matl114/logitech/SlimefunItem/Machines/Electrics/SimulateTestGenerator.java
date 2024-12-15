@@ -72,7 +72,7 @@ public class SimulateTestGenerator extends AbstractMachine {
     public void updateMenu(BlockMenu menu, Block block, Settings mod){}
 
     public ItemStack[] OUTPUTS=new ItemStack[]{OUTPUT};
-    protected final int MULTIPLE_TIME=4;
+    protected final int MULTIPLE_TIME=5;
     public void tick(Block b, BlockMenu inv, SlimefunBlockData data,int tick){
         ItemStack stack=inv.getItemInSlot(MACHINE_SLOT);
         if(CraftUtils.matchItemStack(stack,MACHINE_COUNTER,false)){

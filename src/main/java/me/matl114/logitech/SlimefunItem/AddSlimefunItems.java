@@ -1608,21 +1608,21 @@ public class AddSlimefunItems {
                                 "128EMERALD",8)
                 )));
                 put(mkl(AddItem.NETHER_FEAT),mkl(AddUtils.randItemStackFactory(
-                        mkMp("64NETHERITE_INGOT",1,
-                                "256QUARTZ",1,
+                        mkMp("48NETHERITE_INGOT",1,
+                                "192QUARTZ",1,
                                 "64MAGMA_BLOCK",1,
                                 "64OBSIDIAN",1,
                                 "64ANCIENT_DEBRIS",1,
-                                "4NETHER_ICE",1)
+                                "12NETHER_ICE",1)
                 )));
                 put(mkl(AddItem.END_FEAT),mkl(AddUtils.randItemStackFactory(
-                        mkMp("4DRAGON_BREATH",2,
+                        mkMp("8DRAGON_BREATH",2,
                        // "4CHORUS_FLOWER",2,
                                 "16ENDER_EYE",2,
                                 "16ENDER_PEARL",2,
-                                "4BUCKET_OF_OIL",2,
-                                AddItem.STAR_GOLD,2,
-                                AddItem.DIMENSIONAL_SHARD,2
+                                "12BUCKET_OF_OIL",2,
+                                setC(AddItem.STAR_GOLD,20),2,
+                                setC(AddItem.DIMENSIONAL_SHARD,36),2
                         )
                 )));
             }})
