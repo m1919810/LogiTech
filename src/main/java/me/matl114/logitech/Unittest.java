@@ -1,5 +1,9 @@
 package me.matl114.logitech;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+
 public class Unittest {
     //为什么要单开一个文件夹？
     //好问题
@@ -61,5 +65,9 @@ public class Unittest {
     //todo
     //todo a possibility to handle vanilla block in MultiBlock structures ,maybe we need more listeners and fix the getStatus and getUUID method in MultiBlockService
     //todo 优化投影体系
+    //todo 修复堆叠机器久置后内部机器变砖的问题
+    {
+
+    }
 
 }
