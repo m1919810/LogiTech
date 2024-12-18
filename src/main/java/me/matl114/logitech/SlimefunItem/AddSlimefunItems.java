@@ -2020,15 +2020,29 @@ public class AddSlimefunItems {
                     )
             )
             .register();
-    public static final  SlimefunItem TIMER_BLOCKENTITY=new TimerBlockEntity(AddGroups.ADVANCED, AddItem.TIMER_BLOCKENTITY,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),0,0)
+    public static final  SlimefunItem TIMER_RD=new TimerRandomtick(AddGroups.ADVANCED, AddItem.TIMER_RD,COMMON_TYPE,
+            recipe(setC(AddItem.CHIP_CORE,4),setC(AddItem.BISILVER,4),setC(AddItem.LSINGULARITY,3),setC(AddItem.LSINGULARITY,3),setC(AddItem.BISILVER,4),setC(AddItem.CHIP_CORE,4),
+                    setC(AddItem.STAR_GOLD_INGOT,3),setC(AddItem.LSCHEDULER,2),setC(AddItem.TECH_CORE,4),setC(AddItem.TECH_CORE,4),setC(AddItem.LSCHEDULER,2),setC(AddItem.STAR_GOLD_INGOT,3),
+                    setC(AddItem.STAR_GOLD_INGOT,3),setC(AddItem.WORLD_FEAT,3),"6TREE_GROWTH_ACCELERATOR","6TREE_GROWTH_ACCELERATOR",setC(AddItem.WORLD_FEAT,3),setC(AddItem.STAR_GOLD_INGOT,3),
+                    setC(AddItem.STAR_GOLD_INGOT,3),setC(AddItem.NETHER_FEAT,3),"3ANIMAL_GROWTH_ACCELERATOR","3ANIMAL_GROWTH_ACCELERATOR",setC(AddItem.NETHER_FEAT,3),setC(AddItem.STAR_GOLD_INGOT,3),
+                    setC(AddItem.STAR_GOLD_INGOT,3),setC(AddItem.END_FEAT,3),"6CROP_GROWTH_ACCELERATOR_2","6CROP_GROWTH_ACCELERATOR_2",setC(AddItem.END_FEAT,3),setC(AddItem.STAR_GOLD_INGOT,3),
+                    setC(AddItem.CHIP_CORE,4),setC(AddItem.BISILVER,4),setC(AddItem.LENGINE,2),setC(AddItem.LENGINE,2),setC(AddItem.BISILVER,4),setC(AddItem.CHIP_CORE,4)), 0,0)
             .register();
+    public static final  SlimefunItem TIMER_BLOCKENTITY=new TimerBlockEntity(AddGroups.ADVANCED, AddItem.TIMER_BLOCKENTITY,COMMON_TYPE,
+            recipe(setC(AddItem.LSINGULARITY,6),AddItem.DIMENSIONAL_SINGULARITY,AddItem.VIRTUAL_SPACE,AddItem.VIRTUAL_SPACE,AddItem.DIMENSIONAL_SINGULARITY,setC(AddItem.LSINGULARITY,6),
+                    AddItem.DIMENSIONAL_SINGULARITY,setC(AddItem.MOLYBDENUM,32),AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,setC(AddItem.MOLYBDENUM,32),AddItem.DIMENSIONAL_SINGULARITY,
+                    AddItem.DIMENSIONAL_SINGULARITY,AddItem.LASER,AddItem.TECH_CORE,AddItem.TECH_CORE,AddItem.LASER,AddItem.DIMENSIONAL_SINGULARITY,
+                    AddItem.DIMENSIONAL_SINGULARITY,AddItem.LASER,AddItem.TECH_CORE,AddItem.TECH_CORE,AddItem.LASER,AddItem.DIMENSIONAL_SINGULARITY,
+                    AddItem.DIMENSIONAL_SINGULARITY,setC(AddItem.DYSPROSIUM,32),setC(AddItem.LSCHEDULER,2),setC(AddItem.LSCHEDULER,2),setC(AddItem.DYSPROSIUM,32),AddItem.DIMENSIONAL_SINGULARITY,
+                    setC(AddItem.LSINGULARITY,6),AddItem.DIMENSIONAL_SINGULARITY,AddItem.PDCECDMD,AddItem.PDCECDMD,AddItem.DIMENSIONAL_SINGULARITY,setC(AddItem.LSINGULARITY,6)),0,0)
+            .register();
+
     public static final  SlimefunItem TIMER_SF=new TimerSlimefun(AddGroups.ADVANCED, AddItem.TIMER_SF,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),0,0)
             .register();
-    public static final  SlimefunItem TIMER_SF_SEQ=new TimerSequentialSlimefun(AddGroups.ADVANCED, AddItem.TIMER_SF_SEQ,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),0,0)
-            .register();
+//    public static final  SlimefunItem TIMER_SF_SEQ=new TimerSequentialSlimefun(AddGroups.ADVANCED, AddItem.TIMER_SF_SEQ,RecipeType.NULL,
+//            AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),0,0)
+//            .register();
 
     //
     //manuals

@@ -60,7 +60,7 @@ public class TimerSlimefun extends AbstractMachine implements ChunkLimit, MenuTo
 
     @Override
     public void constructMenu(BlockMenuPreset preset) {
-        IntStream.range(1,9).forEach(i->preset.addItem(i, ChestMenuUtils.getBackground(),ChestMenuUtils.getEmptyClickHandler()));
+        IntStream.range(1,9).forEach(i->{if(i!=PARTICLE_SLOT){ preset.addItem(i, ChestMenuUtils.getBackground(),ChestMenuUtils.getEmptyClickHandler());}});
     }
     @Override
     public boolean[] getStatus(BlockMenu inv) {
@@ -92,7 +92,7 @@ public class TimerSlimefun extends AbstractMachine implements ChunkLimit, MenuTo
             return;
         }
         ItemStack icon=menu.getItemInSlot(PARTICLE_SLOT);
-        if(icon==null||(icon.getType()!=Material.RED_STAINED_GLASS_PANE)||icon.getType()!=Material.GREEN_STAINED_GLASS_PANE){
+        if(icon==null||(icon.getType()!=Material.RED_STAINED_GLASS_PANE&&icon.getType()!=Material.GREEN_STAINED_GLASS_PANE)){
             menu.replaceExistingItem(PARTICLE_SLOT,PARTICLE_OFF);
         }
         menu.addMenuClickHandler(PARTICLE_SLOT,((player, i, itemStack, clickAction) -> {

@@ -76,6 +76,10 @@ public class ChunkEnergyCharger extends AbstractEnergyCharger implements ChunkLi
             }
         }
     }
+    @Override
+    public boolean isBorder(int i) {
+        return super.isBorder(i)&&i!=PARTICLE_SLOT;
+    }
     public void newMenuInstance(BlockMenu menu, Block block){
         if(!onChunkPlace(menu.getLocation(),ChunkEnergyCharger.class)){
             onChunkReachLimit(menu.getLocation(),this,(str)->{menu.getLocation().getWorld().getNearbyEntities(menu.getLocation(),10,10,10,(e)->{
@@ -88,7 +92,7 @@ public class ChunkEnergyCharger extends AbstractEnergyCharger implements ChunkLi
         }
         super.newMenuInstance(menu, block);
         ItemStack icon=menu.getItemInSlot(PARTICLE_SLOT);
-        if(icon==null||(icon.getType()!=Material.RED_STAINED_GLASS_PANE)||icon.getType()!=Material.GREEN_STAINED_GLASS_PANE){
+        if(icon==null||(icon.getType()!=Material.RED_STAINED_GLASS_PANE&&icon.getType()!=Material.GREEN_STAINED_GLASS_PANE)){
             menu.replaceExistingItem(PARTICLE_SLOT,PARTICLE_OFF);
         }
         menu.addMenuClickHandler(PARTICLE_SLOT,((player, i, itemStack, clickAction) -> {

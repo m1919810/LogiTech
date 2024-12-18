@@ -47,6 +47,13 @@ public class Schedules {
         ScheduleSave.onFinalSave();
         Debug.logger("附属数据保存完成");
     }
+    public static void execute(Runnable task,boolean isSync){
+        if(Bukkit.isPrimaryThread()){
+            task.run();
+        }else {
+            Schedules.launchSchedules(task,0,isSync,0);
+        }
+    }
     public static void launchSchedules(BukkitRunnable thread ,int delay,boolean isSync){
         launchSchedules(thread,delay,isSync,-1);
     }

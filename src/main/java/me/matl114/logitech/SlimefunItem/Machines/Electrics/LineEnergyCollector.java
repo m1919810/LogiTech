@@ -99,11 +99,17 @@ public class LineEnergyCollector extends AbstractEnergyCollector implements Dire
             }
         }
     }
+
+    @Override
+    public boolean isBorder(int i) {
+        return super.isBorder(i)&&i!=PARTICLE_SLOT;
+    }
+
     public void newMenuInstance(BlockMenu menu, Block block){
         super.newMenuInstance(menu, block);
         menu.addMenuClickHandler(DIRECTION_SLOTS[0],getDirectionHandler(0,menu));
         ItemStack icon=menu.getItemInSlot(PARTICLE_SLOT);
-        if(icon==null||(icon.getType()!= Material.RED_STAINED_GLASS_PANE)||icon.getType()!=Material.GREEN_STAINED_GLASS_PANE){
+        if(icon==null||(icon.getType()!=Material.RED_STAINED_GLASS_PANE&&icon.getType()!=Material.GREEN_STAINED_GLASS_PANE)){
             menu.replaceExistingItem(PARTICLE_SLOT,PARTICLE_OFF);
         }
         menu.addMenuClickHandler(PARTICLE_SLOT,((player, i, itemStack, clickAction) -> {

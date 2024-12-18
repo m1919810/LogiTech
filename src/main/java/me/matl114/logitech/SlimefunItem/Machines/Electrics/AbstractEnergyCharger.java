@@ -62,11 +62,14 @@ public abstract class AbstractEnergyCharger extends AbstractEnergyMachine implem
                 "&7范围用电器数目: %d/%d(max)".formatted(machine,getMaxChargeAmount()),
                 "&7充电报错数目: %d".formatted(errors));
     }
+    public boolean isBorder(int i){
+        return i!=getLazySlot();
+    }
     public void constructMenu(BlockMenuPreset preset){
         int[] border=BORDER;
         int len=border.length;
         for (int i=0;i<len;++i){
-            if(border[i]!=getLazySlot()){
+            if(isBorder(border[i])){
                 preset.addItem(border[i], ChestMenuUtils.getBackground(),ChestMenuUtils.getEmptyClickHandler());
             }
         }
@@ -91,7 +94,8 @@ public abstract class AbstractEnergyCharger extends AbstractEnergyMachine implem
         }
     }
     public void newMenuInstance(BlockMenu menu, Block block){
-        if(menu.getItemInSlot(getLazySlot())==null){
+        ItemStack icon=menu.getItemInSlot(getLazySlot());
+        if(icon==null||icon.getType()!=Material.RED_STAINED_GLASS_PANE){
             menu.replaceExistingItem(getLazySlot(),LAZY_ITEM_ON);
         }
         menu.addMenuClickHandler(getLazySlot(),((player, i, itemStack, clickAction) -> {

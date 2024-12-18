@@ -411,10 +411,12 @@ public class AddItem {
             Language.get("Machines.VIRTUAL_EXPLORER.Name"),Language.getList("Machines.VIRTUAL_EXPLORER.Lore"));
     public static final SlimefunItemStack TIMER_BLOCKENTITY=AddUtils.themed("TIMER_BLOCKENTITY",Material.REDSTONE_TORCH,AddUtils.Theme.MACHINE1,
             Language.get("Machines.TIMER_BLOCKENTITY.Name"),Language.getList("Machines.TIMER_BLOCKENTITY.Lore"));
+    public static final SlimefunItemStack TIMER_RD=AddUtils.themed("TIMER_RD",Material.TORCH,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.TIMER_RD.Name"),Language.getList("Machines.TIMER_RD.Lore"));
     public static final SlimefunItemStack TIMER_SF=AddUtils.themed("TIMER_SF",Material.SOUL_TORCH,AddUtils.Theme.MACHINE1,
             Language.get("Machines.TIMER_SF.Name"),Language.getList("Machines.TIMER_SF.Lore"));
-    public static final SlimefunItemStack TIMER_SF_SEQ=AddUtils.themed("TIMER_SF_SEQ",Material.SOUL_TORCH,AddUtils.Theme.MACHINE1,
-            Language.get("Machines.TIMER_SF_SEQ.Name"),Language.getList("Machines.TIMER_SF_SEQ.Lore"));
+//    public static final SlimefunItemStack TIMER_SF_SEQ=AddUtils.themed("TIMER_SF_SEQ",Material.SOUL_TORCH,AddUtils.Theme.MACHINE1,
+//            Language.get("Machines.TIMER_SF_SEQ.Name"),Language.getList("Machines.TIMER_SF_SEQ.Lore"));
     //manuals
     public static final SlimefunItemStack MANUAL_CORE=AddUtils.themed("MANUAL_CORE",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Manuals.MANUAL_CORE.Name"),Language.getList("Manuals.MANUAL_CORE.Lore"));
