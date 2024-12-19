@@ -1,5 +1,6 @@
 package me.matl114.logitech.Utils.UtilClass.CommandClass;
 
+import com.google.common.base.Preconditions;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
@@ -753,7 +754,7 @@ public class CommandShell {
                 "setField <var1> <arg1> <var2> 将变量<var2>赋值给变量<var1>名称为<arg1>的成员 ",
         };
         public int cmd(String[] argv,CommandShell shell){
-            assert argv.length==3;
+            Preconditions.checkArgument( argv.length==3,"argument length should be 3");
             Object obj=getVariable(shell,argv[0]);
             if(obj==null){
                 return variableNotInit(shell,argv[0]);
@@ -788,7 +789,7 @@ public class CommandShell {
                 "const list <len> <var2> 将变量<var2>设置为创建的长度为<len>的数组"
         };
         public int cmd(String[] argv,CommandShell shell){
-            assert argv.length==3;
+            Preconditions.checkArgument( argv.length==3,"argument length should be 3");
             String val=argv[1];
             Object obj=getBaseWarpper(argv[0],val);
             setVariable(shell,argv[2],obj);

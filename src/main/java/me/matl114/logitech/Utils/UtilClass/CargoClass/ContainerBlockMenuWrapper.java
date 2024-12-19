@@ -44,7 +44,7 @@ public class ContainerBlockMenuWrapper extends BlockMenu implements Cloneable{
         try {
             return (ContainerBlockMenuWrapper) super.clone();
         } catch (CloneNotSupportedException e) {
-            throw new AssertionError("clone failed", e);
+            throw new RuntimeException("clone failed", e);
         }
     }
     @Override

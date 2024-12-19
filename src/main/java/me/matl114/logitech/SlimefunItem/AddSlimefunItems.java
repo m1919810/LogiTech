@@ -56,6 +56,7 @@ import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
+import me.matl114.matlib.Implements.Slimefun.core.CustomRecipeType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
@@ -169,7 +170,7 @@ public class AddSlimefunItems {
         }};
     }
     //items
-    public static final RecipeType STARSMELTERY=new RecipeType(
+    public static final CustomRecipeType STARSMELTERY=new CustomRecipeType(
             AddUtils.getNameKey("star_smeltery"),
             new CustomItemStack(AddItem.STAR_SMELTERY, AddItem.STAR_SMELTERY.getDisplayName(),
                     "", "&c在%s中锻造!".formatted(Language.get("Machines.STAR_SMELTERY.Name")))
@@ -964,8 +965,15 @@ public class AddSlimefunItems {
                     AddItem.STAR_GOLD_INGOT,AddItem.LMOTOR,"CARBONADO_EDGED_FURNACE","CARBONADO_EDGED_FURNACE",AddItem.LMOTOR,AddItem.STAR_GOLD_INGOT,
                     AddItem.STAR_GOLD_INGOT,AddItem.LMOTOR,"CARBONADO_EDGED_FURNACE","CARBONADO_EDGED_FURNACE",AddItem.LMOTOR,AddItem.STAR_GOLD_INGOT,
                     AddItem.STAR_GOLD_INGOT,setC(AddItem.LPLATE,1),"ELECTRIC_SMELTERY_2","ELECTRIC_SMELTERY_2",setC(AddItem.LPLATE,1),AddItem.STAR_GOLD_INGOT,
-                    AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.LFIELD), Material.STONE,18_000,180_000,
-           120,AddSlimefunItems.STARSMELTERY){
+                    AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.LFIELD), Material.STONE,18_000,180_000, (LinkedHashMap<Object, Integer>)null ){
+        int recipetime=120;
+        {
+            STARSMELTERY.relatedTo((input,out)->{
+                this.machineRecipes.add(MachineRecipeUtils.stackFrom(recipetime,input,new ItemStack[]{out}));
+            },(input,out)->{
+                this.machineRecipes.removeIf(recipe->recipe.getOutput().length>=1&&CraftUtils.matchItemStack(recipe.getOutput()[0],out,true));
+            });
+        }
         public int[] getSlotsAccessedByItemTransportPlus(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item){
             if(flow==ItemTransportFlow.WITHDRAW){
                 return this.getOutputSlots();

@@ -27,6 +27,7 @@ import me.matl114.logitech.Utils.UtilClass.ItemClass.ProbItemStack;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.MGeneratorRecipe;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractTransformer;
+import me.matl114.matlib.Implements.Slimefun.core.CustomRecipeType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.*;
@@ -851,6 +852,7 @@ public class RecipeSupporter {
                 BukkitUtils.sendRecipeToVanilla(item);
             }
         }
+        RECIPE_TYPES.addAll(CustomRecipeType.getCustomRecipeTypes());
         //先解析多方块机器的配方
         for(RecipeType recipeType :RECIPE_TYPES){
             if(!BLACKLIST_RECIPETYPES.contains(recipeType)) {//not in black list
@@ -873,10 +875,25 @@ public class RecipeSupporter {
                 }
             }
         }
+        for(RecipeType recipeType :RECIPE_TYPES){
+            if(!BLACKLIST_RECIPETYPES.contains(recipeType)) {//not in black list
+                if(recipeType instanceof CustomRecipeType crp){
+                    List<MachineRecipe> stackRecipes=new ArrayList<>();
+                    List<MachineRecipe> shapedRecipes=new ArrayList<>();
+                    crp.getRecipes().forEach((in,out)->{
+                        stackRecipes.add(MachineRecipeUtils.stackFrom(-1,in,new ItemStack[]{out}));
+                        shapedRecipes.add(MachineRecipeUtils.shapeFrom(-1,in,new ItemStack[]{out}));
+                    });
+                    PROVIDED_SHAPED_RECIPES.computeIfAbsent(recipeType,k->new ArrayList<>()).addAll(shapedRecipes);
+                    PROVIDED_UNSHAPED_RECIPES.computeIfAbsent(recipeType,k->new ArrayList<>()).addAll(stackRecipes);
+                }
+            }
+        }
         //非多方块的类型,基本上就是普通物品的配方注册，读取一遍
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()){
             RecipeType recipeType = item.getRecipeType();
-            if((!BLACKLIST_RECIPETYPES.contains(recipeType))&&(!MULTIBLOCK_RECIPETYPES.containsKey(recipeType))){
+            //customRecipeType, 和 Multiblock type都被处理过了
+            if((!BLACKLIST_RECIPETYPES.contains(recipeType))&&(!MULTIBLOCK_RECIPETYPES.containsKey(recipeType))&& !(recipeType instanceof CustomRecipeType)){
                 PROVIDED_SHAPED_RECIPES.get(recipeType).add(MachineRecipeUtils.shapeFromRecipe(item));
                 PROVIDED_UNSHAPED_RECIPES.get(recipeType).add(MachineRecipeUtils.stackFromRecipe(item)) ;
             }

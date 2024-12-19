@@ -23,6 +23,7 @@ import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.CommandClass.LogitechMain;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.matl114.matlib.Utils.Command.CommandGroup.AbstractMainCommand;
+import me.matl114.matlib.core.AddonInitialization;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -51,6 +52,7 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
     public static String repo;
     public static String branch;
     private static AbstractMainCommand command;
+    private static AddonInitialization matlibInstance;
     @Getter
     public static SupportedPluginManager supportedPluginManager;
     static{
@@ -61,7 +63,7 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
     @Override
     public void onEnable() {
         instance =this;
-
+        matlibInstance=new AddonInitialization(this,"LOGITECH").displayName("逻辑工艺").onEnable();
         manager=getServer().getPluginManager();
 
         checkVersion();
@@ -176,6 +178,7 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
     }
     @Override
     public void onDisable() {
+        matlibInstance.onDisable();
         // 禁用插件的逻辑...
         Schedules.onDisableSchedules(this);
         Bukkit.getScheduler().cancelTasks(this);

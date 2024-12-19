@@ -1,6 +1,7 @@
 package me.matl114.logitech.Schedule;
 
 
+import com.google.common.base.Preconditions;
 import lombok.Getter;
 import me.matl114.logitech.Utils.Debug;
 import org.bukkit.Bukkit;
@@ -102,7 +103,7 @@ public class Schedules {
     }
     //this method should be called async
     public static void asyncWaithRepeatingSchedule(Consumer<Integer> thread , int delay, boolean isSync, int period,int repeatTime){
-        assert !Bukkit.isPrimaryThread();
+        Preconditions.checkArgument( !Bukkit.isPrimaryThread(),"This method should be called in async thread");
         CountDownLatch countDownLatch = new CountDownLatch(1);
         launchSchedules(new BukkitRunnable() {
             int runTime=0;

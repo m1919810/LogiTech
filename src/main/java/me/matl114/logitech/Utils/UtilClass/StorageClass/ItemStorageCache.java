@@ -1,5 +1,6 @@
 package me.matl114.logitech.Utils.UtilClass.StorageClass;
 
+import com.google.common.base.Preconditions;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.Schedule.ScheduleSave;
@@ -179,7 +180,7 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
      */
     protected ItemStorageCache(ItemStack item, ItemStack source, ItemMeta sourceMeta, int saveslot,StorageType type) {
         super(item,saveslot);
-        assert source!=null;
+        Preconditions.checkArgument( source!=null,"Item Storage cache source should not be null!");
         this.source = source;
         this.sourceMeta = sourceMeta;
         this.storageType=type;

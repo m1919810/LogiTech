@@ -1,5 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Machines.AutoMachines;
 
+import com.google.common.base.Preconditions;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -148,17 +149,17 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
 
             }
             menu.addMenuClickHandler(CTIME_SLOT,((player, i, itemStack, clickAction) -> {
-                AddUtils.sendMessage(player,"&6[&7自动无尽工作台&6]&a 请输入自定义的进度时长(单位:sf tick)&e(必须>%s)".formatted(String.valueOf(publicTime)));
+                AddUtils.sendMessage(player,"&6[&7自动无尽工作台&6]&a 请输入自定义的进度时长(单位:sf tick)&e(必须>=%s)".formatted(String.valueOf(publicTime)));
                 player.closeInventory();
                 AddUtils.asyncWaitPlayerInput(player,(str)->{
                     try{
                         int a=Integer.parseInt(str);
-                        assert a>=this.publicTime;
+                        Preconditions.checkArgument(a>=this.publicTime);
                         DataCache.setCustomData(menu.getLocation(),KEY_CTIME,a);
                         menu.replaceExistingItem(CTIME_SLOT,AddUtils.addLore(CTIME_ITEM,"&c当前的自定义进度时长为: &f%s".formatted(String.valueOf(a))));
                         AddUtils.sendMessage(player,"&6[&7自动无尽工作台&6]&a 成功设置!");
                     }catch (Throwable e){
-                        AddUtils.sendMessage(player,"&6[&7自动无尽工作台&6]&c 这不是有效的进度时常&e(必须>%s)");
+                        AddUtils.sendMessage(player,"&6[&7自动无尽工作台&6]&c 这不是有效的进度时常&e(必须>=%s)".formatted(String.valueOf(this.publicTime)));
                     }
                 });
                 return false;
@@ -253,6 +254,10 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
                     int ticks=next.getTicks();
                     if(next.getTicks()<0){
                         ticks=DataCache.getCustomData(data,KEY_CTIME, this.publicTime) ;
+                        if(ticks<this.publicTime){
+                            ticks=this.publicTime;
+                            DataCache.setCustomData(data,KEY_CTIME,this.publicTime);
+                        }
                     }
                 if(ticks>0){
 

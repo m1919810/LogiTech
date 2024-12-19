@@ -3,6 +3,7 @@ package me.matl114.logitech.Listeners.Listeners;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.SmithWorkShop.SmithInterfaceProcessor;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.SmithWorkShop.SmithingInterface;
 import me.matl114.logitech.Utils.*;
@@ -25,6 +26,7 @@ import org.bukkit.inventory.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.*;
 
 public class SmithInterfaceListener implements Listener {
@@ -37,8 +39,8 @@ public class SmithInterfaceListener implements Listener {
  //   private final HashMap<AnvilInventory,Location> openingAnvilTable= new HashMap<>();
 
     private final ItemStack INTERFACED_NO_RECIPE=new CustomItemStack(Material.BARRIER,"&a点击进行合成","&7该工作方块已成功接入锻铸合成端口","&c暂无匹配的配方!");
-    private final ItemStack INTERFACED_CRAFTABLE=new CustomItemStack(Material.CRAFTING_TABLE,"&a点击进行合成","&7该工作方块已成功接入锻铸合成端口","&7点击后将于接口中输出合成结果");
-    private final ItemStack INTERFACED_ANVIL=new CustomItemStack(Material.ANVIL,"&a点击进行锻造","&7该工作方块已成功接入锻铸合成端口","&7点击后将于接口中输出合成结果");
+    private final ItemStack INTERFACED_CRAFTABLE=new CustomItemStack(Material.CRAFTING_TABLE,"&a点击进行合成","&7该工作方块已成功接入锻铸合成端口","&a成功寻找到可行的合成配方","&7点击后将于接口中输出合成结果");
+    private final ItemStack INTERFACED_ANVIL=new CustomItemStack(Material.ANVIL,"&a点击进行锻造","&7该工作方块已成功接入锻铸合成端口","&a成功寻找到可行的锻造操作","&7点击后将于接口中输出锻造结果");
     public boolean isSupportType(Inventory inventory) {
         return inventory instanceof CraftingInventory||inventory instanceof AnvilInventory; /*can add more types*/
     }
@@ -118,12 +120,23 @@ public class SmithInterfaceListener implements Listener {
     }
     @EventHandler(priority = EventPriority.MONITOR,ignoreCancelled = false)
     public void onAnvilLogicStop(PrepareAnvilEvent e) {
+        //Debug.logger("on Anvil Perpare");
+        //boolean failed=e.getResult()==null||e.getResult().getType().isAir();
         if(openingCraftInventory.containsKey(e.getInventory())) {;
-            if(onAnvilPrepare(e.getInventory())){
+            AnvilInventory inv=e.getInventory();
+            if(onAnvilPrepare(inv)){
                 e.setResult(INTERFACED_ANVIL);
             }else {
                 e.setResult(INTERFACED_NO_RECIPE);
             }
+            //if(failed){
+                //尝试同步inventory
+                //当铁砧合成在内部被判定为不能的时候,不会向客户端发送inv变动，需要我们手动发送
+            List<HumanEntity> viewers=inv.getViewers();
+            Schedules.launchSchedules(()->{
+                viewers.forEach(p->{if(p instanceof Player player){ player.updateInventory();}});
+            },0,true,0);
+            //}
         }
     }
 
@@ -218,13 +231,10 @@ public class SmithInterfaceListener implements Listener {
     public boolean onAnvilPrepare(AnvilInventory inventory) {
         var result= ANVIL_PROCESSOR.apply(inventory);
         if(inventory.getSize()>=3){
-            if(result!=null) {
-                inventory.setItem(2,INTERFACED_ANVIL);
-                return true;
-            }else {
-                inventory.setItem(2,INTERFACED_NO_RECIPE);
-                return false;
-            }
+            boolean re=result!=null;
+            ItemStack set=re?INTERFACED_ANVIL:INTERFACED_NO_RECIPE;
+            inventory.setItem(2,set);
+            return re;
         }
         return false;
     }

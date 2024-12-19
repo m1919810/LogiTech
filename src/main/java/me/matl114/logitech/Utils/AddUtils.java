@@ -73,6 +73,7 @@ public class AddUtils {
         return "&3"+ADDON_NAME+" " + str;
     }
     public static final String[] COLOR_MAP=new String[]{"&0","&1","&2","&3","&4","&5","&6","&7","&8","&9","&a","&b","&c","&d","&e","&f"};
+    public static final String C="§";
     protected final HashMap<String, Color> STR2COLOR=new HashMap<>(){{
         //put("",Color.AQUA)
     }};
@@ -700,7 +701,7 @@ public class AddUtils {
 
                     isEqPro=(last_value==s.getValue());
                 }
-                assert s.getValue()>0;
+                Preconditions.checkArgument( s.getValue()>0,"Weight of choice in Random ItemStack should not be lesser than 0");
                 last_value=s.getValue();
             }
             if(isEqPro){
