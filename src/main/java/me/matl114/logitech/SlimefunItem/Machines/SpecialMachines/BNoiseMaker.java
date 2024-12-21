@@ -45,29 +45,10 @@ public class BNoiseMaker extends AbstractMachine {
 
     public BNoiseMaker(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe, 2500, 100);
-        SchedulePostRegister.addPostRegisterTask(
-                ()-> Schedules.launchSchedules(
-                        mnThread, 100,false, Slimefun.getTickerTask().getTickRate()
-                )
-        );
+
     }
 
-    private static final BukkitRunnable mnThread = new BukkitRunnable() {
-        @Override
-        public void run() {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                ItemStack itemStack = player.getInventory().getHelmet();
-                if (SlimefunItem.getByItem(itemStack) instanceof BNoiseHead) {
-                    Sound sound = BNoiseHead.getSound(itemStack);
-                    if (sound == null) {
-                        continue;
-                    }
 
-                    player.playSound(player.getLocation(), sound, 1, 1);
-                }
-            }
-        }
-    };
 
     @Override
     public void constructMenu(BlockMenuPreset preset) {
@@ -78,7 +59,7 @@ public class BNoiseMaker extends AbstractMachine {
 
     @Override
     public void newMenuInstance(@Nonnull BlockMenu blockMenu, @Nonnull Block block) {
-        blockMenu.addItem(MAKE_NOISY_HEAD, new CustomItemStack(Material.CREEPER_HEAD, "点击制造B动静头盔"), (p, s, i, t) -> {
+        blockMenu.addItem(MAKE_NOISY_HEAD, new CustomItemStack(Material.CREEPER_HEAD, "&e点击制造B动静头盔"), (p, s, i, t) -> {
             Sound sound = makeNoise(p.getLocation());
             if (sound == null) {
                 return false;
@@ -113,11 +94,14 @@ public class BNoiseMaker extends AbstractMachine {
                 return null;
             }
             Sound sound = SOUNDS[soundIndex];
-            for (Entity entity : world.getNearbyEntities(location, 16, 16, 16)) {
-                if (entity instanceof Player player) {
-                    player.playSound(location, sound, 1, 1);
+            Schedules.execute(()->{
+                for (Entity entity : world.getNearbyEntities(location, 16, 16, 16)) {
+                    if (entity instanceof Player player) {
+                        player.playSound(location, sound, 1, 1);
+                    }
                 }
-            }
+            },true);
+
             return sound;
         } catch (Throwable e) {
             return null;
