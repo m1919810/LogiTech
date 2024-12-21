@@ -45,29 +45,7 @@ public class BNoiseMaker extends AbstractMachine {
 
     public BNoiseMaker(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe, 2500, 100);
-        SchedulePostRegister.addPostRegisterTask(
-                ()-> Schedules.launchSchedules(
-                        mnThread, 100,false, Slimefun.getTickerTask().getTickRate()
-                )
-        );
     }
-
-    private static final BukkitRunnable mnThread = new BukkitRunnable() {
-        @Override
-        public void run() {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                ItemStack itemStack = player.getInventory().getHelmet();
-                if (SlimefunItem.getByItem(itemStack) instanceof BNoiseHead) {
-                    Sound sound = BNoiseHead.getSound(itemStack);
-                    if (sound == null) {
-                        continue;
-                    }
-
-                    player.playSound(player.getLocation(), sound, 1, 1);
-                }
-            }
-        }
-    };
 
     @Override
     public void constructMenu(BlockMenuPreset preset) {
