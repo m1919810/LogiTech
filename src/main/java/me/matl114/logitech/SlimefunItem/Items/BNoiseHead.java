@@ -6,9 +6,10 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
-import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.Schedule.Schedules;
+import me.matl114.logitech.SlimefunItem.DistinctiveCustomItemStack;
+import me.matl114.logitech.Utils.AddUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
@@ -22,8 +23,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BNoiseHead extends MaterialItem {
+public class BNoiseHead extends DistinctiveCustomItemStack {
     public static boolean can_access = true;
+
     public BNoiseHead(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
         SchedulePostRegister.addPostRegisterTask(
@@ -54,11 +56,8 @@ public class BNoiseHead extends MaterialItem {
     public ItemStack of(Sound sound) {
         ItemStack itemStack = getItem().clone();
         ItemMeta itemMeta = itemStack.getItemMeta();
-        if (itemMeta == null) {
-            return null;
-        }
 
-        PersistentDataAPI.setString(itemMeta, new NamespacedKey(MyAddon.getInstance(), "sound"), sound.name());
+        PersistentDataAPI.setString(itemMeta, KEY_BNOUSE, sound.name());
 
         List<String> lore = itemMeta.getLore();
         if (lore == null) {
@@ -81,6 +80,7 @@ public class BNoiseHead extends MaterialItem {
         return itemStack;
     }
 
+    private static NamespacedKey KEY_BNOUSE= AddUtils.getNameKey("sound");
     public static Sound getSound(ItemStack itemStack) {
         if (itemStack == null) {
             return null;
@@ -89,7 +89,7 @@ public class BNoiseHead extends MaterialItem {
         if (itemMeta == null) {
             return null;
         }
-        String soundName = PersistentDataAPI.getString(itemMeta, new NamespacedKey(MyAddon.getInstance(), "sound"));
+        String soundName = PersistentDataAPI.getString(itemMeta, KEY_BNOUSE);
         if (soundName == null) {
             return null;
         }

@@ -599,6 +599,7 @@ zh_CN:
       Name: "B动静头盔"
       Lore:
         - "带上头盔以制造B动静"
+        - "大香蕉特供道具"
   Machines:
     LOGIC_REACTOR:
       Name: '逻辑反应堆'
@@ -1106,9 +1107,10 @@ zh_CN:
     ENDDUPE_MG:
       Name: '末地门特性复制机'
     BNOISE_MAKER:
-      Name: "B动静制造机"
+      Name: "B动静生成器"
       Lore:
-        - "大香蕉特供"
+        - '制造B动静'
+        - "配音指导: 大香蕉"
     STACKMGENERATOR:
       Name: '堆叠生成器'
       Lore:

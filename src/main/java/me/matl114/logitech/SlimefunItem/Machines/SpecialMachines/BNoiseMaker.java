@@ -56,7 +56,7 @@ public class BNoiseMaker extends AbstractMachine {
 
     @Override
     public void newMenuInstance(@Nonnull BlockMenu blockMenu, @Nonnull Block block) {
-        blockMenu.addItem(MAKE_NOISY_HEAD, new CustomItemStack(Material.CREEPER_HEAD, "点击制造B动静头盔"), (p, s, i, t) -> {
+        blockMenu.addItem(MAKE_NOISY_HEAD, new CustomItemStack(Material.CREEPER_HEAD, "&e点击制造B动静头盔"), (p, s, i, t) -> {
             Sound sound = makeNoise(p.getLocation());
             if (sound == null) {
                 return false;
@@ -91,11 +91,14 @@ public class BNoiseMaker extends AbstractMachine {
                 return null;
             }
             Sound sound = SOUNDS[soundIndex];
-            for (Entity entity : world.getNearbyEntities(location, 16, 16, 16)) {
-                if (entity instanceof Player player) {
-                    player.playSound(location, sound, 1, 1);
+            Schedules.execute(()->{
+                for (Entity entity : world.getNearbyEntities(location, 16, 16, 16)) {
+                    if (entity instanceof Player player) {
+                        player.playSound(location, sound, 1, 1);
+                    }
                 }
-            }
+            },true);
+
             return sound;
         } catch (Throwable e) {
             return null;
