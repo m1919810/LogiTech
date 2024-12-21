@@ -45,10 +45,7 @@ public class BNoiseMaker extends AbstractMachine {
 
     public BNoiseMaker(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe, 2500, 100);
-
     }
-
-
 
     @Override
     public void constructMenu(BlockMenuPreset preset) {

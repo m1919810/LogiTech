@@ -6,12 +6,10 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
-import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.DistinctiveCustomItemStack;
 import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.UtilClass.CommandClass.LogitechMain;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
@@ -26,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BNoiseHead extends DistinctiveCustomItemStack {
+    public static boolean can_access = true;
 
     public BNoiseHead(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
@@ -36,19 +35,6 @@ public class BNoiseHead extends DistinctiveCustomItemStack {
         );
     }
 
-    public ItemStack of(Sound sound) {
-        ItemStack itemStack = getItem().clone();
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        PersistentDataAPI.setString(itemMeta, KEY_BNOUSE, sound.name());
-        List<String> lore = itemMeta.getLore();
-        if (lore == null) {
-            lore = new ArrayList<>();
-        }
-        lore.add(ChatColor.AQUA + "声音来源: " + sound.name());
-        itemMeta.setLore(lore);
-        itemStack.setItemMeta(itemMeta);
-        return itemStack;
-    }
     private static final BukkitRunnable mnThread = new BukkitRunnable() {
         @Override
         public void run() {
@@ -65,6 +51,35 @@ public class BNoiseHead extends DistinctiveCustomItemStack {
             }
         }
     };
+
+
+    public ItemStack of(Sound sound) {
+        ItemStack itemStack = getItem().clone();
+        ItemMeta itemMeta = itemStack.getItemMeta();
+
+        PersistentDataAPI.setString(itemMeta, KEY_BNOUSE, sound.name());
+
+        List<String> lore = itemMeta.getLore();
+        if (lore == null) {
+            lore = new ArrayList<>();
+        }
+        lore.add(ChatColor.AQUA + "声音来源: " + sound.name());
+        itemMeta.setLore(lore);
+
+        if (can_access) {
+            if (itemMeta instanceof SkullMeta skullMeta) {
+                try {
+                    skullMeta.setNoteBlockSound(sound.getKey());
+                } catch (Throwable ignored) {
+                    can_access = false;
+                }
+            }
+        }
+
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
     private static NamespacedKey KEY_BNOUSE= AddUtils.getNameKey("sound");
     public static Sound getSound(ItemStack itemStack) {
         if (itemStack == null) {
