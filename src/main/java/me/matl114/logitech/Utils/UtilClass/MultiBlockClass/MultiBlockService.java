@@ -21,7 +21,9 @@ import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -58,7 +60,7 @@ public class MultiBlockService {
     //move data key-value to cached status map
     private static final ConcurrentHashMap<Location, AtomicInteger> MB_STATUS_MAP=new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<Location, AtomicReference<String>> MB_UUID_MAP=new ConcurrentHashMap<>();
-    public static final HashMap<String,AbstractMultiBlockHandler> MULTIBLOCK_CACHE = new LinkedHashMap<>();
+    public static final ConcurrentHashMap<String,AbstractMultiBlockHandler> MULTIBLOCK_CACHE = new ConcurrentHashMap<>();
     public static final HashMap<Location, DisplayGroup> HOLOGRAM_CACHE=new HashMap<>();
     public static final Random rand=new Random();
     public static final int MAX_MB_NUMBER=1_000_000;
@@ -246,13 +248,22 @@ public class MultiBlockService {
         return null;
     }
 
-    public static String getRandomId(){
+    private static String getRandomId(){
         String nextValue;
         do{
             nextValue=String.valueOf(rand.nextInt(MAX_MB_NUMBER));
         }while (MULTIBLOCK_CACHE.containsKey(nextValue));
         return nextValue;
     }
+//    private static boolean tryAddHandlerInternal(Location loc,AbstractMultiBlockHandler handler){
+//        if(handler==null){
+//            return false;
+//        }else {
+//            String uid=getRandomId();
+//
+//        }
+//    }
+
     public static boolean createNewHandler(Location loc, MultiBlockBuilder builder, AbstractMultiBlockType type){
         return createNewHandler(loc,builder,type,OutputStream.getNullStream());
     }
@@ -266,6 +277,7 @@ public class MultiBlockService {
                 AbstractMultiBlockHandler handler=builder.build(loc,block,uid);
                 if(handler!=null){
                     MULTIBLOCK_CACHE.put(uid,handler);
+                    setStatus(loc,1);
                     return true;
                 }else{
                     //builder refused
@@ -353,20 +365,24 @@ public class MultiBlockService {
             AbstractMultiBlockHandler handler=MULTIBLOCK_CACHE.get(uid);
             if(handler==null){
                 //找不到handler 但是code非0 说明是意外中断，尝试重建handler
-                AbstractMultiBlock block=type.genMultiBlockFrom(loc,Direction.getDirection(loc),true,OutputStream.getNullStream());
-                if(block!=null){
-                    String newuid=getRandomId();
-                    while(MULTIBLOCK_CACHE.containsKey(newuid)){
-                        newuid=getRandomId();
+                setStatus(loc,-20);
+                //尝试异步构建\
+                MultiBlockCore.runAsyncOrReturnBlocked(loc,()->{
+                    AbstractMultiBlock block=type.genMultiBlockFrom(loc,Direction.getDirection(loc),true,OutputStream.getNullStream());
+                    if(block!=null){
+                        String newuid=getRandomId();
+                        AbstractMultiBlockHandler handler2=reconnect.build(loc,block,newuid);
+                        if(handler2!=null){
+                            MULTIBLOCK_CACHE.put(newuid,handler2);
+                            setStatus(loc,1);
+                        }
                     }
-                    AbstractMultiBlockHandler handler2=reconnect.build(loc,block,newuid);
-                    MULTIBLOCK_CACHE.put(newuid,handler2);
-                    return true;
-                }else{
-                    //不进行倒计时,
-                    setStatus(loc,-20);
-                    return false;
-                }
+//                    else{
+//                        //不进行倒计时,
+//                        setStatus(loc,-20);
+//                    }
+                });
+                return false;
             }else {
                 if( handler.acceptCoreRequest()){
                     return true;
