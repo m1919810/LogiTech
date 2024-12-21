@@ -495,6 +495,10 @@ public class AddItem {
             Language.get("Generators.DUPE_MG.Name"),Language.getList("Generators.DUPE_MG.Lore"));
     public static final SlimefunItemStack ENDDUPE_MG=AddUtils.themed("ENDDUPE_MG",Material.END_PORTAL_FRAME,AddUtils.Theme.MACHINE2,
             Language.get("Generators.ENDDUPE_MG.Name"),Language.getList("Generators.ENDDUPE_MG.Lore"));
+    public static final SlimefunItemStack BNOISE_MAKER = AddUtils.themed("BNOISE_MAKER", Material.JUKEBOX, AddUtils.Theme.MACHINE2,
+            Language.get("Generators.BNOISE_MAKER.Name"), Language.getList("Generators.BNOISE_MAKER.Lore"));
+    public static final SlimefunItemStack BNOISE_HEAD = AddUtils.themed("BNOISE_HEAD", CustomHead.BNOISE_HEAD.getItem(), AddUtils.Theme.ITEM1,
+            Language.get("Items.BNOISE_HEAD.Name"), Language.getList("Items.BNOISE_HEAD.Lore"));
     public static final SlimefunItemStack STACKMGENERATOR=AddUtils.themed("STACKMGENERATOR",Material.SMOOTH_STONE,AddUtils.Theme.MACHINE2,
             Language.get("Generators.STACKMGENERATOR.Name"),Language.getList("Generators.STACKMGENERATOR.Lore"));
     public static final SlimefunItemStack REVERSE_GENERATOR=AddUtils.themed("REVERSE_GENERATOR",CustomHead.REVERSE.getItem(), AddUtils.Theme.MACHINE2,
