@@ -1581,6 +1581,15 @@ public class AddSlimefunItems {
 
             }})
             .register();
+    public static final SlimefunItem BNOISE_MAKER = new BNoiseMaker(AddGroups.VANILLA, AddItem.BNOISE_MAKER, RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(
+                    "NOTE_BLOCK", "LOGITECH_BUG", "LOGITECH_BUG",
+                    "LOGITECH_BUG", "LOGITECH_BUG", "NOTE_BLOCK",
+                    "LOGITECH_BUG", "NOTE_BLOCK", "LOGITECH_BUG"
+            )).register();
+    public static final SlimefunItem BNOISE_HEAD = new BNoiseHead(AddGroups.VANILLA, AddItem.BNOISE_HEAD, RecipeType.NULL,
+            nullRecipe().clone()
+            ).register();
     public static final SlimefunItem REVERSE_GENERATOR = new MMGenerator(AddGroups.GENERATORS, AddItem.REVERSE_GENERATOR, COMMON_TYPE,
             recipe(null,AddItem.SPACE_PLATE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.SPACE_PLATE,null,
                     null,AddItem.SPACE_PLATE,AddItem.LOGIC_REACTOR,AddItem.LOGIC_REACTOR,AddItem.SPACE_PLATE,null,
