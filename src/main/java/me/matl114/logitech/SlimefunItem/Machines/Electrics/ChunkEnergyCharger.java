@@ -96,8 +96,8 @@ public class ChunkEnergyCharger extends AbstractEnergyCharger implements ChunkLi
             menu.replaceExistingItem(PARTICLE_SLOT,PARTICLE_OFF);
         }
         menu.addMenuClickHandler(PARTICLE_SLOT,((player, i, itemStack, clickAction) -> {
-            boolean t=getStatus(menu)[1];
-            toggleStatus(menu,!t);
+            boolean[] t=getStatus(menu);
+            toggleStatus(menu,t[0],!t[1]);
             return false;
         }));
     }

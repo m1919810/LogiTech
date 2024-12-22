@@ -88,6 +88,10 @@ public interface MultiBlockCore extends MultiBlockPart, Ticking , MenuBlock {
         }
         return false;
     }
+    /**
+     * only called when in tickers to build multiblock from an offline MultiCore.if success,send to cache and set Active ,
+     * machine will start run at next tick
+     */
     default void autoBuild(Location loc, SlimefunBlockData data, int autoCode){
         if(autoCode<=0)return;
         if(autoCode==3){//3tick重连一次

@@ -158,7 +158,7 @@ public class VirtualExplorer extends AbstractMachine implements MachineProcessHo
     }
     public void updateMenu(BlockMenu menu, Block block, Settings mod){}
     protected int isFood(ItemStack item){
-        if(item==null||!item.isSimilar(new ItemStack(item.getType()))){
+        if(item==null||SlimefunItem.getByItem(item)!=null){
             return 0;
         }else {
             Material material=item.getType();
@@ -195,16 +195,16 @@ public class VirtualExplorer extends AbstractMachine implements MachineProcessHo
         ItemStack flyItem=inv.getItemInSlot(INPUT_SLOTS[0]);
         CustomMachineOperation rocketOperation=(TimeCounterOperation)this.rockectProcessor.getOperation(inv.getLocation());
         boolean willChangeOffRocket=rocketOperation!=null;
+
         try{
+            foodOperation.progress(FOOD_SPEED);
             if(flyItem==null){
                 //walk
-                foodOperation.progress(FOOD_SPEED);
                 return BASE_SPEED_WALK;
             }else if(flyItem.getType()==Material.ELYTRA){
                 inv.replaceExistingItem(INPUT_SLOTS[0],useElytra(inv.getItemInSlot(INPUT_SLOTS[0])));
                 if(rocketOperation!=null){
                     rocketOperation.progress(1);
-                    foodOperation.progress(FOOD_SPEED);
                     willChangeOffRocket=false;
                     if(rocketOperation.isFinished()){
                         this.rockectProcessor.endOperation(inv.getLocation());
@@ -215,7 +215,6 @@ public class VirtualExplorer extends AbstractMachine implements MachineProcessHo
                 if(flyDrive!=null){
                     if(flyDrive.getType()==Material.FIREWORK_ROCKET){
                         //only null operation will come to here ,so new Operation is needed
-                        foodOperation.progress(FOOD_SPEED);
                         rocketOperation=new TimeCounterOperation(ROCKET_TOTAL_TIME);
                         flyDrive.setAmount(flyDrive.getAmount()-1);
                         this.rockectProcessor.startOperation(inv.getLocation(),rocketOperation);
@@ -224,25 +223,21 @@ public class VirtualExplorer extends AbstractMachine implements MachineProcessHo
                     }else {
                         SlimefunItem item=SlimefunItem.getByItem(flyDrive);
                         if(item instanceof WindStaff ws){
-                            foodOperation.progress(FOOD_SPEED*FOOD_MUL_WIND);
+                            foodOperation.progress(FOOD_SPEED*(FOOD_MUL_WIND-1));
                             return BASE_SPEED_ELYTRA*MUL_WIND;
                         }else if(item instanceof MultiTool mt){
                             ItemStack flyDriveNew=inv.getItemInSlot(INPUT_SLOTS[1]);
                             if(mt.removeItemCharge(flyDriveNew,0.1F)){
                                 inv.replaceExistingItem(INPUT_SLOTS[1],flyDriveNew);
-                                foodOperation.progress(FOOD_SPEED);
                                 return BASE_SPEED_ELYTRA*MUL_TOOL;
                             }
                         }
                     }
                 }
-                foodOperation.progress(FOOD_SPEED);
                 return BASE_SPEED_ELYTRA;
             }else if("INFINITY_MATRIX".equals( CraftUtils.parseSfId(flyItem))){
-                foodOperation.progress(FOOD_SPEED);
                 return BASE_SPEED_FLYMACHINE;
             }else {
-                foodOperation.progress(FOOD_SPEED);
                 return BASE_SPEED_WALK;
             }
         }finally {

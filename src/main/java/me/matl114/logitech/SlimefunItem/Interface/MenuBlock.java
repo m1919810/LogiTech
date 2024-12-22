@@ -22,6 +22,7 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.function.Consumer;
@@ -35,7 +36,7 @@ public interface MenuBlock extends InventoryBlock {
      * @param e
      * @param menu
      */
-    default void onBreak(BlockBreakEvent e, BlockMenu menu) {
+    default void onBreak(BlockBreakEvent e,@Nullable BlockMenu menu) {
         if(menu!=null){
             Location l = menu.getLocation();
             menu.dropItems(l, this.getInputSlots());

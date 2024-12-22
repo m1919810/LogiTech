@@ -48,6 +48,7 @@ public class StorageSpace {
             try{
                 WorldCreator worldCreator = new WorldCreator(WORLD_NAME);
                 worldCreator.generator(new StorageWorldGen());
+                worldCreator.generateStructures(false);
                 STORAGE_WORLD = worldCreator.createWorld();
                 STORAGE_WORLD.setGameRule(GameRule.DO_MOB_SPAWNING,false);
                 STORAGE_WORLD.setGameRule(GameRule.MOB_GRIEFING,false);

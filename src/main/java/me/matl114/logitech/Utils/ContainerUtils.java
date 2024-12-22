@@ -3,6 +3,7 @@ package me.matl114.logitech.Utils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import lombok.Getter;
+import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.ContainerBlockMenuWrapper;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -109,33 +110,28 @@ public class ContainerUtils {
         }
         SlimefunItem sfitem=DataCache.getSfItem(from);
         if(sfitem==null||((!(sfitem instanceof CustomSlimefunItem) ))) {
-            Material toMaterial=to.getBlock().getType();
-            if(fromInv!=null&&toInv==null){
-                if(WorldUtils.isEntityBlock(toMaterial)){
+            //将getType放到异步处理,减少开销
+            Schedules.execute(()->{
+                if(fromInv!=null){
                     ContainerUtils.getBlockContainerMenuWrapperWithCallback((blockMenus -> {
                         if(blockMenus[0]!=null)
                             TransportUtils.transportItem(fromInv,blockMenus[0],configCode,smart,bwlist,CraftUtils.getpusher);
                     }),true, to);
-                }
-            }else if(fromInv==null){
-                Material fromMaterial=from.getBlock().getType();
-                if(WorldUtils.isEntityBlock(fromMaterial)){
+                }else {
                     if(toInv!=null){
                         ContainerUtils.getBlockContainerMenuWrapperWithCallback((blockMenus -> {
                             if(blockMenus[0]!=null)
                                 TransportUtils.transportItem(blockMenus[0],toInv,configCode,smart,bwlist,CraftUtils.getpusher);
                         }),true, from);
                     }else {
-                        if(WorldUtils.isEntityBlock(toMaterial)){
                             ContainerUtils.getBlockContainerMenuWrapperWithCallback((blockMenus -> {
                                 if(blockMenus[0]!=null&&blockMenus[1]!=null){
                                     TransportUtils.transportItem(blockMenus[0],blockMenus[1],configCode,smart,bwlist,CraftUtils.getpusher);
                                 }
                             }),true, from,to);
-                        }
                     }
                 }
-            }
+            },true);
         }
     }
     public static BlockMenu getPlayerBackPackWrapper(Player p){

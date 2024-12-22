@@ -28,6 +28,8 @@ import org.bukkit.util.Vector;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class AbstractPipe extends AbstractMachine implements DirectionalBlock {
     protected final int[] INPUT_SLOTS=new int[0];
@@ -116,7 +118,7 @@ public abstract class AbstractPipe extends AbstractMachine implements Directiona
         );
     }
     protected final HashMap<Location, Counter<Location>> PIP_DIRECTION=new HashMap<>();
-    protected final HashMap<Location,Location> POINTING_RECORD=new HashMap<>();
+    protected final ConcurrentHashMap<Location,Location> POINTING_RECORD=new ConcurrentHashMap<>();
     protected final boolean avalEnd(Location loc){
         return DataCache.getSfItem(loc)!=this&&avalibleDestination(loc);
     }
@@ -125,24 +127,28 @@ public abstract class AbstractPipe extends AbstractMachine implements Directiona
         Location loc=b.getLocation();
         Counter<Location> counter=PIP_DIRECTION.computeIfAbsent(loc,(s)->{return new Counter<Location>(0,null);});
         Directions dir= getDirection(0,data);
-        Location toLocation=POINTING_RECORD.computeIfAbsent(loc,dir::relate);
+        final Location toLocation=POINTING_RECORD.computeIfAbsent(loc,dir::relate);
         if(avalEnd(toLocation)){
             counter.setCounter(ticker);
             counter.setValue(toLocation);
-            bfssearchPipNet(loc,toLocation,ticker);
+            CompletableFuture.runAsync(()->{
+                bfssearchPipNet(loc,toLocation,ticker);
+            });
         }
-        if((toLocation=(counter.read(ticker)))!=null){
+        Location transferedTo;
+        //因为异步处理,将置信度设置为延迟2个timestamp
+        //一般地 这是恒定不变的
+        if((transferedTo=(counter.read(ticker,2)))!=null){
             Location fromLocation= dir.remote(loc,-1);
-            if(!fromLocation.equals(toLocation)){
-                transfer(fromLocation,toLocation);
+            if(!fromLocation.equals(transferedTo)){
+                transfer(fromLocation,transferedTo);
             }
         }
     }
     public abstract boolean avalibleDestination(Location toLocation);
     public abstract void transfer(Location from, Location to);
     public void bfssearchPipNet(Location originLocation,Location value,int timeStamp){
-        Set<Location> registeredLocations=PIP_DIRECTION.keySet();
-
+        //Set<Location> registeredLocations=PIP_DIRECTION.keySet();
         Deque<Location> SEARCH_QUEUE=new ArrayDeque<>();
         SEARCH_QUEUE.addLast(originLocation);
         POINTING_RECORD.put(originLocation,value);
@@ -152,15 +158,16 @@ public abstract class AbstractPipe extends AbstractMachine implements Directiona
             Location location=SEARCH_QUEUE.removeFirst();
             for(Directions direction:Directions.nonnullValues()){
                 testLocation=direction.relate(location);
-                if(location.equals(POINTING_RECORD.getOrDefault(testLocation,null))){
+                if(location.equals(POINTING_RECORD.get(testLocation))){
                     //may need sf item test
                     if((testCounter=PIP_DIRECTION.get(testLocation))!=null){
                         //这个节点已经被人访问过了,跳过
                         if(testCounter.read(timeStamp,0)!=null){
                             testCounter.setValue(value);
                         }else{
-                            testCounter.setValue(value);
-                            testCounter.setCounter(timeStamp);
+                            testCounter.updateValue(value,timeStamp);
+//                            testCounter.setValue(value);
+//                            testCounter.setCounter(timeStamp);
                             SEARCH_QUEUE.addLast(testLocation);
                         }
                     }else{

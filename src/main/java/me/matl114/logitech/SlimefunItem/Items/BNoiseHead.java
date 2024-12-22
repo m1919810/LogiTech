@@ -9,14 +9,16 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.Persis
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.Schedule.Schedules;
+import me.matl114.logitech.SlimefunItem.Blocks.AbstractBlock;
 import me.matl114.logitech.SlimefunItem.DistinctiveCustomItemStack;
+import me.matl114.logitech.SlimefunItem.Interface.MenuBlock;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.UtilClass.CommandClass.LogitechMain;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.*;
+import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -25,7 +27,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BNoiseHead extends DistinctiveCustomItemStack {
+public class BNoiseHead extends AbstractBlock {
 
     public BNoiseHead(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
@@ -39,32 +41,56 @@ public class BNoiseHead extends DistinctiveCustomItemStack {
     public ItemStack of(Sound sound) {
         ItemStack itemStack = getItem().clone();
         ItemMeta itemMeta = itemStack.getItemMeta();
-        PersistentDataAPI.setString(itemMeta, KEY_BNOUSE, sound.name());
-        List<String> lore = itemMeta.getLore();
-        if (lore == null) {
-            lore = new ArrayList<>();
+        if(itemMeta!=null){
+            PersistentDataAPI.setString(itemMeta, KEY_BNOUSE, sound.name());
+            List<String> lore = itemMeta.getLore();
+            if (lore == null) {
+                lore = new ArrayList<>();
+            }
+            lore.add(ChatColor.AQUA + "声音来源: " + sound.name());
+            itemMeta.setLore(lore);
+            if(itemMeta instanceof SkullMeta meta){
+                meta.setNoteBlockSound(sound.getKey());
+            }
+            itemStack.setItemMeta(itemMeta);
         }
-        lore.add(ChatColor.AQUA + "声音来源: " + sound.name());
-        itemMeta.setLore(lore);
-        itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
+
     private static final BukkitRunnable mnThread = new BukkitRunnable() {
         @Override
         public void run() {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 ItemStack itemStack = player.getInventory().getHelmet();
-                if (SlimefunItem.getByItem(itemStack) instanceof BNoiseHead) {
+                if (itemStack!=null&& itemStack.getType()==Material.PLAYER_HEAD&& SlimefunItem.getByItem(itemStack) instanceof BNoiseHead bnoise) {
                     Sound sound = BNoiseHead.getSound(itemStack);
                     if (sound == null) {
                         continue;
                     }
-
                     player.playSound(player.getLocation(), sound, 1, 1);
                 }
             }
         }
     };
+
+    @Override
+    public void onBreak(BlockBreakEvent e, BlockMenu menu) {
+        super.onBreak(e, menu);
+        if(e.getBlock().getState() instanceof Skull skull){
+            NamespacedKey key=skull.getNoteBlockSound();
+            if(key!=null){
+                for(Sound sound:Sound.values()){
+                    if(key.equals(sound.getKey())){
+                        e.setCancelled(true);
+                        Location loc=e.getBlock().getLocation();
+                        loc.getWorld().dropItemNaturally(loc.clone().add(0.5,0.5,0.5),of(sound));
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
     private static NamespacedKey KEY_BNOUSE= AddUtils.getNameKey("sound");
     public static Sound getSound(ItemStack itemStack) {
         if (itemStack == null) {
