@@ -186,7 +186,7 @@ public class AddSlimefunItems {
     public static final SlimefunItem BUG= new MaterialItem(AddGroups.MATERIAL,AddItem.BUG,RecipeType.NULL,
             nullRecipe(),list(AddUtils.getInfoShow("&f获取方式","&7会出现在一些隐蔽地方...",
             "&7当你出现疑问,为什么这个物品找不到时",
-            "你可能需要多看看\"逻辑工艺 版本与说明\"分类(物理意义)")))
+            "&7你可能需要多看看\"逻辑工艺 版本与说明\"分类(物理意义)")))
             .register();
 
     public static final SlimefunItem TRUE=new MaterialItem(AddGroups.MATERIAL,AddItem.TRUE_,RecipeType.NULL,
@@ -2470,7 +2470,7 @@ public class AddSlimefunItems {
             recipe(AddItem.LSINGULARITY,"EXPLOSIVE_BOW",AddItem.LSINGULARITY,"ENERGIZED_CAPACITOR",AddItem.ATOM_INGOT,"ENERGIZED_CAPACITOR",
                     AddItem.LSINGULARITY,"ICY_BOW",AddItem.LSINGULARITY))
             .register();
-    public static final SlimefunItem RTP_RUNE=new ItemWithHandler<ItemDropHandler>(AddGroups.SPACE,AddItem.RTP_RUNE,RecipeType.ANCIENT_ALTAR,
+    public static final SlimefunItem RTP_RUNE=new CustomItemWithHandler<ItemDropHandler>(AddGroups.SPACE,AddItem.RTP_RUNE,RecipeType.ANCIENT_ALTAR,
             recipe("ANCIENT_RUNE_EARTH","ANCIENT_RUNE_ENDER","ANCIENT_RUNE_FIRE",AddItem.HYPER_LINK,AddItem.DIMENSIONAL_SINGULARITY,AddItem.HYPER_LINK,
                     "ANCIENT_RUNE_WATER","ANCIENT_RUNE_ENDER","ANCIENT_RUNE_AIR"),null) {
         HashSet<String> BANNED_WORLD_NAME=new HashSet<>(){{

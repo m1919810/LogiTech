@@ -261,13 +261,13 @@ public class AddItem {
             Language.get("Items.WITHERPROOF_REDS.Name"),Language.getList("Items.WITHERPROOF_REDS.Lore"));
     public static final SlimefunItemStack BEDROCK_BREAKER=AddUtils.themed("BEDROCK_BREAKER",Material.PISTON,AddUtils.Theme.ITEM1,
             Language.get("Items.BEDROCK_BREAKER.Name"),Language.getList("Items.BEDROCK_BREAKER.Lore"));
-    public static final SlimefunItemStack LASER_GUN=AddUtils.themed("LASER_GUN",CustomHead.LASER_GUN.getItem(), AddUtils.Theme.ITEM1,
+    public static final SlimefunItemStack LASER_GUN=AddUtils.themed("LASER_GUN",CustomHead.LASER_GUN.getItem(), AddUtils.Theme.TOOL,
             Language.get("Items.LASER_GUN.Name"),Language.getList("Items.LASER_GUN.Lore"));
     public static final SlimefunItemStack SUPERSPONGE=AddUtils.themed("SUPERSPONGE",Material.SPONGE,AddUtils.Theme.ITEM1,
             Language.get("Items.SUPERSPONGE.Name"),Language.getList("Items.SUPERSPONGE.Lore"));
     public static final SlimefunItemStack SUPERSPONGE_USED=AddUtils.themed("SUPERSPONGE_USED",Material.WET_SPONGE,AddUtils.Theme.ITEM1,
             Language.get("Items.SUPERSPONGE_USED.Name"),Language.getList("Items.SUPERSPONGE_USED.Lore"));
-    public static final SlimefunItemStack TRACE_ARROW=AddUtils.themed("TRACE_ARROW",Material.CHERRY_SAPLING,AddUtils.Theme.ITEM1,
+    public static final SlimefunItemStack TRACE_ARROW=AddUtils.themed("TRACE_ARROW",Material.CHERRY_SAPLING,AddUtils.Theme.TOOL,
             Language.get("Items.TRACE_ARROW.Name"),Language.getList("Items.TRACE_ARROW.Lore"));
     public static final SlimefunItemStack DIMENSIONAL_SINGULARITY=AddUtils.themed("DIMENSIONAL_SINGULARITY",Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
             Language.get("Items.DIMENSIONAL_SINGULARITY.Name"),Language.getList("Items.DIMENSIONAL_SINGULARITY.Lore"));
@@ -275,7 +275,7 @@ public class AddItem {
             Language.get("Items.RTP_RUNE.Name"),Language.getList("Items.RTP_RUNE.Lore"));
     public static final SlimefunItemStack SPACE_CARD=AddUtils.themed("SPACE_CARD",Material.SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE,AddUtils.Theme.ITEM1,
             Language.get("Items.SPACE_CARD.Name"),Language.getList("Items.SPACE_CARD.Lore"));
-    public static final ItemStack UNBREAKING_SHIELD=AddUtils.themed(Material.SHIELD, AddUtils.Theme.ITEM1,
+    public static final ItemStack UNBREAKING_SHIELD=AddUtils.themed(Material.SHIELD, AddUtils.Theme.TOOL,
             Language.get("Items.UNBREAKING_SHIELD.Name"),Language.getList("Items.UNBREAKING_SHIELD.Lore"));
     public static final SlimefunItemStack FAKE_UI=AddUtils.themed("FAKE_UI",Material.LIGHT_GRAY_STAINED_GLASS_PANE,AddUtils.Theme.ITEM1,
             Language.get("Items.FAKE_UI.Name"),Language.getList("Items.FAKE_UI.Lore"));

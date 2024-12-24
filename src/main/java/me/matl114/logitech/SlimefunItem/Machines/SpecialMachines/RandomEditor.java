@@ -220,8 +220,9 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
                                 getAmountField=false;
                             }
                         }
+                        //mod.
                         meta.removeAttributeModifier(att,mod);
-                        meta.addAttributeModifier(att,new AttributeModifier(UUID.randomUUID(),AddUtils.concat(PREFIX,att.getKey().getKey()),mod.getAmount()+upgrade, AttributeModifier.Operation.ADD_NUMBER,slot));
+                        meta.addAttributeModifier(att,new AttributeModifier(mod.getUniqueId(),AddUtils.concat(PREFIX,att.getKey().getKey()),mod.getAmount()+upgrade, AttributeModifier.Operation.ADD_NUMBER,slot));
                         break;
                     }
                 }

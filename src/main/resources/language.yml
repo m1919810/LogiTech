@@ -723,6 +723,7 @@ zh_CN:
         - '凝聚终极概念'
         - '序列进度机器'
         - '终极机器'
+        - '输入槽位&e支持"终极合成"的特性'
     FINAL_STACKMACHINE:
       Name: '终极堆叠 - 配方机器'
       Lore:
@@ -833,7 +834,7 @@ zh_CN:
       Lore:
         - '在逻辑空间中模拟能源网络运行'
         - '无需接入能源网络即可产生大量悖论'
-        - '速率: 5x~30x'
+        - '速率: 5x~35x'
     SPACETOWER_FRAME:
       Name: '空间塔框架'
       Lore:
@@ -1448,6 +1449,8 @@ zh_CN:
       Name: "&3工作站"
     CATEGORY:
       Name: "&3分类"
+    TOOL:
+      Name: "&3装备"
     CATEGORY2:
       Name: '&7⇨ &a单击打开'
     INFO1:

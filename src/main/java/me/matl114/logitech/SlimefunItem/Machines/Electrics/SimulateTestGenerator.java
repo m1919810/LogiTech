@@ -58,7 +58,7 @@ public class SimulateTestGenerator extends AbstractMachine {
         this.setDisplayRecipes(
                 Utils.list(
                         AddUtils.getInfoShow("&f生成机制","&7该机器会模拟虚空量子发电机的行为","&7在左侧机器槽插入能源调节器"
-                                ,"&7机器每次运行会模拟%d*log_2(<调节器>)次运行".formatted(MULTIPLE_TIME),"&7当机器中电力位于%dJ~%dJ时".formatted(outputMin,outputMax)
+                                ,"&7机器每次运行会模拟%d*log_2(2*<调节器>)次运行".formatted(MULTIPLE_TIME),"&7当机器中电力位于%dJ~%dJ时".formatted(outputMin,outputMax)
                                 ,"&7清空电力并生成"),OUTPUT,this.MACHINE_COUNTER.getItem(),null
                 )
         );

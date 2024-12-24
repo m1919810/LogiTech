@@ -8,7 +8,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.matl114.logitech.SlimefunItem.Cargo.Links.HyperLink;
-import me.matl114.logitech.SlimefunItem.DistinctiveCustomItemStack;
+import me.matl114.logitech.SlimefunItem.DistinctiveCustomSlimefunItem;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.WorldUtils;
@@ -27,7 +27,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class HypLink extends DistinctiveCustomItemStack {
+public class HypLink extends DistinctiveCustomSlimefunItem {
     public HypLink(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe,new ArrayList<>());
     }

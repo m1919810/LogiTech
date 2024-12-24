@@ -8,8 +8,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
-import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
-import me.matl114.logitech.SlimefunItem.DistinctiveCustomItemStack;
+import me.matl114.logitech.SlimefunItem.DistinctiveCustomSlimefunItem;
 import me.matl114.logitech.SlimefunItem.Interface.MenuBlock;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.UtilClass.TickerClass.Ticking;
@@ -17,12 +16,11 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public abstract class AbstractEnergyMachine extends DistinctiveCustomItemStack implements Ticking, MenuBlock, EnergyNetComponent, NotHopperable {
+public abstract class AbstractEnergyMachine extends DistinctiveCustomSlimefunItem implements Ticking, MenuBlock, EnergyNetComponent, NotHopperable {
     public final  int energybuffer;
     public final int energyConsumption;
     public final EnergyNetComponentType energyNetComponent;

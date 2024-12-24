@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import me.matl114.logitech.Utils.DataCache;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -22,6 +23,7 @@ public final class AddHandlers {
         @ParametersAreNonnullByDefault
         public void onPlayerPlace(BlockPlaceEvent e) {
             e.setCancelled(true);
+            DataCache.removeBlockData(e.getBlock().getLocation());
         }
     };
 }

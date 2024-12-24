@@ -3,12 +3,11 @@ package me.matl114.logitech.SlimefunItem.Items;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import me.matl114.logitech.Language;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Utils;
 import org.bukkit.inventory.ItemStack;
 
-public class Singularity extends ItemNotPlaceable {
+public class Singularity extends CustomItemNotPlaceable {
     public Singularity(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
         this.setDisplayRecipes(

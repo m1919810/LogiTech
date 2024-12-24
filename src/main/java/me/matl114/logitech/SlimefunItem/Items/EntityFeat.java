@@ -25,7 +25,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntityFeat extends ItemWithHandler<ItemDropHandler> {
+public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
     protected final  int MIDDLE_MERGE=3;
     protected final  int SUPER_MERGE=9;
     public  EntityFeat(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe){
