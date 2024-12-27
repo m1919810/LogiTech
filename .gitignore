@@ -11,3 +11,4 @@ workspace.xml
 .idea/*
 .idea
 log.txt
+/startServer.bat
