@@ -13,6 +13,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Composter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Crucible;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.BasicCircuitBoard;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import me.matl114.logitech.ConfigLoader;
 import me.matl114.logitech.MyAddon;
@@ -23,6 +24,7 @@ import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.AEMachine;
 import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.EMachine;
 import me.matl114.logitech.SlimefunItem.Machines.AutoMachines.MTMachine;
+import me.matl114.logitech.Utils.Algorithms.PairList;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ProbItemStack;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.MGeneratorRecipe;
@@ -49,12 +51,13 @@ public class RecipeSupporter {
                 new ItemStack[] {new ItemStack(Material.GRAVEL)},
                 new ItemStack[] {
                         AddUtils.randItemStackFactory(
-                                new LinkedHashMap<>(){{
-                                    put("FLINT",40);
-                                    put("CLAY_BALL",20);
-                                    put("SIFTED_ORE",35);
-                                    put("IRON_NUGGET",5);
+                                new ArrayList<>(){{
+                                    add(new Pair<>("FLINT",40));
+                                    add(new Pair<>("CLAY_BALL",20));
+                                    add(new Pair<>("SIFTED_ORE",35));
+                                    add(new Pair<>("IRON_NUGGET",5));
                                 }}
+
                         )
                 }
         ));
@@ -67,13 +70,13 @@ public class RecipeSupporter {
                 },
                 new ItemStack[] {
                         AddUtils.randItemStackFactory(
-                                new LinkedHashMap<>(){{
-                                    put("QUARTZ",50);
-                                    put("GOLD_NUGGET",25);
-                                    put("NETHER_WART",10);
-                                    put("BLAZE_POWDER",8);
-                                    put("GLOWSTONE_DUST",5);
-                                    put("GHAST_TEAR",2);
+                                new ArrayList<>(){{
+                                    add(new Pair<>("QUARTZ",50));
+                                    add(new Pair<>("GOLD_NUGGET",25));
+                                    add(new Pair<>("NETHER_WART",10));
+                                    add(new Pair<>("BLAZE_POWDER",8));
+                                    add(new Pair<>("GLOWSTONE_DUST",5));
+                                    add(new Pair<>("GHAST_TEAR",2));
                                 }}
                         )
                 }
@@ -84,7 +87,7 @@ public class RecipeSupporter {
                 new ItemStack[]{SlimefunItems.SIFTED_ORE},
                 new ItemStack[] {
                         AddUtils.randItemStackFactory(
-                                new LinkedHashMap<>(){{
+                                new PairList<>(){{
                                     put("IRON_DUST",1);
                                     put("GOLD_DUST",1);
                                     put("COPPER_DUST",1);
@@ -1475,7 +1478,7 @@ public class RecipeSupporter {
                         double chance = (Double) ReflectUtils.invokeGetRecursively(oscillatorsInstance, Settings.FIELD, "chance");
                         ItemStack oscillatorsType=new ItemStack(oscillatorsInstance.getItem().getType(),amount);
                         int chanceToInt=(int)(chance*100);
-                        ItemStack randOut=AddUtils.randItemStackFactory(new LinkedHashMap<>(){{
+                        ItemStack randOut=AddUtils.randItemStackFactory(new PairList(){{
                             put(oscillatorsType,chanceToInt);
                             put(outputRandGroup,100-chanceToInt);
                         }});

@@ -54,7 +54,7 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
     protected final ItemStack CTIME_ITEM=new CustomItemStack(Material.CLOCK,"&6自定义进度时间","&7点击输入自定义进度时常");
     public AdvanceRecipeCrafter(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                                 Material processbar, int energyConsumption, int energyBuffer,
-                                LinkedHashMap<Object, Integer> customRecipes)  {
+                                List<Pair<Object,Integer>> customRecipes)  {
         super(category,item,recipeType,recipe,processbar,energyConsumption,energyBuffer,customRecipes);
         this.craftType=null;
         this.publicTime=0;

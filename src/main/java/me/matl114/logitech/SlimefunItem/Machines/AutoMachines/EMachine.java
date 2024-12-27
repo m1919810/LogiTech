@@ -3,8 +3,10 @@ package me.matl114.logitech.SlimefunItem.Machines.AutoMachines;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
+import me.matl114.logitech.Utils.Algorithms.PairList;
 import me.matl114.logitech.Utils.RecipeSupporter;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -21,7 +23,7 @@ public class EMachine extends AbstractProcessor implements ImportRecipes {
 
     public EMachine(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                     Material processbar, int energyConsumption, int energyBuffer,
-                    LinkedHashMap<Object, Integer> customRecipes) {
+                    List<Pair<Object, Integer>> customRecipes) {
         super(category,item,recipeType,recipe,processbar,energyConsumption,energyBuffer,customRecipes);
 
     }

@@ -10,6 +10,7 @@ import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.SlimefunItem.Blocks.AbstractBlock;
 import me.matl114.logitech.SlimefunItem.Cargo.Config.CargoConfigCard;
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.Utils.Algorithms.PairList;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.CargoConfigs;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
@@ -63,7 +64,7 @@ public class CargoConfigurator extends AbstractBlock {
                     "&e将[%s]置于下方".formatted(Language.get("Items.CARGO_PART.Name")),"&7配置传输数量","&a传输数量增加<物品数量>"),
     };
     protected final ItemStack TIPS_ITEM=AddUtils.randItemStackFactory(
-            new LinkedHashMap<>(){{
+            new PairList(){{
                 put(new CustomItemStack(Material.KNOWLEDGE_BOOK,"&a小tips","&7将仅空模式设置为true可以减少机器运行开销"),400);
                 put(new CustomItemStack(Material.KNOWLEDGE_BOOK,"&a小tips","&7强对称模式很强大,或许你会很好的利用它"),200);
                 put(new CustomItemStack(Material.KNOWLEDGE_BOOK,"&a小tips","&7懒惰模式会在首次传输某槽位后终止传输"),200);

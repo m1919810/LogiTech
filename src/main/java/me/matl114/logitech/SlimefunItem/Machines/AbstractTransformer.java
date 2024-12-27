@@ -47,7 +47,7 @@ public abstract  class AbstractTransformer extends AbstractMachine {
     }
     public AbstractTransformer(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                              int time,  int energybuffer,int energyConsumption,
-                               LinkedHashMap<Object ,Integer> customRecipes){
+                               List<Pair<Object,Integer>> customRecipes){
         super(category,item , recipeType, recipe,energybuffer,energyConsumption);
         this.time = (time<=0)?1:time;
         this.pubTick = 0;
@@ -55,11 +55,11 @@ public abstract  class AbstractTransformer extends AbstractMachine {
         if(customRecipes!=null){
             this.machineRecipes=new ArrayList<>(customRecipes.size());
             var tmp=AddUtils.buildRecipeMap(customRecipes);
-            for (Map.Entry<Pair<ItemStack[], ItemStack[]>, Integer> recipePiece : tmp.entrySet()) {
+            for(var recipePiece:tmp){
                 //no need to stack and can not stack(maybe some shitmachine will stack
                 //but we stack it in order to format up
                 this.machineRecipes.add(MachineRecipeUtils.stackFromMachine(
-                        MachineRecipeUtils.mgFrom(recipePiece.getValue(), recipePiece.getKey().getFirstValue(), recipePiece.getKey().getSecondValue())
+                        new MachineRecipe(recipePiece.getSecondValue(),recipePiece.getFirstValue().getFirstValue(), recipePiece.getFirstValue().getSecondValue())
                 ));
             }
         }

@@ -3,17 +3,19 @@ package me.matl114.logitech.SlimefunItem.Machines.AutoMachines;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import me.matl114.logitech.SlimefunItem.Machines.FinalFeature;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Utils;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class FinalSequenceConstructor extends SequenceConstructor {
     public FinalSequenceConstructor(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                                ItemStack progressItem, int energyConsumption, int energyBuffer,
-                               LinkedHashMap<Object, Integer> customRecipes) {
+                               List<Pair<Object, Integer>> customRecipes) {
         super(category,item,recipeType,recipe,progressItem,energyConsumption,energyBuffer,customRecipes);
         this.CRAFT_PROVIDER= FinalFeature.STORAGE_AND_LOCPROXY_READER;
         setDisplayRecipes(

@@ -18,12 +18,13 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 @Deprecated
 public class REMachine extends EMachine{
     public REMachine(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                      Material processbar, int energyConsumption, int energyBuffer,
-                     LinkedHashMap<Object, Integer> customRecipes) {
+                     List<Pair<Object, Integer>> customRecipes) {
         super(category, item, recipeType, recipe, processbar, energyConsumption, energyBuffer, customRecipes);
     }
 //    public void process(Block b, BlockMenu inv, SlimefunBlockData data){

@@ -44,7 +44,7 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
     public final EnergyNetComponentType energyNetComponent;
     public AbstractManual(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                                 int energybuffer, int energyConsumption,
-                          LinkedHashMap<Object, Integer> customRecipes){
+                          List<Pair<Object,Integer>> customRecipes){
         super(category,item , recipeType, recipe,energybuffer,energyConsumption);
         this.energybuffer = energybuffer;
         this.energyConsumption = energyConsumption;
@@ -55,11 +55,11 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
         if(customRecipes!=null) {
             this.machineRecipes = new ArrayList<>(customRecipes.size());
             var customRecipes2 = AddUtils.buildRecipeMap(customRecipes);
-            for (Map.Entry<Pair<ItemStack[], ItemStack[]>, Integer> recipePiece : customRecipes2.entrySet()) {
+            for(var recipePiece:customRecipes2){
                 //no need to stack and can not stack(maybe some shitmachine will stack
                 //but we stack it in order to format up
                 this.machineRecipes.add(MachineRecipeUtils.stackFromMachine(
-                        new MachineRecipe(recipePiece.getValue(), recipePiece.getKey().getFirstValue(), recipePiece.getKey().getSecondValue())
+                        new MachineRecipe(recipePiece.getSecondValue(),recipePiece.getFirstValue().getFirstValue(), recipePiece.getFirstValue().getSecondValue())
                 ));
             }
         }else

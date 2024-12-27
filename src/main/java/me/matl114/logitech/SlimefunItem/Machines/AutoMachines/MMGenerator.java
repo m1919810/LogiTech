@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractTransformer;
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.Utils.Algorithms.PairList;
 import me.matl114.logitech.Utils.MenuUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -15,6 +16,7 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MMGenerator extends AbstractTransformer {
@@ -34,11 +36,11 @@ public class MMGenerator extends AbstractTransformer {
             18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53
     };
     public MMGenerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
-                       int time, int energybuffer, int energyConsumption, LinkedHashMap<Object[],Object[]> outputs_w){
+                       int time, int energybuffer, int energyConsumption, List<Pair<Object[],Object[]>> outputs_w){
         super(itemGroup,item,recipeType,recipe,time,energybuffer,energyConsumption,
-                new LinkedHashMap<>(){{
-                    for(Map.Entry<Object[],Object[]> entry :outputs_w.entrySet()){
-                        this.put(new Pair<>(entry.getKey(),entry.getValue()),time-1);
+                new PairList<>(){{
+                    for(var entry :outputs_w){
+                        this.put(new Pair<>(entry.getFirstValue(),entry.getSecondValue()),time-1);
                     }
                 }}
                 );

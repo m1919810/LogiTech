@@ -87,6 +87,7 @@ public class LogitechMain extends AbstractMainCommand {
         Block b=world.getBlockAt(0,0,0);
         Block b2=world.getBlockAt(0,1,0);
         WorldUtils.copyBlockState(b.getState(),b2);
+        b.getState().copy(b2.getLocation()).update(true,false);
     }
     private void test2(){
         Debug.logger(CraftUtils.COMPLEX_MATERIALS);

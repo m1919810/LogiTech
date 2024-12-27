@@ -76,7 +76,7 @@ public class AbstractMultiThreadProcessor extends AbstractMachine implements Mac
     protected int THREAD_NUM=9;
     public AbstractMultiThreadProcessor(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                              ItemStack progressItem, int energyConsumption, int energyBuffer,
-                             LinkedHashMap<Object, Integer> customRecipes){
+                                        List<Pair<Object,Integer>> customRecipes){
         super(category,item , recipeType, recipe,energyBuffer,energyConsumption);
 
         this.progressbar=new ItemStack(progressItem);
@@ -88,11 +88,11 @@ public class AbstractMultiThreadProcessor extends AbstractMachine implements Mac
         if(customRecipes!=null) {
             this.machineRecipes = new ArrayList<>(customRecipes.size());
             var customRecipes2 = AddUtils.buildRecipeMap(customRecipes);
-            for (Map.Entry<Pair<ItemStack[], ItemStack[]>, Integer> recipePiece : customRecipes2.entrySet()) {
+            for(var recipePiece:customRecipes2){
                 //no need to stack and can not stack(maybe some shitmachine will stack
                 //but we stack it in order to format up
                 this.machineRecipes.add(MachineRecipeUtils.stackFromMachine(
-                        new MachineRecipe(recipePiece.getValue(), recipePiece.getKey().getFirstValue(), recipePiece.getKey().getSecondValue())
+                        new MachineRecipe(recipePiece.getSecondValue(),recipePiece.getFirstValue().getFirstValue(), recipePiece.getFirstValue().getSecondValue())
                 ));
             }
         }else
@@ -103,7 +103,7 @@ public class AbstractMultiThreadProcessor extends AbstractMachine implements Mac
     }
     public AbstractMultiThreadProcessor(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                              Material progressItem, int energyConsumption, int energyBuffer,
-                             LinkedHashMap<Object, Integer> customRecipes){
+                                        List<Pair<Object,Integer>> customRecipes){
         this(category,item,recipeType,recipe,new ItemStack(progressItem),energyConsumption,energyBuffer,customRecipes);
     }
 

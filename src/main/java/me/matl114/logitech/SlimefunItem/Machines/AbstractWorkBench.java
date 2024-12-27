@@ -41,16 +41,18 @@ public abstract class AbstractWorkBench extends AbstractMachine {
     protected static final ItemStack RECIPEBOOK_SHOW_ITEM=new CustomItemStack(Material.BOOK,"&6点击查看配方","","&a而且有一键放置配方的功能","&b欢呼吧 懒狗们");
 
     public AbstractWorkBench(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
-                            int energybuffer, int energyConsumption,int limit, LinkedHashMap<Object,Integer> shapedRecipes){
+                            int energybuffer, int energyConsumption,int limit, List<Pair<Object,Integer>> shapedRecipes){
         super(category,item,recipeType,recipe,energybuffer,energyConsumption);
         this.CRAFT_LIMIT=limit;
         if(shapedRecipes != null){
             machineRecipes = new ArrayList<>(shapedRecipes.size());
             var customRecipes2 = AddUtils.buildRecipeMap(shapedRecipes);
-            for (Map.Entry<Pair<ItemStack[], ItemStack[]>, Integer> recipePiece : customRecipes2.entrySet()) {
+            for(var recipePiece:customRecipes2){
                 //no need to stack and can not stack(maybe some shitmachine will stack
                 //but we stack it in order to format up
-                this.machineRecipes.add(new MachineRecipe(recipePiece.getValue(), recipePiece.getKey().getFirstValue(), recipePiece.getKey().getSecondValue()));
+                this.machineRecipes.add(MachineRecipeUtils.stackFromMachine(
+                        new MachineRecipe(recipePiece.getSecondValue(),recipePiece.getFirstValue().getFirstValue(), recipePiece.getFirstValue().getSecondValue())
+                ));
             }
         }else{
             machineRecipes = new ArrayList<>();

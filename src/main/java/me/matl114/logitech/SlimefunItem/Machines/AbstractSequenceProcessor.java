@@ -61,7 +61,7 @@ public abstract class AbstractSequenceProcessor extends AbstractMachine implemen
     protected ItemStack INFO_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6机制","&b该机器类型用于合成阶段输入配方","&b放入配方序列的第一个物品开启配方","&b按顺序满足配方每阶段输入需求才会进入下一阶段","&b完成全部阶段机器会尝试输出结果");
     public AbstractSequenceProcessor(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                                      ItemStack progressItem, int energyConsumption, int energyBuffer,
-                                     LinkedHashMap<Object, Integer> customRecipes) {
+                                     List<Pair<Object,Integer>> customRecipes) {
         super(category,item,recipeType,recipe,energyBuffer,energyConsumption);
         this.progressbar=new ItemStack(progressItem);
         this.processor = new MachineProcessor(this);
@@ -69,11 +69,11 @@ public abstract class AbstractSequenceProcessor extends AbstractMachine implemen
         if(customRecipes!=null) {
             this.machineRecipes = new ArrayList<>(customRecipes.size());
             var customRecipes2 = AddUtils.buildRecipeMap(customRecipes);
-            for (Map.Entry<Pair<ItemStack[], ItemStack[]>, Integer> recipePiece : customRecipes2.entrySet()) {
+            for(var recipePiece:customRecipes2){
                 //no need to stack and can not stack(maybe some shitmachine will stack
                 //but we stack it in order to format up
-                this.machineRecipes.add(MachineRecipeUtils.sequenceFromMachine(
-                        new MachineRecipe(recipePiece.getValue(), recipePiece.getKey().getFirstValue(), recipePiece.getKey().getSecondValue())
+                this.machineRecipes.add(MachineRecipeUtils.stackFromMachine(
+                        new MachineRecipe(recipePiece.getSecondValue(),recipePiece.getFirstValue().getFirstValue(), recipePiece.getFirstValue().getSecondValue())
                 ));
             }
         }else

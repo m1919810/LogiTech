@@ -5,8 +5,10 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.Utils.Algorithms.PairList;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -114,7 +116,7 @@ public class TestStorageUnit extends AbstractMachine {
      * @return
      */
     public static ItemStack rand= AddUtils.randItemStackFactory(
-            new LinkedHashMap<>(){{
+            new PairList<>(){{
                 put("COBBLESTONE",1);
                 put("DIAMOND",1);
             }}

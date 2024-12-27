@@ -1,20 +1,18 @@
 package me.matl114.logitech.Utils.UtilClass.ItemClass;
 
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class EqProRandomStack extends RandomItemStack  {
     public Random rand=new Random();
-    private LinkedHashMap<ItemStack,Integer> stacks;
-    public EqProRandomStack(LinkedHashSet<ItemStack> itemSettings) {
-        this(new LinkedHashMap<>(){{
+    private List<Pair<ItemStack,Integer>> stacks;
+    public EqProRandomStack(List<ItemStack> itemSettings,int ignored) {
+        this(new ArrayList<>(){{
            itemSettings.forEach(item -> {
-               this.put(item, 1);
+               this.add(new Pair<>(item, ignored));
            });
         }});
 
@@ -23,7 +21,7 @@ public class EqProRandomStack extends RandomItemStack  {
         return new EqProRandomStack(stacks);
     }
 
-    public EqProRandomStack(LinkedHashMap<ItemStack,Integer> itemSettings) {
+    public EqProRandomStack(List<Pair<ItemStack,Integer>> itemSettings) {
         super(itemSettings);
         stacks=itemSettings;
     }

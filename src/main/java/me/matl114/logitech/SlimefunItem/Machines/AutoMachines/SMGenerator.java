@@ -10,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractTransformer;
 import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.Utils.Algorithms.PairList;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -34,7 +35,7 @@ public class SMGenerator extends AbstractTransformer  {
     public SMGenerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                        int time, int energybuffer,int energyConsumption,Object... outputs_w) {
         super(itemGroup, item, recipeType, recipe,time,energybuffer,energyConsumption,
-                new LinkedHashMap<>(){{
+                new PairList<>(){{
                     this.put(new Pair<>(
                             new ItemStack[]{}, outputs_w
                     ),time-1) ;

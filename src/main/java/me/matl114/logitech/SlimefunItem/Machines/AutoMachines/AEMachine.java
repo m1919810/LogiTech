@@ -3,6 +3,7 @@ package me.matl114.logitech.SlimefunItem.Machines.AutoMachines;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Language;
@@ -35,7 +36,7 @@ public class AEMachine extends AbstractAdvancedProcessor {
             "&7在上方槽位插入工件以增加并行数","&7最大并行数: 64");
     public AEMachine(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                      Material processbar, int energyConsumption, int energyBuffer,
-                     LinkedHashMap<Object, Integer> customRecipes) {
+                     List<Pair<Object,Integer>> customRecipes) {
         super(category,item,recipeType,recipe,processbar,energyConsumption,energyBuffer,customRecipes);
         this.machineRecipeSupplier=null;
     }

@@ -3,6 +3,7 @@ package me.matl114.logitech.SlimefunItem.Machines.WorkBenchs;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractWorkBench;
@@ -13,6 +14,7 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class TestWorkBench extends AbstractWorkBench {
     protected static final int[] INPUT_SLOT=new int[]{11,12,13,20,21,22,29,30,31};
@@ -24,7 +26,7 @@ public class TestWorkBench extends AbstractWorkBench {
             0,1,2,3,4,5,6,7,8,9,10,16,17,18,19,25,26,27,28,32,34,35,36,37,38,39,40,41,42,43,44
     };
     public TestWorkBench(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
-                         int energybuffer, int energyConsumption, LinkedHashMap<Object,Integer> shapedRecipes) {
+                         int energybuffer, int energyConsumption, List<Pair<Object,Integer>> shapedRecipes) {
         super(category, item, recipeType, recipe, energybuffer, energyConsumption,9, shapedRecipes);
     }
     public void constructMenu(BlockMenuPreset preset){

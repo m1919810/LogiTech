@@ -10,11 +10,12 @@ import me.matl114.logitech.Utils.Utils;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class FinalMGenerator extends MMGenerator{
     public FinalMGenerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
-                       int time, int energybuffer, int energyConsumption, LinkedHashMap<Object[],Object[]> outputs_w){
+                       int time, int energybuffer, int energyConsumption, List<Pair<Object[],Object[]>> outputs_w){
         super(itemGroup,item,recipeType,recipe,time,energybuffer,energyConsumption,
                 outputs_w        );
         setDisplayRecipes(

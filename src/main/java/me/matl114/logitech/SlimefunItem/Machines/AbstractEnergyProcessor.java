@@ -35,7 +35,7 @@ public abstract class AbstractEnergyProcessor extends AbstractEnergyProvider imp
     protected int PROCESSOR_SLOT=22;
     public AbstractEnergyProcessor(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                                    Material progressItem, int energyBuffer,int energyProvider,
-                                   LinkedHashMap<Object, Integer> customRecipes){
+                                   List<Pair<Object,Integer>> customRecipes){
         super(category, item, recipeType, recipe, energyBuffer, energyProvider );
         this.progressbar=new ItemStack(progressItem);
         this.processor = new MachineProcessor(this);
@@ -43,11 +43,11 @@ public abstract class AbstractEnergyProcessor extends AbstractEnergyProvider imp
         if(customRecipes!=null) {
             this.machineRecipes = new ArrayList<>(customRecipes.size());
             var customRecipes2 = AddUtils.buildRecipeMap(customRecipes);
-            for (Map.Entry<Pair<ItemStack[], ItemStack[]>, Integer> recipePiece : customRecipes2.entrySet()) {
+            for(var recipePiece:customRecipes2){
                 //no need to stack and can not stack(maybe some shitmachine will stack
                 //but we stack it in order to format up
                 this.machineRecipes.add(MachineRecipeUtils.stackFromMachine(
-                        new MachineRecipe(recipePiece.getValue(), recipePiece.getKey().getFirstValue(), recipePiece.getKey().getSecondValue())
+                        new MachineRecipe(recipePiece.getSecondValue(),recipePiece.getFirstValue().getFirstValue(), recipePiece.getFirstValue().getSecondValue())
                 ));
             }
         }else

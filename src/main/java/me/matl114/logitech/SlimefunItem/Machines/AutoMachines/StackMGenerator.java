@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -13,6 +14,7 @@ import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Interface.MultiCraftType;
 import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.Utils.Algorithms.PairList;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.DataMenuClickHandler;
@@ -88,7 +90,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
     protected ItemPusherProvider MACHINE_PROVIDER=CraftUtils.getpusher;
     public StackMGenerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                            int time, int energybuffer, int energyConsumption,int efficiency) {
-        super(itemGroup, item, recipeType, recipe, time, energybuffer, energyConsumption, new LinkedHashMap<>());
+        super(itemGroup, item, recipeType, recipe, time, energybuffer, energyConsumption, new PairList<>());
         String[] lores=new String[]{"&7下侧为输出槽,左侧为输入检测槽","&a输入检测槽中的物品不会被消耗!","&e生产数量只与堆叠机器的数目有关,与输入检测数目无关"};
         AddUtils.setLore(this.INFO_WORKING,lores);
         AddUtils.setLore(this.INFO_NULL,lores);

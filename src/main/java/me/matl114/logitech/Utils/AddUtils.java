@@ -555,14 +555,16 @@ public class AddUtils {
         Pair<ItemStack[],ItemStack[]> b=buildRecipes(itemStacks);
         return new MachineRecipe(time,b.getFirstValue(),b.getSecondValue());
     }
-    public static <T extends Object> LinkedHashMap<Pair<ItemStack[],ItemStack[]>,Integer> buildRecipeMap(LinkedHashMap<T,Integer> rawDataMap){
-        if(rawDataMap==null)return new LinkedHashMap<>();
-        LinkedHashMap<Pair<ItemStack[],ItemStack[]>,Integer> map = new LinkedHashMap<>();
-        rawDataMap.forEach((k,v)->{
+    public static <T extends Object> List<Pair<Pair<ItemStack[],ItemStack[]>,Integer>> buildRecipeMap(List<Pair<T,Integer>> rawDataMap){
+        if(rawDataMap==null)return new ArrayList<>();
+        List<Pair<Pair<ItemStack[],ItemStack[]>,Integer>> map = new ArrayList<>();
+        rawDataMap.forEach((p)->{
+            var k=p.getFirstValue();
+            var v=p.getSecondValue();
             if(k instanceof Object[]){
 
-                map.put(AddUtils.buildRecipes(
-                        Arrays.copyOfRange((Object[])k,0,2),Arrays.copyOfRange((Object[])k,2,4)),v);
+                map.add(new Pair<>(AddUtils.buildRecipes(
+                        Arrays.copyOfRange((Object[])k,0,2),Arrays.copyOfRange((Object[])k,2,4)),v));
             }
             else if (k instanceof Pair){
 
@@ -575,7 +577,7 @@ public class AddUtils {
                 if(output==null){
                     output=new Object[]{};
                 }
-                map.put(AddUtils.buildRecipes(input,output),v);
+                map.add(new Pair<>(AddUtils.buildRecipes(input,output),v));
             }
         });
         return map;
@@ -680,40 +682,42 @@ public class AddUtils {
     //we supposed that u have checked these shits
 
     public static RandomItemStack eqRandItemStackFactory(List<ItemStack> list){
-        LinkedHashMap<Object,Integer> map=new LinkedHashMap<>();
+        List<Pair<Object,Integer>> map=new ArrayList<>();
         int i=list.size();
         for(int j=0;j<i;j++){
-            map.put(list.get(j),1);
+            map.add(new Pair<>(list.get(j),1));
         }
         return randItemStackFactory(map);
     }
     public static RandomItemStack randItemStackFactory(List<ItemStack> st,List<Integer> it){
-        LinkedHashMap<Object,Integer> map=new LinkedHashMap<>();
+        List<Pair<Object,Integer>> map=new ArrayList<>();
         int len=st.size();
         for(int i=0;i<len;i++){
-            map.put(st.get(i),it.get(i));
+            map.add(new Pair<>(st.get(i),it.get(i)));
         }
         return randItemStackFactory(map);
     }
-    public static RandomItemStack randItemStackFactory(LinkedHashMap<Object,Integer> list){
-            LinkedHashMap<ItemStack,Integer> c=new LinkedHashMap<>();
+    public static RandomItemStack randItemStackFactory(List<Pair<Object,Integer>> list){
+            List<Pair<ItemStack,Integer>> c=new ArrayList<>();
             boolean isEqPro=true;
             int last_value=-1;
-            for(Map.Entry<Object ,Integer> s:list.entrySet()){
-                Object o=s.getKey();
+            for(var s:list){
+                int value=s.getSecondValue();
+                Object o=s.getFirstValue();
                 if(o!=null){
                     ItemStack o_=AddUtils.resolveItem(o);
                     if(o_!=null){
-                        c.put(o_,s.getValue());
+                        c.add(new Pair<>(o_,value));
+
                     }
                     else return null;
                 }else return null;
                 if(last_value>0){
 
-                    isEqPro=(last_value==s.getValue());
+                    isEqPro=(last_value==value);
                 }
-                Preconditions.checkArgument( s.getValue()>0,"Weight of choice in Random ItemStack should not be lesser than 0");
-                last_value=s.getValue();
+                Preconditions.checkArgument( value>0,"Weight of choice in Random ItemStack should not be lesser than 0");
+                last_value=value;
             }
             if(isEqPro){
                 return new EqProRandomStack(c);

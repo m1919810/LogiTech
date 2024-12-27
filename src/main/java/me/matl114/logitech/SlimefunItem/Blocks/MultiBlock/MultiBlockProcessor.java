@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore.MultiBlockCore;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractProcessor;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.*;
@@ -27,7 +28,7 @@ public abstract class MultiBlockProcessor extends AbstractProcessor implements M
     public abstract int[] getOutputSlots();
     public MultiBlockProcessor(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType,
                                ItemStack[] recipe, String blockId, AbstractMultiBlockType type, ItemStack processorItem, int energyConsumption, int energyBuffer,
-                               LinkedHashMap<Object, Integer> customRecipes){
+                               List<Pair<Object, Integer>> customRecipes){
         super(itemGroup, item, recipeType, recipe, processorItem,energyConsumption,energyBuffer,customRecipes);
         this.MBTYPE = type;
         this.PARTID = blockId;

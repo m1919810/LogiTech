@@ -3,10 +3,12 @@ package me.matl114.logitech.SlimefunItem.Machines.WorkBenchs;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.SchedulePostRegister;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractWorkBench;
+import me.matl114.logitech.Utils.Algorithms.PairList;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -29,12 +31,12 @@ public class EWorkBench extends AbstractWorkBench {
             0,1,2,3,4,5,6,7,8,9,10,17,18,19,26,27,28,32,35,36,37,38,39,40,41,42,43,44
     };
     public EWorkBench(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
-                         int energybuffer, int energyConsumption,int craftlimit, LinkedHashMap<Object,Integer> shapedRecipes) {
+                         int energybuffer, int energyConsumption,int craftlimit, List<Pair<Object,Integer>> shapedRecipes) {
         super(category, item, recipeType, recipe, energybuffer, energyConsumption,craftlimit, shapedRecipes);
     }
     public EWorkBench(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                       int energybuffer, int energyConsumption,int craftlimit, Supplier<List<MachineRecipe>> machineRecipeSupplier) {
-        super(category, item, recipeType, recipe, energybuffer, energyConsumption,craftlimit,new LinkedHashMap<>());
+        super(category, item, recipeType, recipe, energybuffer, energyConsumption,craftlimit,new PairList<>());
         this.machineRecipeSupplier=machineRecipeSupplier;
         SchedulePostRegister.addPostRegisterTask(()->{
             getMachineRecipes();

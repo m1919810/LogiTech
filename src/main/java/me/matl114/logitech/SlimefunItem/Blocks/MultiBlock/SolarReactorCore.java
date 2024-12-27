@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.PersistentEffects.CustomEffects;
@@ -78,7 +79,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
     protected final int[] BORDER_OUT = new int[]{14, 15, 16, 17, 26,35,44,50,51,52,53};
     public SolarReactorCore(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType,
                       ItemStack[] recipe, String blockId, MultiBlockType type, int energyConsumption, int energyBuffer,
-                            LinkedHashMap<Object, Integer> customRecipes){
+                            List<Pair<Object, Integer>> customRecipes){
         super(itemGroup, item, recipeType, recipe, blockId,type,AddUtils.addGlow(new ItemStack(Material.FIRE_CHARGE)),
                 energyConsumption,energyBuffer,customRecipes);
         ScheduleSave.addFinalTask(()->{

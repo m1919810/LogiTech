@@ -1,6 +1,7 @@
 package me.matl114.logitech.Utils.UtilClass.ItemClass;
 
 import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedException;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Debug;
 import org.bukkit.inventory.ItemStack;
@@ -13,27 +14,27 @@ public class RandomItemStack extends ItemStack implements MultiItemStack,RandOut
     public double[] itemWeight;
     public int sum;
     public int[] weightSum;
-    LinkedHashMap<ItemStack, Integer> itemMap;
-    public RandomItemStack(LinkedHashMap<ItemStack ,Integer> itemSettings) {
-        super(itemSettings.keySet().iterator().next());
-        this.sum=itemSettings.keySet().size();
+    List<Pair<ItemStack ,Integer>> itemMap;
+    public RandomItemStack(List<Pair<ItemStack ,Integer>> itemSettings) {
+        super(itemSettings.get(0).getFirstValue());
+        this.sum=itemSettings.size();
         this.itemList=new ItemStack[sum];
         this.itemWeight=new double[sum];
         int weight = 0;
-        for(Integer entry : itemSettings.values()) {
-            weight += entry;
+        for(var entry : itemSettings) {
+            weight += entry.getSecondValue();
         }
         int cnt=0;
         weightSum=new int[sum+1];
         weightSum[0]=0;
-        for(Map.Entry<ItemStack, Integer> entry : itemSettings.entrySet()) {
-            itemList[cnt] = entry.getKey();
-            double r=entry.getValue();
+        for(var entry : itemSettings) {
+            itemList[cnt] = entry.getFirstValue();
+            double r=entry.getSecondValue();
             itemWeight[cnt]= r/(double)weight;
-           weightSum[cnt+1]=weightSum[cnt]+entry.getValue();
+           weightSum[cnt+1]=weightSum[cnt]+entry.getSecondValue();
             cnt++;
         }
-        itemMap=new LinkedHashMap<>(itemSettings);
+        itemMap=new ArrayList<>(itemSettings);
     }
     //递归地解析全体物品列
     public List<ItemStack> getItemStacks() {
