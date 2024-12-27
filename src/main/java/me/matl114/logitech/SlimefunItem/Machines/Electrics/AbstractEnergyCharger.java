@@ -12,7 +12,9 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.SlimefunItem.Interface.MenuTogglableBlock;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.Utils.Algorithms.AtomicCounter;
 import me.matl114.logitech.Utils.DataCache;
+import me.matl114.logitech.Utils.MathUtils;
 import me.matl114.logitech.Utils.Settings;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -26,6 +28,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class AbstractEnergyCharger extends AbstractEnergyMachine implements MenuTogglableBlock {
     protected final int[] INPUT_SLOTS=new int[0];
@@ -122,40 +126,37 @@ public abstract class AbstractEnergyCharger extends AbstractEnergyMachine implem
     @Override
     public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int ticker) {
         Location loc=menu.getLocation();
-        int charge=this.getCharge(loc,data);
+        AtomicCounter charge=new AtomicCounter(this.getCharge(loc,data), this.energybuffer);
         int energyConsumer=0;
-        int errorMachine=0;
+        AtomicInteger errorMachine=new AtomicInteger(0);
         boolean lazymod=getStatus(menu)[0];
         Collection<SlimefunBlockData> allDatas=getChargeRange(menu,b,data); //DataCache.getAllSfItemInChunk(loc.getWorld(),loc.getBlockX()>>4,loc.getBlockZ()>>4);
         if(allDatas!=null&&!allDatas.isEmpty()){
-            Location testLocation;
-            EnergyNetComponent ec;
+            List<CompletableFuture<Void>> futures=new ArrayList<>();
             for (SlimefunBlockData sf : allDatas) {
                 SlimefunItem item=SlimefunItem.getById(sf.getSfId());
-                if((ec=getChargeableComponent(item))!=null){
+                EnergyNetComponent ec=getChargeableComponent(item);
+                if(ec!=null){
                     if(ec.getEnergyComponentType()== EnergyNetComponentType.CONSUMER){
                         if(!sf.isDataLoaded()){
                             DataCache.requestLoad(sf);
                             continue;
                         }
-                        testLocation=sf.getLocation();
+                        Location  testLocation=sf.getLocation();
                         if(loc.equals(testLocation)){
                             continue;
                         }
                         energyConsumer++;
-                        if(charge>0){
-                            try{
+                        if(!charge.empty()){
+                            futures.add(CompletableFuture.runAsync(()->{
                                 int testCharge=ec.getCharge(testLocation,sf);
                                 int buffer=ec.getCapacity();
                                 int left=buffer-testCharge;
                                 if(left>0&&(!lazymod||left>=testCharge)){
-                                    int add=Math.min(left,charge);
-                                    ec.setCharge(testLocation,add+testCharge);
-                                    charge-=add;
+                                    int fetched=charge.required(left);
+                                    ec.setCharge(testLocation,fetched+testCharge);
                                 }
-                            }catch (Throwable e){
-                                errorMachine++;
-                            }
+                            }).exceptionally(ex->{errorMachine.incrementAndGet();return null;}));
                         }
                         if(energyConsumer>=getMaxChargeAmount()){
                             break;
@@ -163,10 +164,13 @@ public abstract class AbstractEnergyCharger extends AbstractEnergyMachine implem
                     }
                 }
             }
+            if(!futures.isEmpty()){
+                CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new)).join();
+            }
         }
-        this.setCharge(loc,charge);
+        this.setCharge(loc,charge.get());
         if(menu.hasViewer()){
-            menu.replaceExistingItem(getInfoSlot(),getInfoShow(charge,energyConsumer, errorMachine));
+            menu.replaceExistingItem(getInfoSlot(),getInfoShow(charge.get(),energyConsumer, errorMachine.get()));
         }
     }
 }

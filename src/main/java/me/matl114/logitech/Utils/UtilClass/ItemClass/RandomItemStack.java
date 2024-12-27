@@ -13,6 +13,7 @@ public class RandomItemStack extends ItemStack implements MultiItemStack,RandOut
     public double[] itemWeight;
     public int sum;
     public int[] weightSum;
+    LinkedHashMap<ItemStack, Integer> itemMap;
     public RandomItemStack(LinkedHashMap<ItemStack ,Integer> itemSettings) {
         super(itemSettings.keySet().iterator().next());
         this.sum=itemSettings.keySet().size();
@@ -29,13 +30,10 @@ public class RandomItemStack extends ItemStack implements MultiItemStack,RandOut
             itemList[cnt] = entry.getKey();
             double r=entry.getValue();
             itemWeight[cnt]= r/(double)weight;
-//           int lastWeight = this.weightMap.isEmpty() ? 0 : this.weightMap.lastKey();//统一转为double
-//            this.weightMap.put(entry.getValue() + lastWeight, entry.getKey());
            weightSum[cnt+1]=weightSum[cnt]+entry.getValue();
             cnt++;
         }
-        //this.weightSum=this.weightMap.lastKey();
-
+        itemMap=new LinkedHashMap<>(itemSettings);
     }
     //递归地解析全体物品列
     public List<ItemStack> getItemStacks() {
@@ -63,24 +61,12 @@ public class RandomItemStack extends ItemStack implements MultiItemStack,RandOut
     public int getTypeNum(){
         return this.sum;
     }
-//    public ItemStack randIndex(){
-//        int randomWeight =   AddUtils.random(weightSum);
-//        SortedMap<Integer,ItemStack> tailMap = this.weightMap.tailMap(randomWeight, false);
-//        return this.weightMap.get(tailMap.firstKey());
-//    }
     public ItemStack clone(){
         int i=weightedRandom(this.weightSum);
         return this.itemList[i].clone();
     }
     public RandomItemStack copy(){
-        RandomItemStack stack;
-        stack=(RandomItemStack)super.clone();
-        stack.itemList=Arrays.copyOf(this.itemList,this.itemList.length);
-        stack.sum=this.sum;
-        stack.weightSum=Arrays.copyOf(this.weightSum,this.weightSum.length);
-        stack.itemWeight=Arrays.copyOf(this.itemWeight,this.itemWeight.length);
-        return stack;
-
+        return new RandomItemStack(this.itemMap);
     }
     public ItemStack getInstance(){
         long a,s;
@@ -102,16 +88,6 @@ public class RandomItemStack extends ItemStack implements MultiItemStack,RandOut
             }else return mid;
         }
         return start;
-        // }
-//        else{
-//
-//            for(int i=0;i<len-1;i++){
-//                if(randouble<weightSum[i+1]){
-//                    return i;
-//                }
-//            }
-//            return 0;
-//        }
     }
     public int getMaxStackSize(){
         return 64;

@@ -10,22 +10,22 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class EqProRandomStack extends RandomItemStack  {
     public Random rand=new Random();
+    private LinkedHashMap<ItemStack,Integer> stacks;
     public EqProRandomStack(LinkedHashSet<ItemStack> itemSettings) {
-        super(new LinkedHashMap<>(){{
+        this(new LinkedHashMap<>(){{
            itemSettings.forEach(item -> {
                this.put(item, 1);
            });
         }});
+
     }
     public EqProRandomStack copy(){
-        EqProRandomStack stack;
-        stack=(EqProRandomStack) super.copy();
-        return stack;
-
+        return new EqProRandomStack(stacks);
     }
 
     public EqProRandomStack(LinkedHashMap<ItemStack,Integer> itemSettings) {
         super(itemSettings);
+        stacks=itemSettings;
     }
     public ItemStack clone(){
         return this.itemList[rand.nextInt(this.sum)].clone();

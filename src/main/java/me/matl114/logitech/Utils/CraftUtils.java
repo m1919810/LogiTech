@@ -4,56 +4,38 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.ActionType;
 import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
 import me.matl114.logitech.Utils.Algorithms.DynamicArray;
 
 import me.matl114.logitech.Utils.UtilClass.ItemClass.*;
+import me.matl114.matlib.Utils.Reflect.FieldAccess;
+import me.matl114.matlib.core.EnvironmentManager;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
-import org.bukkit.block.BlockState;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
 
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.IntFunction;
-import java.util.function.IntSupplier;
-import java.util.function.Supplier;
 
 public class CraftUtils {
-    private static final HashSet<Material> COMPLEX_MATERIALS = new HashSet<>(){{
-        add(Material.AXOLOTL_BUCKET);
-        add(Material.WRITABLE_BOOK);
-        add(Material.WRITTEN_BOOK);
-        add(Material.ENCHANTED_BOOK);
-        add(Material.BUNDLE);
-        add(Material.FIREWORK_STAR);
-        add(Material.FIREWORK_ROCKET);
-        add(Material.COMPASS);
-        add(Material.LEATHER_BOOTS);
-        add(Material.LEATHER_HELMET);
-        add(Material.LEATHER_LEGGINGS);
-        add(Material.LEATHER_CHESTPLATE);
-        add(Material.MAP);
-        add(Material.POTION);
-        add(Material.SPLASH_POTION);
-        add(Material.LINGERING_POTION);
-        add(Material.SUSPICIOUS_STEW);
-        add(Material.COD_BUCKET);
-        add(Material.SALMON_BUCKET);
-        add(Material.TADPOLE_BUCKET);
-        add(Material.PUFFERFISH_BUCKET);
-        add(Material.TROPICAL_FISH_BUCKET);
-        add(Material.PLAYER_HEAD);
-        add(Material.PLAYER_WALL_HEAD);
-    }};
+    public static final EnumSet<Material> COMPLEX_MATERIALS = EnumSet.noneOf(Material.class);
+    static{
+        ItemMeta sampleMeta=new ItemStack(Material.STONE).getItemMeta();
+        for(Material mat : Material.values()){
+            if(mat.isItem()&&!mat.isAir()){
+                ItemMeta testMeta=new ItemStack(mat).getItemMeta();
+                if(testMeta!=null&& testMeta.getClass()!=sampleMeta.getClass()){
+                    COMPLEX_MATERIALS.add(mat);
+                }
+            }
+        }
+    }
     private static final HashSet<Material> INDISTINGUISHABLE_MATERIALS = new HashSet<Material>() {{
         //add(Material.SHULKER_BOX);
         add(Material.BUNDLE);
@@ -61,28 +43,30 @@ public class CraftUtils {
     public static final ItemStack DEFAULT_ITEMSTACK=new ItemStack(Material.STONE);
     public static final ItemMeta NULL_META=(DEFAULT_ITEMSTACK.getItemMeta());
     public static final Class CRAFTMETAITEMCLASS=NULL_META.getClass();
-    public static final Class ITEMSTACKCLASS=ItemStack.class;
+    // public static final Class ITEMSTACKCLASS=ItemStack.class;
     public static Class CRAFTITEMSTACKCLASS;
     public static ItemStack CRAFTITEMSTACK;
-    public static Field CRAFTLORE;
-    public static Field CRAFTDISPLAYNAME;
-    public static Field CRAFTHANDLER;
+    public static FieldAccess loreAccess;
+    public static FieldAccess displayNameAccess;
+    public static FieldAccess handledAccess;
+    // public static Field CRAFTHANDLER;
     public static Class NMSITEMCLASS;
     //public static Field ITEMSTACKMETA;
-    public static boolean INVOKE_SUCCESS;
-    public static boolean INVOKE_STACK_SUCCESS;
+
     static{
+        Debug.logger("Initializing CraftUtils...");
         try{
-            CRAFTLORE=CRAFTMETAITEMCLASS.getDeclaredField("lore");
-            CRAFTDISPLAYNAME=CRAFTMETAITEMCLASS.getDeclaredField("displayName");
+            var CRAFTLORE=CRAFTMETAITEMCLASS.getDeclaredField("lore");
             CRAFTLORE.setAccessible(true);
+            loreAccess= FieldAccess.of(CRAFTLORE);
+            var CRAFTDISPLAYNAME=CRAFTMETAITEMCLASS.getDeclaredField("displayName");
             CRAFTDISPLAYNAME.setAccessible(true);
-            INVOKE_SUCCESS=true;
+            displayNameAccess=FieldAccess.of(CRAFTDISPLAYNAME);
+
         }catch (Throwable e){
-            Debug.logger("INVOKE META FAILED,PLEASE CHECK LOGGER!!!!!!");
-            INVOKE_SUCCESS=false;
-            e.printStackTrace();
-            Debug.logger("DISABLING RELEVENT FEATURE");
+            Debug.logger("Stack reflection failed,please check the error");
+            Debug.logger(e);
+            Debug.logger("disabling the relavent features");
 
         }
         try{
@@ -90,11 +74,12 @@ public class CraftUtils {
             a.addItem(0,DEFAULT_ITEMSTACK);
             CRAFTITEMSTACK=a.getItemInSlot(0);
             CRAFTITEMSTACKCLASS=CRAFTITEMSTACK.getClass();
-            Debug.debug(CRAFTITEMSTACKCLASS.getName());
-            CRAFTHANDLER=CRAFTITEMSTACKCLASS.getDeclaredField("handle");
+            var CRAFTHANDLER=CRAFTITEMSTACKCLASS.getDeclaredField("handle");
             CRAFTHANDLER.setAccessible(true);
+            handledAccess=FieldAccess.of(CRAFTHANDLER);
+
             Object handle=CRAFTHANDLER.get(CRAFTITEMSTACK);
-            Debug.debug(handle.getClass());
+            //Debug.debug(handle.getClass());
             NMSITEMCLASS=handle.getClass();
             //CRAFTMETA=NMSITEMCLASS.getDeclaredField("meta");
 //            Field[] fields= NMSITEMCLASS.getDeclaredFields();
@@ -103,11 +88,11 @@ public class CraftUtils {
             //ITEMSTACKMETA=DEFAULT_ITEMSTACK.getClass().getDeclaredField("meta");
             //ITEMSTACKMETA.setAccessible(true);
             //INVOKE_STACK_SUCCESS=true;
-            INVOKE_STACK_SUCCESS=false;
+            // INVOKE_STACK_SUCCESS=false;
         }catch (Throwable e){
-            Debug.logger("INVOKE STACK FAILED,PLEASE CHECK LOGGER!!!!!!");
+            Debug.logger("Stack reflection failed,please check the error");
             Debug.logger(e);
-            Debug.logger("DISABLING RELEVENT FEATURE");
+            Debug.logger("disabling the relavent features");
 
         }
     }
@@ -122,12 +107,9 @@ public class CraftUtils {
      * @return
      */
     public static boolean sameCraftItem(ItemStack a, ItemStack b){
-        if(!INVOKE_SUCCESS){
-            return false;
-        }
         if(CRAFTITEMSTACKCLASS.isInstance(a)&&CRAFTITEMSTACKCLASS.isInstance(b)){
             try{
-                return CRAFTHANDLER.get(a)==(CRAFTHANDLER.get(b));
+                return  handledAccess.getValue(a)==handledAccess.getValue(b);
             }catch (Throwable e){
                 return false;
             }
@@ -1642,7 +1624,8 @@ public class CraftUtils {
             return ((MultiItemStack) stack2).matchItem(stack1,strictCheck);
         }
         //match material
-        if (stack1.getType() != stack2.getType()) {
+        Material material=stack1.getType();
+        if (material != stack2.getType()) {
             return false;
         }
         ItemMeta meta1=   counter1.getMeta();
@@ -1651,7 +1634,7 @@ public class CraftUtils {
             return meta2==meta1;
         }
         //if indistinguishable meta all return false
-        if(INDISTINGUISHABLE_MATERIALS.contains(stack1.getType())){
+        if(INDISTINGUISHABLE_MATERIALS.contains(material)){
             return false;
         }
 //        //match display name
@@ -1663,6 +1646,11 @@ public class CraftUtils {
         //check important metas
         if(canQuickEscapeMetaVariant(meta1,meta2)){
             return false;
+        }
+        if(COMPLEX_MATERIALS.contains(material)){
+            if(EnvironmentManager.getManager().getVersioned().differentSpecialMeta(meta1,meta2)){
+                return false;
+            }
         }
         //check pdc
         if (!meta1.getPersistentDataContainer().equals(meta2.getPersistentDataContainer())) {
@@ -1696,20 +1684,16 @@ public class CraftUtils {
 
         //粘液物品一般不可修改displayName和Lore
         //不然则全非sf物品
-        if(COMPLEX_MATERIALS.contains(stack1.getType())){
-            if(canQuickEscapeMaterialVariant(meta1,meta2)){
-                return false;
-            }
-        }
+
         //如果非严格且名字相同旧返回，反之则继续
-        if(!(!meta1.hasDisplayName() || matchDisplayNameOnInvoke(meta1,meta2))) {
+        if(!(!meta1.hasDisplayName() || matchDisplayNameField(meta1,meta2))) {
             return false;
         }
 
         if(!meta1.hasLore()||!meta2.hasLore()){
             return meta1.hasLore()==meta2.hasLore();
         }
-        if ( !matchLoreOnInvoke(meta1, meta2)) {
+        if ( !matchLoreField(meta1, meta2)) {
             return false;
             //对于普通物品 检查完lore就结束是正常的
         }else if(!strictCheck){
@@ -1740,15 +1724,8 @@ public class CraftUtils {
         }
         return true;
     }
-    public static boolean matchLoreOnInvoke(ItemMeta meta1,ItemMeta meta2){
-        try{
-            Object lore1= (CRAFTLORE.get(meta1));
-            Object  lore2= (CRAFTLORE.get(meta2));
-
-            return  Objects.equals(lore1,lore2);
-        }catch (Throwable e){
-            return matchLore(meta1.getLore(),meta2.getLore(),false);
-        }
+    public static boolean matchLoreField(ItemMeta meta1, ItemMeta meta2){
+        return loreAccess.compareFieldOrDefault(meta1,meta2,()->matchLore(meta1.getLore(),meta2.getLore(),false));
     }
 
 //    public static ItemMeta getItemMeta(ItemStack it){
@@ -1766,36 +1743,17 @@ public class CraftUtils {
 //        return it.getItemMeta();
 //
 //    }
-    public static boolean matchDisplayNameOnInvoke(ItemMeta meta1,ItemMeta meta2){
-        try{
-            Object name1=(CRAFTDISPLAYNAME.get(meta1));
-            Object name2=(CRAFTDISPLAYNAME.get(meta2));
-            return name1.equals(name2);
-        }catch (Throwable e){
-            return meta1.getDisplayName().equals(meta2.getDisplayName());
-        }
+    public static boolean matchDisplayNameField(ItemMeta meta1, ItemMeta meta2){
+        return displayNameAccess.compareFieldOrDefault(meta1,meta2,()->Objects.equals(meta1.getDisplayName(),meta2.getDisplayName()));
     }
     private static Class CraftMetaBlockState;
-    private static Field blockEntityTag;
-    private static boolean hasFailed;
-    public static boolean matchBlockStateMetaOnInvoke(BlockStateMeta meta1, BlockStateMeta meta2){
-        if(!hasFailed){
-            try{
-                if(CraftMetaBlockState==null){
-                    var field=ReflectUtils.getDeclaredFieldsRecursively(meta1.getClass(),"blockEntityTag");
-                    CraftMetaBlockState=field.getSecondValue();
-                    blockEntityTag=field.getFirstValue();
-                    blockEntityTag.setAccessible(true);
-                    Debug.debug(CraftMetaBlockState);
-                    Debug.debug(blockEntityTag);
-                }
-                return Objects.equals(blockEntityTag.get(meta1),blockEntityTag.get(meta2));
-            }catch (Throwable e){
-                hasFailed=true;
-            }
-        }
-        return meta1.equals(meta2);
+    private static FieldAccess blockEntityTagAccess=FieldAccess.ofName("blockEntityTag");
+    public static boolean matchBlockStateMetaField(BlockStateMeta meta1, BlockStateMeta meta2){
+        return blockEntityTagAccess.ofAccess(meta1).computeIf((b)->{
+            return Objects.equals(b, blockEntityTagAccess.ofAccess(meta2).getRawOrDefault(()->null));
+        },()->meta1.equals(meta2));
     }
+
     public static boolean matchItemStack(ItemStack stack1, ItemStack stack2,boolean strictCheck){
         if(stack1==null || stack2==null){
             return stack1 == stack2;
@@ -1858,162 +1816,7 @@ public class CraftUtils {
         }
     }
 
-    /**
-     * can be later modified to card-implements (water card or storage card(great idea wtf))
-     * @param ?
-     * @return
-     */
-    public static boolean canQuickEscapeMaterialVariant(@Nonnull ItemMeta metaOne, @Nonnull ItemMeta metaTwo) {
-        // Banner
 
-        // Axolotl
-        if (metaOne instanceof AxolotlBucketMeta instanceOne && metaTwo instanceof AxolotlBucketMeta instanceTwo) {
-            if (instanceOne.hasVariant() != instanceTwo.hasVariant()) {
-                return true;
-            }
-
-            if(!instanceOne.hasVariant() || !instanceTwo.hasVariant())
-                return true;
-
-            if (instanceOne.getVariant() != instanceTwo.getVariant()) {
-                return true;
-            }
-        }
-
-        // Books
-        if (metaOne instanceof BookMeta instanceOne && metaTwo instanceof BookMeta instanceTwo) {
-            if (instanceOne.getPageCount() != instanceTwo.getPageCount()) {
-                return true;
-            }
-            if (!Objects.equals(instanceOne.getAuthor(), instanceTwo.getAuthor())) {
-                return true;
-            }
-            if (!Objects.equals(instanceOne.getTitle(), instanceTwo.getTitle())) {
-                return true;
-            }
-            if (!Objects.equals(instanceOne.getGeneration(), instanceTwo.getGeneration())) {
-                return true;
-            }
-        }
-
-        // Bundle
-        if (metaOne instanceof BundleMeta instanceOne && metaTwo instanceof BundleMeta instanceTwo) {
-            if (instanceOne.hasItems() != instanceTwo.hasItems()) {
-                return true;
-            }
-            if (!instanceOne.getItems().equals(instanceTwo.getItems())) {
-                return true;
-            }
-        }
-
-        // Compass
-        if (metaOne instanceof CompassMeta instanceOne && metaTwo instanceof CompassMeta instanceTwo) {
-            if (instanceOne.isLodestoneTracked() != instanceTwo.isLodestoneTracked()) {
-                return true;
-            }
-            if (!Objects.equals(instanceOne.getLodestone(), instanceTwo.getLodestone())) {
-                return true;
-            }
-        }
-
-
-        // Firework Star
-        if (metaOne instanceof FireworkEffectMeta instanceOne && metaTwo instanceof FireworkEffectMeta instanceTwo) {
-            if (!Objects.equals(instanceOne.getEffect(), instanceTwo.getEffect())) {
-                return true;
-            }
-        }
-
-        // Firework
-        if (metaOne instanceof FireworkMeta instanceOne && metaTwo instanceof FireworkMeta instanceTwo) {
-            if (instanceOne.getPower() != instanceTwo.getPower()) {
-                return true;
-            }
-            if (!instanceOne.getEffects().equals(instanceTwo.getEffects())) {
-                return true;
-            }
-        }
-
-        // Leather Armor
-        if (metaOne instanceof LeatherArmorMeta instanceOne && metaTwo instanceof LeatherArmorMeta instanceTwo) {
-            if (!instanceOne.getColor().equals(instanceTwo.getColor())) {
-                return true;
-            }
-        }
-
-        // Maps
-        if (metaOne instanceof MapMeta instanceOne && metaTwo instanceof MapMeta instanceTwo) {
-            if (instanceOne.hasMapView() != instanceTwo.hasMapView()) {
-                return true;
-            }
-            if (instanceOne.hasLocationName() != instanceTwo.hasLocationName()) {
-                return true;
-            }
-            if (instanceOne.hasColor() != instanceTwo.hasColor()) {
-                return true;
-            }
-            if (!Objects.equals(instanceOne.getMapView(), instanceTwo.getMapView())) {
-                return true;
-            }
-            if (!Objects.equals(instanceOne.getLocationName(), instanceTwo.getLocationName())) {
-                return true;
-            }
-            if (!Objects.equals(instanceOne.getColor(), instanceTwo.getColor())) {
-                return true;
-            }
-        }
-
-        // Potion
-        if (metaOne instanceof PotionMeta instanceOne && metaTwo instanceof PotionMeta instanceTwo) {
-            if (!instanceOne.getBasePotionData().equals(instanceTwo.getBasePotionData())) {
-                return true;
-            }
-            if (instanceOne.hasCustomEffects() != instanceTwo.hasCustomEffects()) {
-                return true;
-            }
-            if (instanceOne.hasColor() != instanceTwo.hasColor()) {
-                return true;
-            }
-            if (!Objects.equals(instanceOne.getColor(), instanceTwo.getColor())) {
-                return true;
-            }
-            if (!instanceOne.getCustomEffects().equals(instanceTwo.getCustomEffects())) {
-                return true;
-            }
-        }
-
-        // Skull
-        if (metaOne instanceof SkullMeta instanceOne && metaTwo instanceof SkullMeta instanceTwo) {
-            if (instanceOne.hasOwner() != instanceTwo.hasOwner()) {
-                return true;
-            }
-            if (!Objects.equals(instanceOne.getOwningPlayer(), instanceTwo.getOwningPlayer())) {
-                return true;
-            }
-        }
-
-        // Stew
-        if (metaOne instanceof SuspiciousStewMeta instanceOne && metaTwo instanceof SuspiciousStewMeta instanceTwo) {
-            if (!Objects.equals(instanceOne.getCustomEffects(), instanceTwo.getCustomEffects())) {
-                return true;
-            }
-        }
-
-        // Fish Bucket
-        if (metaOne instanceof TropicalFishBucketMeta instanceOne && metaTwo instanceof TropicalFishBucketMeta instanceTwo) {
-            if (instanceOne.hasVariant() != instanceTwo.hasVariant()) {
-                return true;
-            }
-            if (!instanceOne.getPattern().equals(instanceTwo.getPattern())) {
-                return true;
-            }
-            if (!instanceOne.getBodyColor().equals(instanceTwo.getBodyColor())) {
-                return true;
-            }
-            return !instanceOne.getPatternColor().equals(instanceTwo.getPatternColor());
-        }
-        return false;
-    }
     /**
      * pieces of shit copied from Network
      * @param metaOne
@@ -2021,6 +1824,24 @@ public class CraftUtils {
      * @return
      */
     public static boolean canQuickEscapeMetaVariant(@Nonnull ItemMeta metaOne, @Nonnull ItemMeta metaTwo) {
+        if (metaOne instanceof Damageable instanceOne && metaTwo instanceof Damageable instanceTwo) {
+            if (instanceOne.hasDamage() != instanceTwo.hasDamage()) {
+                return true;
+            }
+
+            if (instanceOne.getDamage() != instanceTwo.getDamage()) {
+                return true;
+            }
+        }
+        if (metaOne instanceof Repairable instanceOne && metaTwo instanceof Repairable instanceTwo) {
+            if (instanceOne.hasRepairCost() != instanceTwo.hasRepairCost()) {
+                return true;
+            }
+
+            if (instanceOne.getRepairCost() != instanceTwo.getRepairCost()) {
+                return true;
+            }
+        }
         if (metaOne instanceof BlockDataMeta instanceOne ) {
             if(metaTwo instanceof BlockDataMeta instanceTwo){
                 if (instanceOne.hasBlockData() != instanceTwo.hasBlockData()) {
@@ -2028,56 +1849,9 @@ public class CraftUtils {
                 }
             }else return true;
         }
-        if(metaOne instanceof BlockStateMeta  m1) {
-            if(metaTwo instanceof BlockStateMeta m2){
-                if(m1.hasBlockState()||m2.hasBlockState()){
-                    return !matchBlockStateMetaOnInvoke(m1,m2);
-                }
-//                if(!m1.hasBlockState()||!m2.hasBlockState()){
-//                    if(m1.hasBlockState()!=m2.hasBlockState())
-//                        return true;
-//                }
-//                else if(  !m1.getBlockState().equals(m2.getBlockState())){
-//                    return true;
-//                }
-            }else{
-                return true;
-            }
-        }
-
-        // Damageable (first as everything can be damageable apparently)
-        if (metaOne instanceof Damageable instanceOne && metaTwo instanceof Damageable instanceTwo) {
-            if (instanceOne.getDamage() != instanceTwo.getDamage()) {
-                return true;
-            }
-        }
-        //banner
-        if (metaOne instanceof BannerMeta instanceOne && metaTwo instanceof BannerMeta instanceTwo) {
-            if (!instanceOne.getPatterns().equals(instanceTwo.getPatterns())) {
-                return true;
-            }
-        }
-        // Enchantment Storage
-        if (metaOne instanceof EnchantmentStorageMeta instanceOne && metaTwo instanceof EnchantmentStorageMeta instanceTwo) {
-            if (instanceOne.hasStoredEnchants() != instanceTwo.hasStoredEnchants()) {
-                return true;
-            }
-            if (!instanceOne.getStoredEnchants().equals(instanceTwo.getStoredEnchants())) {
-                return true;
-            }
-        }
-        // Crossbow
-        if (metaOne instanceof CrossbowMeta instanceOne && metaTwo instanceof CrossbowMeta instanceTwo) {
-            if (instanceOne.hasChargedProjectiles() != instanceTwo.hasChargedProjectiles()) {
-                return true;
-            }
-            if (!instanceOne.getChargedProjectiles().equals(instanceTwo.getChargedProjectiles())) {
-                return true;
-            }
-        }
-        // Cannot escape via any meta extension check
         return false;
     }
+
 
 
 }

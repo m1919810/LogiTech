@@ -39,15 +39,7 @@ public class ProbItemStack extends ItemStack implements MultiItemStack,RandOutIt
         return new ItemStack(Material.AIR);
     }
     public ProbItemStack copy(){
-        ProbItemStack stack;
-        stack=(ProbItemStack) super.clone();
-        stack.stack=this.stack;
-        stack.air=this.air;
-        stack.prob=this.prob;
-        stack.stacklist=new ArrayList<>(this.stacklist);
-        stack.problist=new ArrayList<>(this.problist);
-        return stack;
-
+        return new ProbItemStack(this.stack,this.prob);
     }
     public ItemStack getInstance(){
         if(rand.nextDouble()<this.prob){

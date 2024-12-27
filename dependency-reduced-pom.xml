@@ -34,15 +34,15 @@
           <relocations>
             <relocation>
               <pattern>org.bstats</pattern>
-              <shadedPattern>me.matl114.logitech.bstats</shadedPattern>
+              <shadedPattern>me.matl114.libs.bstats</shadedPattern>
             </relocation>
             <relocation>
               <pattern>com.jeff_media.morepersistentdatatypes</pattern>
-              <shadedPattern>me.matl114.morepersistentdatatypes</shadedPattern>
+              <shadedPattern>me.matl114.libs.morepersistentdatatypes</shadedPattern>
             </relocation>
             <relocation>
               <pattern>me.matl114.matlib</pattern>
-              <shadedPattern>me.matl114.logitech.matlib</shadedPattern>
+              <shadedPattern>me.matl114.libs.matlib</shadedPattern>
             </relocation>
           </relocations>
           <filters>

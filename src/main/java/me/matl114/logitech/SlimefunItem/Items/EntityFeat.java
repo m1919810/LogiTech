@@ -198,7 +198,7 @@ public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
             return false;
         }
         if(meta1 instanceof BlockStateMeta bsm1 &&meta2 instanceof BlockStateMeta bsm2){
-            return CraftUtils.matchBlockStateMetaOnInvoke(bsm1,bsm2);
+            return CraftUtils.matchBlockStateMetaField(bsm1,bsm2);
         }
         return false;
     }

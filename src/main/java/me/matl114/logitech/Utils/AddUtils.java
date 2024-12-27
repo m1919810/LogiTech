@@ -16,6 +16,7 @@ import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.*;
 import me.matl114.logitech.Utils.UtilClass.FunctionalClass.LoreDecorator;
 import me.matl114.logitech.Utils.UtilClass.FunctionalClass.StringDecorator;
+import me.matl114.matlib.core.EnvironmentManager;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -502,7 +503,7 @@ public class AddUtils {
             return b;
             }catch (Exception e){
                 try{
-                    ItemStack b=new ItemStack( Material.getMaterial(id));
+                    ItemStack b=new ItemStack( EnvironmentManager.getManager().getVersioned().getMaterial(id));
                     if(cnt>0&&cnt!=b.getAmount()){
                         b=b.clone();
                         b.setAmount(cnt);
@@ -564,7 +565,7 @@ public class AddUtils {
                         Arrays.copyOfRange((Object[])k,0,2),Arrays.copyOfRange((Object[])k,2,4)),v);
             }
             else if (k instanceof Pair){
-                try{
+
 
                 Object[] input=(Object[])((Pair)k).getFirstValue();
                 if(input==null){
@@ -575,9 +576,6 @@ public class AddUtils {
                     output=new Object[]{};
                 }
                 map.put(AddUtils.buildRecipes(input,output),v);
-                }catch (Exception a){
-                    throw new IllegalArgumentException("illegalArguments in recipe Pair, Pair val must be <T extends Object>T[]");
-                }
             }
         });
         return map;
@@ -759,10 +757,10 @@ public class AddUtils {
      * @param toGive
      */
     public static void forceGive(Player p, ItemStack toGive,int amount) {
-        ItemStack incoming;
+        ItemStack incoming = new ItemStack(toGive);;
         int maxSize=toGive.getMaxStackSize();
         while(amount>0) {
-            incoming = new ItemStack(toGive);
+
             int amount2=Math.min(maxSize, amount);
             incoming.setAmount(amount2);
             amount-=amount2;

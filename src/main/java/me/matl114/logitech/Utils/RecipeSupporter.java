@@ -28,6 +28,7 @@ import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.MGeneratorRecipe;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractTransformer;
 import me.matl114.matlib.Implements.Slimefun.core.CustomRecipeType;
+import me.matl114.matlib.core.EnvironmentManager;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.*;
@@ -991,7 +992,7 @@ public class RecipeSupporter {
             put(EntityType.VILLAGER, Utils.recipe("PAPER", "BREWING_STAND"));
             put(EntityType.PIG, Utils.recipe("PORKCHOP"));
             put(EntityType.COW, Utils.recipe("BEEF", "LEATHER"));
-            put(EntityType.MUSHROOM_COW, Utils.recipe("BEEF", "LEATHER",AddUtils.probItemStackFactory(  AddUtils.resolveItem("RED_MUSHROOM"),25)));
+            put(EnvironmentManager.getManager().getVersioned().getEntityType("mooshroom"), Utils.recipe("BEEF", "LEATHER",AddUtils.probItemStackFactory(  AddUtils.resolveItem("RED_MUSHROOM"),25)));
             put(EntityType.CAT, Utils.recipe("STRING"));
             put(EntityType.CHICKEN, Utils.recipe("CHICKEN", "FEATHER"));
             put(EntityType.COD, Utils.recipe("COD", AddUtils.probItemStackFactory( AddUtils.resolveItem( "BONE_MEAL"),5)));
@@ -1014,7 +1015,7 @@ public class RecipeSupporter {
             put(EntityType.RABBIT, Utils.recipe("RABBIT", "RABBIT_HIDE", AddUtils.probItemStackFactory( AddUtils.resolveItem( "RABBIT_FOOT"),10)));
             put(EntityType.SALMON, Utils.recipe("SALMON", AddUtils.probItemStackFactory( AddUtils.resolveItem( "BONE_MEAL"),5)));
             put(EntityType.SKELETON_HORSE, Utils.recipe("BONE"));
-            put(EntityType.SNOWMAN, Utils.recipe("SNOWBALL"));
+            put(EnvironmentManager.getManager().getVersioned().getEntityType("snowman"), Utils.recipe("SNOWBALL"));
             put(EntityType.SQUID, Utils.recipe("INK_SAC"));
             put(EntityType.STRIDER, Utils.recipe("STRING"));
             put(EntityType.TROPICAL_FISH, Utils.recipe("TROPICAL_FISH", AddUtils.probItemStackFactory( AddUtils.resolveItem( "BONE_MEAL"),5)));
@@ -1026,7 +1027,6 @@ public class RecipeSupporter {
             World world=worldlist.get(0);
             Location loc=new Location(world,8,888,8);
             //load chunk
-            Chunk chunk=loc.getChunk();
             for(EntityType type:EntityType.values()){
                 if(!type.isSpawnable()){
                     continue;

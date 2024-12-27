@@ -60,15 +60,15 @@
                     <relocations>
                         <relocation>
                             <pattern>org.bstats</pattern>
-                            <shadedPattern>me.matl114.logitech.bstats</shadedPattern>
+                            <shadedPattern>me.matl114.libs.bstats</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>com.jeff_media.morepersistentdatatypes</pattern>
-                            <shadedPattern>me.matl114.morepersistentdatatypes</shadedPattern>
+                            <shadedPattern>me.matl114.libs.morepersistentdatatypes</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>me.matl114.matlib</pattern>
-                            <shadedPattern>me.matl114.logitech.matlib</shadedPattern>
+                            <shadedPattern>me.matl114.libs.matlib</shadedPattern>
                         </relocation>
                     </relocations>
                     <filters>
@@ -154,7 +154,7 @@
         <dependency>
             <groupId>com.github.m1919810</groupId>
             <artifactId>matlib</artifactId>
-            <version>d0b00fe</version>
+            <version>d4d17e2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

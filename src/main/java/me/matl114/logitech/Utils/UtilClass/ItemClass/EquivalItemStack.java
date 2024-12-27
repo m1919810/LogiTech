@@ -27,6 +27,7 @@ public class EquivalItemStack extends ItemStack implements MultiItemStack ,Equal
         }
     }
     protected int eamount=1;
+    private HashMap<ItemStack,Integer> itemMap;
     public EquivalItemStack(HashMap<ItemStack ,Integer> itemSettings) {
         super(getFirstMaterial(itemSettings));
         this.sum=itemSettings.keySet().size();
@@ -45,6 +46,7 @@ public class EquivalItemStack extends ItemStack implements MultiItemStack ,Equal
             weightSum[cnt+1]=weightSum[cnt]+itemWeight[cnt];
             ++cnt;
         }
+        this.itemMap=new LinkedHashMap<>(itemSettings);
     }
     //递归地解析全体物品列
     public List<ItemStack> getItemStacks() {
@@ -80,14 +82,15 @@ public class EquivalItemStack extends ItemStack implements MultiItemStack ,Equal
         return itemList[0].clone();
     }
     public EquivalItemStack copy(){
-        EquivalItemStack stack;
-        stack=(EquivalItemStack)super.clone();
-        stack.itemList=Arrays.copyOf(this.itemList,this.itemList.length);
-        stack.counterList=Arrays.copyOf(this.counterList,this.counterList.length);
-        stack.sum=this.sum;
-        stack.weightSum=Arrays.copyOf(this.weightSum,this.weightSum.length);
-        stack.itemWeight=Arrays.copyOf(this.itemWeight,this.itemWeight.length);
-        return stack;
+        return new EquivalItemStack(itemMap);
+//        EquivalItemStack stack;
+//        stack=(EquivalItemStack)super.clone();
+//        stack.itemList=Arrays.copyOf(this.itemList,this.itemList.length);
+//        stack.counterList=Arrays.copyOf(this.counterList,this.counterList.length);
+//        stack.sum=this.sum;
+//        stack.weightSum=Arrays.copyOf(this.weightSum,this.weightSum.length);
+//        stack.itemWeight=Arrays.copyOf(this.itemWeight,this.itemWeight.length);
+//        return stack;
 
     }
     public boolean matchItem(ItemStack item,boolean strickCheck){

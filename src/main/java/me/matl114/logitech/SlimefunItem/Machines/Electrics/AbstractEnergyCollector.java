@@ -11,12 +11,14 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.SlimefunItem.Interface.EnergyProvider;
 import me.matl114.logitech.SlimefunItem.Interface.MenuTogglableBlock;
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.Utils.Algorithms.AtomicCounter;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.MathUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -29,6 +31,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class AbstractEnergyCollector extends AbstractEnergyMachine implements EnergyProvider, MenuTogglableBlock {
     protected final int[] INPUT_SLOTS=new int[0];
@@ -126,20 +129,19 @@ public abstract class AbstractEnergyCollector extends AbstractEnergyMachine impl
     @Override
     public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int ticker) {
         Location loc=menu.getLocation();
-        int charge=this.getCharge(loc,data);
+        final AtomicCounter charge=new AtomicCounter(this.getCharge(loc,data),this.energybuffer) ;
         int energyProvider=0;
-        int errorMachine=0;
+        AtomicInteger errorMachine=new AtomicInteger(0);
         boolean lazymod= getStatus(menu)[0];
         Collection<SlimefunBlockData> allDatas= getCollectRange(menu,b,data);
         if(allDatas!=null&&!allDatas.isEmpty()){
-            Location testLocation;
-            EnergyNetProvider ec;
-            HashMap<SlimefunBlockData,EnergyNetProvider> tickedGenerators=new HashMap<>();
+            List< CompletableFuture<Boolean>> gens=new ArrayList<>();
             for (SlimefunBlockData sf : allDatas) {
                 SlimefunItem item=SlimefunItem.getById(sf.getSfId());
-                if((ec= getEnergyProvider(item))!=null){
+                EnergyNetProvider ec= getEnergyProvider(item);
+                if(ec!=null){
                     //懒惰模式且满了
-                    if(lazymod&&(charge>this.energybuffer)){
+                    if(lazymod&&(charge.enough())){
                         break;
                     }
                     if(!sf.isDataLoaded()){
@@ -148,51 +150,60 @@ public abstract class AbstractEnergyCollector extends AbstractEnergyMachine impl
                     }else if(sf.isPendingRemove()){
                         continue;
                     }
-                    testLocation=sf.getLocation();
+                    Location testLocation=sf.getLocation();
                     if(loc.equals(testLocation)){
                         continue;
                     }
-                    try{
-                        int energy = ec.getGeneratedOutput(testLocation,sf);
-                        //尝试加入新energy
-                        charge =Math.min(MathUtils.safeAdd(charge, energy),this.energybuffer);
-                        if (ec.isChargeable()) {
+                    CompletableFuture<Boolean> future1=CompletableFuture.supplyAsync(()->{
+                        int more=0;
+                        boolean tickGenerator=false;
+                        if (ec.isChargeable()&&(!lazymod||!charge.enough())) {
                             int stored=ec.getCharge(testLocation,sf);
-                            int transfered=Math.min(stored,this.energybuffer-charge);
-                            charge+=transfered;
-                            ec.setCharge(testLocation, stored-transfered);
+                            ec.setCharge(testLocation,0);
+                            more+=charge.safeIncrement(stored);
                         }
-                        tickedGenerators.put(sf,ec);
-                        energyProvider+=1;
-                    }catch (Exception | LinkageError throwable) {
-                        errorMachine+=1;
-                        new ErrorReport<>(throwable, testLocation, item);
-                    }
+                        if(!lazymod||!charge.enough()){
+                            int energy = ec.getGeneratedOutput(testLocation,sf);
+                            tickGenerator=true;
+                            //尝试加入新energy
+                            more=MathUtils.safeAdd(more,charge.safeIncrement(energy));
+                        }
+                        if(more>0&&ec.isChargeable()){
+                            ec.setCharge(testLocation,more);
+                        }
+                        return tickGenerator;
+                    }).exceptionally(ex->{
+                        errorMachine.getAndIncrement();
+                        new ErrorReport<>(ex, testLocation, item);return null;
+                    });
+                    gens.add(future1);
+                    future1.thenApply((more)->{
+                        if(more==null)return null;
+                        if(more&&ec.willExplode(testLocation,sf)){
+                            DataCache.removeBlockData(testLocation);
+                            Slimefun.runSync(() -> {
+                                testLocation.getBlock().setType(Material.LAVA);
+                                testLocation.getWorld().createExplosion(testLocation, 0F, false);
+                            });
+                        }
+                        return null;
+                    }).exceptionally(ex->{
+                        new ErrorReport<>(ex, testLocation, item);return null;
+                    });
+                    energyProvider+=1;
                     if(energyProvider>= getMaxCollectAmount()){
                         break;
                     }
                 }
             }
-            CompletableFuture.runAsync(()->{
-                for(Map.Entry<SlimefunBlockData,EnergyNetProvider> entry: tickedGenerators.entrySet()){
-                try{
-                    Location location=entry.getKey().getLocation();
-                    if (entry.getValue().willExplode(location,entry.getKey())) {
-                        DataCache.removeBlockData(location);
-                        Slimefun.runSync(() -> {
-                            location.getBlock().setType(Material.LAVA);
-                            location.getWorld().createExplosion(location, 0F, false);
-                        });
-                    }
-                }catch (Exception | LinkageError throwable) {
-                    new ErrorReport<>(throwable, entry.getKey().getLocation(), SlimefunItem.getById(entry.getKey().getSfId()));
-                }
-            }});
+            if(!gens.isEmpty()){
+                CompletableFuture.allOf(gens.toArray(CompletableFuture[]::new)).join();
+            }
         }
-        this.setCharge(loc, charge);
+        this.setCharge(loc, charge.get());
 
         if(menu.hasViewer()){
-            menu.replaceExistingItem(getInfoSlot(),getInfoShow(charge,energyProvider, errorMachine));
+            menu.replaceExistingItem(getInfoSlot(),getInfoShow(charge.get(),energyProvider, errorMachine.get()));
         }
     }
 }

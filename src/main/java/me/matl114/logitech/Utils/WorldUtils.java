@@ -12,6 +12,7 @@ import me.matl114.logitech.Schedule.Schedules;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
 import me.matl114.matlib.Utils.Reflect.FieldAccess;
+import me.matl114.matlib.core.EnvironmentManager;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.block.data.BlockData;
@@ -24,7 +25,6 @@ import org.bukkit.loot.LootTables;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
-import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
@@ -125,70 +125,18 @@ public class WorldUtils {
         put(Material.COOKED_BEEF,288);
         //till 1.20.4
     }};
-    public static List<LootTables> OVERWORLD_STRUCTURE_CHESTS=new ArrayList<>(){{
-        add(LootTables.ABANDONED_MINESHAFT);
-        add(LootTables.BURIED_TREASURE);
-        add(LootTables.DESERT_PYRAMID);
-        add(LootTables.IGLOO_CHEST);
-        add(LootTables.JUNGLE_TEMPLE);
-        add(LootTables.JUNGLE_TEMPLE_DISPENSER);
-        add(LootTables.PILLAGER_OUTPOST);
-        add(LootTables.ANCIENT_CITY);
-        add(LootTables.ANCIENT_CITY_ICE_BOX);
-        add(LootTables.RUINED_PORTAL);
-        try{
-            add(LootTables.TRIAL_CHAMBERS_REWARD);
-            add(LootTables.TRIAL_CHAMBERS_SUPPLY);
-            add(LootTables.TRIAL_CHAMBERS_CORRIDOR);
-            add(LootTables.TRIAL_CHAMBERS_INTERSECTION);
-            add(LootTables.TRIAL_CHAMBERS_INTERSECTION_BARREL);
-            add(LootTables.TRIAL_CHAMBERS_ENTRANCE);
-            add(LootTables.TRIAL_CHAMBERS_CORRIDOR_DISPENSER);
-            add(LootTables.TRIAL_CHAMBERS_CHAMBER_DISPENSER);
-            add(LootTables.TRIAL_CHAMBERS_WATER_DISPENSER);
-            add(LootTables.TRIAL_CHAMBERS_CORRIDOR_POT);
-        }catch (Throwable e){
-            Debug.logger("1.21 LootTable not supported");
+    public static HashMap<String,HashSet<LootTables>> LOOTTABLES_TYPES =new HashMap<>(){{
+        for (LootTables loots:LootTables.values()){
+            String[] splitedPath=loots.getKey().getKey().split("/");
+            if(splitedPath.length!=0){
+                String type=splitedPath[0];
+                if(type!=null){
+                    computeIfAbsent(type,t->new HashSet<>()).add(loots);
+                }
+            }
         }
-        add(LootTables.SHIPWRECK_MAP);
-        add(LootTables.SHIPWRECK_SUPPLY);
-        add(LootTables.SHIPWRECK_TREASURE);
-        add(LootTables.SIMPLE_DUNGEON);
-        add(LootTables.SPAWN_BONUS_CHEST);
-        add(LootTables.STRONGHOLD_CORRIDOR);
-        add(LootTables.STRONGHOLD_CROSSING);
-        add(LootTables.STRONGHOLD_LIBRARY);
-        add(LootTables.UNDERWATER_RUIN_BIG);
-        add(LootTables.UNDERWATER_RUIN_SMALL);
-        add(LootTables.VILLAGE_ARMORER);
-        add(LootTables.VILLAGE_BUTCHER);
-        add(LootTables.VILLAGE_CARTOGRAPHER);
-        add(LootTables.VILLAGE_DESERT_HOUSE);
-        add(LootTables.VILLAGE_FISHER);
-        add(LootTables.VILLAGE_FLETCHER);
-        add(LootTables.VILLAGE_MASON);
-        add(LootTables.VILLAGE_PLAINS_HOUSE);
-        add(LootTables.VILLAGE_SAVANNA_HOUSE);
-        add(LootTables.VILLAGE_SHEPHERD);
-        add(LootTables.VILLAGE_SNOWY_HOUSE);
-        add(LootTables.VILLAGE_TAIGA_HOUSE);
-        add(LootTables.VILLAGE_TANNERY);
-        add(LootTables.VILLAGE_TEMPLE);
-        add(LootTables.VILLAGE_TOOLSMITH);
-        add(LootTables.VILLAGE_WEAPONSMITH);
-        add(LootTables.WOODLAND_MANSION);
-        //archaeology
-        add(LootTables.DESERT_WELL_ARCHAEOLOGY);
-        add(LootTables.DESERT_PYRAMID_ARCHAEOLOGY);
-        add(LootTables.TRAIL_RUINS_ARCHAEOLOGY_COMMON);
-        add(LootTables.TRAIL_RUINS_ARCHAEOLOGY_RARE);
-        add(LootTables.OCEAN_RUIN_WARM_ARCHAEOLOGY);
-        add(LootTables.OCEAN_RUIN_COLD_ARCHAEOLOGY);
-        //sniffer
-        add(LootTables.SNIFFER_DIGGING);
-        //till 1.21
-
     }};
+
     public static List<LootTables> NETHER_STRUCTURE_CHESTS=new ArrayList<>(){{
         add(LootTables.NETHER_BRIDGE);
         add(LootTables.BASTION_TREASURE);
@@ -196,13 +144,21 @@ public class WorldUtils {
         add(LootTables.BASTION_BRIDGE);
         add(LootTables.BASTION_HOGLIN_STABLE);
         //PIGLING
-        //this need piglin entity
         add(LootTables.PIGLIN_BARTERING);
 
     }};
     public static List<LootTables> END_STRUCTURE_CHESTS=new ArrayList<>(){{
         add(LootTables.END_CITY_TREASURE);
         //till 1.20.4
+    }};
+    public static List<LootTables> OVERWORLD_STRUCTURE_CHESTS=new ArrayList<>(){{
+        Set<LootTables> set=new HashSet<>();
+        set.addAll(LOOTTABLES_TYPES.getOrDefault("chests",new HashSet<>()));
+        set.addAll(LOOTTABLES_TYPES.getOrDefault("archaeology",new HashSet<>()));
+        set.addAll(LOOTTABLES_TYPES.getOrDefault("spawners",new HashSet<>()));
+        set.removeAll(NETHER_STRUCTURE_CHESTS);
+        set.removeAll(END_STRUCTURE_CHESTS);
+        addAll(set);
     }};
     public static Set<Material> BLOCKTYPE_WITH_ENTITY=new HashSet<>(){{
         add(Material.DROPPER);
@@ -1573,20 +1529,6 @@ public class WorldUtils {
         return loc;
     }
     public static boolean copyBlockState(BlockState state,Block block2){
-        if(invokeBlockStateSuccess){
-            BlockState state2=block2.getState();
-            if(CraftBlockStateClass.isInstance(state2)&&CraftBlockStateClass.isInstance(state)){
-                try{
-                    blockPositionFieldAccess.ofAccess(state).set(blockPositionFieldAccess.getValue(state2));
-                    worldFieldAccess.ofAccess(state).set(worldFieldAccess.getValue(state2));
-                    worldFieldAccess.ofAccess(state).set(worldFieldAccess.getValue(state2));
-                    weakWorldFieldAccess.ofAccess(state).set(weakWorldFieldAccess.getValue(state2));
-                    state.update(true,false);
-                    return true;
-                }catch (Throwable e){
-                    return false;
-                }
-            }else return false;
-        }else return false;
+        return EnvironmentManager.getManager().getVersioned().copyBlockStateTo(state,block2);
     }
 }
