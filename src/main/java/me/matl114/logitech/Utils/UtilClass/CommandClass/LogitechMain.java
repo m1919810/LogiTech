@@ -8,16 +8,21 @@ import me.matl114.matlib.Utils.Command.CommandGroup.AbstractMainCommand;
 import me.matl114.matlib.Utils.Command.CommandGroup.SubCommand;
 import me.matl114.matlib.Utils.Command.Params.SimpleCommandArgs;
 import me.matl114.matlib.core.EnvironmentManager;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
@@ -93,5 +98,17 @@ public class LogitechMain extends AbstractMainCommand {
         Debug.logger(CraftUtils.COMPLEX_MATERIALS);
         Debug.logger(WorldUtils.LOOTTABLES_TYPES);
         Debug.logger(EnvironmentManager.getManager().getVersioned());
+    }
+    private void test3(){
+        ItemStack stack1=new ItemStack(Material.REDSTONE,64);
+        AddUtils.addGlow(stack1);
+        ItemStack stack2=new ItemStack(stack1);
+        AddUtils.removeGlow(stack2);
+        Debug.logger(stack1);
+        Debug.logger(stack2);
+        ChestMenu testMenu=new ChestMenu("1");
+        testMenu.addItem(8,stack2);
+        Debug.logger(testMenu.getItemInSlot(8));
+
     }
 }

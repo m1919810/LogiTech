@@ -42,7 +42,7 @@ public class SingularityStorage extends StorageType {
         if(item!=null) {
             clearStorage(meta);
             meta.getPersistentDataContainer().set(KEY_AMOUNT, PersistentDataType.INTEGER,0);
-            ItemStack tmp=new ItemStack(item);
+            ItemStack tmp=AddUtils.getCleaned(item);
             tmp.setAmount(1);
             meta.getPersistentDataContainer().set(KEY_ITEM, AbstractStorageType.TYPE,tmp);
             if(meta.hasLore()){

@@ -77,7 +77,8 @@ public class BNoiseHead extends AbstractBlock {
             if(key!=null){
                 for(Sound sound:Sound.values()){
                     if(key.equals(sound.getKey())){
-                        e.setCancelled(true);
+                        e.setDropItems(false);
+                        e.setExpToDrop(0);
                         Location loc=e.getBlock().getLocation();
                         loc.getWorld().dropItemNaturally(loc.clone().add(0.5,0.5,0.5),of(sound));
                         return;

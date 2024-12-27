@@ -4,10 +4,12 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import me.matl114.logitech.SlimefunItem.AddHandlers;
 import me.matl114.logitech.SlimefunItem.DistinctiveCustomSlimefunItem;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Utils;
+import me.matl114.matlib.Utils.Inventory.CleanItemStack;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -25,7 +27,10 @@ public class ReplaceCard extends DistinctiveCustomSlimefunItem {
     public final static NamespacedKey KEY_LOC = AddUtils.getNameKey("rep_mat_id");
     public enum ReplaceType{
         MATERIAL(i->new ItemStack(Material.getMaterial(i)),i->i.getType().toString()),
-        SLIMEFUN(i-> new ItemStack(SlimefunItem.getById(i).getItem()),i->SlimefunItem.getByItem(i).getId()),
+        SLIMEFUN(i-> {
+            var sf=SlimefunItem.getById(i);
+            return sf==null?null:sf.getItem();
+        }, i-> Slimefun.getItemDataService().getItemData(i).orElse(null)),
         UNKNOWN((i)->null,(i)->null);
         ReplaceType(Function<String,ItemStack> deserializeFunc,Function<ItemStack,String> serializeFunc) {
             this.deserializeFunc = deserializeFunc;

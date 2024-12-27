@@ -12,6 +12,7 @@ import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.SimpleCraftingOperation;
 import me.matl114.logitech.Utils.MachineRecipeUtils;
+import me.matl114.matlib.Utils.Inventory.CleanItemStack;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -42,7 +43,7 @@ public abstract class AbstractProcessor extends AbstractMachine implements Machi
                              List<Pair<Object,Integer>> customRecipes){
         super(category,item , recipeType, recipe,energyBuffer,energyConsumption);
 
-        this.progressbar=new ItemStack(progressItem);
+        this.progressbar=new CleanItemStack(progressItem);
         this.processor = new MachineProcessor(this);
         this.processor.setProgressBar(progressbar);
         if(customRecipes!=null) {

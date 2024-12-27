@@ -265,7 +265,7 @@ public class MenuUtils {
             finalStack= AddUtils.addLore(sample,namelist.toArray(new String[namelist.size()]));
         }
         else if(it instanceof RandAmountStack){
-            finalStack=AddUtils.addLore(new ItemStack(it),AddUtils.concat("&e随机数量: ",getAmountDisplay(it)));
+            finalStack=AddUtils.addLore(AddUtils.getCleaned(it),AddUtils.concat("&e随机数量: ",getAmountDisplay(it)));
         }else{
             finalStack=it;
         }

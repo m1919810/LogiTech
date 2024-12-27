@@ -1,6 +1,7 @@
 placeholder:
   PLUGIN: '逻辑工艺'
   VERSION: 'v1.0.4'
+  MAX_MC_VERSION: '1.21.3'
 zh_CN:
   Groups:
     ROOT:
@@ -58,11 +59,11 @@ zh_CN:
     INFO5:
       Name: "&c&l更多的声明"
       Lore:
-        - "&e主线版本不提供1.21+的问题修复"
-        - "&7若在1.21+版本使用机器出现问题"
+        - "&e主线版本不提供%MAX_MC_VERSION%+的问题修复"
+        - "&7若在%MAX_MC_VERSION%+版本使用机器出现问题"
         - "&7你可以将问题反馈到github的issue"
         - "&7不过作者不会保证修复该问题"
-        - "&a建议将问题反馈到你所使用的支持1.21+的fork仓库"
+        - "&a建议将问题反馈到你所使用的支持%MAX_MC_VERSION%+的fork仓库"
     INFO6:
       Name: "&6&l附属特性"
       Lore:

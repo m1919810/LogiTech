@@ -4,11 +4,12 @@ import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedE
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Debug;
+import me.matl114.matlib.Utils.Inventory.CleanItemStack;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
-public class RandomItemStack extends ItemStack implements MultiItemStack,RandOutItem {
+public class RandomItemStack extends CleanItemStack implements MultiItemStack,RandOutItem {
     public Random rand=new Random();
     public ItemStack[] itemList;
     public double[] itemWeight;

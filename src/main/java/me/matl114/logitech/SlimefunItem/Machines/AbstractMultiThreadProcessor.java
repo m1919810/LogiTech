@@ -11,6 +11,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.SimpleCraftingOperation;
+import me.matl114.matlib.Utils.Inventory.CleanItemStack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -79,7 +80,7 @@ public class AbstractMultiThreadProcessor extends AbstractMachine implements Mac
                                         List<Pair<Object,Integer>> customRecipes){
         super(category,item , recipeType, recipe,energyBuffer,energyConsumption);
 
-        this.progressbar=new ItemStack(progressItem);
+        this.progressbar=new CleanItemStack(progressItem);
         this.processor=new MachineProcessor[THREAD_NUM];
         for(int i=0;i<THREAD_NUM;i++){
             this.processor[i]=new MachineProcessor(this);

@@ -1,11 +1,12 @@
 package me.matl114.logitech.Utils.UtilClass.ItemClass;
 
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.matlib.Utils.Inventory.CleanItemStack;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Random;
 
-public class RandAmountStack extends ItemStack implements AbstractItemStack,RandOutItem{
+public class RandAmountStack extends CleanItemStack implements AbstractItemStack,RandOutItem{
     public Random rand=new Random();
     private int min;
     private int len;

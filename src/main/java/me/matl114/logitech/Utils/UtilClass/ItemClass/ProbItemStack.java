@@ -2,6 +2,7 @@ package me.matl114.logitech.Utils.UtilClass.ItemClass;
 
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Debug;
+import me.matl114.matlib.Utils.Inventory.CleanItemStack;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.checkerframework.checker.units.qual.A;
@@ -11,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class ProbItemStack extends ItemStack implements MultiItemStack,RandOutItem {
+public class ProbItemStack extends CleanItemStack implements MultiItemStack,RandOutItem {
     public Random rand=new Random();
     ItemStack stack;
     ItemStack air=new ItemStack(Material.AIR);

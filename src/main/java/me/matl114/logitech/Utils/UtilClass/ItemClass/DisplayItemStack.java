@@ -1,8 +1,9 @@
 package me.matl114.logitech.Utils.UtilClass.ItemClass;
 
+import me.matl114.matlib.Utils.Inventory.CleanItemStack;
 import org.bukkit.inventory.ItemStack;
 
-public class DisplayItemStack extends ItemStack implements AbstractItemStack{
+public class DisplayItemStack extends CleanItemStack implements AbstractItemStack{
     public DisplayItemStack(ItemStack is){
         super(is );
     }

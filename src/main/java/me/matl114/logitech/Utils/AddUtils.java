@@ -16,6 +16,7 @@ import me.matl114.logitech.SlimefunItem.AddItem;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.*;
 import me.matl114.logitech.Utils.UtilClass.FunctionalClass.LoreDecorator;
 import me.matl114.logitech.Utils.UtilClass.FunctionalClass.StringDecorator;
+import me.matl114.matlib.Utils.Inventory.CleanItemStack;
 import me.matl114.matlib.core.EnvironmentManager;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import net.md_5.bungee.api.ChatColor;
@@ -449,8 +450,11 @@ public class AddUtils {
         }else if((result=resolveRandomizedItemStack(stack))!=null){
             return result;
         }else {
-            return new ItemStack(stack);
+            return getCleaned(stack);
         }
+    }
+    public static ItemStack getCleaned(ItemStack stack){
+        return stack==null?new ItemStack(Material.AIR): new CleanItemStack(stack);
     }
     public static ItemStack resolveRandomizedItemStack(ItemStack stack){
         ItemStack result=null;
@@ -496,7 +500,7 @@ public class AddUtils {
                 id=(String) a;
             }
             try{
-            ItemStack b=new ItemStack(SlimefunItem.getById(id).getItem());
+            ItemStack b=getCopy(SlimefunItem.getById(id).getItem());
             if(cnt>0&&cnt!=b.getAmount()){
                 b.setAmount(cnt);
             }
@@ -761,7 +765,7 @@ public class AddUtils {
      * @param toGive
      */
     public static void forceGive(Player p, ItemStack toGive,int amount) {
-        ItemStack incoming = new ItemStack(toGive);;
+        ItemStack incoming = getCopy(toGive);;
         int maxSize=toGive.getMaxStackSize();
         while(amount>0) {
 
