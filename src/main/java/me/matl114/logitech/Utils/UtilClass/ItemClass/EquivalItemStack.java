@@ -1,6 +1,7 @@
 package me.matl114.logitech.Utils.UtilClass.ItemClass;
 
 import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedException;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import me.matl114.logitech.Utils.CraftUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -27,10 +28,10 @@ public class EquivalItemStack extends ItemStack implements MultiItemStack ,Equal
         }
     }
     protected int eamount=1;
-    private HashMap<ItemStack,Integer> itemMap;
-    public EquivalItemStack(HashMap<ItemStack ,Integer> itemSettings) {
-        super(getFirstMaterial(itemSettings));
-        this.sum=itemSettings.keySet().size();
+    private List<Pair<ItemStack,Integer>> itemMap;
+    public EquivalItemStack(List<Pair<ItemStack,Integer>> itemSettings) {
+        super(itemSettings.get(0).getFirstValue());
+        this.sum=itemSettings.size();
         this.itemList=new ItemStack[sum];
         this.counterList=new ItemCounter[sum];
         this.itemWeight=new Double[sum];
@@ -39,14 +40,14 @@ public class EquivalItemStack extends ItemStack implements MultiItemStack ,Equal
         int cnt=0;
         weightSum=new double[sum+1];
         weightSum[0]=0;
-        for(Map.Entry<ItemStack, Integer> entry : itemSettings.entrySet()) {
-            itemList[cnt] = entry.getKey();
+        for(var entry : itemSettings) {
+            itemList[cnt] = entry.getFirstValue();
             counterList[cnt]=ItemCounter.get(itemList[cnt]);
             itemWeight[cnt]= 1.0/(double)weight;
             weightSum[cnt+1]=weightSum[cnt]+itemWeight[cnt];
             ++cnt;
         }
-        this.itemMap=new LinkedHashMap<>(itemSettings);
+        this.itemMap=new ArrayList<>(itemSettings);
     }
     //递归地解析全体物品列
     public List<ItemStack> getItemStacks() {

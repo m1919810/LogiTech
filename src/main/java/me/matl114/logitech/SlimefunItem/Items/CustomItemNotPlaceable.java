@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import me.matl114.logitech.SlimefunItem.AddHandlers;
 import me.matl114.logitech.SlimefunItem.DistinctiveCustomSlimefunItem;
+import me.matl114.logitech.Utils.WorldUtils;
 import org.bukkit.inventory.ItemStack;
 
 public class CustomItemNotPlaceable extends DistinctiveCustomSlimefunItem {
@@ -14,7 +15,7 @@ public class CustomItemNotPlaceable extends DistinctiveCustomSlimefunItem {
     @Override
     public  void preRegister(){
         super.preRegister();
-        if(this.getItem().getType().isBlock()){
+        if(WorldUtils.isBlock(getItem().getType())){
             addItemHandler(AddHandlers.stopPlacementHandler);
             addItemHandler(AddHandlers.stopPlaceerHandler);
         }

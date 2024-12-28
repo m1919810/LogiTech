@@ -25,6 +25,7 @@ import org.bukkit.loot.LootTables;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
@@ -39,7 +40,7 @@ public class WorldUtils {
     public static void setAir(Location loc) {
         loc.getBlock().setType(Material.AIR);
     }
-    public static HashMap<Material,Integer> FOOD_LEVELS=new HashMap<>(){{
+    public static EnumMap<Material,Integer> FOOD_LEVELS=new EnumMap<>(Material.class){{
         put(Material.MUSHROOM_STEW,6);
         put(Material.BEEF,3);
         put(Material.ROTTEN_FLESH,4);
@@ -82,7 +83,7 @@ public class WorldUtils {
         put(Material.COOKED_BEEF,8);
         //till 1.20.4
     }};
-    public static HashMap<Material,Integer> FOOD_SATURATION_MUL_10=new HashMap<>(){{
+    public static EnumMap<Material,Integer> FOOD_SATURATION_MUL_10=new EnumMap<>(Material.class){{
         put(Material.MUSHROOM_STEW,192);
         put(Material.BEEF,78);
         put(Material.ROTTEN_FLESH,88);
@@ -160,7 +161,7 @@ public class WorldUtils {
         set.removeAll(END_STRUCTURE_CHESTS);
         addAll(set);
     }};
-    public static Set<Material> BLOCKTYPE_WITH_ENTITY=new HashSet<>(){{
+    public static EnumSet<Material> BLOCKTYPE_WITH_ENTITY=EnumSet.copyOf( new HashSet<Material>(){{
         add(Material.DROPPER);
         add(Material.SCULK_CATALYST);
         add(Material.DISPENSER);
@@ -325,8 +326,10 @@ public class WorldUtils {
         add(Material.BIRCH_WALL_SIGN);
         add(Material.LIME_SHULKER_BOX);
         //till 1.20.4
-    }};
-    public static Set<Material> BLOCKTYPE_WITH_NONNULL_TICKER=new HashSet<>(){{
+    }}
+    );
+    public static EnumSet<Material> BLOCKTYPE_WITH_NONNULL_TICKER=EnumSet.copyOf(
+            new HashSet<Material>(){{
         add(Material.DROPPER);
         add(Material.SCULK_CATALYST);
         add(Material.DISPENSER);
@@ -359,19 +362,14 @@ public class WorldUtils {
         add(Material.CAMPFIRE);
         add(Material.SCULK_SHRIEKER);
         //till 1.20.4
-    }};
-    public static Set<Material> WATER_VARIENT=new HashSet<>(){{
-        add(Material.WATER);
-        add(Material.BUBBLE_COLUMN);
-        //till 1.20.4
-    }};
-    public static Set<Material> BLOCK_MUST_WATERLOGGED=new HashSet<>(){{
-        add(Material.SEAGRASS);
-        add(Material.TALL_SEAGRASS);
-        add(Material.KELP);
-        //till 1.20.4
-    }};
-    public static Set<Material> BLOCK_WITH_RANDOMTICK=new HashSet<>(){{
+    }}
+    );
+    public static EnumSet<Material> WATER_VARIENT=EnumSet.of(Material.WATER,Material.BUBBLE_COLUMN);
+     //till 1.20.4
+    public static EnumSet<Material> BLOCK_MUST_WATERLOGGED=EnumSet.of(Material.SEAGRASS,Material.TALL_SEAGRASS,Material.KELP);
+    public static EnumSet<Material> BLOCK_WITH_RANDOMTICK=EnumSet.copyOf(
+
+      new HashSet<Material>(){{
         add(Material.GRASS_BLOCK);
         add(Material.CARROTS);
         add(Material.CUT_COPPER);
@@ -447,8 +445,10 @@ public class WorldUtils {
         add(Material.BAMBOO_SAPLING);
         //till 1.20.4
 
-    }};
-    public static Set<Material> BLOCK_WITH_MULTI_BLOCKSTATE=new HashSet<>(){{
+    }}
+    );
+    public static EnumSet<Material> BLOCK_WITH_MULTI_BLOCKSTATE=EnumSet.copyOf(
+     new HashSet<Material>(){{
         add(Material.TRIPWIRE_HOOK);
         add(Material.REPEATING_COMMAND_BLOCK);
         add(Material.COMPOSTER);
@@ -1093,7 +1093,32 @@ public class WorldUtils {
         add(Material.CHERRY_PRESSURE_PLATE);
 
         //till 1.20.4
+    }}
+    );
+
+    public static EnumMap<Material,Material> ITEM_HAS_DIFFERENT_ID_BLOCK=new EnumMap<>(Material.class){{
+        put(Material.STRING,Material.TRIPWIRE);
+        put(Material.MELON_SEEDS,Material.MELON_STEM);
+        put(Material.SWEET_BERRIES,Material.SWEET_BERRY_BUSH);
+        put(Material.TORCHFLOWER_SEEDS,Material.TORCHFLOWER_CROP);
+        put(Material.CARROT,Material.CARROTS);
+        put(Material.PUMPKIN_SEEDS,Material.PUMPKIN_STEM);
+        put(Material.BEETROOT_SEEDS,Material.BEETROOTS);
+        put(Material.POTATO,Material.POTATOES);
+        put(Material.PITCHER_POD,Material.PITCHER_CROP);
+        put(Material.COCOA_BEANS,Material.COCOA);
+        put(Material.REDSTONE,Material.REDSTONE_WIRE);
+        put(Material.GLOW_BERRIES,Material.CAVE_VINES);
+        put(Material.POWDER_SNOW_BUCKET,Material.POWDER_SNOW);
+        put(Material.WHEAT_SEEDS,Material.WHEAT);
     }};
+    @Nullable
+    public static Material getBlock(Material material){
+        return ITEM_HAS_DIFFERENT_ID_BLOCK.getOrDefault(material,(material.isBlock()?material:null));
+    }
+    public static boolean isBlock(Material material){
+        return material.isBlock()||ITEM_HAS_DIFFERENT_ID_BLOCK.containsKey(material);
+    }
 
     protected static Class CraftBlockStateClass;
 //    protected static Field IBlockDataField;
@@ -1147,9 +1172,10 @@ public class WorldUtils {
     }
     public static HashSet<Material> WATER_LOGGABLE_TYPES=new HashSet<>(){{
         for (Material m : Material.values()) {
-            if(m.isBlock()){
+            if(isBlock(m)){
                 try{
-                    BlockData defaultData= m.createBlockData();
+
+                    BlockData defaultData= getBlock(m).createBlockData();
                     if(defaultData instanceof Waterlogged){
 
                         add(m);

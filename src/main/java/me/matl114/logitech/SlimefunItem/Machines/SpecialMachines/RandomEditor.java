@@ -13,14 +13,18 @@ import me.matl114.logitech.SlimefunItem.Blocks.MultiBlock.FinalAltarCore;
 import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.SlimefunItem.Machines.FinalFeature;
 import me.matl114.logitech.Utils.*;
+import me.matl114.matlib.Utils.Reflect.FieldAccess;
+import me.matl114.matlib.core.EnvironmentManager;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -65,10 +69,11 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
             ItemStack resultDisplay=new ItemStack(Material.DIAMOND_SWORD);
             ItemMeta meta=resultDisplay.getItemMeta();
             for(Enchantment enchantment:getRegisteredEnchantments()){
-                meta.addEnchant(enchantment,1145,true);
+                meta.addEnchant(enchantment,255,true);
             }
             for(Attribute attribute:registeredAttributes){
-                meta.addAttributeModifier(attribute,new AttributeModifier(UUID.randomUUID(),AddUtils.concat(PREFIX,attribute.getKey().getKey()),1145.0d, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
+                for (var slot :new EquipmentSlot[]{EquipmentSlot.HAND,EquipmentSlot.OFF_HAND})
+                meta.addAttributeModifier(attribute,EnvironmentManager.getManager().getVersioned().createAttributeModifier(UUID.randomUUID(),AddUtils.concat(PREFIX,"_",attribute.getKey().getKey(),"_",slot.name().toLowerCase(Locale.ROOT)),1024, AttributeModifier.Operation.ADD_NUMBER,slot));
             }
             meta.setDisplayName(AddUtils.resolveColor(AddUtils.color("展示物品")));
             resultDisplay.setItemMeta(meta);
@@ -84,7 +89,16 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
                                     "&7每次运行机器会对所有槽位的物品进行升级",
                                     "&7每次随机选择一种附魔/属性增幅",
                                     "&7并将该物品的该项数值提示随机1~%d".formatted(MAX_UPGRADE_ONE_TIME),
-                                    "&7下面是所有可能的升级展示"),resultDisplay
+                                    "&7下面是所有可能的升级展示",
+                                    "&7注:附魔<=%d,属性基值<=%.1f".formatted(MAX_ENCHANT,MAX_ATTRIBUTE)),resultDisplay,
+
+                            AddUtils.getInfoShow("&f注意 - &c原版机制",
+                                    "&7高版本专属:1.20.5+",
+                                    "&7属性有风险,强化需谨慎,",
+                                    "&7操作不规范,装备全白搭",
+                                    "&c由于高版本属性的等级限制,可能会出现等级过高造成属性重置",
+                                    "&c希望大家谨慎使用"
+                                    ),null
                     )
             );}
         );
@@ -112,11 +126,12 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
     }
     public void tick(Block b, @Nullable BlockMenu menu, SlimefunBlockData data, int tickCount){
         if(menu==null)return;
+        process(b,menu,data);
         if(conditionHandle(b,menu)&& FinalFeature.isFinalAltarCharged(this,data)){
             if(menu.hasViewer()){
                 menu.replaceExistingItem(STATUS_SLOT,STATUS_ON);
             }
-            process(b,menu,data);
+
         }else {
             if(menu.hasViewer()){
                 menu.replaceExistingItem(STATUS_SLOT,STATUS_OFF );
@@ -195,13 +210,18 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
             return (randIndex%2==0)?EquipmentSlot.HAND:EquipmentSlot.OFF_HAND;
         }
     }
+    FieldAccess amountFieldA=FieldAccess.ofName(AttributeModifier.class,"amount");
+    private final int MAX_ENCHANT=255;
+    private final double MAX_ATTRIBUTE=1024;
     public void randomEdit(ItemMeta meta, Material material){
         int index=rand.nextInt(totalAmount);
         int upgrade=rand.nextInt(MAX_UPGRADE_ONE_TIME)+1;
         if(index<registeredEnchantments.length){
             Enchantment e=registeredEnchantments[index];
             int level= meta.getEnchantLevel(e);
-            meta.addEnchant(e,level+upgrade,true);
+            if(level+upgrade<=MAX_ENCHANT){
+                meta.addEnchant(e,level+upgrade,true);
+            }
         }else {
             index=index-registeredEnchantments.length;
             Attribute att=registeredAttributes[index];
@@ -210,41 +230,48 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
             boolean hasFind=false;
             if(modifiers!=null){
                 for(AttributeModifier mod:modifiers){
-                    if(mod.getSlot()==slot&&mod.getName().startsWith(PREFIX)){
+                    if(EnvironmentManager.getManager().getVersioned().getAttributeModifierSlot(mod)==slot&&EnvironmentManager.getManager().getVersioned().getAttributeModifierName( mod).startsWith(PREFIX)){
                         hasFind=true;
-                        if(getAmountField){
-                            try{
-                                amountField.set(mod,(double)(mod.getAmount()+upgrade));
-                                break;
-                            }catch (Throwable e){
-                                getAmountField=false;
-                            }
+                        double amount=mod.getAmount();
+                        if(amount>=MAX_ATTRIBUTE){
+                            break;
+                        }
+                        if(EnvironmentManager.getManager().getVersioned().setAttributeModifierValue(mod,Math.min(mod.getAmount()+upgrade,MAX_ATTRIBUTE))){
+                            break;
                         }
                         //mod.
                         meta.removeAttributeModifier(att,mod);
-                        meta.addAttributeModifier(att,new AttributeModifier(mod.getUniqueId(),AddUtils.concat(PREFIX,att.getKey().getKey()),mod.getAmount()+upgrade, AttributeModifier.Operation.ADD_NUMBER,slot));
+                        meta.addAttributeModifier(att,EnvironmentManager.getManager().getVersioned().createAttributeModifier(EnvironmentManager.getManager().getVersioned().getAttributeModifierUid(mod),AddUtils.concat(PREFIX,"_",att.getKey().getKey(),"_",slot.name().toLowerCase(Locale.ROOT)),mod.getAmount()+upgrade, AttributeModifier.Operation.ADD_NUMBER,slot));
                         break;
                     }
                 }
             }
             if(!hasFind){
-                meta.addAttributeModifier(att,new AttributeModifier(UUID.randomUUID(),AddUtils.concat(PREFIX,att.getKey().getKey()),(double) upgrade, AttributeModifier.Operation.ADD_NUMBER,slot));
+                meta.addAttributeModifier(att,EnvironmentManager.getManager().getVersioned ().createAttributeModifier(UUID.randomUUID(),AddUtils.concat(PREFIX,"_",att.getKey().getKey(),"_",slot.name().toLowerCase(Locale.ROOT)),(double) upgrade, AttributeModifier.Operation.ADD_NUMBER,slot));
             }
         }
     }
+
+    @Override
+    public void onBreak(BlockBreakEvent e, @Nullable BlockMenu menu) {
+        super.onBreak(e, menu);
+        if(menu!=null){
+            Location l = menu.getLocation();
+            menu.dropItems(l, ITEM_SLOT);
+        }
+    }
+
     public void process(Block b, BlockMenu inv, SlimefunBlockData data) {
         int len=ITEM_SLOT.length;
-        Schedules.launchSchedules(()->{
-            for (int i=0;i<len;++i){
-                ItemStack it=inv.getItemInSlot(ITEM_SLOT[i]);
-                if(it==null||it.getAmount()!=1){
-                    continue;
-                }else {
-                    ItemMeta meta=it.getItemMeta();
-                    randomEdit(meta,it.getType());
-                    it.setItemMeta(meta);
-                }
+        for (int i=0;i<len;++i){
+            ItemStack it=inv.getItemInSlot(ITEM_SLOT[i]);
+            if(it==null||it.getAmount()!=1){
+                continue;
+            }else {
+                ItemMeta meta=it.getItemMeta();
+                randomEdit(meta,it.getType());
+                it.setItemMeta(meta);
             }
-        },0,false,0);
+        }
     }
 }

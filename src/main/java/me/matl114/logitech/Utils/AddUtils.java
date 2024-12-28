@@ -13,6 +13,7 @@ import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.SlimefunItem.AddItem;
+import me.matl114.logitech.Utils.Algorithms.PairList;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.*;
 import me.matl114.logitech.Utils.UtilClass.FunctionalClass.LoreDecorator;
 import me.matl114.logitech.Utils.UtilClass.FunctionalClass.StringDecorator;
@@ -743,7 +744,7 @@ public class AddUtils {
            it.setAmount(t);
            return it;
         }
-        LinkedHashMap<ItemStack,Integer> c=new LinkedHashMap<>();
+        PairList<ItemStack,Integer> c=new PairList<>();
         for(Object o:list){
             if(o!=null){
                 ItemStack o_=AddUtils.resolveItem(o);

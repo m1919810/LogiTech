@@ -1,12 +1,18 @@
 package me.matl114.logitech.Utils.UtilClass.CommandClass;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.Utils.UtilClass.TestItemStack;
 import me.matl114.logitech.Utils.WorldUtils;
 import me.matl114.matlib.Utils.Command.CommandGroup.AbstractMainCommand;
 import me.matl114.matlib.Utils.Command.CommandGroup.SubCommand;
 import me.matl114.matlib.Utils.Command.Params.SimpleCommandArgs;
+import me.matl114.matlib.Utils.Inventory.CleanItemStack;
+import me.matl114.matlib.Utils.Reflect.FieldAccess;
+import me.matl114.matlib.Utils.Reflect.MethodAccess;
 import me.matl114.matlib.core.EnvironmentManager;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -61,7 +67,7 @@ public class LogitechMain extends AbstractMainCommand {
             return true;
         }
     }.register(this);
-    private SubCommand testCommand=new SubCommand("runTest",new SimpleCommandArgs("test"),"/logitech export 内部开发指令"){
+    private SubCommand testCommand=new SubCommand("runTest",new SimpleCommandArgs("test"),"/logitech runTest 内部开发指令"){
         public boolean onCommand(CommandSender var1, Command var2, String var3, String[] var4) {
             AddUtils.sendMessage(var1,"No Permission!");
             if(var1.hasPermission("logitech.command.op")){
@@ -99,8 +105,12 @@ public class LogitechMain extends AbstractMainCommand {
         Debug.logger(WorldUtils.LOOTTABLES_TYPES);
         Debug.logger(EnvironmentManager.getManager().getVersioned());
     }
+    private FieldAccess delegateAccess=FieldAccess.ofName(ItemStack.class,"craftDelegate");
     private void test3(){
+
         ItemStack stack1=new ItemStack(Material.REDSTONE,64);
+        SlimefunItemStack sfitem= new SlimefunItemStack("WOCA",stack1);
+        Debug.logger(sfitem.clone());
         AddUtils.addGlow(stack1);
         ItemStack stack2=new ItemStack(stack1);
         AddUtils.removeGlow(stack2);
@@ -108,7 +118,43 @@ public class LogitechMain extends AbstractMainCommand {
         Debug.logger(stack2);
         ChestMenu testMenu=new ChestMenu("1");
         testMenu.addItem(8,stack2);
+
+//        try{
+//            Debug.logger(ItemStack.class.getDeclaredMethod("clone").getReturnType());
+//        }catch(NoSuchMethodException e){
+//            Debug.logger(e);
+//        }
         Debug.logger(testMenu.getItemInSlot(8));
+        testMenu.addItem(8,sfitem);
+        Debug.logger(testMenu.getItemInSlot(8));
+        ItemStack stack3=AddUtils.getCleaned(stack1);
+        delegateAccess.ofAccess(stack3).get(o->Debug.logger("check",o.getClass()));
+
+        Debug.logger(stack3);
+        ItemStack stack4=stack3.clone();
+        Debug.logger(stack4);
+        Debug.logger(stack4.getClass());
+        ItemStack stack5=new ItemStack(stack3);
+        testMenu.addItem(8,stack5);
+        Debug.logger(testMenu.getItemInSlot(8));
+        ItemStack stack6=stack5.clone();
+        Debug.logger(stack6.getClass());
+        ItemStack stack7=new TestItemStack(stack3);
+        delegateAccess.ofAccess(stack7).get(o->Debug.logger("check",o.getClass()));
+        stack7=new TestItemStack(stack7);
+        delegateAccess.ofAccess(stack7).get(o->Debug.logger("check",o.getClass()));
+        ItemStack stack8=stack7.clone();
+        Debug.logger(stack8.getClass());
+        testMenu.addItem(8,stack7);
+        Debug.logger(testMenu.getItemInSlot(8));
+        stack7=new ItemStack(stack7);
+        delegateAccess.ofAccess(stack7).get(o->Debug.logger("check",o.getClass()));
+        stack8=stack7.clone();
+        Debug.logger(stack8.getClass());
+        testMenu.addItem(8,stack7);
+        Debug.logger(testMenu.getItemInSlot(8));
+        stack7=new ItemStack(new SlimefunItemStack("BEYOND",stack7));
+        delegateAccess.ofAccess(stack7).get(o->Debug.logger("check",o.getClass()));
 
     }
 }

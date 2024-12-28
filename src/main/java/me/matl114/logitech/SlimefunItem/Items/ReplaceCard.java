@@ -9,6 +9,7 @@ import me.matl114.logitech.SlimefunItem.AddHandlers;
 import me.matl114.logitech.SlimefunItem.DistinctiveCustomSlimefunItem;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Utils;
+import me.matl114.logitech.Utils.WorldUtils;
 import me.matl114.matlib.Utils.Inventory.CleanItemStack;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.Material;
@@ -109,7 +110,7 @@ public class ReplaceCard extends DistinctiveCustomSlimefunItem {
     public  void preRegister(){
         super.preRegister();
         //addItemHandler(AddHandlers.stopAttackHandler);
-        if(this.getItem().getType().isBlock()){
+        if(WorldUtils.isBlock(getItem().getType())){
             addItemHandler(AddHandlers.stopPlacementHandler);
             addItemHandler(AddHandlers.stopPlaceerHandler);
         }

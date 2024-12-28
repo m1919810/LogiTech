@@ -15,6 +15,7 @@ import me.matl114.logitech.SlimefunItem.Machines.AbstractMachine;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.DataMenuClickHandler;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
+import me.matl114.matlib.core.EnvironmentManager;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -696,8 +697,17 @@ public class AttributeOperator extends SmithingInterface {
         }
     }
     public boolean equalsIgnoreAmount(AttributeModifier it,AttributeModifier mod) {
-        boolean slots = it.getSlot() != null ? it.getSlot() == mod.getSlot() : mod.getSlot() == null;
-        return it.getUniqueId().equals(mod.getUniqueId()) && it.getName().equals(mod.getName()) && it.getOperation() == mod.getOperation() && slots;
+        boolean slots = EnvironmentManager.getManager().getVersioned().getAttributeModifierSlot(it) != null ? EnvironmentManager.getManager().getVersioned().getAttributeModifierSlot(it) == EnvironmentManager.getManager().getVersioned().getAttributeModifierSlot(mod) : EnvironmentManager.getManager().getVersioned().getAttributeModifierSlot(mod) == null;
+        if(!slots){
+            return false;
+        }
+        UUID uid= EnvironmentManager.getManager().getVersioned().getAttributeModifierUid(it);
+        if(uid!=null){
+            if(!uid.equals(EnvironmentManager.getManager().getVersioned().getAttributeModifierUid(mod))){
+                return false;
+            }
+        }
+        return Objects.equals(EnvironmentManager.getManager().getVersioned().getAttributeModifierName(it),EnvironmentManager.getManager().getVersioned().getAttributeModifierName(mod))  && it.getOperation() == mod.getOperation();
 
     }
     public Pair<ItemStack,ItemStack> transferAttributes(ItemStack stack1, ItemStack stack2,Attribute attribute, AttributeModifier modifier){
