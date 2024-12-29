@@ -24,8 +24,10 @@ import me.matl114.logitech.Utils.UtilClass.CommandClass.LogitechMain;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.matl114.matlib.Utils.Command.CommandGroup.AbstractMainCommand;
 import me.matl114.matlib.core.AddonInitialization;
+import me.matl114.matlib.core.EnvironmentManager;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bukkit.Bukkit;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -63,9 +65,9 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
     @Override
     public void onEnable() {
         instance =this;
+
         matlibInstance=new AddonInitialization(this,"LOGITECH").displayName("逻辑工艺").onEnable();
         manager=getServer().getPluginManager();
-
         checkVersion();
         // 从 config.yml 中读取插件配置
         Config cfg = new Config(this);

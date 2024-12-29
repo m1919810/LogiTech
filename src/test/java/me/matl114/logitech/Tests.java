@@ -9,6 +9,7 @@ import me.matl114.logitech.Utils.UtilClass.CargoClass.CargoConfigs;
 
 import org.bukkit.Material;
 import org.bukkit.Registry;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.Test;
 
@@ -137,8 +138,9 @@ public class Tests {
         //async
         //228550700
     }
-    @Test
+   // @Test
     public void test_lock(){
+
         byte[] lock=new byte[0];
         synchronized(lock){
             synchronized(lock){

@@ -26,15 +26,18 @@ public class ConstSlimefunItemStack extends SlimefunItemStack {
         }
     }
     public ItemStack clone() {
-        SlimefunItemStack stack=(SlimefunItemStack) super.clone();
-        try{
-            Object locked=this.lockedField.get(stack);
-            this.lockedField.set(stack, Boolean.FALSE);
-            stack.setItemMeta(thismeta);
-            this.lockedField.set(stack, locked);
-        }catch (Throwable e){
+        ItemStack stack= super.clone();
+        if(stack instanceof SlimefunItemStack){
+            try{
+                Object locked=this.lockedField.get(stack);
+                this.lockedField.set(stack, Boolean.FALSE);
+                stack.setItemMeta(thismeta);
+                this.lockedField.set(stack, locked);
+            }catch (Throwable ignored){
 
+            }
         }
+
         return stack;
     }
 

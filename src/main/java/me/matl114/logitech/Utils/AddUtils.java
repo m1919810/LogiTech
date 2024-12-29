@@ -660,8 +660,8 @@ public class AddUtils {
         }
         else return null;
     }
-    public static SlimefunItemStack smgInfoAdd(ItemStack item,int time){
-        return (SlimefunItemStack) AddUtils.addLore( item, tickPerGen(time));
+    public static ItemStack smgInfoAdd(ItemStack item,int time){
+        return  AddUtils.addLore( item, tickPerGen(time));
     }
     public static ItemStack advancedMachineShow(ItemStack stack,int limit){
         return AddUtils.addLore(stack,"&7机器合成进程数: %s".formatted(limit));

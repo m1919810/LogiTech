@@ -48,7 +48,7 @@ public class ReplaceCard extends DistinctiveCustomSlimefunItem {
                 Utils.list(
                         AddUtils.getInfoShow("&f机制",
                                 "&7可以在快捷机器中替代其中记录的不可堆叠物品",
-                                "&7桶类物品会在合成之后返还铁通")
+                                "&7桶类物品会在合成之后返还铁桶")
                 )
         );
         this.type=type;
