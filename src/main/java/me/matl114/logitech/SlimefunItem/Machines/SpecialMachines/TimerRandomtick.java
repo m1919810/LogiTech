@@ -24,6 +24,7 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class TimerRandomtick extends AbstractTimerRange{
     public static boolean isEnable(){
@@ -42,23 +43,36 @@ public class TimerRandomtick extends AbstractTimerRange{
         Block bb=location.getBlock();
         AtomicReference<Runnable> task=new AtomicReference<>(null);
         Material material=bb.getType();
-        NMSUtils. getNMSMethodAccess.invokeCallback(state->{
-            NMSUtils. getCraftWorldHandleMethodAccess.invokeCallback(world->{
-                NMSUtils. getPositionMethodAccess.invokeCallback(pos->{
-                    NMSUtils. randomSourceAccess.ofAccess(world).get((randomSource)->{
-                        task.set(()->{
-                            try{
-                                if(SPEED_UP_PLANTS.contains(material)){
-                                    operateGrowable(bb);
-                                }
-                                NMSUtils. randomTickAccess.invoke(state,world,pos,randomSource);
-                            }catch (Throwable e){}
-                        });
-                    }).ifFailed((obj)->{errorOut.accept( "failed getRandomSource");});
-                },()->{errorOut.accept("failed getPosition");},bb);
-            },()->{errorOut.accept("failed getWorld");},bb.getWorld());
-        },()->{errorOut.accept("failed getNMS");},bb);
+        Supplier<?> randomTickTask=NMSUtils.doRandomTickAccess.getInvokeTask(bb);
+        if(randomTickTask!=null){
+            return ()->{
+                try{
+                    if(SPEED_UP_PLANTS.contains(material)){
+                        operateGrowable(bb);
+                    }
+                    randomTickTask.get();
+                }catch (Throwable ignored){}
+            };
+        }else{
+            NMSUtils. getNMSMethodAccess.invokeCallback(state->{
+                NMSUtils. getCraftWorldHandleMethodAccess.invokeCallback(world->{
+                    NMSUtils. getPositionMethodAccess.invokeCallback(pos->{
+                        NMSUtils. randomSourceAccess.ofAccess(world).get((randomSource)->{
+                            task.set(()->{
+                                try{
+                                    if(SPEED_UP_PLANTS.contains(material)){
+                                        operateGrowable(bb);
+                                    }
+                                    NMSUtils. randomTickAccess.invoke(state,world,pos,randomSource);
+                                }catch (Throwable ignored){}
+                            });
+                        }).ifFailed((obj)->{errorOut.accept( "failed getRandomSource");});
+                    },()->{errorOut.accept("failed getPosition");},bb);
+                },()->{errorOut.accept("failed getWorld");},bb.getWorld());
+            },()->{errorOut.accept("failed getNMS");},bb);
+        }
         return task.get();
+
     }
     @Override
     public void process(Block b, BlockMenu preset, SlimefunBlockData data) {

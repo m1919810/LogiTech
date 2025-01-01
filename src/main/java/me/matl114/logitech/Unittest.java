@@ -69,6 +69,7 @@ public class Unittest {
     //todo a possibility to handle vanilla block in MultiBlock structures ,maybe we need more listeners and fix the getStatus and getUUID method in MultiBlockService
     //todo 优化投影体系
     //todo 修复堆叠机器久置后内部机器变砖的问题
+    //todo 做测试道具-多方块自动构建机
     {
 
     }

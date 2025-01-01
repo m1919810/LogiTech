@@ -53,7 +53,8 @@ public class AddUtils {
     public static final String VERSION=Language.getPlaceHolder("VERSION");
     public static final SlimefunAddon ADDON_INSTANCE=MyAddon.getInstance();
     public static boolean USE_IDDECORATOR=true;
-    private static final double SF_TPS = 20.0 / (double) Slimefun.getTickerTask().getTickRate();
+    private static final double SF_TPS =
+            20.0 / (double) Slimefun.getTickerTask().getTickRate();
     private static final DecimalFormat FORMAT = new DecimalFormat("###,###,###,###,###,###.#");
     private static Random random=new Random();
 
@@ -966,7 +967,8 @@ public class AddUtils {
     public static String getDateString(){
         return new SimpleDateFormat("yyyyMMdd").format(new Date());
     }
-    static NamespacedKey idkey=Slimefun.getItemDataService().getKey();
+    static NamespacedKey idkey=//new NamespacedKey("minecraft","beyond");
+    Slimefun.getItemDataService().getKey();
     public static ItemStack getWithoutId(ItemStack stack){
         stack=stack.clone();
         ItemMeta meta = stack.getItemMeta();
@@ -975,5 +977,8 @@ public class AddUtils {
         }
         stack.setItemMeta(meta);
         return stack;
+    }
+    static{
+
     }
 }
