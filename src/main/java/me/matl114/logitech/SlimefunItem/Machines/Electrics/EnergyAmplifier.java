@@ -33,6 +33,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class EnergyAmplifier extends AbstractEnergyProvider implements MenuTogglableBlock {
     protected final int[] NULL_SLOT=new int[0];
@@ -104,19 +105,23 @@ public class EnergyAmplifier extends AbstractEnergyProvider implements MenuToggl
     }
     public void registerTick(SlimefunItem item){
         item.addItemHandler(
-                new BlockTicker() {
-                    public boolean isSynchronized() {
-                        return false;
-                    }
+            new BlockTicker() {
+                public boolean isSynchronized() {
+                    return false;
+                }
 
-                    @ParametersAreNonnullByDefault
-                    public void tick(Block b, SlimefunItem item, SlimefunBlockData data) {
-                        BlockMenu menu = data.getBlockMenu();
-                       if(menu!=null&&menu.hasViewer()){
-                           updateMenu(menu,b,Settings.RUN);
-                       }
+                @ParametersAreNonnullByDefault
+                public void tick(Block b, SlimefunItem item, SlimefunBlockData data) {
+                    BlockMenu menu = data.getBlockMenu();
+                    if(menu!=null){
+                        if(menu.hasViewer()){
+                            updateMenu(menu,b,Settings.RUN);
+                        }else {
+                            MenuUtils.syncSlot(menu,MACHINE_SLOT);
+                        }
                     }
                 }
+            }
         );
     }
     public  int getGeneratedOutput(@Nonnull Location l, @Nonnull SlimefunBlockData data){

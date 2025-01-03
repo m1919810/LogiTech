@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 public class StackMGenerator extends MMGenerator implements MultiCraftType, ImportRecipes {
     protected final int[] BORDER=new int[]{
@@ -247,7 +248,9 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
         if(mod== Settings.INIT) {
             //new CraftItemStack instance to trigger slimefun save thread
             ItemStack rawStack = inv.getItemInSlot(this.MACHINE_SLOT);
-            inv.replaceExistingItem(this.MACHINE_SLOT,rawStack);
+            if(rawStack!=null){
+                inv.replaceExistingItem(this.MACHINE_SLOT,rawStack);
+            }
         }
         ItemPusher it=this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT);
         int index=MultiCraftType.getRecipeTypeIndex(data);
@@ -341,6 +344,12 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
         boolean hasViewer=inv.hasViewer();
         if(hasViewer){
             updateMenu(inv,b,Settings.RUN);
+        }else{
+            CompletableFuture.runAsync(()->{
+                if(!inv.hasViewer()){
+                    MenuUtils.syncSlot(inv,MACHINE_SLOT);
+                }
+            });
         }
         int index=MultiCraftType.getRecipeTypeIndex(data);
         if(index>=0&&index<getListSize()){//有效机器

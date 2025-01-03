@@ -4,7 +4,6 @@ import lombok.Getter;
 import me.matl114.matlib.Utils.Reflect.FieldAccess;
 import me.matl114.matlib.Utils.Reflect.MethodAccess;
 import me.matl114.matlib.Utils.Reflect.ReflectUtils;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -20,15 +19,14 @@ public class NMSUtils {
     public static final MethodAccess<?> getNMSBlockType=MethodAccess.ofName("b");
 
     public static final MethodAccess<?> getBlockEntityMethodAccess=new MethodAccess((obj)->{
-        var a= me.matl114.matlib.Utils.Reflect.ReflectUtils.getMethodsByName(obj.getClass(),"c_");
-//        Debug.logger("initialize MethodAccess getBlockEntity");
+        var a= ReflectUtils.getMethodsByName(obj.getClass(),"c_");
 //        Debug.logger(a);
-        return a==null?null:a.getFirstValue();
+        return a==null?null:a.getA();
     });
     @Getter
     private static Class tileEntityClass;
     public static final MethodAccess<?> getBlockEntityTypeMethodAccess=new MethodAccess((obj)->{
-        List<Class> cls= ReflectUtils. getAllSuperClassRecursively(obj.getClass()).stream().filter(s->"TileEntity".equals(s.getSimpleName())).toList();
+        List<Class> cls= ReflectUtils.getAllSuperClassRecursively(obj.getClass()).stream().filter(s->"TileEntity".equals(s.getSimpleName())).toList();
         Class clazz=cls.get(cls.size()-1);
         //errorOut.accept(clazz);
         tileEntityClass=clazz;

@@ -71,7 +71,7 @@ public class LogitechMain extends AbstractMainCommand {
         public boolean onCommand(CommandSender var1, Command var2, String var3, String[] var4) {
             AddUtils.sendMessage(var1,"No Permission!");
             if(var1.hasPermission("logitech.command.op")){
-                runTest(parseInput(var4).getFirstValue().nextArg());
+                runTest(parseInput(var4).getA().nextArg());
             }
             return true;
         }

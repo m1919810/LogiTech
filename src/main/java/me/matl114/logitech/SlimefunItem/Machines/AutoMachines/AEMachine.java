@@ -1,5 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Machines.AutoMachines;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 public class AEMachine extends AbstractAdvancedProcessor {
@@ -96,6 +98,12 @@ public class AEMachine extends AbstractAdvancedProcessor {
     public boolean conditionHandle( Block b,BlockMenu menu){
         if(menu.hasViewer()){
             updateMenu(menu,b,Settings.RUN);
+        }else {
+            CompletableFuture.runAsync(()->{
+                if(!menu.hasViewer()){
+                    MenuUtils.syncSlot(menu,CORE_SLOT);
+                }
+            });
         }
         return super.conditionHandle(b,menu);
     }
@@ -116,6 +124,7 @@ public class AEMachine extends AbstractAdvancedProcessor {
         preset.addMenuClickHandler(INFO_SLOT,ChestMenuUtils.getEmptyClickHandler());
         preset.addItem(PROCESSOR_SLOT, MenuUtils.PROCESSOR_NULL, ChestMenuUtils.getEmptyClickHandler());
     }
+
     protected final ItemCounter CORE_SAMPLE= CraftUtils.getConsumer(AddItem.CHIP_CORE);
     protected final int CORE_SLOT=13;
     public int getCraftLimit(Block b, BlockMenu inv){
