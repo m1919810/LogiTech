@@ -1,8 +1,6 @@
 package me.matl114.logitech.SlimefunItem.Machines.SpecialMachines;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import io.github.sefiraat.networks.slimefun.network.NetworkController;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -135,7 +133,10 @@ public class TimerSlimefun extends AbstractMachine implements ChunkLimit, MenuTo
     protected HashSet<Class> blacklistedMachines=new HashSet<>(){{
         add(TimerSlimefun.class);
         add(TimerBlockEntity.class);
-        add(NetworkController.class);
+        try{
+            add(io.github.sefiraat.networks.slimefun.network.NetworkController.class);
+        }catch (NoClassDefFoundError ignored){
+        }
     }};
     protected HashSet<Location> RUNNING_MACHINES=new HashSet<>();
     public void registerTick(SlimefunItem item){

@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import me.matl114.logitech.SlimefunItem.Items.EntityFeat;
+import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.Debug;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -81,7 +82,7 @@ public class AbstractSpawner extends AbstractBlock{
             return false;
         }
         if(meta1 instanceof BlockStateMeta bsm1 &&meta2 instanceof BlockStateMeta bsm2){
-            return bsm1.getBlockState().equals(bsm2.getBlockState());
+            return CraftUtils.matchBlockStateMetaField(bsm1,bsm2);
         }
         return false;
     }

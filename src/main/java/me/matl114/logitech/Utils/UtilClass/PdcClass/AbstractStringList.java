@@ -22,7 +22,7 @@ public class AbstractStringList implements PersistentDataType<PersistentDataCont
         public Class<PersistentDataContainer> getPrimitiveType() {
             return PersistentDataContainer.class;
         }
-        private final Class clazz=(new ArrayList<String>()).getClass();
+        private final Class<?> clazz=(new ArrayList<String>()).getClass();
         @Nonnull
         public Class<List<String>> getComplexType() {
 
@@ -43,15 +43,16 @@ public class AbstractStringList implements PersistentDataType<PersistentDataCont
 
         @Nonnull
         public List<String> fromPrimitive(@Nonnull PersistentDataContainer primitive, @Nonnull PersistentDataAdapterContext context) {
-            List<String> strings = new ArrayList();
-            Iterator var4 = primitive.getKeys().iterator();
-
-            while(var4.hasNext()) {
-                NamespacedKey key = (NamespacedKey)var4.next();
-                strings.add((String)primitive.get(key, STRING));
+            List<String> strings = new ArrayList<>();
+            for(int i=0;true;++i){
+                NamespacedKey key = AddUtils.getNameKey(String.valueOf(i)) ;
+                if(primitive.has(key, STRING)){
+                    strings.add(primitive.get(key, STRING));
+                }else {
+                    break;
+                }
             }
-
-            return strings;
+            return  strings;
         }
 
 }

@@ -34,7 +34,9 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 public class RandomEditor extends AbstractMachine implements FinalAltarCore.FinalAltarChargable , Laser.LaserChargable {
-    protected final int[] BORDER=new int[0];
+    protected final int[] BORDER=new int[]{
+            27,28,29,30,32,33,34,35
+    };
     protected final int[] INPUT_BORDER=new int[]{
             0,1,2,3,5,6,7,8
     };
@@ -43,13 +45,15 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
     };
     protected final int INFO_SLOT=13;
     protected final ItemStack INFO_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6机制说明","&7将任意物品放入下方槽位",
-            "&7机器将修改物品的随机一项附魔,属性","&7等物品信息的数值,并将其+1","&c每个格子只能放入一个物品!");
+            "&7机器将修改物品的随机一项附魔,属性","&7等物品信息的数值,并将其随机强化","&c每个格子只能放入一个物品!");
+    protected final int LIMIT_SLOT=31;
+    protected final ItemStack LIMIT_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6说明","&7由于强化物品发包巨大","&7对玩家造成困扰","&7故减少槽位数量至9个","&e请玩家不要过量堆词条,以免造成困扰","&7望周知");
     protected final int[] ITEM_SLOT=new int[]{
 
             18,19,20,21,22,23,24,25,26,
-            27,28,29,30,31,32,33,34,35,
-            36,37,38,39,40,41,42,43,44,
-            45,46,47,48,49,50,51,52,53
+//            27,28,29,30,31,32,33,34,35,
+//            36,37,38,39,40,41,42,43,44,
+//            45,46,47,48,49,50,51,52,53
     };
     protected final int[] OUTPUT_SLOT=new int[0];
     public int[] getInputSlots(){
@@ -105,7 +109,7 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
 
     }
     public void constructMenu(BlockMenuPreset preset){
-        preset.setSize(54);
+        preset.setSize(36);
         int[] border=BORDER;
         int len=border.length;
         for (int i=0;i<len;++i){
@@ -123,14 +127,15 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
         }
         preset.addItem(STATUS_SLOT,STATUS_OFF,ChestMenuUtils.getEmptyClickHandler());
         preset.addItem(INFO_SLOT,INFO_ITEM,ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(LIMIT_SLOT,LIMIT_ITEM,ChestMenuUtils.getEmptyClickHandler());
     }
     public void tick(Block b, @Nullable BlockMenu menu, SlimefunBlockData data, int tickCount){
         if(menu==null)return;
-        process(b,menu,data);
         if(conditionHandle(b,menu)&& FinalFeature.isFinalAltarCharged(this,data)){
             if(menu.hasViewer()){
                 menu.replaceExistingItem(STATUS_SLOT,STATUS_ON);
             }
+            process(b,menu,data);
 
         }else {
             if(menu.hasViewer()){
