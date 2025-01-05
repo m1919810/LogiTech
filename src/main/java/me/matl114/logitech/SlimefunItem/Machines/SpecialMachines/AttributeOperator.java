@@ -22,7 +22,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import net.guizhanss.guizhanlib.minecraft.helper.attribute.AttributeHelper;
-import net.guizhanss.guizhanlib.minecraft.helper.enchantments.EnchantmentHelper;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -182,7 +181,10 @@ public class AttributeOperator extends SmithingInterface {
         }
     }
     public boolean online(BlockMenu inv){
-        return MultiBlockService.getStatus(inv.getLocation())!=0;
+        return true;//MultiBlockService.getStatus(inv.getLocation())!=0;
+    }
+    public String getEnchantDisplay(Enchantment ench){
+        return "minecraft".equals(ench.getKey().getNamespace())? ench.getKey().getKey():ench.getKey().toString();
     }
     protected String AUTOKEY_E="ate";
     protected String AUTOKEY_A="ata";
@@ -437,7 +439,7 @@ public class AttributeOperator extends SmithingInterface {
         int t=0;
         for (Map.Entry<Enchantment,Integer> entry:map.entrySet()) {
             lore.add(AddUtils.concat((t==index)?PREFIX_CHOOSEN:PREFIX_LORE,
-                    EnchantmentHelper.getEnchantmentName(entry.getKey(),false)," lvl: ",entry.getValue().toString())) ;
+                    getEnchantDisplay(entry.getKey())," lvl: ",entry.getValue().toString())) ;
             ++t;
         }
         meta.setLore(lore);
