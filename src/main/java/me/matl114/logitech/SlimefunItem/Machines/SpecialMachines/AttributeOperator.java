@@ -181,7 +181,7 @@ public class AttributeOperator extends SmithingInterface {
         }
     }
     public boolean online(BlockMenu inv){
-        return true;//MultiBlockService.getStatus(inv.getLocation())!=0;
+        return MultiBlockService.getStatus(inv.getLocation())!=0;
     }
     public String getEnchantDisplay(Enchantment ench){
         return "minecraft".equals(ench.getKey().getNamespace())? ench.getKey().getKey():ench.getKey().toString();

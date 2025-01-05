@@ -150,12 +150,10 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
     protected static EquipmentSlot[] equipmentSlots=EquipmentSlot.values();
     protected static int totalAmount;
     protected static String PREFIX="re";
-    protected static Field amountField=null;
-    protected static boolean getAmountField=false;
-    protected final static HashSet<Material> HELMET_MATERIALS=new HashSet<>();
-    protected final static HashSet<Material> CHESTPLATE_MATERIALS=new HashSet<>();
-    protected final static HashSet<Material> LEGGINGS_MATERIALS=new HashSet<>();
-    protected final static HashSet<Material> BOOTS_MATERIALS=new HashSet<>();
+    protected final static EnumSet<Material> HELMET_MATERIALS=EnumSet.noneOf(Material.class);
+    protected final static EnumSet<Material> CHESTPLATE_MATERIALS=EnumSet.noneOf(Material.class);
+    protected final static EnumSet<Material> LEGGINGS_MATERIALS=EnumSet.noneOf(Material.class);
+    protected final static EnumSet<Material> BOOTS_MATERIALS=EnumSet.noneOf(Material.class);
     public Enchantment[] getRegisteredEnchantments(){
         if(registeredEnchantments==null||registeredEnchantments.length==0){
             registeredEnchantments=Enchantment.values();
@@ -164,14 +162,6 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
         return registeredEnchantments;
     }
     static{
-        try{
-            amountField= ReflectUtils.getDeclaredFieldsRecursively(AttributeModifier.class,"amount").getFirstValue();
-            amountField.setAccessible(true);
-            getAmountField=true;
-            Debug.debug("INVOKE ATTRIBUTEMODIFIER TRUE");
-        }catch (Throwable e){
-            Debug.logger(e);
-        }
         for(Material material:Material.values()){
             if(material.isItem()){
                 if(material.toString().endsWith("HELMET")){
