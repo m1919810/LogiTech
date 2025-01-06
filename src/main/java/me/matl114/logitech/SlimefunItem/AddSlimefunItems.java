@@ -2753,9 +2753,15 @@ public class AddSlimefunItems {
                     mkP(mkl(setC(AddItem.MASS_CORE,256),setC(AddItem.SMELERY_CORE,256),setC(AddItem.HGTLPBBI,256),
                             setC(AddItem.LSINGULARITY,128),setC(AddItem.VIRTUAL_SPACE,128),setC(AddItem.PDCECDMD,256),
                             setC(AddItem.TECH_CORE,256),setC(AddItem.METAL_CORE,256)),mkl(setC(AddItem.FINAL_FRAME,3))),2,
-                    mkP(mkl(setC(AddItem.LSINGULARITY,512),"1919810IRON_DUST","1919810GOLD_DUST","1919810COPPER_DUST",
-                            "1919810TIN_DUST","1919810SILVER_DUST","1919810LEAD_DUST",
-                            "1919810ALUMINUM_DUST","1919810ZINC_DUST","1919810MAGNESIUM_DUST"),mkl(AddItem.LOGIC_CORE)),2
+            mkP(mkl(setC(AddItem.LSINGULARITY,512),"1919810IRON_DUST","1919810GOLD_DUST","1919810COPPER_DUST",
+                    "1919810TIN_DUST","1919810SILVER_DUST","1919810LEAD_DUST",
+                    "1919810ALUMINUM_DUST","1919810ZINC_DUST","1919810MAGNESIUM_DUST"),mkl(AddItem.LOGIC_CORE)),2,
+            mkP(mkl("512COPPER_INGOT","512IRON_INGOT","512GOLD_INGOT","512NETHERITE_INGOT"),mkl(AddItem.METAL_CORE)),0,
+            mkP(mkl("512MAGNESIUM_INGOT","512LEAD_INGOT","512TIN_INGOT","512ZINC_INGOT"),mkl(AddItem.SMELERY_CORE)),0,
+            mkP(mkl("512SILVER_INGOT","512ALUMINUM_INGOT","512DIAMOND","512REDSTONE"),mkl(AddItem.TECH_CORE)),0,
+            mkP(mkl("512COAL","512LAPIS_LAZULI","512QUARTZ","512EMERALD"),mkl(AddItem.MASS_CORE)),0,
+            mkP(mkl(setC(AddItem.DIMENSIONAL_SHARD,1024)),mkl(AddItem.DIMENSIONAL_SINGULARITY)),0
+
             ))
             .register();
     public static final SlimefunItem FINAL_STONE_MG=new FinalMGenerator(AddGroups.BEYOND, AddItem.FINAL_STONE_MG,COMMON_TYPE,

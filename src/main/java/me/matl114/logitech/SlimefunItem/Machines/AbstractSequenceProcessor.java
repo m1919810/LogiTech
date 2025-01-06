@@ -73,9 +73,9 @@ public abstract class AbstractSequenceProcessor extends AbstractMachine implemen
             for(var recipePiece:customRecipes2){
                 //no need to stack and can not stack(maybe some shitmachine will stack
                 //but we stack it in order to format up
-                this.machineRecipes.add(MachineRecipeUtils.stackFromMachine(
-                        new MachineRecipe(recipePiece.getSecondValue(),recipePiece.getFirstValue().getFirstValue(), recipePiece.getFirstValue().getSecondValue())
-                ));
+                this.machineRecipes.add(MachineRecipeUtils.sequenceFrom(
+                        2*(int)recipePiece.getSecondValue(),recipePiece.getFirstValue().getFirstValue(), recipePiece.getFirstValue().getSecondValue())
+                );
             }
         }else
         {

@@ -85,6 +85,6 @@ public class SequenceCraftingOperation implements CustomMachineOperation {
             ItemStack it=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&a阶段输入进程",lines);
             return it;
         }else
-            return new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&a阶段输入进程","&7当前进程信息","&c错误!使用的不是有序输入配方");
+            return new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&a阶段输入进程","&7当前进程信息","&c机器内部错误!无法显示该配方进度信息");
     }
 }
