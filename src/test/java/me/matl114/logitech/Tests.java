@@ -73,43 +73,43 @@ public class Tests {
     public void test_Import(){
     }
 
-    public void test_Tasks(){
-        List<CompletableFuture> futures=new ArrayList<>();
-        AtomicInteger integer=new AtomicInteger();
-        for (int i=0;i<3276800;++i){
-            futures.add(CompletableFuture.runAsync(()->{
-                for (int a=0;a<100_000_000;++a){
-                    integer.get();
-                }
-            }).exceptionally(ex->{log(ex+"");return null;}));
-        }
-        log("sended");
-        CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new)).join();
-        log("joined");
-    }
-    
-    public void test_lock(){
-
-        byte[] lock=new byte[0];
-        synchronized(lock){
-            synchronized(lock){
-                log("Get in 1");
-            }
-            CompletableFuture.runAsync(()->{
-                synchronized(lock){
-                    log("Get in 2");
-                }
-            }).orTimeout(2,TimeUnit.SECONDS).exceptionally((ex)->{
-                log("exception handled ");
-                ex.printStackTrace();
-                return null;
-            }).join();
-        }
-    }
-
-    public void test_color(){
-        log(AddUtils.color("aaaaa"));
-    }
+//    public void test_Tasks(){
+//        List<CompletableFuture> futures=new ArrayList<>();
+//        AtomicInteger integer=new AtomicInteger();
+//        for (int i=0;i<3276800;++i){
+//            futures.add(CompletableFuture.runAsync(()->{
+//                for (int a=0;a<100_000_000;++a){
+//                    integer.get();
+//                }
+//            }).exceptionally(ex->{log(ex+"");return null;}));
+//        }
+//        log("sended");
+//        CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new)).join();
+//        log("joined");
+//    }
+//
+//    public void test_lock(){
+//
+//        byte[] lock=new byte[0];
+//        synchronized(lock){
+//            synchronized(lock){
+//                log("Get in 1");
+//            }
+//            CompletableFuture.runAsync(()->{
+//                synchronized(lock){
+//                    log("Get in 2");
+//                }
+//            }).orTimeout(2,TimeUnit.SECONDS).exceptionally((ex)->{
+//                log("exception handled ");
+//                ex.printStackTrace();
+//                return null;
+//            }).join();
+//        }
+//    }
+//
+//    public void test_color(){
+//        log(AddUtils.color("aaaaa"));
+//    }
 
 
 }
