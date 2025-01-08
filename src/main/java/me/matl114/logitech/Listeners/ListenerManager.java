@@ -36,6 +36,7 @@ public class ListenerManager {
         register(TICKERBLOCK_PLACE_LISTENER);
         register(MULTIBLOCK_BREAK_LISTENER);
         register(SMITH_INTERFACE_LISTENER);
+        register(COMBAT_LISTENER);
     }
     public static Plugin plugin;
     public static PluginManager manager;
@@ -59,4 +60,5 @@ public class ListenerManager {
     public static final Listener TICKERBLOCK_PLACE_LISTENER=new TickBlockListener();
     public static final Listener MULTIBLOCK_BREAK_LISTENER=new MultiBlockVanillaPartListener();
     public static final Listener SMITH_INTERFACE_LISTENER=new SmithInterfaceListener();
+    public static final Listener COMBAT_LISTENER=new CombatListener();
 }

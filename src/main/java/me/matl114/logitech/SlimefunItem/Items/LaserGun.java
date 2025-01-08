@@ -42,7 +42,7 @@ public class LaserGun extends ChargableProps{
         container.set(LEVEL_KEY, PersistentDataType.INTEGER, level);
         List<String> lores=meta.getLore();
         if(lores.size()>1){
-            lores.set(lores.size()-2, AddUtils.concat(LEVEL_PREFIX,"第",String.valueOf(level+1),"档/共",String.valueOf(MAX_LEVEL),"档"));
+            lores.set(lores.size()-3, AddUtils.concat(LEVEL_PREFIX,"第",String.valueOf(level+1),"档/共",String.valueOf(MAX_LEVEL),"档"));
         }
         meta.setLore(lores);
     }

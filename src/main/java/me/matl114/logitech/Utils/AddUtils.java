@@ -51,6 +51,8 @@ public class AddUtils {
     public static final String ADDON_NAME=Language.getPlaceHolder("PLUGIN");
     public static final String ADDON_ID="LOGITECH";
     public static final String VERSION=Language.getPlaceHolder("VERSION");
+    public static final String DEFAULT_COLOR=Language.getPlaceHolder("DEFAULT_COLOR");
+    public static final String END_COLOR=Language.getPlaceHolder("END_COLOR");
     public static final SlimefunAddon ADDON_INSTANCE=MyAddon.getInstance();
     public static boolean USE_IDDECORATOR=true;
     private static final double SF_TPS =
@@ -132,7 +134,7 @@ public class AddUtils {
             //15409899;
     public static final int END_CODE=rgb2int("970097");
     public static String color(String str){
-        return resolveRGB(START_CODE)+str;
+        return DEFAULT_COLOR+str;
     }
     public static String colorful(String str) {
         int len=str.length()-1;

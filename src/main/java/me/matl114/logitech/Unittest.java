@@ -70,6 +70,12 @@ public class Unittest {
     //todo 优化投影体系
     //todo 修复堆叠机器久置后内部机器变砖的问题
     //todo 做测试道具-多方块自动构建机
+    //todo 增加物品效果管理器
+    //todo 1 手中握着物品 事件触发
+    //todo 2 手中握着物品 按s触发->管理器增加period方法
+    //todo 3 手中切换物品 触发更新
+    //todo 增加 1. swap 2. select 3. inventoryClick 的手中更新
+
     {
 
     }

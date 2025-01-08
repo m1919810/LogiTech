@@ -159,6 +159,7 @@
   </dependencies>
   <properties>
     <maven.compiler.target>16</maven.compiler.target>
+    <maven.test.skip>true</maven.test.skip>
     <maven.compiler.source>16</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

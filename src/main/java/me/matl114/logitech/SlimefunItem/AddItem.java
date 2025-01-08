@@ -7,6 +7,10 @@ import me.matl114.logitech.Items.CustomFireworkStar;
 import me.matl114.logitech.Items.CustomHead;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.matlib.Utils.Algorithm.InitializeSafeProvider;
+import me.matl114.matlib.Utils.Version.Version;
+import me.matl114.matlib.Utils.Version.VersionedFeature;
+import me.matl114.matlib.core.EnvironmentManager;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -275,8 +279,13 @@ public class AddItem {
             Language.get("Items.RTP_RUNE.Name"),Language.getList("Items.RTP_RUNE.Lore"));
     public static final SlimefunItemStack SPACE_CARD=AddUtils.themed("SPACE_CARD",Material.SPIRE_ARMOR_TRIM_SMITHING_TEMPLATE,AddUtils.Theme.ITEM1,
             Language.get("Items.SPACE_CARD.Name"),Language.getList("Items.SPACE_CARD.Lore"));
-    public static final ItemStack UNBREAKING_SHIELD=AddUtils.themed(Material.SHIELD, AddUtils.Theme.TOOL,
+
+    public static final SlimefunItemStack UNBREAKING_SHIELD=AddUtils.themed("UNBREAKING_SHIELD",Material.SHIELD, AddUtils.Theme.TOOL,
             Language.get("Items.UNBREAKING_SHIELD.Name"),Language.getList("Items.UNBREAKING_SHIELD.Lore"));
+    public static final ItemStack MACE_ITEM=new InitializeSafeProvider<>(ItemStack.class,()->{
+        Material material= EnvironmentManager.getManager().getVersioned().getMaterial("MACE");
+        return material==null?null: new ItemStack(material);
+    }).v ();
     public static final SlimefunItemStack FAKE_UI=AddUtils.themed("FAKE_UI",Material.LIGHT_GRAY_STAINED_GLASS_PANE,AddUtils.Theme.ITEM1,
             Language.get("Items.FAKE_UI.Name"),Language.getList("Items.FAKE_UI.Lore"));
     public static final SlimefunItemStack ANTIGRAVITY=AddUtils.themed("ANTIGRAVITY",Material.NETHERITE_INGOT,AddUtils.Theme.ITEM1,

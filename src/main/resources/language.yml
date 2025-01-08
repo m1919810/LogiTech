@@ -2,6 +2,8 @@ placeholder:
   PLUGIN: '逻辑工艺'
   VERSION: 'v1.0.4'
   MAX_MC_VERSION: '1.21.3'
+  DEFAULT_COLOR: '§x§E§B§3§3§E§B'
+  END_COLOR: '§x§9§7§0§0§9§7'
 zh_CN:
   Groups:
     ROOT:
@@ -516,7 +518,7 @@ zh_CN:
         - '右键破坏任何原版方块/本附属无法破坏方块'
         - '每方块仅消耗 1 活塞'
     LASER_GUN:
-      Name: '便捷式宏激光发射器'
+      Name: '&e便捷式宏激光发射器'
       Lore:
         - '发射宏激光'
         - '手持右键发射'
@@ -538,16 +540,16 @@ zh_CN:
         - '要溢出来了,啊~'
         - '使用过的海绵可在熔炉里恢复'
     TRACE_ARROW:
-      Name: '暴雪桃花针'
+      Name: '%DEFAULT_COLOR%暴雪桃花针'
       Lore:
         - '消耗电力发射16根追踪飞针'
         - '对命中的敌人造成箭矢伤害'
-        - '&x&E&B&3&3&E&B---赛博修仙 机械飞升---'
+        - '%DEFAULT_COLOR%---赛博修仙 机械飞升---'
         - '寻踪范围: 60'
         - '穿透数: 4'
         - '箭矢伤害: 40+2*<力量魔咒等级>+<锋利魔咒等级>'
     RTP_RUNE:
-      Name: '&7古代符文 &8&l[&x&E&B&3&3&E&B&l随机传送&8&l]'
+      Name: '&7古代符文 &8&l[%DEFAULT_COLOR%&l随机传送&8&l]'
       Lore:
         - '丢出后进行随机传送,期间请不要移动'
         - '丢出数目越多,传送范围越大!'
@@ -559,9 +561,18 @@ zh_CN:
         - '可以存储一片空间...'
         - '在空间塔中进行空间IO'
     UNBREAKING_SHIELD:
-      Name: '防暴盾牌'
+      Name: '&b防暴盾牌'
       Lore:
-        - 'pvp概念神'
+        - '将无法被斧头禁用!'
+    SUPER_MACE:
+      Name: '%DEFAULT_COLOR%雷霆重锤'
+      Lore:
+        - '跳跃提升 V'
+        - '摔落免疫 I'
+        - '自带增益的重锤'
+        - '可以让敌人~飞起来~'
+        - '%DEFAULT_COLOR%---并非雷神,实则锤神---'
+
     FAKE_UI:
       Name: '槽位伪装板'
     REPLACE_SF_CARD:

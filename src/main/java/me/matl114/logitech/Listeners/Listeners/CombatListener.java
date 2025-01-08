@@ -1,7 +1,9 @@
 package me.matl114.logitech.Listeners.Listeners;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.ItemStackSnapshot;
 import me.matl114.logitech.Schedule.Schedules;
+import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -37,13 +39,13 @@ public class CombatListener implements Listener {
                 EntityEquipment eequipment = entity.getEquipment();
                 if(eequipment!=null&&(AXE_MATERIAL.contains( eequipment.getItemInMainHand().getType())||AXE_MATERIAL.contains(eequipment.getItemInOffHand().getType()))){
                     ItemStack stackInUse=p.getItemInUse();
-                    if(stackInUse!=null&&SHIELD_MATERIAL.contains( stackInUse.getType())){
+                    if(stackInUse!=null&&SHIELD_MATERIAL.contains( stackInUse.getType()) && SlimefunItem.getByItem(stackInUse)== AddSlimefunItems.UNBREAKING_SHIELD){
                         Material type=stackInUse.getType();
                         Schedules.launchSchedules(()->{
                             if(p.hasCooldown(type)&&p.getCooldown(type)>0){
                                 p.setCooldown(type,0);
                             }
-                        },1,true,0);
+                        },0,true,0);
                     }
                 }
             }

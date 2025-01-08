@@ -58,6 +58,7 @@ import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.matl114.matlib.Implements.Slimefun.core.CustomRecipeType;
+import me.matl114.matlib.Utils.Algorithm.InitializeSafeProvider;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
@@ -83,6 +84,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * register main
  */
+@SuppressWarnings("all")
 public class AddSlimefunItems {
     public static void registerSlimefunItems() {
         Debug.logger("注册附属物品...");
@@ -513,9 +515,21 @@ public class AddSlimefunItems {
             recipe("REDSTONE","LEAD_INGOT","REDSTONE","LEAD_INGOT","WITHER_PROOF_OBSIDIAN","LEAD_INGOT",
                     "REDSTONE","LEAD_INGOT","REDSTONE"))
             .register().setOutput(setC(AddItem.WITHERPROOF_REDS,4));
-    public static final MyVanillaItem UNBREAKING_SHIELD=new MyVanillaItem(AddGroups.TOOLS,AddItem.UNBREAKING_SHIELD,"UNBREAKING_SHIELD",BukkitUtils.VANILLA_CRAFTTABLE,
+    public static final MyVanillaItem MACE_ITEM=new InitializeSafeProvider <>(MyVanillaItem.class, ()->{
+        if(AddItem.MACE_ITEM!=null){
+            var re= new MyVanillaItem(AddGroups.TOOLS, AddItem.MACE_ITEM,"LOGITECH_MACE_RECIPE",BukkitUtils.VANILLA_CRAFTTABLE,
+                    recipe(AddItem.METAL_CORE,AddItem.BUG,AddItem.METAL_CORE,
+                            null,AddItem.STAR_GOLD_INGOT,null,
+                            null,AddItem.STAR_GOLD_INGOT,null));
+            //todo we will add this to AddGroups.TOOLS later after we reconstruct AddGroups.TOOLS!
+            return re.register();
+        }
+        return null;
+    }).v();
+    public static final SlimefunItem UNBREAKING_SHIELD=new MaterialItem(AddGroups.TOOLS,AddItem.UNBREAKING_SHIELD,BukkitUtils.VANILLA_CRAFTTABLE,
             recipe("IRON_BLOCK","DAMASCUS_STEEL_INGOT","IRON_BLOCK","IRON_BLOCK","OBSIDIAN","IRON_BLOCK",
             null,"IRON_BLOCK",null)).register();
+
     //machines
     public static final SlimefunItem BOOL_GENERATOR=new BoolGenerator(AddGroups.BASIC,AddItem.BOOL_GENERATOR,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe("OBSERVER","REDSTONE","OBSERVER",
@@ -769,36 +783,6 @@ public class AddSlimefunItems {
                     mkP(mkl("ENDER_PEARL"),mkl("END_STONE")),3
                     ))
             .register();
-//    public static final  SlimefunItem ADVANCE_BREWER=new AutoBrewer(AddGroups.BASIC, AddItem.ADVANCE_BREWER,COMMON_TYPE,
-//            recipe(AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,
-//                    AddItem.ABSTRACT_INGOT,null,AddItem.NOLOGIC,AddItem.NOLOGIC,null,AddItem.ABSTRACT_INGOT,
-//                    AddItem.ABSTRACT_INGOT,null,"AUTO_BREWER","AUTO_BREWER",null,AddItem.ABSTRACT_INGOT,
-//                    AddItem.ABSTRACT_INGOT,null,"AUTO_BREWER","AUTO_BREWER",null,AddItem.ABSTRACT_INGOT,
-//                    AddItem.ABSTRACT_INGOT,null,AddItem.NOLOGIC,AddItem.NOLOGIC,null,AddItem.ABSTRACT_INGOT,
-//                    AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT,AddItem.LENGINE,AddItem.LENGINE,AddItem.ABSTRACT_INGOT,AddItem.ABSTRACT_INGOT)){
-//        {
-//            setCapacity(1200);
-//            setEnergyConsumption(120);
-//            setProcessingSpeed(64);
-//        }
-//        protected MachineRecipe findNextRecipe(BlockMenu menu){
-//            MachineRecipe recipe=super.findNextRecipe(menu);
-//            if(recipe==null){
-//                return null;
-//            }else {
-//                recipe.setTicks(0);
-//                return recipe;
-//            }
-//        }
-//        public SlimefunItem register(){
-//            if(AddSlimefunItems.INSTANCE!=null){
-//                register(AddSlimefunItems.INSTANCE);
-//            }else{
-//                Debug.logger("找不到附属实例!  注册信息: "+this.toString());
-//            }
-//            return this;
-//        }
-//    }.register();
 
     public static final  SlimefunItem VIRTUAL_KILLER=new VirtualKiller(AddGroups.BASIC, AddItem.VIRTUAL_KILLER,COMMON_TYPE,
             recipe(AddItem.BISILVER,AddItem.BISILVER,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.BISILVER,AddItem.BISILVER,
