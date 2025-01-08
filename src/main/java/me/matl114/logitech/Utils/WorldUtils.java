@@ -1132,12 +1132,17 @@ public class WorldUtils {
     protected static FieldAccess weakWorldFieldAccess;
     static {
         try{
-            Debug.debug( Bukkit.getBukkitVersion());
-            World sampleWorld= Bukkit.getWorlds().get(0);
-            Debug.debug(sampleWorld.getName());
-            BlockState blockstate=sampleWorld.getBlockAt(0, 0, 0).getState();
+            BlockState blockstate;
+            try{
+                blockstate=Material.STONE.createBlockData().createBlockState();
+            }catch (Throwable versionTooEarlyError){
+                World sampleWorld= Bukkit.getWorlds().get(0);
+                Debug.debug(sampleWorld.getName());
+                blockstate= sampleWorld.getBlockAt(0, 0, 0).getState();
+            }
             var result=ReflectUtils.getDeclaredFieldsRecursively(blockstate.getClass(),"data");
             var IBlockDataField=result.getFirstValue();
+           // Debug.logger(result.getSecondValue());
             IBlockDataField.setAccessible(true);
             iBlockDataFieldAccess=FieldAccess.of(IBlockDataField);
             CraftBlockStateClass=result.getSecondValue();
@@ -1186,6 +1191,9 @@ public class WorldUtils {
             }
         }
     }};
+    static{
+
+    }
     public static void setBlock(Block block, Material material) {
 
     }

@@ -27,9 +27,6 @@ public class Tests {
     }
 
 
-    //@Test
-
-   // @Test
     public void test_configCode(){
        boolean symm=false;
        boolean isnull=true;
@@ -60,7 +57,7 @@ public class Tests {
         a.subList(size-8,size).clear();
         log(a.size()+"");
     }
-    //@Test
+
     public void test_MathUtils(){
         int code=-1;
         for (int i=-1;i<1;++i){
@@ -75,7 +72,7 @@ public class Tests {
     }
     public void test_Import(){
     }
-    //@Test
+
     public void test_Tasks(){
         List<CompletableFuture> futures=new ArrayList<>();
         AtomicInteger integer=new AtomicInteger();
@@ -109,7 +106,7 @@ public class Tests {
             }).join();
         }
     }
-    //@Test
+
     public void test_color(){
         log(AddUtils.color("aaaaa"));
     }

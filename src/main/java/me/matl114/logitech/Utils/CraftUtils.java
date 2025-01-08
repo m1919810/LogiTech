@@ -54,7 +54,7 @@ public class CraftUtils {
     //public static Field ITEMSTACKMETA;
 
     static{
-        Debug.logger("Initializing CraftUtils...");
+        Debug.logger("初始化配方合成方法库");
         try{
             var CRAFTLORE=CRAFTMETAITEMCLASS.getDeclaredField("lore");
             CRAFTLORE.setAccessible(true);
