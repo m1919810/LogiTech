@@ -2,14 +2,12 @@ package me.matl114.logitech.Listeners;
 
 
 import me.matl114.logitech.Listeners.Listeners.*;
-import me.matl114.logitech.SlimefunItem.Cargo.SpaceStorage.StorageSpace;
+import me.matl114.logitech.core.Cargo.SpaceStorage.StorageSpace;
 import me.matl114.logitech.Unittest;
 import me.matl114.logitech.Utils.Debug;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
-
-import java.util.List;
 
 public class ListenerManager {
     public static void registerListeners(Plugin plugin,PluginManager manager){

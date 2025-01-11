@@ -1,8 +1,8 @@
 package me.matl114.logitech.Listeners.Listeners;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfContainment;
-import me.matl114.logitech.SlimefunItem.Blocks.AbstractSpawner;
-import me.matl114.logitech.SlimefunItem.Items.EntityFeat;
+import me.matl114.logitech.core.Blocks.AbstractSpawner;
+import me.matl114.logitech.core.Items.SpecialItems.EntityFeat;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.DataCache;

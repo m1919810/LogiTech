@@ -8,7 +8,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import me.matl114.logitech.ConfigLoader;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Debug;
-import me.matl114.logitech.Utils.RecipeSupporter;
+import me.matl114.logitech.core.Registries.RecipeSupporter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;

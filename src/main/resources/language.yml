@@ -235,6 +235,15 @@ zh_CN:
       Name: '&d%PLUGIN% &6功能性物品'
     TOOLS:
       Name: '&d%PLUGIN% &6工具与锻造'
+    TOOLS_SUBGROUP_1:
+      Name: '&d锻铸工坊 &6增幅组件'
+    TOOLS_SUBGROUP_2:
+      Name: '%dLogiTool &6功能单元'
+    TOOLS_RECIPES:
+      Name: '%d工具与锻铸 %6特殊配方类型说明'
+      Lore:
+        - '用于查看本分类中特殊配方类型的合成方法'
+
   Items:
     BUG:
       Name: 'BUG'

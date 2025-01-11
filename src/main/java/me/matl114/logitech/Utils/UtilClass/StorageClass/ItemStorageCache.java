@@ -1,12 +1,10 @@
 package me.matl114.logitech.Utils.UtilClass.StorageClass;
 
 import com.google.common.base.Preconditions;
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import me.matl114.logitech.Schedule.ScheduleSave;
-import me.matl114.logitech.Schedule.Schedules;
-import me.matl114.logitech.SlimefunItem.Cargo.StorageMachines.AbstractIOPort;
-import me.matl114.logitech.SlimefunItem.Cargo.Storages;
+import me.matl114.logitech.Manager.ScheduleSave;
+import me.matl114.logitech.core.Cargo.StorageMachines.AbstractIOPort;
+import me.matl114.logitech.core.Cargo.Storages;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.Debug;

@@ -2,9 +2,9 @@ package me.matl114.logitech.Utils.UtilClass.MultiBlockClass;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import me.matl114.logitech.Schedule.ScheduleSave;
-import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore.MultiBlockCore;
-import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore.MultiBlockPart;
+import me.matl114.logitech.Manager.ScheduleSave;
+import me.matl114.logitech.core.Blocks.MultiBlockCore.MultiBlockCore;
+import me.matl114.logitech.core.Blocks.MultiBlockCore.MultiBlockPart;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.EntityClass.ItemDisplayBuilder;
 import me.matl114.logitech.Utils.UtilClass.EntityClass.TransformationBuilder;
@@ -21,9 +21,7 @@ import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 

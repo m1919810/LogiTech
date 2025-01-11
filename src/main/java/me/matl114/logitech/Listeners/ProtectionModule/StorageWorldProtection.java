@@ -3,7 +3,7 @@ package me.matl114.logitech.Listeners.ProtectionModule;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.ProtectionModule;
 import me.matl114.logitech.MyAddon;
-import me.matl114.logitech.SlimefunItem.Cargo.SpaceStorage.StorageSpace;
+import me.matl114.logitech.core.Cargo.SpaceStorage.StorageSpace;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.Plugin;

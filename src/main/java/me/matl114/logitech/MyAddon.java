@@ -4,30 +4,28 @@ import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import lombok.Getter;
-import me.matl114.logitech.Depends.DependencyInfinity;
-import me.matl114.logitech.Depends.DependencyNetwork;
-import me.matl114.logitech.Depends.SupportedPluginManager;
+import me.matl114.logitech.core.Depends.DependencyInfinity;
+import me.matl114.logitech.core.Depends.DependencyNetwork;
+import me.matl114.logitech.core.Depends.SupportedPluginManager;
 import me.matl114.logitech.Listeners.ListenerManager;
 import me.matl114.logitech.Listeners.ProtectionManager;
-import me.matl114.logitech.Schedule.PersistentEffects.CustomEffects;
-import me.matl114.logitech.Schedule.PersistentEffects.RadiationRegion;
-import me.matl114.logitech.Schedule.Schedules;
-import me.matl114.logitech.SlimefunItem.AddDepends;
-import me.matl114.logitech.SlimefunItem.AddGroups;
-import me.matl114.logitech.SlimefunItem.AddItem;
-import me.matl114.logitech.SlimefunItem.AddSlimefunItems;
-import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore.MultiBlockTypes;
-import me.matl114.logitech.SlimefunItem.Cargo.SpaceStorage.StorageSpace;
-import me.matl114.logitech.SlimefunItem.Cargo.Storages;
+import me.matl114.logitech.core.Registries.CustomEffects;
+import me.matl114.logitech.Manager.RadiationRegionManager;
+import me.matl114.logitech.Manager.Schedules;
+import me.matl114.logitech.core.Registries.AddDepends;
+import me.matl114.logitech.core.AddGroups;
+import me.matl114.logitech.core.AddItem;
+import me.matl114.logitech.core.AddSlimefunItems;
+import me.matl114.logitech.core.Registries.MultiBlockTypes;
+import me.matl114.logitech.core.Cargo.SpaceStorage.StorageSpace;
+import me.matl114.logitech.core.Cargo.Storages;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.CommandClass.LogitechMain;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.matl114.matlib.Utils.Command.CommandGroup.AbstractMainCommand;
 import me.matl114.matlib.core.AddonInitialization;
-import me.matl114.matlib.core.EnvironmentManager;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bukkit.Bukkit;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -134,7 +132,7 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         //加载自定义效果机制
         CustomEffects.setup();
         //加载辐射机制
-        RadiationRegion.setup();
+        RadiationRegionManager.setup();
         //加载配方工具
         CraftUtils.setup();
         //加载世界操作工具

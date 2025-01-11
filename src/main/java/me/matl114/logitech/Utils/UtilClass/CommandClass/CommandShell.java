@@ -2,11 +2,10 @@ package me.matl114.logitech.Utils.UtilClass.CommandClass;
 
 import com.google.common.base.Preconditions;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import me.matl114.logitech.Listeners.Listeners.PlayerQuiteListener;
 import me.matl114.logitech.MyAddon;
-import me.matl114.logitech.Schedule.Schedules;
+import me.matl114.logitech.Manager.Schedules;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.ReflectUtils;
@@ -21,11 +20,9 @@ import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 import java.io.*;
 import java.lang.reflect.*;
-import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 public class CommandShell {
     protected static String ROOT_PASSWORD="...";

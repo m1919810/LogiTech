@@ -1,7 +1,6 @@
 package me.matl114.logitech.Utils.UtilClass.FunctionalClass;
 
-import me.matl114.logitech.Schedule.Schedules;
-import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.Manager.Schedules;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 

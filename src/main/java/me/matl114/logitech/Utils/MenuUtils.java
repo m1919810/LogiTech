@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.*;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.*;
+import me.matl114.logitech.core.Registries.RecipeSupporter;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -16,14 +17,11 @@ import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.permissions.Permission;
 
 import javax.annotation.Nullable;
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -400,7 +398,7 @@ public class MenuUtils {
         return createRecipeTypeDisplay(recipeTypes,backHandler,null);
     }
     public static MenuFactory createRecipeTypeDisplay(List<RecipeType> recipeTypes, CustomMenuHandler backHandler,PlayerHistoryRecord<CustomMenu> history){
-        HashMap<RecipeType,ItemStack> map=RecipeSupporter.RECIPETYPE_ICON;
+        HashMap<RecipeType,ItemStack> map= RecipeSupporter.RECIPETYPE_ICON;
         int RecipeSize =0;
         for(RecipeType entry:recipeTypes){
             if(map.containsKey(entry)){

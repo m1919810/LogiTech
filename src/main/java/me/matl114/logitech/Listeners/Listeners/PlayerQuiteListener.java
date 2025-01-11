@@ -1,6 +1,5 @@
 package me.matl114.logitech.Listeners.Listeners;
 
-import me.matl114.logitech.Schedule.Task;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

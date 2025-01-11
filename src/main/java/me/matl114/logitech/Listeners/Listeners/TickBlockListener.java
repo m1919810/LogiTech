@@ -1,11 +1,8 @@
 package me.matl114.logitech.Listeners.Listeners;
 
 import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
-import me.matl114.logitech.SlimefunItem.Machines.SpecialMachines.TimerBlockEntity;
-import me.matl114.logitech.SlimefunItem.Machines.SpecialMachines.TimerRandomtick;
-import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.Debug;
-import me.matl114.logitech.Utils.WorldUtils;
+import me.matl114.logitech.core.Machines.SpecialMachines.TimerBlockEntity;
+import me.matl114.logitech.core.Machines.SpecialMachines.TimerRandomtick;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.event.EventHandler;
@@ -16,7 +13,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.world.StructureGrowEvent;
 
-import javax.xml.crypto.Data;
 import java.util.List;
 
 public class TickBlockListener implements Listener {

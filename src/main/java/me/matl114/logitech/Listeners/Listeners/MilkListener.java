@@ -3,7 +3,7 @@
 
 package me.matl114.logitech.Listeners.Listeners;
 
-import me.matl114.logitech.Schedule.ScheduleEffects;
+import me.matl114.logitech.Manager.EffectTickManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,7 +21,7 @@ public class MilkListener implements Listener {
         Player player = e.getPlayer();
 
         if (e.getItem().getType() == Material.MILK_BUCKET) {
-            ScheduleEffects.clearAllEffects(e.getPlayer());
+            EffectTickManager.clearAllEffects(e.getPlayer());
         }
     }
 }

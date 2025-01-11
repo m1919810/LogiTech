@@ -1,8 +1,7 @@
 package me.matl114.logitech.Utils.UtilClass.MultiBlockClass;
 
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import me.matl114.logitech.SlimefunItem.Blocks.MultiBlockCore.MultiBlockCore;
+import me.matl114.logitech.core.Blocks.MultiBlockCore.MultiBlockCore;
 import me.matl114.logitech.Utils.DataCache;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;

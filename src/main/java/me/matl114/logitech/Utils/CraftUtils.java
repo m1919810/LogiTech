@@ -4,7 +4,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
-import me.matl114.logitech.SlimefunItem.CustomSlimefunItem;
+import me.matl114.logitech.core.CustomSlimefunItem;
 import me.matl114.logitech.Utils.Algorithms.DynamicArray;
 
 import me.matl114.logitech.Utils.UtilClass.ItemClass.*;

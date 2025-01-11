@@ -8,7 +8,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.matl114.logitech.Listeners.Events.AttackPermissionTestEvent;
 import me.matl114.logitech.MyAddon;
-import me.matl114.logitech.Schedule.Schedules;
+import me.matl114.logitech.Manager.Schedules;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
 import me.matl114.matlib.Utils.Reflect.FieldAccess;
