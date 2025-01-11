@@ -81,14 +81,13 @@ public class StorageCleaner extends AbstractMachine {
             SlimefunItem it=SlimefunItem.getByItem(it1);
             ItemStack out;
             if (it!=null){
-                out=it.getItem();
+                out=it.getRecipeOutput();
+                out.setAmount(it1.getAmount());
             }else{
                 out=it1;
             }
-            inv.replaceExistingItem(output[i], out);
-            it2=inv.getItemInSlot(output[i]);
-            it2.setAmount(it1.getAmount());
             inv.replaceExistingItem(input[i], null);
+            inv.replaceExistingItem(output[i], out);
         }
     }
 }

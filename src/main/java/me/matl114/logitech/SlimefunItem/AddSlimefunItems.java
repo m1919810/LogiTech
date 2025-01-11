@@ -2208,8 +2208,8 @@ public class AddSlimefunItems {
                     add(RecipeType.SMELTERY);
                 }};
                 for(SlimefunItem item: Slimefun.getRegistry().getAllSlimefunItems()){
-                    if(item.getItem().getType().getMaxStackSize()==1&& supportedType.contains( item.getRecipeType())&&item.getRecipe().length==9){
-                        cardRecipe.add(MachineRecipeUtils.shapeFrom(-1,item.getRecipe(),recipe(REPLACE_SF_CARD.getReplaceCard(item))));
+                    if(item.getRecipeOutput().getType().getMaxStackSize()==1&& supportedType.contains( item.getRecipeType())&&item.getRecipe().length<=9){
+                        cardRecipe.add(MachineRecipeUtils.shapeFrom(-1,Arrays.copyOf(item.getRecipe(), 9),recipe(REPLACE_SF_CARD.getReplaceCard(item))));
                     }
                 }
                 return cardRecipe;

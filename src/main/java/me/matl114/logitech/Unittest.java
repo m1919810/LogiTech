@@ -74,7 +74,7 @@ public class Unittest {
     //todo 1 手中握着物品 事件触发
     //todo 2 手中握着物品 按s触发->管理器增加period方法
     //todo 3 手中切换物品 触发更新
-    //todo 增加 1. swap 2. select 3. inventoryClick 的手中更新
+    //todo 增加 1. swap 2. select 3. inventoryClick 4.Respawn 5.Join 6.Quit 的手中更新
 
     {
 

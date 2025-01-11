@@ -129,7 +129,7 @@ public class EnergyAmplifier extends AbstractEnergyProvider implements MenuToggl
         if(inv==null)return 0;
         DataMenuClickHandler dh=getDataHolder(null,inv);
         Object sf=dh.getObject(0);
-        if(sf instanceof EnergyNetProvider ep){
+        if(sf instanceof EnergyNetProvider ep&&!(sf instanceof EnergyAmplifier)&&!(sf instanceof AbstractEnergyMachine)){
             Location loc2=l.clone().add(0,1,0);
             if(DataCache.getSfItem(loc2)==ep){
                 SlimefunBlockData data2=DataCache.safeLoadBlock(loc2);

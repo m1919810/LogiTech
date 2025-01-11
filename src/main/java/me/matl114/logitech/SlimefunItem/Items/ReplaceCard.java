@@ -30,7 +30,7 @@ public class ReplaceCard extends DistinctiveCustomSlimefunItem {
         MATERIAL(i->new ItemStack(Material.getMaterial(i)),i->i.getType().toString()),
         SLIMEFUN(i-> {
             var sf=SlimefunItem.getById(i);
-            return sf==null?null:sf.getItem();
+            return sf==null?null:AddUtils.getCleaned( sf.getRecipeOutput() );
         }, i-> Slimefun.getItemDataService().getItemData(i).orElse(null)),
         UNKNOWN((i)->null,(i)->null);
         ReplaceType(Function<String,ItemStack> deserializeFunc,Function<ItemStack,String> serializeFunc) {
@@ -101,6 +101,7 @@ public class ReplaceCard extends DistinctiveCustomSlimefunItem {
                         return newStack;
                     }
                 }catch (Throwable e){
+                    e.printStackTrace();
                 }
             }
         }
