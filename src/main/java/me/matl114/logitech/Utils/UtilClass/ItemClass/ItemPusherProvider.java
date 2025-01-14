@@ -30,7 +30,9 @@ public interface ItemPusherProvider {
 
 
 
-
+    default IntFunction<ItemPusher> getMenuInstance(Settings settings  ,BlockMenu blockMenu){
+        return i->get(settings,blockMenu.getItemInSlot(i),i);
+    }
    default IntFunction<ItemPusher> getMenuInstance(Settings settings  ,BlockMenu blockMenu,int[] slots){
        return getMenu(settings,blockMenu,i->blockMenu.getItemInSlot(slots[i]),slots);
    }

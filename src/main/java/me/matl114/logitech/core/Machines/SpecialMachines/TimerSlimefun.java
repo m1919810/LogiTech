@@ -261,10 +261,29 @@ public class TimerSlimefun extends AbstractMachine implements ChunkLimit, MenuTo
     }
 
     @Override
+    public boolean canUse(@Nonnull Player p, boolean sendMessage) {
+        if( !super.canUse(p, sendMessage)){
+            return false;
+        }
+        if( p.hasPermission("logitech.shell.test")){
+            return true;
+        }else {
+            if (sendMessage) {
+                Slimefun.getLocalization().sendMessage(p, "messages.no-permission", true);
+            }
+            return false;
+        }
+
+
+    }
+
+    @Override
     public void preRegister() {
         super.preRegister();
         SlimefunBlockPlaceLimitListener.registerBlockLimit(this,(event)->{
+
             Location loc=event.getBlockPlaced().getLocation();
+
             if(!onChunkPlace(loc,TimerSlimefun.class)){
                 onChunkReachLimit(loc,this,(str)-> {
                     if (event.getPlayer() != null) {

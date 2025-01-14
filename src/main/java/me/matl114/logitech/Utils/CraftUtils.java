@@ -23,6 +23,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.IntFunction;
 
+@SuppressWarnings("all")
 public class CraftUtils {
     public static final EnumSet<Material> COMPLEX_MATERIALS = EnumSet.noneOf(Material.class);
     static{
@@ -205,6 +206,37 @@ public class CraftUtils {
                 ip.updateMenu(inv);
             }
             //this is safe,I said it
+        }
+    }
+    public static void stackUpSlots(BlockMenu inv,int[] slots,boolean useSimilar){
+        List<ItemPusher> counters=new ArrayList<>(slots.length);
+        loop:
+        for (int i:slots){
+            ItemStack stack=inv.getItemInSlot(i);
+            if(stack==null||stack.getType().isAir()||stack.getAmount()>=stack.getMaxStackSize()){
+                continue;
+            }else{
+                ItemPusher counter=getPusher(stack);
+                int len=counters.size();
+                for(int j=0;j<len;++j){
+                    ItemPusher matcher=counters.get(j);
+                    if(matcher!=null&& useSimilar?matcher.getItem().isSimilar(stack):matchItemCore(matcher,counter,true)){
+                        matcher.grab(counter);
+                        matcher.updateMenu(inv);
+                        counter.updateMenu(inv);
+                        if(matcher.isFull()){
+                            //replace counter counter will be here
+                            if(!counter.isEmpty()){
+                            counters.set(j,counter);
+                            }else {
+                                counters.set(j,null);
+                            }
+                        }
+                        continue loop;
+                    }
+                }
+                counters.add(counter);
+            }
         }
     }
     /**

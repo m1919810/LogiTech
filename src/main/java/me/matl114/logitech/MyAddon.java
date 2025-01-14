@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import lombok.Getter;
+import me.matl114.logitech.Manager.EquipmentFUManager;
 import me.matl114.logitech.core.Depends.DependencyInfinity;
 import me.matl114.logitech.core.Depends.DependencyNetwork;
 import me.matl114.logitech.core.Depends.SupportedPluginManager;
@@ -118,8 +119,10 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         Debug.logger("计划线程设立完毕");
         //载入监听器
         ListenerManager.registerListeners(getInstance(),getManager());
+
         //载入粘液保护模块
         ProtectionManager.registerProtection(getInstance(),getManager());
+
         Debug.logger("监听器注册完毕");
         //加载bs工具
         DataCache.setup();
@@ -133,6 +136,8 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         CustomEffects.setup();
         //加载辐射机制
         RadiationRegionManager.setup();
+        //加载装备监听管理器
+        new EquipmentFUManager();
         //加载配方工具
         CraftUtils.setup();
         //加载世界操作工具

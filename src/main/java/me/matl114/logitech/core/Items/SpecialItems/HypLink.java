@@ -68,21 +68,21 @@ public class HypLink extends DistinctiveCustomSlimefunItem {
                                 return;
                             }
                         }
-                        Block b = loc.getBlock();
-                        PlayerInteractEvent interactTarget=new PlayerInteractEvent(event.getPlayer(), Action.RIGHT_CLICK_BLOCK,null,b, BlockFace.UP);
-                        try{
-                            Bukkit.getPluginManager().callEvent(interactTarget);
-                            if(interactTarget.isCancelled()){
-                                AddUtils.sendMessage(event.getPlayer(), "&c点击该方块的行为被阻止!");
-                                return;
-                            }
-                        }catch (Throwable ignored){
-                        }
-                        BlockState state = b.getState();
-                        if(state instanceof InventoryHolder ivHolder){
-                            //todo do test
-                            event.getPlayer().openInventory(ivHolder.getInventory());
-                        }
+//                        Block b = loc.getBlock();
+//                        PlayerInteractEvent interactTarget=new PlayerInteractEvent(event.getPlayer(), Action.RIGHT_CLICK_BLOCK,null,b, BlockFace.UP);
+//                        try{
+//                            Bukkit.getPluginManager().callEvent(interactTarget);
+//                            if(interactTarget.isCancelled()){
+//                                AddUtils.sendMessage(event.getPlayer(), "&c点击该方块的行为被阻止!");
+//                                return;
+//                            }
+//                        }catch (Throwable ignored){
+//                        }
+//                        BlockState state = b.getState();
+//                        if(state instanceof InventoryHolder ivHolder){
+//                            //todo do test
+//                            event.getPlayer().openInventory(ivHolder.getInventory());
+//                        }
 
                     }else {
                         AddUtils.sendMessage(event.getPlayer(), "&c抱歉,但您似乎并没有访问该位置的权限.");

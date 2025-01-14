@@ -42,3 +42,6 @@ permissions:
   logitech.shell.root:
     description: Allows you to open root shell without password
     default: op
+  logitech.shell.test:
+    description: Allows you to use test operator tools
+    default: op

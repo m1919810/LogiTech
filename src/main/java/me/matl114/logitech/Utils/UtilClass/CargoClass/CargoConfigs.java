@@ -20,19 +20,22 @@ public enum CargoConfigs {
     /**
      * 是否从源头的输入槽输入，默认否 为输出槽
      */
-    FROM_INPUT(4),
+    REVERSE(6),
+    FROM_INPUT_FIRST(4),
     /**
      * 是否从目标的输出槽输入，默认否 为输入槽
      */
-    TO_OUTPUT(5),
+    TO_OUTPUT_FIRST(5),
+    FROM_REVERSED(30),
+    TO_REVERSED(29),
     /**
      * 是否反向传输,即从设置的目标向源头传输
      */
-    REVERSE(6),
+
     /**
-     *传输数量 ，最大2^24
+     *传输数量 ，最大2^16
      */
-    TRANSLIMIT(7,24),
+    TRANSLIMIT(7,16),
     /**
      * end bit
      */
@@ -84,14 +87,16 @@ public enum CargoConfigs {
         }
         return 0;
     }
-    public static int setAllConfig(boolean symm,boolean isnull,boolean islazy,boolean blklst,boolean fromInput,boolean toOutput,boolean reverse,int limit){
+    public static int setAllConfig(boolean symm,boolean isnull,boolean islazy,boolean blklst,boolean fromInputFirst,boolean toOutputFirst,boolean fromReverse,boolean toReverse,boolean reverse,int limit){
         int code=0;
         code= IS_SYMM.setConfig(code,symm);
         code= IS_NULL.setConfig(code,isnull);
         code= IS_LAZY.setConfig(code,islazy);
         code= IS_WHITELST.setConfig(code,blklst);
-        code= FROM_INPUT.setConfig(code,fromInput);
-        code= TO_OUTPUT.setConfig(code,toOutput);
+        code= FROM_INPUT_FIRST.setConfig(code,fromInputFirst);
+        code= TO_OUTPUT_FIRST.setConfig(code,toOutputFirst);
+        code= FROM_REVERSED.setConfig(code,fromReverse);
+        code= TO_REVERSED.setConfig(code,toReverse);
         code= REVERSE.setConfig(code,reverse);
         code=TRANSLIMIT.setConfig(code,limit);
         return code;

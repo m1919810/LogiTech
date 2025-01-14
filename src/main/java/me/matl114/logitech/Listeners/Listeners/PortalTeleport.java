@@ -96,7 +96,7 @@ public class PortalTeleport implements Listener {
                 for(int i=4;i>=0;--i) {
                     //尽可能丢到门外面 如果没地方就传送到门里面
                     Location loc2=(dst.clone().add(0.5+dx[i], 1, 0.5+dz[i]));
-                    if(loc2.getBlock().getType()== Material.AIR||i==0){
+                    if(loc2.getBlock().getType().isAir()||i==0){
                       //  Debug.logger("check loc ",i);
                         player.teleport(loc2);
                         break;

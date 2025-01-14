@@ -26,13 +26,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class CargoConfigurator extends AbstractBlock {
     protected final int[] BORDER=new int[]{
-            0,1,2,3,5,6,7,8,27,28,29,30,32,33,34,35
+            0,1,2,3,5,6,7,8,27,28,34,35
     };
     protected final int[] INFO_SLOTS=new int[]{
-            4,9,10,11,12,13,14,15,16,17
+            4,9,10,11,12,13,14,15,16,17,30,32
     };
     protected final int[] CONFIG_SLOTS=new int[]{
-            18,19,20,21,22,23,24,25,26
+            18,19,20,21,22,23,24,25,26,29,33
     };
     protected final int OUTPUT_SLOT=31;
     protected final ItemStack[] INFO_ITEMS=new ItemStack[]{
@@ -50,16 +50,27 @@ public class CargoConfigurator extends AbstractBlock {
                     "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置是否使用懒惰模式","&7即是否在传输一次后停止"),
             new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 白名单 的配置槽位",
                     "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置是否使用白名单","&7即是否将物品列表视为白名单,默认黑名单"),
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 取自输入槽 的配置槽位",
-                    "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置是否取自输入槽","&7即只选择源方块的输入槽进行传输,默认为只选择输出槽"),
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 传向输出槽 的配置槽位",
-                    "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置是否传向输出槽","&7即只选择目标方块的输出槽进行传输,默认为只选择输入槽"),
+
             new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 逆向传输 的配置槽位",
-            "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置是否使用逆向传输","&7即是否从目标方块指定槽位向源方块指定槽位传输"),
+            "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置是否使用逆向传输","&7交换原有的目标方块和源方块!即:","&7⇨ 使用目标方块模式&e从目标方块抓取","&7⇨ 使用源方块模式向源方块推送","&7⇨ &e运输模式会随着方块转换"),
+            //Modified
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 源方块槽位优先级 的配置槽位",
+                    "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置源方块模式(抓取)","&7若该项为True,则优先从源方块输入槽进行货运","&7蕴含最终源方块模式 &e输入槽 &7和 &e输入槽+输出槽","&7若该项为False,则优先从源方块输出槽进行货运","&7蕴含最终源方块模式 &e输出槽 &7和 &e输出槽+输入槽"),
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 抓取++ 的配置槽位",
+                    "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置是否启用源方块++模式","&7该模式为True时,货运会同时涉及输入槽和输出槽","&7++模式且抓取输入槽优先:True时,最终源方块模式为 &e输入槽+输出槽",
+                    "&7++模式且抓取输入槽优先:False,最终源方块模式为 &e输出槽+输入槽"),
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 目标方块槽位优先级 的配置槽位",
+                    "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置目标方块模式(推送)","&7若该项为True,则优先从目标方块输出槽进行货运","&7蕴含最终目标方块模式 &e输出槽 &7和 &e输出槽+输入槽","&7若该项为False,则优先从目标方块输入槽进行货运","&7蕴含最终目标方块模式 &e输入槽 &7和 &e输入槽+输出槽"),
+
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 推送++ 的配置槽位",
+                    "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置是否启用目标方块++模式","&7该模式为True时,货运会同时涉及输入槽和输出槽","&7++模式且推送输出槽优先:True时,最终目标方块模式为 &e输出槽+输入槽",
+                    "&7++模式且推送输出槽优先:False,最终目标方块模式为 &e输入槽+输出槽"),
+
+
             new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 传输数量限制x64 的配置槽位",
-                    "&e将[%s]置于下方".formatted(Language.get("Items.CARGO_PART.Name")),"&7配置传输数量","&a传输数量增加<物品数量>*64"),
+                    "&e将[%s]置于左侧".formatted(Language.get("Items.CARGO_PART.Name")),"&7配置传输数量","&a传输数量增加<物品数量>*64"),
             new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 传输数量限制x1 的配置槽位",
-                    "&e将[%s]置于下方".formatted(Language.get("Items.CARGO_PART.Name")),"&7配置传输数量","&a传输数量增加<物品数量>"),
+                    "&e将[%s]置于右侧".formatted(Language.get("Items.CARGO_PART.Name")),"&7配置传输数量","&a传输数量增加<物品数量>"),
     };
     protected final ItemStack TIPS_ITEM=AddUtils.randItemStackFactory(
             new PairList(){{
@@ -117,7 +128,8 @@ public class CargoConfigurator extends AbstractBlock {
                 code=CargoConfigCard.getConfig(meta);
             }
             ItemStack stack;
-            for (int i=0;i<7;++i){
+            CargoConfigs[] configs=CargoConfigs.values();
+            for (int i=0;i<9;++i){
                stack=inv.getItemInSlot(slots[i]);
                 if(stack==null){
                     continue;
@@ -125,13 +137,13 @@ public class CargoConfigurator extends AbstractBlock {
                 if(stack.getType()==Material.MUSIC_DISC_5&&stack.hasItemMeta()){
                     //有附魔是true 没是false
                     int icode=stack.getEnchantments().isEmpty()?0:1;
-                   code=  CargoConfigs.setConfigBit(code,icode,i);
+                   code=  configs[i].setConfig(code,icode);//CargoConfigs.setConfigBit(code,icode,i);
                 }else {
                     AddUtils.sendMessage(player,"&c配置失败,这不是布尔组件");
                     return false;
                 }
             }
-            stack=inv.getItemInSlot(slots[7]);
+            stack=inv.getItemInSlot(slots[9]);
             if(stack!=null&&stack.getType()!=Material.SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE){
                 AddUtils.sendMessage(player,"&c配置失败,配置传输数量限制的物品不符");
                 return false;
@@ -140,7 +152,7 @@ public class CargoConfigurator extends AbstractBlock {
             if(stack!=null){
                 stackAmount+=(stack.getAmount())*64;
             }
-            stack=inv.getItemInSlot(slots[8]);
+            stack=inv.getItemInSlot(slots[10]);
             if(stack!=null&&stack.getType()!=Material.SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE){
                 AddUtils.sendMessage(player,"&c配置失败,配置传输数量限制的物品不符");
                 return false;
@@ -157,8 +169,8 @@ public class CargoConfigurator extends AbstractBlock {
             }
             CargoConfigCard.setConfig(meta,code);
             it.setItemMeta(meta);
-            for(int i=0;i<9;++i){
-                inv.replaceExistingItem(slots[i],null);
+            for (int slot : slots) {
+                inv.replaceExistingItem(slot, null);
             }
             return true;
         }

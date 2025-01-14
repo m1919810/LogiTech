@@ -70,11 +70,12 @@ public class NetworksQuantumProxyAdapter extends NetworksQuantumStorageAdapter i
         }
     }
     public void updateLocation(Location loc){
-        Method method=NetWorkQuantumMethod.getSyncBlock(INSTANCE);
+        //Method method=NetWorkQuantumMethod.getSyncBlock(INSTANCE);
         try{
             QuantumCache cache=(QuantumCache)cacheMap.get(loc);
             if(cache!=null){
-                method.invoke(null,loc,cache);
+                NetWorkQuantumMethod.syncBlockAccess.invoke(INSTANCE,loc,cache);
+               // method.invoke(null,loc,cache);
             }
         }catch(Throwable e){
             disableNetworkQuantum(e);
@@ -87,9 +88,10 @@ public class NetworksQuantumProxyAdapter extends NetworksQuantumStorageAdapter i
     public void onStorageAmountWrite(ItemMeta meta, int amount) {
         QuantumCache cache=getQuantumCache(meta);
         if(cache==null){return;}
-        Method set=NetWorkQuantumMethod.getSetAmountMethod(cache);
+        //Method set=NetWorkQuantumMethod.getSetAmountMethod(cache);
         try{
-            set.invoke(cache, amount);
+            NetWorkQuantumMethod.getSetAmountAccess.invoke(cache,amount);
+            //set.invoke(cache, amount);
         }catch (Throwable e){
             disableNetworkQuantum(e);
         }

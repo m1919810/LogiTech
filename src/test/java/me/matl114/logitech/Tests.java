@@ -1,25 +1,10 @@
 package me.matl114.logitech;
 
 
-import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.Algorithms.DynamicArray;
-import me.matl114.logitech.Utils.Algorithms.SimpleLinkList;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.CargoConfigs;
 
-import org.bukkit.Material;
-import org.bukkit.Registry;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemStack;
-import org.junit.jupiter.api.Test;
-
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Tests {
     public static void log(String message) {
@@ -36,15 +21,15 @@ public class Tests {
        boolean toOutput=false;
        boolean reverse=false;
        int trans=647;
-       int configCode= CargoConfigs.setAllConfig(symm,isnull,lazy,bklst,fromInput,toOutput,reverse,trans);
+       int configCode= CargoConfigs.setAllConfig(symm,isnull,lazy,bklst,fromInput,toOutput,reverse,false,false,trans);
        log("[TEST CONFIG CODE] "+configCode);
        assert CargoConfigs.IS_SYMM.getConfig(configCode)==symm;
        assert CargoConfigs.IS_NULL.getConfig(configCode)==isnull;
        assert CargoConfigs.IS_LAZY.getConfig(configCode)==lazy;
-       assert CargoConfigs.TO_OUTPUT.getConfig(configCode)==toOutput;
+       assert CargoConfigs.TO_OUTPUT_FIRST.getConfig(configCode)==toOutput;
        assert CargoConfigs.REVERSE.getConfig(configCode)==reverse;
        assert CargoConfigs.IS_WHITELST.getConfig(configCode)==bklst;
-       assert CargoConfigs.FROM_INPUT.getConfig(configCode)==fromInput;
+       assert CargoConfigs.FROM_INPUT_FIRST.getConfig(configCode)==fromInput;
        assert CargoConfigs.TRANSLIMIT.getConfigInt(configCode)==trans;
        log("[TEST CONFIG CODE] TEST SUCCESS");
         ArrayList<Integer> a=new ArrayList<>(){{

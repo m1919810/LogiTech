@@ -25,7 +25,7 @@ public class SuperSpongeDryListener implements Listener {
                 if(inventory instanceof FurnaceInventory fi){
                     ItemStack fuelSlot=fi.getFuel();
                     ItemStack outputSlot=fi.getResult();
-                    if(outputSlot==null||outputSlot.getType()==Material.AIR){
+                    if(outputSlot==null||outputSlot.getType().isAir()){
                         //槽位是空的,直接输入该输出就行
                         event.setResult(AddItem.SUPERSPONGE.clone());
                         if(fuelSlot!=null&&fuelSlot.getType()== Material.BUCKET){

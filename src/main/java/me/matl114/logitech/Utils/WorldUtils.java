@@ -34,6 +34,8 @@ import java.util.function.Predicate;
 public class WorldUtils {
     public static SlimefunAddon INSTANCE= MyAddon.getInstance();
     public static final BlockDataController CONTROLLER=Slimefun.getDatabaseManager().getBlockDataController();
+    {
+    }
     public static void setBlock(Location loc, Material material) {
         loc.getBlock().setType(material);
     }
@@ -366,7 +368,7 @@ public class WorldUtils {
     );
     public static EnumSet<Material> WATER_VARIENT=EnumSet.of(Material.WATER,Material.BUBBLE_COLUMN);
      //till 1.20.4
-    public static EnumSet<Material> BLOCK_MUST_WATERLOGGED=EnumSet.of(Material.SEAGRASS,Material.TALL_SEAGRASS,Material.KELP);
+    public static EnumSet<Material> BLOCK_MUST_WATERLOGGED=EnumSet.of(Material.SEAGRASS,Material.TALL_SEAGRASS,Material.KELP_PLANT,Material.KELP);
     public static EnumSet<Material> BLOCK_WITH_RANDOMTICK=EnumSet.copyOf(
 
       new HashSet<Material>(){{
@@ -1467,7 +1469,7 @@ public class WorldUtils {
     }
     public static boolean isLightPassableBlock(Block block){
         Material material=block.getType();
-        if(material==Material.AIR||material.isTransparent()||WATER_VARIENT.contains(material)||material==Material.LAVA){
+        if(material.isAir()||material.isTransparent()||WATER_VARIENT.contains(material)||material==Material.LAVA){
             return true;
         }else return false;
     }
@@ -1495,7 +1497,7 @@ public class WorldUtils {
     //IF SF DATA EXISTS,SF BLOCK WILL ALSO BE BREAKED, MAY CAUSE PROBLEMS
     public static boolean breakVanillaBlockByPlayer(Block block,Player player,boolean hasCheckedProtection,boolean withDrop){
         if(hasCheckedProtection||WorldUtils.hasPermission(player,block.getLocation(),Interaction.BREAK_BLOCK)){
-            if(block.getType()!=Material.AIR){
+            if(!block.getType().isAir()){
                 BlockBreakEvent event=new BlockBreakEvent(block,player);
                 Bukkit.getPluginManager().callEvent(event);
                 if(event.isCancelled()){

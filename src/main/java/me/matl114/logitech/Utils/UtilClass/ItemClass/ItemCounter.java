@@ -48,6 +48,12 @@ public class ItemCounter implements Cloneable{
     public boolean isNull() {
         return item==null;
     }
+    public boolean isFull(){
+        return cnt>=this.maxStackCnt;
+    }
+    public boolean isEmpty(){
+        return cnt<=0;
+    }
     /**
      * get meta info ,if havn't get ,getItemMeta() clone one
      * @return

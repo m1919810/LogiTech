@@ -12,6 +12,7 @@ import me.matl114.logitech.core.Registries.FinalFeature;
 import me.matl114.logitech.core.Interface.RecipeLock;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
+import me.matl114.matlib.Utils.Inventory.CleanItemStack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -28,16 +29,55 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
     protected static final int[] INPUT_SLOT = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 33, 34, 35, 36, 37, 38, 42, 43, 44, 45, 46, 47, 51, 52, 53};
     protected static final int[] OUTPUT_SLOT = new int[] {27, 28, 29, 33, 34, 35, 36, 37, 38, 42, 43, 44, 45, 46, 47, 51, 52, 53, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
     protected static final ItemStack BORDER=new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE," ");
-    protected static final ItemStack PREV=new CustomItemStack(Material.YELLOW_STAINED_GLASS_PANE,"&3搜索上一个配方");
-    protected static final ItemStack NEXT=new CustomItemStack(Material.YELLOW_STAINED_GLASS_PANE,"&3搜索下一个配方");
+//    protected static final ItemStack PREV=new CustomItemStack(Material.YELLOW_STAINED_GLASS_PANE,"&3搜索上一个配方");
+//    protected static final ItemStack NEXT=new CustomItemStack(Material.YELLOW_STAINED_GLASS_PANE,"&3搜索下一个配方");
     protected static final ItemStack CRAFT_ONE=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,
             "&3单次合成","&6左键&b合成 &d1次 &b当前物品","&6右键&b合成 &d16次 &b当前物品");
     protected static final ItemStack CRAFT_MUL=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,
             "&3批量合成","&6左键&b合成 &d64次 &b当前物品","&6右键&b合成 &d3456次 &b当前物品");
+    protected static ItemStack getMiddleItem(ItemStack stack,int index){
+        if(stack==null)return DISPLAY_NOMATCH_MID;
+        var meta=stack.getItemMeta();
+        List<String> lore=meta.getLore();
+        lore=lore==null?new ArrayList<>():lore;
+        if(index>=0){
+            lore.add( "§8匹配的产物");
+            lore.add("§8配方编号: " + index);
+        }
+        lore.add("");
+        lore.add("§3shift点击一键收拾机器内物品");
+        lore.add("§7将未堆满一组的相同物品合并");
+        lore.add("§6shift+左键 §b按输入槽顺序收拾");
+        lore.add("§6shift+右键 §b按输出槽顺序收拾");
+        meta.setLore(lore);
+        return new CleanItemStack(stack.getType(),stack.getAmount(),()->meta);
+    }
+    protected static ItemStack getPrevItem(ItemStack stack){
+        if(stack==null)return DISPLAY_NOMATCH_PREV;
+        var meta=stack.getItemMeta();
+        List<String> lore=meta.getLore();
+        lore=lore==null?new ArrayList<>():lore;
+        lore.add("§3点击搜索上一个配方");
+        meta.setLore(lore);
+        return new CleanItemStack(stack.getType(),stack.getAmount(),()->meta);
+    }
+    protected static ItemStack getNextItem(ItemStack stack){
+        if(stack==null)return DISPLAY_NOMATCH_NEXT;
+        var meta=stack.getItemMeta();
+        List<String> lore=meta.getLore();
+        lore=lore==null?new ArrayList<>():lore;
+        lore.add("§3点击搜索下一个配方");
+        meta.setLore(lore);
+        return new CleanItemStack(stack.getType(),stack.getAmount(),()->meta);
+    }
     protected static final ItemStack DISPLAY_NOMATCH=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&c没有匹配的配方");
+    protected static final ItemStack DISPLAY_NOMATCH_MID=getMiddleItem(DISPLAY_NOMATCH,-1);
+    protected static final ItemStack DISPLAY_NOMATCH_PREV=getPrevItem(DISPLAY_NOMATCH);
+    protected static final ItemStack DISPLAY_NOMATCH_NEXT=getNextItem(DISPLAY_NOMATCH);
     protected static final int CRAFT_ONE_SLOT=40;
     protected static final int CRAFT_MUL_SLOT=49;
     protected static final int NEXT_SLOT=32;
+    protected static final int MID_SLOT=31;
     protected static final int PREV_SLOT=30;
     private final String id;
     public final  int energybuffer;
@@ -82,9 +122,9 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
     }
     public MachineRecipe getRecordRecipe(SlimefunBlockData data){return getMachineRecipes().get(getNowRecordRecipe(data));}
     public void constructMenu(BlockMenuPreset preset){
-        preset.addItem(30,PREV);
-        preset.addItem(32,NEXT);
-        preset.addMenuClickHandler(31,ChestMenuUtils.getEmptyClickHandler());
+//        preset.addItem(30,PREV);
+//        preset.addItem(32,NEXT);
+        //preset.addMenuClickHandler(31,ChestMenuUtils.getEmptyClickHandler());
         preset.addItem(39, BORDER, ChestMenuUtils.getEmptyClickHandler());
         preset.addItem(40,CRAFT_ONE);
         preset.addItem(41, BORDER, ChestMenuUtils.getEmptyClickHandler());
@@ -106,20 +146,30 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
         int index= DataCache.getLastRecipe(loc);
         int indexRecord=getNowRecordRecipe(loc);
         if(index!=-1){
-            MachineRecipe getRecipe=getMachineRecipes(block,inv).get(index);
-            inv.replaceExistingItem(31, AddUtils.addLore(getRecipe.getOutput()[0],
-                    "&8匹配的产物", "&8若有多输出则显示第一个", "&8配方编号: " + index));
             if(index!=indexRecord||mod==Settings.INIT) {
-
-
-               setNowRecordRecipe(loc,index);
+                setNowRecordRecipe(loc,index);
             }
+            orderSearchRecipe(inv,Settings.SEQUNTIAL);
+            int nextIndex=DataCache.getLastRecipe(loc);
+            DataCache.setLastRecipe(loc,index);
+            orderSearchRecipe(inv,Settings.REVERSE);
+            int prevIndex=DataCache.getLastRecipe(loc);
+            DataCache.setLastRecipe(loc,index);
+            var rps=getMachineRecipes(block,inv);
+            MachineRecipe getRecipe=rps.get(index);
+            inv.replaceExistingItem(MID_SLOT, getMiddleItem(getRecipe.getOutput()[0],index));
+            getRecipe=rps.get(prevIndex);
+            inv.replaceExistingItem(PREV_SLOT, getPrevItem(getRecipe.getOutput()[0]));
+             getRecipe=rps.get(nextIndex);
+            inv.replaceExistingItem(NEXT_SLOT, getNextItem(getRecipe.getOutput()[0]));
         }
         else{
             if(indexRecord!=-1||mod==Settings.INIT){
-                inv.replaceExistingItem(31,DISPLAY_NOMATCH);
                setNowRecordRecipe(loc,-1);
             }
+            inv.replaceExistingItem(MID_SLOT,DISPLAY_NOMATCH_MID);
+            inv.replaceExistingItem(PREV_SLOT,DISPLAY_NOMATCH_PREV);
+            inv.replaceExistingItem(NEXT_SLOT,DISPLAY_NOMATCH_NEXT);
         }
     }
     public void newMenuInstance(BlockMenu menu,Block block){
@@ -183,9 +233,16 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
                     return false;
                 }
         );
+        menu.addMenuClickHandler(MID_SLOT,((player, i, itemStack, clickAction) -> {
+            if(clickAction.isShiftClicked()){
+                CraftUtils.stackUpSlots(menu,clickAction.isRightClicked()?getOutputSlots():getInputSlots(),true);
+            }
+            return false;
+        }));
         //make sure your Recipe index renew in updateMenu
         updateMenu(menu,block,Settings.INIT);
     }
+
     public void orderSearchRecipe(BlockMenu inv, Settings order){
         if(inv!=null){
             int delta;

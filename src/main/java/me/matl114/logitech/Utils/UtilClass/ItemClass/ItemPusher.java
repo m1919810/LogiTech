@@ -65,7 +65,7 @@ public class ItemPusher extends ItemCounter {
         if(left>counter.getAmount()){
             addAmount(counter.getAmount());
             counter.setAmount(0);
-        }else{
+        }else {
             setAmount(maxStackCnt);
             counter.addAmount(-left);
         }

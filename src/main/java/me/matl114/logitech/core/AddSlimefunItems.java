@@ -2043,7 +2043,7 @@ public class AddSlimefunItems {
                     setC(AddItem.LSINGULARITY,6),AddItem.DIMENSIONAL_SINGULARITY,AddItem.PDCECDMD,AddItem.PDCECDMD,AddItem.DIMENSIONAL_SINGULARITY,setC(AddItem.LSINGULARITY,6)),0,0)
             .register();
 
-    public static final  SlimefunItem TIMER_SF=new TimerSlimefun(AddGroups.ADVANCED, AddItem.TIMER_SF,RecipeType.NULL,
+    public static final  SlimefunItem TIMER_SF=new TimerSlimefun(AddGroups.FUNCTIONAL, AddItem.TIMER_SF,RecipeType.NULL,
             AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),0,0)
             .register();
 //    public static final  SlimefunItem TIMER_SF_SEQ=new TimerSequentialSlimefun(AddGroups.ADVANCED, AddItem.TIMER_SF_SEQ,RecipeType.NULL,

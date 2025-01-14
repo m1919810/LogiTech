@@ -68,9 +68,10 @@ public class NetworksQuantumStorageAdapter extends StorageType {
     }
     public int getStorageMaxSize(QuantumCache cache){
         if(cache==null){return 0;}
-        Method amount=NetWorkQuantumMethod. getLimitMethod(cache);
+        //Method amount=NetWorkQuantumMethod. getLimitMethod(cache);
         try{
-            return (Integer)amount.invoke(cache);
+            Number num=  NetWorkQuantumMethod.getLimitAccess.invoke(cache);// (Integer)amount.invoke(cache);
+            return num.intValue();
         }catch (Throwable e){
             disableNetworkQuantum(e);
             return 0;
@@ -93,9 +94,10 @@ public class NetworksQuantumStorageAdapter extends StorageType {
 
     public void setAmount(QuantumCache cache, int amount) {
         if(cache==null){return;}
-            Method set=NetWorkQuantumMethod.getSetAmountMethod(cache);
+            //Method set=NetWorkQuantumMethod.getSetAmountMethod(cache);
         try{
-            set.invoke(cache, amount);
+            NetWorkQuantumMethod.getSetAmountAccess.invoke(cache,amount);
+            //set.invoke(cache, amount);
         }catch (Throwable e){
             disableNetworkQuantum(e);
             return ;
@@ -115,9 +117,10 @@ public class NetworksQuantumStorageAdapter extends StorageType {
     }
     public int getStorageAmount(QuantumCache cache){
         if(cache==null){return 0;}
-        Method amount=NetWorkQuantumMethod. getAmountMethod(cache);
+        //Method amount=  NetWorkQuantumMethod. getAmountMethod(cache);
+
         try{
-            Object res= amount.invoke(cache);
+            Number res= NetWorkQuantumMethod.getAmountAccess.invoke(cache);
             return res instanceof Long r? MathUtils.fromLong(r) : (Integer) res;
         }catch (Throwable e){
             disableNetworkQuantum(e);
@@ -133,9 +136,9 @@ public class NetworksQuantumStorageAdapter extends StorageType {
     public ItemStack getStorageContent(QuantumCache cache){
         if(cache==null){
             return null;}
-        Method getItem=NetWorkQuantumMethod.getItemStackMethod(cache);
+       // Method getItem=NetWorkQuantumMethod.getItemStackMethod(cache);
         try{
-            return (ItemStack) getItem.invoke(cache);
+            return NetWorkQuantumMethod.getItemStackAccess.invoke(cache); //(ItemStack) getItem.invoke(cache);
         }catch (Throwable e){
             disableNetworkQuantum(e);
             return null;
@@ -153,10 +156,11 @@ public class NetworksQuantumStorageAdapter extends StorageType {
     public void onStorageDisplayWrite(ItemMeta meta, int amount) {
         var cache=getQuantumCache(meta);
         if(cache==null){return;}
-        Method set;
+        //Method set;
         try{
-            set=NetWorkQuantumMethod.getUpdateMetaLore(cache);
-            set.invoke(cache, meta);
+            NetWorkQuantumMethod.updateMetaLoreAccess.invoke(cache,meta);
+//            set=NetWorkQuantumMethod.getUpdateMetaLore(cache);
+//            set.invoke(cache, meta);
         }catch (Throwable e){
             disableNetworkQuantum(e);
         }

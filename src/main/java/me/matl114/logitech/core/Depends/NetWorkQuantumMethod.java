@@ -56,83 +56,9 @@ public class NetWorkQuantumMethod {
     public static final MethodAccess<?> setItemStackAccess=MethodAccess.ofName("setItemStack",ItemStack.class).printError(true);
     public static final MethodAccess<?> updateMetaLoreAccess=MethodAccess.ofName("updateMetaLore",ItemMeta.class).printError(true);
     public static final MethodAccess<?> syncBlockAccess=MethodAccess.ofName("syncBlock",Location.class,QuantumCache.class).printError(true);;
-    public static Method getAmountMethod(Object t){
-        if(getAmount==null&&!hasFailedAmount){
-            try{
-                getAmount=t.getClass().getDeclaredMethod("getAmount");
-                getAmount.setAccessible(true);
-            }catch(Throwable e){
-                Debug.debug("invoke failed amount");
-                hasFailedAmount=true;
-            }
-        }
-        return getAmount;
-    }
-    public static Method getLimitMethod(Object t){
-        if(getLimit==null&&!hasFailedLimit){
-            try{
-                getLimit=t.getClass().getDeclaredMethod("getLimit");
-                getLimit.setAccessible(true);
-            }catch(Throwable e){
-                Debug.debug("invoke failed limit");
-                hasFailedLimit=true;
-            }
-        }
-        return getLimit;
-    }
-    public static Method getSetAmountMethod(Object t){
-        if(setAmount==null&&!hasFailedset){
-            try{
-                setAmount=t.getClass().getDeclaredMethod("setAmount",int.class);
-                setAmount.setAccessible(true);
-            }catch(Throwable e){
-                Debug.debug("invoke failed setamount");
-                hasFailedset=true;
-            }
-        }
-        return setAmount;
-    }
-    public static Method getItemStackMethod(Object t){
-        if(getItemStack==null&&!hasFailedgetItemStack){
-            try{
-                getItemStack=t.getClass().getSuperclass().getDeclaredMethod("getItemStack");
-                getItemStack.setAccessible(true);
-            }catch(Throwable e){
-                Debug.debug("invoke failed getItemStack");
-                Debug.debug(t.getClass().getSuperclass().getName());
-                Method[] a=t.getClass().getSuperclass().getDeclaredMethods();
-                for(Method m:a){
-                    Debug.debug(m.getName());
-                }
-                hasFailedgetItemStack=true;
-            }
-        }
-        return getItemStack;
-    }
-    public static Method getSetItemStackMethod(Object t){
-        if(setItemStack==null&&!hasFailedsetItemStack){
-            try {
-                setItemStack=t.getClass().getDeclaredMethod("setItemStack",ItemStack.class);
-                getItemStack.setAccessible(true);
-            }catch(Throwable e){
-                Debug.debug("invoke failed setItemStack");
-                hasFailedsetItemStack=true;
-            }
-        }
-        return setItemStack;
-    }
-    public static Method getUpdateMetaLore(Object t){
-        if(updateMetaLore==null&&!hasFailedupdateMetaLore){
-            try {
-                updateMetaLore=t.getClass().getDeclaredMethod("updateMetaLore", ItemMeta.class);
-                updateMetaLore.setAccessible(true);
-            }catch (Throwable e){
-                Debug.debug("invoke failed updateMetaLore");
-                hasFailedupdateMetaLore=true;
-            }
-        }
-        return updateMetaLore;
-    }
+
+
+
     //TODO  get cache map
     public static Map getCacheMap(SlimefunItem itemInstance){
         if(NetworkCacheMap==null&&!hasFailedCachemap){
@@ -146,18 +72,5 @@ public class NetWorkQuantumMethod {
             }
         }
         return NetworkCacheMap;
-    }
-    public static Method getSyncBlock(SlimefunItem itemInstance){
-        if(syncBlock==null&&!hasFailedSyncBlock){
-            try{
-                syncBlock=itemInstance.getClass().getDeclaredMethod("syncBlock", Location.class, QuantumCache.class);
-                syncBlock.setAccessible(true);
-
-            }catch(Throwable e){
-                Debug.debug("invoke failed SyncBlock");
-                hasFailedSyncBlock=true;
-            }
-        }
-        return syncBlock;
     }
 }

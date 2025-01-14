@@ -426,8 +426,8 @@ public class AddItem {
             Language.get("Machines.TIMER_BLOCKENTITY.Name"),Language.getList("Machines.TIMER_BLOCKENTITY.Lore"));
     public static final SlimefunItemStack TIMER_RD=AddUtils.themed("TIMER_RD",Material.TORCH,AddUtils.Theme.MACHINE1,
             Language.get("Machines.TIMER_RD.Name"),Language.getList("Machines.TIMER_RD.Lore"));
-    public static final SlimefunItemStack TIMER_SF=AddUtils.themed("TIMER_SF",Material.SOUL_TORCH,AddUtils.Theme.MACHINE1,
-            Language.get("Machines.TIMER_SF.Name"),Language.getList("Machines.TIMER_SF.Lore"));
+    public static final SlimefunItemStack TIMER_SF=new InitializeSafeProvider<>(SlimefunItemStack.class,()->AddUtils.themed("TIMER_SF_入机",Material.SOUL_TORCH,AddUtils.Theme.MACHINE1,
+            Language.get("Machines.TIMER_SF.Name"),Language.getList("Machines.TIMER_SF.Lore"))).v();
 //    public static final SlimefunItemStack TIMER_SF_SEQ=AddUtils.themed("TIMER_SF_SEQ",Material.SOUL_TORCH,AddUtils.Theme.MACHINE1,
 //            Language.get("Machines.TIMER_SF_SEQ.Name"),Language.getList("Machines.TIMER_SF_SEQ.Lore"));
     //manuals

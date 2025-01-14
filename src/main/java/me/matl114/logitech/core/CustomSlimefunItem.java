@@ -22,7 +22,7 @@ public abstract class CustomSlimefunItem extends SlimefunItem implements RecipeD
         this(itemGroup, item, recipeType, recipe,new ArrayList<>());
     }
     public CustomSlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,List<ItemStack> displayInfo){
-        super(itemGroup, item, recipeType, recipe);
+        super(itemGroup, item!=null?item:AddItem.RESOLVE_FAILED, recipeType, recipe);
         if (displayInfo != null) {
             this.originalMemory = new ArrayList<>(displayInfo);
         }else{

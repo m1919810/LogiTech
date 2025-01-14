@@ -74,7 +74,7 @@ public class MultiBlockVanillaPartListener implements Listener {
         } else {
             for (Block b : e.getBlocks()) {
                 if (MultiBlockService.safeGetStatus(e.getBlock().getLocation())!=0
-                        || (b.getRelative(e.getDirection()).getType() == Material.AIR
+                        || (b.getRelative(e.getDirection()).getType().isAir()
                         && MultiBlockService.safeGetStatus(b.getRelative(e.getDirection()).getLocation())!=0)) {
                     e.setCancelled(true);
                     break;
@@ -89,7 +89,7 @@ public class MultiBlockVanillaPartListener implements Listener {
         } else if (e.isSticky()) {
             for (Block b : e.getBlocks()) {
                 if (MultiBlockService.safeGetStatus(e.getBlock().getLocation())!=0
-                        || (b.getRelative(e.getDirection()).getType() == Material.AIR
+                        || (b.getRelative(e.getDirection()).getType().isAir()
                         && MultiBlockService.safeGetStatus(b.getRelative(e.getDirection()).getLocation())!=0)) {
                     e.setCancelled(true);
                     break;

@@ -92,7 +92,7 @@ public class BlockOpenListener implements Listener {
     @ParametersAreNonnullByDefault
     private static void openInventory(Player p,  Block clickedBlock, PlayerRightClickEvent event) {
         try {
-            if (!p.isSneaking() || event.getItem().getType() == Material.AIR) {
+            if (!p.isSneaking() || event.getItem().getType() .isAir()) {
                 event.getInteractEvent().setCancelled(true);
 
                 var blockData = DataCache.safeGetBlockCacheWithLoad(clickedBlock.getLocation());

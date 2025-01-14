@@ -171,13 +171,13 @@ public class StorageSpace {
                                         Material material2=block2.getType();
                                         boolean haveToChange=false;
                                         //将非空方块转移 同时删除存储空间中已有的方块
-                                        if((material!=Material.AIR||(material2!=Material.AIR&&material2!=Material.BARRIER))){
+                                        if(((!material.isAir())||(!material2.isAir()&&material2!=Material.BARRIER))){
                                             depositePairs.put(block1, block2);
                                             haveToChange=true;
                                         }
                                         Block block3=STORAGE_WORLD.getBlockAt(d1+dx_+i,h2+dy_+j,d2+dz_+k);
                                         Material material3=block3.getType();
-                                        if(material3!=Material.AIR&&material3!=Material.BARRIER){
+                                        if((!material3.isAir())&&material3!=Material.BARRIER){
                                             withdrawPairs.put(block1, block3);
                                             haveToChange=true;
                                         }

@@ -583,6 +583,13 @@ public class MultiBlockService {
     }
     static {
         TAG_GROUP.put(Material.AIR,MBID_AIR);
+        TAG_GROUP.put(Material.CAVE_AIR,MBID_AIR);
+        TAG_GROUP.put(Material.VOID_AIR,MBID_AIR);
+        try{
+            TAG_GROUP.put(Material.LEGACY_AIR,MBID_AIR);
+        }catch(Throwable e){
+
+        }
     }
     public static String getPartId(Location location){
         SlimefunItem blocks= DataCache.getSfItem(location);
