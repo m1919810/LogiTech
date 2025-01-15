@@ -80,10 +80,14 @@ public class EquivalItemStack extends ItemStack implements MultiItemStack ,Equal
         return this.sum;
     }
     public ItemStack clone(){
-        return itemList[0].clone();
+        var item= itemList[0].clone();
+        item.setAmount(this.eamount);
+        return item;
     }
     public EquivalItemStack copy(){
-        return new EquivalItemStack(itemMap);
+        var newInstance= new EquivalItemStack(itemMap);
+        newInstance.setEqualAmount(this.eamount);
+        return newInstance;
 //        EquivalItemStack stack;
 //        stack=(EquivalItemStack)super.clone();
 //        stack.itemList=Arrays.copyOf(this.itemList,this.itemList.length);
