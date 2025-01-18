@@ -155,7 +155,7 @@
         <dependency>
             <groupId>com.github.m1919810</groupId>
             <artifactId>matlib</artifactId>
-            <version>35993d4</version>
+            <version>7bef1c9</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

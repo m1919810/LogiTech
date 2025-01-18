@@ -2,6 +2,7 @@ package me.matl114.logitech.core.Blocks.MultiBlock;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
@@ -23,6 +24,7 @@ public abstract class MultiBlockProcessor extends AbstractProcessor implements M
     protected final String PARTID;
     public abstract int[] getInputSlots();
     public abstract int[] getOutputSlots();
+    protected ItemSetting<Boolean> broadCastWhenDump = create("broadcast-dump-loc",true);
     public MultiBlockProcessor(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType,
                                ItemStack[] recipe, String blockId, AbstractMultiBlockType type, ItemStack processorItem, int energyConsumption, int energyBuffer,
                                List<Pair<Object, Integer>> customRecipes){

@@ -2,6 +2,7 @@ package me.matl114.logitech.core;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
@@ -2465,6 +2466,12 @@ public class AddSlimefunItems {
         HashSet<String> BANNED_WORLD_NAME=new HashSet<>(){{
            add("logispace" );
         }};
+        protected ItemSetting<Boolean> rtpChangeWorld = createForce("rtp-change-world",false);
+        protected ItemSetting<Integer> rtpRange2pow =createForce("rtp-max-amount",14);
+        public void addInfo(ItemStack item){
+            item.setItemMeta(AddUtils.addLore(item, "&7世界范围: "+(rtpChangeWorld.getValue()? "随机,50%概率不改变世界":"当前世界"),
+                    "&7坐标范围: 2^(max(10+丢出数量,%s))".formatted(String.valueOf(10+rtpRange2pow.getValue()))).getItemMeta());
+        }
         int DELAY_BEFORE_TP=60;
         int RETRY_TIME=5;
         public boolean onDrop(PlayerDropItemEvent var1, Player var2, Item var3){
@@ -2479,7 +2486,7 @@ public class AddSlimefunItems {
                                 var3.setItemStack(stack);
                                 Location center= var3.getLocation();
                                 center.getWorld().strikeLightningEffect(center);
-                                int ranges=1<<Math.min(10+amount/2,24);
+                                int ranges=1<<(10+Math.min(amount/2,rtpRange2pow.getValue()));
                                 AddUtils.sendMessage(var2,"&a即将开始随机传送,传送范围: "+ranges);
                                 BukkitUtils.executeAsync(
                                         ()->{
@@ -2536,7 +2543,8 @@ public class AddSlimefunItems {
         int EFFECT_PERIOD=4;
         public Location onRandomLocationFind(Location center,int range){
             World world;
-            if(rand.nextInt(20)%2==0){
+            //不切换世界
+            if(!rtpChangeWorld.getValue() &&rand.nextInt(20)%2==0){
                 world=center.getWorld();
             }else{
                 do{

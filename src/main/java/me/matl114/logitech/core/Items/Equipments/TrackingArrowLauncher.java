@@ -2,6 +2,7 @@ package me.matl114.logitech.core.Items.Equipments;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
@@ -21,18 +22,26 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.*;
 
 public class TrackingArrowLauncher extends ChargableProps {
+    protected ItemSetting<Integer> trackRange = createForce("track-range",60);
+    protected ItemSetting<Integer> basicDamage = createForce("basic-damage",16);
+    protected ItemSetting<Double> sharpnessAmplifier = createForce("sharpness-amplifier",0.4d);
+    protected ItemSetting<Double> powerAmplifier = createForce("power-amplifier",0.8d);
     public TrackingArrowLauncher(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe){
         super(itemGroup, item, recipeType, recipe);
     }
+    public void addInfo(ItemStack stack){
+        stack.setItemMeta(AddUtils.insertLore(stack,-1,"&7寻踪范围: %s".formatted(String.valueOf(trackRange.getValue())),"&7穿透数: 4","&7箭矢伤害: %s+%s*<力量等级>+%s*<锋利等级>".formatted(String.valueOf(basicDamage.getValue()),String.valueOf(powerAmplifier.getValue()),String.valueOf(sharpnessAmplifier.getValue()))).getItemMeta());
+        super.addInfo(stack);
+    }
+
     protected final float MAX_CHARGE=9_000_000.0f;
     protected Random rand = new Random();
     protected final float ARROW_SPEED=1.25F;
     protected final int ARROW_AMOUNT=16;
     protected final int ARROW_EXIST_TIME=8;
-    protected final float RAYTRACE_RANGE=60;
+
     protected final int MAX_TRACETIME=150;
     protected final int PERIOD_TRACETIME=2;
-    protected final int BASIC_DAMAGE=40;
     protected final float ENERGYCONSUMPTION=640.0f;
     protected final float DEFLECTION_RATE=0.2f;
     protected final float LOCATION_DELTA=0.4f;
@@ -65,15 +74,15 @@ public class TrackingArrowLauncher extends ChargableProps {
         ItemMeta meta=item.getItemMeta();
         int powerLevel=meta.getEnchantLevel(Enchantment.ARROW_DAMAGE);
         int sharpnessLevel=meta.getEnchantLevel(Enchantment.DAMAGE_ALL);
-        int damage=(int)BASIC_DAMAGE+2*powerLevel+sharpnessLevel;
+        float  damage=(float)basicDamage.getValue()+ powerAmplifier.getValue().floatValue() *powerLevel+ sharpnessAmplifier.getValue().floatValue()*sharpnessLevel;
         //随机生成若干箭矢，需要针对location 朝向 motion做改动
         Location loc = WorldUtils.getHandLocation(p);
         HashSet<Arrow> arrows=new HashSet<>();
         for(int i=0;i<ARROW_AMOUNT;i++){
             arrows.add(spawnArrowRandomly(loc,p,damage));
         }
-        Location targetCenter=loc.add(loc.getDirection().normalize().multiply(RAYTRACE_RANGE));
-        HashSet<Entity> targetEntities= WorldUtils.getEntityInDistance(targetCenter,1.2*RAYTRACE_RANGE,(e)->{return e!=p
+        Location targetCenter=loc.add(loc.getDirection().normalize().multiply(trackRange.getValue()));
+        HashSet<Entity> targetEntities= WorldUtils.getEntityInDistance(targetCenter,1.2*trackRange.getValue(),(e)->{return e!=p
               && WorldUtils.isTargetableLivingEntity(e);});
         //索敌算法
         HashSet<LivingEntity> livingEntities=new HashSet<>();
@@ -84,7 +93,7 @@ public class TrackingArrowLauncher extends ChargableProps {
         }
         launchAutoTrace(arrows,livingEntities);
     }
-    public Arrow spawnArrowRandomly(Location loc,Player p,int damage){
+    public Arrow spawnArrowRandomly(Location loc,Player p,float  damage){
         //0.5的生成位置偏移
         Location loc2=loc.clone().add(rand.nextFloat(-LOCATION_DELTA,LOCATION_DELTA),rand.nextFloat(-LOCATION_DELTA/4,0),rand.nextFloat(-LOCATION_DELTA,LOCATION_DELTA));
         //10度的偏差
@@ -141,7 +150,7 @@ public class TrackingArrowLauncher extends ChargableProps {
                                 }
                                 else {
                                     Location loc=arrow.getLocation();
-                                    float minDistance=RAYTRACE_RANGE;
+                                    float minDistance=trackRange.getValue();
                                     LivingEntity choosedEntity=null;
                                     Iterator<LivingEntity> iterator2=targetEntities.iterator();
                                     while(iterator2.hasNext()){

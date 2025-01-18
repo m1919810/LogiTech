@@ -2,6 +2,7 @@ package me.matl114.logitech.core.Items.Equipments;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
@@ -25,6 +26,9 @@ import java.util.function.Predicate;
 public class LaserGun extends ChargableProps {
     protected final NamespacedKey LEVEL_KEY=AddUtils.getNameKey("laser-lvl");
     protected final String LEVEL_PREFIX= AddUtils.resolveColor("&x&E&B&3&3&E&B发射器功率: &a");
+    protected ItemSetting<Integer> distance = createForce("lazer-range",100);
+    protected ItemSetting<Integer> lazerLevel = createForce( "lazer-basic-lvl",4);
+    protected ItemSetting<Integer> rankAmount = createForce("lazer-rank",5);
     protected final int getLevel(ItemMeta meta){
         PersistentDataContainer container = meta.getPersistentDataContainer();
         if(container.has(LEVEL_KEY, PersistentDataType.INTEGER)){
@@ -38,15 +42,17 @@ public class LaserGun extends ChargableProps {
         container.set(LEVEL_KEY, PersistentDataType.INTEGER, level);
         List<String> lores=meta.getLore();
         if(lores.size()>1){
-            lores.set(lores.size()-3, AddUtils.concat(LEVEL_PREFIX,"第",String.valueOf(level+1),"档/共",String.valueOf(MAX_LEVEL),"档"));
+            lores.set(lores.size()-3, AddUtils.concat(LEVEL_PREFIX,"第",String.valueOf(level+1),"档/共",String.valueOf(rankAmount.getValue()),"档"));
         }
         meta.setLore(lores);
     }
-    protected final int MAX_LEVEL=5;
+
     public LaserGun(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe){
         super(itemGroup, item, recipeType, recipe);
     }
     public void addInfo(ItemStack stack){
+        stack.setItemMeta(AddUtils.insertLore(stack,-3,"&7射程: %dm".formatted(distance.getValue()),"&7伤害: 100*<功率档>(对怪物) 或 %d*<功率档>级激光伤害(对玩家)".formatted(lazerLevel.getValue())).getItemMeta());
+
         super.addInfo(stack);
         ItemMeta meta=stack.getItemMeta();
         setLevel(meta,0);
@@ -77,7 +83,7 @@ public class LaserGun extends ChargableProps {
     public void onLaserLevelAdd(Player p,ItemStack stack){
         ItemMeta meta=stack.getItemMeta();
         int level=getLevel(meta);
-        level=(level+1)%MAX_LEVEL;
+        level=(level+1)%rankAmount.getValue();
         setLevel(meta,level);
         stack.setItemMeta(meta);
         AddUtils.sendMessage(p,"&a激光发射器功率切换成功.当前为 &6第%d档".formatted(level+1));

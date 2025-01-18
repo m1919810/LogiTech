@@ -588,6 +588,25 @@ public class AddUtils {
         });
         return map;
     }
+    public static ItemStack insertLore(ItemStack item,int index,String... lores){
+
+        ItemStack item2=item.clone();
+
+        ItemMeta meta=item2.getItemMeta();
+        List<String> finallist=meta.hasLore() ? meta.getLore() : new ArrayList<>();
+        int t = 0;
+        for (String l:lores){
+            if(index>=0){
+                finallist.add(index+t,resolveColor(l));
+                t+= 1;
+            }else{
+                finallist.add(finallist.size()+index,resolveColor(l));
+            }
+        }
+        meta.setLore(finallist);
+        item2.setItemMeta(meta);
+        return item2;
+    }
     public static ItemStack addLore(ItemStack item,String... lores){
 
         ItemStack item2=item.clone();

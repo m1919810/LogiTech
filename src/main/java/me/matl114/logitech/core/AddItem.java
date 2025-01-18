@@ -76,11 +76,11 @@ public class AddItem {
             Language.get("Groups.SPECIAL.Name"),Language.getList("Groups.SPECIAL.Lore"));
     public static final ItemStack TOOLS=AddUtils.themed(Material.NETHERITE_AXE, AddUtils.Theme.CATEGORY2,
             Language.get("Groups.TOOLS.Name"),Language.getList("Groups.TOOLS.Lore"));
-    public static final ItemStack TOOLS_SUBGROUP_1=AddUtils.themed(Material.MUSIC_DISC_RELIC, AddUtils.Theme.NONE,
+    public static final ItemStack TOOLS_SUBGROUP_1=AddUtils.themed(Material.MUSIC_DISC_RELIC, AddUtils.Theme.CATEGORY2,
             Language.get("Groups.TOOLS_SUBGROUP_1.Name"),Language.getList("Groups.TOOLS_SUBGROUP_1.Lore"));
-    public static final ItemStack TOOLS_SUBGROUP_2=AddUtils.themed(Material.MUSIC_DISC_RELIC, AddUtils.Theme.NONE,
+    public static final ItemStack TOOLS_SUBGROUP_2=AddUtils.themed(Material.MUSIC_DISC_RELIC, AddUtils.Theme.CATEGORY2,
             Language.get("Groups.TOOLS_SUBGROUP_2.Name"),Language.getList("Groups.TOOLS_SUBGROUP_2.Lore"));
-    public static final ItemStack TOOLS_RECIPES=AddUtils.themed("TOOLS_RECIPES",Material.CRAFTING_TABLE, AddUtils.Theme.NONE,
+    public static final ItemStack TOOLS_RECIPES=AddUtils.themed("TOOLS_RECIPES",Material.CRAFTING_TABLE, AddUtils.Theme.CATEGORY2,
             Language.get("Groups.TOOLS_RECIPES.Name"),Language.getList("Groups.TOOLS_RECIPES.Lore"));
     //public static final ItemStack TEMPLATE=AddUtils.themed()
     public static final ItemStack TOBECONTINUE=AddUtils.themed(Material.STRUCTURE_VOID,AddUtils.Theme.CATEGORY2,

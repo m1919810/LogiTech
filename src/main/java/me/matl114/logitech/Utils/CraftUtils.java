@@ -1779,11 +1779,12 @@ public class CraftUtils {
         return displayNameAccess.compareFieldOrDefault(meta1,meta2,()->Objects.equals(meta1.getDisplayName(),meta2.getDisplayName()));
     }
     private static Class CraftMetaBlockState;
-    private static FieldAccess blockEntityTagAccess=FieldAccess.ofName("blockEntityTag");
+
     public static boolean matchBlockStateMetaField(BlockStateMeta meta1, BlockStateMeta meta2){
-        return blockEntityTagAccess.ofAccess(meta1).computeIf((b)->{
-            return Objects.equals(b, blockEntityTagAccess.ofAccess(meta2).getRawOrDefault(()->null));
-        },()->meta1.equals(meta2));
+        return EnvironmentManager.getManager().getVersioned().matchBlockStateMeta(meta1,meta2);
+//        return blockEntityTagAccess.ofAccess(meta1).computeIf((b)->{
+//            return Objects.equals(b, blockEntityTagAccess.ofAccess(meta2).getRawOrDefault(()->null));
+//        },()->meta1.equals(meta2));
     }
 
     public static boolean matchItemStack(ItemStack stack1, ItemStack stack2,boolean strictCheck){

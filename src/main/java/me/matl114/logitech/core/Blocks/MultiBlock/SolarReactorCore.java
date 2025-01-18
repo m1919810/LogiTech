@@ -2,6 +2,7 @@ package me.matl114.logitech.core.Blocks.MultiBlock;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
@@ -75,6 +76,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
     protected final double ENTITY_EFFECT_OFFSET=20;
     protected final int[] BORDER_IN = new int[]{9, 10, 11, 12, 18,  27, 36,45,46,47,48};
     protected final int[] BORDER_OUT = new int[]{14, 15, 16, 17, 26,35,44,50,51,52,53};
+
     public SolarReactorCore(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType,
                       ItemStack[] recipe, String blockId, MultiBlockType type, int energyConsumption, int energyBuffer,
                             List<Pair<Object, Integer>> customRecipes){
@@ -249,8 +251,12 @@ public class SolarReactorCore extends MultiBlockProcessor {
     public MultiBlockService.DeleteCause TWICE_EXPLODE=new MultiBlockService.DeleteCause("二次爆炸",true);
     public void onDestroyEffect(Location loc, AbstractMultiBlockHandler handler, MultiBlockService.DeleteCause cause){
         removeEffect(loc);
+        if(broadCastWhenDump.getValue()){
+            AddUtils.broadCast("&e位于[%s,%.0f,%.0f,%.0f]的超新星模拟器因 [%s] 即将爆炸,快跑!".formatted(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(),cause.getMessage()));
+        }else{
+            AddUtils.broadCast("&e位于[&k看你吗呢,0.0,0.0,0.0&f&e]的超新星模拟器因 [%s] 即将爆炸,快跑!".formatted(cause.getMessage()));
+        }
 
-        AddUtils.broadCast("&e位于[%s,%.0f,%.0f,%.0f]的超新星模拟器因 [%s] 即将爆炸,快跑!".formatted(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(),cause.getMessage()));
 
         Location center=loc.clone();
         Schedules.launchSchedules(()->{

@@ -1,9 +1,6 @@
 package me.matl114.logitech.core;
 
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.*;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import me.matl114.logitech.core.Interface.RecipeDisplay;
 import me.matl114.logitech.Utils.AddUtils;
@@ -46,9 +43,29 @@ public abstract class CustomSlimefunItem extends SlimefunItem implements RecipeD
         this.addItemHandler(handler);
         return this;
     }
+    public <T extends Object> ItemSetting<T> create(String config,T defaultV){
+        ItemSetting<T> settings = new ItemSetting<>(this, config, defaultV);
+        addItemSetting(settings);
+        return settings;
+    }
+    //load immediately
+    public <T extends Object> ItemSetting<T> createForce(String config,T defaultV){
+        var create=create(config,defaultV);
+        create.reload();
+        return create;
+    }
     public CustomSlimefunItem setDisplayRecipes(List<ItemStack> displayRecipes) {
         this.originalMemory = displayRecipes;
         return this;
+    }
+    public void warn(String message) {
+        //什么
+        if(this.addon!=null){
+            super.warn(message);
+        }else{
+            //ignored
+        }
+
     }
     public CustomSlimefunItem addDisplayRecipe(ItemStack stack) {
         if(originalMemory==null||originalMemory.isEmpty()) {

@@ -1231,6 +1231,9 @@ public class WorldUtils {
        }else {
            BlockBreakEvent breakEvent =
                    new BlockBreakEvent(loc.getBlock(),player);
+           //set drop to false
+           breakEvent.setDropItems(false);
+           breakEvent.setExpToDrop(0);
            Bukkit.getPluginManager().callEvent(breakEvent);
 
 
@@ -1288,6 +1291,8 @@ public class WorldUtils {
 //            }
             BlockBreakEvent breakEvent =
                     new BlockBreakEvent(block,player);
+            breakEvent.setDropItems(false);
+            breakEvent.setExpToDrop(0);
             Bukkit.getPluginManager().callEvent(breakEvent);
             if (breakEvent.isCancelled()) {
                 return false;
@@ -1499,6 +1504,8 @@ public class WorldUtils {
         if(hasCheckedProtection||WorldUtils.hasPermission(player,block.getLocation(),Interaction.BREAK_BLOCK)){
             if(!block.getType().isAir()){
                 BlockBreakEvent event=new BlockBreakEvent(block,player);
+                event.setDropItems(false);
+                event.setExpToDrop(0);
                 Bukkit.getPluginManager().callEvent(event);
                 if(event.isCancelled()){
                     return false;
@@ -1513,6 +1520,8 @@ public class WorldUtils {
         if(hasCheckedProtection||((!checkFromPerms||WorldUtils.hasPermission(player,block1,Interaction.BREAK_BLOCK))&&(!checkToPerms||WorldUtils.hasPermission(player,block2,Interaction.PLACE_BLOCK)))){
             if(checkFromPerms){
                 BlockBreakEvent event=new BlockBreakEvent(block1,player);
+                event.setDropItems(false);
+                event.setExpToDrop(0);
                 Bukkit.getPluginManager().callEvent(event);
                 if(event.isCancelled()){
                     return false;
@@ -1528,7 +1537,10 @@ public class WorldUtils {
     public static boolean testVanillaBlockBreakPermission(Block block,Player player,boolean hasCheckedProtection){
         if(hasCheckedProtection||(WorldUtils.hasPermission(player,block,Interaction.BREAK_BLOCK, Interaction.PLACE_BLOCK))){
             BlockBreakEvent event=new BlockBreakEvent(block,player);
+            event.setDropItems(false);
+            event.setExpToDrop(0);
             Bukkit.getPluginManager().callEvent(event);
+
             if(event.isCancelled()){
                 return false;
             }
