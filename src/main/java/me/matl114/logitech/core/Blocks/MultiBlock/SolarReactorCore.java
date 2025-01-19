@@ -195,6 +195,11 @@ public class SolarReactorCore extends MultiBlockProcessor {
             super(AddUtils.concat("超新星没有被空气包裹,在",DataCache.locationToDisplayString(block.getLocation()),"处发现了",block.getType().toString()),true);
             this.block=block;
         }
+
+        @Override
+        public String getRawCause() {
+            return "超新星没有被空气包裹";
+        }
     }
     public boolean checkCondition(Location loc,SlimefunBlockData data){
         //no endcrystal
@@ -254,7 +259,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
         if(broadCastWhenDump.getValue()){
             AddUtils.broadCast("&e位于[%s,%.0f,%.0f,%.0f]的超新星模拟器因 [%s] 即将爆炸,快跑!".formatted(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(),cause.getMessage()));
         }else{
-            AddUtils.broadCast("&e位于[&k看你吗呢,0.0,0.0,0.0&f&e]的超新星模拟器因 [%s] 即将爆炸,快跑!".formatted(cause.getMessage()));
+            AddUtils.broadCast("&e位于[&k看你吗呢,0.0,0.0,0.0&f&e]的超新星模拟器因 [%s] 即将爆炸,快跑!".formatted(cause.getRawCause()));
         }
 
 

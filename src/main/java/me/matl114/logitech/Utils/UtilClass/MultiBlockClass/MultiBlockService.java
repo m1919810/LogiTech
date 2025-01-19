@@ -88,6 +88,9 @@ public class MultiBlockService {
         public String getMessage(){
             return this.cause;
         }
+        public String getRawCause(){
+            return this.cause;
+        }
     }
     public static class MultiBlockBreakCause extends DeleteCause{
         Block b;
@@ -97,6 +100,11 @@ public class MultiBlockService {
         public MultiBlockBreakCause(Block b){
             super(AddUtils.concat(DataCache.locationToDisplayString(b.getLocation()),"的方块",b.getType().toString(),"被人为破坏"),true);
             this.b=b;
+        }
+
+        @Override
+        public String getRawCause() {
+            return "方块被人为破坏";
         }
     }
     public static class EnergyOutCause extends DeleteCause{
@@ -109,7 +117,11 @@ public class MultiBlockService {
             super(AddUtils.concat("电力不足! ",String.valueOf( energy),"J/ ",String.valueOf( energyCom),"J"),true);
             this.energy=energy;
             this.energyCom=energyCom;
+        }
 
+        @Override
+        public String getRawCause() {
+            return "电力不足";
         }
     }
     public static class StructureBreakCause extends DeleteCause{
@@ -124,6 +136,10 @@ public class MultiBlockService {
                     DataCache.locationToDisplayString(loc),
                     "处检测到 [",
                     getId,"],实际应为 [",shouldId,"]"),true);
+        }
+        @Override
+        public String getRawCause(){
+            return "多方块结构自检失败";
         }
     }
     public static DeleteCause MANUALLY=new DeleteCause("手动关闭",true);

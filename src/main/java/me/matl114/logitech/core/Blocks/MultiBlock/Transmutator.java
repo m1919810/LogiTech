@@ -169,7 +169,7 @@ public class Transmutator extends MultiBlockAdvancedProcessor  {
         if(broadCastWhenDump.getValue()){
             AddUtils.broadCast("&e位于[%s,%.0f,%.0f,%.0f]的元素嬗变机因 [%s] 熔毁!".formatted(loc.getWorld().getName(), loc.getX(), loc.getY(), loc.getZ(),cause.getMessage()));
         }else{
-            AddUtils.broadCast("&e位于[&k看你吗呢,0.0,0.0,0.0&f&e]的元素嬗变机因 [%s] 熔毁!".formatted(cause.getMessage()));
+            AddUtils.broadCast("&e位于[&k看你吗呢,0.0,0.0,0.0&f&e]的元素嬗变机因 [%s] 熔毁!".formatted(cause.getRawCause()));
         }
 
 

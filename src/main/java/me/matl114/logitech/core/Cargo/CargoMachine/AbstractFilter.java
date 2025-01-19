@@ -7,6 +7,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.core.Blocks.AbstractBlock;
 import me.matl114.logitech.Utils.Algorithms.DynamicArray;
 import me.matl114.logitech.Utils.CraftUtils;
@@ -27,6 +28,9 @@ public abstract class AbstractFilter extends AbstractBlock implements Ticking {
     }
     public ItemStack CLEAN_ITEM_OFF=new CustomItemStack(SlimefunItems.TRASH_CAN,"&3开启输入槽清空模式","&7当输入槽物品无法匹配输出槽白名单时,会清空输入槽","&7当前状态: &c关闭");
     public ItemStack CLEAN_ITEM_ON=new CustomItemStack(SlimefunItems.TRASH_CAN,"&3关闭输入槽清空模式","&7当输入槽物品无法匹配输出槽白名单时,会清空输入槽","&7当前状态: &a开启");
+    public int getMenuSize(){
+        return 54;
+    }
     public abstract int[] getInputSlots();
     public abstract int[] getOutputSlots();
     public abstract int[] getOutputWLSlot();
@@ -35,6 +39,7 @@ public abstract class AbstractFilter extends AbstractBlock implements Ticking {
     public abstract int[] getOutputBorders();
     public abstract ItemStack[] getOutputBordersItem();
     public void constructMenu(BlockMenuPreset preset){
+        preset.setSize(getMenuSize());
         int[] border=getInputBorders();
         int len=border.length;
         for (int i=0;i<len;i++){
@@ -52,6 +57,7 @@ public abstract class AbstractFilter extends AbstractBlock implements Ticking {
         }
     }
     public void newMenuInstance(BlockMenu menu, Block b){
+        super.newMenuInstance(menu, b);
         SlimefunBlockData data=DataCache.safeLoadBlock(menu.getLocation());
         String clean=DataCache.getCustomString(data,KEY_CLEAN,"no");
         if(clean.length()==1){
