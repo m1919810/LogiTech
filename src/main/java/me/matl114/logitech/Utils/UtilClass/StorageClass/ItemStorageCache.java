@@ -261,6 +261,7 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
                     storageAmount = getAmount();
                     storageType.setStorage(sourceMeta, this.getItem());
                     wasNull = false;
+                    itemChange();
                 }
             }
             storageAmount = getAmount();
@@ -316,18 +317,13 @@ public class ItemStorageCache extends ItemSlotPusher {//extends ItemPusher
                 dirty=false;
             }
         }else{
-            item=null;
-            meta=null;
-            cnt=0;
-            dirty=false;
+            toNull();
         }
     }
     //修复了setFrom存储时覆写maxSize的问题
     public void setFrom(ItemCounter source){
         if(wasNull||(source!=null&&source.getItem()!=null)){
-            item=source.getItem();
-            cnt=0;
-            meta=null;
+            fromSource(source,false);
         }
     }
 }

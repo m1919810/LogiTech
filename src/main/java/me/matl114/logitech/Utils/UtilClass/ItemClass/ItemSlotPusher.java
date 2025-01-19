@@ -85,10 +85,7 @@ public class ItemSlotPusher extends ItemPusher {
         if(!wasNull){
             super.syncData();
         }else{
-            item=null;
-            meta=null;
-            cnt=0;
-            dirty=false;
+            toNull();
         }
     }
 
@@ -113,10 +110,7 @@ public class ItemSlotPusher extends ItemPusher {
         //only when null AND source not null, can we setFrom
         //we don't support cache change
         if(wasNull&&(source!=null&&source.getItem()!=null)){
-            item=source.getItem();
-            maxStackCnt=item!=null?item.getMaxStackSize():0;
-            cnt=0;
-            meta=null;
+            fromSource(source,true);
         }
     }
     protected ItemSlotPusher clone(){

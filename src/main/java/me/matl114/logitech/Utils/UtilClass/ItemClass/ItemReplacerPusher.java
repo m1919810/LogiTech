@@ -19,10 +19,8 @@ public class ItemReplacerPusher extends ItemPusher{
 
     }
     public void updateItemStack(){
-        if(isDirty()){
-            source.setAmount(cnt);
-        }
         super.updateItemStack();
+        source.setAmount(cnt);
     }
     //修复了setFrom存储时覆写maxSize的问题
     public void setFrom(ItemCounter source){

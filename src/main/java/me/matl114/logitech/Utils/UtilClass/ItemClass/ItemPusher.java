@@ -81,10 +81,7 @@ public class ItemPusher extends ItemCounter {
      */
     public void setFrom(ItemCounter source){
         if(item==null&&(source!=null&&source.getItem()!=null)){
-            item=source.getItem();
-            maxStackCnt=item.getMaxStackSize();
-            cnt=0;
-            meta=null;
+            fromSource(source,true);
         }
     }
 
