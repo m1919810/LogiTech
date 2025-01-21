@@ -261,12 +261,12 @@ public abstract class SpecialCrafter extends AbstractAdvancedProcessor implement
         if(inv.hasViewer()){
             updateMenu(inv,b,Settings.RUN);
         }else{
-            CompletableFuture.runAsync(()->{
-                if(!inv.hasViewer()){
-                    MenuUtils.syncSlot(inv,MACHINEITEM_SLOT);
-                    MenuUtils.syncSlot(inv,RECIPEITEM_SLOT);
-                }
-            });
+//            CompletableFuture.runAsync(()->{
+//                if(!inv.hasViewer()){
+//                    MenuUtils.syncSlot(inv,MACHINEITEM_SLOT);
+//                    MenuUtils.syncSlot(inv,RECIPEITEM_SLOT);
+//                }
+//            });
         }
         MultiCraftingOperation currentOperation = this.processor.getOperation(b);
         ItemGreedyConsumer[] fastCraft=null;

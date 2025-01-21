@@ -95,11 +95,11 @@ public class AEMachine extends AbstractAdvancedProcessor {
         if(menu.hasViewer()){
             updateMenu(menu,b,Settings.RUN);
         }else {
-            CompletableFuture.runAsync(()->{
-                if(!menu.hasViewer()){
-                    MenuUtils.syncSlot(menu,CORE_SLOT);
-                }
-            });
+//            CompletableFuture.runAsync(()->{
+//                if(!menu.hasViewer()){
+//                    MenuUtils.syncSlot(menu,CORE_SLOT);
+//                }
+//            });
         }
         return super.conditionHandle(b,menu);
     }

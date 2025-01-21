@@ -9,10 +9,10 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.core.Interface.MenuTogglableBlock;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Algorithms.AtomicCounter;
 import me.matl114.logitech.Utils.DataCache;
+import me.matl114.logitech.core.Interface.MenuTogglableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
@@ -119,6 +119,55 @@ public abstract class AbstractEnergyCharger extends AbstractEnergyMachine implem
     public abstract int getMaxChargeAmount();
     @Override
     public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int ticker) {
+        Location loc=menu.getLocation();
+        AtomicCounter charge=new AtomicCounter(this.getCharge(loc,data), this.energybuffer);
+        int energyConsumer=0;
+        AtomicInteger errorMachine=new AtomicInteger(0);
+        boolean lazymod=getStatus(menu)[0];
+        Collection<SlimefunBlockData> allDatas=getChargeRange(menu,b,data); //DataCache.getAllSfItemInChunk(loc.getWorld(),loc.getBlockX()>>4,loc.getBlockZ()>>4);
+        if(allDatas!=null&&!allDatas.isEmpty()){
+            List<CompletableFuture<Void>> futures=new ArrayList<>();
+            for (SlimefunBlockData sf : allDatas) {
+                SlimefunItem item=SlimefunItem.getById(sf.getSfId());
+                EnergyNetComponent ec=getChargeableComponent(item);
+                if(ec!=null){
+                    if(ec.getEnergyComponentType()== EnergyNetComponentType.CONSUMER){
+                        if(!sf.isDataLoaded()){
+                            DataCache.requestLoad(sf);
+                            continue;
+                        }
+                        Location  testLocation=sf.getLocation();
+                        if(loc.equals(testLocation)){
+                            continue;
+                        }
+                        energyConsumer++;
+                        if(!charge.empty()){
+                            futures.add(CompletableFuture.runAsync(()->{
+                                int testCharge=ec.getCharge(testLocation,sf);
+                                int buffer=ec.getCapacity();
+                                int left=buffer-testCharge;
+                                if(left>0&&(!lazymod||left>=testCharge)){
+                                    int fetched=charge.required(left);
+                                    ec.setCharge(testLocation,fetched+testCharge);
+                                }
+                            }).exceptionally(ex->{errorMachine.incrementAndGet();return null;}));
+                        }
+                        if(energyConsumer>=getMaxChargeAmount()){
+                            break;
+                        }
+                    }
+                }
+            }
+            if(!futures.isEmpty()){
+                CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new)).join();
+            }
+        }
+        this.setCharge(loc,charge.get());
+        if(menu.hasViewer()){
+            menu.replaceExistingItem(getInfoSlot(),getInfoShow(charge.get(),energyConsumer, errorMachine.get()));
+        }
+    }
+    public void tickAsync(Block b, BlockMenu menu, SlimefunBlockData data, int ticker) {
         Location loc=menu.getLocation();
         AtomicCounter charge=new AtomicCounter(this.getCharge(loc,data), this.energybuffer);
         int energyConsumer=0;

@@ -343,11 +343,11 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
         if(hasViewer){
             updateMenu(inv,b,Settings.RUN);
         }else{
-            CompletableFuture.runAsync(()->{
-                if(!inv.hasViewer()){
-                    MenuUtils.syncSlot(inv,MACHINE_SLOT);
-                }
-            });
+//            CompletableFuture.runAsync(()->{
+//                if(!inv.hasViewer()){
+//                    MenuUtils.syncSlot(inv,MACHINE_SLOT);
+//                }
+//            });
         }
         int index=MultiCraftType.getRecipeTypeIndex(data);
         if(index>=0&&index<getListSize()){//有效机器
