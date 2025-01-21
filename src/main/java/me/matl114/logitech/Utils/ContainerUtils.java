@@ -6,17 +6,23 @@ import lombok.Getter;
 import me.matl114.logitech.Manager.Schedules;
 import me.matl114.logitech.core.CustomSlimefunItem;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.ContainerBlockMenuWrapper;
+import me.matl114.matlib.Utils.Algorithm.InitializeSafeProvider;
+import me.matl114.matlib.Utils.Reflect.MethodAccess;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.util.HashSet;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -69,11 +75,13 @@ public class ContainerUtils {
      * @param callback
      * @param testBlock
      */
+
+
     public static void getBlockContainerMenuWrapperWithCallback(Consumer<BlockMenu[]> callback,boolean runningOnMain, Location... testBlock){
         BlockMenu[] results=new BlockMenu[testBlock.length];
         BukkitUtils.executeSync(()->{
             for(int i=0;i<testBlock.length;++i){
-                if(testBlock[i]!=null&&testBlock[i].getBlock().getState() instanceof InventoryHolder ivHolder){
+                if(testBlock[i]!=null&&  WorldUtils.getBlockStateNoSnapShot(  testBlock[i].getBlock() )instanceof InventoryHolder ivHolder){
                     results[i]= ContainerBlockMenuWrapper.getContainerBlockMenu(ivHolder.getInventory(),testBlock[i]);
                 }else{
                     results[i]=null;
@@ -105,14 +113,21 @@ public class ContainerUtils {
             TransportUtils.transportItem(fromInv,toInv,configCode,smart,bwlist,CraftUtils.getpusher);
             return;
         }
-        SlimefunItem sfitem=DataCache.getSfItem(from);
-        if(sfitem==null||((!(sfitem instanceof CustomSlimefunItem) ))) {
-            //将getType放到异步处理,减少开销
+        if(!from.getWorld().isChunkLoaded(from.getBlockX()>>4,from.getBlockZ()>>4)||!to.getWorld().isChunkLoaded(to.getBlockX()>>4,to.getBlockZ()>>4)){
+            //stop transfering to vanilla container when one chunk is not loaded
+            return;
+        }
+        SlimefunItem fromItem=DataCache.getSfItem(from);
+        SlimefunItem toItem =DataCache.getSfItem(to);
+        //null, or not my machine
+        if((fromInv!=null&&(!(toItem instanceof CustomSlimefunItem)))||(toInv!=null&&(!(fromItem instanceof CustomSlimefunItem)) ) ) {
             Schedules.execute(()->{
                 if(fromInv!=null){
                     ContainerUtils.getBlockContainerMenuWrapperWithCallback((blockMenus -> {
-                        if(blockMenus[0]!=null)
+                        if(blockMenus[0]!=null){
                             TransportUtils.transportItem(fromInv,blockMenus[0],configCode,smart,bwlist,CraftUtils.getpusher);
+                        }
+
                     }),true, to);
                 }else {
                     if(toInv!=null){

@@ -11,6 +11,7 @@ import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Manager.Schedules;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
+import me.matl114.matlib.Utils.Algorithm.InitializeSafeProvider;
 import me.matl114.matlib.Utils.Reflect.FieldAccess;
 import me.matl114.matlib.core.EnvironmentManager;
 import org.bukkit.*;
@@ -26,6 +27,9 @@ import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
@@ -1196,9 +1200,33 @@ public class WorldUtils {
     static{
 
     }
-    public static void setBlock(Block block, Material material) {
 
+    public static final MethodHandle getStateHandle = new InitializeSafeProvider<MethodHandle>(MethodHandle.class, ()->{
+        try{
+            var lookUp= MethodHandles.privateLookupIn(Block.class,MethodHandles.lookup());
+            return lookUp.findVirtual(Block.class,"getState", MethodType.methodType(BlockState.class,boolean.class));
+        }catch (Throwable e){
+            Debug.logger("could not find method getState!");
+            e.printStackTrace();
+            return null;
+        }
+    }).v();
+    public static BlockState getBlockStateNoSnapShot(Block block){
+        if(getStateHandle!=null){
+            try{
+                return (BlockState)getStateHandle.invokeExact(block,false);
+            }catch (Throwable ignored){}
+        }
+        return block.getState();
     }
+
+
+
+
+
+
+
+
     public static boolean isEntityBlock(Material type){
         return BLOCKTYPE_WITH_ENTITY.contains(type);
     }
