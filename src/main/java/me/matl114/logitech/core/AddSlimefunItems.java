@@ -1493,7 +1493,7 @@ public class AddSlimefunItems {
                             AddUtils.randItemStackFactory(mkMp("REDSTONE_TORCH",1,"REPEATER",1,"COMPARATOR",1,"LEVER",1,"OAK_PRESSURE_PLATE",1,"STONE_PRESSURE_PLATE",1)),1,
                             AddUtils.randItemStackFactory(mkMp("NOTE_BLOCK",1, "REDSTONE_LAMP",1, "TARGET",1, "REDSTONE_BLOCK",1, "TRIPWIRE_HOOK",1,"JUKEBOX",1 )),1,
                             AddUtils.randItemStackFactory(mkMp("DISPENSER",1,"DROPPER",1, "DAYLIGHT_DETECTOR",1, "LECTERN",1, "LIGHTNING_ROD",1,"HEAVY_WEIGHTED_PRESSURE_PLATE",1)),1,
-                            AddUtils.randItemStackFactory(mkMp("SLIME_BALL",1,"HONEY_BLOCK",1,"TNT",1,"REDSTONE",1,"OAK_BUTTON",1,"STONE_BUTTON",1,"BELL",1,"TRAPPED_CHEST",1,"COMPOSTER",1)),1)
+                            AddUtils.randItemStackFactory(mkMp("SLIME_BALL",1,"HONEY_BLOCK",1,"TNT",1,"REDSTONE",1,"OAK_BUTTON",1,"STONE_BUTTON",1,"BELL",1,"TRAPPED_CHEST",1,Material.COMPOSTER,1)),1)
             ))
             .register();
     public static final SlimefunItem TNT_MG=new SMGenerator(AddGroups.VANILLA, AddItem.TNT_MG,RecipeType.ENHANCED_CRAFTING_TABLE,

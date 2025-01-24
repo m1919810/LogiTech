@@ -21,10 +21,12 @@ public class SpawnerListener implements Listener {
     private Random rand=new Random();
     private final EntityType[] entityTypes=EntityType.values();
     protected int chance=50;
-    @EventHandler(priority = EventPriority.HIGHEST,ignoreCancelled = true)
+    //move priority to HIGH to avoid sf block break listener set Drop false
+    @EventHandler(priority = EventPriority.HIGH,ignoreCancelled = true)
     public void onSpawnerBreak(BlockBreakEvent event) {
         //drop entity feat
         Block b=event.getBlock();
+        //avoid fake event
         if(event.isDropItems()&& b.getType()== Material.SPAWNER){
             if(rand.nextInt(100)<=chance){
                 Location loc= event.getBlock().getLocation();
