@@ -9,7 +9,9 @@ import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class MultiLevelBlockType implements AbstractMultiBlockType {
     protected final List<AbstractMultiBlockType> SUBMULTIBLOCKS_LIST;
@@ -78,6 +80,29 @@ public abstract class MultiLevelBlockType implements AbstractMultiBlockType {
             return null;
         }
         return new   MultiLevelBlock(this,level,dir,subparts);
+    }
+    public List<String> getRequiredArguments(){
+        List<String> argument = new ArrayList<>();
+        argument.add("level");
+        for(int i=0;i<SUB_NUM;++i){
+            argument.addAll(SUBMULTIBLOCKS[i].getRequiredArguments());
+        }
+        return argument;
+    }
+
+    public Map<Vector,String> getMultiBlockSchemaFromArguments(MultiBlockService.Direction dir, Map<String,String> arguments){
+        if(isSymmetric()){
+            dir= MultiBlockService.Direction.NORTH;
+        }
+        Map<Vector,String> result=new HashMap<>();
+        int level = 1;
+        try{
+            level=Integer.parseInt(arguments.get("level"));
+        }catch (Throwable e){}
+        for(int i=0;i<level;++i){
+            result.putAll(SUBMULTIBLOCKS[i].getMultiBlockSchemaFromArguments(dir,arguments));
+        }
+        return result;
     }
 
 }

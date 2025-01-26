@@ -1122,6 +1122,9 @@ public class WorldUtils {
     public static Material getBlock(Material material){
         return ITEM_HAS_DIFFERENT_ID_BLOCK.getOrDefault(material,(material.isBlock()?material:null));
     }
+    public static Material getBlockOrAir(Material material){
+        return ITEM_HAS_DIFFERENT_ID_BLOCK.getOrDefault(material,(material.isBlock()?material: Material.AIR));
+    }
     public static boolean isBlock(Material material){
         return material.isBlock()||ITEM_HAS_DIFFERENT_ID_BLOCK.containsKey(material);
     }
@@ -1287,7 +1290,7 @@ public class WorldUtils {
      * @param hasSync
      */
     public static ConcurrentHashMap<Location,SlimefunItem> CREATING_QUEUE = new ConcurrentHashMap<>();
-    public static boolean createSlimefunBlock(Location loc,Player player,SlimefunItem item,Material material,boolean force){
+    public static boolean createSlimefunBlock(Location loc,Player player,SlimefunItem item,Material material,boolean force,Runnable callback){
         if(CREATING_QUEUE.containsKey(loc)){
             SlimefunItem item1 = CREATING_QUEUE.get(loc);
             if(item1==item){
@@ -1300,7 +1303,7 @@ public class WorldUtils {
         CREATING_QUEUE.put(loc,item);
         BukkitUtils.executeSync(()->{
             try{
-                createSlimefunBlockSync(loc,player,item,material,forceVal);
+                createSlimefunBlockSync(loc,player,item,material,forceVal,callback);
             }finally {
                 CREATING_QUEUE.remove(loc);
             }
@@ -1308,7 +1311,7 @@ public class WorldUtils {
         });
         return true;
     }
-    public static boolean createSlimefunBlockSync(Location loc,Player player,SlimefunItem item,Material material,boolean force){
+    public static boolean createSlimefunBlockSync(Location loc,Player player,SlimefunItem item,Material material,boolean force,Runnable callback){
         Block block = loc.getBlock();
         if(!force&&player!=null){
             if(!hasPermission(player,loc, Interaction.PLACE_BLOCK)){
@@ -1334,7 +1337,11 @@ public class WorldUtils {
         if( DataCache.getSfItem(loc)!=null){
             CONTROLLER.removeBlock(loc);
         }
-         BukkitUtils.executeSync(()->    createSlimefunBlockSync(loc, player, item, material));
+         BukkitUtils.executeSync(()->    {
+                     createSlimefunBlockSync(loc, player, item, material);
+                     callback.run();
+             }
+         );
         return true;
     }
     /**

@@ -302,6 +302,8 @@ public class AddItem {
             Language.get("Items.SWAMP_SPEED.Name"),Language.getList("Items.SWAMP_SPEED.Lore"));
     public static final SlimefunItemStack SWAMP_RANGE=AddUtils.themed("SWAMP_RANGE",Material.MUSIC_DISC_CHIRP,AddUtils.Theme.ITEM1,
             Language.get("Items.SWAMP_RANGE.Name"),Language.getList("Items.SWAMP_RANGE.Lore"));
+    public static final SlimefunItemStack MULTIBLOCKBUILDER=AddUtils.themed("MULTIBLOCKBUILDER",Material.BOOK,AddUtils.Theme.ITEM1,
+            Language.get("Items.MULTIBLOCKBUILDER.Name"),Language.getList("Items.MULTIBLOCKBUILDER.Lore"));
     //nachines
     public static final SlimefunItemStack HEAD_ANALYZER=AddUtils.themed("HEAD_ANALYZER",Material.SOUL_CAMPFIRE, AddUtils.Theme.MACHINE1,
             Language.get("Machines.HEAD_ANALYZER.Name"),Language.getList("Machines.HEAD_ANALYZER.Lore"));
@@ -743,5 +745,6 @@ public class AddItem {
         add(ENERGY_PIPE_PLUS);
         add(CONFIGURE);
         add(TOOLS);
+        add(MULTIBLOCKBUILDER);
     }};
 }

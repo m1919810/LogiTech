@@ -615,6 +615,10 @@ zh_CN:
       Lore:
         - "带上头盔以制造B动静"
         - "大香蕉特供道具"
+    MULTIBLOCKBUILDER:
+      Name: '多方块构建器(管理专用版)'
+      Lore:
+        - '管理专用,嘿嘿嘿'
   Machines:
     LOGIC_REACTOR:
       Name: '逻辑反应堆'

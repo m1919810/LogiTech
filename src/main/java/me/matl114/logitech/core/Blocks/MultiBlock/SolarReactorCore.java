@@ -314,6 +314,9 @@ public class SolarReactorCore extends MultiBlockProcessor {
         put("solar.frame", AddUtils.addGlow(AddItem.SOLAR_REACTOR_FRAME.clone()));
         put("solar.glass", AddUtils.addGlow(AddItem.SOLAR_REACTOR_GLASS.clone()));
     }};
+    public Map<String,ItemStack> getIdMappingDisplayUse(){
+        return Map.copyOf(MBID_TO_ITEM);
+    }
     public void constructMenu(BlockMenuPreset preset){
         int[] border = BORDER;
         int len=border.length;

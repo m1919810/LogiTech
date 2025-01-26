@@ -25,6 +25,7 @@ import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.*;
 
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.function.*;
 
@@ -40,6 +41,7 @@ public class SmithInterfaceListener implements Listener {
     private final ItemStack INTERFACED_NO_RECIPE=new CustomItemStack(Material.BARRIER,"&a点击进行合成","&7该工作方块已成功接入锻铸合成端口","&c暂无匹配的配方!");
     private final ItemStack INTERFACED_CRAFTABLE=new CustomItemStack(Material.CRAFTING_TABLE,"&a点击进行合成","&7该工作方块已成功接入锻铸合成端口","&a成功寻找到可行的合成配方","&7点击后将于接口中输出合成结果");
     private final ItemStack INTERFACED_ANVIL=new CustomItemStack(Material.ANVIL,"&a点击进行锻造","&7该工作方块已成功接入锻铸合成端口","&a成功寻找到可行的锻造操作","&7点击后将于接口中输出锻造结果");
+    private final ItemStack INTERFACED_SMITH=new CustomItemStack(Material.SMITHING_TABLE,"&a点击进行锻造","&7该工作方块已成功接入锻铸合成端口","&a成功寻找到可行的锻造操作","&7点击后将于接口中输出锻造结果");
     public boolean isSupportType(Inventory inventory) {
         return inventory instanceof CraftingInventory||inventory instanceof AnvilInventory; /*can add more types*/
     }
@@ -138,6 +140,27 @@ public class SmithInterfaceListener implements Listener {
             //}
         }
     }
+    @EventHandler(priority = EventPriority.NORMAL,ignoreCancelled = false)
+    public void onSmithRecipeCommonStop(PrepareSmithingEvent e){
+        if(!openingCraftInventory.containsKey(e.getInventory())) {
+            if(onSmithCommonNotPrepare(e.getInventory())){
+                e.setResult(null);
+            }
+        }
+    }
+    @EventHandler(priority = EventPriority.NORMAL,ignoreCancelled = false)
+    public void onSmithRecipeComonStop(InventoryClickEvent e){
+        if(e.getInventory() instanceof SmithingInventory smithingInventory){
+            if(!openingCraftInventory.containsKey(smithingInventory)) {
+                if(onSmithCommonNotPrepare(smithingInventory)){
+                    e.setResult(Event.Result.DENY);
+                    e.setCancelled(true);
+                    smithingInventory.setResult(null);
+                }
+            }
+        }
+    }
+
 
 
 
@@ -167,6 +190,43 @@ public class SmithInterfaceListener implements Listener {
         BlockMenu inv=ContainerBlockMenuWrapper.getContainerBlockMenu(inventory1,inventory1.getLocation(),10);
         return CraftUtils.matchNextShapedRecipe(inv,new int[]{1,2,3,4,5,6,7,8,9},SmithInterfaceProcessor.getInterfacedCrafttableRecipes(),64,false,Settings.SEQUNTIAL,CraftUtils.getpusher);
     };
+    public Function<AnvilInventory,Supplier<MultiCraftingOperation>> ANVIL_PROCESSOR=(inventory1)->{
+        inventory1.setMaximumRepairCost(100_000);
+        var logics=SmithInterfaceProcessor.getAnvilLogics();
+        Supplier<MultiCraftingOperation> matchedLogic=null;
+        for(var logic:logics) {
+            if((matchedLogic=logic.apply(inventory1))!=null){
+                return matchedLogic;
+            }
+        }
+        return null;
+    };
+    public Function<SmithingInventory,Supplier<MultiCraftingOperation>> SMITH_PROCESSOR=(smithingInventory -> {
+        var logics = SmithInterfaceProcessor.getSmithLogics();
+        Supplier<MultiCraftingOperation> matchedLogic=null;
+        for (var logic:logics.computeIfAbsent(SmithInterfaceProcessor.SmithOperation.BOTH,(b)->new LinkedHashSet<>())){
+            if((matchedLogic=logic.apply(smithingInventory))!=null){
+                return matchedLogic;
+            }
+        }
+        SmithInterfaceProcessor.SmithOperation operation;
+        Recipe recipe = smithingInventory.getRecipe();
+        if(recipe instanceof SmithingTransformRecipe smithingRecipe) {
+            operation = SmithInterfaceProcessor.SmithOperation.TRANSFORM;
+        }else if(recipe instanceof SmithingTrimRecipe smithingRecipe) {
+            operation = SmithInterfaceProcessor.SmithOperation.TRIM;
+        }else{
+            operation = null;
+        }
+        if(operation!=null) {
+            for (var logic:logics.computeIfAbsent(operation,(b)->new LinkedHashSet<>())){
+                if((matchedLogic=logic.apply(smithingInventory))!=null){
+                    return matchedLogic;
+                }
+            }
+        }
+        return null;
+    });
     public void onCraftTableCraft(CraftingInventory inventory, HumanEntity player){
         onPlayerCraftCommon(inventory,player,CRAFT_PROCESSOR,(result,loc)->{
             ItemStack output=result.getFirstValue().getOutput()[0];
@@ -183,17 +243,7 @@ public class SmithInterfaceListener implements Listener {
             inventory1.setResult(INTERFACED_NO_RECIPE);
         });
     }
-    public Function<AnvilInventory,Supplier<MultiCraftingOperation>> ANVIL_PROCESSOR=(inventory1)->{
-        inventory1.setMaximumRepairCost(100_000);
-        var logics=SmithInterfaceProcessor.getAnvilLogics();
-        Supplier<MultiCraftingOperation> matchedLogic=null;
-        for(var logic:logics) {
-            if((matchedLogic=logic.apply(inventory1))!=null){
-                return matchedLogic;
-            }
-        }
-        return null;
-    };
+
     public void onAnvilCraft(AnvilInventory inventory,HumanEntity player){
         onPlayerCraftCommon(inventory,player,ANVIL_PROCESSOR,(matchLogic,loc)->{
             if(player instanceof Player p){
@@ -217,6 +267,9 @@ public class SmithInterfaceListener implements Listener {
             inventory1.setItem(2,INTERFACED_NO_RECIPE);
         });
     }
+    public void onSmithCraft(SmithingInventory inventory,HumanEntity player){
+        //todo left not done
+    }
     public boolean onCraftTablePrepare(CraftingInventory inventory) {
         var result= CRAFT_PROCESSOR.apply(inventory);
         if(result!=null) {
@@ -234,6 +287,20 @@ public class SmithInterfaceListener implements Listener {
             ItemStack set=re?INTERFACED_ANVIL:INTERFACED_NO_RECIPE;
             inventory.setItem(2,set);
             return re;
+        }
+        return false;
+    }
+    public void onSmithPrepare(SmithingInventory inventory) {
+        //todo left not done
+
+    }
+    public boolean onSmithCommonNotPrepare(SmithingInventory inventory) {
+        if(inventory.getRecipe() instanceof SmithingRecipe recipe){
+            if(AddUtils.isNamespace(recipe.getKey())){
+                if(SmithInterfaceProcessor.isSmithingInterfaceRecipe(recipe)){
+                    return true;
+                }
+            }
         }
         return false;
     }

@@ -1159,10 +1159,10 @@ public class AddSlimefunItems {
                                     BukkitUtils.executeSync(()->{
                                         List<BlockState> blocksToBeChanged=new ArrayList<>(liquids.size()+blockInLiquids.size()+2);
                                         for(Block b:liquids){
-                                            blocksToBeChanged.add(b.getState());
+                                            blocksToBeChanged.add(WorldUtils.getBlockStateNoSnapShot(b));
                                         }
                                         for(Block b:blockInLiquids){
-                                            blocksToBeChanged.add(b.getState());
+                                            blocksToBeChanged.add(WorldUtils.getBlockStateNoSnapShot(b));
                                         }
                                         SpongeAbsorbEvent spongeAbsorbEvent=new SpongeAbsorbEvent(loc.getBlock(),blocksToBeChanged);
                                         Bukkit.getPluginManager().callEvent(spongeAbsorbEvent);
@@ -2719,6 +2719,9 @@ public class AddSlimefunItems {
             event.cancel();
         }
     }
+            .register();
+    public static final SlimefunItem MULTIBLOCKBUILDER=new MultiBlockBuilder(AddGroups.SPECIAL,AddItem.MULTIBLOCKBUILDER,RecipeType.NULL,
+            AddUtils.NULL_RECIPE.clone())
             .register();
     //final
     public static final SlimefunItem ANTIMASS=new SpreadBlock(AddGroups.BEYOND,AddItem.ANTIMASS,STARSMELTERY,

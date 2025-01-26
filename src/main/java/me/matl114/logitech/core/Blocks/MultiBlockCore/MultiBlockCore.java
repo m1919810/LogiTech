@@ -20,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -121,4 +122,6 @@ public interface MultiBlockCore extends MultiBlockPart, Ticking , MenuBlock {
         }
         data.setData(MultiBlockService.getAutoKey(),String.valueOf(autoCode));
     }
+    //id mapping for display
+    public Map<String,ItemStack> getIdMappingDisplayUse();
 }

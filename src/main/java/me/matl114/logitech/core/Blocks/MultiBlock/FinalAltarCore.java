@@ -27,6 +27,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class FinalAltarCore  extends MultiCore {
     protected static final String LVL_KEY="lv";
@@ -84,6 +85,9 @@ public class FinalAltarCore  extends MultiCore {
         put("final.frame", AddItem.FINAL_FRAME.clone());
         put("final.base", AddItem.FINAL_BASE.clone());
     }};
+    public Map<String,ItemStack> getIdMappingDisplayUse(){
+        return Map.copyOf(MBID_TO_ITEM);
+    }
     public int[] getInputSlots(){
         return new int[0];
     }

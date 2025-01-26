@@ -72,7 +72,7 @@ public class TestStorageUnit extends AbstractMachine {
            Block b=bLock.getRelative(BlockFace.UP);
            Block c= bLock.getRelative(BlockFace.DOWN);
           // b.setBlockData(c.getBlockData());
-            if(WorldUtils.copyBlockState(c.getState(),b)){
+            if(WorldUtils.copyBlockState(WorldUtils.getBlockStateNoSnapShot(c),b)){
                 AddUtils.sendMessage(player,"&a好得很");
             }else{
                 AddUtils.sendMessage(player,"&a寄了");

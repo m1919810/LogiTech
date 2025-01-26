@@ -27,6 +27,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class PortalCore extends MultiCore {
     protected final int[] BORDER=new int[]{0,1,2,3,5,6,7,9,10,11,12,14,15,16,17};
@@ -42,6 +43,9 @@ public class PortalCore extends MultiCore {
     public HashMap<String,ItemStack> MBID_TO_ITEM=new HashMap<>(){{
         put("portal.part", AddItem.PORTAL_FRAME.clone());
     }};
+    public Map<String,ItemStack> getIdMappingDisplayUse(){
+        return Map.copyOf(MBID_TO_ITEM);
+    }
     public int[] getInputSlots(){
         return new int[0];
     }

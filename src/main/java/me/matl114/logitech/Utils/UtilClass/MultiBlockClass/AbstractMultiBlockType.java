@@ -5,6 +5,10 @@ import org.bukkit.Location;
 import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public interface AbstractMultiBlockType {
     /**
      * get schema block list
@@ -70,4 +74,7 @@ public interface AbstractMultiBlockType {
      */
     public AbstractMultiBlock genMultiBlockFrom(Location loc, MultiBlockService.Direction dir, boolean hasPrevRecord, OutputStream errorStream);
 
+    public List<String> getRequiredArguments();
+
+    public Map<Vector,String> getMultiBlockSchemaFromArguments(MultiBlockService.Direction dir,Map<String,String> arguments);
 }

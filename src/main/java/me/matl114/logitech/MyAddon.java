@@ -27,6 +27,8 @@ import me.matl114.matlib.Utils.Command.CommandGroup.AbstractMainCommand;
 import me.matl114.matlib.core.AddonInitialization;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -152,6 +154,8 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         command=new LogitechMain().registerCommand(this);
         //注册
         Debug.logger("附属特性注册完毕");
+        //test
+
     }
     public void tryUpdate() {
         if ( getDescription().getVersion().startsWith("Build")) {

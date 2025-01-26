@@ -207,13 +207,13 @@ public class StorageSpace {
                                                 }
                                                 b3.setType(Material.AIR,false);
                                             }else if(b3==null){
-                                                if(!WorldUtils.copyBlockState(b1.getState(),b2)){
+                                                if(!WorldUtils.copyBlockState(WorldUtils.getBlockStateNoSnapShot(b1),b2)){
                                                     AddUtils.sendMessage(player,"&e转移方块数据时出现未知错误,请联系管理员查询日志历史");
                                                     continue;
                                                 }
                                                 b1.setType(Material.AIR,false);
                                             }else {
-                                                if(!WorldUtils.copyBlockState(b1.getState(),b2)){
+                                                if(!WorldUtils.copyBlockState(WorldUtils.getBlockStateNoSnapShot(b1),b2)){
                                                     AddUtils.sendMessage(player,"&e转移方块数据时出现未知错误,请联系管理员查询日志历史");
                                                     continue;
                                                 }

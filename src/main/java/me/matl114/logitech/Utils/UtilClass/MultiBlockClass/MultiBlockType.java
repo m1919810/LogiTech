@@ -10,6 +10,7 @@ import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class MultiBlockType implements AbstractMultiBlockType {
@@ -147,5 +148,24 @@ public abstract class MultiBlockType implements AbstractMultiBlockType {
         }
       //  Debug.logger("check finished ,return value ",this.getSchemaSize(),"and req ",REQUIREMENT_MAP.size());
         return new MultiBlock(this,dir);
+    }
+    public List<String> getRequiredArguments(){
+        return List.of();
+    }
+
+    public Map<Vector,String> getMultiBlockSchemaFromArguments(MultiBlockService.Direction dir,Map<String,String> arguments){
+        if(isSymmetric()){
+            dir= MultiBlockService.Direction.NORTH;
+        }
+        Map<Vector,String> result=new HashMap<>();
+        int size = getSchemaSize();
+        for(int i=0; i<size; i++){
+            result.put(dir.rotate(this.getSchemaPart(i)),getSchemaPartId(i));
+        }
+        int requirement = getRequirementSize();
+        for(int i=0; i<requirement; i++){
+            result.put(dir.rotate(this.getRequirementPart(i)),getRequirementPartId(i));
+        }
+        return result;
     }
 }

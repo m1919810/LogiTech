@@ -103,7 +103,7 @@ public class AdvancedManual extends AbstractBlock {
     }
     private ItemStack displayedBook=new ItemStack(Material.WRITTEN_BOOK);
     public void onPlace(BlockPlaceEvent e,Block b){
-        if(b.getState() instanceof Lectern lt){
+        if(WorldUtils.getBlockStateNoSnapShot(b) instanceof Lectern lt){
             if(lt.getInventory() instanceof LecternInventory ltiv){
                 ltiv.setItem(0,displayedBook);
             }

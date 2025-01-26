@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Manager.Schedules;
+import me.matl114.logitech.Utils.Algorithms.PairList;
 import me.matl114.logitech.core.AddSlimefunItems;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.ShapedMachineRecipe;
 import org.bukkit.Bukkit;
@@ -12,6 +13,11 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.SmithingRecipe;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Optional;
 
 public class BukkitUtils {
     public static final RecipeType VANILLA_CRAFTTABLE =new RecipeType(AddUtils.getNameKey("vanilla_crafttable"),
@@ -20,20 +26,45 @@ public class BukkitUtils {
             new CustomItemStack(Material.FURNACE,null,"","&6原版熔炉"));
 
     public static void sendRecipeToVanilla(NamespacedKey key,ShapedMachineRecipe recipe){
-        sendRecipeToVanilla(key,recipe.getInput(),recipe.getOutput()[0]);
+        sendShapedRecipeToVanilla(key,recipe.getInput(),recipe.getOutput()[0]);
     }
-    public static void sendRecipeToVanilla(SlimefunItem sfitem){
-        sendRecipeToVanilla(AddUtils.getNameKey(sfitem.getId()+"_vl"),sfitem.getRecipe(),sfitem.getRecipeOutput());
+    public static Optional<SlimefunItem> getOptionalVanillaSlimefunRecipe(NamespacedKey key){
+        try{
+            if(AddUtils.isNamespace(key)){
+                String valueId = key.getKey();
+                valueId = valueId.substring(0,valueId.length()-3).toUpperCase(Locale.ROOT);
+                return Optional.ofNullable(SlimefunItem.getById(valueId));
+            }
+            return Optional.empty();
+        }catch (Throwable e){
+            return Optional.empty();
+        }
     }
+    public static void sendRecipeToVanilla(SlimefunItem sfitem,Class<?> craftingType){
+        if (craftingType==ShapedRecipe.class) {
+            sendShapedRecipeToVanilla(AddUtils.getNameKey(sfitem.getId()+"_vl"),sfitem.getRecipe(),sfitem.getRecipeOutput());
+        }else if(craftingType== SmithingRecipe.class){
+
+        }
+//        else{
+//            throw new IllegalArgumentException("Invalid recipe class: "+craftingType);
+//        }
+
+    }
+    private static final PairList<SlimefunItem,Class<?>> moreVanillaRecipes =  new PairList<>();
+//    public static void registerMoreVanillaRecipeTypes(SlimefunItem recipeItem,Class<?> clazz) {
+//        moreVanillaRecipes.put(recipeItem,clazz);
+//    }
     public static void setup(){
         addMoreRecipes();
     }
     public static void addMoreRecipes(){
-        sendRecipeToVanilla(AddSlimefunItems.CRAFT_MANUAL);
-        sendRecipeToVanilla(AddSlimefunItems.ENHANCED_CRAFT_MANUAL);
-        sendRecipeToVanilla(AddSlimefunItems.MAGIC_WORKBENCH_MANUAL);
+        sendRecipeToVanilla(AddSlimefunItems.CRAFT_MANUAL,ShapedRecipe.class);
+        sendRecipeToVanilla(AddSlimefunItems.ENHANCED_CRAFT_MANUAL,ShapedRecipe.class);
+        sendRecipeToVanilla(AddSlimefunItems.MAGIC_WORKBENCH_MANUAL,ShapedRecipe.class);
+        moreVanillaRecipes.forEach(pair->sendRecipeToVanilla(pair.getFirstValue(),pair.getSecondValue()));
     }
-    public static void sendRecipeToVanilla(NamespacedKey key, ItemStack[] input, ItemStack output){
+    public static void sendShapedRecipeToVanilla(NamespacedKey key, ItemStack[] input, ItemStack output){
         if(input.length>9){
             Debug.logger("this recipe can not be sent to Crafting Table: ",key.toString());
             return;

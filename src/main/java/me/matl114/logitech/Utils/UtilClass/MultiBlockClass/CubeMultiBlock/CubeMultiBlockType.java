@@ -14,6 +14,7 @@ import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -225,5 +226,33 @@ public abstract class CubeMultiBlockType implements AbstractMultiBlockType {
         }
         //  Debug.logger("check finished ,return value ",this.getSchemaSize(),"and req ",REQUIREMENT_MAP.size());
         return new CubeMultiBlock(this,dir,height);
+    }
+    public List<String> getRequiredArguments(){
+        return List.of("height");
+    }
+
+    public Map<Vector,String> getMultiBlockSchemaFromArguments(MultiBlockService.Direction dir,Map<String,String> arguments){
+        if(isSymmetric()){
+            dir= MultiBlockService.Direction.NORTH;
+        }
+        Map<Vector,String> result=new HashMap<>();
+        for(int i=0;i<this.sizeB;i++){
+            result.put(dir.rotate(BOTTOM_LOC[i].clone()),BOTTOM_IDS[i]);
+        }
+        int height = 1;
+        try{
+            height=Integer.parseInt(arguments.get("height"));
+        }catch (Throwable e){}
+        height = Math.min(height,maxHeight);
+        for(int i=0;i<this.sizeP;i++){
+            Vector plateVector =   dir.rotate(PLATE_LOC[i].clone());
+            for(int j=0;j<height;j++){
+                result.put(plateVector.clone().add(new Vector(0,j,0)),PLATE_IDS[i]);
+            }
+        }
+        for(int i=0;i<this.sizeT;i++){
+            result.put(dir.rotate(TOP_LOC[i].clone()).add(new Vector(0,height-1,0)),TOP_IDS[i]);
+        }
+        return result;
     }
 }

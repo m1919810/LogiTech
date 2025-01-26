@@ -211,6 +211,9 @@ public class Transmutator extends MultiBlockAdvancedProcessor  {
         put("nuclear.glass", AddUtils.addGlow(AddItem.TRANSMUTATOR_GLASS.clone()));
         put("nuclear.rod", AddUtils.addGlow(AddItem.TRANSMUTATOR_ROD.clone()));
     }};
+    public Map<String,ItemStack> getIdMappingDisplayUse(){
+        return Map.copyOf(MBID_TO_ITEM);
+    }
     public void constructMenu(BlockMenuPreset preset){
         int[] border = BORDER;
         int len=border.length;

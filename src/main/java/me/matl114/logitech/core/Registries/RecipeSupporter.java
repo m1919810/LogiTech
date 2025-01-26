@@ -853,7 +853,7 @@ public class RecipeSupporter {
                 PROVIDED_UNSHAPED_RECIPES.put(recipeType,new ArrayList<>());
             }
             if(recipeType==BukkitUtils.VANILLA_CRAFTTABLE){
-                BukkitUtils.sendRecipeToVanilla(item);
+                BukkitUtils.sendRecipeToVanilla(item,ShapedRecipe.class);
             }
         }
         RECIPE_TYPES.addAll(CustomRecipeType.getCustomRecipeTypes());

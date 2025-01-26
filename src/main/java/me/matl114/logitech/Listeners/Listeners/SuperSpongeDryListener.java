@@ -1,5 +1,6 @@
 package me.matl114.logitech.Listeners.Listeners;
 
+import me.matl114.logitech.Utils.WorldUtils;
 import me.matl114.logitech.core.AddItem;
 import me.matl114.logitech.Utils.CraftUtils;
 import org.bukkit.Material;
@@ -19,7 +20,7 @@ public class SuperSpongeDryListener implements Listener {
         ItemStack stack=event.getSource();
         if(stack.getType()== Material.WET_SPONGE&& CraftUtils.matchItemStack(stack,AddItem.SUPERSPONGE_USED,false)){
             Block block=event.getBlock();
-            BlockState blockData=block.getState();
+            BlockState blockData= WorldUtils.getBlockStateNoSnapShot(block);
             if(blockData instanceof Container ih){
                 Inventory inventory=ih.getInventory();
                 if(inventory instanceof FurnaceInventory fi){

@@ -19,8 +19,8 @@ import me.matl114.logitech.core.Machines.WorkBenchs.BugCrafter;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.*;
 import me.matl114.logitech.core.Registries.RecipeSupporter;
-import me.matl114.matlib.Utils.Menu.MenuClickHandler.GuideClickHandler;
-import me.matl114.matlib.Utils.Menu.MenuGroup.CustomMenuGroup;
+import me.matl114.matlib.Implements.Slimefun.Menu.MenuClickHandler.GuideClickHandler;
+import me.matl114.matlib.Implements.Slimefun.Menu.MenuGroup.CustomMenuGroup;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import net.md_5.bungee.api.ChatColor;
@@ -514,7 +514,7 @@ public class AddGroups {
         }
     };
 
-    public static final ItemGroup TOOLS=new me.matl114.matlib.Utils.Menu.GuideMenu.CustomItemGroup(AddUtils.getNameKey("tools"),AddItem.TOOLS,true)
+    public static final ItemGroup TOOLS=new me.matl114.matlib.Implements.Slimefun.Menu.GuideMenu.CustomItemGroup(AddUtils.getNameKey("tools"),AddItem.TOOLS,true)
             .setLoader(new CustomMenuGroup(AddItem.TOOLS.getItemMeta().getDisplayName(),54,1){{
                             //initialize
                             enablePresets((i)->{

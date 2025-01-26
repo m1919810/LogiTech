@@ -14,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -22,7 +23,9 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class SpreadBlock extends AbstractBlock implements Ticking {
     protected final  SlimefunItem RESULT;
@@ -65,6 +68,7 @@ public class SpreadBlock extends AbstractBlock implements Ticking {
         return SPREAD_PLAYER;
     }
     protected final ConcurrentHashMap<Location,Integer> SPREAD_TICKER=new ConcurrentHashMap<>();
+    protected final Set<Location> PENDING_CREATE = ConcurrentHashMap.newKeySet();
     public Map<Location,Integer> getSpreadTicker(){
         return SPREAD_TICKER;
     }
@@ -87,14 +91,15 @@ public class SpreadBlock extends AbstractBlock implements Ticking {
                     @ParametersAreNonnullByDefault
                     public void tick(Block b, SlimefunItem item, SlimefunBlockData data) {
                         if(runPerTick>ONE_TICK_SPREAD_MAXCNT)return;
-                        BlockMenu menu = data.getBlockMenu();
-                        //BlockMenu menu = BlockStorage.getInventory(b);
                         Location loc = data.getLocation();
+                        if(PENDING_CREATE.contains(loc)){
+                            return;
+                        }
                         Integer life=SPREAD_TICKER.get(loc);
                         if(life==null||life==0){
                             Player player=SPREAD_PLAYER.remove(loc);
                             SPREAD_TICKER.remove(loc);
-                            WorldUtils.createSlimefunBlock(loc,player,RESULT,(rand.nextInt(100)<(100-CHANCE_KEEP_MATERIAL))? RESULT_MATERIAL:SPREAD_MATERIAL,true);
+                            WorldUtils.createSlimefunBlock(loc,player,RESULT,(rand.nextInt(100)<(100-CHANCE_KEEP_MATERIAL))? RESULT_MATERIAL:SPREAD_MATERIAL,true,()->{});
                         }
                         else if(life<0){
                             SPREAD_TICKER.put(loc, life+rand.nextInt(100)<60?1:0);
@@ -110,9 +115,13 @@ public class SpreadBlock extends AbstractBlock implements Ticking {
                                 SlimefunItem it=DataCache.getSfItem(loc2);
                                 if(it!=SpreadBlock.this&&it!=RESULT&&!loc2.getBlock().getType().isAir()){
                                     runPerTick++;
-                                    SPREAD_TICKER.put(loc2,lifeToSet);
-                                    SPREAD_PLAYER.put(loc2,player);
-                                    WorldUtils.createSlimefunBlock(loc2,player,SpreadBlock.this, SPREAD_MATERIAL,false);
+                                    PENDING_CREATE.add(loc2);
+                                    WorldUtils.createSlimefunBlock(loc2,player,SpreadBlock.this, SPREAD_MATERIAL,false,()->{
+                                        //create after permission check ,if fail, no create
+                                        SPREAD_TICKER.put(loc2,lifeToSet);
+                                        SPREAD_PLAYER.put(loc2,player);
+                                        PENDING_CREATE.remove(loc2);
+                                    });
                                 }
                             }
                             SPREAD_TICKER.put(loc, -life+1);
@@ -130,13 +139,13 @@ public class SpreadBlock extends AbstractBlock implements Ticking {
     }
     public void tick(Block b, @Nullable BlockMenu menu, SlimefunBlockData data, int tickCount){
 
-
     }
     public void onPlace(BlockPlaceEvent e, Block b) {
         SPREAD_PLAYER.put(b.getLocation(), e.getPlayer());
         SPREAD_TICKER.put(b.getLocation(),LIFE_DEFAULT);
         b.setType(SPREAD_MATERIAL);
     }
+
     public boolean isSync(){
         return false;
     }
@@ -146,12 +155,24 @@ public class SpreadBlock extends AbstractBlock implements Ticking {
         handleBlock(this);
         SlimefunBlockPlaceLimitListener.registerBlockLimit(this,(event)->{
             if(!this.SPREAD_TICKER.isEmpty()){
-                event.setCancelled(true);
-                if(event.getPlayer()!=null){
-                    AddUtils.sendMessage(event.getPlayer(),"&c不能同时存在超过1个[%s]&c的扩散进程".formatted(this.getItem().getItemMeta().getDisplayName()));
+                reCheckSpreadTicker();
+                if(!this.SPREAD_TICKER.isEmpty()){
+                    event.setCancelled(true);
+                    if(event.getPlayer()!=null){
+                        AddUtils.sendMessage(event.getPlayer(),"&c不能同时存在超过1个[%s]&c的扩散进程".formatted(this.getItem().getItemMeta().getDisplayName()));
+                    }
                 }
             }
         });
+    }
+    public void reCheckSpreadTicker(){
+        var iter = SPREAD_TICKER.entrySet().iterator();
+        while(iter.hasNext()){
+            var entry = iter.next().getKey();
+            if(DataCache.getSfItem(entry)!=this){
+                iter.remove();
+            }
+        }
     }
 
 }

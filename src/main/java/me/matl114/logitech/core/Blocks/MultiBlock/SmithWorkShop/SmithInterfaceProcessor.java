@@ -2,6 +2,7 @@ package me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
@@ -9,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import lombok.Getter;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
 import me.matl114.logitech.core.AddItem;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
@@ -20,9 +22,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.inventory.AnvilInventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.SmithingInventory;
+import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.Repairable;
@@ -48,13 +48,16 @@ public class SmithInterfaceProcessor extends SmithingInterface implements Machin
             37,38,39,40,41,42,43
     };
     protected final ItemStack NO_MULTIBLOCK_ITEM=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&c待机中","&7没有接入多方块结构");
-    public static enum Operation{
-        //装配部件
-        ASSEMBLE,
-        //拆卸部件
-        DISMANTLE;
+    public static enum SmithOperation{
+        //原修饰
+        TRIM,
+        //原升级
+        TRANSFORM,
+        //全要
+        BOTH
+        ;
         //剩下的呢?还么想好
-        Operation(){
+        SmithOperation(){
 
         }
     }
@@ -68,11 +71,28 @@ public class SmithInterfaceProcessor extends SmithingInterface implements Machin
         interfacedCrafttableRecipes.removeIf(i->CraftUtils.matchItemStack(out,i.getOutput()[0],true));
     });
     public static final CustomRecipeType INTERFACED_ANVIL=new CustomRecipeType(AddUtils.getNameKey("interfaced-anvil-icon"),AddUtils.addGlow( new  CustomItemStack(Material.ANVIL,"&a锻铸作坊配方","&7该配方需要在","&e\"锻造合成端口\"","&7邻接的铁砧中操作")));
-    public static final CustomRecipeType INTERFACED_SMITH=new CustomRecipeType(AddUtils.getNameKey("interfaced-smith-icon"),AddUtils.addGlow( new  CustomItemStack(Material.SMITHING_TABLE,"&a锻铸作坊配方","&7该配方需要在","&e\"锻造合成端口\"","&7邻接的锻造台中操作")));
+    public static final CustomRecipeType INTERFACED_SMITH_TRIM=new CustomRecipeType(AddUtils.getNameKey("interfaced-smith-icon-trim"),AddUtils.addGlow( new  CustomItemStack(Material.SMITHING_TABLE,"&a锻铸作坊配方","&7该配方需要在","&e\"锻造合成端口\"","&7邻接的锻造台中强化")))
+            .relatedTo((input,output)->{
+                //send to vanilla
+            },(input,output)->{
+                //ignored
+            })
+            ;
+    public static final CustomRecipeType INTERFACED_SMITH_UPDATE=new CustomRecipeType(AddUtils.getNameKey("interfaced-smith-icon-update"),AddUtils.addGlow( new  CustomItemStack(Material.SMITHING_TABLE,"&a锻铸作坊配方","&7该配方需要在","&e\"锻造合成端口\"","&7邻接的锻造台中升级")));
+    //感觉这玩意问题挺大
     @Getter
     private static HashSet<Function<AnvilInventory, Supplier<MultiCraftingOperation>>> anvilLogics=new LinkedHashSet<>();
     public static void registerAnvilLogic(Function<AnvilInventory, Supplier<MultiCraftingOperation>> anvilCraft) {
         anvilLogics.add(anvilCraft);
+    }
+    @Getter
+    private static EnumMap<SmithOperation,HashSet<Function<SmithingInventory, Supplier<MultiCraftingOperation>>>> smithLogics=new EnumMap<>(SmithOperation.class);
+    //operation是干啥的？
+    public static void registerSmithLogic(Function<SmithingInventory, Supplier<MultiCraftingOperation>> smithCraft, SmithOperation operation) {
+        smithLogics.computeIfAbsent(operation,k->new LinkedHashSet<>()).add(smithCraft);
+    }
+    public static boolean isSmithingInterfaceRecipe(SmithingRecipe recipe){
+        return true;
     }
     static{
         //demo
@@ -123,13 +143,83 @@ public class SmithInterfaceProcessor extends SmithingInterface implements Machin
             anvilInventory.setRepairCost(0);
             return null;
         }));
+        //register recipe dealing
+        registerAnvilLogic(anvilInventory -> {
+            ItemCounter t1=CraftUtils.getCounter( anvilInventory.getItem(0) );
+            ItemCounter t2=CraftUtils.getCounter(  anvilInventory.getItem(1) );
+            for (var entry : INTERFACED_ANVIL.getRecipes().entrySet()){
+                ItemStack[] recipe = entry.getKey();
+                ItemStack r1 = recipe.length>1?recipe[0]:null;
+                ItemStack r2 = recipe.length>2?recipe[1]:null;
+                if(t1!=null&&r1!=null&&t1.getAmount()<r1.getAmount()){
+                    continue;
+                }
+                if(t2!=null&&r2!=null&&t2.getAmount()<r2.getAmount()){
+                    continue;
+                }
+                if(CraftUtils.matchItemStack(r1,t1,true) && CraftUtils.matchItemStack(r2,t2, true)){
+                    return ()->{
+                        if(r1!=null){
+                            ItemStack consume1 = anvilInventory.getItem(0);
+                            if(consume1!=null){
+                                consume1.setAmount(consume1.getAmount()-r1.getAmount());
+                            }
+                        }
+                        if(r2!=null){
+                            ItemStack consume2 = anvilInventory.getItem(1);
+                            if(consume2!=null){
+                                consume2.setAmount(consume2.getAmount()-r2.getAmount());
+                            }
+                        }
+                        return new MultiCraftingOperation(new ItemGreedyConsumer[]{CraftUtils.getGreedyConsumerOnce(entry.getValue())},6);
+                    };
+                }
+            }
+            return null;
+        });
+        //todo register Smith Logic
+        //todo make sure that player can place item in slot
+        registerSmithLogic(smithingInventory -> {
+            Recipe recipe=smithingInventory.getRecipe();
+            if(recipe instanceof SmithingRecipe smith){
+                Optional<SlimefunItem> optionalItem = BukkitUtils.getOptionalVanillaSlimefunRecipe(smith.getKey());
+                if(optionalItem.isPresent()){
+                    SlimefunItem item=optionalItem.get();
+                    ItemStack[] sfrecipe = item.getRecipe();
+                    if( (item.getRecipeType() == INTERFACED_SMITH_UPDATE&& smith instanceof SmithingTransformRecipe)||(item.getRecipeType() == INTERFACED_SMITH_TRIM && smith instanceof SmithingTransformRecipe) ){
+                        ItemStack r1 = sfrecipe[0];
+                        ItemStack r2 = sfrecipe[1];
+                        ItemStack r3 = sfrecipe[2];
+                        ItemStack t1 = smithingInventory.getItem(0);
+                        ItemStack t2 = smithingInventory.getItem(1);
+                        ItemStack t3 = smithingInventory.getItem(2);
+                        if(CraftUtils.matchItemStack(r1,t1,true) && CraftUtils.matchItemStack(r2,t2,true) && CraftUtils.matchItemStack(r3,t3,true)){
+                            return ()->{
+                                ItemStack t11 = smithingInventory.getItem(0);
+                                ItemStack t21 = smithingInventory.getItem(1);
+                                ItemStack t31 = smithingInventory.getItem(2);
+                                if (r1!=null && t11!=null){
+                                    t11.setAmount(t11.getAmount()-r1.getAmount());
+                                }
+                                if (r2!=null && t21!=null){
+                                    t21.setAmount(t21.getAmount()-r2.getAmount());
+                                }
+                                if (r3!=null && t31!=null){
+                                    t31.setAmount(t31.getAmount()-r3.getAmount());
+                                }
+                                return new MultiCraftingOperation(new ItemGreedyConsumer[]{CraftUtils.getGreedyConsumerOnce(item.getRecipeOutput())},6);
+                            };
+
+                        }
+                    }
+                }
+            }
+            return null;
+        },SmithOperation.BOTH);
+       // registerSmithLogic();
         //INTERFACED_ANVIL.register();
     }
-    @Getter
-    private static HashMap<Operation,HashSet<Function<SmithingInventory, Supplier<MultiCraftingOperation>>>> smithLogics=new HashMap<>();
-    public static void registerSmithLogic(Function<SmithingInventory, Supplier<MultiCraftingOperation>> smithCraft, Operation operation) {
-        smithLogics.computeIfAbsent(operation,k->new LinkedHashSet<>()).add(smithCraft);
-    }
+
 
 
 
@@ -149,7 +239,8 @@ public class SmithInterfaceProcessor extends SmithingInterface implements Machin
                                 "&e若是操作结果需要等待时间,则该机器需要电力以执行进程"),null,
                         INTERFACED_CRAFTTABLE.toItem(),null,
                         INTERFACED_ANVIL.toItem(),null,
-                        INTERFACED_SMITH.toItem(),null
+                        INTERFACED_SMITH_TRIM.toItem(),null,
+                        INTERFACED_SMITH_UPDATE.toItem(),null
 
                 )
         );

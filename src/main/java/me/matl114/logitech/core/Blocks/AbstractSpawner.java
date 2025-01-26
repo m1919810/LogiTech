@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import me.matl114.logitech.Utils.WorldUtils;
 import me.matl114.logitech.core.Items.SpecialItems.EntityFeat;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -28,7 +29,7 @@ public class AbstractSpawner extends AbstractBlock{
     }
     public void onPlace(BlockPlaceEvent event, Block e) {
         super.onPlace(event, e);
-        BlockState data =e.getState();
+        BlockState data = WorldUtils.getBlockStateNoSnapShot(e);
         if(data instanceof CreatureSpawner cs){
             ItemStack it=event.getItemInHand();
             if(it.getItemMeta() instanceof BlockStateMeta bsm){
@@ -50,7 +51,7 @@ public class AbstractSpawner extends AbstractBlock{
         onSpawnerBreak(event);
     }
     public void onSpawnerBreak(BlockBreakEvent event){
-        BlockState data =event.getBlock().getState();
+        BlockState data =WorldUtils.getBlockStateNoSnapShot(  event.getBlock() );
         if(data instanceof CreatureSpawner cs){
             event.getBlock().getWorld().dropItemNaturally(
                     event.getBlock().getLocation(),

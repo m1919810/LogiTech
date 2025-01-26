@@ -28,6 +28,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 public class SmithingWorkshop extends MultiCore {
@@ -58,6 +59,9 @@ public class SmithingWorkshop extends MultiCore {
 
         //????
     }};
+    public Map<String,ItemStack> getIdMappingDisplayUse(){
+        return Map.copyOf(MBID_TO_ITEM);
+    }
     public int[] getInputSlots(){
         return new int[0];
     }

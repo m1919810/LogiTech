@@ -67,9 +67,14 @@ public class AddUtils {
         }
         else return b;
     }
+    private static final String NAMESPACE=ADDON_INSTANCE.getName().toLowerCase(Locale.ROOT);
+    public static boolean isNamespace(NamespacedKey key){
+        return NAMESPACE.equals(key.getNamespace());
+    }
     public static NamespacedKey getNameKey(String str) {
         return new NamespacedKey(MyAddon.getInstance(),str);
     }
+
     public static String desc(String str) {
         return "&7" + str;
     }

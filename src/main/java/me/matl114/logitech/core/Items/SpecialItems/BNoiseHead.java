@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import me.matl114.logitech.Manager.PostSetupTasks;
 import me.matl114.logitech.Manager.Schedules;
+import me.matl114.logitech.Utils.WorldUtils;
 import me.matl114.logitech.core.Blocks.AbstractBlock;
 import me.matl114.logitech.Utils.AddUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -72,7 +73,7 @@ public class BNoiseHead extends AbstractBlock {
     @Override
     public void onBreak(BlockBreakEvent e, BlockMenu menu) {
         super.onBreak(e, menu);
-        if(e.getBlock().getState() instanceof Skull skull){
+        if( WorldUtils.getBlockStateNoSnapShot(e.getBlock()) instanceof Skull skull){
             NamespacedKey key=skull.getNoteBlockSound();
             if(key!=null){
                 for(Sound sound:Sound.values()){

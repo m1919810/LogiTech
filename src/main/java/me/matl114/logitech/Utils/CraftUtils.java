@@ -1665,8 +1665,18 @@ public class CraftUtils {
         if(meta1==null||meta2==null ) {
             return meta2==meta1;
         }
+
         //if indistinguishable meta all return false
         if(INDISTINGUISHABLE_MATERIALS.contains(material)){
+            return false;
+        }
+        final boolean hasCustomOne = meta1.hasCustomModelData();
+        final boolean hasCustomTwo = meta2.hasCustomModelData();
+        if (hasCustomOne) {
+            if (!hasCustomTwo || meta1.getCustomModelData() != meta2.getCustomModelData()) {
+                return false;
+            }
+        } else if (hasCustomTwo) {
             return false;
         }
 //        //match display name
@@ -1690,27 +1700,19 @@ public class CraftUtils {
         }
 
         //如果非严格并且是sfid物品比较
-        final Optional<String> optionalStackId1 = Slimefun.getItemDataService().getItemData(meta1);
-        final Optional<String> optionalStackId2 = Slimefun.getItemDataService().getItemData(meta2);
-        if (optionalStackId1.isPresent() != optionalStackId2.isPresent()) {
-            return false;
-        }
-        if (optionalStackId1.isPresent()) {
-            if(optionalStackId1.get().equals(optionalStackId2.get())) {
-                SlimefunItem it=SlimefunItem.getById(optionalStackId1.get());
-                //自动跳过当前附属的物品
-                if( it instanceof CustomSlimefunItem ){
-                    return true;
-                }
-                //distinctive物品必须判断
-                if(it instanceof DistinctiveItem dt){
-                    return dt.canStack(meta1,meta2);
-                }
-                if(!strictCheck){
-                    return true;
-                }
-            }else if(!strictCheck){
-                return false;
+        String id = parseSfId(meta1);
+        if (id != null) {
+            SlimefunItem it=SlimefunItem.getById(id);
+            //自动跳过当前附属的物品
+            if( it instanceof CustomSlimefunItem ){
+                return true;
+            }
+            //distinctive物品必须判断
+            if(it instanceof DistinctiveItem dt){
+                return dt.canStack(meta1,meta2);
+            }
+            if(!strictCheck){
+                return true;
             }
         }
 
@@ -1736,15 +1738,7 @@ public class CraftUtils {
             return false;
         }
         //custommodeldata
-        final boolean hasCustomOne = meta1.hasCustomModelData();
-        final boolean hasCustomTwo = meta2.hasCustomModelData();
-        if (hasCustomOne) {
-            if (!hasCustomTwo || meta1.getCustomModelData() != meta2.getCustomModelData()) {
-                return false;
-            }
-        } else if (hasCustomTwo) {
-            return false;
-        }
+
         final boolean hasAttributeOne = meta1.hasAttributeModifiers();
         final boolean hasAttributeTwo = meta2.hasAttributeModifiers();
         if (hasAttributeOne) {
@@ -1796,7 +1790,7 @@ public class CraftUtils {
     }
     public static boolean matchItemStack(ItemStack counter1,ItemCounter counter2,boolean strictCheck){
         if(counter1==null ){
-            return counter2.getItem()==null;
+            return counter2==null|| counter2.getItem()==null;
         }else {
             return matchItemCore(getCounter(counter1),counter2,strictCheck);
         }
