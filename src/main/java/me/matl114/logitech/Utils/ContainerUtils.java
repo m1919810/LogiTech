@@ -120,7 +120,7 @@ public class ContainerUtils {
         SlimefunItem fromItem=DataCache.getSfItem(from);
         SlimefunItem toItem =DataCache.getSfItem(to);
         //null, or not my machine
-        if((fromInv!=null&&(!(toItem instanceof CustomSlimefunItem)))||(toInv!=null&&(!(fromItem instanceof CustomSlimefunItem)) ) ) {
+        if((fromInv!=null&&(!(toItem instanceof CustomSlimefunItem)))||(toInv!=null&&(!(fromItem instanceof CustomSlimefunItem)) )||(fromInv==null&&toInv==null) ) {
             Schedules.execute(()->{
                 if(fromInv!=null){
                     ContainerUtils.getBlockContainerMenuWrapperWithCallback((blockMenus -> {

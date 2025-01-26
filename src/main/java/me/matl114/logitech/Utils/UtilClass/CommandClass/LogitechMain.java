@@ -91,12 +91,12 @@ public class LogitechMain extends AbstractMainCommand {
                 Debug.logger("test success");
             }
         });
-
     }
     private World world= Bukkit.getWorld("world");
     private void test1(){
         Block b=world.getBlockAt(0,0,0);
         Block b2=world.getBlockAt(0,1,0);
+        Debug.logger(WorldUtils.getBlockStateNoSnapShot(b));
         WorldUtils.copyBlockState(WorldUtils.getBlockStateNoSnapShot(b),b2);
         WorldUtils.getBlockStateNoSnapShot(b).copy(b2.getLocation()).update(true,false);
     }
