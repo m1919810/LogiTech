@@ -377,7 +377,7 @@ public class AddGroups {
     };
     public static ItemGroup BUGCRAFTER=new CustomItemGroup(bugcrafterId,AddUtils.colorful(AddUtils.ADDON_NAME),AddItem.ALLBIGRECIPES,54,36,new LinkedHashMap<>()) {
         public PlayerHistoryRecord<CustomMenu> historyHandler=new PlayerHistoryRecord<CustomMenu>() {
-            HashMap<UUID,List<CustomMenu>> records=new HashMap<>();
+            final HashMap<UUID,List<CustomMenu>> records=new HashMap<>();
             {
                 PlayerQuiteListener.addHandler((player)->{
                     UUID uid=player.getUniqueId();
@@ -400,18 +400,15 @@ public class AddGroups {
                 }
             }
             public void addRecord(Player player, CustomMenu record){
+                Debug.logger("add called");
                 UUID uuid=player.getUniqueId();
                 synchronized(records){
-                    List<CustomMenu> list=records.get(uuid);
-                    if(list==null){
-                        list=new ArrayList<>();
-                        records.put(uuid,list);
-                    }
+                    List<CustomMenu> list = records.computeIfAbsent(uuid, k -> new ArrayList<>());
                     list.add(record);
-
                 }
             }
             public CustomMenu deleteRecord(Player player,CustomMenu record){
+                Debug.logger("Delete called");
                 UUID uuid=player.getUniqueId();
                 synchronized(records){
                     List<CustomMenu> list=records.get(uuid);
@@ -421,10 +418,17 @@ public class AddGroups {
                     return list.remove(list.size()-1);
                 }
             }
+            public void deleteAllRecords(Player player){
+                UUID uuid=player.getUniqueId();
+                synchronized(records){
+                    var list = records.remove(uuid);
+                    Debug.logger(list);
+                }
+            }
         };
         MenuFactory subRecipes=null;
         public void initCustomMenus(){
-            subRecipes=MenuUtils.createMRecipeListDisplay(AddItem.BUG_CRAFTER, RecipeSupporter.PROVIDED_SHAPED_RECIPES.get(BugCrafter.TYPE),
+            subRecipes=MenuUtils.createItemListDisplay(BugCrafter.TYPE, RecipeSupporter.RECIPETYPE_TO_ITEMS.get(BugCrafter.TYPE),
                     null,historyHandler,MenuUtils::createMRecipeDisplay,true);
         }
         public MenuFactory getSubRecipes() {
@@ -457,6 +461,7 @@ public class AddGroups {
             CustomMenu menu2=getSubRecipes().build();
             menu2.setBackSlot(1);
             menu2.setBackHandler(((player, i, itemStack, clickAction) -> {
+                historyHandler.deleteAllRecords(player);
                 var2.getGuideHistory().goBack(Slimefun.getRegistry().getSlimefunGuide(var3));
                 return false;
             }));

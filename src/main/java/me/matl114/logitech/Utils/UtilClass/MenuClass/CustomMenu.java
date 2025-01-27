@@ -1,7 +1,6 @@
 package me.matl114.logitech.Utils.UtilClass.MenuClass;
 
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.MenuUtils;
 import me.matl114.logitech.Utils.Settings;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -228,7 +227,7 @@ public class CustomMenu {
             return false;
         }));
     }
-    public CustomMenuHandler getOpenThisHandler(int pages){
+    public CustomMenuHandler getBackToThisHandler(int pages){
         return (cm -> ((player, i, itemStack, clickAction) -> {
             this.openPages(player,pages);
             return false;

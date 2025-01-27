@@ -24,8 +24,13 @@ public class PdcUtils {
     public static PersistentDataContainer getTag(PersistentDataContainer container, NamespacedKey key) {
         return container.get(key, PersistentDataType.TAG_CONTAINER);
     }
-    public static void setTag(PersistentDataContainer container, NamespacedKey key, PersistentDataContainer tag ) {
-        container.set(key,PersistentDataType.TAG_CONTAINER,tag);
+    public static void setTagOrRemove(PersistentDataContainer container, NamespacedKey key, PersistentDataContainer tag ) {
+        if(tag.getKeys().isEmpty()){
+            container.remove(key);
+        }else{
+            container.set(key,PersistentDataType.TAG_CONTAINER,tag);
+        }
+
     }
     public static <T extends Object> T getOrDefault(PersistentDataContainer container, NamespacedKey key,PersistentDataType<T,T> type,T defaultValue) {
         if(container.has(key, type)) {

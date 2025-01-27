@@ -42,8 +42,9 @@ public class SmithInterfaceListener implements Listener {
     private final ItemStack INTERFACED_CRAFTABLE=new CustomItemStack(Material.CRAFTING_TABLE,"&a点击进行合成","&7该工作方块已成功接入锻铸合成端口","&a成功寻找到可行的合成配方","&7点击后将于接口中输出合成结果");
     private final ItemStack INTERFACED_ANVIL=new CustomItemStack(Material.ANVIL,"&a点击进行锻造","&7该工作方块已成功接入锻铸合成端口","&a成功寻找到可行的锻造操作","&7点击后将于接口中输出锻造结果");
     private final ItemStack INTERFACED_SMITH=new CustomItemStack(Material.SMITHING_TABLE,"&a点击进行锻造","&7该工作方块已成功接入锻铸合成端口","&a成功寻找到可行的锻造操作","&7点击后将于接口中输出锻造结果");
+    private final ItemStack INTERFACED_GRIND = new CustomItemStack(Material.GRINDSTONE,"&a点击进行卸载","&7该工作方块已成功接入锻铸合成端口","&a成功寻找到可行的卸载方案","&7点击后将于接口中输出锻造结果");
     public boolean isSupportType(Inventory inventory) {
-        return inventory instanceof CraftingInventory||inventory instanceof AnvilInventory ||inventory instanceof SmithingInventory; /*can add more types*/
+        return inventory instanceof CraftingInventory||inventory instanceof AnvilInventory ||inventory instanceof SmithingInventory ||inventory instanceof GrindstoneInventory; /*can add more types*/
     }
     public void addInventory(Inventory inventory,Location location) {
         openingCraftInventory.put(inventory,location);
@@ -56,6 +57,10 @@ public class SmithInterfaceListener implements Listener {
         }else if(inventory instanceof SmithingInventory smith){
             if(smith.getSize()>3){
                 smith.setItem(3,INTERFACED_NO_RECIPE);
+            }
+        }else if(inventory instanceof GrindstoneInventory grind) {
+            if(grind.getSize()>2){
+                grind.setItem(2,INTERFACED_NO_RECIPE);
             }
         }
     }
@@ -108,6 +113,10 @@ public class SmithInterfaceListener implements Listener {
                 event.setResult(Event.Result.DENY);
                 event.setCancelled(true);
                 onSmithCraft(smithingInventory,event.getWhoClicked());
+            }else if(event.getRawSlot()==2 && inventory instanceof GrindstoneInventory grindstoneInventory){
+                event.setResult(Event.Result.DENY);
+                event.setCancelled(true);
+                onGrindCraft(grindstoneInventory,event.getWhoClicked());
             }
         }
         if(!event.isCancelled()){
@@ -180,7 +189,17 @@ public class SmithInterfaceListener implements Listener {
             }
         }
     }
-
+    @EventHandler(priority = EventPriority.MONITOR,ignoreCancelled = false)
+    public void onGrindPrepare(PrepareGrindstoneEvent e){
+        GrindstoneInventory grindstoneInventory=e.getInventory();
+        if(openingCraftInventory.containsKey(grindstoneInventory)) {
+            if (onGrindPrepare(grindstoneInventory)){
+                e.setResult(INTERFACED_GRIND);
+            }else {
+                e.setResult(INTERFACED_NO_RECIPE);
+            }
+        }
+    }
 
 
 
@@ -247,6 +266,16 @@ public class SmithInterfaceListener implements Listener {
         }
         return null;
     });
+    public Function<GrindstoneInventory,Supplier<MultiCraftingOperation>> GRIND_PROCESSOR=(grindInventory->{
+        var logics = SmithInterfaceProcessor.getGrindStoneLogics();
+        Supplier<MultiCraftingOperation> matchedLogic=null;
+        for (var logic :logics){
+            if((matchedLogic=logic.apply(grindInventory))!=null){
+                return matchedLogic;
+            }
+        }
+        return null;
+    });
     public void onCraftTableCraft(CraftingInventory inventory, HumanEntity player){
         onPlayerCraftCommon(inventory,player,CRAFT_PROCESSOR,(result,loc)->{
             ItemStack output=result.getFirstValue().getOutput()[0];
@@ -296,6 +325,15 @@ public class SmithInterfaceListener implements Listener {
             smith.setResult(INTERFACED_NO_RECIPE);
         });
     }
+    public void onGrindCraft(GrindstoneInventory inventory,HumanEntity player){
+        onPlayerCraftCommon(inventory,player,GRIND_PROCESSOR,(matchLogic,loc)->{
+            var output=matchLogic.get();
+            inventory.setItem(2,INTERFACED_NO_RECIPE);
+            return output;
+        },(grind)->{
+            grind.setItem(2,INTERFACED_NO_RECIPE);
+        });
+    }
     public boolean onCraftTablePrepare(CraftingInventory inventory) {
         var result= CRAFT_PROCESSOR.apply(inventory);
         if(result!=null) {
@@ -333,6 +371,16 @@ public class SmithInterfaceListener implements Listener {
                     return true;
                 }
             }
+        }
+        return false;
+    }
+    public boolean onGrindPrepare(GrindstoneInventory inventory) {
+        var result = GRIND_PROCESSOR.apply(inventory);
+        if(inventory.getSize()>=3){
+            boolean re=result!=null;
+            ItemStack set=re?INTERFACED_GRIND:INTERFACED_NO_RECIPE;
+            inventory.setItem(2,set);
+            return re;
         }
         return false;
     }

@@ -54,36 +54,36 @@ public class RegisteryLogger extends AbstractMachine {
             "      Name: ''\n" +
             "      Lore:\n" +
             "        - ''";
-    protected final String DEFAULT_RECIPE_CODE="AddUtils.formatInfoRecipe(AddItem.TMP1,Language.get(\"Tmp.TMP1.Name\"))";
+    protected final String DEFAULT_RECIPE_CODE="formatInfoRecipe(AddItem.TMP1,get(\"Tmp.TMP1.Name\"))";
     protected final String[] ADDITEM_CODE=new String[]{
-        "public static final SlimefunItemStack %s=AddUtils.themed(\"%s\",Material.%s,AddUtils.Theme.ITEM1,\n" +
-                "            Language.get(\"Items.%s.Name\"),Language.getList(\"Items.%s.Lore\"));",
-        "public static final SlimefunItemStack %s=AddUtils.themed(\"%s\",Material.%s,AddUtils.Theme.MACHINE1,\n" +
-                "            Language.get(\"Machines.%s.Name\"),Language.getList(\"Machines.%s.Lore\"));",
-        "public static final SlimefunItemStack %s=AddUtils.themed(\"%s\",Material.%s,AddUtils.Theme.MACHINE2,\n" +
-                "            Language.get(\"Generators.%s.Name\"),Language.getList(\"Generators.%s.Lore\"));",
-        "public static final SlimefunItemStack %s=AddUtils.themed(\"%s\",Material.%s,AddUtils.Theme.MACHINE2,\n" +
-                "            Language.get(\"Generators.%s.Name\"),Language.getList(\"Generators.%s.Lore\"));",
-        "public static final SlimefunItemStack %s=AddUtils.themed(\"%s\",Material.%s,AddUtils.Theme.MANUAL1,\n" +
-                "            Language.get(\"Manuals.%s.Name\"),Language.getList(\"Manuals.%s.Lore\"));",
-        "public static final ItemStack %s=AddUtils.themed(\"%s\",Material.%s, AddUtils.Theme.NONE,\n" +
-                "            Language.get(\"Groups.%s.Name\"),Language.getList(\"Groups.%s.Lore\"));"
+        "public static final SlimefunItemStack %s=themed(\"%s\",Material.%s,Theme.ITEM1,\n" +
+                "            get(\"Items.%s.Name\"),getList(\"Items.%s.Lore\"));",
+        "public static final SlimefunItemStack %s=themed(\"%s\",Material.%s,Theme.MACHINE1,\n" +
+                "            get(\"Machines.%s.Name\"),getList(\"Machines.%s.Lore\"));",
+        "public static final SlimefunItemStack %s=themed(\"%s\",Material.%s,Theme.MACHINE2,\n" +
+                "            get(\"Generators.%s.Name\"),getList(\"Generators.%s.Lore\"));",
+        "public static final SlimefunItemStack %s=themed(\"%s\",Material.%s,Theme.MACHINE2,\n" +
+                "            get(\"Generators.%s.Name\"),getList(\"Generators.%s.Lore\"));",
+        "public static final SlimefunItemStack %s=themed(\"%s\",Material.%s,Theme.MANUAL1,\n" +
+                "            get(\"Manuals.%s.Name\"),getList(\"Manuals.%s.Lore\"));",
+        "public static final ItemStack %s=themed(\"%s\",Material.%s, Theme.NONE,\n" +
+                "            get(\"Groups.%s.Name\"),getList(\"Groups.%s.Lore\"));"
     };
     protected final String[] ADDSFITEM_CODE=new String[]{
-        "public static final SlimefunItem %s=new MaterialItem(AddGroups.MATERIAL,AddItem.%s,RecipeType.NULL,\n" +
+        "public static final SlimefunItem %s=new MaterialItem(AddGroups.MATERIAL,AddItem.%s,NULL,\n" +
                 "            %s,null)\n" +
                 "            .register();",
-        "public static final  SlimefunItem %s=new EMachine(AddGroups.BASIC, AddItem.%s,RecipeType.NULL,\n" +
+        "public static final  SlimefunItem %s=new EMachine(AddGroups.BASIC, AddItem.%s,NULL,\n" +
                 "            %s, Material.STONE,0,0,null)\n" +
                 "            .register();",
-        "public static final SlimefunItem %s=new SMGenerator(AddGroups.GENERATORS, AddItem.%s,RecipeType.NULL,\n" +
+        "public static final SlimefunItem %s=new SMGenerator(AddGroups.GENERATORS, AddItem.%s,NULL,\n" +
                 "            %s,1,0,0,\n" +
                 "            null)\n" +
                 "            .register();",
-        "public static final SlimefunItem %s = new MMGenerator(AddGroups.GENERATORS, AddItem.%s, RecipeType.NULL,\n" +
+        "public static final SlimefunItem %s = new MMGenerator(AddGroups.GENERATORS, AddItem.%s, NULL,\n" +
                 "            %s, 1, 0, 0,null)\n" +
                 "            .register();",
-        "public static final SlimefunItem %s=new ManualMachine(AddGroups.MANUAL,AddItem.%s,RecipeType.NULL,\n" +
+        "public static final SlimefunItem %s=new ManualMachine(AddGroups.MANUAL,AddItem.%s,NULL,\n" +
                 "            %s,0,0,null)\n" +
                 "            .register();",
         "NULL"
@@ -207,7 +207,7 @@ public class RegisteryLogger extends AbstractMachine {
             AddUtils.sendMessage(player,"&e请输入新物品的slimefunID");
             player.closeInventory();
             AddUtils.asyncWaitPlayerInput(player,(msg)->{
-                //AddUtils.displayCopyString(player,"点击拷贝语言配置文件框架","点击复制到剪贴板",LANGUAGE_CODE.formatted(msg));
+                //displayCopyString(player,"点击拷贝语言配置文件框架","点击复制到剪贴板",LANGUAGE_CODE.formatted(msg));
                 setRecordId(blockMenu.getLocation(),msg);
                 blockMenu.open(player);
             });

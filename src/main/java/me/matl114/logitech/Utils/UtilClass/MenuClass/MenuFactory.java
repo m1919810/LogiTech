@@ -1,6 +1,7 @@
 package me.matl114.logitech.Utils.UtilClass.MenuClass;
 
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import lombok.Getter;
 import me.matl114.logitech.Utils.Debug;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.inventory.ItemStack;
@@ -18,6 +19,7 @@ public abstract class MenuFactory {
     int next;
     int back;
     private CustomMenuHandler finalBackHandler=null;
+    @Getter
     String title;
 //    private ItemStack[] prefixs;
 //    private ItemStack[] suffixs;

@@ -29,9 +29,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ForkJoinPool;
@@ -203,6 +201,9 @@ public class EquipmentFUManager implements Manager, Listener {
         }
     }
 
+    //more SpecialEvents
+    //we will add a map to do with it
+
     private void onPlayerEvent(PlayerEvent event){
         Player player=event.getPlayer();
         var data=getEquipmentFUMap(player.getUniqueId());
@@ -230,6 +231,25 @@ public class EquipmentFUManager implements Manager, Listener {
             }
         }
     }
+    private <T extends Event> void onElseEvent(Class<T> identifier,T event,Player player){
+        UUID uid=player.getUniqueId();
+        var data=getEquipmentFUMap(uid);
+        if(!data.isEmpty()){
+            var availableFU = elseEventFUHandler.get(identifier);
+            if(availableFU != null){
+                for (var entry:data.entrySet()){
+                    if(availableFU.contains(entry.getKey())){
+                        entry.getKey().onElseEvent(identifier,event,player,entry.getValue());
+                    }
+                }
+            }
+        }
+    }
+    private final Map<Class<?>, Set<EquipmentFU>> elseEventFUHandler = new HashMap<>();
+    public void registerElseEventHandle(Class<?> clazz,EquipmentFU handler){
+        elseEventFUHandler.computeIfAbsent(clazz,c->new HashSet<>()).add(handler);
+    }
+
 
     @Nonnull
     public Map<EquipmentFU,Integer> getEquipmentFUMap(UUID uuid){
@@ -331,7 +351,7 @@ public class EquipmentFUManager implements Manager, Listener {
         return ret.getOrDefault(equipmentFU,0);
     }
     public Map<EquipmentFU,Integer> addEquipmentFU(ItemStack item,Map<EquipmentFU,Integer> equipmentFU){
-        Preconditions.checkArgument(item!=null&&item.getType().isAir() ,"itemStack cannot be null!");
+        Preconditions.checkArgument(item!=null&&!item.getType().isAir() ,"itemStack cannot be null!");
         HashMap<EquipmentFU,Integer> returnLevel=new HashMap<>();
         ItemMeta meta=item.getItemMeta();
         PersistentDataContainer container=meta.getPersistentDataContainer();
@@ -361,8 +381,8 @@ public class EquipmentFUManager implements Manager, Listener {
             }
             equipmentFu.getKey().onEquipLevelChange(item,meta,fuDataField,level);
         }
-        PdcUtils.setTag(container,equipmentFUKey,fuFields);
-        PdcUtils.setTag(container,eqFUDataKey,fuDataField);
+        PdcUtils.setTagOrRemove(container,equipmentFUKey,fuFields);
+        PdcUtils.setTagOrRemove(container,eqFUDataKey,fuDataField);
         item.setItemMeta(meta);
         return returnLevel;
     }

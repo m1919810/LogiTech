@@ -1,7 +1,9 @@
 package me.matl114.logitech.Utils.UtilClass.EquipClass;
 
 import lombok.Getter;
+import me.matl114.logitech.Manager.EquipmentFUManager;
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.WorldUtils;
 import me.matl114.logitech.core.AddItem;
 import me.matl114.matlib.Utils.Inventory.CleanItemStack;
@@ -29,7 +31,8 @@ public class EquipmentFU  {
     public boolean isSupportSlot(EquipmentSlot slot){
         return this.slot.contains(slot);
     }
-    private String prefix=null;
+    private String prefix = null;
+    private String name = "null";
     public EquipmentFU setDisplayPrefix(String pref){
         prefix=new CleanItemStack(Material.STONE,pref).getItemMeta().getDisplayName();
         return this;
@@ -38,7 +41,12 @@ public class EquipmentFU  {
         return AddUtils.themed(Material.KNOWLEDGE_BOOK,AddUtils.resolveColor("&a"+fuName+" : &6机制说明"),function);
     }
     public ItemStack getInfoDisplay(){
-        return getInfoFor("Demo 功能单元","这是一个样例功能单元","你需要在这里写点啥来说明他的功能");
+        return getInfoFor(name+" 功能单元","这是一个样例功能单元","你需要在这里写点啥来说明他的功能");
+    }
+    public EquipmentFU setDisplayName(String name){
+        this.name = name;
+        setDisplayPrefix("&6%s&3单元: &7Lv.".formatted(name));
+        return this;
     }
     private static final EnumMap<EquipmentSlot,HashMap<NamespacedKey,EquipmentFU>> registry=new EnumMap<>(EquipmentSlot.class);
     public static EquipmentFU getFunctionUnit(EquipmentSlot slot, NamespacedKey key) {
@@ -50,6 +58,7 @@ public class EquipmentFU  {
         for (var s:slot){
             registry.computeIfAbsent(s,(i)->new HashMap<>()).put(key,this);
         }
+        setDisplayName("Demo");
     }
 
 
@@ -109,7 +118,25 @@ public class EquipmentFU  {
     protected void onToggleSprint(PlayerToggleSprintEvent event, Player player, int level){
 
     }
+    //continue to add player Events here
     //else ,when I figure out more needed,
+    //use this method to register
+    public static interface FUHandler<T extends Event>{
+        public void onEvent(T event,Player player,int level);
+    }
+    private final Map<Class<?>,Set<EquipmentFU.FUHandler<?>>> elseEventHandlers = new LinkedHashMap<>();
+    //register Special handlers here
+    public <T extends Event>  EquipmentFU registerElseEventHandler(Class<T> eventIdentifier, FUHandler<T> handler){
+        elseEventHandlers.computeIfAbsent(eventIdentifier, (e)->new HashSet<>()).add(handler);
+        EquipmentFUManager.getManager().registerElseEventHandle(eventIdentifier,this);
+        return this;
+    }
+    public <T extends Event> void onElseEvent(Class<T> eventIdentifier, T event, Player player, int level){
+        var fus = elseEventHandlers.get(eventIdentifier);
+        if(fus!=null){
+            fus.forEach(handler->((FUHandler<T>)handler).onEvent(event,player,level));
+        }
+    }
 
     /**
      * public-to-all method of Event handle
@@ -131,8 +158,10 @@ public class EquipmentFU  {
     }
 
 
+
+
     public boolean canEquipedTo(ItemStack itemStack,ItemStack costing){
-        return false;
+        return CraftUtils.matchItemStack(costing,AddItem.LSINGULARITY,false);
     }
     public Set<Material> getCanEquipedMaterial(){
         //mainly are tools
@@ -192,11 +221,11 @@ public class EquipmentFU  {
         }
 
     }
-
-    public void register(){
-
-    }
-    public void unregister(){
-
-    }
+    //no need
+//    public void register(){
+//
+//    }
+//    public void unregister(){
+//
+//    }
 }

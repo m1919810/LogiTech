@@ -13,6 +13,7 @@ import me.matl114.logitech.core.Interface.RecipeDisplay;
 import me.matl114.logitech.core.Items.Abstracts.MaterialItem;
 import me.matl114.matlib.Utils.Inventory.CleanItemStack;
 import org.bukkit.Material;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -51,13 +52,27 @@ public class EquipmentFUItem extends MaterialItem {
         List<ItemStack> items = new ArrayList<>();
         items.add(fUnit.getInfoDisplay());
         items.add(null);
+        List<String> slots = new ArrayList<>();
+        slots.add("&7可生效的槽位:");
+        for (EquipmentSlot slot:EquipmentSlot.values()){
+            if(fUnit.isSupportSlot(slot)){
+                slots.add("&8⇨ &b"+slot.name());
+            }
+        }
+        items.add(new CleanItemStack(Material.BOOK,"&a功能单元槽位限制",slots));
+        items.add(null);
         items.add(maxLevel==null?new CleanItemStack(Material.BOOK,"&a单装备等级限制","&7最大等级: %s".formatted(fUnit.getMaxFULevel(null))):maxLevel);
         items.add(null);
         items.add(availableItem==null?new CleanItemStack(Material.BOOK,"&a可装配的装备范围","&7支持装配至任意工具类物品"):availableItem);
         items.add(null);
-        items.add(cost==null?new CleanItemStack(Material.BOOK,"&a所需锻造材料","抽象锭 x1"):cost);
+        items.add(cost==null?new CleanItemStack(Material.BOOK,"&a所需锻造材料","&7抽象锭 x1"):cost);
         items.add(MenuUtils.getDisplayItem(costSample));
         this.setDisplayRecipes(items);
+        return this;
+    }
+    public EquipmentFUItem register(){
+        complete();
+        super.register();
         return this;
     }
     public void addInfo(ItemStack stack){

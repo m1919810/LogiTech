@@ -666,6 +666,10 @@ zh_CN:
       Lore:
         - '一个空白的单元'
         - '一个船新的开始'
+    DEMO_FU:
+      Name: '样例功能单元'
+      Lore:
+        - '凑数用的'
   Machines:
     LOGIC_REACTOR:
       Name: '逻辑反应堆'

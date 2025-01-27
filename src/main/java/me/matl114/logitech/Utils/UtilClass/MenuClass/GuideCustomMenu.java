@@ -44,6 +44,16 @@ public class GuideCustomMenu extends CustomMenu {
         this.history=history;
         return this;
     }
+    public CustomMenuHandler getBackToThisHandler(int pages){
+        return (cm -> ((player, i, itemStack, clickAction) -> {
+            this.openInternal(player,pages);
+            return false;
+        }));
+    }
+    public void openInternal(Player p,int page){
+        ChestMenu menu=constructPage(page);
+        menu.open(p);
+    }
     public void openPages(Player p,int page){
         if(useHistory&&history!= null){
 //            CustomMenu menu= history.getRecord(p);

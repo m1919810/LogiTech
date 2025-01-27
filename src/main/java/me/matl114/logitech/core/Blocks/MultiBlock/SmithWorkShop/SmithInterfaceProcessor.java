@@ -69,6 +69,7 @@ public class SmithInterfaceProcessor extends SmithingInterface implements Machin
     private static final List<MachineRecipe> interfacedCrafttableRecipes=new ArrayList<>();
     public static final int CRAFT_TABLE_TICKS=0;
     public static final int ANVIL_TICKS=8;
+    public static final CustomRecipeType INTERFACED_DISPLAY_USE = new CustomRecipeType(AddUtils.getNameKey("interfaced-display-use"),AddUtils.addGlow(new CustomItemStack(Material.TARGET,"&a锻铸作坊配方","&7该配方需要在","&e\"锻造合成端口\"","&7邻接的工作台中合成","&c该配方仅作示意图用")));
     public static final CustomRecipeType INTERFACED_CRAFTTABLE=new CustomRecipeType(AddUtils.getNameKey("interfaced-craft-table"),AddUtils.addGlow( new  CustomItemStack(Material.CRAFTING_TABLE,"&a锻铸作坊配方","&7该配方需要在","&e\"锻造合成端口\"","&7邻接的工作台中合成"))).relatedTo((in,out)->{
         interfacedCrafttableRecipes.add(MachineRecipeUtils.shapeFrom(CRAFT_TABLE_TICKS,in,new ItemStack[]{out}));
     },(in,out)->{
@@ -89,6 +90,7 @@ public class SmithInterfaceProcessor extends SmithingInterface implements Machin
                 getRegisteredSmithInterfacingId().add(item.getId());
                 if(item instanceof InterfacedSmithTableTrimmer trimer){
                     SmithingTrimRecipe recipe = new SmithingTrimRecipe(BukkitUtils.getIdKey(item.getId()),trimer.getTrimmerRecipeChoice(),trimer.getBaseRecipeChoice(),trimer.getExtraRecipeChoice());
+                    Debug.logger("register ",trimer.getTrimmerRecipeChoice(),trimer.getBaseRecipeChoice(),trimer.getExtraRecipeChoice());
                     Bukkit.addRecipe(recipe);
                 }else {
                     BukkitUtils.sendRecipeToVanilla(item,SmithingTrimRecipe.class);
@@ -155,9 +157,10 @@ public class SmithInterfaceProcessor extends SmithingInterface implements Machin
                         ItemStack fix=anvilInventory.getItem(1);
                         if(CraftUtils.matchItemStack(fix, AddItem.ABSTRACT_INGOT,false)){
                             int supply=fix.getAmount();
-                            int cost= Math.min( ( (durability+249)/250)+(hasName?1:0),supply);
+                            int expectedDurabilityCost = (durability+249)/250;
+                            int cost= Math.min( expectedDurabilityCost+ (hasName?1:0),supply);
                             if(cost>0){
-                                final boolean applyName=hasName&&(supply>(( durability/250)+1));
+                                final boolean applyName=hasName&&(supply>expectedDurabilityCost);
                                 int fixCost=applyName?(cost-1):cost;
                                 //here we set repair cost for judgements
                                 anvilInventory.setRepairCost(-5*cost);

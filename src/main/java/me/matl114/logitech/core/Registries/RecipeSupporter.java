@@ -125,7 +125,7 @@ public class RecipeSupporter {
             add(MachineRecipeUtils.stackFrom(-1,Utils.array(new ItemStack(plank)),Utils.array(new ItemStack(Material.STICK,4))));
         }
     }};
-
+    public static final HashMap<RecipeType,List<SlimefunItem>> RECIPETYPE_TO_ITEMS = new LinkedHashMap<>();
     /**
      * stored shaped machine recipe pieces
      * be careful ,ticks of these MachineRecipe are -1 ! not able to use directly in machine
@@ -846,6 +846,7 @@ public class RecipeSupporter {
         }
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
             RecipeType recipeType = item.getRecipeType();
+            RECIPETYPE_TO_ITEMS.computeIfAbsent(recipeType,t->new ArrayList<>()).add(item);
             //过会解析
             if(!RECIPE_TYPES.contains(recipeType)){
                 RECIPE_TYPES.add(recipeType);
