@@ -461,7 +461,7 @@ public class AddUtils {
         }
     }
     public static ItemStack getCleaned(ItemStack stack){
-        return stack==null?new ItemStack(Material.AIR): new CleanItemStack(stack);
+        return stack==null?new ItemStack(Material.AIR): CleanItemStack.ofBukkitClean(stack);
     }
     public static ItemStack resolveRandomizedItemStack(ItemStack stack){
         ItemStack result=null;

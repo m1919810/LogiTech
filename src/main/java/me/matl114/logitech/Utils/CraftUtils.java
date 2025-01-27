@@ -1780,6 +1780,23 @@ public class CraftUtils {
 //            return Objects.equals(b, blockEntityTagAccess.ofAccess(meta2).getRawOrDefault(()->null));
 //        },()->meta1.equals(meta2));
     }
+    public static boolean amountLargerThan(ItemStack thisItem,ItemStack thatItem){
+        if(thisItem==null||thatItem==null){
+            return thisItem==thatItem;
+        }else{
+            return thisItem.getAmount()>=thatItem.getAmount();
+        }
+    }
+    public static void consumeThat(ItemStack thisItem,ItemStack thatItem){
+        if(thisItem!=null&&thatItem!=null){
+            thatItem.setAmount(thatItem.getAmount()-thisItem.getAmount());
+        }
+    }
+    public static void consumeThat(int amount ,ItemStack thatItem){
+        if(thatItem!=null){
+            thatItem.setAmount(thatItem.getAmount()-amount);
+        }
+    }
 
     public static boolean matchItemStack(ItemStack stack1, ItemStack stack2,boolean strictCheck){
         if(stack1==null || stack2==null){

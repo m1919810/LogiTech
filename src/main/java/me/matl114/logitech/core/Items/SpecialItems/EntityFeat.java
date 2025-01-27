@@ -173,19 +173,23 @@ public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
             var3.remove();
             ItemStack extraStack=targetItemStack.clone();
             ItemStack resultItemStack;
-            if(amount<9){
+            if(amount<SUPER_MERGE){
                 resultItemStack=generateSpawnerFrom(type,true);
                 resultItemStack.setAmount(amount/MIDDLE_MERGE);
                 extraStack.setAmount(amount%MIDDLE_MERGE);
-                AddUtils.sendMessage(var2,"&a已合成%d个普通刷怪笼".formatted(amount/9));
+                AddUtils.sendMessage(var2,"&a已合成%d个普通刷怪笼".formatted(amount/MIDDLE_MERGE));
             }else {
                 resultItemStack=generateSpawnerFrom(type,2,60,64,6,10,true);
                 resultItemStack.setAmount(amount/SUPER_MERGE);
-                extraStack.setAmount(amount/SUPER_MERGE);
-                AddUtils.sendMessage(var2,"&a已合成1个超频刷怪笼");
+                extraStack.setAmount(amount%SUPER_MERGE);
+                AddUtils.sendMessage(var2,"&a已合成%d个超频刷怪笼".formatted(amount/SUPER_MERGE));
             }
-            var3.getWorld().dropItemNaturally(var3.getLocation(),extraStack);
-            var3.getWorld().dropItemNaturally(var3.getLocation(), resultItemStack);
+            if(extraStack.getAmount()>0){
+                var3.getWorld().dropItemNaturally(var3.getLocation(),extraStack);
+            }
+            if(resultItemStack.getAmount()>0){
+                var3.getWorld().dropItemNaturally(var3.getLocation(), resultItemStack);
+            }
         }
     }
     @Override

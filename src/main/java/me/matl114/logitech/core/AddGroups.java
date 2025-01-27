@@ -532,7 +532,8 @@ public class AddGroups {
                        },()->{
                         int itemSize=TOOLS_FUNCTIONAL.getItems().size();
                         HashMap<Integer,ItemGroup> items=new HashMap<>();
-                        items.put(itemSize+1,TOOLS_SUBGROUP_1);
+                        items.put(itemSize+2,TOOLS_SUBGROUP_1);
+                        items.put(itemSize+1,TOOLS_SUBGROUP_2);
                         return items;
                     },()->{
                         var re=TOOLS_FUNCTIONAL.getItems();

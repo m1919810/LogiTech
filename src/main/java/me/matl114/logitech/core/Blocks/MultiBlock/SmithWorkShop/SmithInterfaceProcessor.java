@@ -1,5 +1,6 @@
 package me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop;
 
+import com.google.common.base.Preconditions;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -7,8 +8,10 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import lombok.AccessLevel;
 import lombok.Getter;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
 import me.matl114.logitech.core.AddItem;
@@ -19,6 +22,7 @@ import me.matl114.matlib.Implements.Slimefun.core.CustomRecipeType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -74,11 +78,44 @@ public class SmithInterfaceProcessor extends SmithingInterface implements Machin
     public static final CustomRecipeType INTERFACED_SMITH_TRIM=new CustomRecipeType(AddUtils.getNameKey("interfaced-smith-icon-trim"),AddUtils.addGlow( new  CustomItemStack(Material.SMITHING_TABLE,"&a锻铸作坊配方","&7该配方需要在","&e\"锻造合成端口\"","&7邻接的锻造台中强化")))
             .relatedTo((input,output)->{
                 //send to vanilla
+                SlimefunItem item = null;
+                for (SlimefunItem itemT: Slimefun.getRegistry().getAllSlimefunItems()){
+                    if(itemT.getRecipe()==input){
+                        item = itemT;
+                        break;
+                    }
+                }
+                Preconditions.checkNotNull(item);
+                getRegisteredSmithInterfacingId().add(item.getId());
+                if(item instanceof InterfacedSmithTableTrimmer trimer){
+                    SmithingTrimRecipe recipe = new SmithingTrimRecipe(BukkitUtils.getIdKey(item.getId()),trimer.getTrimmerRecipeChoice(),trimer.getBaseRecipeChoice(),trimer.getExtraRecipeChoice());
+                    Bukkit.addRecipe(recipe);
+                }else {
+                    BukkitUtils.sendRecipeToVanilla(item,SmithingTrimRecipe.class);
+                }
             },(input,output)->{
                 //ignored
             })
             ;
-    public static final CustomRecipeType INTERFACED_SMITH_UPDATE=new CustomRecipeType(AddUtils.getNameKey("interfaced-smith-icon-update"),AddUtils.addGlow( new  CustomItemStack(Material.SMITHING_TABLE,"&a锻铸作坊配方","&7该配方需要在","&e\"锻造合成端口\"","&7邻接的锻造台中升级")));
+    public static final CustomRecipeType INTERFACED_SMITH_UPDATE=new CustomRecipeType(AddUtils.getNameKey("interfaced-smith-icon-update"),AddUtils.addGlow( new  CustomItemStack(Material.SMITHING_TABLE,"&a锻铸作坊配方","&7该配方需要在","&e\"锻造合成端口\"","&7邻接的锻造台中升级")))
+            .relatedTo((input,output)->{
+                //send to vanilla
+                SlimefunItem item = null;
+                for (SlimefunItem itemT: Slimefun.getRegistry().getAllSlimefunItems()){
+                    if(itemT.getRecipe()==input){
+                        item = itemT;
+                        break;
+                    }
+                }
+                Preconditions.checkNotNull(item);
+                getRegisteredSmithInterfacingId().add(item.getId());
+                BukkitUtils.sendRecipeToVanilla(item,SmithingTransformRecipe.class);
+            },(input,output)->{
+                //ignored
+            })
+            ;
+    //just a symble
+    public static final CustomRecipeType INTERFACED_GRIND=new CustomRecipeType(AddUtils.getNameKey("interfaced-gride"),AddUtils.addGlow( new  CustomItemStack(Material.GRINDSTONE,"&a锻铸作坊配方","&7该配方需要在","&e\"锻造合成端口\"","&7邻接的砂轮中进行")));
     //感觉这玩意问题挺大
     @Getter
     private static HashSet<Function<AnvilInventory, Supplier<MultiCraftingOperation>>> anvilLogics=new LinkedHashSet<>();
@@ -91,8 +128,16 @@ public class SmithInterfaceProcessor extends SmithingInterface implements Machin
     public static void registerSmithLogic(Function<SmithingInventory, Supplier<MultiCraftingOperation>> smithCraft, SmithOperation operation) {
         smithLogics.computeIfAbsent(operation,k->new LinkedHashSet<>()).add(smithCraft);
     }
+    @Getter
+    private static HashSet<Function<GrindstoneInventory,Supplier<MultiCraftingOperation>>> grindStoneLogics=new LinkedHashSet<>();
+    public static void registerGrindstoneLogic(Function<GrindstoneInventory,Supplier<MultiCraftingOperation>> logic){
+        grindStoneLogics.add(logic);
+    }
+    @Getter(AccessLevel.PRIVATE)
+    private static final Set<String> registeredSmithInterfacingId = new HashSet<>();
     public static boolean isSmithingInterfaceRecipe(SmithingRecipe recipe){
-        return true;
+        var option = BukkitUtils.getOptionalVanillaMyPluginRecipe(recipe.getKey());
+        return option.filter(registeredSmithInterfacingId::contains).isPresent();
     }
     static{
         //demo
@@ -157,21 +202,16 @@ public class SmithInterfaceProcessor extends SmithingInterface implements Machin
                 if(t2!=null&&r2!=null&&t2.getAmount()<r2.getAmount()){
                     continue;
                 }
-                if(CraftUtils.matchItemStack(r1,t1,true) && CraftUtils.matchItemStack(r2,t2, true)){
+                if( CraftUtils.matchItemStack(r1,t1,true) && CraftUtils.matchItemStack(r2,t2, true)){
+                    ItemStack out = entry.getValue();
+                    var sfitem = SlimefunItem.getByItem(out);
+                    if(sfitem!=null && sfitem.isDisabled()){
+                        return null;
+                    }
                     return ()->{
-                        if(r1!=null){
-                            ItemStack consume1 = anvilInventory.getItem(0);
-                            if(consume1!=null){
-                                consume1.setAmount(consume1.getAmount()-r1.getAmount());
-                            }
-                        }
-                        if(r2!=null){
-                            ItemStack consume2 = anvilInventory.getItem(1);
-                            if(consume2!=null){
-                                consume2.setAmount(consume2.getAmount()-r2.getAmount());
-                            }
-                        }
-                        return new MultiCraftingOperation(new ItemGreedyConsumer[]{CraftUtils.getGreedyConsumerOnce(entry.getValue())},6);
+                        CraftUtils.consumeThat(r1,anvilInventory.getItem(0));
+                        CraftUtils.consumeThat(r2,anvilInventory.getItem(1));
+                        return new MultiCraftingOperation(new ItemGreedyConsumer[]{CraftUtils.getGreedyConsumerOnce(out)},6);
                     };
                 }
             }
@@ -185,28 +225,22 @@ public class SmithInterfaceProcessor extends SmithingInterface implements Machin
                 Optional<SlimefunItem> optionalItem = BukkitUtils.getOptionalVanillaSlimefunRecipe(smith.getKey());
                 if(optionalItem.isPresent()){
                     SlimefunItem item=optionalItem.get();
+                    if(item.isDisabled()){
+                        return null;
+                    }
                     ItemStack[] sfrecipe = item.getRecipe();
-                    if( (item.getRecipeType() == INTERFACED_SMITH_UPDATE&& smith instanceof SmithingTransformRecipe)||(item.getRecipeType() == INTERFACED_SMITH_TRIM && smith instanceof SmithingTransformRecipe) ){
+                    if( (item.getRecipeType() == INTERFACED_SMITH_UPDATE&& smith instanceof SmithingTransformRecipe)){
                         ItemStack r1 = sfrecipe[0];
                         ItemStack r2 = sfrecipe[1];
                         ItemStack r3 = sfrecipe[2];
                         ItemStack t1 = smithingInventory.getItem(0);
                         ItemStack t2 = smithingInventory.getItem(1);
                         ItemStack t3 = smithingInventory.getItem(2);
-                        if(CraftUtils.matchItemStack(r1,t1,true) && CraftUtils.matchItemStack(r2,t2,true) && CraftUtils.matchItemStack(r3,t3,true)){
+                        if(CraftUtils.amountLargerThan(t1,r1) && CraftUtils.amountLargerThan(t2,r2) && CraftUtils.amountLargerThan(t3,r3) && CraftUtils.matchItemStack(r1,t1,true) && CraftUtils.matchItemStack(r2,t2,true) && CraftUtils.matchItemStack(r3,t3,true)){
                             return ()->{
-                                ItemStack t11 = smithingInventory.getItem(0);
-                                ItemStack t21 = smithingInventory.getItem(1);
-                                ItemStack t31 = smithingInventory.getItem(2);
-                                if (r1!=null && t11!=null){
-                                    t11.setAmount(t11.getAmount()-r1.getAmount());
-                                }
-                                if (r2!=null && t21!=null){
-                                    t21.setAmount(t21.getAmount()-r2.getAmount());
-                                }
-                                if (r3!=null && t31!=null){
-                                    t31.setAmount(t31.getAmount()-r3.getAmount());
-                                }
+                                CraftUtils.consumeThat(r1,smithingInventory.getItem(0));
+                                CraftUtils.consumeThat(r2,smithingInventory.getItem(1));
+                                CraftUtils.consumeThat(r3,smithingInventory.getItem(2));
                                 return new MultiCraftingOperation(new ItemGreedyConsumer[]{CraftUtils.getGreedyConsumerOnce(item.getRecipeOutput())},6);
                             };
 
@@ -215,7 +249,50 @@ public class SmithInterfaceProcessor extends SmithingInterface implements Machin
                 }
             }
             return null;
-        },SmithOperation.BOTH);
+        },SmithOperation.TRANSFORM);
+        registerSmithLogic(smithingInventory -> {
+            Recipe recipe=smithingInventory.getRecipe();
+            if(recipe instanceof SmithingRecipe smith){
+                Optional<SlimefunItem> optionalItem = BukkitUtils.getOptionalVanillaSlimefunRecipe(smith.getKey());
+                if(optionalItem.isPresent()){
+                    SlimefunItem item=optionalItem.get();
+                    if(item.isDisabled()){
+                        return null;
+                    }
+                    ItemStack[] sfrecipe = item.getRecipe();
+                    if( (item.getRecipeType() == INTERFACED_SMITH_TRIM&& smith instanceof SmithingTrimRecipe)){
+                        ItemStack r1 = sfrecipe[0];
+                        ItemStack r2 = sfrecipe[1];
+                        ItemStack r3 = sfrecipe[2];
+                        if(item instanceof InterfacedSmithTableTrimmer trimmer){
+                            var resultMake = trimmer.getTrimmedResult(smithingInventory);
+                            if(resultMake!=null){
+                                return ()->{
+                                    CraftUtils.consumeThat(1,smithingInventory.getItem(0));
+                                    CraftUtils.consumeThat(1,smithingInventory.getItem(1));
+                                    CraftUtils.consumeThat(resultMake.getB(),smithingInventory.getItem(2));
+                                    return new MultiCraftingOperation(Arrays.stream(resultMake.getA()).filter(Objects::nonNull).map(CraftUtils::getGreedyConsumerOnce).toArray(ItemGreedyConsumer[]::new)  , resultMake.getC());
+                                    };
+                            }
+                        }else {
+                            ItemStack t1 = smithingInventory.getItem(0);
+                            ItemStack t2 = smithingInventory.getItem(1);
+                            ItemStack t3 = smithingInventory.getItem(2);
+                            if(CraftUtils.amountLargerThan(t1,r1) && CraftUtils.amountLargerThan(t2,r2) && CraftUtils.amountLargerThan(t3,r3) && CraftUtils.matchItemStack(r1,t1,true) && CraftUtils.matchItemStack(r2,t2,true) && CraftUtils.matchItemStack(r3,t3,true)){
+                                return ()->{
+                                    CraftUtils.consumeThat(r1,smithingInventory.getItem(0));
+                                    CraftUtils.consumeThat(r2,smithingInventory.getItem(1));
+                                    CraftUtils.consumeThat(r3,smithingInventory.getItem(2));
+                                    return new MultiCraftingOperation(new ItemGreedyConsumer[]{CraftUtils.getGreedyConsumerOnce(item.getRecipeOutput())},6);
+                                };
+
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
+        },SmithOperation.TRIM);
        // registerSmithLogic();
         //INTERFACED_ANVIL.register();
     }

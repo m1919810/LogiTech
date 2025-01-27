@@ -1,5 +1,6 @@
 package me.matl114.logitech.core;
 
+import com.google.common.base.Preconditions;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
@@ -13,9 +14,13 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.matl114.logitech.Language;
+import me.matl114.logitech.Manager.EquipmentFUManager;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Manager.RadiationRegionManager;
 import me.matl114.logitech.Manager.Schedules;
+import me.matl114.logitech.Utils.UtilClass.EquipClass.EquipmentFU;
+import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
+import me.matl114.logitech.Utils.UtilClass.RecipeClass.MultiCraftingOperation;
 import me.matl114.logitech.core.Blocks.*;
 import me.matl114.logitech.core.Blocks.MultiBlock.*;
 import me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop.SWAmplifyComponent;
@@ -23,6 +28,8 @@ import me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop.SmithInterfacePr
 import me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop.SmithingInterface;
 import me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop.SmithingWorkshop;
 import me.matl114.logitech.core.Items.Abstracts.*;
+import me.matl114.logitech.core.Items.Equipments.DisplayUseTrimmerLogicLate;
+import me.matl114.logitech.core.Items.Equipments.EquipmentFUItem;
 import me.matl114.logitech.core.Items.SpecialItems.*;
 import me.matl114.logitech.core.Registries.AddDepends;
 import me.matl114.logitech.core.Registries.MultiBlockTypes;
@@ -64,6 +71,8 @@ import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.matl114.logitech.core.Registries.RecipeSupporter;
 import me.matl114.matlib.Implements.Slimefun.core.CustomRecipeType;
 import me.matl114.matlib.Utils.Algorithm.InitializeSafeProvider;
+import me.matl114.matlib.Utils.Algorithm.Triplet;
+import me.matl114.matlib.Utils.Inventory.CleanItemStack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
@@ -79,12 +88,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.SpongeAbsorbEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 /**
  * register main
@@ -534,6 +545,10 @@ public class AddSlimefunItems {
     public static final SlimefunItem UNBREAKING_SHIELD=new MaterialItem(AddGroups.TOOLS_FUNCTIONAL,AddItem.UNBREAKING_SHIELD,BukkitUtils.VANILLA_CRAFTTABLE,
             recipe("IRON_BLOCK","DAMASCUS_STEEL_INGOT","IRON_BLOCK","IRON_BLOCK","OBSIDIAN","IRON_BLOCK",
             null,"IRON_BLOCK",null)).register();
+    public static final MyVanillaItem SUPER_COBALT_PICKAXE = new MyVanillaItem(AddGroups.TOOLS_FUNCTIONAL,AddItem.SUPER_COBALT_PICKAXE,"SUPER_COBALT_PICKAXE", SmithInterfaceProcessor.INTERFACED_SMITH_UPDATE,recipe(AddItem.ABSTRACT_INGOT,"COBALT_PICKAXE","3DIAMOND",null,null,null,null,null,null))
+            .register();
+
+
 
     //machines
     public static final SlimefunItem BOOL_GENERATOR=new BoolGenerator(AddGroups.BASIC,AddItem.BOOL_GENERATOR,RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -653,9 +668,8 @@ public class AddSlimefunItems {
                         mkP(mkl(AddItem.SPACE_PLATE,AddItem.MASS_CORE),mkl(AddItem.TRANSMUTATOR_FRAME)),6,
                         mkP(mkl(AddItem.SPACE_PLATE,setC(AddItem.LFIELD,24)),mkl(setC(AddItem.TRANSMUTATOR_GLASS,2))),6,
                         mkP(mkl(setC(AddItem.ATOM_INGOT,16),setC(AddItem.BISILVER,2)),mkl(AddItem.TRANSMUTATOR_ROD)),6,
-                        mkP(mkl(AddItem.VIRTUALWORLD,AddItem.TRUE_),mkl(AddItem.FINAL_STACKMACHINE)),6,
-                        mkP(mkl(AddItem.VIRTUALWORLD,AddItem.FALSE_),mkl(AddItem.FINAL_STACKMGENERATOR)),6,
-                        mkP(mkl(setC(AddItem.VIRTUALWORLD,8),setC(AddItem.CRAFTER,16)),mkl(AddItem.FINAL_CRAFT)),6
+                        mkP(mkl(setC(AddItem.VIRTUALWORLD,4),setC(AddItem.HGTLPBBI,3)),mkl(AddItem.FINAL_STACKMACHINE)),6,
+                        mkP(mkl(setC(AddItem.VIRTUALWORLD,4),setC(AddItem.PDCECDMD,3)),mkl(AddItem.FINAL_STACKMGENERATOR)),6
             ))
             .register();
 
@@ -2831,8 +2845,8 @@ public class AddSlimefunItems {
             AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),1,400_000_000,100,
             16)
             .register();
-    public static final  SlimefunItem FINAL_CRAFT=new SpecialCrafter(AddGroups.BEYOND, AddItem.FINAL_CRAFT,RecipeType.NULL,
-            AddUtils.formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")), Material.CRAFTING_TABLE,0,18_000, 7_200_000){
+    public static final  SlimefunItem FINAL_CRAFT=new SpecialCrafter(AddGroups.BEYOND, AddItem.FINAL_CRAFT,STARSMELTERY,
+            recipe(setC(AddItem.PDCECDMD,3),setC(AddItem.VIRTUALWORLD,11),setC(AddItem.HGTLPBBI,3),setC(AddItem.CRAFTER,16)), Material.CRAFTING_TABLE,0,18_000, 7_200_000){
         {
             CRAFT_PROVIDER=FinalFeature.STORAGE_AND_LOCPROXY_READER;
             MACHINE_PROVIDER=FinalFeature.STORAGE_READER;
@@ -2853,10 +2867,10 @@ public class AddSlimefunItems {
 
     public static final  SlimefunItem SMITH_WORKSHOP=new SmithingWorkshop(AddGroups.TOOLS_FUNCTIONAL, AddItem.SMITH_WORKSHOP,COMMON_TYPE,
             recipe(AddItem.BISILVER,AddItem.SPACE_PLATE,"ENERGIZED_CAPACITOR","ENERGIZED_CAPACITOR",AddItem.SPACE_PLATE,AddItem.BISILVER,
-                    AddItem.BISILVER,setC(AddItem.SMELERY_CORE,3),AddItem.LSCHEDULER,AddItem.LSCHEDULER,setC(AddItem.SMELERY_CORE,3),AddItem.BISILVER,
-                    setC(AddItem.PAGOLD,2),setC(AddItem.SMELERY_CORE,3),setC(AddItem.LSINGULARITY,16),setC(AddItem.LSINGULARITY,16),setC(AddItem.SMELERY_CORE,3),setC(AddItem.PAGOLD,2),
-                    setC(AddItem.PAGOLD,2),setC(AddItem.SMELERY_CORE,3),setC(AddItem.LSINGULARITY,16),setC(AddItem.LSINGULARITY,16),setC(AddItem.SMELERY_CORE,3),setC(AddItem.PAGOLD,2),
-                    AddItem.BISILVER,setC(AddItem.SMELERY_CORE,3),AddItem.LENGINE,AddItem.LENGINE,setC(AddItem.SMELERY_CORE,3),AddItem.BISILVER,
+                    AddItem.BISILVER,setC(AddItem.SMELERY_CORE,2),AddItem.LSCHEDULER,AddItem.LSCHEDULER,setC(AddItem.SMELERY_CORE,2),AddItem.BISILVER,
+                    setC(AddItem.PAGOLD,2),setC(AddItem.SMELERY_CORE,2),setC(AddItem.LSINGULARITY,2),setC(AddItem.LSINGULARITY,2),setC(AddItem.SMELERY_CORE,2),setC(AddItem.PAGOLD,2),
+                    setC(AddItem.PAGOLD,2),setC(AddItem.SMELERY_CORE,2),setC(AddItem.LSINGULARITY,2),setC(AddItem.LSINGULARITY,2),setC(AddItem.SMELERY_CORE,2),setC(AddItem.PAGOLD,2),
+                    AddItem.BISILVER,setC(AddItem.SMELERY_CORE,2),AddItem.LENGINE,AddItem.LENGINE,setC(AddItem.SMELERY_CORE,2),AddItem.BISILVER,
                     AddItem.BISILVER,setC(AddItem.ATOM_INGOT,8),"ENERGIZED_CAPACITOR","ENERGIZED_CAPACITOR",setC(AddItem.ATOM_INGOT,8),AddItem.BISILVER), "smith.core")
             .setDisplayRecipes(
                     Utils.list(
@@ -2887,7 +2901,13 @@ public class AddSlimefunItems {
             recipe("AUTO_DISENCHANTER_2",AddItem.LENGINE,"AUTO_DISENCHANTER_2",AddItem.STAR_GOLD_INGOT,"BOOK_BINDER",AddItem.STAR_GOLD_INGOT,
                     "AUTO_ENCHANTER_2",AddItem.LENGINE,"AUTO_ENCHANTER_2"), 1200,120)
             .register();
-    public static final SlimefunItem AMPLIFY_BASE=new MaterialItem(AddGroups.TOOLS_FUNCTIONAL,AddItem.AMPLIFY_BASE,RecipeType.ENHANCED_CRAFTING_TABLE,
+    public static final SlimefunItem FU_BASE=new MaterialItem(AddGroups.TOOLS_FUNCTIONAL,AddItem.FU_BASE,RecipeType.ENHANCED_CRAFTING_TABLE,
+            recipe(AddItem.ABSTRACT_INGOT,AddItem.LPLATE,AddItem.ABSTRACT_INGOT,AddItem.LPLATE,AddItem.TECH_CORE,AddItem.LPLATE,
+                    AddItem.ABSTRACT_INGOT,AddItem.LPLATE,AddItem.ABSTRACT_INGOT),Utils.list(
+                            AddUtils.getInfoShow("&f介绍","&7用于合成子分类\"功能单元\"中的物品","&7功能单元是一种&e类似附魔的组件型物品","&7安装在装备上可以给玩家带来增益")
+    ))
+            .register();
+    public static final SlimefunItem AMPLIFY_BASE=new MaterialItem(AddGroups.TOOLS_SUBGROUP_1,AddItem.AMPLIFY_BASE,RecipeType.ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.BUG,AddItem.PAGOLD,AddItem.BUG,AddItem.PAGOLD,AddItem.HGTLPBBI,AddItem.PAGOLD,
                     AddItem.BUG,AddItem.PAGOLD,AddItem.BUG),null)
             .register()
@@ -2900,7 +2920,65 @@ public class AddSlimefunItems {
             recipe(AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.STAR_GOLD_INGOT,AddItem.AMPLIFY_BASE,AddItem.STAR_GOLD_INGOT,
                     AddItem.STAR_GOLD_INGOT,AddItem.DIMENSIONAL_SINGULARITY,AddItem.STAR_GOLD_INGOT))
             .register();
-
+    public static final SlimefunItem DISPLAY_FU_USE=new DisplayUseTrimmerLogicLate(AddGroups.TOOLS_SUBGROUP_2,AddItem.DISPLAY_FU_USE,
+            recipe(AddItem.DISPLAY_FU_USE_1,AddItem.DISPLAY_FU_USE_2,AddItem.DISPLAY_FU_USE_3,
+                    null,null,null,null,null,null),
+            ()->{
+                return EquipmentFUItem.getEntries().stream().map(SlimefunItem::getItem).collect(Collectors.toSet());
+            },()->{
+                HashSet<Material> set = new HashSet<>();
+                EquipmentFUItem.getEntries().stream().map(EquipmentFUItem::getFUnit).map(EquipmentFU::getCanEquipedMaterial).forEach(set::addAll);
+                return new RecipeChoice.MaterialChoice( set.stream().toList() );
+            },()->{
+                HashSet<ItemStack> set = new HashSet<>();
+                EquipmentFUItem.getEntries().stream().map(EquipmentFUItem::getFUnit).forEach(fu->set.addAll(fu.getEquipCostable()));
+                return new RecipeChoice.ExactChoice(set.stream().toList());
+            },(smith)->{
+                ItemStack item = smith.getItem(0);
+                if( SlimefunItem.getByItem(item) instanceof EquipmentFUItem fu){
+                    ItemStack equipment =  smith.getItem(1);
+                    ItemStack cost = smith.getItem(2);
+                    if(equipment!=null && cost!=null && fu.getFUnit().canEquipedTo(equipment,cost)){
+                        ItemStack copied = equipment.clone();
+                        EquipmentFU fuu = fu.getFUnit();
+                        var returnedLevel= EquipmentFUManager.getManager().addEquipmentFU(copied, fuu,1);
+                        if(returnedLevel<=0){
+                            return Triplet.of(new ItemStack[]{copied},fuu.getEquipCost(copied,cost),fuu.getEquipTimeCost(copied,cost));
+                        }
+                    }
+                }
+                return null;
+            }
+            )
+            .register();
+    public static final SlimefunItem DISPLAY_REMOVE_FU=new MaterialItem(AddGroups.TOOLS_SUBGROUP_2,AddItem.DISPLAY_REMOVE_FU,SmithInterfaceProcessor.INTERFACED_GRIND,
+            recipe(null,AddItem.DISPLAY_REMOVE_FU_1,null,
+                    null,AddItem.DISPLAY_REMOVE_FU_2,null,
+                    null,null,null),null){
+            @Override
+            public void load(){
+                super.load();
+                SmithInterfaceProcessor.registerGrindstoneLogic((grind)->{
+                    ItemStack item1 = grind.getItem(0);
+                    ItemStack item2 = grind.getItem(1);
+                    if(item1!=null&&item1.getAmount()==1&& item2!=null && SlimefunItem.getByItem(item2) instanceof EquipmentFUItem fu){
+                        int level = EquipmentFUManager.getManager().getEquipmentFULevel(item1,fu.getFUnit());
+                        int amount = item2.getAmount();
+                        if(level>=amount){
+                            return ()->{
+                                ItemStack nowitem = grind.getItem(0);
+                                Preconditions.checkNotNull(nowitem);
+                                int removedLeft = EquipmentFUManager.getManager().removeEquipmentFU(nowitem,fu.getFUnit(),amount);
+                                int actuallyRemoved = amount-removedLeft;
+                                return new MultiCraftingOperation(new ItemGreedyConsumer[]{CraftUtils.getGreedyConsumerAsAmount(fu.getItem(),actuallyRemoved)},2*actuallyRemoved);
+                            };
+                        }
+                    }
+                    return null;
+                });
+            }
+        }
+            .register();
     public static final SlimefunItem TMP1=new MaterialItem(AddGroups.FUNCTIONAL,AddItem.TMP1,RecipeType.NULL,
             AddUtils.NULL_RECIPE.clone())
             .register();

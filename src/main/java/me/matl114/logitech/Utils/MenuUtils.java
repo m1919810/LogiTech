@@ -224,7 +224,7 @@ public class MenuUtils {
 
     }
 
-    private static ItemStack getDisplayItem(ItemStack it){
+    public static ItemStack getDisplayItem(ItemStack it){
         if(it==null||it.getType().isAir())return null;
         ItemStack finalStack;
         if(it instanceof RandomItemStack||it instanceof ProbItemStack){

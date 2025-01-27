@@ -7,13 +7,16 @@ import me.matl114.logitech.Utils.UtilClass.SpecialItemClass.CustomFireworkStar;
 import me.matl114.logitech.Utils.UtilClass.SpecialItemClass.CustomHead;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.matlib.Utils.Algorithm.InitializeProvider;
 import me.matl114.matlib.Utils.Algorithm.InitializeSafeProvider;
 import me.matl114.matlib.core.EnvironmentManager;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashSet;
+import java.util.List;
 
 public class AddItem {
 
@@ -26,6 +29,9 @@ public class AddItem {
         AddUtils.hideAllFlags(ENTITY_FEAT);
         AddUtils.hideAllFlags(SPACE_CARD);
         AddUtils.hideAllFlags(REPLACE_SF_CARD);
+        AddUtils.hideAllFlags(FU_BASE);
+        AddUtils.hideAllFlags(DISPLAY_FU_USE_1);
+        AddUtils.hideAllFlags(DISPLAY_REMOVE_FU_2);
         AddUtils.setUnbreakable(UNBREAKING_SHIELD,true);
     }
 
@@ -78,7 +84,7 @@ public class AddItem {
             Language.get("Groups.TOOLS.Name"),Language.getList("Groups.TOOLS.Lore"));
     public static final ItemStack TOOLS_SUBGROUP_1=AddUtils.themed(Material.MUSIC_DISC_RELIC, AddUtils.Theme.CATEGORY2,
             Language.get("Groups.TOOLS_SUBGROUP_1.Name"),Language.getList("Groups.TOOLS_SUBGROUP_1.Lore"));
-    public static final ItemStack TOOLS_SUBGROUP_2=AddUtils.themed(Material.MUSIC_DISC_RELIC, AddUtils.Theme.CATEGORY2,
+    public static final ItemStack TOOLS_SUBGROUP_2=AddUtils.themed(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE, AddUtils.Theme.CATEGORY2,
             Language.get("Groups.TOOLS_SUBGROUP_2.Name"),Language.getList("Groups.TOOLS_SUBGROUP_2.Lore"));
     public static final ItemStack TOOLS_RECIPES=AddUtils.themed("TOOLS_RECIPES",Material.CRAFTING_TABLE, AddUtils.Theme.CATEGORY2,
             Language.get("Groups.TOOLS_RECIPES.Name"),Language.getList("Groups.TOOLS_RECIPES.Lore"));
@@ -290,6 +296,16 @@ public class AddItem {
         Material material= EnvironmentManager.getManager().getVersioned().getMaterial("MACE");
         return material==null?null: new ItemStack(material);
     }).v ();
+    public static final ItemStack SUPER_COBALT_PICKAXE = new InitializeProvider<>(()->{
+        ItemStack item = AddUtils.getCopy( AddUtils.resolveItem("COBALT_PICKAXE") );
+        item.setType(Material.NETHERITE_PICKAXE);
+        ItemMeta meta = item.getItemMeta();
+        meta.setUnbreakable(true);
+        meta.addEnchant(EnvironmentManager.getManager().getVersioned().getEnchantment("efficiency"),10,true );
+        meta.setLore(List.of(AddUtils.DEFAULT_COLOR+"超级钴镐"));
+        item.setItemMeta(meta);
+        return item;
+    }).v();
     public static final SlimefunItemStack FAKE_UI=AddUtils.themed("FAKE_UI",Material.LIGHT_GRAY_STAINED_GLASS_PANE,AddUtils.Theme.ITEM1,
             Language.get("Items.FAKE_UI.Name"),Language.getList("Items.FAKE_UI.Lore"));
     public static final SlimefunItemStack ANTIGRAVITY=AddUtils.themed("ANTIGRAVITY",Material.NETHERITE_INGOT,AddUtils.Theme.ITEM1,
@@ -304,6 +320,22 @@ public class AddItem {
             Language.get("Items.SWAMP_RANGE.Name"),Language.getList("Items.SWAMP_RANGE.Lore"));
     public static final SlimefunItemStack MULTIBLOCKBUILDER=AddUtils.themed("MULTIBLOCKBUILDER",Material.BOOK,AddUtils.Theme.ITEM1,
             Language.get("Items.MULTIBLOCKBUILDER.Name"),Language.getList("Items.MULTIBLOCKBUILDER.Lore"));
+    public static final SlimefunItemStack DISPLAY_FU_USE=AddUtils.themed("DISPLAY_FU_USE",Material.SMITHING_TABLE,AddUtils.Theme.TOOL,
+            Language.get("Items.DISPLAY_FU_USE.Name"),Language.getList("Items.DISPLAY_FU_USE.Lore"));
+    public static final ItemStack DISPLAY_FU_USE_1=AddUtils.themed(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE, AddUtils.Theme.ITEM1,
+            Language.get("Items.DISPLAY_FU_USE_1.Name"),Language.getList("Items.DISPLAY_FU_USE_1.Lore"));
+    public static final ItemStack DISPLAY_FU_USE_2=AddUtils.themed(Material.NETHERITE_SWORD,AddUtils.Theme.ITEM1,
+            Language.get("Items.DISPLAY_FU_USE_2.Name"),Language.getList("Items.DISPLAY_FU_USE_2.Lore"));
+    public static final ItemStack DISPLAY_FU_USE_3=AddUtils.themed(Material.AMETHYST_SHARD,AddUtils.Theme.ITEM1,
+            Language.get("Items.DISPLAY_FU_USE_3.Name"),Language.getList("Items.DISPLAY_FU_USE_3.Lore"));
+    public static final SlimefunItemStack DISPLAY_REMOVE_FU=AddUtils.themed("DISPLAY_REMOVE_FU",Material.GRINDSTONE,AddUtils.Theme.TOOL,
+            Language.get("Items.DISPLAY_REMOVE_FU.Name"),Language.getList("Items.DISPLAY_REMOVE_FU.Lore"));
+    public static final ItemStack DISPLAY_REMOVE_FU_1=AddUtils.themed(Material.NETHERITE_SWORD,AddUtils.Theme.ITEM1,
+            Language.get("Items.DISPLAY_REMOVE_FU_1.Name"),Language.getList("Items.DISPLAY_REMOVE_FU_1.Lore"));
+    public static final ItemStack DISPLAY_REMOVE_FU_2=AddUtils.themed(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE,AddUtils.Theme.ITEM1,
+            Language.get("Items.DISPLAY_REMOVE_FU_2.Name"),Language.getList("Items.DISPLAY_REMOVE_FU_2.Lore"));
+    public static final SlimefunItemStack FU_BASE=AddUtils.themed("FU_BASE",Material.EYE_ARMOR_TRIM_SMITHING_TEMPLATE,AddUtils.Theme.ITEM1,
+            Language.get("Items.FU_BASE.Name"),Language.getList("Items.FU_BASE.Lore"));
     //nachines
     public static final SlimefunItemStack HEAD_ANALYZER=AddUtils.themed("HEAD_ANALYZER",Material.SOUL_CAMPFIRE, AddUtils.Theme.MACHINE1,
             Language.get("Machines.HEAD_ANALYZER.Name"),Language.getList("Machines.HEAD_ANALYZER.Lore"));

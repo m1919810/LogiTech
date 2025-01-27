@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.matl114.logitech.Listeners.Events.AttackPermissionTestEvent;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Manager.Schedules;
@@ -1118,6 +1119,17 @@ public class WorldUtils {
         put(Material.POWDER_SNOW_BUCKET,Material.POWDER_SNOW);
         put(Material.WHEAT_SEEDS,Material.WHEAT);
     }};
+    public static EnumSet<Material> TOOLS_MATERIAL =EnumSet.copyOf(new HashSet<Material>(){{
+        for (Material material:Material.values()){
+            //tools
+            if(material.isItem()&&material.getMaxDurability()>0){
+                add(material);
+            }
+        }
+        try{
+            addAll(Tag.ITEMS_TOOLS.getValues());
+        }catch (Throwable versionNoTag){        }
+    }});
     @Nullable
     public static Material getBlock(Material material){
         return ITEM_HAS_DIFFERENT_ID_BLOCK.getOrDefault(material,(material.isBlock()?material:null));

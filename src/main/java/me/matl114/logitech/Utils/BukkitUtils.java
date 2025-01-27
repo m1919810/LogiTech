@@ -10,12 +10,8 @@ import me.matl114.logitech.Utils.UtilClass.RecipeClass.ShapedMachineRecipe;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.SmithingRecipe;
+import org.bukkit.inventory.*;
 
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -27,6 +23,18 @@ public class BukkitUtils {
 
     public static void sendRecipeToVanilla(NamespacedKey key,ShapedMachineRecipe recipe){
         sendShapedRecipeToVanilla(key,recipe.getInput(),recipe.getOutput()[0]);
+    }
+    public static Optional<String> getOptionalVanillaMyPluginRecipe(NamespacedKey key){
+        try{
+            if(AddUtils.isNamespace(key)){
+                String valueId = key.getKey();
+                valueId = valueId.substring(0,valueId.length()-3).toUpperCase(Locale.ROOT);
+                return Optional.of(valueId);
+            }
+            return Optional.empty();
+        }catch (Throwable e){
+            return Optional.empty();
+        }
     }
     public static Optional<SlimefunItem> getOptionalVanillaSlimefunRecipe(NamespacedKey key){
         try{
@@ -41,10 +49,18 @@ public class BukkitUtils {
         }
     }
     public static void sendRecipeToVanilla(SlimefunItem sfitem,Class<?> craftingType){
+        sendRecipeToVanilla(sfitem.getId(),sfitem.getRecipe(),sfitem.getRecipeOutput(),craftingType);
+    }
+    public static NamespacedKey getIdKey(String uniqueId){
+        return AddUtils.getNameKey(uniqueId+"_vl");
+    }
+    public static void sendRecipeToVanilla(String uniqueId,ItemStack[] in,ItemStack out,Class<?> craftingType){
         if (craftingType==ShapedRecipe.class) {
-            sendShapedRecipeToVanilla(AddUtils.getNameKey(sfitem.getId()+"_vl"),sfitem.getRecipe(),sfitem.getRecipeOutput());
-        }else if(craftingType== SmithingRecipe.class){
-
+            sendShapedRecipeToVanilla(AddUtils.getNameKey(uniqueId+"_vl"),in,out);
+        }else if(craftingType== SmithingTrimRecipe.class){
+            sendSmithRecipeToVanilla(AddUtils.getNameKey(uniqueId+"_vl"),in,out,true);
+        }else if(craftingType==SmithingTransformRecipe.class){
+            sendSmithRecipeToVanilla(AddUtils.getNameKey(uniqueId+"_vl"),in,out,false);
         }
 //        else{
 //            throw new IllegalArgumentException("Invalid recipe class: "+craftingType);
@@ -90,6 +106,18 @@ public class BukkitUtils {
         }
 
         Bukkit.addRecipe(vanillaRecipe);
+    }
+    public static void sendSmithRecipeToVanilla(NamespacedKey key,ItemStack[] input,ItemStack output,boolean isTrimOrTransform){
+        SmithingRecipe recipe;
+        RecipeChoice input1 = new RecipeChoice.ExactChoice(input[0]);
+        RecipeChoice input2 = new RecipeChoice.ExactChoice(input[1]);
+        RecipeChoice input3 = new RecipeChoice.ExactChoice(input[2]);
+        if(isTrimOrTransform){
+            recipe = new SmithingTrimRecipe(key,input1,input2,input3);
+        }else{
+            recipe = new SmithingTransformRecipe(key,output,input1,input2,input3);
+        }
+        Bukkit.addRecipe(recipe);
     }
     public static void executeSync(Runnable runnable){
         if(Bukkit.isPrimaryThread()){

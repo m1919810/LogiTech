@@ -1,13 +1,15 @@
 package me.matl114.logitech.Utils.UtilClass.EquipClass;
 
 import lombok.Getter;
+import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.Utils.WorldUtils;
+import me.matl114.logitech.core.AddItem;
 import me.matl114.matlib.Utils.Inventory.CleanItemStack;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.*;
@@ -32,6 +34,12 @@ public class EquipmentFU  {
         prefix=new CleanItemStack(Material.STONE,pref).getItemMeta().getDisplayName();
         return this;
     }
+    public static ItemStack getInfoFor(String fuName,String... function){
+        return AddUtils.themed(Material.KNOWLEDGE_BOOK,AddUtils.resolveColor("&a"+fuName+" : &6机制说明"),function);
+    }
+    public ItemStack getInfoDisplay(){
+        return getInfoFor("Demo 功能单元","这是一个样例功能单元","你需要在这里写点啥来说明他的功能");
+    }
     private static final EnumMap<EquipmentSlot,HashMap<NamespacedKey,EquipmentFU>> registry=new EnumMap<>(EquipmentSlot.class);
     public static EquipmentFU getFunctionUnit(EquipmentSlot slot, NamespacedKey key) {
         return registry.computeIfAbsent(slot,(i)->new HashMap<>()).get(key);
@@ -43,6 +51,7 @@ public class EquipmentFU  {
             registry.computeIfAbsent(s,(i)->new HashMap<>()).put(key,this);
         }
     }
+
 
     /**
      * called when player change inventory or player reload
@@ -122,39 +131,72 @@ public class EquipmentFU  {
     }
 
 
-    public boolean canEquipedTo(ItemStack itemStack, Player player){
+    public boolean canEquipedTo(ItemStack itemStack,ItemStack costing){
         return false;
+    }
+    public Set<Material> getCanEquipedMaterial(){
+        //mainly are tools
+        return Set.copyOf(WorldUtils.TOOLS_MATERIAL);
+    }
+    //get Supported cost Material
+    public Set<ItemStack> getEquipCostable(){
+        //
+        return Set.of(AddItem.LSINGULARITY);
+    }
+    //can override level
+    public int getMaxFULevel(ItemStack item) {
+        return 10;
+    }
+    public int getEquipCost(ItemStack alreadyEquiped,ItemStack cost){
+        return 1;
+    }
+    public int getEquipTimeCost(ItemStack alreadyEquiped,ItemStack cost){
+        return 10;
     }
 
     /**
-     * write special data into fuDataField
+     * change special data into fuDataField and lore or something
      * @param equipment
      * @param fuDataField
      */
-    public void onEquip(ItemStack equipment, ItemMeta editingMeta, PersistentDataContainer fuDataField, int newLevel){
+    public void onEquipLevelChange(ItemStack equipment, ItemMeta editingMeta, PersistentDataContainer fuDataField, int newLevel){
         //equipment is readOnly!
 
         //actually ,you should add some lores here
         if(prefix!=null){
-            List<String> lores=editingMeta.getLore();
-            lores=lores==null?new ArrayList<>():lores;
-            find_lore:
-            {
-                int len=lores.size();
-                for(int i=0;i<len;++i){
-                    String lore=lores.get(i);
-                    if(lore.startsWith(prefix)){
-                        lores.set(i,prefix+newLevel);
-                        break find_lore;
+            if(newLevel>0){
+                List<String> lores=editingMeta.getLore();
+                lores=lores==null?new ArrayList<>():lores;
+                find_lore:
+                {
+                    int len=lores.size();
+                    for(int i=0;i<len;++i){
+                        String lore=lores.get(i);
+                        if(lore.startsWith(prefix)){
+                            //change level
+                            lores.set(i,prefix+newLevel);
+                            break find_lore;
+                        }
                     }
+                    //if not present,add at front
+                    lores.add(0,prefix+newLevel);
                 }
-                lores.add(prefix+newLevel);
+                editingMeta.setLore(lores);
+            }else{
+                List<String> lores=editingMeta.getLore();
+                if(lores!=null&&!lores.isEmpty()){
+                    lores.removeIf(i->i.startsWith(prefix));
+                    editingMeta.setLore(lores);
+                }
             }
         }
+
     }
 
     public void register(){
 
     }
-    public void unregister(){}
+    public void unregister(){
+
+    }
 }

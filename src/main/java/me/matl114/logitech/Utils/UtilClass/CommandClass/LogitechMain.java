@@ -2,11 +2,8 @@ package me.matl114.logitech.Utils.UtilClass.CommandClass;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.CraftUtils;
-import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.TestItemStack;
-import me.matl114.logitech.Utils.WorldUtils;
 import me.matl114.matlib.Utils.Command.CommandGroup.AbstractMainCommand;
 import me.matl114.matlib.Utils.Command.CommandGroup.SubCommand;
 import me.matl114.matlib.Utils.Command.Params.SimpleCommandArgs;
@@ -28,6 +25,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.SmithingRecipe;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -156,5 +155,17 @@ public class LogitechMain extends AbstractMainCommand {
         stack7=new ItemStack(new SlimefunItemStack("BEYOND",stack7));
         delegateAccess.ofAccess(stack7).get(o->Debug.logger("check",o.getClass()));
 
+    }
+    private void test4(){
+        var iter = Bukkit.recipeIterator();
+        while(iter.hasNext()){
+            var recipe = iter.next();
+            if( recipe instanceof SmithingRecipe smithingRecipe){
+                Debug.logger(smithingRecipe.getKey());
+                Debug.logger(smithingRecipe.getResult());
+                Debug.logger(smithingRecipe.getBase());
+                Debug.logger(smithingRecipe.getAddition());
+            }
+        }
     }
 }

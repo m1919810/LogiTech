@@ -5,7 +5,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.Validate;
 import lombok.Getter;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.PdcUtils;
 import me.matl114.logitech.Utils.UtilClass.EquipClass.EquipmentFU;
 import me.matl114.matlib.core.Manager;
@@ -20,7 +19,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -31,7 +29,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -329,11 +326,13 @@ public class EquipmentFUManager implements Manager, Listener {
     }
     private NamespacedKey equipmentFUKey = AddUtils.getNameKey("equip-fulvl");
     private NamespacedKey eqFUDataKey = AddUtils.getNameKey("equip-fudata");
-    public void addEquipmentFU(ItemStack item, EquipmentFU equipmentFU,int level){
-        addEquipmentFU(item, Map.of(equipmentFU,level));
+    public int addEquipmentFU(ItemStack item, EquipmentFU equipmentFU,int level){
+        var ret =  addEquipmentFU(item, Map.of(equipmentFU,level));
+        return ret.getOrDefault(equipmentFU,0);
     }
-    public void addEquipmentFU(ItemStack item,Map<EquipmentFU,Integer> equipmentFU){
+    public Map<EquipmentFU,Integer> addEquipmentFU(ItemStack item,Map<EquipmentFU,Integer> equipmentFU){
         Preconditions.checkArgument(item!=null&&item.getType().isAir() ,"itemStack cannot be null!");
+        HashMap<EquipmentFU,Integer> returnLevel=new HashMap<>();
         ItemMeta meta=item.getItemMeta();
         PersistentDataContainer container=meta.getPersistentDataContainer();
         PersistentDataContainer fuFields = PdcUtils.getOrCreateTag(container, equipmentFUKey);
@@ -345,12 +344,57 @@ public class EquipmentFUManager implements Manager, Listener {
                 level=fuFields.get(key, PersistentDataType.INTEGER);
             }
             level=level==null?equipmentFu.getValue():level+equipmentFu.getValue();
-            fuFields.set(key, PersistentDataType.INTEGER, level);
-            equipmentFu.getKey().onEquip(item,meta,fuDataField,level);
+            int maxLevel = equipmentFu.getKey().getMaxFULevel(item);
+            if(level>maxLevel){
+                //记录上溢出
+                returnLevel.put(equipmentFu.getKey(),level-maxLevel);
+                level = maxLevel;
+            }else if(level<0){
+                //记录下溢出
+                returnLevel.put(equipmentFu.getKey(),level);
+                level = 0;
+            }
+            if(level >0){
+                fuFields.set(key, PersistentDataType.INTEGER, level);
+            }else{
+                fuFields.remove(key);
+            }
+            equipmentFu.getKey().onEquipLevelChange(item,meta,fuDataField,level);
         }
         PdcUtils.setTag(container,equipmentFUKey,fuFields);
         PdcUtils.setTag(container,eqFUDataKey,fuDataField);
         item.setItemMeta(meta);
+        return returnLevel;
+    }
+    //return what can not be removed
+    public Map<EquipmentFU,Integer> removeEquipmentFU(ItemStack item,Map<EquipmentFU,Integer> equipmentFU) {
+        HashMap<EquipmentFU, Integer> returnLevel = new HashMap<>();
+        for (var equipmentFu : equipmentFU.entrySet()) {
+            //revert level to remove
+            returnLevel.put(equipmentFu.getKey(), -equipmentFu.getValue());
+        }
+        var ret = addEquipmentFU(item, returnLevel);
+        HashMap<EquipmentFU, Integer> retValue = new HashMap<>();
+        for (var equipmentFu : ret.entrySet()) {
+            retValue.put(equipmentFu.getKey(), -equipmentFu.getValue());
+        }
+        return retValue;
+    }
+    //return level left not removed
+    public int removeEquipmentFU(ItemStack item,EquipmentFU equipmentFU,int level){
+        var ret = removeEquipmentFU(item,Map.of(equipmentFU,level));
+        return ret.getOrDefault(equipmentFU,0);
+    }
+    public int getEquipmentFULevel(ItemStack item,EquipmentFU equipmentFU){
+        PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
+        if(container.has(equipmentFUKey,PersistentDataType.TAG_CONTAINER)){
+            PersistentDataContainer container1 = container.get(equipmentFUKey,PersistentDataType.TAG_CONTAINER);
+            if(container1!=null){
+                return PdcUtils.getOrDefault(container1,equipmentFU.getKey(),PersistentDataType.INTEGER,0);
+            }
+        }
+        return 0;
+
     }
     private AtomicInteger tickCount=new AtomicInteger();
     private AtomicBoolean taskRunning=new AtomicBoolean();

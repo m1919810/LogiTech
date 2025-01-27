@@ -43,16 +43,19 @@ public class SmithInterfaceListener implements Listener {
     private final ItemStack INTERFACED_ANVIL=new CustomItemStack(Material.ANVIL,"&a点击进行锻造","&7该工作方块已成功接入锻铸合成端口","&a成功寻找到可行的锻造操作","&7点击后将于接口中输出锻造结果");
     private final ItemStack INTERFACED_SMITH=new CustomItemStack(Material.SMITHING_TABLE,"&a点击进行锻造","&7该工作方块已成功接入锻铸合成端口","&a成功寻找到可行的锻造操作","&7点击后将于接口中输出锻造结果");
     public boolean isSupportType(Inventory inventory) {
-        return inventory instanceof CraftingInventory||inventory instanceof AnvilInventory; /*can add more types*/
+        return inventory instanceof CraftingInventory||inventory instanceof AnvilInventory ||inventory instanceof SmithingInventory; /*can add more types*/
     }
     public void addInventory(Inventory inventory,Location location) {
         openingCraftInventory.put(inventory,location);
-
         if(inventory instanceof CraftingInventory c) {
             c.setResult(INTERFACED_NO_RECIPE);
         }else if(inventory instanceof AnvilInventory anvil) {
             if(anvil.getSize()>2){
                 anvil.setItem(2,INTERFACED_NO_RECIPE);
+            }
+        }else if(inventory instanceof SmithingInventory smith){
+            if(smith.getSize()>3){
+                smith.setItem(3,INTERFACED_NO_RECIPE);
             }
         }
     }
@@ -74,10 +77,10 @@ public class SmithInterfaceListener implements Listener {
         }
     }
     @EventHandler(priority = EventPriority.MONITOR,ignoreCancelled = true)
-    public void onCloseInventory(InventoryOpenEvent e) {
+    public void onCloseInventory(InventoryCloseEvent e) {
         //record inventory for quick match
         Inventory inventory = e.getInventory();
-        if(isSupportType(inventory)) {
+        if(isSupportType(inventory) && openingCraftInventory.containsKey(inventory)) {
             var re=inventory.getViewers();
             if(re!=null&&(re.size()>=2||re.stream().anyMatch(p->p.getUniqueId().equals(e.getPlayer().getUniqueId())))) {
                 //if any other player is viewing this inventory
@@ -101,6 +104,10 @@ public class SmithInterfaceListener implements Listener {
                 event.setCancelled(true);
                 onAnvilCraft(anvilInventory,event.getWhoClicked());
 
+            }else if(event.getRawSlot()==3 && inventory instanceof SmithingInventory smithingInventory){
+                event.setResult(Event.Result.DENY);
+                event.setCancelled(true);
+                onSmithCraft(smithingInventory,event.getWhoClicked());
             }
         }
         if(!event.isCancelled()){
@@ -153,10 +160,23 @@ public class SmithInterfaceListener implements Listener {
         if(e.getInventory() instanceof SmithingInventory smithingInventory){
             if(!openingCraftInventory.containsKey(smithingInventory)) {
                 if(onSmithCommonNotPrepare(smithingInventory)){
-                    e.setResult(Event.Result.DENY);
-                    e.setCancelled(true);
+                    if(e.getRawSlot() == 4){
+                        e.setResult(Event.Result.DENY);
+                        e.setCancelled(true);
+                    }
                     smithingInventory.setResult(null);
                 }
+            }
+        }
+    }
+    @EventHandler(priority = EventPriority.MONITOR,ignoreCancelled = false)
+    public void onSmithPrepare(PrepareSmithingEvent e){
+        SmithingInventory smithingInventory=e.getInventory();
+        if(openingCraftInventory.containsKey(smithingInventory)) {
+            if(onSmithPrepare(smithingInventory)){
+                e.setResult(INTERFACED_SMITH);
+            }else {
+                e.setResult(INTERFACED_NO_RECIPE);
             }
         }
     }
@@ -268,7 +288,13 @@ public class SmithInterfaceListener implements Listener {
         });
     }
     public void onSmithCraft(SmithingInventory inventory,HumanEntity player){
-        //todo left not done
+        onPlayerCraftCommon(inventory,player,SMITH_PROCESSOR,(matchLogic,loc)->{
+            var output=matchLogic.get();
+            inventory.setResult(INTERFACED_NO_RECIPE);
+            return output;
+        },(smith)->{
+            smith.setResult(INTERFACED_NO_RECIPE);
+        });
     }
     public boolean onCraftTablePrepare(CraftingInventory inventory) {
         var result= CRAFT_PROCESSOR.apply(inventory);
@@ -290,9 +316,15 @@ public class SmithInterfaceListener implements Listener {
         }
         return false;
     }
-    public void onSmithPrepare(SmithingInventory inventory) {
-        //todo left not done
-
+    public boolean onSmithPrepare(SmithingInventory inventory) {
+        var result = SMITH_PROCESSOR.apply(inventory);
+        if(inventory.getSize()>=4){
+            boolean re=result!=null;
+            ItemStack set=re?INTERFACED_SMITH:INTERFACED_NO_RECIPE;
+            inventory.setItem(3,set);
+            return re;
+        }
+        return false;
     }
     public boolean onSmithCommonNotPrepare(SmithingInventory inventory) {
         if(inventory.getRecipe() instanceof SmithingRecipe recipe){
