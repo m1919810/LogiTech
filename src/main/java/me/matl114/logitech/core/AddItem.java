@@ -338,7 +338,7 @@ public class AddItem {
             get("Items.DISPLAY_REMOVE_FU_2.Name"),getList("Items.DISPLAY_REMOVE_FU_2.Lore"));
     public static final SlimefunItemStack FU_BASE=themed("FU_BASE",Material.EYE_ARMOR_TRIM_SMITHING_TEMPLATE,Theme.ITEM1,
             get("Items.FU_BASE.Name"),getList("Items.FU_BASE.Lore"));
-    public static final SlimefunItemStack DEMO_FU=themed("DEMO_FU",Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE,Theme.ITEM1,
+    public static final SlimefunItemStack DEMO_FU=themed("DEMO_FU",Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE,Theme.FUNIT,
             get("Items.DEMO_FU.Name"),getList("Items.DEMO_FU.Lore"));
     //nachines
     public static final SlimefunItemStack HEAD_ANALYZER=themed("HEAD_ANALYZER",Material.SOUL_CAMPFIRE, Theme.MACHINE1,

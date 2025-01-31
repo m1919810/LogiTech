@@ -31,8 +31,7 @@ import me.matl114.logitech.core.Items.Abstracts.*;
 import me.matl114.logitech.core.Items.Equipments.DisplayUseTrimmerLogicLate;
 import me.matl114.logitech.core.Items.Equipments.EquipmentFUItem;
 import me.matl114.logitech.core.Items.SpecialItems.*;
-import me.matl114.logitech.core.Registries.AddDepends;
-import me.matl114.logitech.core.Registries.MultiBlockTypes;
+import me.matl114.logitech.core.Registries.*;
 import me.matl114.logitech.core.Blocks.MultiBlockCore.MultiPart;
 import me.matl114.logitech.core.Cargo.CargoMachine.*;
 import me.matl114.logitech.core.Cargo.SpaceStorage.SpaceStorageCard;
@@ -52,7 +51,6 @@ import me.matl114.logitech.core.Items.Equipments.LaserGun;
 import me.matl114.logitech.core.Items.Equipments.TrackingArrowLauncher;
 import me.matl114.logitech.core.Machines.AutoMachines.*;
 import me.matl114.logitech.core.Machines.Electrics.*;
-import me.matl114.logitech.core.Registries.FinalFeature;
 import me.matl114.logitech.core.Machines.ManualMachines.*;
 import me.matl114.logitech.core.Machines.SpecialMachines.*;
 import me.matl114.logitech.core.Machines.WorkBenchs.BugCrafter;
@@ -68,7 +66,6 @@ import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
-import me.matl114.logitech.core.Registries.RecipeSupporter;
 import me.matl114.matlib.Implements.Slimefun.core.CustomRecipeType;
 import me.matl114.matlib.Utils.Algorithm.InitializeSafeProvider;
 import me.matl114.matlib.Utils.Algorithm.Triplet;
@@ -2856,6 +2853,9 @@ public class AddSlimefunItems {
             CRAFT_PROVIDER=FinalFeature.STORAGE_AND_LOCPROXY_READER;
             MACHINE_PROVIDER=FinalFeature.STORAGE_READER;
         }
+        public void registerTick(SlimefunItem item){
+            this.addItemHandler(FinalFeature.FINAL_SYNC_TICKER);
+        }
         @Override
         public HashMap<SlimefunItem, RecipeType> getRecipeTypeMap() {
             return CRAFTTYPE_MANUAL_RECIPETYPE;
@@ -2985,7 +2985,7 @@ public class AddSlimefunItems {
         }
             .register();
     public static final SlimefunItem DEMO_FU=new EquipmentFUItem(TOOLS_SUBGROUP_2,AddItem.DEMO_FU,NULL,
-            formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),new EquipmentFU(getNameKey("demo_fu"), EquipmentSlot.HAND))
+            formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")), EFUImplements.DEMO)
             .register();
 
 

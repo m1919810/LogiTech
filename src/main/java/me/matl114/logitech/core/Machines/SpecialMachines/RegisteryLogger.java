@@ -40,7 +40,8 @@ public class RegisteryLogger extends AbstractMachine {
         new CustomItemStack(Material.DIAMOND_BLOCK,"&a生成: 普通生成器模板"),
         new CustomItemStack(Material.EMERALD,"&a生成: 普通定向模板"),
         new CustomItemStack(Material.CRAFTING_TABLE,"&a生成: 普通快捷"),
-        new CustomItemStack(Material.PAPER,"&a生成: 普通物品")
+        new CustomItemStack(Material.PAPER,"&a生成: 普通物品"),
+        new CustomItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE,"&a生成: FU单元")
     };
 
     protected final ItemStack LANGUAGE_ITEM=new CustomItemStack(Material.WRITABLE_BOOK,"&a点击打印本附属语言文件模板","&7开发者专用","&7因为其他人也不用这格式");
@@ -67,26 +68,31 @@ public class RegisteryLogger extends AbstractMachine {
         "public static final SlimefunItemStack %s=themed(\"%s\",Material.%s,Theme.MANUAL1,\n" +
                 "            get(\"Manuals.%s.Name\"),getList(\"Manuals.%s.Lore\"));",
         "public static final ItemStack %s=themed(\"%s\",Material.%s, Theme.NONE,\n" +
-                "            get(\"Groups.%s.Name\"),getList(\"Groups.%s.Lore\"));"
+                "            get(\"Groups.%s.Name\"),getList(\"Groups.%s.Lore\"));",
+        "public static final ItemStack %s=themed(\"%s\",Material.%s, Theme.FUNIT,\n" +
+                "            get(\"Items.%s.Name\"),getList(\"Items.%s.Lore\"));"
     };
     protected final String[] ADDSFITEM_CODE=new String[]{
-        "public static final SlimefunItem %s=new MaterialItem(AddGroups.MATERIAL,AddItem.%s,NULL,\n" +
+        "public static final SlimefunItem %s=new MaterialItem(MATERIAL,AddItem.%s,NULL,\n" +
                 "            %s,null)\n" +
                 "            .register();",
-        "public static final  SlimefunItem %s=new EMachine(AddGroups.BASIC, AddItem.%s,NULL,\n" +
+        "public static final  SlimefunItem %s=new EMachine(BASIC, AddItem.%s,NULL,\n" +
                 "            %s, Material.STONE,0,0,null)\n" +
                 "            .register();",
-        "public static final SlimefunItem %s=new SMGenerator(AddGroups.GENERATORS, AddItem.%s,NULL,\n" +
+        "public static final SlimefunItem %s=new SMGenerator(GENERATORS, AddItem.%s,NULL,\n" +
                 "            %s,1,0,0,\n" +
                 "            null)\n" +
                 "            .register();",
-        "public static final SlimefunItem %s = new MMGenerator(AddGroups.GENERATORS, AddItem.%s, NULL,\n" +
+        "public static final SlimefunItem %s = new MMGenerator(GENERATORS, AddItem.%s, NULL,\n" +
                 "            %s, 1, 0, 0,null)\n" +
                 "            .register();",
-        "public static final SlimefunItem %s=new ManualMachine(AddGroups.MANUAL,AddItem.%s,NULL,\n" +
+        "public static final SlimefunItem %s=new ManualMachine(MANUAL,AddItem.%s,NULL,\n" +
                 "            %s,0,0,null)\n" +
                 "            .register();",
-        "NULL"
+        "NULL",
+        "public static final SlimefunItem %s=new EquipmentFUItem(TOOLS_SUBGROUP_2,AddItem.%s,NULL,\n" +
+                "            %s,EFUImplements.DEMO)\n" +
+                "            .register();",
     };
     public int[] getInputSlots(){
         return new int[0];

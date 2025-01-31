@@ -26,6 +26,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.LargeFireball;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -90,7 +91,6 @@ public class SmithInterfaceProcessor extends SmithingInterface implements Machin
                 getRegisteredSmithInterfacingId().add(item.getId());
                 if(item instanceof InterfacedSmithTableTrimmer trimer){
                     SmithingTrimRecipe recipe = new SmithingTrimRecipe(BukkitUtils.getIdKey(item.getId()),trimer.getTrimmerRecipeChoice(),trimer.getBaseRecipeChoice(),trimer.getExtraRecipeChoice());
-                    Debug.logger("register ",trimer.getTrimmerRecipeChoice(),trimer.getBaseRecipeChoice(),trimer.getExtraRecipeChoice());
                     Bukkit.addRecipe(recipe);
                 }else {
                     BukkitUtils.sendRecipeToVanilla(item,SmithingTrimRecipe.class);

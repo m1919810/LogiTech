@@ -2,6 +2,7 @@ package me.matl114.logitech.core.Registries;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import me.matl114.logitech.Utils.UtilClass.TickerClass.Ticking;
 import me.matl114.logitech.core.Blocks.Laser;
 import me.matl114.logitech.core.Blocks.MultiBlock.FinalAltarCore;
 import me.matl114.logitech.core.Items.SpecialItems.ReplaceCard;
@@ -13,8 +14,10 @@ import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemReplacerPusher;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.ItemStorageCache;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.LocationStorageProxy;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -142,4 +145,20 @@ public class FinalFeature {
         }
         return false;
     }
+    //actually ,about location proxy, machines should run in order AT ANY TIME,otherwise it will cause negative itemStorage
+    public static BlockTicker FINAL_SYNC_TICKER = new BlockTicker() {
+        @Override
+        public boolean isSynchronized() {
+            return false;
+        }
+        //make tick Method synchronized in case of outsource parallel running
+        @Override
+        public synchronized void tick(Block b, SlimefunItem item, SlimefunBlockData data) {
+            BlockMenu menu = data.getBlockMenu();
+            //BlockMenu menu = BlockStorage.getInventory(b);
+            if(item instanceof Ticking tickingMachine){
+                tickingMachine.tick(b, menu,data,0);
+            }
+        }
+    };
 }

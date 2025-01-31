@@ -378,6 +378,19 @@ public class AddUtils {
             return finallist;
         }
         })
+        ),
+        FUNIT(
+                ((a)->{return a;}),
+                ((List<String> a)->{{
+                    List<String> finallist=new ArrayList<>() ;
+                    for(String i:a){
+                        finallist.add(desc(i));
+                    }
+                    //finallist.add("");
+                    finallist.add(addonTag(Language.get("Theme.FUNIT.Name")));
+                    return finallist;
+                }
+                })
         )
         ;
         private final StringDecorator NAME_DEC;

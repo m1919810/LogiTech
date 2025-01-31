@@ -2,6 +2,7 @@ package me.matl114.logitech.core.Machines.ManualMachines;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
@@ -368,6 +369,8 @@ public class FinalManual extends AbstractManual implements MultiCraftType, Impor
             updateMenu(inv ,b,Settings.RUN);
         }
     }
-
+    public void registerTick(SlimefunItem item){
+        this.addItemHandler(FinalFeature.FINAL_SYNC_TICKER);
+    }
 
 }

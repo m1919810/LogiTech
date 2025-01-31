@@ -7,6 +7,7 @@ import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.WorldUtils;
 import me.matl114.logitech.core.AddItem;
 import me.matl114.matlib.Utils.Inventory.CleanItemStack;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -21,13 +22,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.plugin.Plugin;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 
 public class EquipmentFU  {
     @Getter
     private final NamespacedKey key;
     private final EnumSet<EquipmentSlot> slot;
-    private Plugin plugin;
+    @Getter
+    private final FURarity rarity;
     public boolean isSupportSlot(EquipmentSlot slot){
         return this.slot.contains(slot);
     }
@@ -45,15 +48,16 @@ public class EquipmentFU  {
     }
     public EquipmentFU setDisplayName(String name){
         this.name = name;
-        setDisplayPrefix("&6%s&3单元: &7Lv.".formatted(name));
+        setDisplayPrefix(rarity.getStyle()+ "%s&3单元: &7Lv.".formatted(name));
         return this;
     }
     private static final EnumMap<EquipmentSlot,HashMap<NamespacedKey,EquipmentFU>> registry=new EnumMap<>(EquipmentSlot.class);
     public static EquipmentFU getFunctionUnit(EquipmentSlot slot, NamespacedKey key) {
         return registry.computeIfAbsent(slot,(i)->new HashMap<>()).get(key);
     }
-    public EquipmentFU( NamespacedKey key,EquipmentSlot... slot) {
+    public EquipmentFU( NamespacedKey key,FURarity rarity,EquipmentSlot... slot) {
         this.key = key;
+        this.rarity = rarity;
         this.slot =EnumSet.of(slot[0],slot);
         for (var s:slot){
             registry.computeIfAbsent(s,(i)->new HashMap<>()).put(key,this);
@@ -73,7 +77,9 @@ public class EquipmentFU  {
     public void onUpdate(Event triggerEvent,Player player, int newLevel){
 
     }
-    public void onEnable(Event triggerEvent, Player player,int level){}
+    public void onEnable(Event triggerEvent, Player player,int level){
+
+    }
     public void onRemove(Event triggerEvent,Player player,int oldLevel){
 
     }
@@ -86,11 +92,11 @@ public class EquipmentFU  {
     public void onPeriodTick(Player player, int level){
 
     }
-    public int getTickPeriod(){
-        return 20;
+    public int getSFTickPeriod(){
+        return 2;
     }
-    public void onTick(Player player, int level,int tickCount) {
-        if(tickCount % getTickPeriod() == 0){
+    public void onSFTick(Player player, int level,int tickCount) {
+        if(tickCount % getSFTickPeriod() == 0){
             onPeriodTick(player,level);
         }
     }
@@ -126,12 +132,12 @@ public class EquipmentFU  {
     }
     private final Map<Class<?>,Set<EquipmentFU.FUHandler<?>>> elseEventHandlers = new LinkedHashMap<>();
     //register Special handlers here
-    public <T extends Event>  EquipmentFU registerElseEventHandler(Class<T> eventIdentifier, FUHandler<T> handler){
+    public final  <T extends Event>  EquipmentFU registerElseEventHandler(Class<T> eventIdentifier, FUHandler<T> handler){
         elseEventHandlers.computeIfAbsent(eventIdentifier, (e)->new HashSet<>()).add(handler);
         EquipmentFUManager.getManager().registerElseEventHandle(eventIdentifier,this);
         return this;
     }
-    public <T extends Event> void onElseEvent(Class<T> eventIdentifier, T event, Player player, int level){
+    public final  <T extends Event> void onElseEvent(Class<T> eventIdentifier, T event, Player player, int level){
         var fus = elseEventHandlers.get(eventIdentifier);
         if(fus!=null){
             fus.forEach(handler->((FUHandler<T>)handler).onEvent(event,player,level));
@@ -144,7 +150,7 @@ public class EquipmentFU  {
      * @param player
      * @param level
      */
-    public void onPlayerEventHandle(PlayerEvent event, Player player, int level){
+    public final void onPlayerEventHandle(PlayerEvent event, Player player, int level){
         //priority will be  HIGHEST
         if(event instanceof PlayerInteractEvent p){
             onInteract(p,player,level);
@@ -158,37 +164,45 @@ public class EquipmentFU  {
     }
 
 
-
-
+    /**
+     * about equiping FU to Item
+     * @param itemStack
+     * @param costing
+     * @return
+     */
     public boolean canEquipedTo(ItemStack itemStack,ItemStack costing){
         return CraftUtils.matchItemStack(costing,AddItem.LSINGULARITY,false);
     }
+    //used for RecipeChoice
     public Set<Material> getCanEquipedMaterial(){
         //mainly are tools
         return Set.copyOf(WorldUtils.TOOLS_MATERIAL);
     }
-    //get Supported cost Material
+    //used for RecipeChoice,get Supported cost Material
     public Set<ItemStack> getEquipCostable(){
         //
         return Set.of(AddItem.LSINGULARITY);
     }
-    //can override level
+    //set max level here,limit setting to
     public int getMaxFULevel(ItemStack item) {
         return 10;
     }
+    //get equiping cost
     public int getEquipCost(ItemStack alreadyEquiped,ItemStack cost){
         return 1;
     }
+    //get equiping progress time cost
     public int getEquipTimeCost(ItemStack alreadyEquiped,ItemStack cost){
         return 10;
     }
 
     /**
+     * called when addEquipmentFU
      * change special data into fuDataField and lore or something
      * @param equipment
      * @param fuDataField
      */
-    public void onEquipLevelChange(ItemStack equipment, ItemMeta editingMeta, PersistentDataContainer fuDataField, int newLevel){
+    public void onEquipLevelChange(@Nonnull ItemStack equipment,@Nonnull ItemMeta editingMeta, @Nonnull PersistentDataContainer fuDataField, int newLevel){
         //equipment is readOnly!
 
         //actually ,you should add some lores here
@@ -228,4 +242,15 @@ public class EquipmentFU  {
 //    public void unregister(){
 //
 //    }
+    @Getter
+    public static enum FURarity{
+        COMMON(ChatColor.WHITE.toString()),
+        RARE(ChatColor.GREEN.toString()),
+        EPIC(ChatColor.GOLD.toString()),
+        LEGEND(AddUtils.DEFAULT_COLOR);
+        private String style;
+        private FURarity(String style){
+            this.style=style;
+        }
+    }
 }

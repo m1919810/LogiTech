@@ -7,6 +7,7 @@ import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.PdcUtils;
 import me.matl114.logitech.Utils.UtilClass.EquipClass.EquipmentFU;
+import me.matl114.logitech.core.Interface.LogiTechChargable;
 import me.matl114.matlib.core.Manager;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -56,7 +57,8 @@ public class EquipmentFUManager implements Manager, Listener {
             public void run() {
                 EquipmentFUManager.this.equipmentTick();
             }
-        }.runTaskTimer(plugin, 20, 1);
+        }.runTaskTimer(plugin, 20, 10);
+        LogiTechChargable.registerCustomChargables(this::isItemCustomChargable);
         return this;
     }
 
@@ -416,8 +418,9 @@ public class EquipmentFUManager implements Manager, Listener {
         return 0;
 
     }
-    private AtomicInteger tickCount=new AtomicInteger();
-    private AtomicBoolean taskRunning=new AtomicBoolean();
+    private final AtomicInteger tickCount=new AtomicInteger();
+    private final AtomicBoolean taskRunning=new AtomicBoolean();
+    //run every 10 ticks( 1sft )
     public void equipmentTick(){
         if(taskRunning.compareAndSet(false,true)){
             try{
@@ -427,7 +430,7 @@ public class EquipmentFUManager implements Manager, Listener {
                     if(equipmentFUMap.containsKey(uuid)){
                         var equipmentFU=equipmentFUMap.get(uuid);
                         for (var entry: equipmentFU.entrySet()){
-                            entry.getKey().onTick(p,entry.getValue(),tickCount);
+                            entry.getKey().onSFTick(p,entry.getValue(),tickCount);
                         }
                     }
                 }
@@ -435,5 +438,30 @@ public class EquipmentFUManager implements Manager, Listener {
                 taskRunning.set(false);
             }
         }
+    }
+    @Getter
+    private final NamespacedKey chargableKey = AddUtils.getNameKey("cus-chargable");
+    public Float isItemCustomChargable(ItemMeta meta){
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        if(container.has(eqFUDataKey,PersistentDataType.TAG_CONTAINER)){
+            PersistentDataContainer container1 = container.get(eqFUDataKey,PersistentDataType.TAG_CONTAINER);
+            return PdcUtils.getOrDefault(container1,chargableKey,PersistentDataType.FLOAT,null);
+        }else{
+            return null;
+        }
+    }
+    public void setItemCustomChargable(ItemMeta meta,float maxCharge){
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        PersistentDataContainer fuDataField = PdcUtils.getOrCreateTag(container,eqFUDataKey);
+        setItemCustomChargable(fuDataField,maxCharge);
+        PdcUtils.setTagOrRemove(container,eqFUDataKey,fuDataField);
+    }
+    public void setItemCustomChargable(@Nonnull PersistentDataContainer dataField,float maxCharge){
+        if(maxCharge>0){
+            dataField.set(chargableKey,PersistentDataType.FLOAT,maxCharge);
+        }else{
+            dataField.remove(chargableKey);
+        }
+
     }
 }

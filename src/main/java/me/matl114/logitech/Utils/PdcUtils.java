@@ -33,7 +33,7 @@ public class PdcUtils {
 
     }
     public static <T extends Object> T getOrDefault(PersistentDataContainer container, NamespacedKey key,PersistentDataType<T,T> type,T defaultValue) {
-        if(container.has(key, type)) {
+        if(container!=null&& container.has(key, type)) {
             return container.get(key, type);
         }else {
             return defaultValue;

@@ -376,56 +376,7 @@ public class AddGroups {
         }
     };
     public static ItemGroup BUGCRAFTER=new CustomItemGroup(bugcrafterId,AddUtils.colorful(AddUtils.ADDON_NAME),AddItem.ALLBIGRECIPES,54,36,new LinkedHashMap<>()) {
-        public PlayerHistoryRecord<CustomMenu> historyHandler=new PlayerHistoryRecord<CustomMenu>() {
-            final HashMap<UUID,List<CustomMenu>> records=new HashMap<>();
-            {
-                PlayerQuiteListener.addHandler((player)->{
-                    UUID uid=player.getUniqueId();
-                    synchronized(records) {
-                        records.remove(uid);
-                    }
-                });
-            }
-            public  CustomMenu getRecord(Player player){
-                UUID uuid=player.getUniqueId();
-                synchronized(records){
-                    List<CustomMenu> list=records.get(uuid);
-                    if(list==null){
-                        list=new ArrayList<CustomMenu>();
-                    }
-                    if(list.isEmpty()){
-                        return null;
-                    }
-                    return list.get(list.size()-1);
-                }
-            }
-            public void addRecord(Player player, CustomMenu record){
-                Debug.logger("add called");
-                UUID uuid=player.getUniqueId();
-                synchronized(records){
-                    List<CustomMenu> list = records.computeIfAbsent(uuid, k -> new ArrayList<>());
-                    list.add(record);
-                }
-            }
-            public CustomMenu deleteRecord(Player player,CustomMenu record){
-                Debug.logger("Delete called");
-                UUID uuid=player.getUniqueId();
-                synchronized(records){
-                    List<CustomMenu> list=records.get(uuid);
-                    if(list==null||list.isEmpty()){
-                        return null;
-                    }
-                    return list.remove(list.size()-1);
-                }
-            }
-            public void deleteAllRecords(Player player){
-                UUID uuid=player.getUniqueId();
-                synchronized(records){
-                    var list = records.remove(uuid);
-                    Debug.logger(list);
-                }
-            }
-        };
+        public PlayerHistoryRecord<CustomMenu> historyHandler=new SimplePlayerHistoryRecord<CustomMenu>();
         MenuFactory subRecipes=null;
         public void initCustomMenus(){
             subRecipes=MenuUtils.createItemListDisplay(BugCrafter.TYPE, RecipeSupporter.RECIPETYPE_TO_ITEMS.get(BugCrafter.TYPE),

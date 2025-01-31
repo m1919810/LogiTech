@@ -78,5 +78,8 @@ public class EquipmentFUItem extends MaterialItem {
     public void addInfo(ItemStack stack){
         AddUtils.addGlow(stack);
         AddUtils.hideAllFlags(stack);
+        var meta = stack.getItemMeta();
+        meta.setDisplayName(fUnit.getRarity().getStyle()+meta.getDisplayName());
+        stack.setItemMeta(meta);
     }
 }

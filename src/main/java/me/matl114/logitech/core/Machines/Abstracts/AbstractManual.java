@@ -158,9 +158,15 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
             var rps=getMachineRecipes(block,inv);
             MachineRecipe getRecipe=rps.get(index);
             inv.replaceExistingItem(MID_SLOT, getMiddleItem(getRecipe.getOutput()[0],index));
-            getRecipe=rps.get(prevIndex);
+            if(prevIndex<0){//valid index
+                prevIndex = index;
+            }
+            getRecipe = rps.get(prevIndex);
             inv.replaceExistingItem(PREV_SLOT, getPrevItem(getRecipe.getOutput()[0]));
-             getRecipe=rps.get(nextIndex);
+            if(nextIndex<0){//valid index
+                nextIndex = prevIndex;
+            }
+            getRecipe = rps.get(nextIndex);
             inv.replaceExistingItem(NEXT_SLOT, getNextItem(getRecipe.getOutput()[0]));
         }
         else{

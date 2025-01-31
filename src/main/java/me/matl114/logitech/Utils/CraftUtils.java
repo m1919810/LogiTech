@@ -13,9 +13,11 @@ import me.matl114.matlib.core.EnvironmentManager;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
+import org.bukkit.potion.PotionEffectType;
 
 
 import javax.annotation.Nonnull;
@@ -1796,6 +1798,22 @@ public class CraftUtils {
         if(thatItem!=null){
             thatItem.setAmount(thatItem.getAmount()-amount);
         }
+    }
+    public static String getItemName(ItemStack item){
+        if(item.hasItemMeta()){
+            return item.getItemMeta().getDisplayName();
+        }else{
+            try{
+                return ItemStackHelper.getName(item);
+            }catch (Throwable noGuizhanLib){}
+            return item.getType().toString();
+        }
+    }
+    public static String getEffectName(PotionEffectType effect){
+        try{
+
+        }catch (Throwable e){}
+        return effect.getKey().getKey();
     }
 
     public static boolean matchItemStack(ItemStack stack1, ItemStack stack2,boolean strictCheck){

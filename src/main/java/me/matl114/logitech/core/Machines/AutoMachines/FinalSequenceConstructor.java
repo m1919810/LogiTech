@@ -1,6 +1,7 @@
 package me.matl114.logitech.core.Machines.AutoMachines;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
@@ -32,5 +33,8 @@ public class FinalSequenceConstructor extends SequenceConstructor {
                         ),null
                 )
         );
+    }
+    public void registerTick(SlimefunItem item){
+        this.addItemHandler(FinalFeature.FINAL_SYNC_TICKER);
     }
 }

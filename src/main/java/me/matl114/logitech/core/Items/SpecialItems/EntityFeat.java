@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.core.Depends.SupportedPluginManager;
 import me.matl114.logitech.Manager.Schedules;
 import me.matl114.logitech.core.AddItem;
@@ -12,7 +13,10 @@ import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.Utils;
 import me.matl114.logitech.core.Items.Abstracts.CustomItemWithHandler;
+import org.apache.http.annotation.Experimental;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.MinecraftExperimental;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.EntityType;
@@ -23,7 +27,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
@@ -88,13 +94,32 @@ public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
      * @return
      */
     public final static String SPAWNER_ATTRIBUTE=AddUtils.resolveColor(  AddUtils.color("刷怪笼属性:"));
+    private static final HashSet<EntityType> availableEntityFeatTypes = new HashSet<>(){{
+        for (EntityType entityType : EntityType.values()) {
+            if(entityType.isSpawnable()){
+                try{
+                    if(!entityType.isEnabledByFeature(Bukkit.getWorlds().get(0))){
+                        //not enabled by feature
+                        continue;
+                    }
+                }catch (Throwable anyThing){
+                    //idk, I hope this will work
+                    anyThing.printStackTrace();
+                }
+                add(entityType);
+            }
+        }
+    }};
+    public static boolean isAvailableEntityType(EntityType entityType) {
+        return availableEntityFeatTypes.contains(entityType);
+    }
     public static ItemStack generateSpawnerFrom(EntityType type,boolean displayAttribute){
         return generateSpawnerFrom(type,200,6,16,4,4,displayAttribute);
     }
     public static ItemStack generateSpawnerFrom(EntityType type,int delay,int maxNearbyEntities,int requirePlayerRange,int spawnRange,int spawnCount,boolean displayAttribute){
 
         ItemStack item = AddItem.SAMPLE_SPAWNER.clone();
-        if(type==null||!type.isSpawnable()){
+        if(!isAvailableEntityType(type)){
             return item;
         }
         ItemMeta meta = item.getItemMeta();
