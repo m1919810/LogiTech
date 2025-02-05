@@ -24,8 +24,15 @@ public class LocationStorageProxy extends ItemStorageCache{
     public void updateStorage(){
         //这里是代理存储 并不是唯一修改源
         //需要刷新一下并加上用当前记录-历史记录 的东西
-        int delta=((LocationProxy)storageType).getAmount(location)-this.lastStorageAmount;
-        ((LocationProxy)storageType).setAmount(location, Math.min(getMaxStackCnt(), MathUtils.safeAdd(getStorageAmount(),delta)));
+        int locationNowAmount = ((LocationProxy)storageType).getAmount(location);
+        int delta = locationNowAmount-this.lastStorageAmount;
+        int locationSetAmount = Math.min(getMaxStackCnt(), MathUtils.safeAdd(getStorageAmount(),delta));
+        if(locationSetAmount < 0){
+            //async catcher
+//            Debug.logger("Catch Async Operation in cache Location :",location);
+//            Debug.logger("Using Amount now:",locationNowAmount,"Amount Record:",lastStorageAmount,"now Amount:",getStorageAmount(),"Set value:",locationSetAmount);
+        }
+        ((LocationProxy)storageType).setAmount(location, locationSetAmount);
         ((LocationProxy)storageType).updateLocation(location);
     }
     public void updateMenu(@Nonnull BlockMenu menu){
@@ -38,4 +45,5 @@ public class LocationStorageProxy extends ItemStorageCache{
     public Location getProxyLocation(){
         return location;
     }
+
 }

@@ -1,6 +1,7 @@
 package me.matl114.logitech.core;
 
 import com.google.common.base.Preconditions;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
@@ -23,10 +24,7 @@ import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.MultiCraftingOperation;
 import me.matl114.logitech.core.Blocks.*;
 import me.matl114.logitech.core.Blocks.MultiBlock.*;
-import me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop.SWAmplifyComponent;
-import me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop.SmithInterfaceProcessor;
-import me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop.SmithingInterface;
-import me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop.SmithingWorkshop;
+import me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop.*;
 import me.matl114.logitech.core.Items.Abstracts.*;
 import me.matl114.logitech.core.Items.Equipments.DisplayUseTrimmerLogicLate;
 import me.matl114.logitech.core.Items.Equipments.EquipmentFUItem;
@@ -482,6 +480,10 @@ public class AddSlimefunItems {
 
     public static final SlimefunItem SAMPLE_HEAD=new AbstractBlock(SPECIAL,AddItem.SAMPLE_HEAD,NULL,
             formatInfoRecipe(AddItem.HEAD_ANALYZER,Language.get("Machines.HEAD_ANALYZER.Name")))
+            .register();
+    public static final SlimefunItem PLAYER_IDCARD=new PlayerIdCard(SPECIAL,AddItem.PLAYER_IDCARD,ENHANCED_CRAFTING_TABLE,
+            recipe(AddItem.LPLATE,null,AddItem.LPLATE,"PLAYER_HEAD",AddItem.HYPER_LINK,"PLAYER_HEAD",
+                    AddItem.LPLATE,null,AddItem.LPLATE),null)
             .register();
     public static final SlimefunItem SAMPLE_SPAWNER=new AbstractSpawner(FUNCTIONAL,AddItem.SAMPLE_SPAWNER,NULL,
             formatInfoRecipe(AddItem.ENTITY_FEAT,Language.get("Items.ENTITY_FEAT.Name")))
@@ -2704,11 +2706,17 @@ public class AddSlimefunItems {
     public static final SlimefunItem ANTIMASS_CLEAR=new CustomProps(SPECIAL, AddItem.ANTIMASS_CLEAR, RecipeType.NULL,
             NULL_RECIPE.clone(), null) {
         public void onClickAction(PlayerRightClickEvent event) {
-            if(ANTIMASS instanceof SpreadBlock sb){
-                sb.getSpreadOwner().clear();
-                sb.getSpreadTicker().clear();
-            }
-            sendMessage(event.getPlayer(),"&a反概念物质已成功清除");
+            Schedules.execute(()->{
+                HashSet<SlimefunBlockData> data = new HashSet<>();
+                Slimefun.getDatabaseManager().getBlockDataController().getAllLoadedChunkData().forEach(c->data.addAll(c.getAllBlockData()));
+                data.stream().filter(d->d.getSfId().equals(ANTIMASS.getId())).map(SlimefunBlockData::getLocation).forEach(Slimefun.getDatabaseManager().getBlockDataController()::removeBlock);
+                if(ANTIMASS instanceof SpreadBlock sb){
+                    sb.getSpreadOwner().clear();
+                    sb.getSpreadTicker().clear();
+                }
+                sendMessage(event.getPlayer(),"&a反概念物质已成功清除");
+            },false);
+
         }
     }
             .register();
@@ -2853,6 +2861,7 @@ public class AddSlimefunItems {
             CRAFT_PROVIDER=FinalFeature.STORAGE_AND_LOCPROXY_READER;
             MACHINE_PROVIDER=FinalFeature.STORAGE_READER;
         }
+        @Override
         public void registerTick(SlimefunItem item){
             this.addItemHandler(FinalFeature.FINAL_SYNC_TICKER);
         }
@@ -2905,6 +2914,10 @@ public class AddSlimefunItems {
     public static final  SlimefunItem ATTR_OP=new AttributeOperator(TOOLS_FUNCTIONAL, AddItem.ATTR_OP,MAGIC_WORKBENCH,
             recipe("AUTO_DISENCHANTER_2",AddItem.LENGINE,"AUTO_DISENCHANTER_2",AddItem.STAR_GOLD_INGOT,"BOOK_BINDER",AddItem.STAR_GOLD_INGOT,
                     "AUTO_ENCHANTER_2",AddItem.LENGINE,"AUTO_ENCHANTER_2"), 1200,120)
+            .register();
+    public static final  SlimefunItem CUSTOM_CHARGER=new SmithInterfaceCharger(TOOLS_FUNCTIONAL, AddItem.CUSTOM_CHARGER,ENHANCED_CRAFTING_TABLE,
+            recipe("ENERGIZED_CAPACITOR",AddItem.TECH_CORE,"ENERGIZED_CAPACITOR","CHARGING_BENCH",AddItem.SMITH_INTERFACE_NONE,"CHARGING_BENCH",
+                    AddItem.LINE_CHARGER_PLUS,AddItem.ENERGY_PIPE_PLUS,AddItem.LINE_CHARGER_PLUS), 64_000_000,4000)
             .register();
     public static final SlimefunItem FU_BASE=new MaterialItem(TOOLS_FUNCTIONAL,AddItem.FU_BASE,ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.ABSTRACT_INGOT,AddItem.LPLATE,AddItem.ABSTRACT_INGOT,AddItem.LPLATE,AddItem.TECH_CORE,AddItem.LPLATE,

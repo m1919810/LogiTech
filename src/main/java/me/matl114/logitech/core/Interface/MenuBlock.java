@@ -41,7 +41,11 @@ public interface MenuBlock extends InventoryBlock {
             Location l = menu.getLocation();
             menu.dropItems(l, this.getInputSlots());
             menu.dropItems(l, this.getOutputSlots());
+            menu.dropItems(l ,this.getExtraDropSlot());
         }
+    }
+    default int[] getExtraDropSlot(){
+        return new int[0];
     }
 
     /**

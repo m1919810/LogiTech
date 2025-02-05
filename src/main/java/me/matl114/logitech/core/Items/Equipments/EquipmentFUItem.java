@@ -65,7 +65,7 @@ public class EquipmentFUItem extends MaterialItem {
         items.add(null);
         items.add(availableItem==null?new CleanItemStack(Material.BOOK,"&a可装配的装备范围","&7支持装配至任意工具类物品"):availableItem);
         items.add(null);
-        items.add(cost==null?new CleanItemStack(Material.BOOK,"&a所需锻造材料","&7抽象锭 x1"):cost);
+        items.add(cost==null?new CleanItemStack(Material.BOOK,"&a所需锻造材料","&7抽象锭 x%d".formatted(fUnit.getRarity().getLevel())):cost);
         items.add(MenuUtils.getDisplayItem(costSample));
         this.setDisplayRecipes(items);
         return this;

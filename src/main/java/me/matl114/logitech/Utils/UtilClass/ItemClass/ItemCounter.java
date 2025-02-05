@@ -154,7 +154,7 @@ public class ItemCounter implements Cloneable{
      */
     public void syncData(){
         if(dirty){
-            cnt=item.getAmount();
+            cnt = item.getAmount();
             dirty=false;
         }
     }
@@ -179,7 +179,7 @@ public class ItemCounter implements Cloneable{
                 item.setAmount(cnt);
             }else{
                 int newCachedItemAmount=item.getAmount();
-                cnt+=-cachedItemAmount+newCachedItemAmount;
+                cnt+=newCachedItemAmount-cachedItemAmount;
                 item.setAmount(cnt);
             }
             cachedItemAmount=cnt;
@@ -193,6 +193,9 @@ public class ItemCounter implements Cloneable{
      * @param other
      */
     public void consume(ItemCounter other){
+        if(cnt<0){//stop when cnt < 0 (storage) no meaning
+            return;
+        }
         int diff = (other.getAmount()>cnt)?cnt:other.getAmount();
         cnt-=diff;
         dirty=true;

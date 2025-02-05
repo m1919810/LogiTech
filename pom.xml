@@ -105,8 +105,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
             <version>1.20.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
@@ -141,12 +141,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.SlimefunGuguProject</groupId>
-            <artifactId>Networks</artifactId>
-            <version>1514bf728b</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>5.7.2</version>
@@ -155,7 +149,7 @@
         <dependency>
             <groupId>com.github.m1919810</groupId>
             <artifactId>matlib</artifactId>
-            <version>0cdfa2a</version>
+            <version>4519d06</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

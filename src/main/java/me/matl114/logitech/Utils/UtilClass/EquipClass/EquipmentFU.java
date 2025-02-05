@@ -25,10 +25,11 @@ import org.bukkit.plugin.Plugin;
 import javax.annotation.Nonnull;
 import java.util.*;
 
-public class EquipmentFU  {
+public abstract class EquipmentFU  {
     @Getter
     private final NamespacedKey key;
     private final EnumSet<EquipmentSlot> slot;
+    private final EnumSet<Material> availableDefaultMaterial;
     @Getter
     private final FURarity rarity;
     public boolean isSupportSlot(EquipmentSlot slot){
@@ -40,17 +41,21 @@ public class EquipmentFU  {
         prefix=new CleanItemStack(Material.STONE,pref).getItemMeta().getDisplayName();
         return this;
     }
-    public static ItemStack getInfoFor(String fuName,String... function){
-        return AddUtils.themed(Material.KNOWLEDGE_BOOK,AddUtils.resolveColor("&a"+fuName+" : &6机制说明"),function);
-    }
-    public ItemStack getInfoDisplay(){
-        return getInfoFor(name+" 功能单元","这是一个样例功能单元","你需要在这里写点啥来说明他的功能");
-    }
     public EquipmentFU setDisplayName(String name){
         this.name = name;
         setDisplayPrefix(rarity.getStyle()+ "%s&3单元: &7Lv.".formatted(name));
         return this;
     }
+    public static ItemStack getInfoFor(String fuName,String... function){
+        return AddUtils.themed(Material.KNOWLEDGE_BOOK,AddUtils.resolveColor(fuName+" : &f机制说明"),function);
+    }
+    public String getFullName(){
+        return rarity.getStyle()+ name + "§3功能单元";
+    }
+    public ItemStack getInfoDisplay(){
+        return getInfoFor(getFullName(),"这是一个样例功能单元","你需要在这里写点啥来说明他的功能");
+    }
+
     private static final EnumMap<EquipmentSlot,HashMap<NamespacedKey,EquipmentFU>> registry=new EnumMap<>(EquipmentSlot.class);
     public static EquipmentFU getFunctionUnit(EquipmentSlot slot, NamespacedKey key) {
         return registry.computeIfAbsent(slot,(i)->new HashMap<>()).get(key);
@@ -59,6 +64,19 @@ public class EquipmentFU  {
         this.key = key;
         this.rarity = rarity;
         this.slot =EnumSet.of(slot[0],slot);
+        HashSet<Material> materials = new HashSet<>();
+        if(this.slot.contains(EquipmentSlot.HAND)||this.slot.contains(EquipmentSlot.OFF_HAND)){
+            materials.addAll(WorldUtils.TOOLS_MATERIAL);
+        }else {
+            this.slot.forEach(slotType->{switch (slotType){
+                case HEAD: materials.addAll(WorldUtils.HELMET_MATERIALS);break;
+                case CHEST: materials.addAll(WorldUtils.CHESTPLATE_MATERIALS);break;
+                case LEGS: materials.addAll(WorldUtils.LEGGINGS_MATERIALS);break;
+                case FEET: materials.addAll(WorldUtils.BOOTS_MATERIALS);break;
+                default: break;
+            };});
+        }
+        this.availableDefaultMaterial = EnumSet.copyOf(materials);
         for (var s:slot){
             registry.computeIfAbsent(s,(i)->new HashMap<>()).put(key,this);
         }
@@ -92,6 +110,7 @@ public class EquipmentFU  {
     public void onPeriodTick(Player player, int level){
 
     }
+    //change if you want
     public int getSFTickPeriod(){
         return 2;
     }
@@ -170,31 +189,32 @@ public class EquipmentFU  {
      * @param costing
      * @return
      */
+    //default
     public boolean canEquipedTo(ItemStack itemStack,ItemStack costing){
-        return CraftUtils.matchItemStack(costing,AddItem.LSINGULARITY,false);
+        return availableDefaultMaterial.contains(itemStack.getType())&& isAvailableCostItem(costing);
     }
     //used for RecipeChoice
     public Set<Material> getCanEquipedMaterial(){
         //mainly are tools
-        return Set.copyOf(WorldUtils.TOOLS_MATERIAL);
+        return availableDefaultMaterial;
+    }
+
+    public boolean isAvailableCostItem(ItemStack costing){
+        for (ItemStack item:getEquipCostable()){
+            if(CraftUtils.matchItemStack(item,costing,false)){
+                return true;
+            }
+        }
+        return false;
     }
     //used for RecipeChoice,get Supported cost Material
-    public Set<ItemStack> getEquipCostable(){
-        //
-        return Set.of(AddItem.LSINGULARITY);
-    }
+    public abstract Set<ItemStack> getEquipCostable();
     //set max level here,limit setting to
-    public int getMaxFULevel(ItemStack item) {
-        return 10;
-    }
+    public abstract int getMaxFULevel(ItemStack item) ;
     //get equiping cost
-    public int getEquipCost(ItemStack alreadyEquiped,ItemStack cost){
-        return 1;
-    }
+    public abstract int getEquipCost(ItemStack alreadyEquiped,ItemStack cost);
     //get equiping progress time cost
-    public int getEquipTimeCost(ItemStack alreadyEquiped,ItemStack cost){
-        return 10;
-    }
+    public abstract int getEquipTimeCost(ItemStack alreadyEquiped,ItemStack cost);
 
     /**
      * called when addEquipmentFU
@@ -244,12 +264,13 @@ public class EquipmentFU  {
 //    }
     @Getter
     public static enum FURarity{
-        COMMON(ChatColor.WHITE.toString()),
-        RARE(ChatColor.GREEN.toString()),
-        EPIC(ChatColor.GOLD.toString()),
-        LEGEND(AddUtils.DEFAULT_COLOR);
+        COMMON(ChatColor.WHITE.toString(),1),
+        RARE(ChatColor.GREEN.toString(),2),
+        EPIC(ChatColor.GOLD.toString(),3),
+        LEGEND(AddUtils.DEFAULT_COLOR,4);
         private String style;
-        private FURarity(String style){
+        private int level;
+        private FURarity(String style,int level){
             this.style=style;
         }
     }

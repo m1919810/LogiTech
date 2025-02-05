@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.function.IntFunction;
 
 public class FinalFeature {
-    public static ItemPusherProvider STORAGE_READER =new ItemPusherProvider() {
+    public static final ItemPusherProvider STORAGE_READER =new ItemPusherProvider() {
         @Override
         public ItemPusher get(Settings mod, ItemStack item, int slot) {
             if(item==null||item.getAmount()!=1){
@@ -52,7 +52,7 @@ public class FinalFeature {
 
 
 
-    public static ItemPusherProvider STORAGE_AND_LOCPROXY_READER=new ItemPusherProvider() {
+    public static final ItemPusherProvider STORAGE_AND_LOCPROXY_READER=new ItemPusherProvider() {
         @Override
         public ItemPusher get(Settings mod, ItemStack item, int slot) {
             if(item==null||item.getAmount()!=1){
@@ -102,7 +102,7 @@ public class FinalFeature {
         }
 
     };
-    public static ItemPusherProvider MANUAL_CARD_READER=new ItemPusherProvider() {
+    public static final ItemPusherProvider MANUAL_CARD_READER=new ItemPusherProvider() {
         @Override
         public ItemPusher get(Settings settings, ItemStack item, int slot) {
             if(settings==Settings.OUTPUT){
@@ -146,7 +146,7 @@ public class FinalFeature {
         return false;
     }
     //actually ,about location proxy, machines should run in order AT ANY TIME,otherwise it will cause negative itemStorage
-    public static BlockTicker FINAL_SYNC_TICKER = new BlockTicker() {
+    public static final BlockTicker FINAL_SYNC_TICKER = new BlockTicker() {
         @Override
         public boolean isSynchronized() {
             return false;

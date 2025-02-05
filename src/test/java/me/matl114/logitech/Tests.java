@@ -3,6 +3,7 @@ package me.matl114.logitech;
 
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.CargoConfigs;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
@@ -42,7 +43,7 @@ public class Tests {
         a.subList(size-8,size).clear();
         log(a.size()+"");
     }
-
+    @Test
     public void test_MathUtils(){
         int code=-1;
         for (int i=-1;i<1;++i){
@@ -54,6 +55,14 @@ public class Tests {
         log("FINISH");
         log(String.valueOf(MathUtils.bitCount(code,32)));
         log(String.valueOf(MathUtils.bitCountStupid(code,32)));
+        for (int i = -1024;i<1024;++i){
+            for (int j=-1024;j<1024;++j){
+                if(i+j!=MathUtils.safeAdd(i,j)){
+                    log(""+i+"  "+j);
+                }
+            }
+        }
+        log(""+MathUtils.safeAdd(0,-2));
     }
     public void test_Import(){
     }
@@ -94,7 +103,6 @@ public class Tests {
 //
 //    public void test_color(){
 //        log(AddUtils.color("aaaaa"));
-//    }
-
+//
 
 }

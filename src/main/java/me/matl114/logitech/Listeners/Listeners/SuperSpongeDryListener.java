@@ -1,5 +1,7 @@
 package me.matl114.logitech.Listeners.Listeners;
 
+import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.Utils.WorldUtils;
 import me.matl114.logitech.core.AddItem;
 import me.matl114.logitech.Utils.CraftUtils;
@@ -24,11 +26,14 @@ public class SuperSpongeDryListener implements Listener {
             if(blockData instanceof Container ih){
                 Inventory inventory=ih.getInventory();
                 if(inventory instanceof FurnaceInventory fi){
+                    //smelting supersponge cancel vanilla recipe
+                    event.setCancelled(true);
                     ItemStack fuelSlot=fi.getFuel();
                     ItemStack outputSlot=fi.getResult();
                     if(outputSlot==null||outputSlot.getType().isAir()){
                         //槽位是空的,直接输入该输出就行
-                        event.setResult(AddItem.SUPERSPONGE.clone());
+                        //event.setResult(AddItem.SUPERSPONGE.clone());
+                        fi.setResult(AddUtils.getCleaned( AddItem.SUPERSPONGE ) );
                         if(fuelSlot!=null&&fuelSlot.getType()== Material.BUCKET){
                             //燃料修改
                             fuelSlot.setType(Material.POWDER_SNOW_BUCKET);
@@ -44,7 +49,6 @@ public class SuperSpongeDryListener implements Listener {
                                 //燃料修改
                                 fuelSlot.setType(Material.POWDER_SNOW_BUCKET);
                             }
-                            event.setCancelled(true);
                         }
                     }
                 }

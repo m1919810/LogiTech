@@ -1,6 +1,7 @@
 package me.matl114.logitech.Utils.UtilClass.ItemClass;
 
 import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.Utils.MathUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -41,7 +42,7 @@ public class ItemPusher extends ItemCounter {
         this.maxStackCnt = maxcnt;
     }
     public boolean safeAddAmount(int amount){
-        int result=amount+cnt;
+        int result= MathUtils.safeAdd(amount,cnt) ;
         if(result>maxStackCnt){
             return false;
         }else {
@@ -56,18 +57,17 @@ public class ItemPusher extends ItemCounter {
     public void updateMenu(@Nonnull BlockMenu menu){
         if(dirty){
             updateItemStack();
-
         }
     }
 
     public void grab(ItemCounter counter) {
-        int left=maxStackCnt-cnt;
+        long left=((long)maxStackCnt)-cnt;
         if(left>counter.getAmount()){
             addAmount(counter.getAmount());
             counter.setAmount(0);
         }else {
-            setAmount(maxStackCnt);
-            counter.addAmount(-left);
+            setAmount((int)maxStackCnt);
+            counter.addAmount(-(int)left);
         }
     }
     public void push(ItemCounter counter) {
@@ -92,24 +92,26 @@ public class ItemPusher extends ItemCounter {
      */
     public int transportFrom(ItemCounter counter,int limit){
         //该物品槽能转运的最大数量
-        int left=Math.min( maxStackCnt-cnt,limit);
+        long left=Math.min( ((long) maxStackCnt)-cnt,limit);
+        int retLeft ;
         //如果这个数量比提供的少
         if(left>counter.getAmount()){
             //设置真正被传输的数量是... 提供的数量 小于预期left
-            left=counter.getAmount();
+            int counterAmount=counter.getAmount();
             //counter清空
             counter.setAmount(0);
             //加上
-            addAmount(left);
-
+            addAmount(counterAmount);
+            retLeft = counterAmount;
         }else{
             //否则这个数量提供的比那个多
             //设置数量+=left
-            setAmount(cnt+left);
+            retLeft = (int)left;
+            setAmount(cnt + retLeft);
             //left <= counter.getAmount()
-            counter.addAmount(-left);
+            counter.addAmount(-retLeft);
         }
-        return limit-left;
+        return (limit-retLeft);
     }
     protected ItemPusher clone(){
         return (ItemPusher)super.clone();

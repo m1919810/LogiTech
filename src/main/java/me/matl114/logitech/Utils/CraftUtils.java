@@ -14,9 +14,11 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
+import net.guizhanss.guizhanlib.minecraft.helper.potion.PotionEffectTypeHelper;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
+import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffectType;
 
 
@@ -838,6 +840,7 @@ public class CraftUtils {
                 }else if(previewItem.getAmount()>=previewItem.getMaxStackSize()){
                     continue;
                 }else{
+                    //fixme wrong behaivor when pushing to negative item
                     itp=slotCounters2.get(j);
                     if(!itp.isDirty()){
                         //FIXME 检查cachemap中的空存储是不是可能被读取进入?
@@ -1811,7 +1814,7 @@ public class CraftUtils {
     }
     public static String getEffectName(PotionEffectType effect){
         try{
-
+            PotionEffectTypeHelper.getName(effect);
         }catch (Throwable e){}
         return effect.getKey().getKey();
     }

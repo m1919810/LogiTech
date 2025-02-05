@@ -10,6 +10,8 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.List;
@@ -117,21 +119,26 @@ public interface LogiTechChargable extends Rechargeable {
             }
         }
     }
+    @Nullable
+    static Float getMaxItemChargeOrNull(@Nonnull ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+        if(meta!=null){
+            if(Slimefun.getItemDataService().getItemData(meta).map(SlimefunItem::getById).orElse(null) instanceof Rechargeable rechargeable ){
+                return rechargeable.getMaxItemCharge(item);
+            }else {
+                return Utils.computeTilPresent(meta,predicates.get());
+            }
+        }
+        return null;
+    }
     //尝试改变charge
     //返回无法改变的量 例如change +3 实际+2 返回+1
     //当无法充电时返回charge
     static float changeChargeSafe(ItemStack item,float charge){
         ItemMeta meta = item.getItemMeta();
-        float maxCharge;
-        if(Slimefun.getItemDataService().getItemData(meta).map(SlimefunItem::getById).orElse(null) instanceof Rechargeable rechargeable ){
-            maxCharge = rechargeable.getMaxItemCharge(item);
-        }else {
-            Float maxCharge1 = Utils.computeTilPresent(meta,predicates.get());
-            if(maxCharge1 == null){
-                return charge;
-            }else{
-                maxCharge = maxCharge1;
-            }
+        Float maxCharge = getMaxItemChargeOrNull(item);
+        if(maxCharge == null){
+            return charge;
         }
         float nowCharge = ChargeUtils.getCharge(meta);
         float newCharge = charge + nowCharge;

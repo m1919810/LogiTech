@@ -95,6 +95,7 @@ public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
      */
     public final static String SPAWNER_ATTRIBUTE=AddUtils.resolveColor(  AddUtils.color("刷怪笼属性:"));
     private static final HashSet<EntityType> availableEntityFeatTypes = new HashSet<>(){{
+        loop:
         for (EntityType entityType : EntityType.values()) {
             if(entityType.isSpawnable()){
                 try{
@@ -105,6 +106,17 @@ public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
                 }catch (Throwable anyThing){
                     //idk, I hope this will work
                     anyThing.printStackTrace();
+                }
+                String name = entityType.getKey().getKey();
+                //functional entities are not allowed to spawn
+                switch(name){
+                    case "marker":
+                    case "armor_stand":
+                    case "block_display":
+                    case "item_display":
+                    case "text_display":
+                    case "interaction":
+                        break loop;
                 }
                 add(entityType);
             }

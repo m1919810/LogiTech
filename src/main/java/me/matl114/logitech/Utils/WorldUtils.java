@@ -1130,6 +1130,35 @@ public class WorldUtils {
             addAll(Tag.ITEMS_TOOLS.getValues());
         }catch (Throwable versionNoTag){        }
     }});
+    public final static EnumSet<Material> HELMET_MATERIALS=EnumSet.noneOf(Material.class);
+    public final static EnumSet<Material> CHESTPLATE_MATERIALS=EnumSet.noneOf(Material.class);
+    public final static EnumSet<Material> LEGGINGS_MATERIALS=EnumSet.noneOf(Material.class);
+    public final static EnumSet<Material> BOOTS_MATERIALS=EnumSet.noneOf(Material.class);
+    static{
+        for(Material material:Material.values()){
+            if(material.isItem()){
+                if(material.toString().endsWith("HELMET")){
+                    Debug.debug("helmet ",material.toString());
+                    HELMET_MATERIALS.add(material);
+                }
+                if(material.toString().endsWith("CHESTPLATE")){
+                    Debug.debug("chestplate ",material.toString());
+                    CHESTPLATE_MATERIALS.add(material);
+
+                }
+                if(material.toString().endsWith("LEGGINGS")){
+                    Debug.debug("leggings ",material.toString());
+                    LEGGINGS_MATERIALS.add(material);
+                }
+                if(material.toString().endsWith("BOOTS")){
+                    Debug.debug("boots ",material.toString());
+                    BOOTS_MATERIALS.add(material);
+                }
+            }
+        }
+        HELMET_MATERIALS.add(Material.TURTLE_HELMET);
+        CHESTPLATE_MATERIALS.add(Material.ELYTRA);
+    }
     @Nullable
     public static Material getBlock(Material material){
         return ITEM_HAS_DIFFERENT_ID_BLOCK.getOrDefault(material,(material.isBlock()?material:null));
@@ -1227,12 +1256,12 @@ public class WorldUtils {
         }
     }).v();
     public static BlockState getBlockStateNoSnapShot(Block block){
-        if(getStateHandle!=null){
-            try{
-                return (BlockState)getStateHandle.invokeExact(block,false);
-            }catch (Throwable ignored){}
-        }
-        return block.getState();
+//        if(getStateHandle!=null){
+//            try{
+//                return (BlockState)getStateHandle.invokeExact(block,false);
+//            }catch (Throwable ignored){}
+//        }
+        return block.getState(false);
     }
 
 

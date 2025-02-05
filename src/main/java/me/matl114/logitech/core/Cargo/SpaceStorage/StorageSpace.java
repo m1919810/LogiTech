@@ -197,9 +197,10 @@ public class StorageSpace {
                                     for(Block b1:changedBlocks){
                                         Block b2=depositePairs.get(b1);
                                         Block b3=withdrawPairs.get(b1);
-                                        if(!checkPerms||WorldUtils.testVanillaBlockBreakPermission(b1,player,true)){
-                                            //FIXME blockEntity not moved
-                                            //FIXME how?
+                                        if(!checkPerms
+                                                || true
+                                                //||WorldUtils.testVanillaBlockBreakPermission(b1,player,true)
+                                        ){
                                             if (b2 == null) {
                                                 if(!WorldUtils.copyBlockState(b3.getState(),b1)){
                                                     AddUtils.sendMessage(player,"&e转移方块数据时出现未知错误,请联系管理员查询日志历史");

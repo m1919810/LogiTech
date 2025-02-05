@@ -673,7 +673,7 @@ public class AttributeOperator extends SmithingInterface {
         }
         if(transferResult==null){
             if(outputStream!=null){
-                outputStream.accept("&c转移失败!目标物品上已有更高级的属性值/附魔");
+                outputStream.accept("&c转移失败!目标物品上已有更高级的附魔/相同属性值");
             }
             return;
         }
@@ -713,6 +713,9 @@ public class AttributeOperator extends SmithingInterface {
             return null;
         }
         boolean hasChanged=false;
+        if(!meta1.hasAttributeModifiers()){
+            return null;
+        }
         if(modifier==null){
             for(Attribute a:Attribute.values()){
                 Collection<AttributeModifier> mods1=meta1.getAttributeModifiers(a);
@@ -724,19 +727,24 @@ public class AttributeOperator extends SmithingInterface {
                     mods2=meta2.getAttributeModifiers(a);
                 else
                     mods2=null;
-                if(mods2!=null){
-                    mods2.addAll(mods1);
-
-                }else {
+//                if(mods2!=null){
+//                    mods2.addAll(mods1);
+//
+//                }else {
+                if(mods2==null||mods2.isEmpty()){
                     mods1.forEach(mod->{meta2.addAttributeModifier(a,mod);});
+                    //}
+                    hasChanged=true;
+                    meta1.removeAttributeModifier(a);
                 }
-                hasChanged=true;
-                meta1.removeAttributeModifier(a);
+
             }
         }else {
-            meta1.removeAttributeModifier(attribute,modifier);
-            meta2.addAttributeModifier(attribute,modifier);
-            hasChanged=true;
+            if(!meta2.hasAttributeModifiers()||meta2.getAttributeModifiers(attribute).isEmpty()){
+                meta1.removeAttributeModifier(attribute,modifier);
+                meta2.addAttributeModifier(attribute,modifier);
+                hasChanged=true;
+            }
         }
         if(!hasChanged){
             return null;

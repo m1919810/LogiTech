@@ -30,6 +30,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import javax.annotation.Nullable;
 import java.util.*;
 
+import static me.matl114.logitech.Utils.WorldUtils.*;
+
 public class RandomEditor extends AbstractMachine implements FinalAltarCore.FinalAltarChargable , Laser.LaserChargable {
     protected final int[] BORDER=new int[]{
             27,28,29,30,32,33,34,35
@@ -147,10 +149,7 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
     protected static EquipmentSlot[] equipmentSlots=EquipmentSlot.values();
     protected static int totalAmount;
     protected static String PREFIX="re";
-    protected final static EnumSet<Material> HELMET_MATERIALS=EnumSet.noneOf(Material.class);
-    protected final static EnumSet<Material> CHESTPLATE_MATERIALS=EnumSet.noneOf(Material.class);
-    protected final static EnumSet<Material> LEGGINGS_MATERIALS=EnumSet.noneOf(Material.class);
-    protected final static EnumSet<Material> BOOTS_MATERIALS=EnumSet.noneOf(Material.class);
+
     public Enchantment[] getRegisteredEnchantments(){
         if(registeredEnchantments==null||registeredEnchantments.length==0){
             registeredEnchantments=Enchantment.values();
@@ -158,31 +157,7 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
         }
         return registeredEnchantments;
     }
-    static{
-        for(Material material:Material.values()){
-            if(material.isItem()){
-                if(material.toString().endsWith("HELMET")){
-                    Debug.debug("helmet ",material.toString());
-                    HELMET_MATERIALS.add(material);
-                }
-                if(material.toString().endsWith("CHESTPLATE")){
-                    Debug.debug("chestplate ",material.toString());
-                    CHESTPLATE_MATERIALS.add(material);
 
-                }
-                if(material.toString().endsWith("LEGGINGS")){
-                    Debug.debug("leggings ",material.toString());
-                    LEGGINGS_MATERIALS.add(material);
-                }
-                if(material.toString().endsWith("BOOTS")){
-                    Debug.debug("boots ",material.toString());
-                    BOOTS_MATERIALS.add(material);
-                }
-            }
-        }
-        HELMET_MATERIALS.add(Material.TURTLE_HELMET);
-        CHESTPLATE_MATERIALS.add(Material.ELYTRA);
-    }
     public EquipmentSlot getRandAttributeModifierSlots(Material material,int randIndex){
         if(material.getMaxStackSize()!=1){
             return (randIndex%2==0)?EquipmentSlot.HAND:EquipmentSlot.OFF_HAND;

@@ -54,9 +54,6 @@ public class ItemSlotPusher extends ItemPusher {
     public boolean isNull(){
         return wasNull;
     }
-    public int getMaxStackCnt() {
-        return maxStackCnt;
-    }
 
     //sync data need blockmenu
     public void updateMenu(@Nonnull BlockMenu menu){

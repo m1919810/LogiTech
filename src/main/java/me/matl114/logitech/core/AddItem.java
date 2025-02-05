@@ -340,6 +340,8 @@ public class AddItem {
             get("Items.FU_BASE.Name"),getList("Items.FU_BASE.Lore"));
     public static final SlimefunItemStack DEMO_FU=themed("DEMO_FU",Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE,Theme.FUNIT,
             get("Items.DEMO_FU.Name"),getList("Items.DEMO_FU.Lore"));
+    public static final SlimefunItemStack PLAYER_IDCARD=themed("PLAYER_IDCARD",Material.PAPER,Theme.ITEM1,
+            get("Items.PLAYER_IDCARD.Name"),getList("Items.PLAYER_IDCARD.Lore"));
     //nachines
     public static final SlimefunItemStack HEAD_ANALYZER=themed("HEAD_ANALYZER",Material.SOUL_CAMPFIRE, Theme.MACHINE1,
             get("Machines.HEAD_ANALYZER.Name"),getList("Machines.HEAD_ANALYZER.Lore"));
@@ -412,6 +414,8 @@ public class AddItem {
             get("Machines.RAND_EDITOR.Name"),getList("Machines.RAND_EDITOR.Lore"));
     public static final SlimefunItemStack ATTR_OP=themed("ATTR_OP",Material.ENCHANTING_TABLE,Theme.MACHINE1,
             get("Machines.ATTR_OP.Name"),getList("Machines.ATTR_OP.Lore"));
+    public static final SlimefunItemStack CUSTOM_CHARGER=themed("CUSTOM_CHARGER",Material.LODESTONE,Theme.MACHINE1,
+            get("Machines.CUSTOM_CHARGER.Name"),getList("Machines.CUSTOM_CHARGER.Lore"));
     public static final SlimefunItemStack GRIND_FACTORY=themed("GRIND_FACTORY",Material.GRINDSTONE,Theme.MACHINE1,
             get("Machines.GRIND_FACTORY.Name"),getList("Machines.GRIND_FACTORY.Lore"));
     public static final SlimefunItemStack TNT_GEN=themed("TNT_GEN",Material.NOTE_BLOCK,Theme.MACHINE1,
@@ -466,6 +470,7 @@ public class AddItem {
             get("Machines.TIMER_RD.Name"),getList("Machines.TIMER_RD.Lore"));
     public static final SlimefunItemStack TIMER_SF=new InitializeSafeProvider<>(SlimefunItemStack.class,()->themed("TIMER_SF_入机",Material.SOUL_TORCH,Theme.MACHINE1,
             get("Machines.TIMER_SF.Name"),getList("Machines.TIMER_SF.Lore"))).v();
+
 //    public static final SlimefunItemStack TIMER_SF_SEQ=themed("TIMER_SF_SEQ",Material.SOUL_TORCH,Theme.MACHINE1,
 //            get("Machines.TIMER_SF_SEQ.Name"),getList("Machines.TIMER_SF_SEQ.Lore"));
     //manuals

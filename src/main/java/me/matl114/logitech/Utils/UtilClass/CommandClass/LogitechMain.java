@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.TestItemStack;
+import me.matl114.logitech.core.Interface.LogiTechChargable;
 import me.matl114.matlib.Utils.Command.CommandGroup.AbstractMainCommand;
 import me.matl114.matlib.Utils.Command.CommandGroup.SubCommand;
 import me.matl114.matlib.Utils.Command.Params.SimpleCommandArgs;
@@ -13,6 +14,7 @@ import me.matl114.matlib.Utils.Reflect.MethodAccess;
 import me.matl114.matlib.core.EnvironmentManager;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import net.guizhanss.guizhanlib.minecraft.helper.potion.PotionEffectTypeHelper;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -27,6 +29,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.SmithingRecipe;
+import org.bukkit.potion.PotionEffectType;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -77,6 +80,49 @@ public class LogitechMain extends AbstractMainCommand {
     }
             .setTabCompletor("test",List::of)
             .register(this);
+    private SubCommand chargeCommand = new SubCommand("charge",new SimpleCommandArgs("name","amount"),"/logitech charge 给物品充电"){
+        public boolean onCommand(CommandSender var1, Command var2, String var3, String[] var4) {
+            Player player ;
+            var re = parseInput(var4).getA();
+            String playerName = re.nextArg();
+            if( playerName == null ){
+                player = isPlayer(var1,true);
+            }else {
+                player = Bukkit.getPlayer(playerName);
+            }
+            if(player != null){
+                if(var1.hasPermission("logitech.command.op")){
+                    chargeItem(player,re.nextArg());
+                }else {
+                    AddUtils.sendMessage(var1,"No Permission!");
+                }
+            }
+
+            return true;
+        }
+    }
+            .setTabCompletor("name",()->Bukkit.getOnlinePlayers().stream().map(Player::getName).toList())
+            .setTabCompletor("amount",()->List.of("-1","666","2147483647"))
+            .setDefault("amount","-1")
+            .register(this);
+    private void chargeItem(Player player,String value){
+        int charge ;
+        try{
+            charge = Integer.parseInt(value);
+        }catch (Throwable e){charge = -1;}
+        ItemStack item = player.getInventory().getItemInMainHand();
+        Float chargeAble = LogiTechChargable.getMaxItemChargeOrNull(item);
+        if(chargeAble != null){
+            if(charge<0){
+                LogiTechChargable.setCharge(item,chargeAble,chargeAble);
+            }else {
+                LogiTechChargable.changeChargeSafe(item,charge);
+            }
+            AddUtils.sendMessage(player,"&a充电成功");
+        }else {
+            AddUtils.sendMessage(player,"&c这个物品无法以任意方式被充电");
+        }
+    }
     private void runTest(String value){
         Method[] fields= this.getClass().getDeclaredMethods();
         Arrays.stream(fields).forEach(me->{
@@ -97,7 +143,7 @@ public class LogitechMain extends AbstractMainCommand {
         Block b2=world.getBlockAt(0,1,0);
         Debug.logger(WorldUtils.getBlockStateNoSnapShot(b));
         WorldUtils.copyBlockState(WorldUtils.getBlockStateNoSnapShot(b),b2);
-        WorldUtils.getBlockStateNoSnapShot(b).copy(b2.getLocation()).update(true,false);
+        EnvironmentManager.getManager().getVersioned().copyBlockStateTo(WorldUtils.getBlockStateNoSnapShot(b),b2);
     }
     private void test2(){
         Debug.logger(CraftUtils.COMPLEX_MATERIALS);
@@ -168,4 +214,14 @@ public class LogitechMain extends AbstractMainCommand {
             }
         }
     }
+    private void test5(){
+        for (PotionEffectType type : PotionEffectType.values()) {
+            Debug.logger(PotionEffectTypeHelper.getName(type));
+        }
+    }
+    private void test6(){
+        ItemStack item = new ItemStack(Material.REDSTONE);
+        Debug.logger(item.getI18NDisplayName());
+    }
+
 }

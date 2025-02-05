@@ -13,6 +13,7 @@ import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.ItemStorageCache;
 
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
+import me.matl114.logitech.core.Registries.FinalFeature;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
@@ -261,5 +262,9 @@ public abstract class AbstractIOPort extends AbstractMachine {
         menu.dropItems(loc,getStorageSlot());
         //
         super.onBreak(e, menu);
+    }
+    public void registerTick(SlimefunItem that){
+        //make IOPort operation also sync
+        that.addItemHandler(FinalFeature.FINAL_SYNC_TICKER);
     }
 }

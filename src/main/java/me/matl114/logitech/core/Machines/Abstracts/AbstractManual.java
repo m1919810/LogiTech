@@ -37,6 +37,8 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
             "&3批量合成","&6左键&b合成 &d64次 &b当前物品","&6右键&b合成 &d3456次 &b当前物品");
     protected static ItemStack getMiddleItem(ItemStack stack,int index){
         if(stack==null)return DISPLAY_NOMATCH_MID;
+        //trigger all Randomized Clone
+        stack = stack.clone();
         var meta=stack.getItemMeta();
         List<String> lore=meta.getLore();
         lore=lore==null?new ArrayList<>():lore;
@@ -54,6 +56,7 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
     }
     protected static ItemStack getPrevItem(ItemStack stack){
         if(stack==null)return DISPLAY_NOMATCH_PREV;
+        stack = stack.clone();
         var meta=stack.getItemMeta();
         List<String> lore=meta.getLore();
         lore=lore==null?new ArrayList<>():lore;
@@ -63,6 +66,7 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
     }
     protected static ItemStack getNextItem(ItemStack stack){
         if(stack==null)return DISPLAY_NOMATCH_NEXT;
+        stack = stack.clone();
         var meta=stack.getItemMeta();
         List<String> lore=meta.getLore();
         lore=lore==null?new ArrayList<>():lore;
