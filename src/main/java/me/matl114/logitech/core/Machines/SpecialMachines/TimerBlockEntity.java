@@ -23,7 +23,7 @@ public class TimerBlockEntity extends AbstractTimerRange  {
     @Getter
     private static TimerBlockEntity instance=null;
     public TimerBlockEntity(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int energybuffer, int energyConsumption) {
-        super(category, item, recipeType, recipe,7,50, energybuffer, energyConsumption);
+        super(category, item, recipeType, recipe,7,50,1, energybuffer, energyConsumption);
         instance=this;
     }
 

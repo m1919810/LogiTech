@@ -94,7 +94,7 @@ public abstract class AbstractTimerRange  extends AbstractMachine implements Men
      * @param energybuffer
      * @param energyConsumption
      */
-    public AbstractTimerRange(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,int range,int timer, int energybuffer, int energyConsumption) {
+    public AbstractTimerRange(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,int range,int timer,int period, int energybuffer, int energyConsumption) {
         super(category, item, recipeType, recipe, energybuffer, energyConsumption);
         this.Range =range;
         this.TIMER=timer;
@@ -105,7 +105,7 @@ public abstract class AbstractTimerRange  extends AbstractMachine implements Men
                 }
             };
             PostSetupTasks.addPostRegisterTask(()->{
-                Schedules.launchSchedules(TickTask,10,false,1);
+                Schedules.launchSchedules(TickTask,10,false,period);
             });
         }
         initFrame();
@@ -154,7 +154,10 @@ public abstract class AbstractTimerRange  extends AbstractMachine implements Men
                     iter.remove();
                 }
             }
-        }finally {
+        }catch(Throwable anyThingIgnored){
+
+        }
+        finally {
             running=false;
         }
     }

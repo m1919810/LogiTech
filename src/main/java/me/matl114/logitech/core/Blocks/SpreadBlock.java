@@ -80,6 +80,11 @@ public class SpreadBlock extends AbstractBlock implements Ticking {
             new Vector(0,1,0),
             new Vector(0,-1,0),
     };
+    public void createResultAt(Location loc){
+        Player player=SPREAD_PLAYER.remove(loc);
+        SPREAD_TICKER.remove(loc);
+        WorldUtils.createSlimefunBlock(loc,player,RESULT,(rand.nextInt(100)<(100-CHANCE_KEEP_MATERIAL))? RESULT_MATERIAL:SPREAD_MATERIAL,true,()->{});
+    }
     public void registerTick(SlimefunItem item){
         item.addItemHandler(
                 new BlockTicker() {
@@ -97,9 +102,7 @@ public class SpreadBlock extends AbstractBlock implements Ticking {
                         }
                         Integer life=SPREAD_TICKER.get(loc);
                         if(life==null||life==0){
-                            Player player=SPREAD_PLAYER.remove(loc);
-                            SPREAD_TICKER.remove(loc);
-                            WorldUtils.createSlimefunBlock(loc,player,RESULT,(rand.nextInt(100)<(100-CHANCE_KEEP_MATERIAL))? RESULT_MATERIAL:SPREAD_MATERIAL,true,()->{});
+                            createResultAt(loc);
                         }
                         else if(life<0){
                             SPREAD_TICKER.put(loc, life+rand.nextInt(100)<60?1:0);

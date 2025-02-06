@@ -2706,16 +2706,49 @@ public class AddSlimefunItems {
     public static final SlimefunItem ANTIMASS_CLEAR=new CustomProps(SPECIAL, AddItem.ANTIMASS_CLEAR, RecipeType.NULL,
             NULL_RECIPE.clone(), null) {
         public void onClickAction(PlayerRightClickEvent event) {
-            Schedules.execute(()->{
-                HashSet<SlimefunBlockData> data = new HashSet<>();
-                Slimefun.getDatabaseManager().getBlockDataController().getAllLoadedChunkData().forEach(c->data.addAll(c.getAllBlockData()));
-                data.stream().filter(d->d.getSfId().equals(ANTIMASS.getId())).map(SlimefunBlockData::getLocation).forEach(Slimefun.getDatabaseManager().getBlockDataController()::removeBlock);
-                if(ANTIMASS instanceof SpreadBlock sb){
-                    sb.getSpreadOwner().clear();
-                    sb.getSpreadTicker().clear();
+            Player p = event.getPlayer();
+            if(p.isOp()||p.getGameMode() == GameMode.CREATIVE){
+                if(p.isSneaking()){
+                    AddUtils.sendMessage(p,"&a输入一种材料以替换&c当前世界&a所有逻辑核心,输入取消以取消");
+                    AddUtils.asyncWaitPlayerInput(p,(str)->{
+                        try{
+                            Material material = WorldUtils.getBlock(  Material.getMaterial(str.toUpperCase(Locale.ROOT)) );
+                            Preconditions.checkNotNull(material );
+                            HashSet<SlimefunBlockData> data = new HashSet<>();
+                            HashSet<Location> locations = new HashSet<>();
+                            Slimefun.getDatabaseManager().getBlockDataController().getAllLoadedChunkData().forEach(c->data.addAll(c.getAllBlockData()));
+                            data.stream().filter(d->d.getSfId().equals(LOGIC_CORE.getId())).map(SlimefunBlockData::getLocation).filter(l->l.getWorld()==p.getWorld()).forEach((l)->{
+                                locations.add(l);
+                                l.getBlock().setType(material);
+                            });
+                            Schedules.launchSchedules(()->{
+                                locations.stream().forEach(Slimefun.getDatabaseManager().getBlockDataController()::removeBlock);
+                            },0,false,0);
+                            AddUtils.sendMessage(p,"&a已替换材质,并删除原有的逻辑核心");
+                        }catch  (Throwable e){
+                            AddUtils.sendMessage(p,"&a已取消");
+                        }
+                    });
+                }else{
+                    if(ANTIMASS instanceof SpreadBlock sb){
+                        sb.getSpreadOwner().clear();
+                        sb.getSpreadTicker().clear();
+                        WorldUtils.abortCreatingQueue();
+                        HashSet<SlimefunBlockData> data = new HashSet<>();
+                        Slimefun.getDatabaseManager().getBlockDataController().getAllLoadedChunkData().forEach(c->data.addAll(c.getAllBlockData()));Set<Location> location =  data.stream().filter(d->d.getSfId().equals(ANTIMASS.getId())).map(SlimefunBlockData::getLocation).collect(Collectors.toSet());
+                        location.forEach(Slimefun.getDatabaseManager().getBlockDataController()::removeBlock);
+
+                        sendMessage(event.getPlayer(),"&a反概念物质已成功清除");
+                        Schedules.launchSchedules(()->{
+                            location.forEach(sb::createResultAt);
+                        },30,false,0);
+                    }
+
+
                 }
-                sendMessage(event.getPlayer(),"&a反概念物质已成功清除");
-            },false);
+            }else{
+                AddUtils.sendMessage(p,"&c你没有权限使用这个道具");
+            }
 
         }
     }

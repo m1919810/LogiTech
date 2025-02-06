@@ -1330,7 +1330,13 @@ public class WorldUtils {
      * @param force
      * @param hasSync
      */
-    public static ConcurrentHashMap<Location,SlimefunItem> CREATING_QUEUE = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Location,SlimefunItem> CREATING_QUEUE = new ConcurrentHashMap<>();
+    private static boolean abort =false;
+    public static void abortCreatingQueue(){
+        CREATING_QUEUE.clear();;
+        abort  =true;
+        Schedules.launchSchedules(()->abort = false,10,true,0);
+    }
     public static boolean createSlimefunBlock(Location loc,Player player,SlimefunItem item,Material material,boolean force,Runnable callback){
         if(CREATING_QUEUE.containsKey(loc)){
             SlimefunItem item1 = CREATING_QUEUE.get(loc);
@@ -1353,6 +1359,9 @@ public class WorldUtils {
         return true;
     }
     public static boolean createSlimefunBlockSync(Location loc,Player player,SlimefunItem item,Material material,boolean force,Runnable callback){
+        if(abort){
+            return false;
+        }
         Block block = loc.getBlock();
         if(!force&&player!=null){
             if(!hasPermission(player,loc, Interaction.PLACE_BLOCK)){
@@ -1653,6 +1662,6 @@ public class WorldUtils {
         return loc;
     }
     public static boolean copyBlockState(BlockState state,Block block2){
-        return EnvironmentManager.getManager().getVersioned().copyBlockStateTo(state,block2);
+        return EnvironmentManager.getManager().getVersioned().copyBlockStateTo(state,block2)!=null;
     }
 }

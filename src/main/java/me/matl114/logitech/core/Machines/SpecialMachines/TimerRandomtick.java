@@ -30,7 +30,7 @@ public class TimerRandomtick extends AbstractTimerRange{
     @Getter
     private static TimerRandomtick instance=null;
     public TimerRandomtick(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int energybuffer, int energyConsumption) {
-        super(category, item, recipeType, recipe,10,1, energybuffer, energyConsumption);
+        super(category, item, recipeType, recipe,10,1,1, energybuffer, energyConsumption);
         instance=this;
     }
 //    Method
