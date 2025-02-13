@@ -162,7 +162,8 @@ public class FinalConvertor extends AbstractMachine implements FinalAltarCore.Fi
                                 "&7当机器运转时,",
                                 "&7机器会随机波动若干次输入测的物品材质id",
                                 "&7并尝试将其转为其他材质的原版物品",
-                                "&7当转换失败时,机器会随机从可能的输出中选择一项",
+                                "&7同时赋予其随机的数量",
+                                "&7当转换失败时,机器会随机从下方可能的输出中选择一项",
                                 "&7进行输出")
                 )
         );
@@ -231,7 +232,7 @@ public class FinalConvertor extends AbstractMachine implements FinalAltarCore.Fi
             }while (output!=null);
             Material randMaterial=getRandomMaterial(input.getType());
 
-            ItemStack result=(randMaterial!=null&&randMaterial.isItem())?new ItemStack(randMaterial,randMaterial.getMaxStackSize()):NULL_OUT.getInstance();
+            ItemStack result=(randMaterial!=null&&randMaterial.isItem())?new ItemStack(randMaterial,rand.nextInt( randMaterial.getMaxStackSize())+1):NULL_OUT.getInstance();
 
             inv.replaceExistingItem(OUTPUT_SLOT[hasPutOutput-1],result);
             inv.replaceExistingItem(INPUT_SLOT[hasPutInput-1],null);

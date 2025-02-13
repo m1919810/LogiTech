@@ -672,8 +672,8 @@ public class AddSlimefunItems {
                         mkP(mkl(AddItem.SPACE_PLATE,AddItem.MASS_CORE),mkl(AddItem.TRANSMUTATOR_FRAME)),6,
                         mkP(mkl(AddItem.SPACE_PLATE,setC(AddItem.LFIELD,24)),mkl(setC(AddItem.TRANSMUTATOR_GLASS,2))),6,
                         mkP(mkl(setC(AddItem.ATOM_INGOT,16),setC(AddItem.BISILVER,2)),mkl(AddItem.TRANSMUTATOR_ROD)),6,
-                        mkP(mkl(setC(AddItem.VIRTUALWORLD,4),setC(AddItem.HGTLPBBI,3)),mkl(AddItem.FINAL_STACKMACHINE)),6,
-                        mkP(mkl(setC(AddItem.VIRTUALWORLD,4),setC(AddItem.PDCECDMD,3)),mkl(AddItem.FINAL_STACKMGENERATOR)),6
+                        mkP(mkl(setC(AddItem.VIRTUALWORLD,4),setC(AddItem.HGTLPBBI,7)),mkl(AddItem.FINAL_STACKMACHINE)),6,
+                        mkP(mkl(setC(AddItem.VIRTUALWORLD,4),setC(AddItem.PDCECDMD,7)),mkl(AddItem.FINAL_STACKMGENERATOR)),6
             ))
             .register();
 
@@ -2828,7 +2828,7 @@ public class AddSlimefunItems {
                     AddItem.HGTLPBBI,setC(AddItem.MASS_CORE,64),setC(AddItem.SPACE_PLATE,4),setC(AddItem.SPACE_PLATE,4),setC(AddItem.MASS_CORE,64),AddItem.PDCECDMD,
                     setC(AddItem.STACKFRAME,64),AddItem.HGTLPBBI,AddItem.HGTLPBBI,AddItem.PDCECDMD,AddItem.PDCECDMD,setC(AddItem.STACKFRAME,64)),1,1_440_000,57_600,
             new PairList<>(){{
-                put(mkl("COBBLESTONE"),mkl("114514COBBLESTONE"));
+                put(mkl("COBBLESTONE"),mkl("233333COBBLESTONE"));
                 put(mkl("NETHERRACK"),mkl("114514NETHERRACK"));
                 put(mkl("END_STONE"),mkl("114514END_STONE"));
                 put(mkl("GRANITE"),mkl("114514GRANITE"));
@@ -2856,20 +2856,17 @@ public class AddSlimefunItems {
                     AddItem.LOGIC_CORE,AddItem.PDCECDMD,AddItem.WORLD_FEAT,AddItem.WORLD_FEAT,AddItem.PDCECDMD,AddItem.LOGIC_CORE,
                     AddItem.SPACE_PLATE,AddItem.PDCECDMD,AddItem.FINAL_FRAME,AddItem.FINAL_FRAME,AddItem.PDCECDMD,AddItem.SPACE_PLATE,
                     AddItem.SPACE_PLATE,AddItem.SPACE_PLATE,AddItem.LOGIC_CORE,AddItem.LOGIC_CORE,AddItem.SPACE_PLATE,AddItem.SPACE_PLATE), 840_000_000,100_000_000,
-            randItemStackFactory(
+            eqRandItemStackFactory(
                     Utils.list(
                             probItemStackFactory(AddItem.VIRTUALWORLD,50),
                            setC(  AddItem.STAR_GOLD_INGOT,64),
                          setC(AddItem.ATOM_INGOT,64),
-                            setC(AddItem.LSINGULARITY,64),
-                            randItemStackFactory(
+                            setC(AddItem.LSINGULARITY,24),
+                            probItemStackFactory(randItemStackFactory(
                                     Utils.list(AddItem.HGTLPBBI,AddItem.PDCECDMD,AddItem.ANTIMASS),
-                                    Utils.list(4,4,1)
-                            ),
+                                    Utils.list(16,16,1)
+                            ),72),
                             probItemStackFactory(AddItem.VIRTUAL_SPACE,50)
-                    ),
-                    Utils.list(
-                            1,1,1,1,2,1
                     )
             ))
             .register();
@@ -2889,7 +2886,7 @@ public class AddSlimefunItems {
             16)
             .register();
     public static final  SlimefunItem FINAL_CRAFT=new SpecialCrafter(BEYOND, AddItem.FINAL_CRAFT,STARSMELTERY,
-            recipe(setC(AddItem.PDCECDMD,3),setC(AddItem.VIRTUALWORLD,11),setC(AddItem.HGTLPBBI,3),setC(AddItem.CRAFTER,16)), Material.CRAFTING_TABLE,0,18_000, 7_200_000){
+            recipe(setC(AddItem.PDCECDMD,8),setC(AddItem.VIRTUALWORLD,11),setC(AddItem.HGTLPBBI,8),setC(AddItem.CRAFTER,16)), Material.CRAFTING_TABLE,0,18_000, 7_200_000){
         {
             CRAFT_PROVIDER=FinalFeature.STORAGE_AND_LOCPROXY_READER;
             MACHINE_PROVIDER=FinalFeature.STORAGE_READER;

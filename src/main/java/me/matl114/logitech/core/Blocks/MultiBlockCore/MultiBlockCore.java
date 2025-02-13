@@ -95,7 +95,7 @@ public interface MultiBlockCore extends MultiBlockPart, Ticking , MenuBlock {
      */
     default void autoBuild(Location loc, SlimefunBlockData data, int autoCode){
         if(autoCode<=0)return;
-        if(autoCode==3){//3tick重连一次
+        if(autoCode==4){//3tick重连一次
             Location tarloc=loc.clone();
             runAsyncOrReturnBlocked(tarloc,()->{
                 MultiBlockService.createNewHandler(loc,getBuilder(),getMultiBlockType());
@@ -113,7 +113,8 @@ public interface MultiBlockCore extends MultiBlockPart, Ticking , MenuBlock {
      */
     default void runtimeCheck(Location loc,SlimefunBlockData data,int autoCode){
         int sgn=autoCode>0?1:-1;
-        if(autoCode*sgn==3){//3tick检测一次
+        //这玩意不应该需要这么多
+        if(autoCode*sgn==8){//8tick检测一次
             Location tarloc=loc.clone();
             runAsyncOrReturnBlocked(tarloc,()->MultiBlockService.checkIfAbsentRuntime(data));
             autoCode=sgn;

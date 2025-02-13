@@ -698,11 +698,12 @@ public class CommandShell {
                         classFieldNotFound(shell,clazz);
                         return -1;
                     }
-                    shell.send(AddUtils.concat( "位于Class ",result.getSecondValue().getName()));
-                    shell.printObject(res);
                     if(argv.length==3){
                         setVariable(shell,argv[2],res);
                     }
+                    shell.send(AddUtils.concat( "位于Class ",result.getSecondValue().getName()));
+                    shell.printObject(res);
+
                     return 1;
                 }
             }
@@ -935,11 +936,11 @@ public class CommandShell {
                 Method method=ReflectUtils.getSuitableMethod(cls,methodName,parameterClass).getFirstValue() ;
                 try{
                     Object e= method.invoke(null,parameters);
-                    shell.send("INVOKE SUCCESS, RETURN VAL");
-                    shell.printObject(e);
                     if(result!=null){
                         setVariable(shell,result,e);
                     }
+                    shell.send("INVOKE SUCCESS, RETURN VAL");
+                    shell.printObject(e);
                 }catch(Exception e){
 
                     shell.error(e.getMessage());
@@ -950,11 +951,11 @@ public class CommandShell {
                 Method method=ReflectUtils.getSuitableMethod(cls,methodName,parameterClass).getFirstValue() ;
                 try{
                     Object e= method.invoke(obj,parameters);
-                    shell.send("INVOKE SUCCESS, RETURN VAL");
-                    shell.printObject(e);
                     if(result!=null){
                         setVariable(shell,result,e);
                     }
+                    shell.send("INVOKE SUCCESS, RETURN VAL");
+                    shell.printObject(e);
                 }catch(Exception e){
                     shell.error(e.getMessage());
                     Debug.debug(e);

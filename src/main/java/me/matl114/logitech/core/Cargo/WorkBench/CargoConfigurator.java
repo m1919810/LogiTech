@@ -56,13 +56,13 @@ public class CargoConfigurator extends AbstractBlock {
             //Modified
             new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 源方块槽位优先级 的配置槽位",
                     "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置源方块模式(抓取)","&7若该项为True,则优先从源方块输入槽进行货运","&7蕴含最终源方块模式 &e输入槽 &7和 &e输入槽+输出槽","&7若该项为False,则优先从源方块输出槽进行货运","&7蕴含最终源方块模式 &e输出槽 &7和 &e输出槽+输入槽"),
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 抓取++ 的配置槽位",
-                    "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置是否启用源方块++模式","&7该模式为True时,货运会同时涉及输入槽和输出槽","&7++模式且抓取输入槽优先:True时,最终源方块模式为 &e输入槽+输出槽",
-                    "&7++模式且抓取输入槽优先:False,最终源方块模式为 &e输出槽+输入槽"),
+
             new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 目标方块槽位优先级 的配置槽位",
                     "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置目标方块模式(推送)","&7若该项为True,则优先从目标方块输出槽进行货运","&7蕴含最终目标方块模式 &e输出槽 &7和 &e输出槽+输入槽","&7若该项为False,则优先从目标方块输入槽进行货运","&7蕴含最终目标方块模式 &e输入槽 &7和 &e输入槽+输出槽"),
-
-            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 推送++ 的配置槽位",
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 源方块++ 的配置槽位",
+                    "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置是否启用源方块++模式","&7该模式为True时,货运会同时涉及输入槽和输出槽","&7++模式且抓取输入槽优先:True时,最终源方块模式为 &e输入槽+输出槽",
+                    "&7++模式且抓取输入槽优先:False,最终源方块模式为 &e输出槽+输入槽"),
+            new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6配置 目标方块++ 的配置槽位",
                     "&e将[%s]或[%s]置于下方".formatted(Language.get("Items.TRUE_.Name"),Language.get("Items.FALSE_.Name")),"&7配置是否启用目标方块++模式","&7该模式为True时,货运会同时涉及输入槽和输出槽","&7++模式且推送输出槽优先:True时,最终目标方块模式为 &e输出槽+输入槽",
                     "&7++模式且推送输出槽优先:False,最终目标方块模式为 &e输入槽+输出槽"),
 

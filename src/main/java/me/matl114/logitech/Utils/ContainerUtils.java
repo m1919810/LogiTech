@@ -33,9 +33,7 @@ public class ContainerUtils {
         ContainerBlockMenuWrapper.setup();
     }
     private static int[][] preCalculatedSlots= IntStream.range(0,73).mapToObj(i->{
-        if(i<9||i%9==0){
-            return IntStream.range(0,i).toArray();
-        }else return null;
+        return IntStream.range(0,i).toArray();
     }).toArray(int[][]::new);
     private static int[] getSlotAccess(int size){
         if(preCalculatedSlots[size]==null){
