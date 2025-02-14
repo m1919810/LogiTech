@@ -180,7 +180,7 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
             getLogger().log(Level.SEVERE, "从此处下载: https://50l.cc/gzlib");
             getLogger().log(Level.SEVERE, "当出现该报错时,作者对一切后续的报错不负责");
             getServer().getPluginManager().disablePlugin(this);
-            return;
+            throw new RuntimeException("Dependency not found");
         }
         try {
             if( !Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20) ){

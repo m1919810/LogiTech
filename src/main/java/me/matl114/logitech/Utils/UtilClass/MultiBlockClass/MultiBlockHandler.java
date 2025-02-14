@@ -148,11 +148,10 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
     }
 
     /**
-     * this method should called onMultiBlockDisable for CORE and reset blockdata!
+     * this method should only be called AFTER the removal of handler
      */
     public void destroy(MultiBlockService.DeleteCause cause){
         this.active=false;
-        //if(DataCache.hasData(CORE)){
         MultiBlockService.setUUID(CORE,"null");
         MultiBlockService.setStatus(CORE,0);
         SlimefunItem it=DataCache.getSfItem(CORE);
@@ -162,10 +161,10 @@ public class MultiBlockHandler  implements AbstractMultiBlockHandler {
         //}
         for(int i=0;i<this.size;i++){
             Location loc=CORE.clone().add(STRUCTURE_TYPE.getStructurePart(i));
-            if(DataCache.hasData(loc)){
-                MultiBlockService.setUUID(loc,"null");
-                MultiBlockService.setStatus(loc,0);
-            }
+
+            MultiBlockService.setUUID(loc,"null");
+            MultiBlockService.setStatus(loc,0);
+
         }
     }
 

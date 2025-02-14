@@ -161,8 +161,9 @@ public class MultiBlockService {
         while(iterator.hasNext()){
             Map.Entry<String,AbstractMultiBlockHandler> entry = iterator.next();
             if(entry.getValue().getCore().equals(core)){
-                entry.getValue().destroy(cause);
+                var value = entry.getValue();
                 iterator.remove();
+                value.destroy(cause);
             }
         }
     }
@@ -402,7 +403,9 @@ public class MultiBlockService {
                     return true;
                 }else {
                     //contains auto called delete
-                    handler.destroy(handler.getLastDeleteCause());
+                    deleteMultiBlock(handler.getUid(),handler.getLastDeleteCause());
+                    //only destroy do not remove handler!
+                    //handler.destroy(handler.getLastDeleteCause());
                     setStatus(loc,0);
                     MultiBlockService.setUUID(loc,"null");
                     return false;
