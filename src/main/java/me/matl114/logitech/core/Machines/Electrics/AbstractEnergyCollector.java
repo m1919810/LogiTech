@@ -130,7 +130,7 @@ public abstract class AbstractEnergyCollector extends AbstractEnergyMachine impl
     public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int ticker) {
         Location loc=menu.getLocation();
         final AtomicCounter charge=new AtomicCounter(this.getCharge(loc,data),this.energybuffer) ;
-        int energyProvider=0;
+        AtomicInteger energyProvider= new AtomicInteger(0);
         AtomicInteger errorMachine=new AtomicInteger(0);
         boolean lazymod= getStatus(menu)[0];
         Collection<SlimefunBlockData> allDatas= getCollectRange(menu,b,data);
@@ -190,21 +190,26 @@ public abstract class AbstractEnergyCollector extends AbstractEnergyMachine impl
                     }).exceptionally(ex->{
                         new ErrorReport<>(ex, testLocation, item);return null;
                     });
-                    energyProvider+=1;
-                    if(energyProvider>= getMaxCollectAmount()){
+                    if(energyProvider.incrementAndGet() >= getMaxCollectAmount()){
                         break;
                     }
                 }
             }
             if(!gens.isEmpty()){
-                CompletableFuture.allOf(gens.toArray(CompletableFuture[]::new)).join();
+                CompletableFuture.allOf(gens.toArray(CompletableFuture[]::new)).thenRun(()->{
+                    this.setCharge(loc, charge.get());
+
+                    if(menu.hasViewer()){
+                        menu.replaceExistingItem(getInfoSlot(),getInfoShow(charge.get(),energyProvider.get(), errorMachine.get()));
+                    }
+                });
+            }else{
+                if(menu.hasViewer()){
+                    menu.replaceExistingItem(getInfoSlot(),getInfoShow(charge.get(),energyProvider.get(), errorMachine.get()));
+                }
             }
         }
-        this.setCharge(loc, charge.get());
 
-        if(menu.hasViewer()){
-            menu.replaceExistingItem(getInfoSlot(),getInfoShow(charge.get(),energyProvider, errorMachine.get()));
-        }
     }
 
     public void tickAsync(Block b, BlockMenu menu, SlimefunBlockData data, int ticker) {

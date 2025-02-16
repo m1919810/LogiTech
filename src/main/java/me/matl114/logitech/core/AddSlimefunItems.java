@@ -2288,14 +2288,17 @@ public class AddSlimefunItems {
             )
             .register();
     public static final SlimefunItem ADV_MANUAL=new AdvancedManual(MANUAL,AddItem.ADV_MANUAL,COMMON_TYPE,
-            recipe(setC(AddItem.BUG,4),AddItem.ENHANCED_CRAFT_MANUAL,AddItem.ENHANCED_CRAFT_MANUAL,AddItem.ENHANCED_CRAFT_MANUAL,AddItem.ENHANCED_CRAFT_MANUAL,setC(AddItem.BUG,4),
-                    AddItem.SMELTERY_MANUAL,AddItem.LFIELD,AddItem.LENGINE,AddItem.LENGINE,AddItem.LFIELD,AddItem.FURNACE_MANUAL,
-                    AddItem.SMELTERY_MANUAL,AddItem.LFIELD,setC(AddItem.MANUAL_CORE,16),setC(AddItem.MANUAL_CORE,16),AddItem.LFIELD,AddItem.FURNACE_MANUAL,
-                    AddItem.SMELTERY_MANUAL,AddItem.LFIELD,setC(AddItem.MANUAL_CORE,16),setC(AddItem.MANUAL_CORE,16),AddItem.LFIELD,AddItem.FURNACE_MANUAL,
-                    AddItem.SMELTERY_MANUAL,AddItem.LFIELD,AddItem.LENGINE,AddItem.LENGINE,AddItem.LFIELD,AddItem.FURNACE_MANUAL,
-                    setC(AddItem.BUG,4),AddItem.ANCIENT_ALTAR_MANUAL,AddItem.ANCIENT_ALTAR_MANUAL,AddItem.ANCIENT_ALTAR_MANUAL,AddItem.ANCIENT_ALTAR_MANUAL,setC(AddItem.BUG,4)))
+            recipe(AddItem.BUG,AddItem.ENHANCED_CRAFT_MANUAL,AddItem.ENHANCED_CRAFT_MANUAL,AddItem.ENHANCED_CRAFT_MANUAL,AddItem.ENHANCED_CRAFT_MANUAL,AddItem.BUG,
+                    AddItem.SMELTERY_MANUAL,"ALUMINUM_BRASS_INGOT",setC(AddItem.MANUAL_CORE,6),setC(AddItem.MANUAL_CORE,6),"ALUMINUM_BRASS_INGOT",AddItem.FURNACE_MANUAL,
+                    AddItem.SMELTERY_MANUAL,"ALUMINUM_BRASS_INGOT",setC(AddItem.MANUAL_CORE,6),setC(AddItem.MANUAL_CORE,6),"ALUMINUM_BRASS_INGOT",AddItem.FURNACE_MANUAL,
+                    AddItem.SMELTERY_MANUAL,"ALUMINUM_BRASS_INGOT",setC(AddItem.MANUAL_CORE,6),setC(AddItem.MANUAL_CORE,6),"ALUMINUM_BRASS_INGOT",AddItem.FURNACE_MANUAL,
+                    AddItem.SMELTERY_MANUAL,"ALUMINUM_BRASS_INGOT",setC(AddItem.MANUAL_CORE,6),setC(AddItem.MANUAL_CORE,6),"ALUMINUM_BRASS_INGOT",AddItem.FURNACE_MANUAL,
+                    AddItem.BUG,AddItem.ANCIENT_ALTAR_MANUAL,AddItem.ANCIENT_ALTAR_MANUAL,AddItem.ANCIENT_ALTAR_MANUAL,AddItem.ANCIENT_ALTAR_MANUAL,AddItem.BUG))
             .register();
-
+    public static final SlimefunItem PORTABLE_MANUAL=new PortableManual(MANUAL,AddItem.PORTABLE_MANUAL,ENHANCED_CRAFTING_TABLE,
+            recipe(null,"PORTABLE_CRAFTER",null,null,AddItem.ADV_MANUAL,null,
+                    null,null,null))
+            .register();
 
     //cargo items
     public static final SlimefunItem CARGO_PART=new MaterialItem(CARGO,AddItem.CARGO_PART,ENHANCED_CRAFTING_TABLE,

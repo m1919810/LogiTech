@@ -1,7 +1,9 @@
 package me.matl114.logitech.core;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Utils.UtilClass.SpecialItemClass.CustomFireworkStar;
 import me.matl114.logitech.Utils.UtilClass.SpecialItemClass.CustomHead;
@@ -9,6 +11,7 @@ import me.matl114.logitech.Language;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.matlib.Utils.Algorithm.InitializeProvider;
 import me.matl114.matlib.Utils.Algorithm.InitializeSafeProvider;
+import me.matl114.matlib.Utils.Reflect.FieldAccess;
 import me.matl114.matlib.core.EnvironmentManager;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -532,6 +535,22 @@ public class AddItem {
             get("Manuals.CARD_MAKER.Name"),getList("Manuals.CARD_MAKER.Lore"));
     public static final SlimefunItemStack ADV_MANUAL=themed("ADV_MANUAL",Material.LECTERN,Theme.MANUAL1,
             get("Manuals.ADV_MANUAL.Name"),getList("Manuals.ADV_MANUAL.Lore"));
+    public static final SlimefunItemStack PORTABLE_MANUAL=new InitializeProvider<>(()->{
+        SlimefunItemStack item= themed("PORTABLE_MANUAL",CustomHead.CRAFTER.getItem(),Theme.MANUAL1,
+                get("Manuals.PORTABLE_MANUAL.Name"),getList("Manuals.PORTABLE_MANUAL.Lore"));
+        try{
+            int portableCrafter = Slimefun.getItemTextureService().getModelData("PORTABLE_CRAFTER");
+            if(portableCrafter!=0){
+                String itemId = item.getItemId();
+                FieldAccess.AccessWithObject<Config> configAccess = (FieldAccess.ofName("config").ofAccess( Slimefun.getItemTextureService()));
+                configAccess.get((config)->{
+                    config.setValue(itemId,portableCrafter);
+                });
+                item = new SlimefunItemStack(itemId,item);
+            }
+        }catch (Throwable ignored){        }
+        return item;
+    }).v();
     //generators
     public static final SlimefunItemStack MAGIC_STONE=themed("MAGIC_STONE",Material.COBBLESTONE,Theme.MACHINE2,
             get("Generators.MAGIC_STONE.Name"),getList("Generators.MAGIC_STONE.Lore"));

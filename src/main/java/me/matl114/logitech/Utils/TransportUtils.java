@@ -328,13 +328,14 @@ public class TransportUtils {
                         toPusher.updateMenu(to);
                         fromPusher.updateMenu(from);
                         //FME 非空逻辑有问题 需要在获取槽位的时候剔除掉
-                    }else {
-                        if(!toPusher.isFull()&& CraftUtils.matchItemCounter(fromPusher,toPusher,true)){//如果匹配
-                            translimit=toPusher.transportFrom(fromPusher,translimit);
-                            //DO 将update改到不同的地方 不要做存储
-                            toPusher.updateMenu(to);
-                            fromPusher.updateMenu(from);
-                        }
+                    }else if(isnull||toPusher.isFull()){
+                        //这个槽已经被处理过了，不可能继续塞物品
+                        toRecord[slot] = true;
+                    } else if(CraftUtils.matchItemCounter(fromPusher,toPusher,true)){
+                        translimit=toPusher.transportFrom(fromPusher,translimit);
+                        //DO 将update改到不同的地方 不要做存储
+                        toPusher.updateMenu(to);
+                        fromPusher.updateMenu(from);
                     }
                     //结束了,,
                     //没有转运份额了,终结
@@ -440,14 +441,16 @@ public class TransportUtils {
                             toPusher.updateMenu(to);
                             fromPusher.updateMenu(from);
                             //E 非空逻辑有问题 需要在获取槽位的时候剔除掉
-                        }else {
-                            if(!toPusher.isFull()&& CraftUtils.matchItemCounter(fromPusher,toPusher,true)){//如果匹配
+                        }else if(isnull||toPusher.isFull()){
+                            toRecord[j] = true;
+                        }
+                        else if( CraftUtils.matchItemCounter(fromPusher,toPusher,true)){//如果匹配
                                 translimit=toPusher.transportFrom(fromPusher,translimit);
                                 //TO 将update改到不同的地方 不要做存储
                                 toPusher.updateMenu(to);
                                 fromPusher.updateMenu(from);
                             }
-                        }
+
                         //结束了,,
                         //没有转运份额了,终结
                         if(translimit==0){
@@ -469,6 +472,7 @@ public class TransportUtils {
 
 
     //#TODO more improve plan
+    @Deprecated
     public static void transportItemGreedy_3_workspace(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,
                                              boolean isnull,boolean lazy,boolean whitlist, HashSet<ItemStack> blacklist, int translimit,
                                              ItemPusherProvider provider){

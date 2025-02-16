@@ -95,10 +95,10 @@ public class AdvancedManual extends AbstractBlock {
     }
     @Override
     public void newMenuInstance(@Nonnull BlockMenu blockMenu, @Nonnull Block block){
-        blockMenu.addMenuOpeningHandler(this::openManulGui);
+        blockMenu.addMenuOpeningHandler(this::openManualGui);
     }
-    private HashMap<UUID,ManualCrafterGui> PLAYER_MANUALGUIS=new HashMap<>();
-    public void openManulGui(Player player){
+    private  HashMap<UUID,ManualCrafterGui> PLAYER_MANUALGUIS=new HashMap<>();
+    public void openManualGui(Player player){
         PLAYER_MANUALGUIS.computeIfAbsent(player.getUniqueId(),(uuid -> new ManualCrafterGui(getItemName()))).open(player);
     }
     private ItemStack displayedBook=new ItemStack(Material.WRITTEN_BOOK);

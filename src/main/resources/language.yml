@@ -1157,6 +1157,11 @@ zh_CN:
       Lore:
         - '新概念一键合成!'
         - '直接在玩家背包中进行合成'
+    PORTABLE_MANUAL:
+      Name: '便捷式高级快捷合成台'
+      Lore:
+        - '新概念一键合成'
+        - '右键 打开高级快捷合成界面'
   Generators:
 
     MAGIC_STONE:

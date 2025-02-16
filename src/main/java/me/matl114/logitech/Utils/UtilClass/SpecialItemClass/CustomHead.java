@@ -37,7 +37,8 @@ public enum CustomHead {
     LUCKY_BOX("b3b710b08b523bba7efba07c629ba0895ad61126d26c86beb3845603a97426c"),
     TOURUYA("246e3280c2ffe194ccb6e6b16e33eb67127317e9929b8839bc2dd8f7138abccb"),
     MOYU("422b6e29c36cfa7a421f3e096a96086667672f22e04694b48486dd529f596276"),
-    BNOISE_HEAD("c6e5d93ff41bded5762093bf81a3273db079aa457b8dbf482754870af4b0f0a9")
+    BNOISE_HEAD("c6e5d93ff41bded5762093bf81a3273db079aa457b8dbf482754870af4b0f0a9"),
+    CRAFTER("8f4f17dc4c065d31b4efbf33b5da2413149c77ec7f5b2768ce889d7c154fa65d")
     ;
     private ItemStack item;
     public ItemStack getItem() {

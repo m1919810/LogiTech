@@ -126,7 +126,7 @@ public abstract class AbstractEnergyCharger extends AbstractEnergyMachine implem
         boolean lazymod=getStatus(menu)[0];
         Collection<SlimefunBlockData> allDatas=getChargeRange(menu,b,data); //DataCache.getAllSfItemInChunk(loc.getWorld(),loc.getBlockX()>>4,loc.getBlockZ()>>4);
         if(allDatas!=null&&!allDatas.isEmpty()){
-            List<CompletableFuture<Void>> futures=new ArrayList<>();
+//            List<CompletableFuture<Void>> futures=new ArrayList<>();
             for (SlimefunBlockData sf : allDatas) {
                 SlimefunItem item=SlimefunItem.getById(sf.getSfId());
                 EnergyNetComponent ec=getChargeableComponent(item);
@@ -142,7 +142,16 @@ public abstract class AbstractEnergyCharger extends AbstractEnergyMachine implem
                         }
                         energyConsumer++;
                         if(!charge.empty()){
-                            futures.add(CompletableFuture.runAsync(()->{
+//                            futures.add(CompletableFuture.runAsync(()->{
+//                                int testCharge=ec.getCharge(testLocation,sf);
+//                                int buffer=ec.getCapacity();
+//                                int left=buffer-testCharge;
+//                                if(left>0&&(!lazymod||left>=testCharge)){
+//                                    int fetched=charge.required(left);
+//                                    ec.setCharge(testLocation,fetched+testCharge);
+//                                }
+//                            }).exceptionally(ex->{errorMachine.incrementAndGet();return null;}));
+                            try{
                                 int testCharge=ec.getCharge(testLocation,sf);
                                 int buffer=ec.getCapacity();
                                 int left=buffer-testCharge;
@@ -150,7 +159,9 @@ public abstract class AbstractEnergyCharger extends AbstractEnergyMachine implem
                                     int fetched=charge.required(left);
                                     ec.setCharge(testLocation,fetched+testCharge);
                                 }
-                            }).exceptionally(ex->{errorMachine.incrementAndGet();return null;}));
+                            }catch (Throwable e){
+                                errorMachine.incrementAndGet();
+                            }
                         }
                         if(energyConsumer>=getMaxChargeAmount()){
                             break;
@@ -158,9 +169,9 @@ public abstract class AbstractEnergyCharger extends AbstractEnergyMachine implem
                     }
                 }
             }
-            if(!futures.isEmpty()){
-                CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new)).join();
-            }
+//            if(!futures.isEmpty()){
+//                CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new)).join();
+//            }
         }
         this.setCharge(loc,charge.get());
         if(menu.hasViewer()){

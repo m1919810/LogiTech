@@ -92,6 +92,11 @@ public class RemoteCargo extends AbstractCargo {
         }
     }
     public void newMenuInstance(BlockMenu inv, Block b){
+        //update old material to new material
+
+        if(b.getType()!=Material.NOTE_BLOCK){
+            b.setType(Material.NOTE_BLOCK);
+        }
         inv.addMenuOpeningHandler((player -> {
             updateMenu(inv,b,Settings.RUN);
         }));
