@@ -73,7 +73,7 @@ public class BNoiseHead extends AbstractBlock {
     @Override
     public void onBreak(BlockBreakEvent e, BlockMenu menu) {
         super.onBreak(e, menu);
-        if( WorldUtils.getBlockStateNoSnapShot(e.getBlock()) instanceof Skull skull){
+        if( e.getBlock().getState(false) instanceof Skull skull){
             NamespacedKey key=skull.getNoteBlockSound();
             if(key!=null){
                 for(Sound sound:Sound.values()){

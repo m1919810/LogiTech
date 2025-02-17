@@ -172,6 +172,7 @@ public abstract class AbstractWorkBench extends AbstractMachine {
         }
     }
     //modified from INFINITY EXPANSION
+    //todo add quick-place last recipe
     protected void moveRecipe(@Nonnull Player player, @Nonnull BlockMenu menu, MachineRecipe machinerecipe, boolean max) {
         ItemStack[] recipe =machinerecipe.getInput();
         PlayerInventory inv = player.getInventory();

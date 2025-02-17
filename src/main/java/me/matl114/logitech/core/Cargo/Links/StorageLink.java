@@ -85,7 +85,7 @@ public class StorageLink {
             if(type instanceof LocationProxy lp){
                 ItemStack item=lp.getItemStack(loc);
                 if(item!=null){
-                    name= ItemStackHelper.getDisplayName(item);
+                    name= CraftUtils.getItemName(item);
                     break;
                 }
             }

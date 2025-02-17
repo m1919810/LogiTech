@@ -30,8 +30,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.reflect.Constructor;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 /**
  * only enable when certain addon are enable
@@ -78,8 +81,9 @@ public class AddDepends {
                             null,AddItem.ABSTRACT_INGOT,"NTW_QUANTUM_WORKBENCH","NTW_QUANTUM_WORKBENCH",AddItem.ABSTRACT_INGOT,null,
                             null,AddItem.ABSTRACT_INGOT,"NTW_QUANTUM_WORKBENCH","NTW_QUANTUM_WORKBENCH",AddItem.ABSTRACT_INGOT,null,
                             null,AddItem.ABSTRACT_INGOT,AddItem.LFIELD,AddItem.LFIELD,AddItem.ABSTRACT_INGOT,null),
-                    0,0,NTWQTWORKBENCH_TYPE,NTWEP_WORKBENCH_TYPE)
+                    0,0, Stream.of( NTWQTWORKBENCH_TYPE,NTWEP_WORKBENCH_TYPE).filter(Objects::nonNull).toArray(RecipeType[]::new))
                     .register();
+            //todo 增加抽屉
         }catch (Throwable e){
             Debug.logger("AN ERROR OCCURED WHILE REGISTERING ITEM: NTWWORKBENCH_MANUAL,ITEM DISABLED");
             e.printStackTrace();

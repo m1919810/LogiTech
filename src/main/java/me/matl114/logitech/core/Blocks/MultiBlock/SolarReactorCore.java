@@ -280,7 +280,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
             if(inv!=null){
                 inv.close();
             }
-            //TODO need test
+
             //防止重新发起
             this.processor.endOperation(loc);
             WorldUtils.removeSlimefunBlock(center,true);

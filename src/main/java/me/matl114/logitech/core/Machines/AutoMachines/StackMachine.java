@@ -358,14 +358,14 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
             if(energy>=consumption){
                 if(inv.hasViewer()){
                     inv.replaceExistingItem(MINFO_SLOT,getInfoItem((int)(craftLimit*efficiency),consumption,energy,this.efficiency,
-                            ItemStackHelper.getDisplayName(this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT).getItem())));
+                            CraftUtils.getItemName(this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT).getItem())));
                 }
                 process(b,inv,data);
             }else {
                 //没电
                 if(inv.hasViewer()){
                     inv.replaceExistingItem(MINFO_SLOT,getInfoOffItem((int)(craftLimit*efficiency),consumption,energy,
-                            ItemStackHelper.getDisplayName(this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT).getItem())));
+                            CraftUtils.getItemName(this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT).getItem())));
                 }
             }
 

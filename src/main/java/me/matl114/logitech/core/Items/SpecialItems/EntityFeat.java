@@ -116,11 +116,13 @@ public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
                     case "item_display":
                     case "text_display":
                     case "interaction":
-                        break loop;
+                        continue ;
+                    default:
                 }
                 add(entityType);
             }
         }
+        Debug.logger(this);
     }};
     public static boolean isAvailableEntityType(EntityType entityType) {
         return availableEntityFeatTypes.contains(entityType);

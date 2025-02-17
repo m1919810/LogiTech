@@ -141,9 +141,9 @@ public class LogitechMain extends AbstractMainCommand {
     private void test1(){
         Block b=world.getBlockAt(0,0,0);
         Block b2=world.getBlockAt(0,1,0);
-        Debug.logger(WorldUtils.getBlockStateNoSnapShot(b));
-        WorldUtils.copyBlockState(WorldUtils.getBlockStateNoSnapShot(b),b2);
-        EnvironmentManager.getManager().getVersioned().copyBlockStateTo(WorldUtils.getBlockStateNoSnapShot(b),b2);
+        Debug.logger(b.getState(false));
+        WorldUtils.copyBlockState(b.getState(false),b2);
+        EnvironmentManager.getManager().getVersioned().copyBlockStateTo(b.getState(false),b2);
     }
     private void test2(){
         Debug.logger(CraftUtils.COMPLEX_MATERIALS);

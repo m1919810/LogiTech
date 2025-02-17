@@ -752,7 +752,6 @@ public class CraftUtils {
                     itemCounter=slotCounters2.get(j);
                     if(!itemCounter.isDirty()){
                         //可能是存储里的 或者是被覆写的maxCNT
-                        //FIXME 检测存储中是否可能存在空物品
                         if(itemCounter.getItem()==null){
                             //我们决定将这个分类留在这,为了安全性 毕竟谁也不知到之后会开发啥，不过显然 这玩意大概率是不会被调用的.
                             itemCounter.setFrom(outputItem);
@@ -840,10 +839,9 @@ public class CraftUtils {
                 }else if(previewItem.getAmount()>=previewItem.getMaxStackSize()){
                     continue;
                 }else{
-                    //fixme wrong behaivor when pushing to negative item
+
                     itp=slotCounters2.get(j);
                     if(!itp.isDirty()){
-                        //FIXME 检查cachemap中的空存储是不是可能被读取进入?
                         if(itp.getItem()==null){
                             itp.setFrom(outputItem);
                             //needs this push ,because the source of outputItem
@@ -1802,15 +1800,24 @@ public class CraftUtils {
             thatItem.setAmount(thatItem.getAmount()-amount);
         }
     }
-    public static String getItemName(ItemStack item){
+    public static String getItemName(@Nonnull ItemStack item){
         if(item.hasItemMeta()){
-            return item.getItemMeta().getDisplayName();
-        }else{
-            try{
-                return ItemStackHelper.getName(item);
-            }catch (Throwable noGuizhanLib){}
-            return item.getType().toString();
+            ItemMeta meta = item.getItemMeta();
+            if(meta !=null && meta.hasDisplayName()){
+                return meta.getDisplayName();
+            }
         }
+        try{
+            return ItemStackHelper.getName(item);
+        }catch (Throwable guizhanLibVersionNotSupport){
+            try{
+                return item.getI18NDisplayName();
+            }catch (Throwable paperVersionNotSupport){
+                return item.getType().getKey().getKey();
+            }
+        }
+
+
     }
     public static String getEffectName(PotionEffectType effect){
         try{

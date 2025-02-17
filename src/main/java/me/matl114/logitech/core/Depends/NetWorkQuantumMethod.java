@@ -59,7 +59,6 @@ public class NetWorkQuantumMethod {
 
 
 
-    //TODO  get cache map
     public static Map getCacheMap(SlimefunItem itemInstance){
         if(NetworkCacheMap==null&&!hasFailedCachemap){
             try{

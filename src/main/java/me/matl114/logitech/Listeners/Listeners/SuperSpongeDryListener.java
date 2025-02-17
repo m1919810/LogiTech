@@ -22,7 +22,7 @@ public class SuperSpongeDryListener implements Listener {
         ItemStack stack=event.getSource();
         if(stack.getType()== Material.WET_SPONGE&& CraftUtils.matchItemStack(stack,AddItem.SUPERSPONGE_USED,false)){
             Block block=event.getBlock();
-            BlockState blockData= WorldUtils.getBlockStateNoSnapShot(block);
+            BlockState blockData= block.getState(false);
             if(blockData instanceof Container ih){
                 Inventory inventory=ih.getInventory();
                 if(inventory instanceof FurnaceInventory fi){

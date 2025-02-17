@@ -7,7 +7,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class ItemCounter implements Cloneable{
-    //todo fix the unfreshed item dupe bug
     protected int cnt;
     protected boolean dirty;
     protected ItemStack item;

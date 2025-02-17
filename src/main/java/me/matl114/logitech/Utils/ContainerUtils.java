@@ -6,8 +6,6 @@ import lombok.Getter;
 import me.matl114.logitech.Manager.Schedules;
 import me.matl114.logitech.core.CustomSlimefunItem;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.ContainerBlockMenuWrapper;
-import me.matl114.matlib.Utils.Algorithm.InitializeSafeProvider;
-import me.matl114.matlib.Utils.Reflect.MethodAccess;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
@@ -15,14 +13,13 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.TileState;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
 import java.util.HashSet;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -74,34 +71,47 @@ public class ContainerUtils {
      * @param testBlock
      */
 
-
-    public static void getBlockContainerMenuWrapperWithCallback(Consumer<BlockMenu[]> callback,boolean runningOnMain, Location... testBlock){
+    //todo test method safety not in main
+    public static void getBlockContainerMenuWrapperAsyncCallback(Consumer<BlockMenu[]> callback, boolean runningOnMain, Location... testBlock){
+        TileState[] states = new TileState[testBlock.length];
         BlockMenu[] results=new BlockMenu[testBlock.length];
-        BukkitUtils.executeSync(()->{
-            for(int i=0;i<testBlock.length;++i){
-                if(testBlock[i]!=null&&  WorldUtils.getBlockStateNoSnapShot(  testBlock[i].getBlock() )instanceof InventoryHolder ivHolder){
-                    results[i]= ContainerBlockMenuWrapper.getContainerBlockMenu(ivHolder.getInventory(),testBlock[i]);
-                }else{
-                    results[i]=null;
+        Schedules.execute(()->{
+            int len = testBlock.length;
+            for(int i=0;i<len;++i){
+                if(testBlock[i]!=null){
+                    BlockState state =   testBlock[i].getBlock().getState(false);
+                    if(state instanceof TileState tile && state instanceof InventoryHolder holder){
+                        Inventory inventory = holder.getInventory();
+                       if(runningOnMain||me.matl114.matlib.Utils.WorldUtils.isInventoryTypeAsyncSafe(inventory.getType())){
+                            results[i]= ContainerBlockMenuWrapper.getContainerBlockMenu(inventory,testBlock[i]);
+                            states[i] = tile;
+                            continue;
+                        }
+                    }
                 }
+                results[i]=null;
+                states[i] = null;
             }
             if(runningOnMain){
                 //running on mainThread
                 callback.accept(results);
             }else {
                 //not running on mainThread
-                CompletableFuture.supplyAsync(()->{
-                    try{
-                        callback.accept(results);
-                    }catch (Throwable e){
-                        Debug.logger(e);
+                Schedules.launchSchedules(()->{
+                    //test tileState removal
+                    for(int i=0;i<len;++i){
+                        TileState tileState = states[i];
+                        //not valid anymore,set to null
+                        if(tileState!=null && !me.matl114.matlib.Utils.WorldUtils.isTileEntityStillValid(tileState)){
+                            states[i] = null;
+                            results[i] = null;
+                        }
                     }
-                    return null;
-                });
+                    callback.accept(results);
+                },0,false,0);
             }
-        });
+        },true);
     }
-    //todo add Material check
     //todo add InventoryType slotAccess
     public static void transferWithContainer(Location from, Location to, int configCode, HashSet<ItemStack> bwlist,boolean smart){
         BlockMenu fromInv=DataCache.getMenu(from);
@@ -119,29 +129,27 @@ public class ContainerUtils {
         SlimefunItem toItem =DataCache.getSfItem(to);
         //null, or not my machine
         if((fromInv!=null&&(!(toItem instanceof CustomSlimefunItem)))||(toInv!=null&&(!(fromItem instanceof CustomSlimefunItem)) )||(fromInv==null&&toInv==null) ) {
-            Schedules.execute(()->{
-                if(fromInv!=null){
-                    ContainerUtils.getBlockContainerMenuWrapperWithCallback((blockMenus -> {
-                        if(blockMenus[0]!=null){
-                            TransportUtils.transportItem(fromInv,blockMenus[0],configCode,smart,bwlist,CraftUtils.getpusher);
-                        }
-
-                    }),true, to);
-                }else {
-                    if(toInv!=null){
-                        ContainerUtils.getBlockContainerMenuWrapperWithCallback((blockMenus -> {
-                            if(blockMenus[0]!=null)
-                                TransportUtils.transportItem(blockMenus[0],toInv,configCode,smart,bwlist,CraftUtils.getpusher);
-                        }),true, from);
-                    }else {
-                            ContainerUtils.getBlockContainerMenuWrapperWithCallback((blockMenus -> {
-                                if(blockMenus[0]!=null&&blockMenus[1]!=null){
-                                    TransportUtils.transportItem(blockMenus[0],blockMenus[1],configCode,smart,bwlist,CraftUtils.getpusher);
-                                }
-                            }),true, from,to);
+            if(fromInv!=null){
+                ContainerUtils.getBlockContainerMenuWrapperAsyncCallback((blockMenus -> {
+                    if(blockMenus[0]!=null){
+                        TransportUtils.transportItem(fromInv,blockMenus[0],configCode,smart,bwlist,CraftUtils.getpusher);
                     }
+
+                }),false, to);
+            }else {
+                if(toInv!=null){
+                    ContainerUtils.getBlockContainerMenuWrapperAsyncCallback((blockMenus -> {
+                        if(blockMenus[0]!=null)
+                            TransportUtils.transportItem(blockMenus[0],toInv,configCode,smart,bwlist,CraftUtils.getpusher);
+                    }),false, from);
+                }else {
+                    ContainerUtils.getBlockContainerMenuWrapperAsyncCallback((blockMenus -> {
+                        if(blockMenus[0]!=null&&blockMenus[1]!=null){
+                            TransportUtils.transportItem(blockMenus[0],blockMenus[1],configCode,smart,bwlist,CraftUtils.getpusher);
+                        }
+                    }),false, from,to);
                 }
-            },true);
+            }
         }
     }
     public static BlockMenu getPlayerBackPackWrapper(Player p){

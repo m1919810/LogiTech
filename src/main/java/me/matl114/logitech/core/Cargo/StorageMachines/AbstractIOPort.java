@@ -25,8 +25,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
 
-//TODO 实现 代理+货运
-//TODO 检查均衡性是否出问题
+
+
 public abstract class AbstractIOPort extends AbstractMachine {
     public AbstractIOPort(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe){
         super(category, item, recipeType, recipe,0,0);
@@ -96,7 +96,6 @@ public abstract class AbstractIOPort extends AbstractMachine {
             }else{
                 //当有人企图从中间取出物品时
                 if(cache!=null){
-                    //FIXME check thoroughly
                     if(cache.keepRelated(itemStack)){
                         //ItemStorageCache.removeCache(inv.getLocation());
                         cache.setPersistent(false);
@@ -191,7 +190,6 @@ public abstract class AbstractIOPort extends AbstractMachine {
         Location loc = menu.getLocation();
         //如果没有放存储 则立刻就要清除当前cache
         if(stack == null||stack.getAmount()!=1){
-            //FIXME 问题 很大
             ItemStorageCache cache= ItemStorageCache.removeCache(loc);
             if(cache!=null&&!cache.getDeprecated()){
                 //同步 如果他真的被拿走了 但是一般来说这是不可能的事情
@@ -242,7 +240,6 @@ public abstract class AbstractIOPort extends AbstractMachine {
         }
         //执行货运
         ItemPusher[] cachelst=new ItemPusher[]{cache};
-        //FIXME 考虑是否将这个改为locationProxy? 顺便兼容更多的机器
         TransportUtils.cacheTransportation(menu,cachelst,menu,getInputSlots(), Settings.INPUT);
         TransportUtils.cacheTransportation(menu,cachelst,menu,getOutputSlots(), Settings.OUTPUT);
         cache.updateMenu(menu);

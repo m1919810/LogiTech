@@ -40,8 +40,6 @@ public class FinalAltarCore  extends MultiCore {
             DataCache.setCustomString(data,FORCE_STATE,String.valueOf(lvl));
         }
         default int mayForced(SlimefunBlockData data){
-            //TODO 完成多方块结构 完成多级激活模式
-            //TODO 暂时不知道咋做，先写着
             int forcelvl=DataCache.getCustomData(data,FORCE_STATE,0);
             if(forcelvl>0){
                 return forcelvl;
@@ -65,7 +63,7 @@ public class FinalAltarCore  extends MultiCore {
             }
         }
     }
-    //TODO set force level when mulitblock broke down
+
 
     protected final int[] BORDER=new int[]{0,1,2,3,5,6,7};
     protected final int HOLOGRAM_SLOT=8;

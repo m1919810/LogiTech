@@ -102,6 +102,7 @@ public class FinalFeature {
         }
 
     };
+    //todo: add the FAKE_UI support,see FAKE_UI as null
     public static final ItemPusherProvider MANUAL_CARD_READER=new ItemPusherProvider() {
         @Override
         public ItemPusher get(Settings settings, ItemStack item, int slot) {

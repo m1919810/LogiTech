@@ -165,7 +165,6 @@ public class LineCargo extends AbstractCargo {
         updateConfigSlots(inv);
     }
     protected boolean transportSmarter=false;
-    //todo async
     public void cargoTask(Block b, BlockMenu menu, SlimefunBlockData data, int configCode){
         Directions dir=getDirection(0,data);
         if(dir==Directions.NONE||dir==null)return;

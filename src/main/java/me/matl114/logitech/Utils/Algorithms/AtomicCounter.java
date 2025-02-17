@@ -5,7 +5,6 @@ import me.matl114.logitech.Utils.MathUtils;
 public class AtomicCounter {
     private volatile int value;
     private final int maxinum;
-    private byte[] lock=new byte[0];
     public AtomicCounter(int value,int max) {
         this.value = value;
         this.maxinum = max;
@@ -24,7 +23,7 @@ public class AtomicCounter {
      */
     public int increment(int value){
         int more=0;
-        synchronized (lock) {
+        synchronized (this) {
             this.value+=value;
             more=this.value-maxinum;
             if(more>=0){
@@ -40,7 +39,7 @@ public class AtomicCounter {
      */
     public int safeIncrement(int value){
         int expected=this.maxinum-value;
-        synchronized (lock) {
+        synchronized (this) {
             if(this.value<=expected){
                 this.value+=value;
                 return 0;
@@ -58,7 +57,7 @@ public class AtomicCounter {
      * @return
      */
     public int required(int value){
-        synchronized (lock) {
+        synchronized (this) {
             if(this.value>=value){
                 this.value-=value;
                 return value;

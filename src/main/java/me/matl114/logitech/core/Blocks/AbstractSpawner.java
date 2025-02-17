@@ -29,7 +29,7 @@ public class AbstractSpawner extends AbstractBlock{
     }
     public void onPlace(BlockPlaceEvent event, Block e) {
         super.onPlace(event, e);
-        BlockState data = WorldUtils.getBlockStateNoSnapShot(e);
+        BlockState data = e.getState(false);
         if(data instanceof CreatureSpawner cs){
             ItemStack it=event.getItemInHand();
             if(it.getItemMeta() instanceof BlockStateMeta bsm){
@@ -51,7 +51,7 @@ public class AbstractSpawner extends AbstractBlock{
         onSpawnerBreak(event);
     }
     public void onSpawnerBreak(BlockBreakEvent event){
-        BlockState data =WorldUtils.getBlockStateNoSnapShot(  event.getBlock() );
+        BlockState data = event.getBlock().getState(false);
         if(data instanceof CreatureSpawner cs){
             event.getBlock().getWorld().dropItemNaturally(
                     event.getBlock().getLocation(),

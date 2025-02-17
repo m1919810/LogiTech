@@ -132,12 +132,16 @@ public abstract class AbstractEnergyCharger extends AbstractEnergyMachine implem
                 EnergyNetComponent ec=getChargeableComponent(item);
                 if(ec!=null){
                     if(ec.getEnergyComponentType()== EnergyNetComponentType.CONSUMER){
+                        if(sf==null || sf.isPendingRemove()){
+                            //ignore pending Remove machine
+                            continue;
+                        }
                         if(!sf.isDataLoaded()){
                             DataCache.requestLoad(sf);
                             continue;
                         }
                         Location  testLocation=sf.getLocation();
-                        if(loc.equals(testLocation)){
+                        if(testLocation==null || loc.equals(testLocation)){
                             continue;
                         }
                         energyConsumer++;
@@ -157,7 +161,7 @@ public abstract class AbstractEnergyCharger extends AbstractEnergyMachine implem
                                 int left=buffer-testCharge;
                                 if(left>0&&(!lazymod||left>=testCharge)){
                                     int fetched=charge.required(left);
-                                    ec.setCharge(testLocation,fetched+testCharge);
+                                    ec.setCharge(testLocation, fetched+testCharge);
                                 }
                             }catch (Throwable e){
                                 errorMachine.incrementAndGet();

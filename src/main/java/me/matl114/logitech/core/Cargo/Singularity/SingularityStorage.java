@@ -47,13 +47,13 @@ public class SingularityStorage extends StorageType {
             meta.getPersistentDataContainer().set(KEY_ITEM, AbstractStorageType.TYPE,tmp);
             if(meta.hasLore()){
                 List<String> lore = meta.getLore();
-                lore.add(ITEM_DISPLAY_PREFIX+ ItemStackHelper.getDisplayName(item));
+                lore.add(ITEM_DISPLAY_PREFIX+ CraftUtils.getItemName(item));
                 lore.add(AMOUNT_DISPLAY_PREFIX+item.getAmount());
                 meta.setLore(lore);
             }
             else{
                 meta.setLore(new ArrayList<String>(){{
-                    add(ITEM_DISPLAY_PREFIX+ ItemStackHelper.getDisplayName(item));
+                    add(ITEM_DISPLAY_PREFIX+ CraftUtils.getItemName(item));
                     add(AMOUNT_DISPLAY_PREFIX+0);
                 }});
             }
