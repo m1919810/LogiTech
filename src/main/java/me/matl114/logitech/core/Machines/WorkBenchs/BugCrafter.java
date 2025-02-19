@@ -89,7 +89,7 @@ public class BugCrafter extends AbstractWorkBench implements ImportRecipes {
     }
 
     public void updateMenu(BlockMenu blockMenu, Block block, Settings mod){
-        Location loc = block.getLocation();
+        Location loc = blockMenu.getLocation();
         int index = DataCache.getLastRecipe(loc);
         List<MachineRecipe> recipeList = getMachineRecipes();
         if(index==-1 || index >= recipeList.size()){

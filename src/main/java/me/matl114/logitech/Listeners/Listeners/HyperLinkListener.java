@@ -1,6 +1,7 @@
 package me.matl114.logitech.Listeners.Listeners;
 
 import me.matl114.logitech.Manager.Schedules;
+import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.matlib.Utils.Inventory.InventoryRecords.InventoryRecord;
 import me.matl114.matlib.Utils.WorldUtils;
 import org.bukkit.block.TileState;
@@ -22,6 +23,7 @@ public class HyperLinkListener implements Listener {
         Inventory inv = record.inventory();
         if(inv==null || !WorldUtils.canBlockInventoryOpenToPlayer(inv)) return;
         player.openInventory(inv);
+        AddUtils.sendMessage(player, "&a成功打开该容器!");
         //open before putting this,because open may follow a close Event
         openedInventory.put(inv, record);
         //launch monitor task

@@ -2,6 +2,7 @@ package me.matl114.logitech.core.Registries;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.UtilClass.TickerClass.Ticking;
 import me.matl114.logitech.core.AddSlimefunItems;
 import me.matl114.logitech.core.Blocks.Laser;
@@ -45,7 +46,7 @@ public class FinalFeature {
             //get no yet
             if(tar==null){
                 tar= CraftUtils.getpusher.get(mod,item,slot);
-                if(meta!=null){//make a convienience
+                if(meta!=null){//make a convenience
                     tar.setMeta(meta);
                 }
             }
@@ -72,7 +73,7 @@ public class FinalFeature {
             //get no yet
             if(tar==null){
                 tar= CraftUtils.getpusher.get(mod,item,slot);
-                if(meta!=null){//make a convienience
+                if(meta!=null){//make a convenience
                     tar.setMeta(meta);
                 }
             }
@@ -129,10 +130,10 @@ public class FinalFeature {
 
         }
     };
-    public static final ItemStack MANUAL_CARD_INFO = new CleanItemStack(Material.CRAFTING_TABLE,"&7机制 - &f替代",
+    public static final ItemStack MANUAL_CARD_INFO = AddUtils.addGlow( new CleanItemStack(Material.CRAFTING_TABLE,"&7机制 - &f替代",
             "&7本机器支持你使用物品替代卡替代原有物品进行合成",
             "&7同时,你可以使用槽位伪装板充当占位符",
-            "&a机器会自动忽略这些伪装板");
+            "&a机器会自动忽略这些伪装板"));
     public static boolean isFinalAltarCharged(SlimefunItem that, SlimefunBlockData data){
         if(that instanceof FinalAltarCore.FinalAltarChargable fac&&that instanceof Laser.LaserChargable lc){
             if(fac.mayForced(data)>=2){

@@ -258,6 +258,7 @@ public abstract class AbstractWorkBench extends AbstractMachine {
         int index = recipeList.indexOf(machinerecipe);
         if(index>=0){
             DataCache.setLastRecipe(menu.getLocation(),index);
+            updateMenu(menu,menu.getBlock(),Settings.RUN);
         }
         menu.open(player);
     }

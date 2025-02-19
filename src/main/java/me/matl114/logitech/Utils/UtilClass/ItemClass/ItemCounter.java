@@ -28,9 +28,8 @@ public class ItemCounter implements Cloneable{
         meta=null;
         cnt=0;
         dirty=false;
-        cachedItemAmount=0;
-        //
         itemChange();
+        //
     }
     protected void fromSource(ItemCounter source,boolean overrideMaxSize){
         item=source.getItem();
@@ -43,7 +42,7 @@ public class ItemCounter implements Cloneable{
         //
     }
     protected void itemChange(){
-        cachedItemAmount=item.getAmount();
+        cachedItemAmount=item!=null? item.getAmount():0;
     }
     public ItemCounter() {
         dirty=false;
