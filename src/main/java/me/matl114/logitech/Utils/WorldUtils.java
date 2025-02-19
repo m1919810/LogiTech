@@ -12,7 +12,7 @@ import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.Manager.Schedules;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
-import me.matl114.matlib.Utils.Algorithm.InitializeSafeProvider;
+import me.matl114.matlib.Algorithms.DataStructures.Frames.InitializeSafeProvider;
 import me.matl114.matlib.Utils.Reflect.FieldAccess;
 import me.matl114.matlib.core.EnvironmentManager;
 import org.bukkit.*;

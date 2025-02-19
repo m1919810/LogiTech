@@ -7,6 +7,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Manager.PostSetupTasks;
+import me.matl114.logitech.Utils.Settings;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractWorkBench;
 import me.matl114.logitech.Utils.Algorithms.PairList;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -65,6 +66,9 @@ public class EWorkBench extends AbstractWorkBench {
 //            getRecipeMenu(block,menu).build().open(player);
 //            return false;
 //        }));
+    }
+    public void updateMenu(BlockMenu blockMenu, Block block, Settings mod){
+
     }
     public int[] getInputSlots(){
         return INPUT_SLOT;

@@ -11,7 +11,7 @@ import me.matl114.logitech.Utils.Utils;
 import me.matl114.logitech.core.AddItem;
 import me.matl114.logitech.core.Interface.RecipeDisplay;
 import me.matl114.logitech.core.Items.Abstracts.MaterialItem;
-import me.matl114.matlib.Utils.Inventory.CleanItemStack;
+import me.matl114.matlib.Utils.Inventory.ItemStacks.CleanItemStack;
 import org.bukkit.Material;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;

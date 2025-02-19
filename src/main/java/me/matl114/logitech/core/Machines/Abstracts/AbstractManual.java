@@ -12,7 +12,7 @@ import me.matl114.logitech.core.Registries.FinalFeature;
 import me.matl114.logitech.core.Interface.RecipeLock;
 import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
-import me.matl114.matlib.Utils.Inventory.CleanItemStack;
+import me.matl114.matlib.Utils.Inventory.ItemStacks.CleanItemStack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -113,6 +113,10 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
 
         }
         this.CRAFT_PROVIDER= FinalFeature.MANUAL_CARD_READER;
+        this.setDisplayRecipes(Utils.list(
+                FinalFeature.MANUAL_CARD_INFO,
+                null
+        ));
 
     }
     public void addInfo(ItemStack item){

@@ -12,7 +12,7 @@ import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.Utils.UtilClass.RecipeClass.SimpleCraftingOperation;
 import me.matl114.logitech.Utils.MachineRecipeUtils;
-import me.matl114.matlib.Utils.Inventory.CleanItemStack;
+import me.matl114.matlib.Utils.Inventory.ItemStacks.CleanItemStack;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;

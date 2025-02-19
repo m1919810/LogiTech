@@ -78,19 +78,18 @@ public class ReplaceCard extends DistinctiveCustomSlimefunItem {
         stack.setItemMeta(meta);
         return stack;
     }
-    public static ItemStack getAllCardReplacement(ItemStack item){
+    public static ItemStack getAllCardReplacement(ItemStack item,ItemMeta meta){
         ItemStack result;
         for(ReplaceCard replaceCard:instances){
-            result=replaceCard.getCardReplacement(item);
+            result=replaceCard.getCardReplacement(item,meta);
             if(result!=item){
                 return result;
             }
         }
         return item;
     }
-    public ItemStack getCardReplacement(ItemStack item) {
-        if(item!=null&&item.getType()==this.getItem().getType()&&item.hasItemMeta()){
-            ItemMeta meta=item.getItemMeta();
+    public ItemStack getCardReplacement(ItemStack item,ItemMeta meta) {
+        if(item!=null&&item.getType()==this.getItem().getType()){
             PersistentDataContainer container=meta.getPersistentDataContainer();
             if(container.has(KEY_LOC)){
                 try {

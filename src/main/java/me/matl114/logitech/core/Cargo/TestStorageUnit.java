@@ -105,16 +105,7 @@ public class TestStorageUnit extends AbstractMachine {
         return INPUT_SLOT;
     }
 
-    /**
-     * cargo and IO
-     * @return
-     */
-    public static ItemStack rand= AddUtils.randItemStackFactory(
-            new PairList<>(){{
-                put("COBBLESTONE",1);
-                put("DIAMOND",1);
-            }}
-    );
+
     public int[] getOutputSlots(){
         return OUTPUT_SLOT;
     }

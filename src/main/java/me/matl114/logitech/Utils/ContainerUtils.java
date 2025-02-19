@@ -21,7 +21,7 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.HashSet;
-import java.util.concurrent.CompletableFuture;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
@@ -72,7 +72,7 @@ public class ContainerUtils {
      */
 
     //todo test method safety not in main
-    public static void getBlockContainerMenuWrapperAsyncCallback(Consumer<BlockMenu[]> callback, boolean runningOnMain, Location... testBlock){
+    public static void getBlockContainerMenuWrapperWithCallback(Consumer<BlockMenu[]> callback, boolean runningOnMain, Location... testBlock){
         TileState[] states = new TileState[testBlock.length];
         BlockMenu[] results=new BlockMenu[testBlock.length];
         Schedules.execute(()->{
@@ -130,24 +130,24 @@ public class ContainerUtils {
         //null, or not my machine
         if((fromInv!=null&&(!(toItem instanceof CustomSlimefunItem)))||(toInv!=null&&(!(fromItem instanceof CustomSlimefunItem)) )||(fromInv==null&&toInv==null) ) {
             if(fromInv!=null){
-                ContainerUtils.getBlockContainerMenuWrapperAsyncCallback((blockMenus -> {
+                ContainerUtils.getBlockContainerMenuWrapperWithCallback((blockMenus -> {
                     if(blockMenus[0]!=null){
                         TransportUtils.transportItem(fromInv,blockMenus[0],configCode,smart,bwlist,CraftUtils.getpusher);
                     }
 
-                }),false, to);
+                }),TransportUtils.isAsyncMode(), to);
             }else {
                 if(toInv!=null){
-                    ContainerUtils.getBlockContainerMenuWrapperAsyncCallback((blockMenus -> {
+                    ContainerUtils.getBlockContainerMenuWrapperWithCallback((blockMenus -> {
                         if(blockMenus[0]!=null)
                             TransportUtils.transportItem(blockMenus[0],toInv,configCode,smart,bwlist,CraftUtils.getpusher);
-                    }),false, from);
+                    }),TransportUtils.isAsyncMode(), from);
                 }else {
-                    ContainerUtils.getBlockContainerMenuWrapperAsyncCallback((blockMenus -> {
-                        if(blockMenus[0]!=null&&blockMenus[1]!=null){
+                    ContainerUtils.getBlockContainerMenuWrapperWithCallback((blockMenus -> {
+                        if(blockMenus[0]!=null&&blockMenus[1]!=null && !Objects.equals(blockMenus[0].getLocation(),blockMenus[1].getLocation())){
                             TransportUtils.transportItem(blockMenus[0],blockMenus[1],configCode,smart,bwlist,CraftUtils.getpusher);
                         }
-                    }),false, from,to);
+                    }),TransportUtils.isAsyncMode(), from,to);
                 }
             }
         }

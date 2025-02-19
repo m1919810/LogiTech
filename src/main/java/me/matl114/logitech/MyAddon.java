@@ -28,8 +28,6 @@ import me.matl114.matlib.Utils.Command.CommandGroup.AbstractMainCommand;
 import me.matl114.matlib.core.AddonInitialization;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -79,7 +77,10 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
-        matlibInstance=new AddonInitialization(this,"LOGITECH").displayName("逻辑工艺").onEnable();
+        matlibInstance=new AddonInitialization(this,"LOGITECH")
+                .displayName("逻辑工艺")
+                .onEnable()
+                .cast(AddonInitialization.class);
         manager=getServer().getPluginManager();
         checkVersion();
         // 从 config.yml 中读取插件配置
@@ -158,6 +159,8 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         WorldUtils.setup();
         //加载Bukkit操作工具
         BukkitUtils.setup();
+        //加载货运工具
+        TransportUtils.setup();
         //加载容器impl工具
         ContainerUtils.setup();
         Debug.logger("指令注册完毕");

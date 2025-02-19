@@ -3,6 +3,7 @@ package me.matl114.logitech.core.Registries;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.Utils.UtilClass.TickerClass.Ticking;
+import me.matl114.logitech.core.AddSlimefunItems;
 import me.matl114.logitech.core.Blocks.Laser;
 import me.matl114.logitech.core.Blocks.MultiBlock.FinalAltarCore;
 import me.matl114.logitech.core.Items.SpecialItems.ReplaceCard;
@@ -14,9 +15,11 @@ import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemReplacerPusher;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.ItemStorageCache;
 import me.matl114.logitech.Utils.UtilClass.StorageClass.LocationStorageProxy;
+import me.matl114.matlib.Utils.Inventory.ItemStacks.CleanItemStack;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -109,14 +112,27 @@ public class FinalFeature {
             if(settings==Settings.OUTPUT){
                 return CraftUtils.getpusher.get(settings, item, slot);
             }
-            ItemStack stack= ReplaceCard.getAllCardReplacement(item);
-            if(stack==item){
-                return CraftUtils.getpusher.get(settings, item, slot);
-            }else {
-                return ItemReplacerPusher.get(item,stack);
+            if(item !=null){
+                ItemMeta meta = item.getItemMeta();
+                if(meta !=null){
+                    if(AddSlimefunItems.FAKE_UI.getId().equals( CraftUtils.parseSfId(meta) )){
+                        return CraftUtils.getpusher.get(settings, null, slot);
+                    }
+                    ItemStack stack= ReplaceCard.getAllCardReplacement(item,meta);
+                    if(stack!=item){
+                        return ItemReplacerPusher.get(item,stack);
+                    }
+                }
             }
+            return CraftUtils.getpusher.get(settings, item, slot);
+
+
         }
     };
+    public static final ItemStack MANUAL_CARD_INFO = new CleanItemStack(Material.CRAFTING_TABLE,"&7机制 - &f替代",
+            "&7本机器支持你使用物品替代卡替代原有物品进行合成",
+            "&7同时,你可以使用槽位伪装板充当占位符",
+            "&a机器会自动忽略这些伪装板");
     public static boolean isFinalAltarCharged(SlimefunItem that, SlimefunBlockData data){
         if(that instanceof FinalAltarCore.FinalAltarChargable fac&&that instanceof Laser.LaserChargable lc){
             if(fac.mayForced(data)>=2){

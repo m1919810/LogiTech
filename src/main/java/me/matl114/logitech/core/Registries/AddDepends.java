@@ -81,9 +81,8 @@ public class AddDepends {
                             null,AddItem.ABSTRACT_INGOT,"NTW_QUANTUM_WORKBENCH","NTW_QUANTUM_WORKBENCH",AddItem.ABSTRACT_INGOT,null,
                             null,AddItem.ABSTRACT_INGOT,"NTW_QUANTUM_WORKBENCH","NTW_QUANTUM_WORKBENCH",AddItem.ABSTRACT_INGOT,null,
                             null,AddItem.ABSTRACT_INGOT,AddItem.LFIELD,AddItem.LFIELD,AddItem.ABSTRACT_INGOT,null),
-                    0,0, Stream.of( NTWQTWORKBENCH_TYPE,NTWEP_WORKBENCH_TYPE).filter(Objects::nonNull).toArray(RecipeType[]::new))
+                    0,0, Stream.of( NTWQTWORKBENCH_TYPE,NTWEP_WORKBENCH_TYPE,NTWEP_DRAWER_TYPE).filter(Objects::nonNull).toArray(RecipeType[]::new))
                     .register();
-            //todo 增加抽屉
         }catch (Throwable e){
             Debug.logger("AN ERROR OCCURED WHILE REGISTERING ITEM: NTWWORKBENCH_MANUAL,ITEM DISABLED");
             e.printStackTrace();
@@ -176,7 +175,6 @@ public class AddDepends {
                         SlimefunRegistry registry = Slimefun.getRegistry();
                         registry.getGlobalItemHandlers(handler.getIdentifier()).add(handler);
                     }
-                    //TODO figure out why it doesn't work
                 }catch (Throwable e){
 
                 }
@@ -234,6 +232,7 @@ public class AddDepends {
     public static RecipeType NTWQTWORKBENCH_TYPE;
     public static SlimefunItem NTWEP_WORKBENCH;
     public static RecipeType NTWEP_WORKBENCH_TYPE;
+    public static RecipeType NTWEP_DRAWER_TYPE;
     public static RecipeType VOIDHARVEST   ;
     public static RecipeType SINGULARITY_CONSTRUCTOR;
     public static SlimefunItem MOBDATA_MANUAL;

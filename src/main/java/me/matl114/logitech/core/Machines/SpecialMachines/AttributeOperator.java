@@ -33,6 +33,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class AttributeOperator extends SmithingInterface {
     protected final int[] BORDER=new int[]{0,1,2,3,4,5,6,7,8,11,12,14,15,18,19,25,26,29,30,32,33,36,37,38,39,40,41,42,43,44};
@@ -723,6 +724,7 @@ public class AttributeOperator extends SmithingInterface {
                     continue ;
                 }
                 Collection<AttributeModifier> mods2;
+
                 if(meta2.hasAttributeModifiers())
                     mods2=meta2.getAttributeModifiers(a);
                 else
@@ -731,16 +733,22 @@ public class AttributeOperator extends SmithingInterface {
 //                    mods2.addAll(mods1);
 //
 //                }else {
-                if(mods2==null||mods2.isEmpty()){
-                    mods1.forEach(mod->{meta2.addAttributeModifier(a,mod);});
-                    //}
-                    hasChanged=true;
-                    meta1.removeAttributeModifier(a);
+                Collection<AttributeModifier.Operation> operations;
+                if(mods2!=null){
+                    operations = mods2.stream().map(AttributeModifier::getOperation).collect(Collectors.toSet());
+                }else {
+                    operations=Set.of();
                 }
-
+                for(AttributeModifier mod:mods1){
+                    if(!operations.contains(mod.getOperation())){
+                        hasChanged=true;
+                        meta1.removeAttributeModifier(a,mod);
+                        meta2.addAttributeModifier(a,mod);
+                    }
+                }
             }
         }else {
-            if(!meta2.hasAttributeModifiers()||meta2.getAttributeModifiers(attribute).isEmpty()){
+            if(!meta2.hasAttributeModifiers()|| meta2.getAttributeModifiers(attribute).stream().noneMatch(mod->mod.getOperation()==modifier.getOperation())){
                 meta1.removeAttributeModifier(attribute,modifier);
                 meta2.addAttributeModifier(attribute,modifier);
                 hasChanged=true;

@@ -11,7 +11,7 @@ import me.matl114.logitech.Utils.Algorithms.PairList;
 import me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop.SmithInterfaceProcessor;
 import me.matl114.logitech.core.Items.Abstracts.MyVanillaItem;
 import me.matl114.logitech.core.Machines.WorkBenchs.BugCrafter;
-import me.matl114.matlib.Utils.Algorithm.InitializeProvider;
+import me.matl114.matlib.Algorithms.DataStructures.Frames.InitializeProvider;
 import me.matl114.matlib.core.EnvironmentManager;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

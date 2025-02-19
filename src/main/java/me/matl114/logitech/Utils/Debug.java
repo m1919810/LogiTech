@@ -62,6 +62,9 @@ public class Debug {
     public static  void logger(String message) {
         log.info(message);
     }
+    public static void severe(String message) {
+        log.severe(message);
+    }
     public static void debug(String message) {
         if( MyAddon.testmode()){
             testlog.info(message);

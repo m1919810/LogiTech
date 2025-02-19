@@ -140,10 +140,16 @@ public abstract class AbstractWorkBench extends AbstractMachine {
             }
             CraftUtils.multiUpdateOutputMenu(outputResult.getSecondValue(),inv);
         }
+        if(inv.hasViewer()){
+            updateMenu(inv,b,Settings.RUN);
+        }
     }
+    public abstract void updateMenu(BlockMenu blockMenu, Block block, Settings mod);
 
     public void process(Block b, BlockMenu preset, SlimefunBlockData data){
-
+        if(preset.hasViewer()){
+            updateMenu(preset,b,Settings.RUN);
+        }
     }
     public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow){
         return flow==ItemTransportFlow.WITHDRAW?getOutputSlots():getInputSlots();
@@ -246,6 +252,12 @@ public abstract class AbstractWorkBench extends AbstractMachine {
             if(itps[i]!=null){
                 itps[i].updateMenu(menu);
             }
+        }
+        //try set index
+        var recipeList = getMachineRecipes();
+        int index = recipeList.indexOf(machinerecipe);
+        if(index>=0){
+            DataCache.setLastRecipe(menu.getLocation(),index);
         }
         menu.open(player);
     }

@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.Utils.Settings;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractWorkBench;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -15,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
+@Deprecated
 public class TestWorkBench extends AbstractWorkBench {
     protected static final int[] INPUT_SLOT=new int[]{11,12,13,20,21,22,29,30,31};
     protected static final  int[] OUTPUT_SLOT=new int[]{ 15,24,33};
@@ -49,6 +51,9 @@ public class TestWorkBench extends AbstractWorkBench {
             getRecipeMenu(block,menu).build().open(player);
             return false;
         }));
+    }
+    public void updateMenu(BlockMenu blockMenu, Block block, Settings mod){
+
     }
     public int[] getInputSlots(){
         return INPUT_SLOT;

@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.UtilClass.EquipClass.EquipmentFU;
-import me.matl114.matlib.Utils.Algorithm.Triplet;
+import me.matl114.matlib.Algorithms.DataStructures.Struct.Triplet;
 import me.matl114.matlib.core.EnvironmentManager;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;

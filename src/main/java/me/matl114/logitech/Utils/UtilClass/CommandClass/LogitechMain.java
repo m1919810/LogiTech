@@ -8,7 +8,7 @@ import me.matl114.logitech.core.Interface.LogiTechChargable;
 import me.matl114.matlib.Utils.Command.CommandGroup.AbstractMainCommand;
 import me.matl114.matlib.Utils.Command.CommandGroup.SubCommand;
 import me.matl114.matlib.Utils.Command.Params.SimpleCommandArgs;
-import me.matl114.matlib.Utils.Inventory.CleanItemStack;
+import me.matl114.matlib.Utils.Inventory.ItemStacks.CleanItemStack;
 import me.matl114.matlib.Utils.Reflect.FieldAccess;
 import me.matl114.matlib.Utils.Reflect.MethodAccess;
 import me.matl114.matlib.core.EnvironmentManager;

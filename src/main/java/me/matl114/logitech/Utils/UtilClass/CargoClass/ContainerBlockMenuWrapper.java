@@ -22,7 +22,8 @@ public class ContainerBlockMenuWrapper extends BlockMenu implements Cloneable{
     //protected ItemStack[] inventorySnapShot;
     public void setup(Inventory inventory, Location location,int slotSize) {
         this.inventory = inventory;
-        this.location = location;
+        this.location = inventory.getLocation();
+        this.location = this.location==null?location:this.location;
         this.slotSize=slotSize;
     }
     public static BlockMenu getContainerBlockMenu(Inventory inv,Location loc) {

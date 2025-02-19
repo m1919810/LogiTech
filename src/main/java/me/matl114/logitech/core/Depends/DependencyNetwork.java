@@ -34,6 +34,11 @@ public class DependencyNetwork {
             try{
                 AddDepends.NTWEP_WORKBENCH=SlimefunItem.getById("NTW_EXPANSION_WORKBENCH");
                 AddDepends.NTWEP_WORKBENCH_TYPE=(RecipeType) ReflectUtils.invokeGetRecursively(AddDepends.NTWEP_WORKBENCH,Settings.FIELD,"TYPE");
+                try{
+                    AddDepends.NTWEP_DRAWER_TYPE = (RecipeType) ReflectUtils.invokeGetRecursively(SlimefunItem.getById("NTW_EXPANSION_STORAGE_UPGRADE_TABLE"),Settings.FIELD,"TYPE");
+                }catch (Throwable e){
+                    AddDepends.NTWEP_DRAWER_TYPE = null;
+                }
                 AddDepends.hasNetworkExpansion =true;
             }catch (Throwable e1){
                 Debug.logger("generate an exception while loading softDepends NTWEXPANSION_WORKBENCH, don't worry, that's not a big deal");

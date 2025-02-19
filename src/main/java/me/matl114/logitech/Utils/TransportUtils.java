@@ -1,16 +1,24 @@
 package me.matl114.logitech.Utils;
 
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import lombok.Getter;
 import me.matl114.logitech.Utils.Algorithms.DynamicArray;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.CargoConfigs;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
+import me.matl114.matlib.Algorithms.DataStructures.Complex.DefaultLockFactory;
+import me.matl114.matlib.Utils.Reflect.MethodAccess;
+import me.matl114.matlib.Utils.Reflect.ProxyUtils;
+import me.matl114.matlibAdaptor.Algorithms.DataStructures.LockFactory;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.function.IntFunction;
 
 public class TransportUtils {
@@ -167,6 +175,10 @@ public class TransportUtils {
         }
     }
     public static void transportItem(BlockMenu from,BlockMenu to ,int configCode,boolean smart,HashSet<ItemStack> bwlist,ItemPusherProvider provider){
+        //NOOOOO self-transportation here!
+        if(from==to || Objects.equals(from.getLocation(),to.getLocation())){
+            return;
+        }
         boolean from_input= CargoConfigs.FROM_INPUT_FIRST.getConfig(configCode);
         boolean to_output= CargoConfigs.TO_OUTPUT_FIRST.getConfig(configCode);
 
@@ -177,7 +189,7 @@ public class TransportUtils {
             //只有目标INSERT才需要
             ItemTransportFlow flow=to_output?ItemTransportFlow.WITHDRAW:ItemTransportFlow.INSERT;
             smart=smart&&(CargoConfigs.TO_REVERSED.getConfig(configCode)|| flow==ItemTransportFlow.INSERT);
-            transportItem(from,fromSlot,to,toSlot,configCode,smart,bwlist,flow,provider);
+            transportItemEnsureLock(from,fromSlot,to,toSlot,configCode,smart,bwlist,flow,provider);
             //if (CargoConfigs.F)
         }else {
             int[] toSlot=to_output?
@@ -187,35 +199,61 @@ public class TransportUtils {
             int[] fromSlot= from.getPreset().getSlotsAccessedByItemTransport(from,flow,AIR);
             //只有目标INSERT才需要
             smart=smart&&(CargoConfigs.FROM_REVERSED.getConfig(configCode)|| flow==ItemTransportFlow.INSERT);
-            transportItem(to,toSlot,from,fromSlot,configCode,smart,bwlist,flow,provider);
+            transportItemEnsureLock(to,toSlot,from,fromSlot,configCode,smart,bwlist,flow,provider);
         }
     }
     public static void transportItem(BlockMenu from,int[] fromSlot,BlockMenu to,int[] toSlot,int configCode,
                                      boolean smart, HashSet<ItemStack> bwList,ItemPusherProvider provider){
-        transportItem(from,fromSlot,to,toSlot,configCode,smart,bwList,ItemTransportFlow.INSERT,provider);
+        transportItemEnsureLock(from,fromSlot,to,toSlot,configCode,smart,bwList,ItemTransportFlow.INSERT,provider);
     }
-    public static void transportItem(BlockMenu from,int[] fromSlot,BlockMenu to,int[] toSlot,int configCode,
-            boolean smart, HashSet<ItemStack> bwList,ItemTransportFlow mainDestinationFlow,ItemPusherProvider provider){
+    @Getter
+    private static boolean asyncMode=false;
+    @Getter
+    private static LockFactory<Location> transportationLockFactory;
+//            = new ObjectLockFactory<Location>(Location.class,Location::clone) .init(MyAddon.getInstance()).setupRefreshTask(10*20*60);
+    public static void setup(){
+        try{
+            Object lockFactory = MethodAccess.ofName(Slimefun.class,"getCargoLockFactory")
+                    .noSnapShot()
+                    .initWithNull()
+                    .invoke(null);
+            transportationLockFactory = ProxyUtils.buildAdaptorOf(LockFactory.class, lockFactory);
+            asyncMode=true;
+            Debug.logger("Slimefun Async Cargo Factory Adaptor created successfully");
+            Debug.logger("Starting Transportation task async Mode");
+        }catch (Throwable anyError){
+            Debug.severe("Slimefun Async Cargo Factory not found!");
+            Debug.severe("Stopping Transportation task async Mode");
+            transportationLockFactory=new DefaultLockFactory<>();
+            asyncMode=false;
+        }
+    }
+
+    private static void transportItemEnsureLock(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot, int configCode,
+                                               boolean smart, HashSet<ItemStack> bwList, ItemTransportFlow mainDestinationFlow, ItemPusherProvider provider){
         boolean issymm=CargoConfigs.IS_SYMM.getConfig(configCode);
         boolean isnull=CargoConfigs.IS_NULL.getConfig(configCode);
         boolean islazy=CargoConfigs.IS_LAZY.getConfig(configCode);
         boolean iswtlist=CargoConfigs.IS_WHITELST.getConfig(configCode);
-        int limit=CargoConfigs.TRANSLIMIT.getConfigInt(configCode);
-        if(issymm){
-            transportItemSymm(from,fromSlot,to,toSlot,isnull,islazy,iswtlist,bwList,limit,provider);
-        }else{
-            if(!smart){
-                transportItemGreedy_2(from,fromSlot,to,toSlot,isnull,islazy,iswtlist,bwList,limit,provider);
-            }else {
-                limit=Math.min(limit,576);
-                boolean multiDestinationSlot=CargoConfigs.TO_REVERSED.getConfig(configCode);
-                if(multiDestinationSlot){
-                    transportItemSmart_2(from,fromSlot,to,toSlot,isnull,islazy,iswtlist,bwList,limit,provider,mainDestinationFlow,mainDestinationFlow==ItemTransportFlow.INSERT?ItemTransportFlow.WITHDRAW:ItemTransportFlow.INSERT);
+        transportationLockFactory.ensureLock(()->{
+            int limit=CargoConfigs.TRANSLIMIT.getConfigInt(configCode);
+            if(issymm){
+                transportItemSymm(from,fromSlot,to,toSlot,isnull,islazy,iswtlist,bwList,limit,provider);
+            }else{
+                if(!smart){
+                    transportItemGreedy_2(from,fromSlot,to,toSlot,isnull,islazy,iswtlist,bwList,limit,provider);
                 }else {
-                    transportItemSmart_2(from,fromSlot,to,toSlot,isnull,islazy,iswtlist,bwList,limit,provider,mainDestinationFlow);
+                    limit=Math.min(limit,576);
+                    boolean multiDestinationSlot=CargoConfigs.TO_REVERSED.getConfig(configCode);
+                    if(multiDestinationSlot){
+                        transportItemSmart_2(from,fromSlot,to,toSlot,isnull,islazy,iswtlist,bwList,limit,provider,mainDestinationFlow,mainDestinationFlow==ItemTransportFlow.INSERT?ItemTransportFlow.WITHDRAW:ItemTransportFlow.INSERT);
+                    }else {
+                        transportItemSmart_2(from,fromSlot,to,toSlot,isnull,islazy,iswtlist,bwList,limit,provider,mainDestinationFlow);
+                    }
                 }
             }
-        }
+        },from.getLocation(),to.getLocation());
+
     }
 
     /**

@@ -1,6 +1,7 @@
 package me.matl114.logitech.Listeners.Listeners;
 
 import me.matl114.logitech.Manager.Schedules;
+import me.matl114.matlib.Utils.Inventory.InventoryRecords.InventoryRecord;
 import me.matl114.matlib.Utils.WorldUtils;
 import org.bukkit.block.TileState;
 import org.bukkit.entity.Player;
@@ -15,17 +16,19 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HypInvOpenListener implements Listener {
-    private static final Map<Inventory, TileState> openedInventory = new HashMap<Inventory, TileState>();
-    public static void openHypInv(Player player, Inventory inv, TileState tileState) {
+public class HyperLinkListener implements Listener {
+    private static final Map<Inventory, InventoryRecord> openedInventory = new HashMap<>();
+    public static void openHypInv(Player player, InventoryRecord record) {
+        Inventory inv = record.inventory();
+        if(inv==null || !WorldUtils.canBlockInventoryOpenToPlayer(inv)) return;
         player.openInventory(inv);
         //open before putting this,because open may follow a close Event
-        openedInventory.put(inv, tileState);
+        openedInventory.put(inv, record);
         //launch monitor task
         Schedules.launchSchedules(new BukkitRunnable() {
             @Override
             public void run() {
-                if(!WorldUtils.isTileEntityStillValid(tileState)){
+                if(!record.stillValid()){
                     // will trigger CloseEvent, openedInventory Map will be removed here
                     //inv close require run on Main Thread
                     inv.close();
@@ -41,11 +44,17 @@ public class HypInvOpenListener implements Listener {
     @EventHandler(ignoreCancelled = false,priority = EventPriority.MONITOR)
     public void onInventoryClick(InventoryClickEvent e) {
         Inventory inv = e.getInventory();
-        TileState tileState = openedInventory.get(e.getInventory());
-        if(tileState != null && !WorldUtils.isTileEntityStillValid(tileState)){
+        if(onInventory(inv)){
             e.setCancelled(true);
-            //execute close at next tick
-            Schedules.launchSchedules();
         }
+    }
+    public boolean onInventory(Inventory inv){
+        InventoryRecord tileState = openedInventory.get(inv);
+        if(tileState != null && !tileState.stillValid()){
+            //execute close at next tick
+            Schedules.launchSchedules(inv::close,0,true,0);
+            return true;
+        }
+        return false;
     }
 }

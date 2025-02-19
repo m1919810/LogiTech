@@ -4,7 +4,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedE
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.Debug;
-import me.matl114.matlib.Utils.Inventory.CleanItemStack;
+import me.matl114.matlib.Utils.Inventory.ItemStacks.CleanItemStack;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;

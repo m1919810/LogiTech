@@ -65,9 +65,9 @@ import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.MenuFactory;
 import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.matl114.matlib.Implements.Slimefun.core.CustomRecipeType;
-import me.matl114.matlib.Utils.Algorithm.InitializeSafeProvider;
-import me.matl114.matlib.Utils.Algorithm.Triplet;
-import me.matl114.matlib.Utils.Inventory.CleanItemStack;
+import me.matl114.matlib.Algorithms.DataStructures.Frames.InitializeSafeProvider;
+import me.matl114.matlib.Algorithms.DataStructures.Struct.Triplet;
+import me.matl114.matlib.Utils.Inventory.ItemStacks.CleanItemStack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
@@ -2283,7 +2283,9 @@ public class AddSlimefunItems {
                                     "&7你将会在这里的配方中找到所有可以在原版工作台中合成的物品的替代卡配方",
                                     "&7其配方读取于原版合成配方",
                                     "&a你还会找到一些由@haiman添加的其他不可堆叠物品的替代卡配方",
-                                    "&7如各种桶,下界合金工具等等")
+                                    "&7如各种桶,下界合金工具等等"),
+                            FinalFeature.MANUAL_CARD_INFO
+
                     )
             )
             .register();

@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.Manager.PostSetupTasks;
 import me.matl114.logitech.Manager.Schedules;
 import me.matl114.logitech.core.Blocks.AbstractBlock;
 import me.matl114.logitech.core.Registries.FinalFeature;
@@ -13,6 +14,7 @@ import me.matl114.logitech.Utils.*;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
 import me.matl114.logitech.core.Registries.RecipeSupporter;
+import me.matl114.matlib.Utils.Inventory.ItemStacks.CleanItemStack;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -85,6 +87,17 @@ public class AdvancedManual extends AbstractBlock {
 
     public AdvancedManual(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
+        this.setDisplayRecipes(Utils.list(
+                FinalFeature.MANUAL_CARD_INFO,
+                null
+        ));
+        PostSetupTasks.addPostRegisterTask(()->{
+            for(RecipeType rtype:supportedRtype){
+                ItemStack icon =  RecipeSupporter.RECIPETYPE_ICON.getOrDefault(rtype,nullRtype);
+                this.addDisplayRecipe(new CleanItemStack(Material.BOOK,"&f支持的配方类型"));
+                this.addDisplayRecipe(icon);
+            }
+        });
     }
     public void preRegister() {
         super.preRegister();

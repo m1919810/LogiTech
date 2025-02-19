@@ -11,7 +11,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Utils.UtilClass.ItemClass.*;
 import me.matl114.logitech.Utils.UtilClass.MenuClass.*;
 import me.matl114.logitech.core.Registries.RecipeSupporter;
-import me.matl114.matlib.Utils.Inventory.CleanItemStack;
+import me.matl114.matlib.Utils.Inventory.ItemStacks.CleanItemStack;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -310,7 +310,7 @@ public class MenuUtils {
                 int len=list.size();
                 for(int i=0;i<len;i++){
                     add(AddUtils.concat(  "&f",
-                            ICraftUtils.getItemName(list.get(i)),
+                            CraftUtils.getItemName(list.get(i)),
                             " ",getAmountDisplay(list.get(i))) );
                 }
             }};

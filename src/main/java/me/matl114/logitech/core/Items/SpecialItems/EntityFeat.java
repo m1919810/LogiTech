@@ -4,7 +4,9 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import me.matl114.logitech.ConfigLoader;
 import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.core.Depends.SupportedPluginManager;
 import me.matl114.logitech.Manager.Schedules;
@@ -13,6 +15,7 @@ import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.CraftUtils;
 import me.matl114.logitech.Utils.Utils;
 import me.matl114.logitech.core.Items.Abstracts.CustomItemWithHandler;
+import me.matl114.matlib.Utils.Inventory.ItemStacks.CleanItemStack;
 import org.apache.http.annotation.Experimental;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -47,6 +50,10 @@ public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
                         resultItemStack
                 )
         );
+        for (EntityType type:availableEntityFeatTypes){
+            this.addDisplayRecipe(new CleanItemStack(Material.BOOK,"&f可掉落的生物特征"));
+            this.addDisplayRecipe(getItemFromEntityType(type));
+        }
     }
     public static ItemStack getItemFromEntityType(EntityType entityType) {
         ItemStack item = AddItem.ENTITY_FEAT.clone();
@@ -116,13 +123,38 @@ public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
                     case "item_display":
                     case "text_display":
                     case "interaction":
+                    case "item":
+                    case "area_effect_cloud":
                         continue ;
                     default:
                 }
                 add(entityType);
             }
         }
-        Debug.logger(this);
+
+    }};
+    private static final Config entityFeat = ConfigLoader.loadExternalConfig("entity-feat");
+    private static final boolean enableSpawnerCraft = entityFeat.getOrSetDefault("enable-spawner-craft", true);
+    private static final boolean enableSuperSpawnerCraft = entityFeat.getOrSetDefault("enable-super-spawner-craft", true);
+    private static final HashSet<EntityType> availableSpawnerTypes = new HashSet<>(){{
+        List<String> val = entityFeat.getOrSetDefault("banned-spawner-types",List.of("snowball","small_fireball","fireball","wither_skull","item_frame","potion","shulker_bullet","dragon_fireball","armor_stand"));
+        entityFeat.save();
+        for (EntityType entityType : availableEntityFeatTypes) {
+            String name = entityType.getKey().getKey();
+            if(!val.contains(name)){
+                add(entityType);
+            }
+        }
+    }};
+    private static final HashSet<EntityType> availableSuperSpawnerTypes = new HashSet<>(){{
+       var var= entityFeat.getOrSetDefault("extra-banned-super-spawner-types",List.of("wind_charge"));
+       entityFeat.save();
+       for (EntityType entityType : availableSpawnerTypes) {
+           String name = entityType.getKey().getKey();
+           if(!var.contains(name)){
+               add(entityType);
+           }
+       }
     }};
     public static boolean isAvailableEntityType(EntityType entityType) {
         return availableEntityFeatTypes.contains(entityType);
@@ -205,7 +237,7 @@ public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
         }
         else{
             EntityType type=getEntityTypeFromItem(targetItemStack);
-            if(type==null||!type.isSpawnable()){
+            if((type==null||!type.isSpawnable())||!availableSpawnerTypes.contains(type)){
                 AddUtils.sendMessage(var2,"&c该种类的刷怪笼并不支持获取!");
                 return;
             }
@@ -213,20 +245,36 @@ public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
             ItemStack extraStack=targetItemStack.clone();
             ItemStack resultItemStack;
             if(amount<SUPER_MERGE){
-                resultItemStack=generateSpawnerFrom(type,true);
-                resultItemStack.setAmount(amount/MIDDLE_MERGE);
-                extraStack.setAmount(amount%MIDDLE_MERGE);
-                AddUtils.sendMessage(var2,"&a已合成%d个普通刷怪笼".formatted(amount/MIDDLE_MERGE));
+                if(!enableSpawnerCraft){
+                    AddUtils.sendMessage(var2,"&c普通刷怪笼的合成并未启用!");
+                    resultItemStack=null;
+                }else {
+                    resultItemStack=generateSpawnerFrom(type,true);
+                    resultItemStack.setAmount(amount/MIDDLE_MERGE);
+                    extraStack.setAmount(amount%MIDDLE_MERGE);
+                    AddUtils.sendMessage(var2,"&a已合成%d个普通刷怪笼".formatted(amount/MIDDLE_MERGE));
+                }
+
             }else {
-                resultItemStack=generateSpawnerFrom(type,2,60,64,6,10,true);
-                resultItemStack.setAmount(amount/SUPER_MERGE);
-                extraStack.setAmount(amount%SUPER_MERGE);
-                AddUtils.sendMessage(var2,"&a已合成%d个超频刷怪笼".formatted(amount/SUPER_MERGE));
+                if(!enableSuperSpawnerCraft){
+                    AddUtils.sendMessage(var2,"&c超频刷怪笼的合成并未启用!");
+                    resultItemStack=null;
+                }else if(!availableSuperSpawnerTypes.contains(type)){
+                    AddUtils.sendMessage(var2,"&c该种类的超频刷怪笼并不支持获取!");
+                    resultItemStack=null;
+                }
+                else {
+                    resultItemStack=generateSpawnerFrom(type,2,60,64,6,10,true);
+                    resultItemStack.setAmount(amount/SUPER_MERGE);
+                    extraStack.setAmount(amount%SUPER_MERGE);
+                    AddUtils.sendMessage(var2,"&a已合成%d个超频刷怪笼".formatted(amount/SUPER_MERGE));
+                }
+
             }
             if(extraStack.getAmount()>0){
                 var3.getWorld().dropItemNaturally(var3.getLocation(),extraStack);
             }
-            if(resultItemStack.getAmount()>0){
+            if(resultItemStack!=null&& resultItemStack.getAmount()>0){
                 var3.getWorld().dropItemNaturally(var3.getLocation(), resultItemStack);
             }
         }

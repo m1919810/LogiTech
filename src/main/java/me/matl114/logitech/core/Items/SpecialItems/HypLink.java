@@ -7,11 +7,15 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import me.matl114.logitech.Listeners.Listeners.HyperLinkListener;
+import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.core.Cargo.Links.HyperLink;
 import me.matl114.logitech.core.DistinctiveCustomSlimefunItem;
 import me.matl114.logitech.Utils.AddUtils;
 import me.matl114.logitech.Utils.DataCache;
 import me.matl114.logitech.Utils.WorldUtils;
+import me.matl114.matlib.Utils.Inventory.InventoryRecords.InventoryRecord;
+import me.matl114.matlib.Utils.Inventory.InventoryRecords.SimpleInventoryRecord;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -81,10 +85,13 @@ public class HypLink extends DistinctiveCustomSlimefunItem {
                             AddUtils.sendMessage(event.getPlayer(), "&c点击该方块时出现未知错误!");
                             return;
                         }
-                        BlockState state = b.getState(false);
-                        if(state instanceof  InventoryHolder ivHolder){
+                        //create only vanilla record
+                        InventoryRecord record = SimpleInventoryRecord.getInventoryRecord(loc);
+                        //BlockState state = b.getState(false);
+                        //
+                        if(record.inventory()!=null && record.stillValid()){
                             //todo do test
-                            event.getPlayer().openInventory(ivHolder.getInventory());
+                            HyperLinkListener.openHypInv(event.getPlayer(),record);
                         }
 
                     }else {
