@@ -11,6 +11,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -21,7 +22,7 @@ public class HyperLinkListener implements Listener {
     private static final Map<Inventory, InventoryRecord> openedInventory = new HashMap<>();
     public static void openHypInv(Player player, InventoryRecord record) {
         Inventory inv = record.inventory();
-        if(inv==null || !WorldUtils.canBlockInventoryOpenToPlayer(inv)) return;
+        if(inv==null || !record.canPlayerOpen(player)) return;
         player.openInventory(inv);
         AddUtils.sendMessage(player, "&a成功打开该容器!");
         //open before putting this,because open may follow a close Event
@@ -43,8 +44,15 @@ public class HyperLinkListener implements Listener {
     public void onInventoryClose(InventoryCloseEvent e) {
         openedInventory.remove(e.getInventory());
     }
-    @EventHandler(ignoreCancelled = false,priority = EventPriority.MONITOR)
+    @EventHandler(ignoreCancelled = false,priority = EventPriority.NORMAL)
     public void onInventoryClick(InventoryClickEvent e) {
+        Inventory inv = e.getInventory();
+        if(onInventory(inv)){
+            e.setCancelled(true);
+        }
+    }
+    @EventHandler(ignoreCancelled = false,priority = EventPriority.NORMAL)
+    public void onInventoryDrag(InventoryDragEvent e) {
         Inventory inv = e.getInventory();
         if(onInventory(inv)){
             e.setCancelled(true);

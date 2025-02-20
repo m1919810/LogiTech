@@ -21,11 +21,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -86,7 +83,7 @@ public class HypLink extends DistinctiveCustomSlimefunItem {
                             return;
                         }
                         //create only vanilla record
-                        InventoryRecord record = SimpleInventoryRecord.getInventoryRecord(loc);
+                        InventoryRecord record = SimpleInventoryRecord.getInventoryRecord(loc,true);
                         //BlockState state = b.getState(false);
                         //
                         if(record.inventory()!=null && record.stillValid()){

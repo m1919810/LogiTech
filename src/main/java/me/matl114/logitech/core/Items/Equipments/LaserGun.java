@@ -115,7 +115,7 @@ public class LaserGun extends ChargableProps {
             //}
         }
     }
-    public void launchLaser(Player p,int level,boolean fromEye){
+    private void launchLaser(Player p,int level,boolean fromEye){
         Location loc;
         if(!fromEye){
             loc=WorldUtils.getHandLocation(p);

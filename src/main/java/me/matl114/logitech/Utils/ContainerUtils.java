@@ -135,19 +135,19 @@ public class ContainerUtils {
                         TransportUtils.transportItem(fromInv,blockMenus[0],configCode,smart,bwlist,CraftUtils.getpusher);
                     }
 
-                }),TransportUtils.isAsyncMode(), to);
+                }),!TransportUtils.isAsyncMode(), to);
             }else {
                 if(toInv!=null){
                     ContainerUtils.getBlockContainerMenuWrapperWithCallback((blockMenus -> {
                         if(blockMenus[0]!=null)
                             TransportUtils.transportItem(blockMenus[0],toInv,configCode,smart,bwlist,CraftUtils.getpusher);
-                    }),TransportUtils.isAsyncMode(), from);
+                    }),!TransportUtils.isAsyncMode(), from);
                 }else {
                     ContainerUtils.getBlockContainerMenuWrapperWithCallback((blockMenus -> {
                         if(blockMenus[0]!=null&&blockMenus[1]!=null && !Objects.equals(blockMenus[0].getLocation(),blockMenus[1].getLocation())){
                             TransportUtils.transportItem(blockMenus[0],blockMenus[1],configCode,smart,bwlist,CraftUtils.getpusher);
                         }
-                    }),TransportUtils.isAsyncMode(), from,to);
+                    }),!TransportUtils.isAsyncMode(), from,to);
                 }
             }
         }
