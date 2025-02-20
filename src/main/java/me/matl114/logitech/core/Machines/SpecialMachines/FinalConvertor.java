@@ -232,7 +232,7 @@ public class FinalConvertor extends AbstractMachine implements FinalAltarCore.Fi
             }while (output!=null);
             Material randMaterial=getRandomMaterial(input.getType());
 
-            ItemStack result=(randMaterial!=null&&randMaterial.isItem())?new ItemStack(randMaterial,rand.nextInt( randMaterial.getMaxStackSize())+1):NULL_OUT.getInstance();
+            ItemStack result=(randMaterial!=null&&randMaterial.isItem()&&!randMaterial.isAir())?new ItemStack(randMaterial,rand.nextInt( Math.max(1,randMaterial.getMaxStackSize()))+1):NULL_OUT.getInstance();
 
             inv.replaceExistingItem(OUTPUT_SLOT[hasPutOutput-1],result);
             inv.replaceExistingItem(INPUT_SLOT[hasPutInput-1],null);
