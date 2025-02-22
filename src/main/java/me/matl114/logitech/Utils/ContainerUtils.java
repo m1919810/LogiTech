@@ -4,8 +4,12 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import lombok.Getter;
 import me.matl114.logitech.Manager.Schedules;
+import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.core.CustomSlimefunItem;
 import me.matl114.logitech.Utils.UtilClass.CargoClass.ContainerBlockMenuWrapper;
+import me.matl114.matlib.Utils.Inventory.InventoryRecords.InventoryRecord;
+import me.matl114.matlib.Utils.Inventory.InventoryRecords.SimpleInventoryRecord;
+import me.matl114.matlib.Utils.Inventory.Inventorys.AsyncInventoryWrapper;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
@@ -73,26 +77,27 @@ public class ContainerUtils {
 
     //todo test method safety not in main
     public static void getBlockContainerMenuWrapperWithCallback(Consumer<BlockMenu[]> callback, boolean runningOnMain, Location... testBlock){
-        TileState[] states = new TileState[testBlock.length];
+        InventoryRecord[] states = new InventoryRecord[testBlock.length];
         BlockMenu[] results=new BlockMenu[testBlock.length];
         Schedules.execute(()->{
             int len = testBlock.length;
             for(int i=0;i<len;++i){
                 if(testBlock[i]!=null){
-                    BlockState state =   testBlock[i].getBlock().getState(false);
-                    if(state instanceof TileState tile && state instanceof InventoryHolder holder){
-                        Inventory inventory = holder.getInventory();
-                       if(runningOnMain||me.matl114.matlib.Utils.WorldUtils.isInventoryTypeAsyncSafe(inventory.getType())){
-                            results[i]= ContainerBlockMenuWrapper.getContainerBlockMenu(inventory,testBlock[i]);
-                            states[i] = tile;
-                            continue;
-                        }
+                    InventoryRecord record = SimpleInventoryRecord.getInventoryRecord(testBlock[i],runningOnMain);
+                    if(record.hasInv() && record.hasData()){
+                        states[i] = record;
+                        continue;
                     }
                 }
-                results[i]=null;
                 states[i] = null;
             }
             if(runningOnMain){
+                for(int i=0;i<len;++i){
+                    InventoryRecord record = states[i];
+                    if(record!=null){
+                        results[i]= ContainerBlockMenuWrapper.getContainerBlockMenu(record.inventory(),testBlock[i]);
+                    }
+                }
                 //running on mainThread
                 callback.accept(results);
             }else {
@@ -100,11 +105,16 @@ public class ContainerUtils {
                 Schedules.launchSchedules(()->{
                     //test tileState removal
                     for(int i=0;i<len;++i){
-                        TileState tileState = states[i];
-                        //not valid anymore,set to null
-                        if(tileState!=null && !me.matl114.matlib.Utils.WorldUtils.isTileEntityStillValid(tileState)){
-                            states[i] = null;
-                            results[i] = null;
+                        InventoryRecord tileState = states[i];
+                        if(tileState!=null){
+                            //not valid anymore,set to null
+                            if(!tileState.stillValid()){
+                                states[i] = null;
+                                results[i] = null;
+                            }else {
+                                //make async wrapper to ensure inventory modification safety
+                                results[i]= ContainerBlockMenuWrapper.getContainerBlockMenu(AsyncInventoryWrapper.wrapOfCurrentThread(MyAddon.getInstance(),tileState),testBlock[i]);
+                            }
                         }
                     }
                     callback.accept(results);

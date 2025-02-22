@@ -1,13 +1,23 @@
 package me.matl114.logitech.Utils.UtilClass.CargoClass;
 
 import lombok.Getter;
+import me.matl114.logitech.Manager.Schedules;
 import me.matl114.logitech.Utils.ContainerUtils;
 import me.matl114.logitech.Utils.Debug;
+import me.matl114.matlib.Common.Lang.Exceptions.NotImplementedYet;
+import me.matl114.matlib.Utils.Inventory.InventoryRecords.InventoryRecord;
+import me.matl114.matlib.Utils.InventoryUtils;
+import me.matl114.matlib.Utils.NMSInventoryUtils;
+import me.matl114.matlib.Utils.WorldUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.DoubleChest;
+import org.bukkit.block.TileState;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 public class ContainerBlockMenuWrapper extends BlockMenu implements Cloneable{
@@ -19,16 +29,18 @@ public class ContainerBlockMenuWrapper extends BlockMenu implements Cloneable{
     private int slotSize=0;
     protected Inventory inventory;
     protected Location location;
+    //protected InventoryHolder holder;
     //protected ItemStack[] inventorySnapShot;
-    public void setup(Inventory inventory, Location location,int slotSize) {
+    public void setup( Inventory inventory, Location location, int slotSize) {
         this.inventory = inventory;
         this.location = inventory.getLocation();
         this.location = this.location==null?location:this.location;
         this.slotSize=slotSize;
     }
-    public static BlockMenu getContainerBlockMenu(Inventory inv,Location loc) {
+    public static BlockMenu getContainerBlockMenu(Inventory inv,Location loc){
         return getContainerBlockMenu(inv,loc,inv.getSize());
     }
+
     public static BlockMenu getContainerBlockMenu(Inventory inv,Location loc,int slotSize) {
         ContainerBlockMenuWrapper containerBlockMenu=instanceTemplate.clone();
         containerBlockMenu.setup(inv,loc,slotSize);
@@ -58,13 +70,18 @@ public class ContainerBlockMenuWrapper extends BlockMenu implements Cloneable{
     }
     @Override
     public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
+        throw new NotImplementedYet();
     }
     @Override
     public void replaceExistingItem(int slot,ItemStack itemStack) {
         if(slot<this.slotSize){
-            inventory.setItem(slot,itemStack);
-            this.markDirty();
+//            if(InventoryUtils.isBlockInventory(holder)){
+//                NMSInventoryUtils.setTileInvItemNoUpdate(inventory,slot,itemStack);
+//                delayChangeUpdate();
+//            }else {
+                inventory.setItem(slot,itemStack);
+//            }
+            //this.markDirty();
             //inventorySnapShot[slot]=inventory.getItem(inventory.getSize()-1);
         }
     }
@@ -74,8 +91,23 @@ public class ContainerBlockMenuWrapper extends BlockMenu implements Cloneable{
 //            item = this.preset.onItemStackChange(this, slot, previous, item);
 //        }
         this.replaceExistingItem(slot, item);
-
     }
+   // private boolean triggerUpdate = false;
+//    public void delayChangeUpdate(){
+//        if(!triggerUpdate){
+//            triggerUpdate=true;
+//            if(this.holder instanceof TileState tile){
+//                Schedules.execute(()->{
+//                    WorldUtils.tileEntitySetChange(tile);
+//                },true);
+//            }else if(this.holder instanceof DoubleChest doubleChest){
+//                Schedules.execute(()->{
+//                    WorldUtils.tileEntitySetChange();
+//                });
+//            }
+//
+//        }
+//    }
     @Override
     public ItemStack getItemInSlot(int slot) {
         if(slot<this.slotSize){

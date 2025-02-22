@@ -662,8 +662,8 @@ public class AddSlimefunItems {
                     AddItem.END_FEAT,AddItem.DIMENSIONAL_SHARD,AddItem.END_FEAT,
                     AddItem.ABSTRACT_INGOT,AddItem.LENGINE,AddItem.ABSTRACT_INGOT), Material.STONE,324,2_000,
             mkMp(
-                    mkP(mkl(setC(AddItem.END_FEAT,1),"64END_STONE"),mkl("END_PORTAL_FRAME")),6,
-                        mkP(mkl(AddItem.STAR_GOLD,"END_PORTAL_FRAME"),mkl(AddItem.PORTAL_FRAME)),6,
+                    mkP(mkl(setC(AddItem.END_FEAT,1),"16END_STONE"),mkl("4END_PORTAL_FRAME")),6,
+                        mkP(mkl(AddItem.STAR_GOLD,AddItem.DIMENSIONAL_SHARD),mkl(AddItem.PORTAL_FRAME)),6,
                         mkP(mkl(setC(AddItem.STAR_GOLD_INGOT,3),"16QUARTZ_BLOCK"),mkl(AddItem.SOLAR_REACTOR_FRAME)),6,
                         mkP(mkl(setC(AddItem.LPLATE,2),"16GLASS"),mkl(AddItem.SOLAR_REACTOR_GLASS)),6,
                         mkP(mkl(AddItem.STACKFRAME,AddItem.TRUE_),mkl(AddItem.STACKMACHINE)),6,
@@ -1737,13 +1737,14 @@ public class AddSlimefunItems {
     //multiblock
     public static final SlimefunItem PORTAL_CORE=new PortalCore(SPACE,AddItem.PORTAL_CORE,COMMON_TYPE,
             recipe(AddItem.LFIELD,AddItem.LFIELD,AddItem.DIMENSIONAL_SHARD,AddItem.DIMENSIONAL_SHARD,AddItem.LFIELD,AddItem.LFIELD,
-                    AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,"GPS_TRANSMITTER_2","GPS_TRANSMITTER_2",AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,
-                    AddItem.DIMENSIONAL_SHARD,"GPS_TRANSMITTER_2",AddItem.NOLOGIC,AddItem.HYPER_LINK,"GPS_TRANSMITTER_2",AddItem.DIMENSIONAL_SHARD,
-                    AddItem.DIMENSIONAL_SHARD,"GPS_TRANSMITTER_2",AddItem.LENGINE,AddItem.LDIGITIZER,"GPS_TRANSMITTER_2",AddItem.DIMENSIONAL_SHARD,
-                    AddItem.LFIELD,AddItem.STAR_GOLD_INGOT,"GPS_TRANSMITTER_2","GPS_TRANSMITTER_2",AddItem.STAR_GOLD_INGOT,AddItem.LFIELD,
+                    AddItem.LFIELD,AddItem.STAR_GOLD,"GPS_TRANSMITTER","GPS_TRANSMITTER",AddItem.STAR_GOLD,AddItem.LFIELD,
+                    AddItem.DIMENSIONAL_SHARD,"GPS_TRANSMITTER",AddItem.HYPER_LINK,AddItem.HYPER_LINK,"GPS_TRANSMITTER",AddItem.DIMENSIONAL_SHARD,
+                    AddItem.DIMENSIONAL_SHARD,"GPS_TRANSMITTER",AddItem.LENGINE,AddItem.LENGINE,"GPS_TRANSMITTER",AddItem.DIMENSIONAL_SHARD,
+                    AddItem.LFIELD,AddItem.STAR_GOLD,"GPS_TRANSMITTER","GPS_TRANSMITTER",AddItem.STAR_GOLD,AddItem.LFIELD,
                     AddItem.LFIELD,AddItem.LFIELD,AddItem.DIMENSIONAL_SHARD,AddItem.DIMENSIONAL_SHARD,AddItem.LFIELD,AddItem.LFIELD),"portal.core",
             MultiBlockTypes.PORTAL_TYPE)
-            .register();
+            .register()
+            .setOutput(setC(AddItem.PORTAL_CORE,2));
     public static final SlimefunItem PORTAL_FRAME=new MultiPart(SPACE,AddItem.PORTAL_FRAME,NULL,
             formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),"portal.part")
             .register();
