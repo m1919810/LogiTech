@@ -119,7 +119,59 @@ MomoTech:
     mode: w
     type: generator
     energy: 10
-  
+  MOMOTECH_FINAL_INGOT_GENERATOR:
+    recipe:
+      '0':
+        input:
+          '1': 448IRON_DUST
+        output:
+          '1': 448IRON_INGOT
+      '1':
+        input:
+          '1': 448GOLD_DUST
+        output:
+          '1': 448GOLD_4K
+      '2':
+        input:
+          '1': 448COPPER_DUST
+        output:
+          '1': 448COPPER_INGOT
+
+      '3':
+        input:
+          '1': 448TIN_DUST
+        output:
+          '1': 448TIN_INGOT
+      '4':
+        input:
+          '1': 448ZINC_DUST
+        output:
+          '1': 448ZINC_INGOT
+      '5':
+        input:
+          '1': 448ALUMINUM_DUST
+        output:
+          '1': 448ALUMINUM_INGOT
+      '6':
+        input:
+          '1': 448SILVER_DUST
+        output:
+          '1': 448SILVER_INGOT
+      '7':
+        input:
+          '1': 448MAGNESIUM_DUST
+        output:
+          '1': 448MAGNESIUM_INGOT
+      '8':
+        input:
+          '1': 448LEAD_DUST
+        output:
+          '1': 448LEAD_INGOT
+
+        tick: 0
+    mode: w
+    type: machine
+    energy: 0
   MOMOTECH_SALT_GENERATOR:
     
     recipe:

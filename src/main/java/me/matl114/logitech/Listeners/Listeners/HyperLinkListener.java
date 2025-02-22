@@ -1,17 +1,22 @@
 package me.matl114.logitech.Listeners.Listeners;
 
+import me.matl114.logitech.Listeners.BlockBreakListener;
 import me.matl114.logitech.Manager.Schedules;
 import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.Utils.Debug;
 import me.matl114.matlib.Utils.Inventory.InventoryRecords.InventoryRecord;
 import me.matl114.matlib.Utils.WorldUtils;
+import org.bukkit.Material;
 import org.bukkit.block.TileState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -31,7 +36,7 @@ public class HyperLinkListener implements Listener {
         Schedules.launchSchedules(new BukkitRunnable() {
             @Override
             public void run() {
-                if(!record.stillValid()){
+                if(!record.stillValid() || inv.getViewers().isEmpty()){
                     // will trigger CloseEvent, openedInventory Map will be removed here
                     //inv close require run on Main Thread
                     inv.close();
@@ -46,14 +51,14 @@ public class HyperLinkListener implements Listener {
     }
     @EventHandler(ignoreCancelled = false,priority = EventPriority.NORMAL)
     public void onInventoryClick(InventoryClickEvent e) {
-        Inventory inv = e.getInventory();
+        Inventory inv = e.getWhoClicked().getOpenInventory().getTopInventory();
         if(onInventory(inv)){
             e.setCancelled(true);
         }
     }
     @EventHandler(ignoreCancelled = false,priority = EventPriority.NORMAL)
     public void onInventoryDrag(InventoryDragEvent e) {
-        Inventory inv = e.getInventory();
+        Inventory inv = e.getWhoClicked().getOpenInventory().getTopInventory();
         if(onInventory(inv)){
             e.setCancelled(true);
         }

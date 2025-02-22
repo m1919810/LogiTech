@@ -35,6 +35,7 @@ public class ListenerManager {
         register(MULTIBLOCK_BREAK_LISTENER);
         register(SMITH_INTERFACE_LISTENER);
         register(COMBAT_LISTENER);
+        register(HYP_LISTENER);
     }
     public static Plugin plugin;
     public static PluginManager manager;
@@ -59,4 +60,5 @@ public class ListenerManager {
     public static final Listener MULTIBLOCK_BREAK_LISTENER=new MultiBlockVanillaPartListener();
     public static final Listener SMITH_INTERFACE_LISTENER=new SmithInterfaceListener();
     public static final Listener COMBAT_LISTENER=new CombatListener();
+    public static final Listener HYP_LISTENER = new HyperLinkListener();
 }
