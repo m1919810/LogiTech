@@ -3,7 +3,7 @@ package me.matl114.logitech.utils.UtilClass.CommandClass;
 import com.google.common.base.Preconditions;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
-import me.matl114.logitech.Listeners.Listeners.PlayerQuiteListener;
+import me.matl114.logitech.listeners.Listeners.PlayerQuiteListener;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.manager.Schedules;
 import me.matl114.logitech.utils.AddUtils;

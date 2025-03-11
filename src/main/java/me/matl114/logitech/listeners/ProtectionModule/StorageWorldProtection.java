@@ -1,4 +1,4 @@
-package me.matl114.logitech.Listeners.ProtectionModule;
+package me.matl114.logitech.listeners.ProtectionModule;
 
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.ProtectionModule;

@@ -1,4 +1,4 @@
-package me.matl114.logitech.Listeners.Listeners;
+package me.matl114.logitech.listeners.Listeners;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

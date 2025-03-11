@@ -1,7 +1,6 @@
-package me.matl114.logitech.Listeners;
+package me.matl114.logitech.listeners;
 
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class CustomListener implements Listener {
     public CustomListener() {

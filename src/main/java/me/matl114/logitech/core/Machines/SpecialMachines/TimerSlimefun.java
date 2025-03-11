@@ -10,7 +10,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.blocks.ChunkPosition;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.Listeners.Listeners.SlimefunBlockPlaceLimitListener;
+import me.matl114.logitech.listeners.Listeners.SlimefunBlockPlaceLimitListener;
 import me.matl114.logitech.core.Interface.ChunkLimit;
 import me.matl114.logitech.core.Interface.MenuTogglableBlock;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractMachine;

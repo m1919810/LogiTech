@@ -1,4 +1,4 @@
-package me.matl114.logitech.Listeners.Listeners;
+package me.matl114.logitech.listeners.Listeners;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;

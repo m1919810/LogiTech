@@ -1,6 +1,6 @@
 package me.matl114.logitech.utils.UtilClass.MenuClass;
 
-import me.matl114.logitech.Listeners.Listeners.PlayerQuiteListener;
+import me.matl114.logitech.listeners.Listeners.PlayerQuiteListener;
 import me.matl114.logitech.utils.Debug;
 import org.bukkit.entity.Player;
 

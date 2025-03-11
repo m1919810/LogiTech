@@ -1,4 +1,4 @@
-package me.matl114.logitech.Listeners.Listeners;
+package me.matl114.logitech.listeners.Listeners;
 
 import me.matl114.logitech.MyAddon;
 import org.bukkit.NamespacedKey;

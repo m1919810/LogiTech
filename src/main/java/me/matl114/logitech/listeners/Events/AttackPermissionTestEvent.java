@@ -1,4 +1,4 @@
-package me.matl114.logitech.Listeners.Events;
+package me.matl114.logitech.listeners.Events;
 
 import lombok.Getter;
 import org.bukkit.entity.Entity;

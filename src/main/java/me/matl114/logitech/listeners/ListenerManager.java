@@ -1,7 +1,7 @@
-package me.matl114.logitech.Listeners;
+package me.matl114.logitech.listeners;
 
 
-import me.matl114.logitech.Listeners.Listeners.*;
+import me.matl114.logitech.listeners.Listeners.*;
 import me.matl114.logitech.core.Cargo.SpaceStorage.StorageSpace;
 import me.matl114.logitech.Unittest;
 import me.matl114.logitech.utils.Debug;

@@ -56,7 +56,7 @@ public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
         ItemMeta meta = item.getItemMeta();
 
         // Fixes #2583 - Proper NBT handling of Spawners
-        if(entityType!=null&&entityType.isSpawnable())
+        if( entityType!=null ){
             if (meta instanceof BlockStateMeta stateMeta) {
                 BlockState state = stateMeta.getBlockState();
 
@@ -66,6 +66,7 @@ public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
 
                 stateMeta.setBlockState(state);
             }
+        }
 
         // Setting the lore to indicate the Type visually
         List<String> lore = meta.getLore();
@@ -81,7 +82,7 @@ public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
         }
         if(!hasTypeLore){
             lore.add("");
-            lore.add("&7类型: "+ AddUtils.color((entityType==null||entityType==EntityType.UNKNOWN||!entityType.isSpawnable())?"类型":ChatUtils.humanize(entityType.name())));
+            lore.add("&7类型: "+ AddUtils.color((entityType==null||entityType==EntityType.UNKNOWN)?"类型":ChatUtils.humanize(entityType.name())));
         }
 
         meta.setLore(lore);
@@ -98,6 +99,26 @@ public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
      */
     public final static String SPAWNER_ATTRIBUTE=AddUtils.resolveColor(  AddUtils.color("刷怪笼属性:"));
     private static final HashSet<EntityType> availableEntityFeatTypes = new HashSet<>(){{
+        for (EntityType type:EntityType.values()){
+            if(type != EntityType.UNKNOWN ){
+                try{
+                    if(!type.isEnabledByFeature(Bukkit.getWorlds().get(0))){
+                        //not enabled by feature
+                        continue;
+                    }
+                }catch (Throwable anyThing){
+                    //idk, I hope this will work
+                    anyThing.printStackTrace();
+                }
+                add(type);
+            }
+        }
+    }};
+    private static final Config entityFeat = ConfigLoader.loadExternalConfig("entity-feat");
+    private static final boolean enableSpawnerCraft = entityFeat.getOrSetDefault("enable-spawner-craft", true);
+    private static final boolean enableSuperSpawnerCraft = entityFeat.getOrSetDefault("enable-super-spawner-craft", true);
+    private static final HashSet<EntityType> availableSpawnerTypes = new HashSet<>(){{
+        HashSet<EntityType> basicTypes = new HashSet<>();
         loop:
         for (EntityType entityType : EntityType.values()) {
             if(entityType.isSpawnable()){
@@ -124,18 +145,12 @@ public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
                         continue ;
                     default:
                 }
-                add(entityType);
+                basicTypes.add(entityType);
             }
         }
-
-    }};
-    private static final Config entityFeat = ConfigLoader.loadExternalConfig("entity-feat");
-    private static final boolean enableSpawnerCraft = entityFeat.getOrSetDefault("enable-spawner-craft", true);
-    private static final boolean enableSuperSpawnerCraft = entityFeat.getOrSetDefault("enable-super-spawner-craft", true);
-    private static final HashSet<EntityType> availableSpawnerTypes = new HashSet<>(){{
         List<String> val = entityFeat.getOrSetDefault("banned-spawner-types",List.of("snowball","small_fireball","fireball","wither_skull","item_frame","potion","shulker_bullet","dragon_fireball","armor_stand"));
         entityFeat.save();
-        for (EntityType entityType : availableEntityFeatTypes) {
+        for (EntityType entityType : basicTypes) {
             String name = entityType.getKey().getKey();
             if(!val.contains(name)){
                 add(entityType);

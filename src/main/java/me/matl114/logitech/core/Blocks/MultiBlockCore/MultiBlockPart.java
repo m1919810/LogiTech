@@ -3,7 +3,7 @@ package me.matl114.logitech.core.Blocks.MultiBlockCore;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
-import me.matl114.logitech.Listeners.Listeners.BlockOpenListener;
+import me.matl114.logitech.listeners.Listeners.BlockOpenListener;
 import me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.matl114.logitech.utils.UtilClass.TickerClass.Ticking;
 import org.bukkit.event.Event;

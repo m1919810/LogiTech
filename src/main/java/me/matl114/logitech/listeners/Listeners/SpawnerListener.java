@@ -1,4 +1,4 @@
-package me.matl114.logitech.Listeners.Listeners;
+package me.matl114.logitech.listeners.Listeners;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfContainment;
 import me.matl114.logitech.core.Blocks.AbstractSpawner;

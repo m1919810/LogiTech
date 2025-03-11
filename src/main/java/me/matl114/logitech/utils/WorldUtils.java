@@ -6,7 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
-import me.matl114.logitech.Listeners.Events.AttackPermissionTestEvent;
+import me.matl114.logitech.listeners.Events.AttackPermissionTestEvent;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.manager.Schedules;
 import me.matl114.logitech.utils.UtilClass.ItemClass.ItemConsumer;

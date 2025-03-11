@@ -1,4 +1,4 @@
-package me.matl114.logitech.Listeners.Listeners;
+package me.matl114.logitech.listeners.Listeners;
 
 import me.matl114.logitech.utils.AddUtils;
 import me.matl114.logitech.core.AddItem;

@@ -14,6 +14,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.utils.AddUtils;
 import me.matl114.logitech.utils.Algorithms.AtomicCounter;
 import me.matl114.logitech.utils.DataCache;
+import me.matl114.logitech.utils.Debug;
 import me.matl114.logitech.utils.MathUtils;
 import me.matl114.logitech.core.Interface.EnergyProvider;
 import me.matl114.logitech.core.Interface.MenuTogglableBlock;
@@ -28,6 +29,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class AbstractEnergyCollector extends AbstractEnergyMachine implements EnergyProvider, MenuTogglableBlock {
@@ -122,7 +124,7 @@ public abstract class AbstractEnergyCollector extends AbstractEnergyMachine impl
         }else return null;
     }
     public abstract int getMaxCollectAmount();
-
+    protected ConcurrentHashMap<Location,SlimefunBlockData> ERROR_MACHINES = new ConcurrentHashMap<Location,SlimefunBlockData>();
     @Override
     public void tick(Block b, BlockMenu menu, SlimefunBlockData data, int ticker) {
         Location loc=menu.getLocation();
@@ -171,7 +173,16 @@ public abstract class AbstractEnergyCollector extends AbstractEnergyMachine impl
                         return tickGenerator;
                     }).exceptionally(ex->{
                         errorMachine.getAndIncrement();
-                        new ErrorReport<>(ex, testLocation, item);return null;
+                        ERROR_MACHINES.compute(testLocation,(loc1,data1)->{
+                            if(data1 != sf){
+                                Debug.logger("Error while Ticking Generator at:",DataCache.locationToDisplayString(loc1));
+                                //remove duplicate errors: only throw same machine once
+                                new ErrorReport<>(ex, loc1, item);
+                            }
+                            return sf;
+                        });
+                        return null;
+                        //new ErrorReport<>(ex, testLocation, item);return null;
                     });
                     gens.add(future1);
                     future1.thenApply((more)->{
@@ -185,7 +196,13 @@ public abstract class AbstractEnergyCollector extends AbstractEnergyMachine impl
                         }
                         return null;
                     }).exceptionally(ex->{
-                        new ErrorReport<>(ex, testLocation, item);return null;
+                        ERROR_MACHINES.compute(testLocation,(loc1,data1)->{
+                            if(data1 != sf){
+                                Debug.logger("Error while Ticking Generator at:",DataCache.locationToDisplayString(loc1));
+                                new ErrorReport<>(ex, loc1, item);
+                            }
+                            return sf;
+                        });return null;
                     });
                     if(energyProvider.incrementAndGet() >= getMaxCollectAmount()){
                         break;

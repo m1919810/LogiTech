@@ -191,6 +191,7 @@ public class TransportUtils {
 
         boolean reverse=CargoConfigs.REVERSE.getConfig(configCode);
         if(!reverse){
+
             int[] fromSlot=getSlotAccess(from,configCode,true,from_input,AIR);
             int[] toSlot=getSlotAccess(to,configCode,false,to_output,AIR);
             //只有目标INSERT才需要
@@ -205,8 +206,9 @@ public class TransportUtils {
             ItemTransportFlow flow=from_input?ItemTransportFlow.INSERT:ItemTransportFlow.WITHDRAW;
             int[] fromSlot= from.getPreset().getSlotsAccessedByItemTransport(from,flow,AIR);
             //只有目标INSERT才需要
-            smart=smart&&(CargoConfigs.FROM_REVERSED.getConfig(configCode)|| flow==ItemTransportFlow.INSERT);
+            smart= smart&&(CargoConfigs.FROM_REVERSED.getConfig(configCode)|| flow==ItemTransportFlow.INSERT);
             transportItemEnsureLock(to,toSlot,from,fromSlot,configCode,smart,bwlist,flow,provider);
+
         }
     }
     public static void transportItem(BlockMenu from,int[] fromSlot,BlockMenu to,int[] toSlot,int configCode,
@@ -462,8 +464,11 @@ public class TransportUtils {
                     //index=slotMappers[restrictedInsertSlot[j]]-1;
                     //not in available slots
                     //if(index<0)continue ;
-                    if(!toRecord[j]){
-                        toPusher=toCache.get(j);
+                    //bugfix: should use indexJ instead of j
+                    int indexJ = restrictedInsertSlot[j];
+
+                    if(!toRecord[indexJ]){
+                        toPusher=toCache.get(indexJ);
                         if(toPusher.getItem()==null){
                             toPusher.setFrom(fromPusher);
                             //转运方法,
@@ -476,7 +481,7 @@ public class TransportUtils {
                                 //满了 或者非空了 ?,全转,下次别来了
                                 fromPusher.setAmount(0);
                                 //标记为true说明已经转完了
-                                toRecord[j]=true;
+                                toRecord[indexJ]=true;
                             }else {
                                 fromPusher.addAmount(-fromAmount);
                                 //设置历史,如果为空按理说应该没有先前的设置过
@@ -485,7 +490,7 @@ public class TransportUtils {
                             fromPusher.updateMenu(from);
                             //E 非空逻辑有问题 需要在获取槽位的时候剔除掉
                         }else if(isnull||toPusher.isFull()){
-                            toRecord[j] = true;
+                            toRecord[indexJ] = true;
                         }
                         else if( CraftUtils.matchItemCounter(fromPusher,toPusher,true)){//如果匹配
                                 translimit=toPusher.transportFrom(fromPusher,translimit);

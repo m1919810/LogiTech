@@ -17,6 +17,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import me.matl114.logitech.ConfigLoader;
 import me.matl114.logitech.MyAddon;
+import me.matl114.logitech.core.Items.SpecialItems.EntityFeat;
 import me.matl114.logitech.utils.*;
 import me.matl114.logitech.core.AddItem;
 import me.matl114.logitech.core.AddSlimefunItems;
@@ -1048,7 +1049,7 @@ public class RecipeSupporter {
             Location loc=new Location(world,8,888,8);
             //load chunk
             for(EntityType type:EntityType.values()){
-                if(!type.isSpawnable()){
+                if(!EntityFeat.isAvailableEntityType(type)){
                     continue;
                 }
                 Set<ItemStack> drops=Slimefun.getRegistry().getMobDrops().get(type);
@@ -1068,7 +1069,7 @@ public class RecipeSupporter {
                 if(preDatas!=null){
                     stackList.addAll(Arrays.asList(preDatas));
                 }
-                ENTITY_DROPLIST.put(type,stackList.toArray(new ItemStack[stackList.size()]));
+                ENTITY_DROPLIST.put(type,stackList.toArray(ItemStack[]::new));
             }
         }
 

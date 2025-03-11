@@ -1,8 +1,8 @@
-package me.matl114.logitech.Listeners;
+package me.matl114.logitech.listeners;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.ProtectionModule;
-import me.matl114.logitech.Listeners.ProtectionModule.StorageWorldProtection;
+import me.matl114.logitech.listeners.ProtectionModule.StorageWorldProtection;
 import me.matl114.logitech.manager.PostSetupTasks;
 import me.matl114.logitech.core.Cargo.SpaceStorage.StorageSpace;
 import me.matl114.logitech.utils.Debug;

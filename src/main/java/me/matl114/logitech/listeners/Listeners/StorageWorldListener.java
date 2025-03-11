@@ -1,4 +1,4 @@
-package me.matl114.logitech.Listeners.Listeners;
+package me.matl114.logitech.listeners.Listeners;
 
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockPlaceEvent;
 import me.matl114.logitech.core.Cargo.SpaceStorage.StorageSpace;
