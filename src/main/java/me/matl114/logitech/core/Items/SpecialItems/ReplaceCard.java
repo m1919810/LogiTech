@@ -5,13 +5,12 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import me.matl114.logitech.Utils.CraftUtils;
+import me.matl114.logitech.utils.CraftUtils;
+import me.matl114.logitech.core.Items.Abstracts.DataRecordedItem;
 import me.matl114.logitech.core.Registries.AddHandlers;
-import me.matl114.logitech.core.DistinctiveCustomSlimefunItem;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.Utils;
-import me.matl114.logitech.Utils.WorldUtils;
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.Utils;
+import me.matl114.logitech.utils.WorldUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -23,7 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.function.Function;
 
-public class ReplaceCard extends DistinctiveCustomSlimefunItem {
+public class ReplaceCard extends DataRecordedItem {
     public final static String LOC_DISPLAY_PREFIX = AddUtils.resolveColor("&x&E&B&3&3&E&B替代的物品: &f");
     public final static NamespacedKey KEY_LOC = AddUtils.getNameKey("rep_mat_id");
     public enum ReplaceType{

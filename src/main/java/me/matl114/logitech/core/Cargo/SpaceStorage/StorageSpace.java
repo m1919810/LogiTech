@@ -4,14 +4,19 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.matl114.logitech.ConfigLoader;
-import me.matl114.logitech.Manager.Schedules;
-import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.manager.Schedules;
+import me.matl114.logitech.utils.*;
+import me.matl114.matlib.Algorithms.Algorithm.ThreadUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
 
 public class StorageSpace {
     public static String WORLD_NAME = "logispace";
@@ -112,6 +117,7 @@ public class StorageSpace {
     //因为挪动的时候不能调用onBlockBreak
     //但是很多操作都在onBlockBreak
     //menu内含物掉落和这些操作在一起
+    //todo need test
     private static void onSpaceExchangeAsync(Player player, Location startLocation,Location endLocation,Location storeStartLocation,int status,boolean checkPerms){
         //存入的位置 status=1->上面 status变成2  status=2->下面 status变成1
         synchronized (COUNTER_LOCK){
@@ -143,6 +149,7 @@ public class StorageSpace {
             }
         }
         Debug.debug("sf block collected");
+        List<CompletableFuture> futures = new ArrayList<>();
         //8x8x8为一个单位发起替换线程
         for (int dx=0;dx<x;dx+=8){
             for (int dy=0;dy<y;dy+=8){
@@ -150,10 +157,10 @@ public class StorageSpace {
                     final int dx_=dx;
                     final int dy_=dy;
                     final int dz_=dz;
-                    synchronized (COUNTER_LOCK){
-                        SYNC_THREAD_COUNTER++;
-                    }
-                    Schedules.launchSchedules(()->{
+//                    synchronized (COUNTER_LOCK){
+//                        SYNC_THREAD_COUNTER++;
+//                    }
+                    futures.add(CompletableFuture.runAsync(()->{
                         HashMap<Block,Block> depositePairs=new HashMap<>();
                         HashMap<Block,Block> withdrawPairs=new HashMap<>();
                         HashSet<Block> changedBlocks=new HashSet<>();
@@ -189,87 +196,66 @@ public class StorageSpace {
                                 }
                             }
                         }
-                        //当有任务的时候 发起方块交换任务
                         if(!depositePairs.isEmpty()||!withdrawPairs.isEmpty()){
-
-                            Schedules.launchSchedules(()->{
-                                try{
-                                    for(Block b1:changedBlocks){
-                                        Block b2=depositePairs.get(b1);
-                                        Block b3=withdrawPairs.get(b1);
-                                        if(!checkPerms
-                                                || true
-                                                //||WorldUtils.testVanillaBlockBreakPermission(b1,player,true)
-                                        ){
-                                            if (b2 == null) {
-                                                if(!WorldUtils.copyBlockState(b3.getState(false),b1)){
-                                                    AddUtils.sendMessage(player,"&e转移方块数据时出现未知错误,请联系管理员查询日志历史");
-                                                    continue;
-                                                }
-                                                b3.setType(Material.AIR,false);
-                                            }else if(b3==null){
-                                                if(!WorldUtils.copyBlockState(b1.getState(false),b2)){
-                                                    AddUtils.sendMessage(player,"&e转移方块数据时出现未知错误,请联系管理员查询日志历史");
-                                                    continue;
-                                                }
-                                                b1.setType(Material.AIR,false);
-                                            }else {
-                                                if(!WorldUtils.copyBlockState(b1.getState(false),b2)){
-                                                    AddUtils.sendMessage(player,"&e转移方块数据时出现未知错误,请联系管理员查询日志历史");
-                                                    continue;
-                                                }
-                                                if(!WorldUtils.copyBlockState(b3.getState(false),b1)){
-                                                    AddUtils.sendMessage(player,"&e转移方块数据时出现未知错误,请联系管理员查询日志历史");
-                                                    continue;
-                                                }
-                                                b3.setType(Material.AIR,false);
+                            FutureTask<Void> task = ThreadUtils.getFutureTask(()->{
+                                for(Block b1:changedBlocks){
+                                    Block b2=depositePairs.get(b1);
+                                    Block b3=withdrawPairs.get(b1);
+                                    if(!checkPerms
+                                            || true
+                                        //||WorldUtils.testVanillaBlockBreakPermission(b1,player,true)
+                                    ){
+                                        if (b2 == null) {
+                                            if(!WorldUtils.copyBlockState(b3.getState(false),b1)){
+                                                AddUtils.sendMessage(player,"&e转移方块数据时出现未知错误,请联系管理员查询日志历史");
+                                                continue;
                                             }
+                                            b3.setType(Material.AIR,false);
+                                        }else if(b3==null){
+                                            if(!WorldUtils.copyBlockState(b1.getState(false),b2)){
+                                                AddUtils.sendMessage(player,"&e转移方块数据时出现未知错误,请联系管理员查询日志历史");
+                                                continue;
+                                            }
+                                            b1.setType(Material.AIR,false);
+                                        }else {
+                                            if(!WorldUtils.copyBlockState(b1.getState(false),b2)){
+                                                AddUtils.sendMessage(player,"&e转移方块数据时出现未知错误,请联系管理员查询日志历史");
+                                                continue;
+                                            }
+                                            if(!WorldUtils.copyBlockState(b3.getState(false),b1)){
+                                                AddUtils.sendMessage(player,"&e转移方块数据时出现未知错误,请联系管理员查询日志历史");
+                                                continue;
+                                            }
+                                            b3.setType(Material.AIR,false);
                                         }
                                     }
-                                }finally {
-                                    synchronized (COUNTER_LOCK){
-                                        SYNC_THREAD_COUNTER-=1;
-                                    }
                                 }
-                            },0,true,0);
-                        }else{
-                            synchronized (COUNTER_LOCK){
-                                SYNC_THREAD_COUNTER-=1;
+                            });
+                            Schedules.launchSchedules(task,0,true,0);
+                            try {
+                                task.get();
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            } catch (ExecutionException e) {
+                                throw new RuntimeException(e);
                             }
                         }
-                    },0,false,0);
+                        //当有任务的时候 发起方块交换任务
+                    }));
                 }
             }
         }
-        boolean hasFinished=false;
-        for(int i=0;i<300;++i){
-            try{
-                Thread.sleep(100);
-            }catch (InterruptedException e){
-                e.printStackTrace();
-            }
+        CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new)).orTimeout(30, TimeUnit.SECONDS).exceptionally((ex)->{
+            Debug.logger("StorageSpace线程运行中出现问题,请联系作者");
+            ex.printStackTrace();
+            return null;
+        }).whenComplete((a,t)->{
+            AddUtils.sendMessage(player,"&a空间IO操作执行完毕!空间塔进入冷却...");
+            ThreadUtils.sleep(5*1000);
             synchronized (COUNTER_LOCK){
-                if(SYNC_THREAD_COUNTER<=1){
-                    hasFinished=true;
+                SYNC_THREAD_COUNTER=0;
+            }
+        });
 
-                }
-            }
-            if(hasFinished){
-                AddUtils.sendMessage(player,"&a空间IO操作执行完毕!");
-                try{
-                    Thread.sleep(5000);
-                }catch (InterruptedException e){
-                    e.printStackTrace();
-                }
-                synchronized (COUNTER_LOCK){
-                    SYNC_THREAD_COUNTER=0;
-                }
-                return;
-            }
-        }
-        if(!hasFinished){
-            Debug.logger("StorageSpace的线程计数器出现异常状态!疑似出现线程死循环,请联系作者");
-        }
-        SYNC_THREAD_COUNTER=0;
     }
 }

@@ -2,9 +2,9 @@ package me.matl114.logitech.core.Cargo.Links;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.core.Items.SpecialItems.HypLink;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.CraftUtils;
-import me.matl114.logitech.Utils.DataCache;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.CraftUtils;
+import me.matl114.logitech.utils.DataCache;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.meta.ItemMeta;

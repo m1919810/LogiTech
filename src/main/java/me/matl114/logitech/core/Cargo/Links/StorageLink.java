@@ -2,12 +2,11 @@ package me.matl114.logitech.core.Cargo.Links;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.core.Items.SpecialItems.QuantumLink;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.CraftUtils;
-import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.UtilClass.StorageClass.LocationProxy;
-import me.matl114.logitech.Utils.UtilClass.StorageClass.StorageType;
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.CraftUtils;
+import me.matl114.logitech.utils.DataCache;
+import me.matl114.logitech.utils.UtilClass.StorageClass.LocationProxy;
+import me.matl114.logitech.utils.UtilClass.StorageClass.StorageType;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;

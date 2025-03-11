@@ -11,7 +11,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import me.matl114.logitech.ConfigLoader;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractMachine;
-import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.utils.*;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;

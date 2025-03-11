@@ -5,7 +5,10 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import me.matl114.matlib.Utils.CraftUtils;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -29,4 +32,9 @@ public abstract class CustomProps extends CustomItemWithHandler<ItemUseHandler> 
 
     }
 
+    @Override
+    public boolean canStack(@NotNull ItemMeta var1, @NotNull ItemMeta var2) {
+        //most of them are weapons
+        return var1.getPersistentDataContainer().equals(var2.getPersistentDataContainer()) && CraftUtils.matchLoreField(var1,var2) && CraftUtils.matchEnchantmentsFields(var1,var2) && me.matl114.logitech.utils.CraftUtils.matchAttrbuteField(var1,var2);
+    }
 }

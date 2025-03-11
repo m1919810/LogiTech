@@ -5,7 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import me.matl114.logitech.core.Registries.FinalFeature;
-import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.utils.AddUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

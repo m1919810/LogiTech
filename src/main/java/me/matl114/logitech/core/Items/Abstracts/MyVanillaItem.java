@@ -6,8 +6,8 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import me.matl114.logitech.core.AddSlimefunItems;
 import me.matl114.logitech.core.Interface.RecipeDisplay;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.Debug;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.inventory.ItemStack;
 

@@ -10,12 +10,12 @@ import me.matl114.logitech.Language;
 import me.matl114.logitech.core.AddItem;
 import me.matl114.logitech.core.Cargo.Config.ChipCardCode;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractEnergyProcessor;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.CraftUtils;
-import me.matl114.logitech.Utils.MenuUtils;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
-import me.matl114.logitech.Utils.UtilClass.RecipeClass.EnergyProviderOperation;
-import me.matl114.logitech.Utils.Utils;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.CraftUtils;
+import me.matl114.logitech.utils.MenuUtils;
+import me.matl114.logitech.utils.UtilClass.ItemClass.ItemConsumer;
+import me.matl114.logitech.utils.UtilClass.RecipeClass.EnergyProviderOperation;
+import me.matl114.logitech.utils.Utils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
@@ -95,7 +95,7 @@ public class ChipReactor extends AbstractEnergyProcessor {
     public int getGeneratedOutput(@Nonnull Location l, @Nonnull SlimefunBlockData data){
         BlockMenu inv=data.getBlockMenu();
         //增加电力检测
-        if(inv!=null&&conditionHandle(null,inv)){
+        if(inv!=null && conditionHandle(null,inv)){
             EnergyProviderOperation currentOperation=processor.getOperation(l);
             if(currentOperation==null){
                 ItemStack it= inv.getItemInSlot(INPUT_SLOTS[0]);

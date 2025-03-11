@@ -1,7 +1,7 @@
 package me.matl114.logitech.core.Cargo.Config;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
-import me.matl114.logitech.Utils.DataCache;
+import me.matl114.logitech.utils.DataCache;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

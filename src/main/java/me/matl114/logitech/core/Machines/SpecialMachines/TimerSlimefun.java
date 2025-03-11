@@ -14,7 +14,7 @@ import me.matl114.logitech.Listeners.Listeners.SlimefunBlockPlaceLimitListener;
 import me.matl114.logitech.core.Interface.ChunkLimit;
 import me.matl114.logitech.core.Interface.MenuTogglableBlock;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractMachine;
-import me.matl114.logitech.Utils.DataCache;
+import me.matl114.logitech.utils.DataCache;
 import me.matl114.matlib.Utils.Reflect.FieldAccess;
 import me.matl114.matlib.Utils.Reflect.MethodAccess;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;

@@ -1,5 +1,6 @@
 package me.matl114.logitech.core.Cargo.CargoMachine;
 
+import com.google.common.collect.ImmutableMultimap;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -8,13 +9,18 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractMachine;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.Utils;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.Utils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.Map;
 
 public class StorageCleaner extends AbstractMachine {
     protected final int[] BORDER=new int[]{
@@ -71,15 +77,46 @@ public class StorageCleaner extends AbstractMachine {
                 continue;
             }
             SlimefunItem it=SlimefunItem.getByItem(it1);
-            ItemStack out;
-            if (it!=null){
-                out=it.getRecipeOutput();
-                out.setAmount(it1.getAmount());
-            }else{
-                out=it1;
-            }
+//            ItemStack out =;
+////            if (it!=null){
+////                out=it.getRecipeOutput();
+////                out.setAmount(it1.getAmount());
+////            }else{
+////                out=it1;
+////            }
             inv.replaceExistingItem(input[i], null);
-            inv.replaceExistingItem(output[i], out);
+            inv.replaceExistingItem(output[i], getResetItem(it1,it));
         }
+    }
+    public ItemStack getResetItem(ItemStack origin, SlimefunItem sfitem){
+        if(sfitem==null){
+            return origin;
+        }
+        ItemStack stack= AddUtils.getCopy(sfitem.getItem());
+        stack.setAmount(origin.getAmount());
+        ItemMeta meta=stack.getItemMeta();
+        ItemMeta originMeta=origin.getItemMeta();
+        if(meta!=null&&originMeta!=null){
+            //restore ench
+            if(meta.hasEnchants()){
+                for(Enchantment enchantment:meta.getEnchants().keySet()){
+                    meta.removeEnchant(enchantment);
+                }
+            }
+            for(Map.Entry<Enchantment,Integer> entry:originMeta.getEnchants().entrySet()){
+                meta.addEnchant(entry.getKey(),entry.getValue(),true);
+            }
+            //restore attr
+            if(originMeta.hasAttributeModifiers()){
+                meta.setAttributeModifiers(originMeta.getAttributeModifiers());
+            }else{
+                meta.setAttributeModifiers(ImmutableMultimap.of());
+            }
+            if(meta instanceof Damageable dm1&&originMeta instanceof Damageable dm2){
+                dm1.setDamage(dm2.getDamage());
+            }
+        }
+        stack.setItemMeta(meta);
+        return stack;
     }
 }

@@ -4,9 +4,9 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import me.matl114.logitech.Utils.WorldUtils;
+import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 import me.matl114.logitech.core.Items.SpecialItems.EntityFeat;
-import me.matl114.logitech.Utils.CraftUtils;
+import me.matl114.logitech.utils.CraftUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -21,7 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class AbstractSpawner extends AbstractBlock{
+public class AbstractSpawner extends AbstractBlock implements DistinctiveItem {
     private final ItemSetting<Boolean> allowSpawnEggs = new ItemSetting<>(this, "allow-spawn-eggs", true);
     public AbstractSpawner(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
@@ -74,9 +74,9 @@ public class AbstractSpawner extends AbstractBlock{
         this.handleBlock(this);
    }
     public boolean canStack(ItemMeta meta1, ItemMeta meta2){
-        if(!super.canStack(meta1,meta2)){
-            return false;
-        }
+//        if(!super.canStack(meta1,meta2)){
+//            return false;
+//        }
         if(meta1 instanceof BlockStateMeta bsm1 &&meta2 instanceof BlockStateMeta bsm2){
             return CraftUtils.matchBlockStateMetaField(bsm1,bsm2);
         }

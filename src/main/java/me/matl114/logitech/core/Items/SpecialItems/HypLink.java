@@ -3,17 +3,17 @@ package me.matl114.logitech.core.Items.SpecialItems;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.matl114.logitech.Listeners.Listeners.HyperLinkListener;
-import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.core.Cargo.Links.HyperLink;
-import me.matl114.logitech.core.DistinctiveCustomSlimefunItem;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.WorldUtils;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.DataCache;
+import me.matl114.logitech.utils.WorldUtils;
+import me.matl114.logitech.core.Items.Abstracts.DataRecordedItem;
 import me.matl114.matlib.Utils.Inventory.InventoryRecords.InventoryRecord;
 import me.matl114.matlib.Utils.Inventory.InventoryRecords.SimpleInventoryRecord;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -29,7 +29,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class HypLink extends DistinctiveCustomSlimefunItem {
+public class HypLink extends DataRecordedItem {
     public HypLink(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe,new ArrayList<>());
     }
@@ -64,9 +64,13 @@ public class HypLink extends DistinctiveCustomSlimefunItem {
                     if (WorldUtils.hasPermission(event.getPlayer(), loc, Interaction.INTERACT_BLOCK)) {
                         SlimefunBlockData data = DataCache.safeLoadBlock(loc);
                         if (data != null) {
+                            SlimefunItem item = SlimefunItem.getById( data.getSfId());
                             BlockMenu menu = data.getBlockMenu();
-                            if (menu != null){
-                                menu.open(event.getPlayer());
+                            if (menu != null && item != null ){
+                                if(item.canUse(event.getPlayer(), true) && menu.canOpen(loc.getBlock(), event.getPlayer()))
+                                    menu.open(event.getPlayer());
+                                else
+                                    AddUtils.sendMessage(event.getPlayer(),"&c打开该粘液方块的行为被阻止!");
                                 return;
                             }
                         }

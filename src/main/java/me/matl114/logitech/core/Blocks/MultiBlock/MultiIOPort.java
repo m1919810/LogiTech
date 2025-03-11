@@ -7,12 +7,12 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.core.Blocks.MultiBlockCore.MultiBlockPart;
-import me.matl114.logitech.core.Cargo.StorageMachines.AbstractTransportor;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.CraftUtils;
-import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.TransportUtils;
-import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.CraftUtils;
+import me.matl114.logitech.utils.DataCache;
+import me.matl114.logitech.utils.TransportUtils;
+import me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiBlockService;
+import me.matl114.logitech.core.Machines.Abstracts.AbstractMachine;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
@@ -23,7 +23,7 @@ import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class MultiIOPort extends AbstractTransportor implements MultiBlockPart {
+public class MultiIOPort extends AbstractMachine implements MultiBlockPart {
     protected final boolean CONFIG_TO;
     protected final boolean CONFIG_SYMM;
     protected final int[] INPUT_SLOT=new int[]{9,10,11,12,13,14,15,16,17};
@@ -38,12 +38,18 @@ public class MultiIOPort extends AbstractTransportor implements MultiBlockPart {
     public int[] getOutputSlots(){
         return OUTPUT_SLOT;
     }
+
+    @Override
+    public void process(Block b, BlockMenu preset, SlimefunBlockData data) {
+
+    }
+
     protected final String BLOCKID;
 
 
     public MultiIOPort(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType,
                        ItemStack[] recipe,String blockid,boolean isSym,boolean to) {
-        super(itemGroup,item,recipeType,recipe);
+        super(itemGroup,item,recipeType,recipe,0,0);
         this.BLOCKID = blockid;
         this.CONFIG_TO = to;
         this.CONFIG_SYMM = isSym;

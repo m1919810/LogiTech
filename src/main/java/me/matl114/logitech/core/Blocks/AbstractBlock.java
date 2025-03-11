@@ -3,12 +3,16 @@ package me.matl114.logitech.core.Blocks;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import me.matl114.logitech.core.CustomSlimefunItem;
 import me.matl114.logitech.core.DistinctiveCustomSlimefunItem;
 import me.matl114.logitech.core.Interface.MenuBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.inventory.ItemStack;
 
-public class AbstractBlock extends DistinctiveCustomSlimefunItem implements MenuBlock {
+/**
+ * abstracts of unclassified sf blocks
+ */
+public class AbstractBlock extends CustomSlimefunItem implements MenuBlock {
     public AbstractBlock(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }

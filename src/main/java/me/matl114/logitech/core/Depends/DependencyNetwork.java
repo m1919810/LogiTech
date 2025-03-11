@@ -6,9 +6,9 @@ import io.github.sefiraat.networks.utils.Keys;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import me.matl114.logitech.core.Registries.AddDepends;
-import me.matl114.logitech.Utils.Debug;
-import me.matl114.logitech.Utils.ReflectUtils;
-import me.matl114.logitech.Utils.Settings;
+import me.matl114.logitech.utils.Debug;
+import me.matl114.logitech.utils.ReflectUtils;
+import me.matl114.logitech.utils.Settings;
 import org.bukkit.Bukkit;
 
 public class DependencyNetwork {

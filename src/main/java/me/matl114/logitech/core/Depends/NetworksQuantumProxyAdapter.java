@@ -4,17 +4,16 @@ import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedException;
 import me.matl114.logitech.core.Cargo.Storages;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.Debug;
-import me.matl114.logitech.Utils.UtilClass.StorageClass.LocationProxy;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.DataCache;
+import me.matl114.logitech.utils.Debug;
+import me.matl114.logitech.utils.UtilClass.StorageClass.LocationProxy;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.lang.reflect.Method;
 import java.util.Map;
 
 public class NetworksQuantumProxyAdapter extends NetworksQuantumStorageAdapter implements LocationProxy {

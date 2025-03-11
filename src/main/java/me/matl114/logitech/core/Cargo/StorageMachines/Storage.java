@@ -8,7 +8,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 
 import me.matl114.logitech.core.Machines.Abstracts.AbstractMachine;
 
-import me.matl114.logitech.Utils.UtilClass.TickerClass.Ticking;
+import me.matl114.logitech.utils.UtilClass.TickerClass.Ticking;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 

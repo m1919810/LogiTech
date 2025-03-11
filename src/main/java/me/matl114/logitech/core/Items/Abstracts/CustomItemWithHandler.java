@@ -4,11 +4,13 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import me.matl114.logitech.utils.WorldUtils;
+import me.matl114.logitech.core.Registries.AddHandlers;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public abstract class CustomItemWithHandler<T extends ItemHandler> extends CustomItemNotPlaceable {
+public abstract class CustomItemWithHandler<T extends ItemHandler> extends FunctionalItem {
     public CustomItemWithHandler(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe){
         super(itemGroup, item, recipeType, recipe);
     }
@@ -19,6 +21,10 @@ public abstract class CustomItemWithHandler<T extends ItemHandler> extends Custo
     public abstract T[] getItemHandler();
     public void preRegister(){
         super.preRegister();
+        if(WorldUtils.isBlock(getItem().getType())){
+            addItemHandler(AddHandlers.stopPlacementHandler);
+            addItemHandler(AddHandlers.stopPlaceerHandler);
+        }
         addItemHandler(getItemHandler());
     }
 }

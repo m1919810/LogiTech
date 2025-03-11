@@ -9,10 +9,10 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractMachine;
-import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.StorageClass.ItemStorageCache;
+import me.matl114.logitech.utils.*;
+import me.matl114.logitech.utils.UtilClass.StorageClass.ItemStorageCache;
 
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
+import me.matl114.logitech.utils.UtilClass.ItemClass.ItemPusher;
 import me.matl114.logitech.core.Registries.FinalFeature;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;

@@ -2,11 +2,10 @@ package me.matl114.logitech.core.Cargo.Singularity;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.core.Items.SpecialItems.Singularity;
-import me.matl114.logitech.Utils.UtilClass.PdcClass.AbstractStorageType;
-import me.matl114.logitech.Utils.UtilClass.StorageClass.StorageType;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.CraftUtils;
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
+import me.matl114.logitech.utils.UtilClass.PdcClass.AbstractStorageType;
+import me.matl114.logitech.utils.UtilClass.StorageClass.StorageType;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.CraftUtils;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

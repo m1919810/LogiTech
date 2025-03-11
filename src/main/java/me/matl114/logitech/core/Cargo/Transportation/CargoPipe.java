@@ -4,8 +4,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import me.matl114.logitech.core.Machines.Electrics.AbstractPipe;
-import me.matl114.logitech.Utils.ContainerUtils;
-import me.matl114.logitech.Utils.UtilClass.CargoClass.CargoConfigs;
+import me.matl114.logitech.utils.ContainerUtils;
+import me.matl114.logitech.utils.UtilClass.CargoClass.CargoConfigs;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 

@@ -9,7 +9,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.core.Cargo.AbstractCargo;
 import me.matl114.logitech.core.Cargo.Links.HyperLink;
-import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.utils.*;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;

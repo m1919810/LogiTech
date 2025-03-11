@@ -5,6 +5,8 @@ enable:
   - InfinityExpansion
   - Supreme
   - TranscEndence
+  - Fluffymachines
+  - LiteXpansion
 Slimefun:
   enable: true
   ELECTRIC_GOLD_PAN:
@@ -1320,11 +1322,13 @@ MomoTech:
     
     recipe:
       '0':
+        input:
+          '1': ITEM_ALL_MATCH
         output:
           '1': 8MOMOTECH_EMPTY_SHELL
         tick: 0
     mode: w
-    type: generator
+    type: machine
     energy: 0
   MOMOTECH_EMPTY_SHELL_GENERATOR_I:
     recipe:
@@ -1385,7 +1389,7 @@ MomoTech:
         tick: 0
       '14':
         input:
-          '1': 2880COBBLESTONE
+          '1': 2880ITEM_ALL_MATCH
         output:
           '1': 
             type: rp
@@ -1924,6 +1928,53 @@ InfinityExpansion:
     mode: w
     type: machine
     energy: 12000
+  RESOURCE_SYNTHESIZER:
+    recipe:
+      '0':
+        input:
+          '1': IRON_SINGULARITY
+          '2': COAL_SINGULARITY
+        output:
+          '1': 32REINFORCED_ALLOY_INGOT
+        tick: 0
+      '1':
+        input:
+          '1': IRON_SINGULARITY
+          '2': REDSTONE_SINGULARITY
+        output:
+          '1': 32REDSTONE_ALLOY
+        tick: 0
+      '2':
+        input:
+          '1': DIAMOND_SINGULARITY
+          '2': COAL_SINGULARITY
+        output:
+          '1': 16CARBONADO
+        tick: 0
+      '3':
+        input:
+          '1': GOLD_SINGULARITY
+          '2': EMERALD_SINGULARITY
+        output:
+          '1': 16BLISTERING_INGOT_3
+        tick: 0
+      '4':
+        input:
+          '1': COPPER_SINGULARITY
+          '2': ZINC_SINGULARITY
+        output:
+          '1': 64ELECTRO_MAGNET
+        tick: 0
+      '5':
+        input:
+          '1': IRON_SINGULARITY
+          '2': QUARTZ_SINGULARITY
+        output:
+          '1': 64SOLAR_PANEL
+        tick: 0
+    mode: w
+    type: machine
+    energy: 1_000_000
   VOID_HARVESTER:
     recipe:
       '0':
@@ -6182,3 +6233,40 @@ TranscEndence:
     mode: w
     type: generator
     energy: 128
+Fluffymachines:
+  AUTO_TABLE_SAW:
+    recipetype: TABLE_SAW
+    time: 0
+    mode: w
+    type: machine
+    energy: 128
+  ELECTRIC_DUST_FABRICATOR:
+    recipetype: SLIMEFUN:ORE_WASHER
+    time: 1
+    mode: w
+    type: machine
+    energy: 256
+LiteXpansion:
+  SCRAP_MACHINE:
+    # to be done later
+    recipe:
+      '1':
+        input:
+          '1': ITEM_ALL_MATCH
+        output:
+          '1': SCRAP
+        tick: 10
+    mode: w
+    type: machine
+    energy: 200
+  MASS_FABRICATOR_MACHINE:
+    recipe:
+      '1':
+        tick: 200
+        input:
+          '1': 200SCRAP
+        output:
+          '1': UU_MATTER
+    mode: w
+    type: machine
+    energy: 16666

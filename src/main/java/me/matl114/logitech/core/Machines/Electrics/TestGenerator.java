@@ -10,8 +10,8 @@ import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponen
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.core.AddItem;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractEnergyProvider;
-import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.TickerClass.Ticking;
+import me.matl114.logitech.utils.*;
+import me.matl114.logitech.utils.UtilClass.TickerClass.Ticking;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;

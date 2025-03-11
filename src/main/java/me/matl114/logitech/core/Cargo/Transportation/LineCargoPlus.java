@@ -3,7 +3,7 @@ package me.matl114.logitech.core.Cargo.Transportation;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import me.matl114.logitech.Utils.*;
+import me.matl114.logitech.utils.*;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;

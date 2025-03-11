@@ -6,7 +6,7 @@ import com.google.common.base.Preconditions;
 import dev.rosewood.rosestacker.api.RoseStackerAPI;
 import dev.rosewood.rosestacker.stack.StackedItem;
 import lombok.Getter;
-import me.matl114.logitech.Manager.PostSetupTasks;
+import me.matl114.logitech.manager.PostSetupTasks;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Item;
 

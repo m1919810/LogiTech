@@ -7,11 +7,11 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Language;
-import me.matl114.logitech.Manager.PostSetupTasks;
+import me.matl114.logitech.manager.PostSetupTasks;
 import me.matl114.logitech.core.AddItem;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractAdvancedProcessor;
-import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
+import me.matl114.logitech.utils.*;
+import me.matl114.logitech.utils.UtilClass.ItemClass.ItemCounter;
 import me.matl114.logitech.core.Registries.RecipeSupporter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -23,7 +23,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 public class AEMachine extends AbstractAdvancedProcessor {

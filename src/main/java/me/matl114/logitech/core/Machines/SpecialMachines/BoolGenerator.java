@@ -10,10 +10,10 @@ import me.matl114.logitech.Language;
 import me.matl114.logitech.core.AddItem;
 import me.matl114.logitech.core.AddSlimefunItems;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractProcessor;
-import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemConsumer;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
-import me.matl114.logitech.Utils.UtilClass.RecipeClass.SimpleCraftingOperation;
+import me.matl114.logitech.utils.*;
+import me.matl114.logitech.utils.UtilClass.ItemClass.ItemConsumer;
+import me.matl114.logitech.utils.UtilClass.ItemClass.ItemPusher;
+import me.matl114.logitech.utils.UtilClass.RecipeClass.SimpleCraftingOperation;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -42,8 +42,8 @@ public class BoolGenerator extends AbstractProcessor {
         super(category,item,recipeType,recipe,progressItem,5,100,null);
         this.processtick=tick;
         setDisplayRecipes(Utils.list(
-                AddUtils.getInfoShow("&f生成机制","&7当所有输入槽内物品全部相同时候,生成%s".formatted(Language.get("Items.TRUE_.Name"))),AddItem.TRUE_,
-                AddUtils.getInfoShow("&f生成机制","&7当任两输入槽内物品全部不同时候,生成%s".formatted(Language.get("Items.FALSE_.Name"))),AddItem.FALSE_,
+                AddUtils.getInfoShow("&f生成机制","&7当所有输入槽内物品全部相同且非空时,生成%s".formatted(Language.get("Items.TRUE_.Name"))),AddItem.TRUE_,
+                AddUtils.getInfoShow("&f生成机制","&7当输入槽均非空且任两输入槽内物品互不相同时,生成%s".formatted(Language.get("Items.FALSE_.Name"))),AddItem.FALSE_,
                 AddUtils.getInfoShow("&f生成机制","&7当配方匹配时,槽位依次消耗min(槽位物品数,%s)个物品".formatted(inputCost) ),null));
         this.machineRecipes=new ArrayList<>();
         this.machineRecipes.add(MachineRecipeUtils.stackFrom(tick,new ItemStack[0],new ItemStack[]{AddSlimefunItems.setC( AddItem.TRUE_,3)}));

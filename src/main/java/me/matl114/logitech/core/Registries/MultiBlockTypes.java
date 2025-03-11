@@ -1,9 +1,9 @@
 package me.matl114.logitech.core.Registries;
 
-import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.CubeMultiBlock.CubeMultiBlockType;
-import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
-import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockType;
-import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiLevelBlock.MultiLevelBlockType;
+import me.matl114.logitech.utils.UtilClass.MultiBlockClass.CubeMultiBlock.CubeMultiBlockType;
+import me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiBlockService;
+import me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiBlockType;
+import me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiLevelBlock.MultiLevelBlockType;
 import org.bukkit.Material;
 
 import java.util.HashSet;

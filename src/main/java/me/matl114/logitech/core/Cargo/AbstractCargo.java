@@ -6,15 +6,15 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.core.Cargo.Config.CargoConfigCard;
-import me.matl114.logitech.core.DistinctiveCustomSlimefunItem;
+import me.matl114.logitech.core.CustomSlimefunItem;
 import me.matl114.logitech.core.Interface.DirectionalBlock;
 import me.matl114.logitech.core.Interface.MenuBlock;
 import me.matl114.logitech.core.Interface.RecipeDisplay;
-import me.matl114.logitech.Utils.UtilClass.TickerClass.Ticking;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.Settings;
-import me.matl114.logitech.Utils.UtilClass.CargoClass.CargoConfigs;
+import me.matl114.logitech.utils.UtilClass.TickerClass.Ticking;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.DataCache;
+import me.matl114.logitech.utils.Settings;
+import me.matl114.logitech.utils.UtilClass.CargoClass.CargoConfigs;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
@@ -28,7 +28,10 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractCargo extends DistinctiveCustomSlimefunItem implements RecipeDisplay , MenuBlock, Ticking, DirectionalBlock {
+/**
+ * abstracts of Inventory transportation machines
+ */
+public abstract class AbstractCargo extends CustomSlimefunItem implements RecipeDisplay , MenuBlock, Ticking, DirectionalBlock {
     public abstract int[] getInputSlots();
     public abstract int[] getOutputSlots();
     public abstract int getConfigSlot();

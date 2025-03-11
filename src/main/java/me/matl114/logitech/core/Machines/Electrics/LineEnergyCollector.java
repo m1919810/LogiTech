@@ -6,11 +6,11 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import me.matl114.logitech.Manager.Schedules;
+import me.matl114.logitech.manager.Schedules;
 import me.matl114.logitech.core.Interface.DirectionalBlock;
-import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.UtilClass.CargoClass.Directions;
-import me.matl114.logitech.Utils.WorldUtils;
+import me.matl114.logitech.utils.DataCache;
+import me.matl114.logitech.utils.UtilClass.CargoClass.Directions;
+import me.matl114.logitech.utils.WorldUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -59,6 +59,7 @@ public class LineEnergyCollector extends AbstractEnergyCollector implements Dire
                     ret.add(testData);
             }
             if(item instanceof LineEnergyCollector){
+                ++i;
                 break;
             }
         }

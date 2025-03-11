@@ -1,8 +1,8 @@
 package me.matl114.logitech;
 
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.Debug;
 
 import java.util.*;
 

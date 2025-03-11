@@ -7,7 +7,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import me.matl114.logitech.core.Registries.AddHandlers;
 import me.matl114.logitech.core.CustomSlimefunItem;
-import me.matl114.logitech.Utils.WorldUtils;
+import me.matl114.logitech.utils.WorldUtils;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;

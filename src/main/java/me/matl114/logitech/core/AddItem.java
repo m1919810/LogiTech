@@ -5,10 +5,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import me.matl114.logitech.Utils.UtilClass.SpecialItemClass.CustomFireworkStar;
-import me.matl114.logitech.Utils.UtilClass.SpecialItemClass.CustomHead;
-import me.matl114.logitech.Language;
-import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.utils.UtilClass.SpecialItemClass.CustomFireworkStar;
+import me.matl114.logitech.utils.UtilClass.SpecialItemClass.CustomHead;
 import me.matl114.matlib.Algorithms.DataStructures.Frames.InitializeProvider;
 import me.matl114.matlib.Algorithms.DataStructures.Frames.InitializeSafeProvider;
 import me.matl114.matlib.Utils.Reflect.FieldAccess;
@@ -17,7 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import static me.matl114.logitech.Utils.AddUtils.*;
+import static me.matl114.logitech.utils.AddUtils.*;
 import static me.matl114.logitech.Language.*;
 
 import java.util.HashSet;
@@ -617,6 +615,8 @@ public class AddItem {
             get("Cargo.OCTASORTER.Name"),getList("Cargo.OCTASORTER.Lore"));
     public static final SlimefunItemStack ADV_TRASH=themed("ADV_TRASH",CustomHead.FIRE_GENERATOR.getItem(), Theme.CARGO1,
             get("Cargo.ADV_TRASH.Name"),getList("Cargo.ADV_TRASH.Lore"));
+    public static final SlimefunItemStack QUANTUM_TRASH=themed("QUANTUM_TRASH",CustomHead.TRASHCAN_RECYCLE.getItem(), Theme.CARGO1,
+            get("Cargo.QUANTUM_TRASH.Name"),getList("Cargo.QUANTUM_TRASH.Lore"));
     public static final SlimefunItemStack STORAGE_OPERATOR=themed("STORAGE_OPERATOR",Material.CARTOGRAPHY_TABLE,Theme.CARGO1,
             get("Cargo.STORAGE_OPERATOR.Name"),getList("Cargo.STORAGE_OPERATOR.Lore"));
     public static final SlimefunItemStack ADV_ADJACENT_CARGO=themed("ADV_ADJACENT_CARGO",Material.TARGET,Theme.CARGO1,

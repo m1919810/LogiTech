@@ -5,9 +5,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import lombok.Getter;
-import me.matl114.logitech.Manager.Schedules;
-import me.matl114.logitech.Utils.NMSUtils;
-import me.matl114.logitech.Utils.WorldUtils;
+import me.matl114.logitech.manager.Schedules;
+import me.matl114.logitech.utils.WorldUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,7 +20,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class TimerRandomtick extends AbstractTimerRange{
     public static boolean isEnable(){

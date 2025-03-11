@@ -7,19 +7,16 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.matl114.logitech.ConfigLoader;
-import me.matl114.logitech.Utils.Debug;
 import me.matl114.logitech.core.Depends.SupportedPluginManager;
-import me.matl114.logitech.Manager.Schedules;
+import me.matl114.logitech.manager.Schedules;
 import me.matl114.logitech.core.AddItem;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.CraftUtils;
-import me.matl114.logitech.Utils.Utils;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.CraftUtils;
+import me.matl114.logitech.utils.Utils;
 import me.matl114.logitech.core.Items.Abstracts.CustomItemWithHandler;
 import me.matl114.matlib.Utils.Inventory.ItemStacks.CleanItemStack;
-import org.apache.http.annotation.Experimental;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.MinecraftExperimental;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.EntityType;
@@ -30,14 +27,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
 public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
-    protected final  int MIDDLE_MERGE=3;
-    protected final  int SUPER_MERGE=9;
+    protected final  int MIDDLE_MERGE=5;
+    protected final  int SUPER_MERGE=25;
     public  EntityFeat(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe){
         super(itemGroup, item, recipeType, recipe);
         ItemStack resultItemStack=generateSpawnerFrom(EntityType.ZOMBIE,8,60,64,6,10,true);

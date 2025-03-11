@@ -8,9 +8,9 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
-import me.matl114.logitech.Utils.UtilClass.RecipeClass.MultiCraftingOperation;
+import me.matl114.logitech.utils.*;
+import me.matl114.logitech.utils.UtilClass.ItemClass.ItemGreedyConsumer;
+import me.matl114.logitech.utils.UtilClass.RecipeClass.MultiCraftingOperation;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -131,6 +131,7 @@ public abstract class AbstractAdvancedProcessor extends AbstractMachine implemen
         return 64;
     }
     protected boolean USE_HISTORY=true;
+    //fixme 仍要更新界面
     public void process(Block b, BlockMenu inv, SlimefunBlockData data){
         MultiCraftingOperation currentOperation = this.processor.getOperation(b);
         ItemGreedyConsumer[] fastCraft=null;

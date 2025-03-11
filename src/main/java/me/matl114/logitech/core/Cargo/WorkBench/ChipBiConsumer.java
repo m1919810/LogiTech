@@ -7,14 +7,14 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.Language;
-import me.matl114.logitech.Manager.Schedules;
+import me.matl114.logitech.manager.Schedules;
 import me.matl114.logitech.core.AddItem;
 import me.matl114.logitech.core.Cargo.Config.ChipCardCode;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractMachine;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.CraftUtils;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
-import me.matl114.logitech.Utils.Utils;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.CraftUtils;
+import me.matl114.logitech.utils.UtilClass.ItemClass.ItemCounter;
+import me.matl114.logitech.utils.Utils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
@@ -62,7 +62,7 @@ public class ChipBiConsumer extends AbstractMachine {
                 AddUtils.getInfoShow("&f或","&7插入%s进行或操作".formatted(Language.get("Items.FALSE_.Name")),
                         "&7运算规则:","&7依次对两个芯片的对应01位进行'|'运算","&8⇨ &70|1=1|0=1|1=1","&8⇨ &70|0=0"),AddItem.FALSE_,
                 AddUtils.getInfoShow("&f异或","&7插入%s进行异或操作".formatted(Language.get("Items.LOGIC.Name")),
-                        "&7运算规则:","&7依次对两个芯片的对应01位进行'&'运算","&8⇨ &70^1=1^0=1","&8⇨ &70^0=1^1=0"),AddItem.LOGIC
+                        "&7运算规则:","&7依次对两个芯片的对应01位进行'^'运算","&8⇨ &70^1=1^0=1","&8⇨ &70^0=1^1=0"),AddItem.LOGIC
         ));
     }
     protected Material ChipMaterial=AddItem.CHIP.getType();

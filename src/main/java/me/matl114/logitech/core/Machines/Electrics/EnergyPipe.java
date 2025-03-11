@@ -6,8 +6,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.DataCache;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.DataCache;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 

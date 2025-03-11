@@ -7,16 +7,16 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.Manager.Schedules;
+import me.matl114.logitech.manager.Schedules;
 import me.matl114.logitech.core.AddItem;
 import me.matl114.logitech.core.Blocks.MultiBlockCore.MultiCore;
 import me.matl114.logitech.core.Cargo.Links.HyperLink;
-import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.FunctionalClass.OutputStream;
-import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.AbstractMultiBlockHandler;
-import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockHandler;
-import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
-import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockType;
+import me.matl114.logitech.utils.*;
+import me.matl114.logitech.utils.UtilClass.FunctionalClass.OutputStream;
+import me.matl114.logitech.utils.UtilClass.MultiBlockClass.AbstractMultiBlockHandler;
+import me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiBlockHandler;
+import me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiBlockService;
+import me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiBlockType;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.*;
@@ -75,7 +75,7 @@ public class PortalCore extends MultiCore {
         ItemStack link=inv.getItemInSlot(LINK_SLOT);
         if(link!=null&& HyperLink.isLink(link.getItemMeta())){
             Location loc=HyperLink.getLink(link.getItemMeta());
-            if(loc!=null&&validPortalCore(loc)){
+            if(loc!=null&&validPortalCore(loc)!=null){
                 DataCache.setLastLocation(inv.getLocation(),loc);
                 return true;
             }
@@ -83,25 +83,47 @@ public class PortalCore extends MultiCore {
         DataCache.setLastLocation(inv.getLocation(),null);
         return false;
     }
+
+    /**
+     * check linkage, try enable target portal if not enabled
+     * @param loc
+     * @return
+     */
     public Location checkLink(Location loc){
-        Location loc2=DataCache.getLastLocation(loc);
-        if(loc2!=null&&validPortalCore(loc2)&&MultiBlockService.getStatus(loc)!=0){
-            return loc2;
+        SlimefunBlockData data = DataCache.safeGetBlockCacheWithLoad(loc);
+        if(data!=null){
+            if(data.isDataLoaded()){
+                Location loc2=DataCache.getLastLocation(data);
+                SlimefunBlockData target;
+                if(loc2!=null&&(target=validPortalCore(loc2))!=null){
+                    if(MultiBlockService.getStatus(loc)!=0){
+                        return loc2;
+                    }else{
+                        //may not be built yet
+                        DataCache.runAfterSafeLoad(target,(data1)->{
+                            MultiBlockService.tryCreateMultiBlock(loc2,getMultiBlockType(),(str)->{});
+                        },false);
+                    }
+                    return null;
+                }
+                return null;
+            }else{
+                return null;
+            }
         }
-        DataCache.setLastLocation(loc,null);
         return null;
+
     }
-    public static boolean validPortalCore(Location loc){
-        SlimefunBlockData data= DataCache.safeLoadBlock(loc);
+    public static SlimefunBlockData validPortalCore(Location loc){
+        SlimefunBlockData data= DataCache.safeGetBlockCacheWithLoad(loc);
         if(data!=null){
             SlimefunItem it=SlimefunItem.getById(data.getSfId());
             //test if getStatus ok
             if((it instanceof PortalCore)){
-
-                return true;
+                return data;
             }
         }
-        return false;
+        return null;
     }
 
     public void constructMenu(BlockMenuPreset inv){

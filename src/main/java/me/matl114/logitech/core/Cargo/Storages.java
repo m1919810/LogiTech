@@ -7,9 +7,9 @@ import me.matl114.logitech.core.AddSlimefunItems;
 import me.matl114.logitech.core.Cargo.Singularity.SingularityProxy;
 import me.matl114.logitech.core.Cargo.Singularity.SingularityStorage;
 import me.matl114.logitech.core.CustomSlimefunItem;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.Debug;
-import me.matl114.logitech.Utils.UtilClass.StorageClass.StorageType;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.Debug;
+import me.matl114.logitech.utils.UtilClass.StorageClass.StorageType;
 
 import java.util.function.Supplier;
 

@@ -4,7 +4,7 @@ import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import me.matl114.logitech.Utils.DataCache;
+import me.matl114.logitech.utils.DataCache;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 import javax.annotation.ParametersAreNonnullByDefault;

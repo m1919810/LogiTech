@@ -9,11 +9,11 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import lombok.Getter;
 import lombok.Setter;
-import me.matl114.logitech.Manager.PostSetupTasks;
-import me.matl114.logitech.Manager.Schedules;
+import me.matl114.logitech.manager.PostSetupTasks;
+import me.matl114.logitech.manager.Schedules;
 import me.matl114.logitech.core.Interface.MenuTogglableBlock;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractMachine;
-import me.matl114.logitech.Utils.DataCache;
+import me.matl114.logitech.utils.DataCache;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -261,7 +261,7 @@ public abstract class AbstractTimerRange  extends AbstractMachine implements Men
         CompletableFuture.runAsync(()->{
             dv.forEach((v)->{
                 Location particleLocation=loc.clone().add(v);
-                particleLocation.getWorld().spawnParticle(getParticle(),particleLocation,0,0.0,0.0,0.0,1,null,true);
+                particleLocation.getWorld().spawnParticle(getParticle(),particleLocation,0,0.0,0.0,0.0,1,null,false);
             });
         });
     }

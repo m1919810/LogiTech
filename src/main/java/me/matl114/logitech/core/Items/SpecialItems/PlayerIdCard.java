@@ -1,22 +1,13 @@
 package me.matl114.logitech.core.Items.SpecialItems;
 
-import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.WorldUtils;
-import me.matl114.logitech.core.Cargo.Links.HyperLink;
-import me.matl114.logitech.core.DistinctiveCustomSlimefunItem;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import net.kyori.adventure.text.Component;
-import org.bukkit.Location;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.core.Items.Abstracts.DataRecordedItem;
 import org.bukkit.NamespacedKey;
-import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -24,10 +15,9 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-public class PlayerIdCard extends DistinctiveCustomSlimefunItem {
+public class PlayerIdCard extends DataRecordedItem {
     public PlayerIdCard(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, List<ItemStack> displayInfo) {
         super(itemGroup, item, recipeType, recipe, displayInfo);
     }

@@ -3,8 +3,8 @@ package me.matl114.logitech.core.Cargo.SpaceStorage;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import me.matl114.logitech.core.DistinctiveCustomSlimefunItem;
-import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.core.Items.Abstracts.DataRecordedItem;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -14,7 +14,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpaceStorageCard extends DistinctiveCustomSlimefunItem {
+public class SpaceStorageCard extends DataRecordedItem{
     protected final NamespacedKey KEY_UID= AddUtils.getNameKey("space-st-uid");
     protected final NamespacedKey KEY_STATUS= AddUtils.getNameKey("space-st-status");
     protected final NamespacedKey KEY_INDEX=AddUtils.getNameKey("space-st-index");

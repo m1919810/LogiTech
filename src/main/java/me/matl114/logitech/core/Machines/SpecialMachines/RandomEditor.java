@@ -2,17 +2,17 @@ package me.matl114.logitech.core.Machines.SpecialMachines;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.Manager.PostSetupTasks;
+import me.matl114.logitech.manager.PostSetupTasks;
 import me.matl114.logitech.core.Blocks.Laser;
 import me.matl114.logitech.core.Blocks.MultiBlock.FinalAltarCore;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractMachine;
 import me.matl114.logitech.core.Registries.FinalFeature;
-import me.matl114.logitech.Utils.*;
-import me.matl114.matlib.Utils.Reflect.FieldAccess;
+import me.matl114.logitech.utils.*;
 import me.matl114.matlib.core.EnvironmentManager;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -30,7 +30,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import javax.annotation.Nullable;
 import java.util.*;
 
-import static me.matl114.logitech.Utils.WorldUtils.*;
+import static me.matl114.logitech.utils.WorldUtils.*;
 
 public class RandomEditor extends AbstractMachine implements FinalAltarCore.FinalAltarChargable , Laser.LaserChargable {
     protected final int[] BORDER=new int[]{
@@ -65,6 +65,7 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
     protected final ItemStack STATUS_ON=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6机器信息","&7状态: &a已激活");
     protected final ItemStack STATUS_OFF=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&6机器信息","&7状态: &c未激活");
     protected final int MAX_UPGRADE_ONE_TIME=3;
+    protected final ItemSetting<Boolean> ENABLE_STACKABLE_ITEM = create("enable-stackable-item",true);
     public RandomEditor(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                           int energybuffer, int energyConsumption){
         super(category, item, recipeType, recipe, energybuffer, energyConsumption);
@@ -101,7 +102,9 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
                                     "&7操作不规范,装备全白搭",
                                     "&c由于高版本属性的等级限制,可能会出现等级过高造成属性重置",
                                     "&c希望大家谨慎使用"
-                                    ),null
+                                    ),ENABLE_STACKABLE_ITEM.getValue()?null:AddUtils.getInfoShow("&f注意 - &c堆叠限制",
+                                    "&7本服的机器配置中禁用了可堆叠物品的属性增幅",
+                                    "&7只有最大堆叠数为1的物品才可以进行强化!")
                     )
             );}
         );
@@ -177,7 +180,6 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
             return (randIndex%2==0)?EquipmentSlot.HAND:EquipmentSlot.OFF_HAND;
         }
     }
-    FieldAccess amountFieldA=FieldAccess.ofName(AttributeModifier.class,"amount");
     private final int MAX_ENCHANT=255;
     private final double MAX_ATTRIBUTE=1024;
     public void randomEdit(ItemMeta meta, Material material){
@@ -232,7 +234,7 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
         int len=ITEM_SLOT.length;
         for (int i=0;i<len;++i){
             ItemStack it=inv.getItemInSlot(ITEM_SLOT[i]);
-            if(it==null||it.getAmount()!=1){
+            if(it==null||it.getAmount()!=1|| (!ENABLE_STACKABLE_ITEM.getValue()&&it.getMaxStackSize()!=1)){
                 continue;
             }else {
                 ItemMeta meta=it.getItemMeta();

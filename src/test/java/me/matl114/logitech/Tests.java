@@ -1,8 +1,8 @@
 package me.matl114.logitech;
 
 
-import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.CargoClass.CargoConfigs;
+import me.matl114.logitech.utils.*;
+import me.matl114.logitech.utils.UtilClass.CargoClass.CargoConfigs;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;

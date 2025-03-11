@@ -6,13 +6,13 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.Manager.PostSetupTasks;
-import me.matl114.logitech.Manager.Schedules;
+import me.matl114.logitech.manager.PostSetupTasks;
+import me.matl114.logitech.manager.Schedules;
 import me.matl114.logitech.core.Blocks.AbstractBlock;
 import me.matl114.logitech.core.Registries.FinalFeature;
-import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemGreedyConsumer;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
+import me.matl114.logitech.utils.*;
+import me.matl114.logitech.utils.UtilClass.ItemClass.ItemGreedyConsumer;
+import me.matl114.logitech.utils.UtilClass.ItemClass.ItemPusherProvider;
 import me.matl114.logitech.core.Registries.RecipeSupporter;
 import me.matl114.matlib.Utils.Inventory.ItemStacks.CleanItemStack;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -22,11 +22,9 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.Lectern;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.LecternInventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nonnull;
@@ -65,17 +63,17 @@ public class AdvancedManual extends AbstractBlock {
             BukkitUtils.VANILLA_CRAFTTABLE,
             BukkitUtils.VANILLA_FURNACE,
             RecipeType.ENHANCED_CRAFTING_TABLE,
-            RecipeType.MAGIC_WORKBENCH,
-            RecipeType.ANCIENT_ALTAR,
             RecipeType.SMELTERY,
             RecipeType.GRIND_STONE,
+            RecipeType.ORE_CRUSHER,
+            RecipeType.MAGIC_WORKBENCH,
+            RecipeType.ANCIENT_ALTAR,
             RecipeType.GOLD_PAN,
             RecipeType.ORE_WASHER,
-            RecipeType.ORE_CRUSHER,
             RecipeType.COMPRESSOR,
-            RecipeType.HEATED_PRESSURE_CHAMBER,
             RecipeType.ARMOR_FORGE,
-            RecipeType.JUICER
+            RecipeType.JUICER,
+            RecipeType.HEATED_PRESSURE_CHAMBER
     );
     private int rtypeAmount=supportedRtype.size();
     private ItemStack displayBorder=new CustomItemStack(Material.YELLOW_STAINED_GLASS_PANE," "," ");
@@ -103,6 +101,7 @@ public class AdvancedManual extends AbstractBlock {
         super.preRegister();
         this.registerBlockMenu(this);
     }
+    //todo speed up refresh rate, update imm when changing recipeType
     public void constructMenu(BlockMenuPreset preset){
         preset.setSize(9);
     }
@@ -116,11 +115,12 @@ public class AdvancedManual extends AbstractBlock {
     }
     private ItemStack displayedBook=new ItemStack(Material.WRITTEN_BOOK);
     public void onPlace(BlockPlaceEvent e,Block b){
-        if(b.getState(false) instanceof Lectern lt){
-            if(lt.getInventory() instanceof LecternInventory ltiv){
-                ltiv.setItem(0,displayedBook);
-            }
-        }
+        //bedrock version can not interact with booked-lectern
+//        if(b.getState(false) instanceof Lectern lt){
+//            if(lt.getInventory() instanceof LecternInventory ltiv){
+//                ltiv.setItem(0,displayedBook);
+//            }
+//        }
     }
     protected ItemPusherProvider CRAFT_PROVIDER= FinalFeature.MANUAL_CARD_READER;
     public class ManualCrafterGui extends ChestMenu {

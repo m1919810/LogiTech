@@ -3,7 +3,7 @@ package me.matl114.logitech.core.Machines.ManualMachines;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import me.matl114.logitech.Utils.AddUtils;
+import me.matl114.logitech.utils.AddUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

@@ -8,13 +8,13 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.Manager.PostSetupTasks;
+import me.matl114.logitech.manager.PostSetupTasks;
 import me.matl114.logitech.core.Interface.RecipeDisplay;
-import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.*;
-import me.matl114.logitech.Utils.UtilClass.MenuClass.DataMenuClickHandler;
-import me.matl114.logitech.Utils.UtilClass.RecipeClass.ImportRecipes;
-import me.matl114.logitech.Utils.UtilClass.RecipeClass.MultiCraftingOperation;
+import me.matl114.logitech.utils.*;
+import me.matl114.logitech.utils.UtilClass.ItemClass.*;
+import me.matl114.logitech.utils.UtilClass.MenuClass.DataMenuClickHandler;
+import me.matl114.logitech.utils.UtilClass.RecipeClass.ImportRecipes;
+import me.matl114.logitech.utils.UtilClass.RecipeClass.MultiCraftingOperation;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractAdvancedProcessor;
 import me.matl114.logitech.core.Registries.RecipeSupporter;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -32,7 +32,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 
 public abstract class SpecialCrafter extends AbstractAdvancedProcessor implements  ImportRecipes {
     public List<ItemStack> displayedMemory;

@@ -7,11 +7,11 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import me.matl114.logitech.Manager.Schedules;
-import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.MachineRecipeUtils;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
-import me.matl114.logitech.Utils.UtilClass.MenuClass.DataMenuClickHandler;
+import me.matl114.logitech.manager.Schedules;
+import me.matl114.logitech.utils.*;
+import me.matl114.logitech.utils.MachineRecipeUtils;
+import me.matl114.logitech.utils.UtilClass.ItemClass.DisplayItemStack;
+import me.matl114.logitech.utils.UtilClass.MenuClass.DataMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;

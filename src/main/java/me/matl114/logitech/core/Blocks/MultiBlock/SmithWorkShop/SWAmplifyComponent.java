@@ -6,8 +6,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import lombok.Getter;
 import me.matl114.logitech.core.Items.Abstracts.MaterialItem;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.Utils;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

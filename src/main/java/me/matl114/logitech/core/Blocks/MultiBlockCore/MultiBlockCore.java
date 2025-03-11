@@ -6,13 +6,13 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import me.matl114.logitech.core.Interface.MenuBlock;
-import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.Debug;
-import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.AbstractMultiBlockType;
-import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockHandler;
-import me.matl114.logitech.Utils.UtilClass.TickerClass.Ticking;
-import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.AbstractMultiBlockHandler;
-import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
+import me.matl114.logitech.utils.DataCache;
+import me.matl114.logitech.utils.Debug;
+import me.matl114.logitech.utils.UtilClass.MultiBlockClass.AbstractMultiBlockType;
+import me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiBlockHandler;
+import me.matl114.logitech.utils.UtilClass.TickerClass.Ticking;
+import me.matl114.logitech.utils.UtilClass.MultiBlockClass.AbstractMultiBlockHandler;
+import me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiBlockService;
 import org.bukkit.Location;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -95,7 +95,7 @@ public interface MultiBlockCore extends MultiBlockPart, Ticking , MenuBlock {
      */
     default void autoBuild(Location loc, SlimefunBlockData data, int autoCode){
         if(autoCode<=0)return;
-        if(autoCode==4){//3tick重连一次
+        if(autoCode>=5){//3tick重连一次
             Location tarloc=loc.clone();
             runAsyncOrReturnBlocked(tarloc,()->{
                 MultiBlockService.createNewHandler(loc,getBuilder(),getMultiBlockType());
@@ -114,7 +114,7 @@ public interface MultiBlockCore extends MultiBlockPart, Ticking , MenuBlock {
     default void runtimeCheck(Location loc,SlimefunBlockData data,int autoCode){
         int sgn=autoCode>0?1:-1;
         //这玩意不应该需要这么多
-        if(autoCode*sgn==8){//8tick检测一次
+        if(autoCode*sgn>=10){//8tick检测一次
             Location tarloc=loc.clone();
             runAsyncOrReturnBlocked(tarloc,()->MultiBlockService.checkIfAbsentRuntime(data));
             autoCode=sgn;

@@ -8,12 +8,10 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedException;
 import me.matl114.logitech.core.Registries.AddDepends;
 import me.matl114.logitech.core.Cargo.Storages;
-import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.StorageClass.StorageType;
+import me.matl114.logitech.utils.*;
+import me.matl114.logitech.utils.UtilClass.StorageClass.StorageType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import java.lang.reflect.Method;
 
 public class NetworksQuantumStorageAdapter extends StorageType {
     int ExceptionTimes=0;

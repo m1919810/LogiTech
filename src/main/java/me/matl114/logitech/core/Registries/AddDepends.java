@@ -10,7 +10,7 @@ import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.handlers.GlobalItemHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
-import me.matl114.logitech.Utils.UtilClass.SpecialItemClass.CustomHead;
+import me.matl114.logitech.utils.UtilClass.SpecialItemClass.CustomHead;
 import me.matl114.logitech.core.AddGroups;
 import me.matl114.logitech.core.AddItem;
 import me.matl114.logitech.core.AddSlimefunItems;
@@ -18,8 +18,8 @@ import me.matl114.logitech.core.Items.Abstracts.MyVanillaItem;
 import me.matl114.logitech.core.Machines.AutoMachines.AdvanceRecipeCrafter;
 import me.matl114.logitech.core.Machines.ManualMachines.ManualCrafter;
 import me.matl114.logitech.core.Machines.WorkBenchs.BugCrafter;
-import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ConstSlimefunItemStack;
+import me.matl114.logitech.utils.*;
+import me.matl114.logitech.utils.UtilClass.ItemClass.ConstSlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -30,7 +30,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.reflect.Constructor;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -96,7 +95,7 @@ public class AddDepends {
                           "INFINITE_INGOT","VOID_INGOT","INFINITY_FORGE","INFINITY_FORGE","VOID_INGOT","INFINITE_INGOT",
                           AddItem.LFIELD,AddItem.LMOTOR,"VOID_INGOT","VOID_INGOT",AddItem.LCRAFT,AddItem.LFIELD,
                             AddItem.LFIELD,AddItem.LFIELD,"INFINITE_INGOT","INFINITE_INGOT",AddItem.LFIELD,AddItem.LFIELD)
-                    , Material.STONE,100_000,1_500_000,8,INFINITYWORKBENCH_TYPE)
+                    , Material.RESPAWN_ANCHOR,100_000,1_500_000,8,INFINITYWORKBENCH_TYPE)
                     .register();
         }catch (Throwable e){
             Debug.logger("AN ERROR OCCURED WHILE REGISTERING ITEM: INFINITY_AUTOCRAFT,ITEM DISABLED");

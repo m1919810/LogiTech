@@ -5,12 +5,12 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import me.matl114.logitech.core.Items.Abstracts.FunctionalItem;
 import me.matl114.logitech.core.Registries.CustomEffects;
-import me.matl114.logitech.Utils.UtilClass.EffectClass.PlayerEffects;
-import me.matl114.logitech.core.DistinctiveCustomSlimefunItem;
+import me.matl114.logitech.utils.UtilClass.EffectClass.PlayerEffects;
 import org.bukkit.inventory.ItemStack;
 
-public class AntiGravityBar extends DistinctiveCustomSlimefunItem {
+public class AntiGravityBar extends FunctionalItem {
     public AntiGravityBar(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }

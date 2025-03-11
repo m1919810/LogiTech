@@ -1,7 +1,5 @@
 package me.matl114.logitech;
 
-import me.matl114.logitech.Utils.Debug;
-
 public class TestPusher extends TestConsumer{
     public int maxCnt;
     public TestPusher(TestStack stack){

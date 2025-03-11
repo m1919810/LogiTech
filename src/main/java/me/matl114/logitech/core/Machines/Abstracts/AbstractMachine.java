@@ -10,13 +10,13 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 
-import me.matl114.logitech.core.DistinctiveCustomSlimefunItem;
+import me.matl114.logitech.core.CustomSlimefunItem;
 import me.matl114.logitech.core.Interface.MenuBlock;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.CraftUtils;
-import me.matl114.logitech.Utils.Settings;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
-import me.matl114.logitech.Utils.UtilClass.TickerClass.Ticking;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.CraftUtils;
+import me.matl114.logitech.utils.Settings;
+import me.matl114.logitech.utils.UtilClass.ItemClass.ItemPusherProvider;
+import me.matl114.logitech.utils.UtilClass.TickerClass.Ticking;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -30,9 +30,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public abstract  class AbstractMachine extends DistinctiveCustomSlimefunItem implements Ticking, MenuBlock,  EnergyNetComponent, NotHopperable  {
+/**
+ * abstracts of ticking energy consuming machine
+ */
+public abstract  class AbstractMachine extends CustomSlimefunItem implements Ticking, MenuBlock,  EnergyNetComponent, NotHopperable  {
     //我们的目标是 最广的需求 最好的性能 最大的答辩(bushi
     public  List<MachineRecipe> machineRecipes ;
     protected Supplier<List<MachineRecipe>> machineRecipeSupplier=null;
@@ -43,7 +47,7 @@ public abstract  class AbstractMachine extends DistinctiveCustomSlimefunItem imp
     public final  int energybuffer;
     public final int energyConsumption;
     public final EnergyNetComponentType energyNetComponent;
-    private Function<Location,Boolean> handleProcess;
+    private Predicate<Location> handleProcess;
     private Consumer<Location> handlerProcessCost;
     /**
      * constructor of abstractMachines will keep Collections of MachineRecipes,will register energyNetwork params,
@@ -166,9 +170,9 @@ public abstract  class AbstractMachine extends DistinctiveCustomSlimefunItem imp
      */
     public boolean conditionHandle(Block b,BlockMenu menu){
         if(menu!=null)
-            return this.handleProcess.apply(menu.getLocation());
+            return this.handleProcess.test(menu.getLocation());
         else
-            return this.handleProcess.apply(b.getLocation());
+            return this.handleProcess.test(b.getLocation());
     }
     public void setCharge(@Nonnull Location l, int charge){
         EnergyNetComponent.super.setCharge(l,Math.max(0,charge));

@@ -1,7 +1,7 @@
 package me.matl114.logitech.core.Registries;
 
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.UtilClass.EffectClass.AbstractEffect;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.UtilClass.EffectClass.AbstractEffect;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.potion.PotionEffect;

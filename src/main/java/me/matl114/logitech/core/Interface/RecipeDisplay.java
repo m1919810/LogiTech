@@ -1,11 +1,11 @@
 package me.matl114.logitech.core.Interface;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.Settings;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.DisplayItemStack;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.MultiItemStack;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.RandAmountStack;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.Settings;
+import me.matl114.logitech.utils.UtilClass.ItemClass.DisplayItemStack;
+import me.matl114.logitech.utils.UtilClass.ItemClass.MultiItemStack;
+import me.matl114.logitech.utils.UtilClass.ItemClass.RandAmountStack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.inventory.ItemStack;
 

@@ -6,9 +6,9 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractTransformer;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.Algorithms.PairList;
-import me.matl114.logitech.Utils.MenuUtils;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.Algorithms.PairList;
+import me.matl114.logitech.utils.MenuUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.inventory.ItemStack;
 

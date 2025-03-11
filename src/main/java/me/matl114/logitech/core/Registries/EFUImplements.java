@@ -1,10 +1,9 @@
 package me.matl114.logitech.core.Registries;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import me.matl114.logitech.Utils.CraftUtils;
-import me.matl114.logitech.Utils.UtilClass.EquipClass.EquipmentFU;
+import me.matl114.logitech.utils.CraftUtils;
+import me.matl114.logitech.utils.UtilClass.EquipClass.EquipmentFU;
 import me.matl114.matlib.Algorithms.DataStructures.Struct.Triplet;
 import me.matl114.matlib.core.EnvironmentManager;
 import org.bukkit.NamespacedKey;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static me.matl114.logitech.Utils.AddUtils.*;
+import static me.matl114.logitech.utils.AddUtils.*;
 import static me.matl114.logitech.core.AddItem.*;
 import static org.bukkit.inventory.EquipmentSlot.*;
 

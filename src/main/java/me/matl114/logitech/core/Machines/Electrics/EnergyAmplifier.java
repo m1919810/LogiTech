@@ -10,12 +10,13 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.core.AddItem;
 import me.matl114.logitech.core.Interface.MenuTogglableBlock;
+import me.matl114.logitech.core.Machines.Abstracts.AbstractEnergyMachine;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractEnergyProvider;
 import me.matl114.logitech.core.Registries.FinalFeature;
-import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusher;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemPusherProvider;
-import me.matl114.logitech.Utils.UtilClass.MenuClass.DataMenuClickHandler;
+import me.matl114.logitech.utils.*;
+import me.matl114.logitech.utils.UtilClass.ItemClass.ItemPusher;
+import me.matl114.logitech.utils.UtilClass.ItemClass.ItemPusherProvider;
+import me.matl114.logitech.utils.UtilClass.MenuClass.DataMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -127,12 +128,12 @@ public class EnergyAmplifier extends AbstractEnergyProvider implements MenuToggl
         Object sf=dh.getObject(0);
         if(sf instanceof EnergyNetProvider ep&&!(sf instanceof EnergyAmplifier)&&!(sf instanceof AbstractEnergyMachine)){
             Location loc2=l.clone().add(0,1,0);
-            if(DataCache.getSfItem(loc2)==ep){
+            if(DataCache.getSfItem(loc2) == ep){
                 SlimefunBlockData data2=DataCache.safeLoadBlock(loc2);
                 if(data2==null){
                     return 0;
                 }
-                int charge=this.getCharge(l);
+                int charge = this.getCharge(l);
                 int amplify=dh.getInt(0);
                 if(!getStatus(inv)[0]&&charge>=this.energybuffer){
                     if(inv.hasViewer()){

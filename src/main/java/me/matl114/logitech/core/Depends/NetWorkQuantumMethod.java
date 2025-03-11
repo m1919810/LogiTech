@@ -2,18 +2,14 @@ package me.matl114.logitech.core.Depends;
 
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import me.matl114.logitech.Utils.Debug;
+import me.matl114.logitech.utils.Debug;
 import me.matl114.matlib.Utils.Reflect.MethodAccess;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.annotation.Nonnull;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
 
 public class NetWorkQuantumMethod {

@@ -9,11 +9,11 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.matl114.logitech.Language;
 import me.matl114.logitech.core.Cargo.Links.StorageLink;
-import me.matl114.logitech.core.DistinctiveCustomSlimefunItem;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.DataCache;
-import me.matl114.logitech.Utils.Utils;
-import me.matl114.logitech.Utils.WorldUtils;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.DataCache;
+import me.matl114.logitech.utils.Utils;
+import me.matl114.logitech.utils.WorldUtils;
+import me.matl114.logitech.core.Items.Abstracts.DataRecordedItem;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -23,7 +23,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class QuantumLink extends DistinctiveCustomSlimefunItem {
+public class QuantumLink extends DataRecordedItem {
     public QuantumLink(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe,new ArrayList<>());
         this.setDisplayRecipes(

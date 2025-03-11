@@ -1,19 +1,17 @@
 package me.matl114.logitech;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import lombok.Getter;
-import me.matl114.logitech.Manager.EquipmentFUManager;
+import me.matl114.logitech.manager.EquipmentFUManager;
 import me.matl114.logitech.core.Depends.DependencyInfinity;
 import me.matl114.logitech.core.Depends.DependencyNetwork;
 import me.matl114.logitech.core.Depends.SupportedPluginManager;
 import me.matl114.logitech.Listeners.ListenerManager;
 import me.matl114.logitech.Listeners.ProtectionManager;
 import me.matl114.logitech.core.Registries.CustomEffects;
-import me.matl114.logitech.Manager.RadiationRegionManager;
-import me.matl114.logitech.Manager.Schedules;
+import me.matl114.logitech.manager.RadiationRegionManager;
+import me.matl114.logitech.manager.Schedules;
 import me.matl114.logitech.core.Registries.AddDepends;
 import me.matl114.logitech.core.AddGroups;
 import me.matl114.logitech.core.AddItem;
@@ -21,9 +19,9 @@ import me.matl114.logitech.core.AddSlimefunItems;
 import me.matl114.logitech.core.Registries.MultiBlockTypes;
 import me.matl114.logitech.core.Cargo.SpaceStorage.StorageSpace;
 import me.matl114.logitech.core.Cargo.Storages;
-import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.CommandClass.LogitechMain;
-import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
+import me.matl114.logitech.utils.*;
+import me.matl114.logitech.utils.UtilClass.CommandClass.LogitechMain;
+import me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.matl114.matlib.Utils.Command.CommandGroup.AbstractMainCommand;
 import me.matl114.matlib.core.AddonInitialization;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
@@ -185,18 +183,18 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
             getServer().getPluginManager().disablePlugin(this);
             throw new RuntimeException("Dependency not found");
         }
-        try {
-            if( !Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20) ){
-                getLogger().log(Level.SEVERE, "本插件需要在MC 1.20/1.20.x的版本运行");
-                getLogger().log(Level.SEVERE, "当出现该报错时,作者对一切后续的报错不负责");
-            }else{
-                Debug.logger("MC最低版本检测通过");
-            }
-        } catch (NoClassDefFoundError | NoSuchFieldError e) {
-            for (int i = 0; i < 20; i++) {
-                getLogger().severe("你需要更新 Slimefun4 才能进行版本检测！");
-            }
-        }
+//        try {
+//            if( !Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20) ){
+//                getLogger().log(Level.SEVERE, "本插件需要在MC 1.20/1.20.x的版本运行");
+//                getLogger().log(Level.SEVERE, "当出现该报错时,作者对一切后续的报错不负责");
+//            }else{
+//                Debug.logger("MC最低版本检测通过");
+//            }
+//        } catch (NoClassDefFoundError | NoSuchFieldError e) {
+//            for (int i = 0; i < 20; i++) {
+//                getLogger().severe("你需要更新 Slimefun4 才能进行版本检测！");
+//            }
+//        }
 
 
     }

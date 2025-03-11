@@ -6,16 +6,11 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.MyAddon;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.Algorithms.PairList;
-import me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop.SmithInterfaceProcessor;
-import me.matl114.logitech.core.Items.Abstracts.MyVanillaItem;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.Algorithms.PairList;
 import me.matl114.logitech.core.Machines.WorkBenchs.BugCrafter;
-import me.matl114.matlib.Algorithms.DataStructures.Frames.InitializeProvider;
-import me.matl114.matlib.core.EnvironmentManager;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
 import java.util.List;

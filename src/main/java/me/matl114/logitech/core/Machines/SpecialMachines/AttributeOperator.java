@@ -3,16 +3,17 @@ package me.matl114.logitech.core.Machines.SpecialMachines;
 import com.google.common.collect.Multimap;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.Manager.Schedules;
+import me.matl114.logitech.manager.Schedules;
 import me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop.SmithingInterface;
-import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.MenuClass.DataMenuClickHandler;
-import me.matl114.logitech.Utils.UtilClass.MultiBlockClass.MultiBlockService;
+import me.matl114.logitech.utils.*;
+import me.matl114.logitech.utils.UtilClass.MenuClass.DataMenuClickHandler;
+import me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.matl114.matlib.core.EnvironmentManager;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
@@ -67,9 +68,9 @@ public class AttributeOperator extends SmithingInterface {
     protected final ItemStack TRANSFER_ONEATTRIBUTE_ITEM=new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE,
             "&6转移单一属性","&7点击转移一次","&7使用下方的按钮切换选中的属性");
     protected final ItemStack CHOOSE_ENCHANT_ITEM=new CustomItemStack(Material.ENCHANTED_BOOK,
-            "&6选择你的附魔","&7点击顺序切换","&7shift点击逆序切换","&8⇨ &c当前暂无附魔");
+            "&6选择你的附魔","&7左键点击顺序切换","&7右键点击逆序切换","&8⇨ &c当前暂无附魔");
     protected final ItemStack CHOOSE_ATTRIBUTE_ITEM=new CustomItemStack(Material.DIAMOND_CHESTPLATE,
-            "&6选择你的附魔","&7点击顺序切换","&7shift点击逆序切换","&8⇨ &c当前暂无属性");
+            "&6选择你的附魔","&7左键点击顺序切换","&7右键点击逆序切换","&8⇨ &c当前暂无属性");
     protected final ItemStack FORCE_ENCHANT_ITEM_OFF=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&6强制附魔","&7当前模式: &c关",
             "&7关闭强制附魔将会在转移附魔时将书本转移为附魔书","&7或在附魔书的已有附魔存储中加入转移的附魔","&e开启则会强制附魔书本和附魔书,并不会加入附魔存储");
     protected final ItemStack FORCE_ENCHANT_ITEM_ON=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6强制附魔","&7当前模式: &a开",
@@ -78,6 +79,7 @@ public class AttributeOperator extends SmithingInterface {
     protected final int STATUS_SLOT=4;
     protected final ItemStack STATUS_ON=new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6运行中","&7成功接入多方块结构");
     protected final ItemStack NO_MULTIBLOCK_ITEM=new CustomItemStack(Material.RED_STAINED_GLASS_PANE,"&c待机中","&7没有接入多方块结构");
+    protected final ItemSetting<Boolean> CAN_TRANSFER_STACK_ABLE_ITEM = create("enable-stackable-item",true);
     public AttributeOperator(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,int energyBuffer,int energyConsumption) {
         super(category, item, recipeType, recipe, energyBuffer,energyConsumption,false);
         this.setDisplayRecipes(
@@ -85,7 +87,7 @@ public class AttributeOperator extends SmithingInterface {
                         AddUtils.getInfoShow("&f机制",
                                 "&7支持在物品之间转移属性增幅符和附魔",
                                 "&7分别可以选择转移单项附魔/增幅符或者转移全部附魔/增幅符",
-                                "&7单项选择器将显示在菜单中,点击顺序切换,shift点击逆序切换",
+                                "&7单项选择器将显示在菜单中,可以选择单项附魔/增幅符",
                                 "&7点击后消耗电力执行转换",
                                 "&7该转移不受任何禁止附魔/驱魔的设定影响",
                                 "&7该转移不受物品材质的附魔种类限制"
@@ -297,7 +299,7 @@ public class AttributeOperator extends SmithingInterface {
                 return false;
             }
             DataMenuClickHandler dh=getDataHolder(block,inv);
-            dh.setInt(1,dh.getInt(1)+(clickAction.isShiftClicked()?-1:1));
+            dh.setInt(1,dh.getInt(1)+(clickAction.isRightClicked()?-1:1));
             updateMenu(inv,block,Settings.RUN);
             return false;
         }));
@@ -312,7 +314,7 @@ public class AttributeOperator extends SmithingInterface {
                 return false;
             }
             DataMenuClickHandler dh=getDataHolder(block,inv);
-            dh.setInt(0,dh.getInt(0)+(clickAction.isShiftClicked()?-1:1));
+            dh.setInt(0,dh.getInt(0)+(clickAction.isRightClicked()?-1:1));
             updateMenu(inv,block,Settings.RUN);
             return false;
         }));
@@ -597,6 +599,14 @@ public class AttributeOperator extends SmithingInterface {
             }
             return;
         }
+        if(!CAN_TRANSFER_STACK_ABLE_ITEM.getValue()){
+            if(it2.getMaxStackSize() !=1){
+                if(outputStream!=null){
+                    outputStream.accept("&c转换的目标物品不可以堆叠!");
+                }
+                return ;
+            }
+        }
         Pair<ItemStack,ItemStack> transferResult=null;
         DataMenuClickHandler handler=getDataHolder(null,inv);
         if(mode==0){
@@ -733,14 +743,14 @@ public class AttributeOperator extends SmithingInterface {
 //                    mods2.addAll(mods1);
 //
 //                }else {
-                Collection<AttributeModifier.Operation> operations;
+                Collection<Pair> operations;
                 if(mods2!=null){
-                    operations = mods2.stream().map(AttributeModifier::getOperation).collect(Collectors.toSet());
+                    operations = mods2.stream().map(att->new Pair(att.getOperation(),att.getSlot())).collect(Collectors.toSet());
                 }else {
                     operations=Set.of();
                 }
                 for(AttributeModifier mod:mods1){
-                    if(!operations.contains(mod.getOperation())){
+                    if(!operations.contains(new Pair(mod.getOperation(),mod.getSlot()))){
                         hasChanged=true;
                         meta1.removeAttributeModifier(a,mod);
                         meta2.addAttributeModifier(a,mod);
@@ -748,7 +758,7 @@ public class AttributeOperator extends SmithingInterface {
                 }
             }
         }else {
-            if(!meta2.hasAttributeModifiers()|| meta2.getAttributeModifiers(attribute).stream().noneMatch(mod->mod.getOperation()==modifier.getOperation())){
+            if(!meta2.hasAttributeModifiers()|| meta2.getAttributeModifiers(attribute).stream().noneMatch(mod->mod.getOperation()==modifier.getOperation()&&mod.getSlot()==modifier.getSlot())){
                 meta1.removeAttributeModifier(attribute,modifier);
                 meta2.addAttributeModifier(attribute,modifier);
                 hasChanged=true;

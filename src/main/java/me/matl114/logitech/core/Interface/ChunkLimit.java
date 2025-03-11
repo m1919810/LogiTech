@@ -1,9 +1,9 @@
 package me.matl114.logitech.core.Interface;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import me.matl114.logitech.Utils.AddUtils;
-import me.matl114.logitech.Utils.BukkitUtils;
-import me.matl114.logitech.Utils.DataCache;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.BukkitUtils;
+import me.matl114.logitech.utils.DataCache;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 

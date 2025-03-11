@@ -8,8 +8,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.core.AddItem;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractMachine;
-import me.matl114.logitech.Utils.*;
-import me.matl114.logitech.Utils.UtilClass.ItemClass.ItemCounter;
+import me.matl114.logitech.utils.*;
+import me.matl114.logitech.utils.UtilClass.ItemClass.ItemCounter;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.block.Block;
@@ -44,6 +44,7 @@ public class SimulateTestGenerator extends AbstractMachine {
                         append(AddUtils.formatDouble(ENERGY_ABSMAX)).append(" J/t").toString()).getItemMeta());
 
     }
+    protected final int MULTIPLE_TIME=10;
     public final ItemCounter MACHINE_COUNTER= CraftUtils.getCounter(SlimefunItems.ENERGY_REGULATOR);
     public SimulateTestGenerator(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                               int energybuffer, int energyAbsMax,
@@ -69,7 +70,6 @@ public class SimulateTestGenerator extends AbstractMachine {
     public void updateMenu(BlockMenu menu, Block block, Settings mod){}
 
     public ItemStack[] OUTPUTS=new ItemStack[]{OUTPUT};
-    protected final int MULTIPLE_TIME=5;
     public void tick(Block b, BlockMenu inv, SlimefunBlockData data,int tick){
         ItemStack stack=inv.getItemInSlot(MACHINE_SLOT);
         if(CraftUtils.matchItemStack(stack,MACHINE_COUNTER,false)){
