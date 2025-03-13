@@ -42,7 +42,7 @@ public class MachineRecipeUtils {
         boolean __flag;
         for(int i = 0; i < items.length; i++){
             ItemStack a = items[i];
-            if(a==null)continue;
+            if(a == null || ((!(a instanceof AbstractItemStack)) && a.getType().isAir()))continue;
             ItemCounter ac=ItemCounter.get(AddUtils.getCopy(a));
             if(ac.getItem() instanceof RandOutItem){
                 stacks.add(ac);
@@ -90,12 +90,12 @@ public class MachineRecipeUtils {
         List<ItemStack> result = new ArrayList<>();
         for(int i = 0; i < items.length; i++){
             ItemStack a = items[i];
-            if(a!=null){
+            if(a != null && (((a instanceof AbstractItemStack)) || !a.getType().isAir())){
                 result.add(AddUtils.getCopy(a));
             }
 
         }
-        ItemStack[] stacklist= result.toArray(new ItemStack[result.size()]);
+        ItemStack[] stacklist= result.toArray(ItemStack[]::new);
         return stacklist;
     }
 
@@ -107,7 +107,7 @@ public class MachineRecipeUtils {
         ItemStack[] stacks=new ItemStack[stacklist.length];
         int len=stacklist.length;
         for(int i = 0; i<len; i++){
-            if(stacklist[i]!=null){
+            if(stacklist[i] != null && (((stacklist[i] instanceof AbstractItemStack)) || !stacklist[i].getType().isAir())){
                 stacks[i]=AddUtils.getCopy(stacklist[i]);
             }else {
                 stacks[i]=null;

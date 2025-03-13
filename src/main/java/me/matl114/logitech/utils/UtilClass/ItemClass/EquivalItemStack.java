@@ -2,35 +2,38 @@ package me.matl114.logitech.utils.UtilClass.ItemClass;
 
 import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedException;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
+import me.matl114.logitech.utils.AddUtils;
 import me.matl114.logitech.utils.CraftUtils;
+import me.matl114.matlib.Utils.Inventory.ItemStacks.CleanItemStack;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
-public class EquivalItemStack extends ItemStack implements MultiItemStack {
+public class EquivalItemStack extends CleanItemStack implements MultiItemStack {
     public ItemStack[] itemList;
     public ItemCounter[] counterList;
     public Double[] itemWeight;
     public double[] weightSum;
     public int sum;
-    private static Material getFirstMaterial(HashMap<ItemStack,Integer> map) {
+    private static ItemStack getFirstMaterial(List<Pair<ItemStack,Integer>> map) {
         if(map.isEmpty()) {
-            return Material.STONE;
+            return new ItemStack(Material.STONE);
         }else {
-            Iterator<Map.Entry<ItemStack,Integer>> iterator = map.entrySet().iterator();
-            if(iterator.hasNext()) {
-                Map.Entry<ItemStack,Integer> entry = iterator.next();
-                return entry.getKey().getType();
-            }else {
-                return Material.STONE;
-            }
+            return AddUtils.getCleaned( map.get(0).getFirstValue() ) ;
+//            Iterator<Pair<ItemStack,Integer>> iterator = map.iterator();
+//            if(iterator.hasNext()) {
+//                var entry = iterator.next();
+//                return entry.getFirstValue().getType();
+//            }else {
+//                return Material.STONE;
+//            }
         }
     }
     protected int eamount=1;
     private List<Pair<ItemStack,Integer>> itemMap;
     public EquivalItemStack(List<Pair<ItemStack,Integer>> itemSettings) {
-        super(itemSettings.get(0).getFirstValue());
+        super(getFirstMaterial(itemSettings));
         this.sum=itemSettings.size();
         this.itemList=new ItemStack[sum];
         this.counterList=new ItemCounter[sum];
