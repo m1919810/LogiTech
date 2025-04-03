@@ -7,7 +7,7 @@ import lombok.Getter;
 import me.matl114.logitech.utils.DataCache;
 import me.matl114.logitech.utils.NMSUtils;
 import me.matl114.logitech.utils.WorldUtils;
-import me.matl114.matlib.Utils.Reflect.ReflectUtils;
+import me.matl114.matlib.utils.reflect.ReflectUtils;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;

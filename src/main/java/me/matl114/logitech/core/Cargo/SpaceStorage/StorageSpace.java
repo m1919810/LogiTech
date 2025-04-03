@@ -6,7 +6,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction
 import me.matl114.logitech.ConfigLoader;
 import me.matl114.logitech.manager.Schedules;
 import me.matl114.logitech.utils.*;
-import me.matl114.matlib.Algorithms.Algorithm.ThreadUtils;
+import me.matl114.matlib.algorithms.algorithm.ThreadUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;

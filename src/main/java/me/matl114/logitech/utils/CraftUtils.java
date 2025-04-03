@@ -99,7 +99,7 @@ public class CraftUtils {
 //        }
 //    }
     public static void setup(){
-        me.matl114.matlib.Utils.CraftUtils.setup();
+        me.matl114.matlib.utils.CraftUtils.setup();
     }
 
     /**
@@ -109,7 +109,7 @@ public class CraftUtils {
      * @return
      */
     public static boolean sameCraftItem(ItemStack a, ItemStack b){
-        return me.matl114.matlib.Utils.CraftUtils.sameCraftItem(a,b);
+        return me.matl114.matlib.utils.CraftUtils.sameCraftItem(a,b);
 //        if(CRAFTITEMSTACKCLASS.isInstance(a)&&CRAFTITEMSTACKCLASS.isInstance(b)){
 //            try{
 //                return  handledAccess.getValue(a)==handledAccess.getValue(b);
@@ -1674,7 +1674,7 @@ public class CraftUtils {
             return false;
         }
         //我们使用这个
-        if( !me.matl114.matlib.Utils.CraftUtils. matchDisplayNameField(meta1,meta2)) {
+        if( !me.matl114.matlib.utils.CraftUtils. matchDisplayNameField(meta1,meta2)) {
             return false;
         }
         final boolean hasCustomOne = meta1.hasCustomModelData();
@@ -1731,7 +1731,7 @@ public class CraftUtils {
         if(!meta1.hasLore()||!meta2.hasLore()){
             return meta1.hasLore()==meta2.hasLore();
         }
-        if ( !me.matl114.matlib.Utils.CraftUtils. matchLoreField(meta1, meta2)) {
+        if ( !me.matl114.matlib.utils.CraftUtils. matchLoreField(meta1, meta2)) {
             return false;
             //对于普通物品 检查完lore就结束是正常的
         }else if(!strictCheck){

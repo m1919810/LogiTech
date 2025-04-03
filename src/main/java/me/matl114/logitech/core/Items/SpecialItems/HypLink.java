@@ -8,15 +8,15 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import me.matl114.logitech.core.Cargo.Links.HyperLink;
+import me.matl114.logitech.core.Items.Abstracts.DataRecordedItem;
 import me.matl114.logitech.listeners.Events.InteractPermissionTestEvent;
 import me.matl114.logitech.listeners.Listeners.HyperLinkListener;
-import me.matl114.logitech.core.Cargo.Links.HyperLink;
 import me.matl114.logitech.utils.AddUtils;
 import me.matl114.logitech.utils.DataCache;
 import me.matl114.logitech.utils.WorldUtils;
-import me.matl114.logitech.core.Items.Abstracts.DataRecordedItem;
-import me.matl114.matlib.Utils.Inventory.InventoryRecords.InventoryRecord;
-import me.matl114.matlib.Utils.Inventory.InventoryRecords.SimpleInventoryRecord;
+import me.matl114.matlib.utils.inventory.inventoryRecords.InventoryRecord;
+import me.matl114.matlib.utils.inventory.inventoryRecords.SimpleInventoryRecord;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -76,7 +76,7 @@ public class HypLink extends DataRecordedItem {
                             }
                         }
                         Block b = loc.getBlock();
-                        if(me.matl114.matlib.Utils.WorldUtils.isInventoryHolder(b.getType())){
+                        if(me.matl114.matlib.utils.WorldUtils.isInventoryHolder(b.getType())){
                             PlayerInteractEvent interactTarget=new InteractPermissionTestEvent(event.getPlayer(), Action.RIGHT_CLICK_BLOCK,null,b, BlockFace.UP);
                             try{
                                 Bukkit.getPluginManager().callEvent(interactTarget);

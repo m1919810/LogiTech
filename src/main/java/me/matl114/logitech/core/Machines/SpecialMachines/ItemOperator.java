@@ -45,7 +45,7 @@ public class ItemOperator extends AbstractMachine {
     protected final ItemStack CONSUMED_DISPLAY_ITEM=new CustomItemStack(Material.FURNACE,"&6消耗物品槽","&7将操作所需求的物品置于该槽位");
     protected final ItemStack OPERATED_DISPLAY_ITEM=new CustomItemStack(Material.ANVIL,"&6操作物品槽","&7将要被操作的物品置于该槽位");
     protected final ItemStack[] FUNCTION_ITEM=new ItemStack[]{
-        new CustomItemStack(Material.NAME_TAG,"&6重命名物品","&7点击输入名字以重命名物品","&7需消耗 [命名牌]x1","&a可以使用颜色符号","&e仅可以对粘液物品操作","&e一次仅可对一个物品操作"),
+        new CustomItemStack(Material.NAME_TAG,"&6重命名物品","&7点击输入名字以重命名物品","&7需消耗 [命名牌]x1","&a可以使用颜色符号","&e仅可以对粘液物品或者不可堆叠物品操作","&e一次仅可对一个物品操作"),
             new CustomItemStack(Material.LANTERN,"&6显示全部物品属性","&7点击取消所有物品属性隐藏符","&7无需消耗物品"),
             new CustomItemStack(Material.CRYING_OBSIDIAN,"&6赋予无法破坏","&7点击赋予物品无法破坏属性","&7需消耗 [%s] x64".formatted(Language.get("Items.LSINGULARITY.Name")),"&e一次仅可对一个物品操作"),
             new CustomItemStack(Material.GRINDSTONE,"&6重置物品","&7点击重置原版物品","&7无需消耗物品","&7仅限原版物品使用"),
@@ -54,8 +54,10 @@ public class ItemOperator extends AbstractMachine {
             new CustomItemStack(Material.VERDANT_FROGLIGHT,"&6取消无法破坏","&7点击取消物品无法破坏属性","&7无需消耗物品"),
             new CustomItemStack(Material.LOOM,"&6物品染色","&7点击给可染色物品染色","&7需消耗 [对应染料]x1")
     };
-    protected final String RENAME_PREFIX= AddUtils.resolveColor("&7&kS&f&r");
-    protected final String RENAME_SUFFIX=AddUtils.resolveColor("&7&kB&f&r");
+    protected final String RENAME_SF_PREFIX= AddUtils.resolveColor("&7&kS&f&r");
+    protected final String RENAME_SF_SUFFIX=AddUtils.resolveColor("&7&kB&f&r");
+    protected final String RENAME_VANILLA_PREFIX= AddUtils.resolveColor("&7&kT&f&r");
+    protected final String RENAME_VANILLA_SUFFIX=AddUtils.resolveColor("&7&kM&f&r");
     protected final ItemCounter LSIN=CraftUtils.getCounter(AddItem.LSINGULARITY);
     protected final ItemCounter NAMETAG=CraftUtils.getCounter(new ItemStack(Material.NAME_TAG));
     protected final HashSet<String> COLORS=new HashSet<>(){{
@@ -114,11 +116,16 @@ public class ItemOperator extends AbstractMachine {
                 ItemStack consumed=inv.getItemInSlot(INPUT_SLOTS[0]);
                 if(consumed!=null&&CraftUtils.matchItemStack(consumed,NAMETAG,true)){
                     ItemMeta meta=stack.getItemMeta();
-                    if(CraftUtils.parseSfItem(meta)==null){
-                        AddUtils.sendMessage(player,"&c仅可对粘液物品操作!");
+                    boolean isSlimefunItem = CraftUtils.parseSfItem(meta) != null;
+                    if(stack.getMaxStackSize()>1 && !isSlimefunItem){
+                        AddUtils.sendMessage(player,"&c仅可对粘液物品或者不可堆叠物品操作!");
                         return;
                     }
-                    meta.setDisplayName(AddUtils.resolveColor(AddUtils.concat(RENAME_PREFIX,string,RENAME_SUFFIX)));
+                    if( isSlimefunItem ){
+                        meta.setDisplayName(AddUtils.resolveColor(AddUtils.concat(RENAME_SF_PREFIX,string,RENAME_SF_SUFFIX)));
+                    }else {
+                        meta.setDisplayName(AddUtils.resolveColor(AddUtils.concat(RENAME_VANILLA_PREFIX,string,RENAME_VANILLA_SUFFIX)));
+                    }
                     stack.setItemMeta(meta);
                     consumed.setAmount(consumed.getAmount()-1);
                     AddUtils.sendMessage(player,"&a操作成功!");

@@ -6,10 +6,10 @@ import me.matl114.logitech.utils.Algorithms.DynamicArray;
 import me.matl114.logitech.utils.UtilClass.CargoClass.CargoConfigs;
 import me.matl114.logitech.utils.UtilClass.ItemClass.ItemPusher;
 import me.matl114.logitech.utils.UtilClass.ItemClass.ItemPusherProvider;
-import me.matl114.matlib.Algorithms.DataStructures.Complex.DefaultLockFactory;
-import me.matl114.matlib.Utils.Reflect.MethodAccess;
-import me.matl114.matlib.Utils.Reflect.ProxyUtils;
-import me.matl114.matlibAdaptor.Algorithms.DataStructures.LockFactory;
+import me.matl114.matlib.algorithms.dataStructures.complex.lockFactory.DefaultLockFactory;
+import me.matl114.matlib.utils.reflect.MethodAccess;
+import me.matl114.matlib.utils.reflect.ProxyUtils;
+import me.matl114.matlibAdaptor.algorithms.dataStructures.LockFactory;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
@@ -521,7 +521,7 @@ public class TransportUtils {
 
     //No more improve plan yet
     @Deprecated
-    public static void transportItemGreedy_3_workspace(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,
+    private static void transportItemGreedy_3_workspace(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,
                                              boolean isnull,boolean lazy,boolean whitlist, HashSet<ItemStack> blacklist, int translimit,
                                              ItemPusherProvider provider){
         int len=fromSlot.length;
@@ -615,14 +615,10 @@ public class TransportUtils {
 
 
     //translimit cal wrong
-    public static void transportItemSymm(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,
+    private static void transportItemSymm(BlockMenu from, int[] fromSlot, BlockMenu to, int[] toSlot,
                                          boolean isnull,boolean lazy,boolean whitlist, HashSet<ItemStack> blacklist, int translimit,
                                          ItemPusherProvider provider){
         int len=fromSlot.length;
-        //从1开始，标记为相同的说明match
-        //空槽将被标记为相同的并且会被push
-        //如果不匹配,那就全是0作为初始值
-        //如果是黑名单物品则会被设置为-1,null会被设置为-2
         int len2=toSlot.length;
         int transSlot=Math.min(len2,len);
         IntFunction<ItemPusher> fromPusherFunc=provider.getMenuInstance(Settings.INPUT,from,fromSlot);

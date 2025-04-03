@@ -8,10 +8,11 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.matl114.logitech.core.Registries.RecipeSupporter;
 import me.matl114.logitech.utils.UtilClass.ItemClass.*;
 import me.matl114.logitech.utils.UtilClass.MenuClass.*;
-import me.matl114.logitech.core.Registries.RecipeSupporter;
-import me.matl114.matlib.Utils.Inventory.ItemStacks.CleanItemStack;
+import me.matl114.matlib.utils.NMSInventoryUtils;
+import me.matl114.matlib.utils.inventory.itemStacks.CleanItemStack;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -22,8 +23,11 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class MenuUtils {
@@ -62,12 +66,25 @@ public class MenuUtils {
      * @return
      */
     public static ItemStack syncSlot(BlockMenu inv ,int slot, ItemStack item){
-        if(item instanceof AbstractItemStack){
-            item=item.clone();
-        }
-        inv.replaceExistingItem(slot, item,false);
-        return inv.getItemInSlot(slot);
+//        ItemStack craftCopy = me.matl114.matlib.Utils.CraftUtils.getCraftCopy(item);
+//        NMSInventoryUtils.setTileInvItemNoUpdate(inv.getInventory(), );
+        ItemStack craftCopy = getCraftCopyOf(item);
+        NMSInventoryUtils.setInvItemNoCopy(inv.getInventory(), slot, craftCopy);
+        //inv.replaceExistingItem(slot, item,false);
+        return craftCopy;
     }
+    public static void syncSlotNoCopy(BlockMenu inv, int slot,@Nonnull ItemStack item){
+        //remain
+        NMSInventoryUtils.setInvItemNoCopy(inv.getInventory(), slot, item);
+    }
+    public static ItemStack getCraftCopyOf(ItemStack item){
+        if(item instanceof RandOutItem rand){
+            item=rand.getInstance();
+        }
+        return me.matl114.matlib.utils.CraftUtils.getCraftCopy(item);
+    }
+
+
 
     public static ItemStack getPreviousButton(int page, int pages) {
         return pages != 1 && page != 1 ? new CustomItemStack(PREV_BUTTON_ACTIVE, (meta) -> {

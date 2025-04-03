@@ -5,8 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop.InterfacedSmithTableTrimmer;
 import me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop.SmithInterfaceProcessor;
 import me.matl114.logitech.core.Items.Abstracts.MaterialItem;
-import me.matl114.matlib.Algorithms.DataStructures.Struct.Pair;
-import me.matl114.matlib.Algorithms.DataStructures.Struct.Triplet;
+import me.matl114.matlib.algorithms.dataStructures.struct.Triplet;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.SmithingInventory;
@@ -17,7 +16,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class DisplayUseTrimmerLogicLate extends MaterialItem implements InterfacedSmithTableTrimmer {
-    private final Function<SmithingInventory,Triplet<ItemStack[],Integer,Integer>> trimmerLogic;
+    private final Function<SmithingInventory, Triplet<ItemStack[],Integer,Integer>> trimmerLogic;
     private final Supplier<Set<ItemStack>> trimmerItems;
     private final Supplier<RecipeChoice> trimmerBase;
     private final Supplier<RecipeChoice> trimmerExtra;

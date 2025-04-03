@@ -1,6 +1,6 @@
 package me.matl114.logitech.utils.UtilClass.ItemClass;
 
-import me.matl114.matlib.Utils.Inventory.ItemStacks.CleanItemStack;
+import me.matl114.matlib.utils.inventory.itemStacks.CleanItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 

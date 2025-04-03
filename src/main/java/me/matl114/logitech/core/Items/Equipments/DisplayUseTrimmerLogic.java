@@ -2,11 +2,10 @@ package me.matl114.logitech.core.Items.Equipments;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop.InterfacedSmithTableTrimmer;
 import me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop.SmithInterfaceProcessor;
 import me.matl114.logitech.core.Items.Abstracts.MaterialItem;
-import me.matl114.matlib.Algorithms.DataStructures.Struct.Triplet;
+import me.matl114.matlib.algorithms.dataStructures.struct.Triplet;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.SmithingInventory;

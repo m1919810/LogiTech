@@ -11,7 +11,8 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.utils.*;
 import me.matl114.logitech.utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.utils.UtilClass.RecipeClass.SimpleCraftingOperation;
-import me.matl114.matlib.Utils.Inventory.ItemStacks.CleanItemStack;
+
+import me.matl114.matlib.utils.inventory.itemStacks.CleanItemStack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;

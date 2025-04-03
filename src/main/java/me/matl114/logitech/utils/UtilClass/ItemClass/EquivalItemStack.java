@@ -4,11 +4,13 @@ import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.NotImplementedE
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import me.matl114.logitech.utils.AddUtils;
 import me.matl114.logitech.utils.CraftUtils;
-import me.matl114.matlib.Utils.Inventory.ItemStacks.CleanItemStack;
+import me.matl114.matlib.utils.inventory.itemStacks.CleanItemStack;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class EquivalItemStack extends CleanItemStack implements MultiItemStack {
     public ItemStack[] itemList;
@@ -122,5 +124,10 @@ public class EquivalItemStack extends CleanItemStack implements MultiItemStack {
     }
     public void setAmount(int t){
         throw new NotImplementedException("this method shoudln't be called");
+    }
+
+
+    public ItemStack getInstance() {
+        return clone();
     }
 }

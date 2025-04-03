@@ -1,7 +1,8 @@
 package me.matl114.logitech.utils.UtilClass.ItemClass;
 
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
-import me.matl114.matlib.Utils.Inventory.ItemStacks.CleanItemStack;
+
+import me.matl114.matlib.utils.inventory.itemStacks.CleanItemStack;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

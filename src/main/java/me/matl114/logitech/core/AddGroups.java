@@ -9,17 +9,19 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.utils.UtilClass.SpecialItemClass.CustomHead;
+import me.matl114.logitech.core.Machines.WorkBenchs.BugCrafter;
 import me.matl114.logitech.core.Registries.CustomEffects;
-import me.matl114.logitech.utils.UtilClass.EffectClass.PlayerEffects;
+import me.matl114.logitech.core.Registries.RecipeSupporter;
 import me.matl114.logitech.manager.PostSetupTasks;
 import me.matl114.logitech.manager.Schedules;
-import me.matl114.logitech.core.Machines.WorkBenchs.BugCrafter;
-import me.matl114.logitech.utils.*;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.MathUtils;
+import me.matl114.logitech.utils.MenuUtils;
+import me.matl114.logitech.utils.UtilClass.EffectClass.PlayerEffects;
 import me.matl114.logitech.utils.UtilClass.MenuClass.*;
-import me.matl114.logitech.core.Registries.RecipeSupporter;
-import me.matl114.matlib.Implements.Slimefun.Menu.MenuClickHandler.GuideClickHandler;
-import me.matl114.matlib.Implements.Slimefun.Menu.MenuGroup.CustomMenuGroup;
+import me.matl114.logitech.utils.UtilClass.SpecialItemClass.CustomHead;
+import me.matl114.matlib.implement.slimefun.menu.menuClickHandler.GuideClickHandler;
+import me.matl114.matlib.implement.slimefun.menu.menuGroup.CustomMenuGroup;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import net.md_5.bungee.api.ChatColor;
@@ -469,7 +471,7 @@ public class AddGroups {
         }
     };
 
-    public static final ItemGroup TOOLS=new me.matl114.matlib.Implements.Slimefun.Menu.GuideMenu.CustomItemGroup(AddUtils.getNameKey("tools"),AddItem.TOOLS,true)
+    public static final ItemGroup TOOLS=new me.matl114.matlib.implement.slimefun.menu.guideMenu.CustomItemGroup(AddUtils.getNameKey("tools"),AddItem.TOOLS,true)
             .setLoader(new CustomMenuGroup(AddItem.TOOLS.getItemMeta().getDisplayName(),54,1){{
                             //initialize
                             enablePresets((i)->{
@@ -479,7 +481,7 @@ public class AddGroups {
                                 return menu;
                             }).setPageNextSlots(52).setPagePrevSlots(46)
                             .enableContentPlace(IntStream.range(9,45).toArray())
-                            .addItem(0,AddItem.TOOLS_RECIPES,(cm)-> (GuideClickHandler)(Player var1, int var2, ItemStack var3, ClickAction var4,  PlayerProfile var5, SlimefunGuideMode var6, FlexItemGroup var7, int var8)->{
+                            .addItem(0,AddItem.TOOLS_RECIPES,(cm)-> (GuideClickHandler)(Player var1, int var2, ItemStack var3, ClickAction var4, PlayerProfile var5, SlimefunGuideMode var6, FlexItemGroup var7, int var8)->{
                                 //left as not completed yet
                                 return false;
                             });

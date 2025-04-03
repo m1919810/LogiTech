@@ -10,7 +10,7 @@ import me.matl114.logitech.utils.*;
 import me.matl114.logitech.utils.UtilClass.CargoClass.ContainerBlockMenuWrapper;
 import me.matl114.logitech.utils.UtilClass.ItemClass.ItemGreedyConsumer;
 import me.matl114.logitech.utils.UtilClass.RecipeClass.MultiCraftingOperation;
-import me.matl114.matlib.Implements.Slimefun.core.CustomRecipeType;
+
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
@@ -30,9 +30,7 @@ import java.util.List;
 import java.util.function.*;
 
 public class SmithInterfaceListener implements Listener {
-    private CustomRecipeType craftTable;
     public SmithInterfaceListener() {
-        this.craftTable= SmithInterfaceProcessor.INTERFACED_CRAFTTABLE;
 
     }
     private final HashMap<Inventory, Location> openingCraftInventory= new HashMap<>();

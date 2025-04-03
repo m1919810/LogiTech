@@ -59,11 +59,11 @@ public class TrackingArrowLauncher extends ChargableProps {
             if(charge<ENERGYCONSUMPTION){
                 AddUtils.sendMessage(p,AddUtils.concat("&c电力不足! ",String.valueOf(charge),"J/",String.valueOf(ENERGYCONSUMPTION),"J"));
             }else {
-                if(canUse(p,false)&&WorldUtils.hasPermission(p,p.getEyeLocation(), Interaction.ATTACK_ENTITY)){
+                if(canUse(p,false)){
                     this.setItemCharge(item,charge-ENERGYCONSUMPTION);
                     onArrowLaunched(p,item);
                 }else{
-                    AddUtils.sendMessage(p,"&c你没有权限在这里攻击生物!");
+                    AddUtils.sendMessage(p,"&c你没有权限使用该道具!");
                 }
             }
         }

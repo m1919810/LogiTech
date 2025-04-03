@@ -1,7 +1,6 @@
 package me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop;
 
-import me.matl114.matlib.Algorithms.DataStructures.Struct.Pair;
-import me.matl114.matlib.Algorithms.DataStructures.Struct.Triplet;
+import me.matl114.matlib.algorithms.dataStructures.struct.Triplet;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.SmithingInventory;

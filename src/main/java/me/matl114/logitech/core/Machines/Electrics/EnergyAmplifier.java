@@ -113,8 +113,6 @@ public class EnergyAmplifier extends AbstractEnergyProvider implements MenuToggl
                     if(menu!=null){
                         if(menu.hasViewer()){
                             updateMenu(menu,b,Settings.RUN);
-                        }else {
-                            MenuUtils.syncSlot(menu,MACHINE_SLOT);
                         }
                     }
                 }

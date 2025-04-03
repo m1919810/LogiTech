@@ -1,14 +1,17 @@
 package me.matl114.logitech.utils.UtilClass.CommandClass;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import me.matl114.logitech.utils.*;
-import me.matl114.logitech.utils.UtilClass.TestItemStack;
 import me.matl114.logitech.core.Interface.LogiTechChargable;
-import me.matl114.matlib.Utils.Command.CommandGroup.AbstractMainCommand;
-import me.matl114.matlib.Utils.Command.CommandGroup.SubCommand;
-import me.matl114.matlib.Utils.Command.Params.SimpleCommandArgs;
-import me.matl114.matlib.Utils.Reflect.FieldAccess;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.CraftUtils;
+import me.matl114.logitech.utils.Debug;
+import me.matl114.logitech.utils.UtilClass.TestItemStack;
+import me.matl114.logitech.utils.WorldUtils;
 import me.matl114.matlib.core.EnvironmentManager;
+import me.matl114.matlib.utils.command.commandGroup.AbstractMainCommand;
+import me.matl114.matlib.utils.command.commandGroup.SubCommand;
+import me.matl114.matlib.utils.command.params.SimpleCommandArgs;
+import me.matl114.matlib.utils.reflect.FieldAccess;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import net.guizhanss.guizhanlib.minecraft.helper.potion.PotionEffectTypeHelper;
 import net.md_5.bungee.api.ChatColor;
@@ -144,7 +147,7 @@ public class LogitechMain extends AbstractMainCommand {
         Debug.logger(WorldUtils.LOOTTABLES_TYPES);
         Debug.logger(EnvironmentManager.getManager().getVersioned());
     }
-    private FieldAccess delegateAccess=FieldAccess.ofName(ItemStack.class,"craftDelegate");
+    private FieldAccess delegateAccess= FieldAccess.ofName(ItemStack.class,"craftDelegate");
     private void test3(){
 
         ItemStack stack1=new ItemStack(Material.REDSTONE,64);

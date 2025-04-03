@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.matl114.logitech.utils.CraftUtils;
 import me.matl114.logitech.utils.UtilClass.EquipClass.EquipmentFU;
-import me.matl114.matlib.Algorithms.DataStructures.Struct.Triplet;
+import me.matl114.matlib.algorithms.dataStructures.struct.Triplet;
 import me.matl114.matlib.core.EnvironmentManager;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -69,7 +69,7 @@ public class EFUImplements {
         int maxLevel;
         int maxTotalLevel;
         //A*X+B 级别
-        public SimplePotionEffectEquipmentFU(String name,NamespacedKey key, FURarity rarity,int maxLevel ,int maxTotalLevel ,List<Triplet<String,Integer,Float>> potionEffectList, EquipmentSlot... slot) {
+        public SimplePotionEffectEquipmentFU(String name, NamespacedKey key, FURarity rarity, int maxLevel , int maxTotalLevel , List<Triplet<String,Integer,Float>> potionEffectList, EquipmentSlot... slot) {
             super(key, rarity, slot);
             effects = potionEffectList.stream().map(LevelPotionEffectProvider::of).toList();
             setDisplayName(name);

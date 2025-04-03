@@ -2,7 +2,7 @@ package me.matl114.logitech.utils.UtilClass.CargoClass;
 
 import lombok.Getter;
 import me.matl114.logitech.utils.ContainerUtils;
-import me.matl114.matlib.Common.Lang.Exceptions.NotImplementedYet;
+import me.matl114.matlib.common.lang.exceptions.NotImplementedYet;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.block.Block;

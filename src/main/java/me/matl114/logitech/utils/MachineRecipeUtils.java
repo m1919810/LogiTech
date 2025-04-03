@@ -27,7 +27,7 @@ public class MachineRecipeUtils {
         put(Material.POTION, BOTTLE);
         put(Material.SPLASH_POTION, BOTTLE);
         put(Material.LINGERING_POTION, BOTTLE);
-        put(Material.DRAGON_EGG, BOTTLE);
+        put(Material.DRAGON_BREATH, BOTTLE);
     }};
     public interface RecipeConstructor<T>{
         public T construct(int ticks,ItemStack[] input,ItemStack[] output);

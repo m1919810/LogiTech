@@ -18,7 +18,7 @@ import me.matl114.logitech.core.AddItem;
 import me.matl114.logitech.utils.*;
 import me.matl114.logitech.utils.UtilClass.ItemClass.ItemGreedyConsumer;
 import me.matl114.logitech.utils.UtilClass.RecipeClass.MultiCraftingOperation;
-import me.matl114.matlib.Implements.Slimefun.core.CustomRecipeType;
+import me.matl114.matlib.implement.slimefun.core.CustomRecipeType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;

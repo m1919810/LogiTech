@@ -58,9 +58,11 @@ public class ItemSlotPusher extends ItemPusher {
             if(wasNull){//空
                 //从数据源clone一个 正式转变为有实体的ItemStack 因为consumer那边可能是sfItem MultiItem
                 if(getAmount()>0){//bugfix: do not replace a <=0 item here
-                    item= MenuUtils.syncSlot(menu,slot,item);
+                    item= MenuUtils.getCraftCopyOf(item);
+                    //creating copy of source item
                     wasNull=false;
                     super.updateMenu(menu);
+                    MenuUtils.syncSlotNoCopy(menu, slot, item);
                 }//<=0 will be marked as still null
             }
             else{//不为空，同正常一样

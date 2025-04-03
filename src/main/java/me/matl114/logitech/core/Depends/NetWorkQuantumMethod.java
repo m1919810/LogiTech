@@ -3,7 +3,7 @@ package me.matl114.logitech.core.Depends;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.utils.Debug;
-import me.matl114.matlib.Utils.Reflect.MethodAccess;
+import me.matl114.matlib.utils.reflect.MethodAccess;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

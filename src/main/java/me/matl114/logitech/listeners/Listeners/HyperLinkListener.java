@@ -2,7 +2,7 @@ package me.matl114.logitech.listeners.Listeners;
 
 import me.matl114.logitech.manager.Schedules;
 import me.matl114.logitech.utils.AddUtils;
-import me.matl114.matlib.Utils.Inventory.InventoryRecords.InventoryRecord;
+import me.matl114.matlib.utils.inventory.inventoryRecords.InventoryRecord;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

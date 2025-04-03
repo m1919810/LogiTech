@@ -59,6 +59,8 @@ public class Unittest {
     //TODO 增加服务器信息显示 接入堆叠 奇点
     //check IOPORT negative situation
     //TODO 展示框
+    //todo 增加小箱子
+    //?
     //修复传送门加载缓慢的问题
     //todo 增加充电器
     //todo 增加量子堆叠 使用量子链接特性但是非终极
@@ -91,6 +93,7 @@ public class Unittest {
     //todo 激光挖掘器
     //todo 掉落物自动收集
     //todo 时运怎么办
+    //todo 更多的发电机 核电 存电设备 感应电场
 
 
 }

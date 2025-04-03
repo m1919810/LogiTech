@@ -5,7 +5,7 @@ import me.matl114.logitech.manager.EquipmentFUManager;
 import me.matl114.logitech.utils.AddUtils;
 import me.matl114.logitech.utils.CraftUtils;
 import me.matl114.logitech.utils.WorldUtils;
-import me.matl114.matlib.Utils.Inventory.ItemStacks.CleanItemStack;
+import me.matl114.matlib.utils.inventory.itemStacks.CleanItemStack;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

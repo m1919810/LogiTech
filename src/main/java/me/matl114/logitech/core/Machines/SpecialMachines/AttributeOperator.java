@@ -599,8 +599,11 @@ public class AttributeOperator extends SmithingInterface {
             }
             return;
         }
+        ItemStack forceFlag=inv.getItemInSlot(FORCE_ENCHANT_SLOT);
+        boolean forceEnchant=forceFlag!=null&&forceFlag.getType()==Material.GREEN_STAINED_GLASS_PANE;
         if(!CAN_TRANSFER_STACK_ABLE_ITEM.getValue()){
-            if(it2.getMaxStackSize() !=1){
+            //非force情况可以转book变成enchant book, force的情况不行
+            if(it2.getMaxStackSize() !=1 && (it2.getType()!=Material.BOOK || forceEnchant)){
                 if(outputStream!=null){
                     outputStream.accept("&c转换的目标物品不可以堆叠!");
                 }
@@ -611,8 +614,7 @@ public class AttributeOperator extends SmithingInterface {
         DataMenuClickHandler handler=getDataHolder(null,inv);
         if(mode==0){
             Object e1=handler.getObject(0);
-            ItemStack forceFlag=inv.getItemInSlot(FORCE_ENCHANT_SLOT);
-            boolean forceEnchant=forceFlag!=null&&forceFlag.getType()==Material.GREEN_STAINED_GLASS_PANE;
+
             try{
                 Map<Enchantment,Integer> map=(Map<Enchantment,Integer>)e1;
                 if(map!=null&&!map.isEmpty()){
@@ -656,8 +658,6 @@ public class AttributeOperator extends SmithingInterface {
         }else {
             Object e1=handler.getObject(0);
             Object e2=handler.getObject(1);
-            ItemStack forceFlag=inv.getItemInSlot(FORCE_ENCHANT_SLOT);
-            boolean forceEnchant=forceFlag!=null&&forceFlag.getType()==Material.GREEN_STAINED_GLASS_PANE;
             try{
                 Map<Enchantment,Integer> map=(Map<Enchantment,Integer>)e1;
                 if(map!=null&&!map.isEmpty()){

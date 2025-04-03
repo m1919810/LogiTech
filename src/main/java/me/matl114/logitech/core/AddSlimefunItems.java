@@ -64,9 +64,9 @@ import me.matl114.logitech.utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.utils.UtilClass.ItemClass.ItemCounter;
 import me.matl114.logitech.utils.UtilClass.MenuClass.MenuFactory;
 import me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiBlockService;
-import me.matl114.matlib.Implements.Slimefun.core.CustomRecipeType;
-import me.matl114.matlib.Algorithms.DataStructures.Frames.InitializeSafeProvider;
-import me.matl114.matlib.Algorithms.DataStructures.Struct.Triplet;
+import me.matl114.matlib.implement.slimefun.core.CustomRecipeType;
+import me.matl114.matlib.algorithms.dataStructures.frames.InitializeSafeProvider;
+import me.matl114.matlib.algorithms.dataStructures.struct.Triplet;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
@@ -1588,14 +1588,14 @@ public class AddSlimefunItems {
                     AddItem.PAGOLD,AddItem.SPACE_PLATE,AddItem.LSINGULARITY,AddItem.LSINGULARITY,AddItem.SPACE_PLATE,AddItem.PAGOLD,
                     null,AddItem.PAGOLD,AddItem.LMOTOR,AddItem.LMOTOR,AddItem.PAGOLD,null), 1, 1_000_000, 24_000,
             new PairList<>(){{
-                put(mkl(AddItem.LOGIGATE),mkl(setC(AddItem.LOGIGATE,64)));
-                put(mkl(AddItem.LOGIC),mkl(setC(AddItem.NOLOGIC,64)));
-                put(mkl(AddItem.NOLOGIC),mkl(setC(AddItem.LOGIC,64)));
-                put(mkl(AddItem.EXISTE),mkl(setC(AddItem.UNIQUE,64)));
-                put(mkl(AddItem.UNIQUE),mkl(setC(AddItem.EXISTE,64)));
-                put(mkl(AddItem.BUG),mkl(setC(AddItem.BUG,3)));
-                put(mkl("IRON_INGOT"),mkl(setC(AddItem.ABSTRACT_INGOT,32)));
-                put(mkl(AddItem.ABSTRACT_INGOT),mkl("4096IRON_INGOT"));
+                put(mkl(AddItem.LOGIGATE),mkl(setC(AddItem.LOGIGATE,16)));
+                put(mkl(AddItem.LOGIC),mkl(setC(AddItem.NOLOGIC,32)));
+                put(mkl(AddItem.NOLOGIC),mkl(setC(AddItem.LOGIC,32)));
+                put(mkl(AddItem.EXISTE),mkl(setC(AddItem.UNIQUE,32)));
+                put(mkl(AddItem.UNIQUE),mkl(setC(AddItem.EXISTE,32)));
+                put(mkl(AddItem.BUG),mkl(setC(AddItem.BUG,8)));
+                put(mkl("IRON_INGOT"),mkl(setC(AddItem.ABSTRACT_INGOT,16)));
+                put(mkl(AddItem.ABSTRACT_INGOT),mkl("1024IRON_INGOT"));
             }})
             .register();
     public static final SlimefunItem VIRTUAL_MINER = new MMGenerator(GENERATORS, AddItem.VIRTUAL_MINER, COMMON_TYPE,
@@ -2480,7 +2480,7 @@ public class AddSlimefunItems {
 //        protected ItemSetting<Boolean> rtpChangeWorld = createForce("rtp-change-world",false);
         protected ItemSetting<Integer> rtpRange2pow =createForce("rtp-max-amount",14);
         public void addInfo(ItemStack item){
-            item.setItemMeta(addLore(item, "&7世界范围: "+(false? "随机,50%概率不改变世界":"当前世界"),
+            item.setItemMeta(addLore(item, "&7世界范围: "+
                     "&7坐标范围: 2^(max(10+丢出数量,%s))".formatted(String.valueOf(10+rtpRange2pow.getValue()))).getItemMeta());
         }
         int DELAY_BEFORE_TP=60;
@@ -3064,122 +3064,6 @@ public class AddSlimefunItems {
 
 
 
-//    public static final SlimefunItem CUSTOM1=register(new FIrstCustomItem(MATERIAL, AddItem.CUSTOM1,COMMON_TYPE,
-//            recipe("COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT",
-//                    "COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT",
-//                    "COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT",
-//                    "COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT",
-//                    "COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT",
-//                    "COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT","COPPER_INGOT")));
-
-//    public static  final  SlimefunItem SMG1=new SMGenerator(MATERIAL, AddItem.SMG1,NULL,NULL_RECIPE.clone(),3,114514,0,
-//               randItemStackFactory( new PairList<>(){{
-//                    put(Material.DIAMOND,1);
-//                    put(new ItemStack(Material.BOOK,2),1);
-//                    put(CUSTOM1,1);
-//                    put("COPPER_DUST",1);
-//                    put("EMERALD_ORE",1);
-//                    put(
-//                            new EqProRandomStack(new PairList<>(){{
-//                                put(new ItemStack(Material.LADDER),1);
-//                                put(new ItemStack(Material.BEDROCK),1);
-//
-//                            }}),1
-//                     );
-//                }}),
-//            Material.DIRT
-//
-//            ).register();
-//    public static final   SlimefunItem MMG1=register(new MMGenerator(MATERIAL, AddItem.MMG1,NULL,NULL_RECIPE.clone(),3,114514,0,
-//                new PairList<>(){{
-//                    put(new Object[]{"DIAMOND_BLOCK"},new Object[]{"114DIAMOND"}  );
-//                    put(new Object[]{"BEDROCK"},new Object[]{randItemStackFactory(
-//                            new PairList<>(){{
-//                                put("2COPPER_DUST",1);
-//                                put("4SILVER_DUST",1);
-//                            }}
-//                    ),"1919COMMAND_BLOCK"});
-//                }}
-//            ));
-
-//
-//    public static final  SlimefunItem TESTER2=register(new SMGenerator(MATERIAL,new SlimefunItemStack("TESTER2",new ItemStack(Material.DIAMOND_ORE),"测试机","测试寄"),
-//            RecipeType.NULL,NULL_RECIPE.clone(),12,0,0, (Object)(new ItemStack(Material.DIAMOND,1145))
-//           ,null,new ItemStack(Material.DIAMOND_CHESTPLATE)
-//            ));
-//    public static final  SlimefunItem MACHINE3=register(new EMachine(MATERIAL, AddItem.MACHINE3,NULL,NULL_RECIPE.clone(),
-//            Material.BOOK,1919,810,
-//            new PairList<>(){{
-//                put(new Object[]{new ItemStack(Material.BOOK),new ItemStack(Material.DIAMOND)
-//                        ,AddSlimefunItems.CUSTOM1             ,null},3);
-//                put(new Object[]{new ItemStack(Material.COMMAND_BLOCK),null
-//                        ,AddSlimefunItems.CUSTOM1             ,AddSlimefunItems.MATL114},2);
-//                put(new Object[]{new ItemStack(Material.EMERALD),null
-//                        ,AddSlimefunItems.MATL114            ,null},1);
-//                put(new Object[]{new ItemStack(Material.DIAMOND,64),new ItemStack(Material.DIAMOND,16),
-//                        new ItemStack(Material.BEACON,1),null},3);
-//                put(new Object[]{new ItemStack(Material.GOLD_INGOT,1),null,
-//                        new ItemStack(Material.BEACON,1),null},0);
-//                put(new Object[]{AddSlimefunItems.MATL114,null,
-//                        AddSlimefunItems.CUSTOM1,null},0);
-//            }}));
-//    public static final  SlimefunItem MACHINE4=register(new AEMachine(MATERIAL, AddItem.MACHINE4,NULL,NULL_RECIPE.clone(),
-//            Material.BOOK,1919,810,
-//            new PairList<>(){{
-//                put(new Object[]{new ItemStack(Material.BOOK),new ItemStack(Material.DIAMOND)
-//                        ,AddSlimefunItems.CUSTOM1             ,null},3);
-//                put(new Object[]{new ItemStack(Material.COMMAND_BLOCK),null
-//                        ,AddSlimefunItems.CUSTOM1             ,AddSlimefunItems.MATL114},2);
-//                put(new Object[]{new ItemStack(Material.EMERALD),null
-//                        ,AddSlimefunItems.MATL114            ,null},1);
-//                put(new Object[]{new ItemStack(Material.DIAMOND,64),new ItemStack(Material.DIAMOND,16),
-//                        new ItemStack(Material.BEACON,1),null},3);
-//                put(new Object[]{new ItemStack(Material.GOLD_INGOT,1),null,
-//                        new ItemStack(Material.BEACON,1),null},0);
-//                put(new Object[]{AddSlimefunItems.MATL114,null,
-//                        AddSlimefunItems.CUSTOM1,null},0);
-//            }}));
-//    public static final  SlimefunItem MANUAL1=register(new ManualCrafter(MATERIAL, AddItem.MANUAL1,NULL,NULL_RECIPE.clone(),
-//           1919,810,ENHANCED_CRAFTING_TABLE));
-//    public static final  SlimefunItem MANUAL_MULTI=register(new ManualCrafter(MATERIAL, AddItem.MANUAL_MULTI,NULL,NULL_RECIPE.clone(),
-//            1919,810,MULTIBLOCK));
-//    public static final  SlimefunItem MANUAL_KILL=register(new ManualCrafter(MATERIAL, AddItem.MANUAL_KILL,NULL,NULL_RECIPE.clone(),
-//            1919,810,MOB_DROP));
-//    public static final  SlimefunItem AUTOSMELTING1=register(new AdvanceCrafter(MATERIAL, AddItem.AUTOSMELTING1,NULL,NULL_RECIPE.clone(),
-//            Material.FLINT_AND_STEEL,1919,810,SMELTERY));
-
-
-//    public static final SlimefunItem INPORT=register(new InputPort(MATERIAL, AddItem.INPORT,NULL,NULL_RECIPE,0,0));
-//
-//    public static final SlimefunItem OUTPORT=register(new OutputPort(MATERIAL, AddItem.OUTPORT,NULL,NULL_RECIPE,0,0));
-
     public static final SlimefunItem TESTUNIT1=register(new TestStorageUnit(FUNCTIONAL, AddItem.TESTUNIT1,NULL,NULL_RECIPE,0,0));
-//
-//    public static final SlimefunItem TESTUNIT2=register(new TestStorageUnit2(MATERIAL, AddItem.TESTUNIT2,NULL,NULL_RECIPE.clone()));
-//
-//    public static final SlimefunItem TESTUNIT3=register(new me.matl114.logitech.SlimefunItem.TestStorageUnit3(MATERIAL, AddItem.TESTUNIT3,NULL,NULL_RECIPE.clone()));
-
-
-//
-//    public static final SlimefunItem ANTIGRAVITY=register(new AntiGravityBar(MATERIAL, AddItem.ANTIGRAVITY,NULL,NULL_RECIPE.clone()));
-
-//    public static final SlimefunItem WORKBENCH1=register(new TestWorkBench(MATERIAL, AddItem.WORKBENCH1,NULL,NULL_RECIPE.clone(),
-//            0,0,
-//                new PairList<>(){{
-//                    put(mkP(
-//                            mkl(null,"2COPPER_DUST",null,AddSlimefunItems.MATL114,"4DIAMOND",AddSlimefunItems.CUSTOM1,null,"3IRON_DUST",null),
-//                            mkl("5COMMAND_BLOCK")
-//                    ),0);
-//                }}
-//            ));
-
-//    public static final SlimefunItem TEST_MCORE=new MultiCoreTest(MATERIAL,AddItem.TESTCORE,NULL,NULL_RECIPE.clone(),
-//            "test.part", MultiBlockTypes.TEST_TYPE).register();
-//    public static final SlimefunItem TEST_SEQ=new SequenceConstructor(MATERIAL,AddItem.TEST_SEQ,NULL,
-//            formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),new ItemStack(Material.FIRE_CHARGE),1919,8100,
-//            mkMp(
-//                    mkP(mkl("128DIAMOND","128GOLD_INGOT","128IRON_INGOT","128COAL"),mkl(AddItem.METAL_CORE)),3
-//            ))
-//            .register();
 
 }
