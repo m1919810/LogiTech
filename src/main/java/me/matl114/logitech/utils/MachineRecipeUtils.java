@@ -67,7 +67,8 @@ public class MachineRecipeUtils {
             //merge input equivalItemStack
             if(a instanceof EquivalItemStack eq ){
                 EquivalItemStack eqCopy = eq.copy();
-                eqCopy.setEqualAmount(a.getAmount());
+                //shit?
+                eqCopy.setEqualAmount(stackCounter.getAmount());
                 result[cnt] = eqCopy;
             }else if(stackCounter.getItem() instanceof RandOutItem){
                 result[cnt] = stackCounter.getItem();

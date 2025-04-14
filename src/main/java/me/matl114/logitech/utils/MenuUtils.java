@@ -9,8 +9,10 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.core.Registries.RecipeSupporter;
+import me.matl114.logitech.utils.UtilClass.CargoClass.ContainerBlockMenuWrapper;
 import me.matl114.logitech.utils.UtilClass.ItemClass.*;
 import me.matl114.logitech.utils.UtilClass.MenuClass.*;
+import me.matl114.matlib.common.lang.annotations.Note;
 import me.matl114.matlib.utils.NMSInventoryUtils;
 import me.matl114.matlib.utils.inventory.itemStacks.CleanItemStack;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -73,9 +75,18 @@ public class MenuUtils {
         //inv.replaceExistingItem(slot, item,false);
         return craftCopy;
     }
-    public static void syncSlotNoCopy(BlockMenu inv, int slot,@Nonnull ItemStack item){
+    //todo use inventoryHelper here
+    @Note("may not be really NO-COPY")
+    public static ItemStack syncSlotNoCopy(BlockMenu inv, int slot,@Nonnull ItemStack item){
         //remain
-        NMSInventoryUtils.setInvItemNoCopy(inv.getInventory(), slot, item);
+        if(inv instanceof ContainerBlockMenuWrapper wrapper){
+            //avoid our implementation and shit goes in reflection
+            wrapper.replaceExistingItem(slot, item);
+            return wrapper.getItemInSlot(slot);
+        }else {
+            NMSInventoryUtils.setInvItemNoCopy(inv.getInventory(), slot, item);
+            return item;
+        }
     }
     public static ItemStack getCraftCopyOf(ItemStack item){
         if(item instanceof RandOutItem rand){

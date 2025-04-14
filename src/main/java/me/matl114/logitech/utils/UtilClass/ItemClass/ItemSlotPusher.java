@@ -62,7 +62,7 @@ public class ItemSlotPusher extends ItemPusher {
                     //creating copy of source item
                     wasNull=false;
                     super.updateMenu(menu);
-                    MenuUtils.syncSlotNoCopy(menu, slot, item);
+                    item =  MenuUtils.syncSlotNoCopy(menu, slot, item);
                 }//<=0 will be marked as still null
             }
             else{//不为空，同正常一样

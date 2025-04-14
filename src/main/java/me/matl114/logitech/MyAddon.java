@@ -65,9 +65,9 @@ public class MyAddon extends JavaPlugin implements SlimefunAddon {
         if (!PaperLib.isPaper()) {
             getLogger().log(Level.WARNING, "#######################################################");
             getLogger().log(Level.WARNING, "");
-            getLogger().log(Level.WARNING, "自 25/2/1 起 LogiTech");
+            getLogger().log(Level.WARNING, "自 25/2/1 起 Slimefun及其附属");
             getLogger().log(Level.WARNING, "转为 Paper 插件, 你必须要使用 Paper");
-            getLogger().log(Level.WARNING, "或其分支才可使用 LogiTech.");
+            getLogger().log(Level.WARNING, "或其分支才可使用 Slimefun及其附属");
             getLogger().log(Level.WARNING, "立即下载 Paper: https://papermc.io/downloads/paper");
             getLogger().log(Level.WARNING, "");
             getLogger().log(Level.WARNING, "#######################################################");
