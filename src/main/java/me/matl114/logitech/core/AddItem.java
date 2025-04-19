@@ -9,8 +9,8 @@ import me.matl114.logitech.utils.UtilClass.SpecialItemClass.CustomFireworkStar;
 import me.matl114.logitech.utils.UtilClass.SpecialItemClass.CustomHead;
 import me.matl114.matlib.algorithms.dataStructures.frames.InitializeProvider;
 import me.matl114.matlib.algorithms.dataStructures.frames.InitializeSafeProvider;
-import me.matl114.matlib.core.EnvironmentManager;
-import me.matl114.matlib.utils.reflect.FieldAccess;
+import me.matl114.matlib.utils.reflect.wrapper.FieldAccess;
+import me.matl114.matlib.utils.version.VersionedRegistry;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -298,7 +298,7 @@ public class AddItem {
     public static final SlimefunItemStack UNBREAKING_SHIELD=themed("UNBREAKING_SHIELD",Material.SHIELD, Theme.TOOL,
             get("Items.UNBREAKING_SHIELD.Name"),getList("Items.UNBREAKING_SHIELD.Lore"));
     public static final ItemStack MACE_ITEM=new InitializeSafeProvider<>(ItemStack.class,()->{
-        Material material= EnvironmentManager.getManager().getVersioned().getMaterial("MACE");
+        Material material= VersionedRegistry.material("MACE");
         return material==null?null: new ItemStack(material);
     }).v ();
     public static final ItemStack SUPER_COBALT_PICKAXE = new InitializeProvider<>(()->{
@@ -306,7 +306,7 @@ public class AddItem {
         item.setType(Material.NETHERITE_PICKAXE);
         ItemMeta meta = item.getItemMeta();
         meta.setUnbreakable(true);
-        meta.addEnchant(EnvironmentManager.getManager().getVersioned().getEnchantment("efficiency"),10,true );
+        meta.addEnchant(VersionedRegistry.enchantment("efficiency"),10,true );
         meta.setLore(List.of(DEFAULT_COLOR+"超级钴镐"));
         item.setItemMeta(meta);
         return item;

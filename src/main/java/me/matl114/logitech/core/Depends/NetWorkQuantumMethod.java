@@ -3,7 +3,7 @@ package me.matl114.logitech.core.Depends;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.matl114.logitech.utils.Debug;
-import me.matl114.matlib.utils.reflect.MethodAccess;
+import me.matl114.matlib.utils.reflect.wrapper.MethodAccess;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -29,8 +29,16 @@ public class NetWorkQuantumMethod {
     static boolean hasFailedCachemap=false;
     static Method syncBlock=null;
     static boolean hasFailedSyncBlock=false;
-    public static final MethodAccess<? extends Number> getAmountAccess=MethodAccess.ofName("getAmount").printError(true);
-    public static final MethodAccess<? extends Number> getLimitAccess=MethodAccess.ofName("getLimit").printError(true);
+    public static final MethodAccess<? extends Number> getAmountAccess=
+        MethodAccess.ofName("getAmount")
+            .printError(true)
+            .cast()
+        ;
+    public static final MethodAccess<? extends Number> getLimitAccess=
+        MethodAccess.ofName("getLimit")
+            .printError(true)
+            .cast()
+        ;
     //todo refactor this part of code
     public static final MethodAccess<?> getSetAmountAccess=new MethodAccess<>(t-> {
         try {

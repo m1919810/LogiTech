@@ -1,9 +1,10 @@
 package me.matl114.logitech.utils;
 
 import lombok.Getter;
-import me.matl114.matlib.utils.reflect.FieldAccess;
-import me.matl114.matlib.utils.reflect.MethodAccess;
 import me.matl114.matlib.utils.reflect.ReflectUtils;
+import me.matl114.matlib.utils.reflect.wrapper.FieldAccess;
+import me.matl114.matlib.utils.reflect.wrapper.MethodAccess;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;

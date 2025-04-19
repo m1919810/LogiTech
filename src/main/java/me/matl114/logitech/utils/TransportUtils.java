@@ -6,9 +6,10 @@ import me.matl114.logitech.utils.Algorithms.DynamicArray;
 import me.matl114.logitech.utils.UtilClass.CargoClass.CargoConfigs;
 import me.matl114.logitech.utils.UtilClass.ItemClass.ItemPusher;
 import me.matl114.logitech.utils.UtilClass.ItemClass.ItemPusherProvider;
-import me.matl114.matlib.algorithms.dataStructures.complex.lockFactory.DefaultLockFactory;
-import me.matl114.matlib.utils.reflect.MethodAccess;
-import me.matl114.matlib.utils.reflect.ProxyUtils;
+import me.matl114.matlib.algorithms.designs.concurrency.lock.DefaultLockFactory;
+import me.matl114.matlib.utils.reflect.proxy.ProxyBuilder;
+import me.matl114.matlib.utils.reflect.proxy.invocation.AdaptorInvocation;
+import me.matl114.matlib.utils.reflect.wrapper.MethodAccess;
 import me.matl114.matlibAdaptor.algorithms.dataStructures.LockFactory;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -226,7 +227,7 @@ public class TransportUtils {
                     .noSnapShot()
                     .initWithNull()
                     .invoke(null);
-            transportationLockFactory = ProxyUtils.buildAdaptorOf(LockFactory.class, lockFactory);
+            transportationLockFactory = ProxyBuilder.buildMatlibAdaptorOf(LockFactory.class, lockFactory, content-> AdaptorInvocation.createASM(lockFactory.getClass(), content));
             asyncMode=true;
             Debug.logger("Slimefun Async Cargo Factory Adaptor created successfully");
             Debug.logger("Starting Transportation task async Mode");

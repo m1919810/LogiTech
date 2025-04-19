@@ -11,7 +11,7 @@ import me.matl114.matlib.core.EnvironmentManager;
 import me.matl114.matlib.utils.command.commandGroup.AbstractMainCommand;
 import me.matl114.matlib.utils.command.commandGroup.SubCommand;
 import me.matl114.matlib.utils.command.params.SimpleCommandArgs;
-import me.matl114.matlib.utils.reflect.FieldAccess;
+import me.matl114.matlib.utils.reflect.wrapper.FieldAccess;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import net.guizhanss.guizhanlib.minecraft.helper.potion.PotionEffectTypeHelper;
 import net.md_5.bungee.api.ChatColor;

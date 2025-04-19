@@ -99,7 +99,7 @@ public class CraftUtils {
 //        }
 //    }
     public static void setup(){
-        me.matl114.matlib.utils.CraftUtils.setup();
+        me.matl114.matlib.utils.CraftUtils.NULL_META.getPersistentDataContainer();
     }
 
     /**

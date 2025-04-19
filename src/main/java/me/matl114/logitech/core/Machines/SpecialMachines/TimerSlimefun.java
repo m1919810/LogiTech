@@ -15,8 +15,8 @@ import me.matl114.logitech.core.Interface.MenuTogglableBlock;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractMachine;
 import me.matl114.logitech.listeners.Listeners.SlimefunBlockPlaceLimitListener;
 import me.matl114.logitech.utils.DataCache;
-import me.matl114.matlib.utils.reflect.FieldAccess;
-import me.matl114.matlib.utils.reflect.MethodAccess;
+import me.matl114.matlib.utils.reflect.wrapper.FieldAccess;
+import me.matl114.matlib.utils.reflect.wrapper.MethodAccess;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -127,7 +127,7 @@ public class TimerSlimefun extends AbstractMachine implements ChunkLimit, MenuTo
     public void process(Block b, BlockMenu inv, SlimefunBlockData data) {
 
     }
-    protected FieldAccess.AccessWithObject<Map<ChunkPosition, Set<Location>>> tickingLocationsAccess=FieldAccess.ofName("tickingLocations").ofAccess(Slimefun.getTickerTask());
+    protected FieldAccess.AccessWithObject<Map<ChunkPosition, Set<Location>>> tickingLocationsAccess= FieldAccess.ofName("tickingLocations").ofAccess(Slimefun.getTickerTask());
     protected MethodAccess reportError= MethodAccess.ofName(TickerTask.class,"reportErrors", Location.class,SlimefunItem.class, Throwable.class);
     protected HashSet<Class> blacklistedMachines=new HashSet<>(){{
         add(TimerSlimefun.class);
