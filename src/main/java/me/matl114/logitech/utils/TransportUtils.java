@@ -6,7 +6,7 @@ import me.matl114.logitech.utils.Algorithms.DynamicArray;
 import me.matl114.logitech.utils.UtilClass.CargoClass.CargoConfigs;
 import me.matl114.logitech.utils.UtilClass.ItemClass.ItemPusher;
 import me.matl114.logitech.utils.UtilClass.ItemClass.ItemPusherProvider;
-import me.matl114.matlib.algorithms.designs.concurrency.lock.DefaultLockFactory;
+import me.matl114.matlib.algorithms.designs.concurrency.DefaultLockFactory;
 import me.matl114.matlib.utils.reflect.proxy.ProxyBuilder;
 import me.matl114.matlib.utils.reflect.proxy.invocation.AdaptorInvocation;
 import me.matl114.matlib.utils.reflect.wrapper.MethodAccess;

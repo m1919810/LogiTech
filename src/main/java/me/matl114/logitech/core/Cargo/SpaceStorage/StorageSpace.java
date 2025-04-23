@@ -6,7 +6,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction
 import me.matl114.logitech.ConfigLoader;
 import me.matl114.logitech.manager.Schedules;
 import me.matl114.logitech.utils.*;
-import me.matl114.matlib.utils.ThreadUtils;
+import me.matl114.matlib.algorithms.algorithm.ExecutorUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -197,7 +197,7 @@ public class StorageSpace {
                             }
                         }
                         if(!depositePairs.isEmpty()||!withdrawPairs.isEmpty()){
-                            FutureTask<Void> task = ThreadUtils.getFutureTask(()->{
+                            FutureTask<Void> task = ExecutorUtils.getFutureTask(()->{
                                 for(Block b1:changedBlocks){
                                     Block b2=depositePairs.get(b1);
                                     Block b3=withdrawPairs.get(b1);
@@ -251,7 +251,7 @@ public class StorageSpace {
             return null;
         }).whenComplete((a,t)->{
             AddUtils.sendMessage(player,"&a空间IO操作执行完毕!空间塔进入冷却...");
-            ThreadUtils.sleep(5*1000);
+            ExecutorUtils.sleep(5*1000);
             synchronized (COUNTER_LOCK){
                 SYNC_THREAD_COUNTER=0;
             }
