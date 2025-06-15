@@ -15,58 +15,58 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.matl114.logitech.Language;
-import me.matl114.logitech.manager.EquipmentFUManager;
 import me.matl114.logitech.MyAddon;
-import me.matl114.logitech.manager.RadiationRegionManager;
-import me.matl114.logitech.manager.Schedules;
-import me.matl114.logitech.utils.UtilClass.EquipClass.EquipmentFU;
-import me.matl114.logitech.utils.UtilClass.ItemClass.ItemGreedyConsumer;
-import me.matl114.logitech.utils.UtilClass.RecipeClass.MultiCraftingOperation;
 import me.matl114.logitech.core.Blocks.*;
 import me.matl114.logitech.core.Blocks.MultiBlock.*;
 import me.matl114.logitech.core.Blocks.MultiBlock.SmithWorkShop.*;
-import me.matl114.logitech.core.Items.Abstracts.*;
-import me.matl114.logitech.core.Items.Equipments.DisplayUseTrimmerLogicLate;
-import me.matl114.logitech.core.Items.Equipments.EquipmentFUItem;
-import me.matl114.logitech.core.Items.SpecialItems.*;
-import me.matl114.logitech.core.Registries.*;
 import me.matl114.logitech.core.Blocks.MultiBlockCore.MultiPart;
 import me.matl114.logitech.core.Cargo.CargoMachine.*;
+import me.matl114.logitech.core.Cargo.Config.ChipCard;
+import me.matl114.logitech.core.Cargo.Config.ChipCardCode;
+import me.matl114.logitech.core.Cargo.Config.ConfigCard;
 import me.matl114.logitech.core.Cargo.SpaceStorage.SpaceStorageCard;
 import me.matl114.logitech.core.Cargo.SpaceStorage.SpaceTower;
 import me.matl114.logitech.core.Cargo.SpaceStorage.SpaceTowerFrame;
 import me.matl114.logitech.core.Cargo.StorageMachines.IOPort;
+import me.matl114.logitech.core.Cargo.StorageMachines.InputPort;
+import me.matl114.logitech.core.Cargo.StorageMachines.OutputPort;
 import me.matl114.logitech.core.Cargo.StorageMachines.Storage;
+import me.matl114.logitech.core.Cargo.TestStorageUnit;
 import me.matl114.logitech.core.Cargo.Transportation.*;
-import me.matl114.logitech.core.Cargo.WorkBench.ChipCopier;
-import me.matl114.logitech.core.Cargo.Config.ChipCard;
-import me.matl114.logitech.core.Cargo.Config.ChipCardCode;
-import me.matl114.logitech.core.Cargo.Config.ConfigCard;
 import me.matl114.logitech.core.Cargo.WorkBench.CargoConfigurator;
 import me.matl114.logitech.core.Cargo.WorkBench.ChipBiConsumer;
 import me.matl114.logitech.core.Cargo.WorkBench.ChipConsumer;
+import me.matl114.logitech.core.Cargo.WorkBench.ChipCopier;
+import me.matl114.logitech.core.Items.Abstracts.*;
+import me.matl114.logitech.core.Items.Equipments.DisplayUseTrimmerLogicLate;
+import me.matl114.logitech.core.Items.Equipments.EquipmentFUItem;
 import me.matl114.logitech.core.Items.Equipments.LaserGun;
 import me.matl114.logitech.core.Items.Equipments.TrackingArrowLauncher;
+import me.matl114.logitech.core.Items.SpecialItems.*;
 import me.matl114.logitech.core.Machines.AutoMachines.*;
 import me.matl114.logitech.core.Machines.Electrics.*;
 import me.matl114.logitech.core.Machines.ManualMachines.*;
 import me.matl114.logitech.core.Machines.SpecialMachines.*;
 import me.matl114.logitech.core.Machines.WorkBenchs.BugCrafter;
-import me.matl114.logitech.core.Cargo.StorageMachines.InputPort;
-import me.matl114.logitech.core.Cargo.StorageMachines.OutputPort;
-import me.matl114.logitech.core.Cargo.TestStorageUnit;
 import me.matl114.logitech.core.Machines.WorkBenchs.EWorkBench;
+import me.matl114.logitech.core.Registries.*;
+import me.matl114.logitech.manager.EquipmentFUManager;
+import me.matl114.logitech.manager.RadiationRegionManager;
+import me.matl114.logitech.manager.Schedules;
 import me.matl114.logitech.utils.*;
 import me.matl114.logitech.utils.Algorithms.PairList;
 import me.matl114.logitech.utils.UtilClass.CommandClass.CommandShell;
+import me.matl114.logitech.utils.UtilClass.EquipClass.EquipmentFU;
 import me.matl114.logitech.utils.UtilClass.FunctionalClass.AsyncResultRunnable;
 import me.matl114.logitech.utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.utils.UtilClass.ItemClass.ItemCounter;
+import me.matl114.logitech.utils.UtilClass.ItemClass.ItemGreedyConsumer;
 import me.matl114.logitech.utils.UtilClass.MenuClass.MenuFactory;
 import me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiBlockService;
-import me.matl114.matlib.implement.slimefun.core.CustomRecipeType;
+import me.matl114.logitech.utils.UtilClass.RecipeClass.MultiCraftingOperation;
 import me.matl114.matlib.algorithms.dataStructures.frames.InitializeSafeProvider;
 import me.matl114.matlib.algorithms.dataStructures.struct.Triplet;
+import me.matl114.matlib.implement.slimefun.core.CustomRecipeType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
@@ -85,15 +85,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.potion.PotionEffectType;
 
-import static io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType.*;
-import static me.matl114.logitech.core.AddGroups.*;
-import static me.matl114.logitech.utils.AddUtils.*;
-
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
+
+import static io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType.*;
+import static me.matl114.logitech.core.AddGroups.*;
+import static me.matl114.logitech.utils.AddUtils.*;
 
 /**
  * register main
@@ -1619,17 +1619,17 @@ public class AddSlimefunItems {
                                 "192QUARTZ",1,
                                 "64MAGMA_BLOCK",1,
                                 "64OBSIDIAN",1,
-                                "64ANCIENT_DEBRIS",1,
-                                "12NETHER_ICE",1)
+                                "32ANCIENT_DEBRIS",1,
+                                "6NETHER_ICE",1)
                 )));
                 put(mkl(AddItem.END_FEAT),mkl(randItemStackFactory(
                         mkMp("8DRAGON_BREATH",2,
                        // "4CHORUS_FLOWER",2,
                                 "16ENDER_EYE",2,
                                 "16ENDER_PEARL",2,
-                                "12BUCKET_OF_OIL",2,
-                                setC(AddItem.STAR_GOLD,20),2,
-                                setC(AddItem.DIMENSIONAL_SHARD,36),2
+                                "6BUCKET_OF_OIL",2,
+                                setC(AddItem.STAR_GOLD,16),2,
+                                setC(AddItem.DIMENSIONAL_SHARD,32),2
                         )
                 )));
             }})
@@ -2821,7 +2821,7 @@ public class AddSlimefunItems {
                     AddItem.HGTLPBBI,setC(AddItem.MASS_CORE,64),setC(AddItem.SPACE_PLATE,8),setC(AddItem.SPACE_PLATE,8),setC(AddItem.MASS_CORE,64),AddItem.PDCECDMD,
                     setC(AddItem.STACKFRAME,64),AddItem.HGTLPBBI,AddItem.HGTLPBBI,AddItem.PDCECDMD,AddItem.PDCECDMD,setC(AddItem.STACKFRAME,64)),1,1_440_000,57_600,
             new PairList<>(){{
-                put(mkl("COBBLESTONE"),mkl("233333COBBLESTONE"));
+                put(mkl("COBBLESTONE"),mkl("666666COBBLESTONE"));
                 put(mkl("NETHERRACK"),mkl("114514NETHERRACK"));
                 put(mkl("END_STONE"),mkl("114514END_STONE"));
                 put(mkl("GRANITE"),mkl("114514GRANITE"));

@@ -1,5 +1,6 @@
 package me.matl114.logitech.core.Cargo;
 
+import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.core.Depends.NetworksQuantumProxyAdapter;
 import me.matl114.logitech.core.Registries.AddDepends;
 import me.matl114.logitech.core.Depends.NetworksQuantumStorageAdapter;
@@ -39,7 +40,7 @@ public class Storages {
         }
     }
     public static final StorageType NTWSTORAGE_PROXY =((Supplier<StorageType>)(()->{
-        if(AddDepends.hasNetwork){
+        if(MyAddon.getInstance().getServer().getPluginManager().isPluginEnabled("Networks")){
             try{
                 return new NetworksQuantumProxyAdapter();
             }catch (Throwable e){
@@ -51,7 +52,7 @@ public class Storages {
     })).get();
     public static final StorageType SINGULARITY_PROXY=new SingularityProxy();
     public static final StorageType NTWSTORAGE_ADAPTOR =((Supplier<StorageType>)(()->{
-        if(AddDepends.hasNetwork){
+        if(MyAddon.getInstance().getServer().getPluginManager().isPluginEnabled("Networks")){
             try{
                 return new NetworksQuantumStorageAdapter();
             }catch (Throwable e){

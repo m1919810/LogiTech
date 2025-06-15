@@ -1319,7 +1319,6 @@ MomoTech:
     type: machine
     energy: 2000
   MOMOTECH_EMPTY_SHELL_GENERATOR:
-    
     recipe:
       '0':
         input:
@@ -1389,7 +1388,13 @@ MomoTech:
         tick: 0
       '14':
         input:
-          '1': 2880ITEM_ALL_MATCH
+          '1':
+            type: eq
+            item:
+              '1': COBBLESTONE
+              '2': MOMOTECH_EMPTY_SHELL
+            weight:
+              '1': 2880
         output:
           '1': 
             type: rp

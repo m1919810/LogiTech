@@ -123,7 +123,7 @@ recipe_modify:
             #这是输出的第二个物品组,他是一个正常的物品
           2: "LOGITECH_NOLOGIC"
         #耗时 粘液刻为单位
-        tick: 200
+        tick: 114514
   #这是一个抽象示例，实际上铜粉不能产任何东西 但是我们可以配置它让他在堆叠机器中产出
   SILVER_DUST:
     mode: "w"
@@ -170,4 +170,4 @@ recipe_modify:
             #这是输出的第二个物品组,他是一个正常的物品
           2: "2LOGITECH_NOLOGIC"
         #耗时 粘液刻为单位
-        tick: 200
+        tick: 1919810
