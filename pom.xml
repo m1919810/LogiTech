@@ -113,7 +113,7 @@
         <dependency>
             <groupId>com.github.SlimefunGuguProject</groupId>
             <artifactId>Slimefun4</artifactId>
-            <version>1b05f95</version>
+            <version>2025.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
