@@ -22,7 +22,7 @@ public class RandOutManulCrafter extends ManualCrafter{
             }
         }
         if(sendMessage){
-            AddUtils.sendMessage(p,"&c输出槽已满!无法合成");
+            AddUtils.sendMessage(p,"&6[&7快捷机器&6]&c 输出槽已满!无法合成");
         }
         return false;
     }

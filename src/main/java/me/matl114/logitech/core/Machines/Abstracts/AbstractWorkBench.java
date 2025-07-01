@@ -2,6 +2,7 @@ package me.matl114.logitech.core.Machines.Abstracts;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -37,6 +38,7 @@ public abstract class AbstractWorkBench extends AbstractMachine {
     protected static final ItemStack LAZY_ONECLICK=new CustomItemStack(Material.KNOWLEDGE_BOOK,"&b使用物品栏中的物品摆放配方","&7左键放入一份配方","&7右键放入64份配方","&a欢呼吧 懒狗们");
     protected static final ItemStack RECIPEBOOK_SHOW_ITEM=new CustomItemStack(Material.BOOK,"&6点击查看配方","","&a而且有一键放置配方的功能","&b欢呼吧 懒狗们");
 
+    protected final ItemSetting<Boolean> checkRecipePermission;
     public AbstractWorkBench(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                             int energybuffer, int energyConsumption,int limit, List<Pair<Object,Integer>> shapedRecipes){
         super(category,item,recipeType,recipe,energybuffer,energyConsumption);
@@ -54,6 +56,7 @@ public abstract class AbstractWorkBench extends AbstractMachine {
         }else{
             machineRecipes = new ArrayList<>();
         }
+        checkRecipePermission = create("check-recipe-permission", false);
 
     }
     public void addInfo(ItemStack item){
@@ -119,7 +122,7 @@ public abstract class AbstractWorkBench extends AbstractMachine {
         if(this.energyConsumption > 0){
             int chargelimit=(charge/this.energyConsumption);
             if(chargelimit==0){
-                AddUtils.sendMessage(player,AddUtils.concat("&c电力不足或条件不足! ",String.valueOf(charge),"J/ ",String.valueOf( this.energyConsumption),"J"));
+                AddUtils.sendMessage(player,AddUtils.concat("&6[&7工作台&6]&c 电力不足或条件不足! ",String.valueOf(charge),"J/ ",String.valueOf( this.energyConsumption),"J"));
                 return;
             }
             limit=Math.min(chargelimit,getCraftLimit(b,inv));
@@ -127,12 +130,23 @@ public abstract class AbstractWorkBench extends AbstractMachine {
             limit=getCraftLimit(b,inv);
         }
         if(limit == 0){
-            AddUtils.sendMessage(player,"&c合成失败,请检查合成条件是否均具备");
+            AddUtils.sendMessage(player,"&6[&7工作台&6]&c 合成失败,请检查合成条件是否均具备");
             return;
         }
+        MachineRecipe recipe = CraftUtils.findNextShapedRecipe(inv,getInputSlots(),getOutputSlots(),getMachineRecipes(),
+            true,Settings.SEQUNTIAL,CRAFT_PROVIDER);
+        if(recipe == null){
+            AddUtils.sendMessage(player,"&6[&7工作台&6]&c 合成失败,这不是一个有效的配方");
+            return;
+        }
+        if (this.checkRecipePermission.getValue() && CraftUtils.checkRecipePermission(player, recipe, true)) {
+            return;
+        }
+        //use the directly recipe to perform craft; do not use history indexs
+        //indexes are set above
         Pair<MachineRecipe, ItemGreedyConsumer[]> outputResult=
-                CraftUtils.findNextShapedRecipe(inv,getInputSlots(),getOutputSlots(),getMachineRecipes(),
-                        limit,true,Settings.SEQUNTIAL,CRAFT_PROVIDER);
+                CraftUtils.matchShapedRecipe(inv,getInputSlots(),getOutputSlots(),List.of(recipe),
+                        limit,false,Settings.SEQUNTIAL,CRAFT_PROVIDER);
         if(outputResult != null){
             if(this.energyConsumption > 0){
                 int craftTime=outputResult.getSecondValue()[0].getStackNum();

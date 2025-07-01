@@ -149,7 +149,7 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
 
             }
             menu.addMenuClickHandler(CTIME_SLOT,((player, i, itemStack, clickAction) -> {
-                AddUtils.sendMessage(player,"&6[&7自动无尽工作台&6]&a 请输入自定义的进度时长(单位:sf tick)&e(必须>=%s)".formatted(String.valueOf(publicTime)));
+                AddUtils.sendMessage(player,"&6[&7自动配方工作台&6]&a 请输入自定义的进度时长(单位:sf tick)&e(必须>=%s)".formatted(String.valueOf(publicTime)));
                 player.closeInventory();
                 AddUtils.asyncWaitPlayerInput(player,(str)->{
                     try{
@@ -157,9 +157,9 @@ public class AdvanceRecipeCrafter extends AbstractAdvancedProcessor implements R
                         Preconditions.checkArgument(a>=this.publicTime);
                         DataCache.setCustomData(menu.getLocation(),KEY_CTIME,a);
                         menu.replaceExistingItem(CTIME_SLOT,AddUtils.addLore(CTIME_ITEM,"&c当前的自定义进度时长为: &f%s".formatted(String.valueOf(a))));
-                        AddUtils.sendMessage(player,"&6[&7自动无尽工作台&6]&a 成功设置!");
+                        AddUtils.sendMessage(player,"&6[&7自动配方工作台&6]&a 成功设置!");
                     }catch (Throwable e){
-                        AddUtils.sendMessage(player,"&6[&7自动无尽工作台&6]&c 这不是有效的进度时常&e(必须>=%s)".formatted(String.valueOf(this.publicTime)));
+                        AddUtils.sendMessage(player,"&6[&7自动配方工作台&6]&c 这不是有效的进度时常&e(必须>=%s)".formatted(String.valueOf(this.publicTime)));
                     }
                 });
                 return false;

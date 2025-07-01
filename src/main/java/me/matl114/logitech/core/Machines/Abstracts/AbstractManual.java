@@ -2,6 +2,7 @@ package me.matl114.logitech.core.Machines.Abstracts;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
@@ -88,6 +89,7 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
     public final  int energybuffer;
     public final int energyConsumption;
     public final EnergyNetComponentType energyNetComponent;
+    protected final ItemSetting<Boolean> considerPermission;
     public AbstractManual(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
                                 int energybuffer, int energyConsumption,
                           List<Pair<Object,Integer>> customRecipes){
@@ -118,6 +120,7 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
                 FinalFeature.MANUAL_CARD_INFO,
                 null
         ));
+        this.considerPermission = create("check-recipe-permission", false);
 
     }
     public void addInfo(ItemStack item){
@@ -130,6 +133,9 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
         return getMachineRecipes().get(getNowRecordRecipe(loc));
     }
     public MachineRecipe getRecordRecipe(SlimefunBlockData data){return getMachineRecipes().get(getNowRecordRecipe(data));}
+
+
+
     public void constructMenu(BlockMenuPreset preset){
 //        preset.addItem(30,PREV);
 //        preset.addItem(32,NEXT);
@@ -290,6 +296,8 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
     public boolean preCraft(BlockMenu inv, Player player, boolean sendMessage){
         return true;
     }
+
+
     public void craft(Player player,BlockMenu inv,int limit){
         if(preCraft(inv,player,true)){
             Location  loc=inv.getLocation();
@@ -300,6 +308,11 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
                 return;
             }
             MachineRecipe recordRecipe=mRecipe.get(recordIndex);
+
+            if(this.considerPermission.getValue() && CraftUtils.checkRecipePermission(player, recordRecipe, true)){
+                return;
+            }
+
             //计算电力
 
             Pair<ItemGreedyConsumer[],ItemGreedyConsumer[]> results=

@@ -3,6 +3,7 @@ package me.matl114.logitech.utils;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.annotation.Nonnull;
+import java.nio.charset.StandardCharsets;
 
 public class MathUtils {
     static final char[] digits = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -137,7 +138,7 @@ public class MathUtils {
         byte[] buf;
         buf = new byte[chars];
         formatUnsignedInt(num, 1, buf, chars);
-        return new String(buf, (byte)0);
+        return new String(buf, StandardCharsets.UTF_8);
     }
     public static int fromBinaryCode(String code){
         /**
