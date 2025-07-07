@@ -147,7 +147,7 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType, 
         menu.addMenuClickHandler(PREV_SLOT,
                 (player, i, itemStack, clickAction)->{
                     if( getNowRecordRecipe(menu.getLocation())!=-1){
-                        orderSearchRecipe(menu, Settings.REVERSE);
+                        orderSearchRecipe(menu, Settings.REVERSE, true);
                         MultiBlockManual.this.updateMenu(menu,block,Settings.RUN);
                     }return false;
                 }
@@ -156,7 +156,7 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType, 
 
                 (player, i, itemStack, clickAction)->{
                     if(getNowRecordRecipe(menu.getLocation())!=-1){
-                        orderSearchRecipe(menu,Settings.SEQUNTIAL);
+                        orderSearchRecipe(menu,Settings.SEQUNTIAL, true);
                         MultiBlockManual.this.updateMenu(menu,block,Settings.RUN);
 
                     }return false;
@@ -223,7 +223,7 @@ public class MultiBlockManual extends AbstractManual implements MultiCraftType, 
     public void updateMenu(BlockMenu inv,Block block,Settings mod){
         if(mod==Settings.INIT){
             parseRecipe(inv);
-            orderSearchRecipe(inv,Settings.SEQUNTIAL);
+            orderSearchRecipe(inv,Settings.SEQUNTIAL, true);
         }else {
             if(parseRecipe(inv)){
                 Location  loc=inv.getLocation();

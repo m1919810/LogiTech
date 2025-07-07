@@ -1053,6 +1053,36 @@ public class CraftUtils {
         return  matchNextRecipe(inv,slots,recipes,useHistory,order,getpusher);
     }
     public static MachineRecipe matchNextRecipe(BlockMenu inv ,int[] slots,List<MachineRecipe> recipes,boolean useHistory,Settings order,ItemPusherProvider pusher){
+
+        //final ArrayList<ItemPusher> slotCounter=new ArrayList<>(len);
+        int __index=0;
+        //if usehistory ,will suggest a better place to start
+        if(useHistory) {
+            __index= DataCache.getLastRecipe(inv.getLocation());
+        }
+        int selectIndex = matchNextRecipe(inv, slots, recipes, __index, order, pusher);
+        if(selectIndex < 0 || selectIndex >= recipes.size()){
+            return null;
+        }
+        if(useHistory){
+            DataCache.setLastRecipe(inv.getLocation(), selectIndex);
+        }
+        return recipes.get(selectIndex);
+    }
+
+    public static int matchNextRecipe(BlockMenu inv, int[] slots, List<MachineRecipe> recipes, int historyIndex, Settings order, ItemPusherProvider pusher){
+        int recipeAmount=recipes.size();
+        if(recipeAmount<=0){
+            return -1;
+        }
+        int __index=0;
+        //if usehistory ,will suggest a better place to start
+        if(historyIndex < 0 || historyIndex >= recipeAmount){
+            __index = 0;
+        }else {
+            __index = historyIndex;
+        }
+        int __iter=__index;
         int delta;
         switch(order){
             case REVERSE:delta=-1;break;
@@ -1060,26 +1090,10 @@ public class CraftUtils {
             default: delta=1;break;
         }
         int len = slots.length;
-        //final ArrayList<ItemPusher> slotCounter=new ArrayList<>(len);
         final DynamicArray<ItemPusher> slotCounter=new DynamicArray<>(ItemPusher[]::new,len,pusher.getMenuInstance(Settings.INPUT,inv,slots));
-        int recipeAmount=recipes.size();
-        if(recipeAmount<=0){
-            return null;
-        }
-        int __index=0;
-        //if usehistory ,will suggest a better place to start
-        if(useHistory) {
-            __index= DataCache.getLastRecipe(inv.getLocation());
-            __index=(__index<0)?0:__index;
-            __index=(__index>=recipeAmount)?(recipeAmount-1):__index;
-        }
-        int __iter=__index;
         MachineRecipe checkRecipe=recipes.get(__iter);
         if(matchRecipe(slotCounter,checkRecipe)!=null) {
-            if(useHistory) {
-                DataCache.setLastRecipe(inv.getLocation(),__iter);
-            }
-            return checkRecipe;
+            return __iter;
 
         }
         __iter+=delta;
@@ -1087,10 +1101,7 @@ public class CraftUtils {
             checkRecipe=recipes.get(__iter);
             if(matchRecipe(slotCounter,checkRecipe)!=null) {
 
-                if(useHistory) {
-                    DataCache.setLastRecipe(inv.getLocation(),__iter);
-                }
-                return checkRecipe;
+               return __iter;
             }
         }
         if(__iter<0){
@@ -1101,14 +1112,13 @@ public class CraftUtils {
         for(;__iter!=__index;__iter+=delta) {
             checkRecipe=recipes.get(__iter);
             if(matchRecipe(slotCounter,checkRecipe)!=null) {
-                if(useHistory) {
-                    DataCache.setLastRecipe(inv.getLocation(),__iter);
-                }
-                return checkRecipe;
+                return __iter;
             }
         }
-        return null;
+        return -1;
     }
+
+
     public static List<Integer> matchAllRecipe(BlockMenu inv ,int[] slots,List<MachineRecipe> recipes,ItemPusherProvider pusher,int matchAmount){
         int delta=1;
         int len = slots.length;

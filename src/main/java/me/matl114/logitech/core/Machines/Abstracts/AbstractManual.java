@@ -149,7 +149,7 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
     }
     public void updateMenu(BlockMenu inv,Block block,Settings mod){
         if(mod==Settings.INIT){
-            orderSearchRecipe(inv,Settings.SEQUNTIAL);
+            orderSearchRecipe(inv,Settings.SEQUNTIAL, true);
         }else{
             Location  loc=inv.getLocation();
             MachineRecipe getRecipe=CraftUtils.matchNextRecipe(inv,getInputSlots(),getMachineRecipes(block,inv),true,Settings.SEQUNTIAL,CRAFT_PROVIDER);
@@ -161,15 +161,13 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
         int index= DataCache.getLastRecipe(loc);
         int indexRecord=getNowRecordRecipe(loc);
         if(index!=-1){
-            if(index!=indexRecord||mod==Settings.INIT) {
+            if(index!=indexRecord || mod==Settings.INIT) {
                 setNowRecordRecipe(loc,index);
             }
-            orderSearchRecipe(inv,Settings.SEQUNTIAL);
-            int nextIndex=DataCache.getLastRecipe(loc);
-            DataCache.setLastRecipe(loc,index);
-            orderSearchRecipe(inv,Settings.REVERSE);
-            int prevIndex=DataCache.getLastRecipe(loc);
-            DataCache.setLastRecipe(loc,index);
+
+            int nextIndex = orderSearchRecipeFrom(inv,Settings.SEQUNTIAL, index, false);
+            int prevIndex = orderSearchRecipeFrom(inv,Settings.REVERSE, index , false);
+//            DataCache.setLastRecipe(loc,index);
             var rps=getMachineRecipes(block,inv);
             MachineRecipe getRecipe=rps.get(index);
             inv.replaceExistingItem(MID_SLOT, getMiddleItem(getRecipe.getOutput()[0],index));
@@ -200,7 +198,7 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
         menu.addMenuClickHandler(PREV_SLOT,
                 (player, i, itemStack, clickAction)->{
                     if(getNowRecordRecipe(menu.getLocation())!=-1){
-                    orderSearchRecipe(menu,Settings.REVERSE);
+                    orderSearchRecipe(menu,Settings.REVERSE, true);
                     AbstractManual.this.updateMenu(menu,block,Settings.RUN);
                     }return false;
                 }
@@ -210,7 +208,7 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
                 (player, i, itemStack, clickAction)->{
                     if(getNowRecordRecipe(menu.getLocation())!=-1){
 
-                    orderSearchRecipe(menu,Settings.SEQUNTIAL);
+                    orderSearchRecipe(menu,Settings.SEQUNTIAL, true);
                     AbstractManual.this.updateMenu(menu,block,Settings.RUN);
 
                     }return false;
@@ -264,34 +262,36 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
         updateMenu(menu,block,Settings.INIT);
     }
 
-    public void orderSearchRecipe(BlockMenu inv, Settings order){
+    public int orderSearchRecipe(BlockMenu inv, Settings order, boolean setHistory){
+        if(inv == null)return-1;
+        return orderSearchRecipeFrom(inv, order, DataCache.getLastRecipe(inv.getLocation()), setHistory);
+    }
+    public int orderSearchRecipeFrom(BlockMenu inv, Settings order, int index, boolean setHistory){
         if(inv!=null){
-            int delta;
-            switch (order){
-                case REVERSE:delta=-1;break;
-                case SEQUNTIAL:
-                default: delta=1;break;
+            if(index < 0){
+                return -1;
             }
-
-            Location  loc=inv.getLocation();
-            int index= DataCache.getLastRecipe(loc);
-            if(index<0){
-                return;
-            }
+            int delta = switch (order) {
+                case REVERSE -> -1;
+                default -> 1;
+            };
             List<MachineRecipe> mRecipe=getMachineRecipes(null,inv);
-            if(mRecipe==null)return;
+            if(mRecipe==null)return -1;
             index=index+delta;
-            if(index<0){
-                index=mRecipe.size()-1;
+            if(index < 0){
+                index = mRecipe.size()-1;
             }
-            else if(index>=mRecipe.size()){
-                index=0;
+            else if(index >= mRecipe.size()){
+                index = 0;
             }
-            DataCache.setLastRecipe(loc,index);
-            if(CraftUtils.matchNextRecipe(inv,getInputSlots(),mRecipe,true,order,CRAFT_PROVIDER)==null){
-                DataCache.setLastRecipe(loc,-1);
+            int selected = CraftUtils.matchNextRecipe(inv,getInputSlots(),mRecipe,index,order,CRAFT_PROVIDER);
+            if(setHistory){
+                Location  loc=inv.getLocation();
+                DataCache.setLastRecipe(loc,selected);
             }
+            return Math.min(selected, mRecipe.size() -1);
         }
+        return -1;
     }
     public boolean preCraft(BlockMenu inv, Player player, boolean sendMessage){
         return true;
