@@ -316,19 +316,19 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
     }
     public void progressorCost(Block b, BlockMenu inv){
         DataMenuClickHandler dh=getDataHolder(b,inv);
-        int charge=dh.getInt(1);
-        int machineCnt=dh.getInt(0);
-        int consumption=Math.min(charge*machineCnt ,this.energybuffer);
+        long charge=dh.getInt(1);
+        long machineCnt=dh.getInt(0);
+        int consumption=(int) Math.min(charge*machineCnt ,this.energybuffer);
         this.removeCharge(inv.getLocation(),consumption);
     }
     public final int getCraftLimit(Block b,BlockMenu inv){
-        return (this.efficiency*getDataHolder(b,inv).getInt(0));
+        return MathUtils.clamp((int)(this.efficiency*getDataHolder(b,inv).getInt(0)), 0, Integer.MAX_VALUE);
     }
     public List<MachineRecipe> getMachineRecipes(Block b, BlockMenu inv){
         return getMachineRecipes(DataCache.safeLoadBlock(inv.getLocation()));
     }
     public List<MachineRecipe> getMachineRecipes(SlimefunBlockData data){
-        int index= MultiCraftType.getRecipeTypeIndex(data);
+        int index = MultiCraftType.getRecipeTypeIndex(data);
         if(index>=0&&index<getListSize()){
             List<MachineRecipe> lst= RecipeSupporter.MACHINE_RECIPELIST.get(getMachineList().get(index ));
             return lst!=null?lst:new ArrayList<>();
@@ -350,9 +350,9 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
         int index=MultiCraftType.getRecipeTypeIndex(data);
         if(index>=0&&index<getListSize()){//有效机器
             DataMenuClickHandler db=this.getDataHolder(b,inv);
-            int charge=db.getInt(1);
-            int rawCraftLimit=db.getInt(0);
-            int consumption=Math.min(rawCraftLimit*charge,this.energybuffer);
+            long charge=db.getInt(1);
+            long rawCraftLimit=db.getInt(0);
+            int consumption= (int) Math.min(rawCraftLimit*charge,this.energybuffer);
             int energy=this.getCharge(inv.getLocation(),data);
             int tick=db.getInt(2);
             if(energy>=consumption){
@@ -361,7 +361,7 @@ public class StackMGenerator extends MMGenerator implements MultiCraftType, Impo
                         inv.replaceExistingItem(this.PROCESSOR_SLOT,getWorkingItem(tick));
                     }
                     inv.replaceExistingItem(MINFO_SLOT,getInfoItem(getCraftLimit(b,inv),consumption,energy,
-                            this.efficiency,CraftUtils.getItemName(this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT).getItem())));
+                            this.efficiency ,CraftUtils.getItemName(this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT).getItem())));
                 }
                 progressorCost(b,inv);
                 if(tick<=0){

@@ -37,6 +37,7 @@ import me.matl114.logitech.core.Cargo.WorkBench.CargoConfigurator;
 import me.matl114.logitech.core.Cargo.WorkBench.ChipBiConsumer;
 import me.matl114.logitech.core.Cargo.WorkBench.ChipConsumer;
 import me.matl114.logitech.core.Cargo.WorkBench.ChipCopier;
+import me.matl114.logitech.core.Interface.LogiTechExperimental;
 import me.matl114.logitech.core.Items.Abstracts.*;
 import me.matl114.logitech.core.Items.Equipments.DisplayUseTrimmerLogicLate;
 import me.matl114.logitech.core.Items.Equipments.EquipmentFUItem;
@@ -874,7 +875,7 @@ public class AddSlimefunItems {
             .register();
     public static final  SlimefunItem ENERGY_STORAGE_IO=new EnergyIOStorage(ENERGY, AddItem.ENERGY_STORAGE_IO,ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.ABSTRACT_INGOT,"MEDIUM_CAPACITOR",AddItem.ABSTRACT_INGOT,AddItem.NOLOGIC,AddItem.ENERGY_STORAGE_NONE,AddItem.NOLOGIC,
-                    AddItem.ABSTRACT_INGOT,"MEDIUM_CAPACITOR",AddItem.ABSTRACT_INGOT),2_000_000)
+                    AddItem.ABSTRACT_INGOT,"MEDIUM_CAPACITOR",AddItem.ABSTRACT_INGOT),1_000_000_000)
             .register();
 
     public static final  SlimefunItem ADJ_COLLECTOR=new AdjacentEnergyCollector(ENERGY, AddItem.ADJ_COLLECTOR,ENHANCED_CRAFTING_TABLE,
@@ -1696,9 +1697,9 @@ public class AddSlimefunItems {
             .register();
 
 
-    //TODO register recips
-    //TODO 平衡性调整
-    //TODO 虚拟世界 等生成器 有了
+    //register recips
+    //平衡性调整
+    //虚拟世界 等生成器 有了
     //发电机 123
     //更多的智能货运
     //垃圾提 ok
@@ -1716,6 +1717,8 @@ public class AddSlimefunItems {
     //终极机器 逆机器
     //,物质重构机，小型多方块结构 射线 出逻辑核心
     //最终发展路线 。快捷->圆石生成器->逻辑核心->概念同化体->终极堆叠,逆机器
+
+
 
     //multiblock
     public static final SlimefunItem PORTAL_CORE=new PortalCore(SPACE,AddItem.PORTAL_CORE,COMMON_TYPE,
@@ -2046,7 +2049,7 @@ public class AddSlimefunItems {
                     setC(AddItem.LSINGULARITY,6),AddItem.DIMENSIONAL_SINGULARITY,AddItem.PDCECDMD,AddItem.PDCECDMD,AddItem.DIMENSIONAL_SINGULARITY,setC(AddItem.LSINGULARITY,6)),0,0)
             .register();
 
-    public static final  SlimefunItem TIMER_SF=new TimerSlimefun(FUNCTIONAL, AddItem.TIMER_SF,NULL,
+    public static final  SlimefunItem TIMER_SF=new TimerSlimefun(EXPERIMENTAL, AddItem.TIMER_SF,NULL,
             formatInfoRecipe(AddItem.TMP1,Language.get("Tmp.TMP1.Name")),0,0)
             .register();
 //    public static final  SlimefunItem TIMER_SF_SEQ=new TimerSequentialSlimefun(ADVANCED, AddItem.TIMER_SF_SEQ,NULL,
@@ -2872,10 +2875,10 @@ public class AddSlimefunItems {
                     setC(AddItem.SPACE_PLATE,8),setC(AddItem.SPACE_PLATE,8),AddItem.FINAL_FRAME,AddItem.FINAL_FRAME,setC(AddItem.SPACE_PLATE,8),setC(AddItem.SPACE_PLATE,8)), 200_000_000,25_000_000)
             .register();
     public static final  SlimefunItem FINAL_STACKMACHINE=new FinalStackMachine(BEYOND, AddItem.FINAL_STACKMACHINE,NULL,
-            formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")), Material.NETHERITE_PICKAXE,100,400_000_000,16)
+            formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")), Material.NETHERITE_PICKAXE,100,2_000_000_000,16)
             .register();
     public static final SlimefunItem FINAL_STACKMGENERATOR=new FinalStackMGenerator(BEYOND, AddItem.FINAL_STACKMGENERATOR,NULL,
-            formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),1,400_000_000,100,
+            formatInfoRecipe(AddItem.ENDFRAME_MACHINE,Language.get("Machines.ENDFRAME_MACHINE.Name")),1,2_000_000_000,100,
             16)
             .register();
     //stack machine maker
@@ -2960,7 +2963,7 @@ public class AddSlimefunItems {
             .register();
     public static final  SlimefunItem CUSTOM_CHARGER=new SmithInterfaceCharger(TOOLS_FUNCTIONAL, AddItem.CUSTOM_CHARGER,ENHANCED_CRAFTING_TABLE,
             recipe("ENERGIZED_CAPACITOR",AddItem.TECH_CORE,"ENERGIZED_CAPACITOR","CHARGING_BENCH",AddItem.SMITH_INTERFACE_NONE,"CHARGING_BENCH",
-                    AddItem.LINE_CHARGER_PLUS,AddItem.ENERGY_PIPE_PLUS,AddItem.LINE_CHARGER_PLUS), 64_000_000,4000)
+                    AddItem.LINE_CHARGER_PLUS,AddItem.ENERGY_PIPE_PLUS,AddItem.LINE_CHARGER_PLUS), 640_000_000,20_000, 200, 3.0D)
             .register();
     public static final SlimefunItem FU_BASE=new MaterialItem(TOOLS_FUNCTIONAL,AddItem.FU_BASE,ENHANCED_CRAFTING_TABLE,
             recipe(AddItem.ABSTRACT_INGOT,AddItem.LPLATE,AddItem.ABSTRACT_INGOT,AddItem.LPLATE,AddItem.TECH_CORE,AddItem.LPLATE,
@@ -3047,6 +3050,123 @@ public class AddSlimefunItems {
 
 
 
+    //experimentals
+    public static final SlimefunItem FINAL_SPECIAL_CRAFTER = new SpecialTypeCrafter(EXPERIMENTAL, AddItem.FINAL_SPECIAL_CRAFTER, NULL, NULL_RECIPE.clone(), Material.NETHER_STAR,0,1200,2_000_000,new HashSet<>(){{
+        if(AddDepends.INFINITYWORKBENCH_TYPE!=null)
+            add(AddDepends.INFINITYWORKBENCH_TYPE);
+        if(AddDepends.VOIDHARVEST!=null)
+            add(AddDepends.VOIDHARVEST);
+    }}){
+        static int[] INPUT_SLOT = {
+            0,1, 2,9,10,11,18,19,20,27,28, 29,36,37, 38,45,46, 47
+        };
+        static int[] OUTPUT_SLOT = {
+           6, 7,8,15,16,17,24,25,26,33, 34,35,42, 43,44,51, 52,53
+        };
+        static int[] BORDER_SLOT = {};
+        public int[] getInputSlots(){
+            return INPUT_SLOT;
+        }
+
+        public int[] getOutputSlots(){
+            return OUTPUT_SLOT;
+        }
+
+        public int[] getBorderSlot(){
+            return BORDER_SLOT;
+        }
+        public boolean canUse(Player player, boolean sendMessage){
+            if(!super.canUse(player, sendMessage)){
+                return false;
+            }
+            return LogiTechExperimental.checkUsePermission(player, sendMessage);
+        }
+        {
+            MACHINE_PROVIDER = FinalFeature.STORAGE_READER;
+            CRAFT_PROVIDER = FinalFeature.STORAGE_AND_LOCPROXY_READER;
+        }
+    }
+        .register();
+
+    public static final SlimefunItem FINAL_MULTIBLOCK_MANUAL=new MultiBlockManual(EXPERIMENTAL,AddItem.FINAL_MULTIBLOCK_MANUAL,NULL,
+        NULL_RECIPE.clone(),0,0,null){
+        {
+            CRAFT_PROVIDER = FinalFeature.STORAGE_AND_LOCPROXY_READER;
+        }
+        private static int TOGGLE_AUTO_SLOT = 46;
+        private static ItemStack INFO_AUTO_ON = new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, "&3切换自动合成","&6当前状态: &a启用","&6每刻&b合成 &d64次 &b当前物品", "&c测试功能,谨慎使用");
+        private static ItemStack INFO_AUTO_OFF = new CustomItemStack(Material.RED_STAINED_GLASS_PANE, "&3切换自动合成","&6当前状态: &c禁用","&6每刻&b合成 &d64次 &b当前物品", "&c测试功能,谨慎使用");
+        public boolean isAutoCraft(BlockMenu inv){
+            ItemStack item = inv.getItemInSlot(TOGGLE_AUTO_SLOT);
+            if(item == null || item.getType() != Material.GREEN_STAINED_GLASS_PANE){
+                return false;
+            }
+            return true;
+        }
+        public void process(Block b, BlockMenu inv, SlimefunBlockData data){
+            super.process(b, inv, data);
+            if(isAutoCraft(inv)){
+                Location  loc=inv.getLocation();
+                int recordIndex=getNowRecordRecipe(loc);
+                List<MachineRecipe> mRecipe=getMachineRecipes(null,inv);
+                //没有匹配配方会直接返回失败
+                if(recordIndex<0||recordIndex>=mRecipe.size()){
+                    return;
+                }
+                MachineRecipe recordRecipe=mRecipe.get(recordIndex);
+                int limit = 64;
+                doCraft(inv, limit, recordRecipe);
+            }
+        }
+
+        @Override
+        public void newMenuInstance(BlockMenu menu, Block block) {
+            super.newMenuInstance(menu, block);
+            ItemStack stack = menu.getItemInSlot(TOGGLE_AUTO_SLOT);
+            if(stack == null || (stack.getType() != Material.GREEN_STAINED_GLASS_PANE && stack.getType() !=  Material.RED_STAINED_GLASS_PANE)){
+                menu.replaceExistingItem(TOGGLE_AUTO_SLOT, INFO_AUTO_OFF);
+            }
+            menu.addMenuClickHandler(TOGGLE_AUTO_SLOT, ((player, i, itemStack, clickAction) -> {
+                if(isAutoCraft(menu)){
+                    menu.replaceExistingItem(TOGGLE_AUTO_SLOT, INFO_AUTO_OFF);
+                }else{
+                    menu.replaceExistingItem(TOGGLE_AUTO_SLOT, INFO_AUTO_ON);
+                }
+                return false;
+            }));
+        }
+        public boolean canUse(Player player, boolean sendMessage){
+            if(!super.canUse(player, sendMessage)){
+                return false;
+            }
+            return LogiTechExperimental.checkUsePermission(player, sendMessage);
+        }
+    }
+        .register();
+
+    public static final SlimefunItem QUANTUM_STACKMACHINE = new FinalStackMachine(EXPERIMENTAL, AddItem.QUANTUM_STACKMACHINE,NULL,
+        NULL_RECIPE.clone(), Material.NETHERITE_PICKAXE,100,80_000_000,2){
+        public boolean canUse(Player player, boolean sendMessage){
+            if(!super.canUse(player, sendMessage)){
+                return false;
+            }
+            return LogiTechExperimental.checkUsePermission(player, sendMessage);
+        }
+    }
+        .register();
+    public static final SlimefunItem QUANTUM_STACKMGENERATOR = new FinalStackMGenerator(EXPERIMENTAL, AddItem.QUANTUM_STACKMGENERATOR,NULL,
+        NULL_RECIPE.clone(),1,80_000_000,100,
+        2){
+        public boolean canUse(Player player, boolean sendMessage){
+            if(!super.canUse(player, sendMessage)){
+                return false;
+            }
+            return LogiTechExperimental.checkUsePermission(player, sendMessage);
+        }
+    }
+        .register();
+
+
     public static final SlimefunItem TMP1=new MaterialItem(FUNCTIONAL,AddItem.TMP1,NULL,
             NULL_RECIPE.clone())
             .register();
@@ -3062,7 +3182,8 @@ public class AddSlimefunItems {
     }
             .register();
 
-
+    //TODO 大型配方快捷机器 可切换型
+    //TODO 远程充电机
 
     public static final SlimefunItem TESTUNIT1=register(new TestStorageUnit(FUNCTIONAL, AddItem.TESTUNIT1,NULL,NULL_RECIPE,0,0));
 

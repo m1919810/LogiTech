@@ -104,6 +104,8 @@ public class AddItem {
             get("Groups.ENERGY.Name"),getList("Groups.ENERGY.Lore"));
     public static final ItemStack FUNCTIONAL=themed(Material.STRUCTURE_VOID, Theme.CATEGORY2,
             get("Groups.FUNCTIONAL.Name"),getList("Groups.FUNCTIONAL.Lore"));
+    public static final ItemStack EXPERIMENTAL = themed(Material.STRUCTURE_VOID, Theme.CATEGORY2,
+            get("Groups.EXPERIMENTAL.Name"),getList("Groups.EXPERIMENTAL.Lore"));
     public static final ItemStack UPDATELOG=themed(Material.WRITABLE_BOOK,Theme.NONE,
             get("Groups.UPDATELOG.Name"), getList("Groups.UPDATELOG.Lore"));
     public static final ItemStack MORE2=themed("MORE2",Material.WRITABLE_BOOK, Theme.NONE,
@@ -306,7 +308,8 @@ public class AddItem {
         item.setType(Material.NETHERITE_PICKAXE);
         ItemMeta meta = item.getItemMeta();
         meta.setUnbreakable(true);
-        meta.addEnchant(VersionedRegistry.enchantment("efficiency"),10,true );
+        meta.addEnchant(VersionedRegistry.enchantment("efficiency"),30,true );
+        meta.addEnchant(VersionedRegistry.enchantment("fortune"),20,true );
         meta.setLore(List.of(DEFAULT_COLOR+"超级钴镐"));
         item.setItemMeta(meta);
         return item;
@@ -377,6 +380,8 @@ public class AddItem {
             get("Machines.SEQ_CONSTRUCTOR.Name"),getList("Machines.SEQ_CONSTRUCTOR.Lore"));
     public static final SlimefunItemStack STACKMACHINE=themed("STACKMACHINE",Material.FURNACE,Theme.MACHINE1,
             get("Machines.STACKMACHINE.Name"),getList("Machines.STACKMACHINE.Lore"));
+    public static final SlimefunItemStack QUANTUM_STACKMACHINE=themed("QUANTUM_STACKMACHINE",Material.FURNACE,Theme.MACHINE1,
+        get("Machines.QUANTUM_STACKMACHINE.Name"),getList("Machines.QUANTUM_STACKMACHINE.Lore"));
     public static final SlimefunItemStack ENERGY_TRASH=themed("ENERGY_TRASH", SlimefunItems.PORTABLE_DUSTBIN.getItem().getItem().clone()
             ,Theme.MACHINE1, get("Machines.ENERGY_TRASH.Name"),getList("Machines.ENERGY_TRASH.Lore"));
     public static final SlimefunItemStack OPPO_GEN=themed("OPPO_GEN",CustomHead.HOT_MACHINE.getItem(), Theme.MACHINE1,
@@ -576,6 +581,8 @@ public class AddItem {
             get("Items.BNOISE_HEAD.Name"), getList("Items.BNOISE_HEAD.Lore"));
     public static final SlimefunItemStack STACKMGENERATOR=themed("STACKMGENERATOR",Material.SMOOTH_STONE,Theme.MACHINE2,
             get("Generators.STACKMGENERATOR.Name"),getList("Generators.STACKMGENERATOR.Lore"));
+    public static final SlimefunItemStack QUANTUM_STACKMGENERATOR=themed("QUANTUM_STACKMGENERATOR",Material.SMOOTH_STONE,Theme.MACHINE2,
+        get("Generators.QUANTUM_STACKMGENERATOR.Name"),getList("Generators.QUANTUM_STACKMGENERATOR.Lore"));
     public static final SlimefunItemStack REVERSE_GENERATOR=themed("REVERSE_GENERATOR",CustomHead.REVERSE.getItem(), Theme.MACHINE2,
             get("Generators.REVERSE_GENERATOR.Name"),getList("Generators.REVERSE_GENERATOR.Lore"));
     public static final SlimefunItemStack VIRTUAL_MINER=themed("VIRTUAL_MINER",Material.CHERRY_WOOD,Theme.MACHINE2,
@@ -722,6 +729,13 @@ public class AddItem {
     public static final SlimefunItemStack AUTO_INF=
             themed("AUTOCRAFT_INF",new ItemStack(Material.RESPAWN_ANCHOR),Theme.MANUAL1,"测试定向合成机","无尽工作台");
 
+    //experimental items
+    public static final SlimefunItemStack FINAL_SPECIAL_CRAFTER=themed("FINAL_SPECIAL_CRAFTER",Material.LOOM,Theme.MACHINE1,
+        get("Experimental.FINAL_SPECIAL_CRAFTER.Name"),getList("Experimental.FINAL_SPECIAL_CRAFTER.Lore"));
+
+    public static final SlimefunItemStack FINAL_MULTIBLOCK_MANUAL=themed("FINAL_MULTIBLOCK_MANUAL",Material.BRICKS,Theme.MANUAL1,
+        get("Experimental.FINAL_MULTIBLOCK_MANUAL.Name"),getList("Experimental.FINAL_MULTIBLOCK_MANUAL.Lore"));
+
 //    public static final SlimefunItemStack INPORT=
 //            themed("INPORT",new ItemStack(Material.END_STONE),Theme.CARGO1,"存入接口","较快的将物品存入奇点...");
 //    public static final SlimefunItemStack OUTPORT=
@@ -803,5 +817,6 @@ public class AddItem {
         add(CONFIGURE);
         add(TOOLS);
         add(MULTIBLOCKBUILDER);
+        add(FINAL_MULTIBLOCK_MANUAL);
     }};
 }

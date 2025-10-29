@@ -118,11 +118,17 @@ public abstract class SpecialCrafter extends AbstractAdvancedProcessor implement
     public int[] getOutputSlots(){
         return OUTPUT_SLOT;
     }
+
+    public int[] getBorderSlot(){
+        return BORDER_SLOT;
+    }
+
+
     public void constructMenu(BlockMenuPreset preset) {
         //空白背景 禁止点击
 
         //输入槽边框
-        int[] border = BORDER_SLOT;
+        int[] border = getBorderSlot();
         int len = border.length;
         for(int var4 = 0; var4 <len; ++var4) {
             preset.addItem(border[var4], ChestMenuUtils.getInputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());

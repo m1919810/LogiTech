@@ -248,13 +248,13 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
     }
 
     public final int getCraftLimit(Block b,BlockMenu inv){
-       return (int)(this.efficiency*getDataHolder(b,inv).getInt(0));
+       return MathUtils.clamp((int)(this.efficiency*getDataHolder(b,inv).getInt(0)), 0, Integer.MAX_VALUE);
     }
     public void progressorCost(Block b, BlockMenu inv){
         DataMenuClickHandler dh=getDataHolder(b,inv);
-        int charge=dh.getInt(1);
-        int machineCnt=dh.getInt(0);
-        int consumption=Math.min(charge*machineCnt ,this.energybuffer);
+        long charge=dh.getInt(1);
+        long machineCnt=dh.getInt(0);
+        int consumption=(int) Math.min(charge*machineCnt ,this.energybuffer);
         this.removeCharge(inv.getLocation(),consumption);
     }
     public void updateMenu(BlockMenu inv, Block block, Settings mod){
@@ -349,20 +349,21 @@ public class StackMachine extends AbstractAdvancedProcessor implements MultiCraf
         int index=MultiCraftType.getRecipeTypeIndex(data);
         if(index>=0&&index<getListSize()){//有效机器
             DataMenuClickHandler db=this.getDataHolder(b,inv);
-            int charge=db.getInt(1);
-            int craftLimit=db.getInt(0);
-            int consumption=Math.min(craftLimit*charge,this.energybuffer);
+            long charge= (long) db.getInt(1);
+            long craftLimit=db.getInt(0);
+            //fix multiply error int overflow
+            int consumption= (int) Math.min( craftLimit*charge, (long) this.energybuffer);
             int energy=this.getCharge(inv.getLocation(),data);
-            if(energy>=consumption){
+            if(energy >= consumption){
                 if(inv.hasViewer()){
-                    inv.replaceExistingItem(MINFO_SLOT,getInfoItem((int)(craftLimit*efficiency),consumption,energy,this.efficiency,
+                    inv.replaceExistingItem(MINFO_SLOT,getInfoItem((int)(craftLimit * efficiency),consumption,energy,this.efficiency,
                             CraftUtils.getItemName(this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT).getItem())));
                 }
                 process(b,inv,data);
             }else {
                 //没电
                 if(inv.hasViewer()){
-                    inv.replaceExistingItem(MINFO_SLOT,getInfoOffItem((int)(craftLimit*efficiency),consumption,energy,
+                    inv.replaceExistingItem(MINFO_SLOT,getInfoOffItem((int)(craftLimit * efficiency),consumption,energy,
                             CraftUtils.getItemName(this.MACHINE_PROVIDER.getPusher(Settings.INPUT,inv,this.MACHINE_SLOT).getItem())));
                 }
             }

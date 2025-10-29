@@ -84,10 +84,10 @@ public class SingularityProxy extends StorageType implements LocationProxy {
     }
     public void setStorage(ItemMeta meta, ItemStack item ) {
         //not allowed to set remote storage
-        throw new NotImplementedException("NetworkQuantumStorage's content shouldn't be cleared in this method");
+        throw new NotImplementedException("SingularityProxy's content shouldn't be set");
     }
     public void clearStorage(ItemMeta meta) {
-        throw new NotImplementedException("NetworkQuantumStorage's content shouldn't be cleared in this method");
+        throw new NotImplementedException("SingularityProxy's content shouldn't be cleared");
     }
     public ItemStack getStorageContent(ItemMeta meta) {
         Location loc= getLocation(meta);

@@ -84,6 +84,7 @@ public interface LogiTechChargable extends Rechargeable {
         predicates.set(moreCustomCharges.toArray(Function[]::new));
     }
     //返回溢出量,设置电力为max(charge,maxCharge),返回多余的
+    //不会考虑数量
     static float setChargeSafe(ItemStack item, float charge) {
         ItemMeta meta = item.getItemMeta();
         if(Slimefun.getItemDataService().getItemData(meta).map(SlimefunItem::getById).orElse(null) instanceof Rechargeable rechargeable ){
@@ -133,24 +134,38 @@ public interface LogiTechChargable extends Rechargeable {
     //尝试改变charge
     //返回无法改变的量 例如change +3 实际+2 返回+1
     //当无法充电时返回charge
-    static float changeChargeSafe(ItemStack item,float charge){
+    //会考虑数量
+    static float changeChargeSafe(ItemStack item, float charge){
+        return changeChargeSafe(item, charge, null);
+    }
+
+    static float changeChargeSafe(ItemStack item, float charge, ChargePredicate predicate){
         ItemMeta meta = item.getItemMeta();
         Float maxCharge = getMaxItemChargeOrNull(item);
         if(maxCharge == null){
             return charge;
         }
+        int amount = item.getAmount();
+        float singleCharge = charge/amount;
         float nowCharge = ChargeUtils.getCharge(meta);
-        float newCharge = charge + nowCharge;
+        if(predicate != null && predicate.shouldCharge(meta, maxCharge, nowCharge, singleCharge)){
+            return charge;
+        }
+        float newCharge = singleCharge + nowCharge;
         float left = 0;
         if( newCharge>maxCharge){
-            left = newCharge - maxCharge;
+            left = (newCharge - maxCharge )* amount;
             newCharge = maxCharge;
         }else if(newCharge <0){
-            left = newCharge;
+            left = newCharge * amount;
             newCharge = 0;
         }
-        ChargeUtils.setCharge(meta,newCharge,maxCharge);
+        ChargeUtils.setCharge(meta, newCharge, maxCharge);
         item.setItemMeta(meta);
         return left;
+    }
+
+    public static interface ChargePredicate{
+        public boolean shouldCharge(ItemMeta meta, float maxCharg, float charge, float deltaCharge);
     }
 }

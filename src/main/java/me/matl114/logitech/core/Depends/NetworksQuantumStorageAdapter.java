@@ -87,7 +87,7 @@ public class NetworksQuantumStorageAdapter extends StorageType {
 //        DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, cache);
 //        cache.addMetaLore(itemMeta);
 //        itemToDrop.setItemMeta(itemMeta);
-        throw new NotImplementedException("NetworkQuantumStorage's content shouldn't be set in this method");
+        throw new NotImplementedException("NetworkQuantumStorage's content shouldn't be set");
     }
 
     public void setAmount(QuantumCache cache, int amount) {
@@ -145,7 +145,7 @@ public class NetworksQuantumStorageAdapter extends StorageType {
 
     @Override
     public void clearStorage(ItemMeta meta) {
-        throw new NotImplementedException("NetworkQuantumStorage's content shouldn't be cleared in this method");
+        throw new NotImplementedException("NetworkQuantumStorage's content shouldn't be cleared");
     }
 
 

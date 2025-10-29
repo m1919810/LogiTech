@@ -11,6 +11,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.blocks.ChunkPosition;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.matl114.logitech.core.Interface.ChunkLimit;
+import me.matl114.logitech.core.Interface.LogiTechExperimental;
 import me.matl114.logitech.core.Interface.MenuTogglableBlock;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractMachine;
 import me.matl114.logitech.listeners.Listeners.SlimefunBlockPlaceLimitListener;
@@ -265,16 +266,7 @@ public class TimerSlimefun extends AbstractMachine implements ChunkLimit, MenuTo
         if( !super.canUse(p, sendMessage)){
             return false;
         }
-        if( p.hasPermission("logitech.shell.test")){
-            return true;
-        }else {
-            if (sendMessage) {
-                Slimefun.getLocalization().sendMessage(p, "messages.no-permission", true);
-            }
-            return false;
-        }
-
-
+        return LogiTechExperimental.checkUsePermission(p, sendMessage);
     }
 
     @Override

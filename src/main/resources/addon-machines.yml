@@ -1338,103 +1338,103 @@ MomoTech:
     mode: w
     type: generator
     energy: 0
-  MOMOTECH_QUANTITY_CONSTRUCTOR:
-    
-    recipe:
-      '1':
-        input:
-          '1': 2880MOMOTECH_UNCONTROLLABLE_EMPTY_
-        output:
-          '1': 
-            type: rp
-            item:
-              '1': MOMOTECH_CREATIVE_II
-            weight:
-              "1": 50
-        tick: 0
-      '3':
-        input:
-          '1': 
-            type: eq
-            item:
-              '1': MOMOTECH_NUMBER_BUG
-              '2': MOMOTECH_NUMBER_BUG_I
-              '3': MOMOTECH_NUMBER_BUG_II
-              '4': MOMOTECH_NUMBER_BUG_III
-              '5': MOMOTECH_NUMBER_BUG_IV
-              '6': MOMOTECH_NUMBER_BUG_V
-            weight:
-              '1': 2880
-        output:
-          '1': MOMOTECH_BUG_CRYSTAL
-        tick: 0
-      '10':
-        input:
-          '1':
-            type: eq
-            item:
-              '1': MOMOTECH_CREATIVE
-              '2': MOMOTECH_CREATIVE_I
-            weight:
-              '1': 2880
-        output:
-          '1': MOMOTECH_CREATIVE__
-        tick: 0
-      '13':
-        input:
-          '1': 2880MOMOTECH_FINAL_STAR
-        output:
-          '1': MOMOTECH_FINAL_ITEM
-        tick: 0
-      '14':
-        input:
-          '1':
-            type: eq
-            item:
-              '1': COBBLESTONE
-              '2': MOMOTECH_EMPTY_SHELL
-            weight:
-              '1': 2880
-        output:
-          '1': 
-            type: rp
-            item:
-              '1': 
-                type: rp
-                item:
-                  '1': MOMOTECH_QUANTITY_ITEM
-                weight:
-                  '1': 5
-            weight: 
-              '1': 1
-        tick: 0
-      '16':
-        input:
-          '1': 2880COMMAND_BLOCK
-        output:
-          '1': MOMOTECH_COMMAND_BLOCK1
-        tick: 0
-      '18':
-        input:
-          '1': 2880REPEATING_COMMAND_BLOCK
-        output:
-          '1': MOMOTECH_COMMAND_BLOCK2
-        tick: 0
-      '20':
-        input:
-          '1': 2880CHAIN_COMMAND_BLOCK
-        output:
-          '1': MOMOTECH_COMMAND_BLOCK3
-        tick: 0
-      '22':
-        input:
-          '1': 2880MOMOTECH_RESOURCE
-        output:
-          '1': MOMOTECH_FINAL_RULE
-        tick: 0
-    mode: w
-    type: machine
-    energy: 0
+#  MOMOTECH_QUANTITY_CONSTRUCTOR:
+#
+#    recipe:
+#      '1':
+#        input:
+#          '1': 2880MOMOTECH_UNCONTROLLABLE_EMPTY_
+#        output:
+#          '1':
+#            type: rp
+#            item:
+#              '1': MOMOTECH_CREATIVE_II
+#            weight:
+#              "1": 50
+#        tick: 0
+#      '3':
+#        input:
+#          '1':
+#            type: eq
+#            item:
+#              '1': MOMOTECH_NUMBER_BUG
+#              '2': MOMOTECH_NUMBER_BUG_I
+#              '3': MOMOTECH_NUMBER_BUG_II
+#              '4': MOMOTECH_NUMBER_BUG_III
+#              '5': MOMOTECH_NUMBER_BUG_IV
+#              '6': MOMOTECH_NUMBER_BUG_V
+#            weight:
+#              '1': 2880
+#        output:
+#          '1': MOMOTECH_BUG_CRYSTAL
+#        tick: 0
+#      '10':
+#        input:
+#          '1':
+#            type: eq
+#            item:
+#              '1': MOMOTECH_CREATIVE
+#              '2': MOMOTECH_CREATIVE_I
+#            weight:
+#              '1': 2880
+#        output:
+#          '1': MOMOTECH_CREATIVE__
+#        tick: 0
+#      '13':
+#        input:
+#          '1': 2880MOMOTECH_FINAL_STAR
+#        output:
+#          '1': MOMOTECH_FINAL_ITEM
+#        tick: 0
+#      '14':
+#        input:
+#          '1':
+#            type: eq
+#            item:
+#              '1': COBBLESTONE
+#              '2': MOMOTECH_EMPTY_SHELL
+#            weight:
+#              '1': 2880
+#        output:
+#          '1':
+#            type: rp
+#            item:
+#              '1':
+#                type: rp
+#                item:
+#                  '1': MOMOTECH_QUANTITY_ITEM
+#                weight:
+#                  '1': 5
+#            weight:
+#              '1': 1
+#        tick: 0
+#      '16':
+#        input:
+#          '1': 2880COMMAND_BLOCK
+#        output:
+#          '1': MOMOTECH_COMMAND_BLOCK1
+#        tick: 0
+#      '18':
+#        input:
+#          '1': 2880REPEATING_COMMAND_BLOCK
+#        output:
+#          '1': MOMOTECH_COMMAND_BLOCK2
+#        tick: 0
+#      '20':
+#        input:
+#          '1': 2880CHAIN_COMMAND_BLOCK
+#        output:
+#          '1': MOMOTECH_COMMAND_BLOCK3
+#        tick: 0
+#      '22':
+#        input:
+#          '1': 2880MOMOTECH_RESOURCE
+#        output:
+#          '1': MOMOTECH_FINAL_RULE
+#        tick: 0
+#    mode: w
+#    type: machine
+#    energy: 0
   MOMOTECH_UNCONTROLLABLE_GENERATOR:
     recipe:
       '0':

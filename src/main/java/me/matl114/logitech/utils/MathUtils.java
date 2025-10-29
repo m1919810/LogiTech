@@ -227,4 +227,11 @@ public class MathUtils {
             return -336;
         }
     }
+
+    public static int clamp(int value, int min, int max){
+        return value < min ? min : (Math.min(value, max));
+    }
+    public static double clamp(double value, double min, double max){
+        return value < min ? min : (Math.min(value, max));
+    }
 }

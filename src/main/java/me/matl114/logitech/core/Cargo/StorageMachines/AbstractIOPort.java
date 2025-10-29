@@ -223,7 +223,7 @@ public abstract class AbstractIOPort extends AbstractMachine {
             //尝试载入新的cache 可能是空的
             //don't support proxy ,that's a nightmare
             cache=ItemStorageCache.getOrCreate(stack,stack.getItemMeta(),getStorageSlot(),i->!i.isStorageProxy());
-            if(cache==null){
+            if(cache == null){
                 if(menu.hasViewer()&&getDisplaySlot()>=0){
                     menu.replaceExistingItem(getDisplaySlot(),ITEM_DISPLAY_NULL );
                 }

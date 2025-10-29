@@ -100,7 +100,7 @@ public class SmithingInterface extends AbstractMachine implements MultiBlockPart
             INTERFACE_MAP.put(loc,this);
             if(DataCache.getSfItem(core) instanceof SmithingWorkshop ws){
                 int speedLevel=ws.getAmplifyCompentLevel(core, AddSlimefunItems.SWAMP_SPEED);
-                processInterface(b,menu,data,core,speedLevel);
+                processInterface(b, menu, data, core, speedLevel);
             }
 
         }else{

@@ -244,6 +244,10 @@ zh_CN:
       Name: '&d工具与锻铸 &6特殊配方类型说明'
       Lore:
         - '用于查看本分类中特殊配方类型的合成方法'
+    EXPERIMENTAL:
+      Name: '&d%PLUGIN% &6实验性分类'
+      Lore:
+        - "&7仍在开发,敬请期待"
 
   Items:
     BUG:

@@ -77,9 +77,9 @@ public class EnergyAmplifier extends AbstractEnergyProvider implements MenuToggl
         for (int i=0;i<len;++i){
             preset.addItem(border[i], ChestMenuUtils.getBackground(),ChestMenuUtils.getEmptyClickHandler());
         }
-        preset.addItem(STATUS_SLOT,getStatusItem(0,0,0),ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(STATUS_SLOT,getStatusItem(0,0,0, "0"),ChestMenuUtils.getEmptyClickHandler());
     }
-    public ItemStack getStatusItem(int energyProvide,int charge,int stackNum){
+    public ItemStack getStatusItem(long energyProvide,int charge,int stackNum, String workingAmount){
         if(stackNum==0){
             return STATUS_ITEM_OFF;
         }else {
@@ -95,7 +95,7 @@ public class EnergyAmplifier extends AbstractEnergyProvider implements MenuToggl
                         "&7当前单体发电: %dJ/t".formatted(energyProvide)
                         ,"&7当前电机数目: %dx".formatted(stackNum),
                         "&7当前工作效率: %.3f".formatted(multiply),
-                        "&7当前发电速率: %dJ/t".formatted((int)(stackNum*energyProvide*multiply)),
+                        "&7当前发电速率: %sJ/t".formatted(workingAmount),
                         "&7当前电力存储: %dJ".formatted(charge));
             }
         }
@@ -119,7 +119,7 @@ public class EnergyAmplifier extends AbstractEnergyProvider implements MenuToggl
             }
         );
     }
-    public  int getGeneratedOutput(@Nonnull Location l, @Nonnull SlimefunBlockData data){
+    public int getGeneratedOutput(@Nonnull Location l, @Nonnull SlimefunBlockData data){
         BlockMenu inv=data.getBlockMenu();
         if(inv==null)return 0;
         DataMenuClickHandler dh=getDataHolder(null,inv);
@@ -135,26 +135,66 @@ public class EnergyAmplifier extends AbstractEnergyProvider implements MenuToggl
                 int amplify=dh.getInt(0);
                 if(!getStatus(inv)[0]&&charge>=this.energybuffer){
                     if(inv.hasViewer()){
-                        inv.replaceExistingItem(STATUS_SLOT,getStatusItem(0,charge,amplify));
+                        inv.replaceExistingItem(STATUS_SLOT,getStatusItem(0,charge,amplify, "0"));
                     }
                     return 0;
                 }else {
-                    int energyOutput=ep.getGeneratedOutput(loc2,data2);
+
+                    long result=ep.getGeneratedOutput(loc2,data2);
+                    long result0=(long)(result*amplify*multiply);
+                    int ret = MathUtils.fromLong(result0);
                     if(inv.hasViewer()){
-                        inv.replaceExistingItem(STATUS_SLOT,getStatusItem(energyOutput,charge,amplify));
+                        inv.replaceExistingItem(STATUS_SLOT,getStatusItem(result,charge,amplify, String.valueOf(ret)));
                     }
-                    long result=energyOutput;
-                    result=(long)(result*amplify*multiply);
-                    return MathUtils.fromLong(result);
+                    return ret;
                 }
             }
         }
         if(inv.hasViewer()){
             int charge=this.getCharge(l);
-            inv.replaceExistingItem(STATUS_SLOT,getStatusItem(0,charge,0));
+            inv.replaceExistingItem(STATUS_SLOT,getStatusItem(0,charge,0, "0"));
         }
         return 0;
     }
+
+    public long getGeneratedOutputLong(@Nonnull Location l, @Nonnull SlimefunBlockData data){
+        BlockMenu inv=data.getBlockMenu();
+        if(inv==null)return 0;
+        DataMenuClickHandler dh=getDataHolder(null,inv);
+        Object sf=dh.getObject(0);
+        if(sf instanceof EnergyNetProvider ep&&!(sf instanceof EnergyAmplifier)&&!(sf instanceof AbstractEnergyMachine)){
+            Location loc2=l.clone().add(0,1,0);
+            if(DataCache.getSfItem(loc2) == ep){
+                SlimefunBlockData data2=DataCache.safeLoadBlock(loc2);
+                if(data2==null){
+                    return 0;
+                }
+                int charge = this.getCharge(l);
+                int amplify=dh.getInt(0);
+                if(!getStatus(inv)[0]&&charge>=this.energybuffer){
+                    if(inv.hasViewer()){
+                        inv.replaceExistingItem(STATUS_SLOT,getStatusItem(0,charge,amplify, "0"));
+                    }
+                    return 0;
+                }else {
+
+
+                    long result = ep.getGeneratedOutput(loc2,data2);
+                    long result0=(long)(result*((long) amplify)*multiply);
+                    if(inv.hasViewer()){
+                        inv.replaceExistingItem(STATUS_SLOT,getStatusItem(result,charge,amplify, String.valueOf(result0)));
+                    }
+                    return result0;
+                }
+            }
+        }
+        if(inv.hasViewer()){
+            int charge=this.getCharge(l);
+            inv.replaceExistingItem(STATUS_SLOT,getStatusItem(0,charge,0, "0"));
+        }
+        return 0;
+    }
+
     public final int DATA_SLOT=0;
     public DataMenuClickHandler createDataHolder(){
         return new DataMenuClickHandler() {

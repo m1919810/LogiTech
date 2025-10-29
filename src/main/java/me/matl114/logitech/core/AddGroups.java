@@ -22,6 +22,7 @@ import me.matl114.logitech.utils.UtilClass.MenuClass.*;
 import me.matl114.logitech.utils.UtilClass.SpecialItemClass.CustomHead;
 import me.matl114.matlib.implement.slimefun.menu.menuClickHandler.GuideClickHandler;
 import me.matl114.matlib.implement.slimefun.menu.menuGroup.CustomMenuGroup;
+import me.matl114.matlib.utils.inventory.itemStacks.CleanItemStack;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import net.md_5.bungee.api.ChatColor;
@@ -54,6 +55,7 @@ public class AddGroups {
         GENERATORS.register(plugin);
         ENERGY.register(plugin);
         FUNCTIONAL.register(plugin);
+        EXPERIMENTAL.register(plugin);
         TOOLS_FUNCTIONAL.register(plugin);
         TOOLS_SUBGROUP_1.register(plugin);
         TOOLS.register(plugin);
@@ -104,6 +106,7 @@ public class AddGroups {
 
     public static final ItemGroup FUNCTIONAL=new DummyItemGroup(AddUtils.getNameKey("functional"),AddItem.FUNCTIONAL);
 
+    public static final ItemGroup EXPERIMENTAL = new DummyItemGroup(AddUtils.getNameKey("experimental"), AddItem.EXPERIMENTAL);
 
 
     public static ItemGroup MORE2=new CustomItemGroup(AddUtils.getNameKey("more2"),AddUtils.color("宇宙安全说明"),AddItem.MORE2,54,36,new LinkedHashMap<>()) {
@@ -505,7 +508,7 @@ public class AddGroups {
 
 
 
-    public static final ItemGroup ROOT=new CustomItemGroup(itemGroupId,AddUtils.colorful(AddUtils.ADDON_NAME), AddItem.ROOT,54,108,
+    public static final ItemGroup ROOT=new CustomItemGroup(itemGroupId,AddUtils.colorful(AddUtils.ADDON_NAME), AddItem.ROOT,54,144,
                 new LinkedHashMap<>(){{
                     put(2,MATERIAL);
                     put(0,INFO);
@@ -523,6 +526,8 @@ public class AddGroups {
                     put(31,BEYOND);
                     put(36,UPDATELOG);
                     put(26,MORE2);
+                    put(35, EXPERIMENTAL);
+
                     put(8, TOOLS);
                 }}
             ){
@@ -580,8 +585,8 @@ public class AddGroups {
             factory.addInventory(9,AddItem.ALLMACHINE);
             factory.addInventory(18,AddItem.ALLRECIPE);
             factory.addInventory(27,AddItem.ALLBIGRECIPES);
-            factory.addInventory(35,AddItem.TOBECONTINUE);
-            factory.addInventory(72,new ItemStack(Material.COMMAND_BLOCK));
+//            factory.addInventory(35,AddItem.TOBECONTINUE);
+            factory.addInventory(72,new CleanItemStack(Material.COMMAND_BLOCK, "&6别看了", "&7这里真的啥都没有了"));
             PostSetupTasks.addPostRegisterTask(this::initCustomMenus);
             //对自动生成的物品组位置进行修改(如果使用hashmap指定物品组则不用修改
             //彩蛋

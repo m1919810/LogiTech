@@ -111,7 +111,7 @@ public class TransportUtils {
                 //quick pass
                 if(tarCounter[i] != null){
                     tarCounter2=tarCounter[i];
-                    if(cache.getItem()==null){
+                    if(cache.getItem() == null){
                         cache.setFrom(tarCounter2);
                         cache.grab(tarCounter2);
                         //立刻设置种类,防止设置源被同步

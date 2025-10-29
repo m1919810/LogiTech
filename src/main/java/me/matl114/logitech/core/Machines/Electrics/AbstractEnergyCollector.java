@@ -119,7 +119,7 @@ public abstract class AbstractEnergyCollector extends AbstractEnergyMachine impl
         return true;
     }
     protected EnergyNetProvider getEnergyProvider(SlimefunItem item){
-        if(item!=null&& isCollectable(item)&&item instanceof EnergyNetProvider ec){
+        if(item!=null&& isCollectable(item)&& item instanceof EnergyNetProvider ec){
             return ec;
         }else return null;
     }

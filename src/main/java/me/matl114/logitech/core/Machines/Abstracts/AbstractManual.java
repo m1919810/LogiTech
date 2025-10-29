@@ -312,22 +312,25 @@ public abstract class AbstractManual extends AbstractMachine implements RecipeLo
             if(this.considerPermission.getValue() && CraftUtils.checkRecipePermission(player, recordRecipe, true)){
                 return;
             }
-
-            //计算电力
-
-            Pair<ItemGreedyConsumer[],ItemGreedyConsumer[]> results=
-                    CraftUtils.countMultiRecipe(inv,getInputSlots(),getOutputSlots(),recordRecipe,limit,CRAFT_PROVIDER);
-            //输出满了会返回null
-            if(results==null){
-                return;
-            }
-            if(this.energyConsumption>0){
-                int craftTime=CraftUtils.calMaxCraftTime(results.getSecondValue(),limit);
-                this.removeCharge(loc,craftTime*this.energyConsumption);
-            }
-            CraftUtils.multiUpdateInputMenu(results.getFirstValue(),inv);
-            CraftUtils.multiUpdateOutputMenu(results.getSecondValue(),inv);
+            doCraft(inv, limit, recordRecipe);
         }
+    }
+
+    public void doCraft(BlockMenu inv, int limit, MachineRecipe recordRecipe){
+        //计算电力
+        Pair<ItemGreedyConsumer[],ItemGreedyConsumer[]> results=
+            CraftUtils.countMultiRecipe(inv,getInputSlots(),getOutputSlots(),recordRecipe,limit,CRAFT_PROVIDER);
+        //输出满了会返回null
+        if(results==null){
+            return;
+        }
+        if(this.energyConsumption>0){
+            int craftTime=CraftUtils.calMaxCraftTime(results.getSecondValue(),limit);
+            Location  loc=inv.getLocation();
+            this.removeCharge(loc,craftTime*this.energyConsumption);
+        }
+        CraftUtils.multiUpdateInputMenu(results.getFirstValue(),inv);
+        CraftUtils.multiUpdateOutputMenu(results.getSecondValue(),inv);
     }
     /**
      * manual machine main tick,check recipe and update data,

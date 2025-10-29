@@ -45,3 +45,6 @@ permissions:
   logitech.shell.test:
     description: Allows you to use test operator tools
     default: op
+  logitech.experimental.test:
+    description: Allows you to use experimental items
+    default: op

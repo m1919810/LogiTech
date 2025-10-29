@@ -9,6 +9,7 @@ import me.matl114.logitech.utils.CraftUtils;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class SingularityStorage extends StorageType {
         super();
     }
     public final static String ITEM_DISPLAY_PREFIX = AddUtils.resolveColor("&x&E&B&3&3&E&B压缩物品: &f");
+    public final static String CORRUPTED_STORAGE_PREFIX = AddUtils.resolveColor("&x&E&B&3&3&E&B压缩物品: &f&c该存储由于NBT过大而损坏,请不要从存储交互接口中移出,否则物品可能丢失!");
     public final static String AMOUNT_DISPLAY_PREFIX=AddUtils.resolveColor("&x&E&B&3&3&E&B压缩数量: &f");
     public final static NamespacedKey KEY_ITEM = AddUtils.getNameKey("sin_item");
     public final static NamespacedKey KEY_AMOUNT = AddUtils.getNameKey("sin_amount");
@@ -38,23 +40,31 @@ public class SingularityStorage extends StorageType {
         return MAX_AMOUNT;
     }
     public void setStorage(ItemMeta meta, ItemStack item ) {
-        if(item!=null) {
+        if(item != null) {
             clearStorage(meta);
             meta.getPersistentDataContainer().set(KEY_AMOUNT, PersistentDataType.INTEGER,0);
             ItemStack tmp=AddUtils.getCleaned(item);
             tmp.setAmount(1);
             meta.getPersistentDataContainer().set(KEY_ITEM, AbstractStorageType.TYPE,tmp);
+            //check length
+            PersistentDataContainer container = meta.getPersistentDataContainer().get(KEY_ITEM, PersistentDataType.TAG_CONTAINER);
+            boolean corruptedStorage = false;
+            if(container != null && container.has(AbstractStorageType.ITEM, PersistentDataType.BYTE_ARRAY)){
+                byte[] bytes = container.get(AbstractStorageType.ITEM, PersistentDataType.BYTE_ARRAY);
+                if(bytes != null && bytes.length > 4_194_304){
+                    //remove data too large item
+                    meta.getPersistentDataContainer().remove(KEY_ITEM);
+                    corruptedStorage = true;
+                }
+            }
+            List<String> loreToAdd = corruptedStorage ? List.of(CORRUPTED_STORAGE_PREFIX, AMOUNT_DISPLAY_PREFIX+item.getAmount()) : List.of(ITEM_DISPLAY_PREFIX+ CraftUtils.getItemName(item), AMOUNT_DISPLAY_PREFIX+item.getAmount());
             if(meta.hasLore()){
                 List<String> lore = meta.getLore();
-                lore.add(ITEM_DISPLAY_PREFIX+ CraftUtils.getItemName(item));
-                lore.add(AMOUNT_DISPLAY_PREFIX+item.getAmount());
+                lore.addAll(loreToAdd);
                 meta.setLore(lore);
             }
             else{
-                meta.setLore(new ArrayList<String>(){{
-                    add(ITEM_DISPLAY_PREFIX+ CraftUtils.getItemName(item));
-                    add(AMOUNT_DISPLAY_PREFIX+0);
-                }});
+                meta.setLore(loreToAdd);
             }
         }
     }

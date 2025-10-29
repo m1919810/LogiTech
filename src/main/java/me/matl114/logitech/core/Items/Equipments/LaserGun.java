@@ -149,7 +149,8 @@ public class LaserGun extends ChargableProps {
                                     hasTarget=true;
                                     float damage=4*(level+1);
                                     damage=0.5f*damage*damage;
-                                    if(WorldUtils.testAttackPermission(p,player,damage)){
+                                    //remove permission check, shit
+                                    if(true || WorldUtils.testAttackPermission(p,player,damage)){
                                         PlayerEffects.grantEffect(CustomEffects.LASER,player,4*(level+1),1);
                                     }
                                 }
