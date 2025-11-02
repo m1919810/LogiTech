@@ -127,7 +127,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
     public void createEffect(Location loc){
         Schedules.launchSchedules(Schedules.getRunnable(()->{
             Location loc2=loc.clone().add(0.5,1,0.5);
-            EnderCrystal entity=(EnderCrystal) loc.getWorld().spawnEntity(loc2, EntityType.ENDER_CRYSTAL);
+            EnderCrystal entity=(EnderCrystal) loc.getWorld().spawnEntity(loc2, EntityType.END_CRYSTAL);
             getAsEffect(entity,loc);
         }),0,true,0);
     }
@@ -138,7 +138,7 @@ public class SolarReactorCore extends MultiBlockProcessor {
         if(cry!=null)
             cry.remove();
         Collection<Entity> allCrystal=loc2.getWorld().getNearbyEntities(loc2, REMOVE_EFFECT_OFFSET, REMOVE_EFFECT_OFFSET, REMOVE_EFFECT_OFFSET,(entity -> {
-            return entity.getType()==EntityType.ENDER_CRYSTAL&&checkBind(entity,loc);
+            return entity.getType()==EntityType.END_CRYSTAL&&checkBind(entity,loc);
         }));
         for (Entity entity:allCrystal){
             WorldUtils.executeOnSameEntity(entity,(entity1 -> entity1.remove()));

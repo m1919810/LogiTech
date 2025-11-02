@@ -25,6 +25,7 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;
+import java.rmi.UnexpectedException;
 import java.util.*;
 
 public class FinalConvertor extends AbstractMachine implements FinalAltarCore.FinalAltarChargable , Laser.LaserChargable {
@@ -48,6 +49,7 @@ public class FinalConvertor extends AbstractMachine implements FinalAltarCore.Fi
             }
             MAX_RANDOM_BUFFER=64;
             MAX_TRY_COUNT=144;
+//            System.out.println("PLAN A SUCCESS");
         }catch (Throwable e){
             Debug.debug("PLAN A FAILED");
             Debug.debug(e);
@@ -58,9 +60,13 @@ public class FinalConvertor extends AbstractMachine implements FinalAltarCore.Fi
                 ID_FIELD.setAccessible(true);
                 for(Material material:Material.values()){
                     map.put((Integer)ID_FIELD.get(material) ,material);
+                    if ((Integer)ID_FIELD.get(material) < 0) {
+                        throw new UnexpectedException("PLAN B FAILED");
+                    }
                 }
                 MAX_RANDOM_BUFFER=81;
                 MAX_TRY_COUNT=576;
+//                System.out.println("PLAN B SUCCESS");
             }catch (Throwable e2){
                 Debug.debug("PLAN B FAILED");
                 Debug.debug(e2);
@@ -73,6 +79,7 @@ public class FinalConvertor extends AbstractMachine implements FinalAltarCore.Fi
                 }
                 MAX_RANDOM_BUFFER=10;
                 MAX_TRY_COUNT=36;
+//                System.out.println("PLAN C SUCCESS");
             }
         }
         MAX_RANDOM_BUFFER_SQARE=MAX_RANDOM_BUFFER*MAX_RANDOM_BUFFER;
@@ -82,6 +89,7 @@ public class FinalConvertor extends AbstractMachine implements FinalAltarCore.Fi
         Debug.debug("GET COUNT OF MATERIAL ",map.size());
         ID_TO_MATERIAL=new Material[maxValue];
         for (Map.Entry<Integer,Material> e:map.entrySet()){
+//            System.out.println("|" + e.getKey() + " " + e.getValue() + "|");
             ID_TO_MATERIAL[e.getKey()]=e.getValue();
             MATERIAL_TO_ID.put(e.getValue(),e.getKey());
         }

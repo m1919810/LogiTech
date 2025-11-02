@@ -102,7 +102,7 @@ public class TntGenerator extends AbstractMachine {
                             Schedules.launchSchedules(()->{
                                 if(blockLoc.getBlock().getBlockData() instanceof NoteBlock nb){
                                     if(nb.isPowered()){
-                                       Entity et= loc.getWorld().spawnEntity(loc, EntityType.PRIMED_TNT);
+                                       Entity et= loc.getWorld().spawnEntity(loc, EntityType.TNT);
                                        if(et instanceof TNTPrimed tnt){
                                            tnt.setFuseTicks(fuse);
                                        }

@@ -29,7 +29,7 @@ public class AddItem {
         for (ItemStack it :ADDGLOW){
             addGlow(it);
         }
-        AddItem.TRACE_ARROW.addUnsafeEnchantment(Enchantment.ARROW_INFINITE,1);
+        AddItem.TRACE_ARROW.addUnsafeEnchantment(Enchantment.INFINITY,1);
         hideAllFlags(CARGO_CONFIG);
         hideAllFlags(ENTITY_FEAT);
         hideAllFlags(SPACE_CARD);

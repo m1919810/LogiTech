@@ -168,7 +168,7 @@ public class VirtualExplorer extends AbstractMachine implements MachineProcessHo
             if(meta.isUnbreakable()){
                 return item;
             }else {
-                int level=meta.getEnchantLevel(Enchantment.DURABILITY);
+                int level=meta.getEnchantLevel(Enchantment.UNBREAKING);
                 if(rand.nextInt(0,level+1)==0){
                     if(meta instanceof Damageable dm){
                         int damage=dm.getDamage()+1;
