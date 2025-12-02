@@ -83,7 +83,7 @@ public class LogitechMain extends AbstractMainCommand {
             var re = parseInput(var4).getA();
             String playerName = re.nextArg();
             if( playerName == null ){
-                player = isPlayer(var1,true);
+                player = player(var1);
             }else {
                 player = Bukkit.getPlayer(playerName);
             }

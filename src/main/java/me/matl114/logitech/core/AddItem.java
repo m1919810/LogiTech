@@ -7,8 +7,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.matl114.logitech.utils.UtilClass.SpecialItemClass.CustomFireworkStar;
 import me.matl114.logitech.utils.UtilClass.SpecialItemClass.CustomHead;
-import me.matl114.matlib.algorithms.dataStructures.frames.InitializeProvider;
-import me.matl114.matlib.algorithms.dataStructures.frames.InitializeSafeProvider;
+import me.matl114.matlib.algorithms.dataStructures.struct.Holder;
 import me.matl114.matlib.utils.reflect.wrapper.FieldAccess;
 import me.matl114.matlib.utils.version.VersionedRegistry;
 import org.bukkit.Material;
@@ -18,6 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 import static me.matl114.logitech.Language.get;
 import static me.matl114.logitech.Language.getList;
@@ -299,21 +299,21 @@ public class AddItem {
 
     public static final SlimefunItemStack UNBREAKING_SHIELD=themed("UNBREAKING_SHIELD",Material.SHIELD, Theme.TOOL,
             get("Items.UNBREAKING_SHIELD.Name"),getList("Items.UNBREAKING_SHIELD.Lore"));
-    public static final ItemStack MACE_ITEM=new InitializeSafeProvider<>(ItemStack.class,()->{
-        Material material= VersionedRegistry.material("MACE");
-        return material==null?null: new ItemStack(material);
-    }).v ();
-    public static final ItemStack SUPER_COBALT_PICKAXE = new InitializeProvider<>(()->{
-        ItemStack item = getCopy( resolveItem("COBALT_PICKAXE") );
-        item.setType(Material.NETHERITE_PICKAXE);
-        ItemMeta meta = item.getItemMeta();
-        meta.setUnbreakable(true);
-        meta.addEnchant(VersionedRegistry.enchantment("efficiency"),30,true );
-        meta.addEnchant(VersionedRegistry.enchantment("fortune"),20,true );
-        meta.setLore(List.of(DEFAULT_COLOR+"超级钴镐"));
-        item.setItemMeta(meta);
-        return item;
-    }).v();
+    public static final ItemStack MACE_ITEM= Holder.of(VersionedRegistry.material("MACE"))
+        .branch(Objects::isNull, (f)->null,  ItemStack::new)
+        .get()
+        ;
+    public static final ItemStack SUPER_COBALT_PICKAXE = Holder.of(getCopy( resolveItem("COBALT_PICKAXE") ))
+        .thenPeek(ItemStack::setType, Material.NETHERITE_PICKAXE)
+        .thenPeek((item)->{
+            ItemMeta meta = item.getItemMeta();
+            meta.setUnbreakable(true);
+            meta.addEnchant(VersionedRegistry.enchantment("efficiency"),30,true );
+            meta.addEnchant(VersionedRegistry.enchantment("fortune"),20,true );
+            meta.setLore(List.of(DEFAULT_COLOR+"超级钴镐"));
+            item.setItemMeta(meta);
+        })
+        .get();
     public static final SlimefunItemStack FAKE_UI=themed("FAKE_UI",Material.LIGHT_GRAY_STAINED_GLASS_PANE,Theme.ITEM1,
             get("Items.FAKE_UI.Name"),getList("Items.FAKE_UI.Lore"));
     public static final SlimefunItemStack ANTIGRAVITY=themed("ANTIGRAVITY",Material.NETHERITE_INGOT,Theme.ITEM1,
@@ -476,8 +476,9 @@ public class AddItem {
             get("Machines.TIMER_BLOCKENTITY.Name"),getList("Machines.TIMER_BLOCKENTITY.Lore"));
     public static final SlimefunItemStack TIMER_RD=themed("TIMER_RD",Material.TORCH,Theme.MACHINE1,
             get("Machines.TIMER_RD.Name"),getList("Machines.TIMER_RD.Lore"));
-    public static final SlimefunItemStack TIMER_SF=new InitializeSafeProvider<>(SlimefunItemStack.class,()->themed("TIMER_SF_入机",Material.SOUL_TORCH,Theme.MACHINE1,
-            get("Machines.TIMER_SF.Name"),getList("Machines.TIMER_SF.Lore"))).v();
+    public static final SlimefunItemStack TIMER_SF= themed("TIMER_SF_入机",Material.SOUL_TORCH,Theme.MACHINE1,
+        get("Machines.TIMER_SF.Name"),getList("Machines.TIMER_SF.Lore"));
+
 
 //    public static final SlimefunItemStack TIMER_SF_SEQ=themed("TIMER_SF_SEQ",Material.SOUL_TORCH,Theme.MACHINE1,
 //            get("Machines.TIMER_SF_SEQ.Name"),getList("Machines.TIMER_SF_SEQ.Lore"));
@@ -540,12 +541,11 @@ public class AddItem {
             get("Manuals.CARD_MAKER.Name"),getList("Manuals.CARD_MAKER.Lore"));
     public static final SlimefunItemStack ADV_MANUAL=themed("ADV_MANUAL",Material.LECTERN,Theme.MANUAL1,
             get("Manuals.ADV_MANUAL.Name"),getList("Manuals.ADV_MANUAL.Lore"));
-    public static final SlimefunItemStack PORTABLE_MANUAL=new InitializeProvider<>(()->{
-        SlimefunItemStack item= themed("PORTABLE_MANUAL",CustomHead.CRAFTER.getItem(),Theme.MANUAL1,
-                get("Manuals.PORTABLE_MANUAL.Name"),getList("Manuals.PORTABLE_MANUAL.Lore"));
-        try{
+    public static final SlimefunItemStack PORTABLE_MANUAL= Holder.of(themed("PORTABLE_MANUAL",CustomHead.CRAFTER.getItem(),Theme.MANUAL1,
+        get("Manuals.PORTABLE_MANUAL.Name"),getList("Manuals.PORTABLE_MANUAL.Lore")))
+        .thenApplyCaught((item)->{
             int portableCrafter = Slimefun.getItemTextureService().getModelData("PORTABLE_CRAFTER");
-            if(portableCrafter!=0){
+            if(portableCrafter != 0){
                 String itemId = item.getItemId();
                 FieldAccess.AccessWithObject<Config> configAccess = (FieldAccess.ofName("config").ofAccess( Slimefun.getItemTextureService()));
                 configAccess.get((config)->{
@@ -553,9 +553,10 @@ public class AddItem {
                 });
                 item = new SlimefunItemStack(itemId,item);
             }
-        }catch (Throwable ignored){        }
-        return item;
-    }).v();
+            return item;
+        })
+        .get();
+
     //generators
     public static final SlimefunItemStack MAGIC_STONE=themed("MAGIC_STONE",Material.COBBLESTONE,Theme.MACHINE2,
             get("Generators.MAGIC_STONE.Name"),getList("Generators.MAGIC_STONE.Lore"));

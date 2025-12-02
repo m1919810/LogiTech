@@ -67,6 +67,12 @@ public class EquipmentFUManager implements Manager, Listener {
         deconstruct();
         return init(plugin);
     }
+
+    @Override
+    public boolean isAutoDisable() {
+        return true;
+    }
+
     @Override
     public void deconstruct() {
         unregisterFunctional();

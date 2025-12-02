@@ -10,7 +10,6 @@ import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.handlers.GlobalItemHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
-import me.matl114.logitech.utils.UtilClass.SpecialItemClass.CustomHead;
 import me.matl114.logitech.core.AddGroups;
 import me.matl114.logitech.core.AddItem;
 import me.matl114.logitech.core.AddSlimefunItems;
@@ -20,9 +19,11 @@ import me.matl114.logitech.core.Machines.ManualMachines.ManualCrafter;
 import me.matl114.logitech.core.Machines.WorkBenchs.BugCrafter;
 import me.matl114.logitech.utils.*;
 import me.matl114.logitech.utils.UtilClass.ItemClass.ConstSlimefunItemStack;
+import me.matl114.logitech.utils.UtilClass.SpecialItemClass.CustomHead;
+import me.matl114.matlib.utils.version.VersionedAttribute;
+import me.matl114.matlib.utils.version.VersionedRegistry;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -158,9 +159,9 @@ public class AddDepends {
                 if(s instanceof SkullMeta smt){
                     smt.setOwnerProfile(((SkullMeta)CustomHead.INF_HELMET.getItem().getItemMeta()).getOwnerProfile());
                 }
-                s.addAttributeModifier(Attribute.GENERIC_ARMOR,new AttributeModifier(UUID.nameUUIDFromBytes(new byte[]{1,1,4,5}),"logitech_armor",6.0, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
-                s.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS,new AttributeModifier(UUID.nameUUIDFromBytes(new byte[]{1,9,1,9}),"logitech_armor_toughness",6.0, AttributeModifier.Operation.ADD_NUMBER,EquipmentSlot.HEAD));
-                s.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE,new AttributeModifier(UUID.nameUUIDFromBytes(new byte[]{8,1,0,0}),"logitech_knockback_resistence",0.2, AttributeModifier.Operation.ADD_NUMBER,EquipmentSlot.HEAD  ));
+                s.addAttributeModifier(VersionedRegistry.attribute("armor") , VersionedAttribute.getInstance().createAttributeModifier(UUID.nameUUIDFromBytes(new byte[]{1,1,4,5}), "logitech_armor",6.0, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
+                s.addAttributeModifier(VersionedRegistry.attribute("armor_toughness") ,VersionedAttribute.getInstance().createAttributeModifier(UUID.nameUUIDFromBytes(new byte[]{1,9,1,9}),"logitech_armor_toughness",6.0, AttributeModifier.Operation.ADD_NUMBER,EquipmentSlot.HEAD));
+                s.addAttributeModifier(VersionedRegistry.attribute("knockback_resistance"),VersionedAttribute.getInstance().createAttributeModifier(UUID.nameUUIDFromBytes(new byte[]{8,1,0,0}),"logitech_knockback_resistence",0.2, AttributeModifier.Operation.ADD_NUMBER,EquipmentSlot.HEAD  ));
                 s.setCustomModelData(null);
                 s.setDisplayName(AddUtils.resolveColor( AddUtils.color("无尽头盔")));
                 it.setItemMeta(s);

@@ -15,6 +15,7 @@ import me.matl114.logitech.utils.CraftUtils;
 import me.matl114.logitech.utils.Utils;
 import me.matl114.logitech.core.Items.Abstracts.CustomItemWithHandler;
 import me.matl114.matlib.utils.inventory.itemStacks.CleanItemStack;
+import me.matl114.matlib.utils.version.Version;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
@@ -102,7 +103,7 @@ public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
         for (EntityType type:EntityType.values()){
             if(type != EntityType.UNKNOWN ){
                 try{
-                    if(!type.isEnabledByFeature(Bukkit.getWorlds().get(0))){
+                    if((!Version.getVersionInstance().isAtLeast(Version.v1_21_R7)) && !type.isEnabledByFeature(Bukkit.getWorlds().get(0))){
                         //not enabled by feature
                         continue;
                     }
@@ -123,7 +124,7 @@ public class EntityFeat extends CustomItemWithHandler<ItemDropHandler> {
         for (EntityType entityType : EntityType.values()) {
             if(entityType.isSpawnable()){
                 try{
-                    if(!entityType.isEnabledByFeature(Bukkit.getWorlds().get(0))){
+                    if((!Version.getVersionInstance().isAtLeast(Version.v1_21_R7)) && !entityType.isEnabledByFeature(Bukkit.getWorlds().get(0))){
                         //not enabled by feature
                         continue;
                     }

@@ -9,26 +9,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.Map;
 
 public class NetWorkQuantumMethod {
-    static Method getAmount=null;
-    static  boolean hasFailedAmount=false;
-    static Method getLimit=null;
-    static boolean hasFailedLimit=false;
-    static Method setAmount=null;
-    static boolean hasFailedset=false;
-    static Method getItemStack=null;
-    static boolean hasFailedgetItemStack=false;
-    static Method setItemStack=null;
-    static boolean hasFailedsetItemStack=false;
-    static Method updateMetaLore=null;
-    static boolean hasFailedupdateMetaLore=false;
     static Map  NetworkCacheMap=null;
     static boolean hasFailedCachemap=false;
-    static Method syncBlock=null;
-    static boolean hasFailedSyncBlock=false;
     public static final MethodAccess<? extends Number> getAmountAccess=
         MethodAccess.ofName("getAmount")
             .printError(true)

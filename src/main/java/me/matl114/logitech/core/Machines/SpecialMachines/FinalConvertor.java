@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import it.unimi.dsi.fastutil.ints.Int2ReferenceOpenHashMap;
 import me.matl114.logitech.core.Blocks.Laser;
 import me.matl114.logitech.core.Blocks.MultiBlock.FinalAltarCore;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractMachine;
@@ -28,15 +29,15 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 public class FinalConvertor extends AbstractMachine implements FinalAltarCore.FinalAltarChargable , Laser.LaserChargable {
-    final static Material[] ID_TO_MATERIAL;
+    final static Int2ReferenceOpenHashMap<Material> ID_TO_MATERIAL;
     static int MAX_RANDOM_BUFFER;
     static int MAX_RANDOM_BUFFER_SQARE;
     static int MAX_TRY_COUNT;
-    final static int LIST_LEN;
     final static Random rand=new Random();
     static Field ID_FIELD;
     final static HashMap<Material,Integer> MATERIAL_TO_ID;
-
+    final static int MAX;
+    final static int MIN;
     static {
         HashMap<Integer,Material> map;
         MATERIAL_TO_ID=new HashMap<>();
@@ -80,19 +81,25 @@ public class FinalConvertor extends AbstractMachine implements FinalAltarCore.Fi
         int maxValue= Collections.max(map.keySet())+MAX_RANDOM_BUFFER_SQARE;
         Debug.debug("GET MAX AVAILABLE MATERIAL VALUE ",maxValue);
         Debug.debug("GET COUNT OF MATERIAL ",map.size());
-        ID_TO_MATERIAL=new Material[maxValue];
+        ID_TO_MATERIAL= new Int2ReferenceOpenHashMap<>();
+        int max = 0;
+        int min = 0;
         for (Map.Entry<Integer,Material> e:map.entrySet()){
-            ID_TO_MATERIAL[e.getKey()]=e.getValue();
+            ID_TO_MATERIAL.put(e.getKey().intValue(), e.getValue());
             MATERIAL_TO_ID.put(e.getValue(),e.getKey());
+            max = Math.max(max, e.getKey());
+            min = Math.min(min, e.getKey());
         }
-        LIST_LEN=maxValue;
+        MAX = max;
+        MIN = min;
+
         Debug.debug("MATERIAL MAPPING DONE");
     }
     public static Material getRandomMaterial(Material material){
         Integer start_nullable=MATERIAL_TO_ID.get(material);
         int start;
         if(start_nullable==null){
-            start=rand.nextInt(LIST_LEN);
+            start=rand.nextInt(MAX - MIN + 1) + MIN;
             Debug.debug("ERROR! MATERIAL NOT IN MAPPER ",material.toString());
         }else {
             start=start_nullable;
@@ -103,10 +110,9 @@ public class FinalConvertor extends AbstractMachine implements FinalAltarCore.Fi
             double x= rand.nextInt(MAX_RANDOM_BUFFER_SQARE);
             int sgn=rand.nextInt(2)==0?-1:1;
             int delta=start+(int)(sgn*x);
-            if(delta>=0&&delta<LIST_LEN){
-                mat=ID_TO_MATERIAL[delta];
-                if(mat!=null)return mat;
-            }
+
+            mat=ID_TO_MATERIAL.get(delta);
+            if(mat!=null)return mat;
         }
         return null;
     }

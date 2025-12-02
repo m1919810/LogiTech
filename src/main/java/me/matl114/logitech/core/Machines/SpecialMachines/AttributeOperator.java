@@ -15,6 +15,7 @@ import me.matl114.logitech.utils.*;
 import me.matl114.logitech.utils.UtilClass.MenuClass.DataMenuClickHandler;
 import me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.matl114.matlib.core.EnvironmentManager;
+import me.matl114.matlib.utils.version.VersionedRegistry;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -728,7 +729,7 @@ public class AttributeOperator extends SmithingInterface {
             return null;
         }
         if(modifier==null){
-            for(Attribute a:Attribute.values()){
+            for(Attribute a: VersionedRegistry.getInstance().getAttributes()){
                 Collection<AttributeModifier> mods1=meta1.getAttributeModifiers(a);
                 if(mods1==null||mods1.isEmpty()){
                     continue ;

@@ -11,7 +11,6 @@ import me.matl114.logitech.listeners.Events.AttackPermissionTestEvent;
 import me.matl114.logitech.manager.Schedules;
 import me.matl114.logitech.utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.utils.UtilClass.ItemClass.ItemPusher;
-import me.matl114.matlib.algorithms.dataStructures.frames.InitializeSafeProvider;
 import me.matl114.matlib.core.EnvironmentManager;
 import me.matl114.matlib.utils.reflect.wrapper.FieldAccess;
 import org.bukkit.*;
@@ -29,9 +28,6 @@ import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
@@ -1094,16 +1090,6 @@ public class WorldUtils {
 
     }
 
-    public static final MethodHandle getStateHandle = new InitializeSafeProvider<MethodHandle>(MethodHandle.class, ()->{
-        try{
-            var lookUp= MethodHandles.privateLookupIn(Block.class,MethodHandles.lookup());
-            return lookUp.findVirtual(Block.class,"getState", MethodType.methodType(BlockState.class,boolean.class));
-        }catch (Throwable e){
-            Debug.logger("could not find method getState!");
-            e.printStackTrace();
-            return null;
-        }
-    }).v();
     public static BlockState getBlockStateNoSnapShot(Block block){
 //        if(getStateHandle!=null){
 //            try{

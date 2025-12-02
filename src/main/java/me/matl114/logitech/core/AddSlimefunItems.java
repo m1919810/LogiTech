@@ -65,7 +65,7 @@ import me.matl114.logitech.utils.UtilClass.ItemClass.ItemGreedyConsumer;
 import me.matl114.logitech.utils.UtilClass.MenuClass.MenuFactory;
 import me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.matl114.logitech.utils.UtilClass.RecipeClass.MultiCraftingOperation;
-import me.matl114.matlib.algorithms.dataStructures.frames.InitializeSafeProvider;
+import me.matl114.matlib.algorithms.dataStructures.struct.Holder;
 import me.matl114.matlib.algorithms.dataStructures.struct.Triplet;
 import me.matl114.matlib.implement.slimefun.core.CustomRecipeType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -536,17 +536,14 @@ public class AddSlimefunItems {
             recipe("REDSTONE","LEAD_INGOT","REDSTONE","LEAD_INGOT","WITHER_PROOF_OBSIDIAN","LEAD_INGOT",
                     "REDSTONE","LEAD_INGOT","REDSTONE"))
             .register().setOutput(setC(AddItem.WITHERPROOF_REDS,4));
-    public static final MyVanillaItem MACE_ITEM=new InitializeSafeProvider <>(MyVanillaItem.class, ()->{
-        if(AddItem.MACE_ITEM!=null){
-            var re= new MyVanillaItem(TOOLS_FUNCTIONAL, AddItem.MACE_ITEM,"LOGITECH_MACE_RECIPE",BukkitUtils.VANILLA_CRAFTTABLE,
-                    recipe(AddItem.METAL_CORE,AddItem.BUG,AddItem.METAL_CORE,
-                            null,AddItem.STAR_GOLD_INGOT,null,
-                            null,AddItem.STAR_GOLD_INGOT,null));
-            //todo we will add this to TOOLS_FUNCTIONAL later after we reconstruct TOOLS_FUNCTIONAL!
-            return re.register();
-        }
-        return null;
-    }).v();
+    public static final MyVanillaItem MACE_ITEM= Holder.of(AddItem.MACE_ITEM)
+        .thenApplyCaught(Objects::requireNonNull)
+        .failHard()
+        .thenApply((mace) -> new MyVanillaItem(TOOLS_FUNCTIONAL, mace,"LOGITECH_MACE_RECIPE",BukkitUtils.VANILLA_CRAFTTABLE,
+            recipe(AddItem.METAL_CORE,AddItem.BUG,AddItem.METAL_CORE,
+                null,AddItem.STAR_GOLD_INGOT,null,
+                null,AddItem.STAR_GOLD_INGOT,null)).register())
+        .get();
     public static final SlimefunItem UNBREAKING_SHIELD=new MaterialItem(TOOLS_FUNCTIONAL,AddItem.UNBREAKING_SHIELD,BukkitUtils.VANILLA_CRAFTTABLE,
             recipe("IRON_BLOCK","DAMASCUS_STEEL_INGOT","IRON_BLOCK","IRON_BLOCK","OBSIDIAN","IRON_BLOCK",
             null,"IRON_BLOCK",null)).register();

@@ -21,11 +21,11 @@ public class NetworksQuantumProxyAdapter extends NetworksQuantumStorageAdapter i
     public final static SlimefunItem INSTANCE=SlimefunItem.getById("NTW_QUANTUM_STORAGE_1");
     public final Map cacheMap ;
     {
-        if(INSTANCE==null){
-            disableNetworkQuantum(new Exception("SlimefunItem INSTANCE NTW_QUANTUN_STORAGE_1 not found!"));
+        if(INSTANCE == null){
+            disableNetworkQuantum(new Exception("SlimefunItem instance NTW_QUANTUN_STORAGE_1 not found!"));
             throw new  NotImplementedException("NetworksQuantumStorage Instance not found");
         }
-        cacheMap=NetWorkQuantumMethod.getCacheMap(INSTANCE);
+        cacheMap = NetWorkQuantumMethod.getCacheMap(INSTANCE);
     }
     public boolean isStorage(ItemMeta meta) {
         //check lock
