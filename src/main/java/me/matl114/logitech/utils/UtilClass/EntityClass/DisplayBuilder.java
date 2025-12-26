@@ -1,15 +1,14 @@
 package me.matl114.logitech.utils.UtilClass.EntityClass;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
 import org.bukkit.util.Transformation;
 import org.bukkit.util.Vector;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-public abstract class DisplayBuilder <T extends DisplayBuilder<T> > {
+public abstract class DisplayBuilder<T extends DisplayBuilder<T>> {
     protected Transformation transformation;
     protected int interpolationDuration;
     protected boolean hasInterpolationDuration;
@@ -31,79 +30,78 @@ public abstract class DisplayBuilder <T extends DisplayBuilder<T> > {
     protected Location location;
     protected Vector groupParentOffset;
 
-    DisplayBuilder() {
-    }
+    DisplayBuilder() {}
 
     public T setTransformation(@Nonnull Transformation transformation) {
         this.transformation = transformation;
-        return (T)this;
+        return (T) this;
     }
 
     public T setInterpolationDuration(int interpolationDuration) {
         this.interpolationDuration = interpolationDuration;
         this.hasInterpolationDuration = true;
-        return (T)this;
+        return (T) this;
     }
 
     public T setInterpolationDelay(int interpolationDelay) {
         this.interpolationDelay = interpolationDelay;
         this.hasInterpolationDelay = true;
-        return (T)this;
+        return (T) this;
     }
 
     public T setViewRange(float viewRange) {
         this.viewRange = viewRange;
         this.hasViewRange = true;
-        return (T)this;
+        return (T) this;
     }
 
     public T setShadowRadius(float shadowRadius) {
         this.shadowRadius = shadowRadius;
         this.hasShadowRadius = true;
-        return (T)this;
+        return (T) this;
     }
 
     public T setShadowStrength(float shadowStrength) {
         this.shadowStrength = shadowStrength;
         this.hasShadowStrength = true;
-        return (T)this;
+        return (T) this;
     }
 
     public T setDisplayWidth(float displayWidth) {
         this.displayWidth = displayWidth;
         this.hasDisplayWidth = true;
-        return (T)this;
+        return (T) this;
     }
 
     public T setDisplayHeight(float displayHeight) {
         this.displayHeight = displayHeight;
         this.hasDisplayHeight = true;
-        return (T)this;
+        return (T) this;
     }
 
     public T setBillboard(@Nonnull Display.Billboard billboard) {
         this.billboard = billboard;
-        return (T)this;
+        return (T) this;
     }
 
     public T setGlowColorOverride(@Nullable Color glowColorOverride) {
         this.glowColorOverride = glowColorOverride;
-        return (T)this;
+        return (T) this;
     }
 
     public T setBrightness(@Nullable Display.Brightness brightness) {
         this.brightness = brightness;
-        return (T)this;
+        return (T) this;
     }
 
     public T setLocation(Location location) {
         this.location = location;
-        return (T)this;
+        return (T) this;
     }
 
     public T setGroupParentOffset(Vector groupParentOffset) {
         this.groupParentOffset = groupParentOffset;
-        return (T)this;
+        return (T) this;
     }
 
     protected void applyDisplay(@Nonnull Display display) {
@@ -150,6 +148,5 @@ public abstract class DisplayBuilder <T extends DisplayBuilder<T> > {
         if (this.brightness != null) {
             display.setBrightness(this.brightness);
         }
-
     }
 }

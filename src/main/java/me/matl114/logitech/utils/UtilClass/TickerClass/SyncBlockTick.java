@@ -9,22 +9,25 @@ import org.bukkit.block.Block;
 public class SyncBlockTick extends BlockTicker {
     public static SyncBlockTick TESTINSTANCE = new SyncBlockTick();
 
-    public interface SyncTickers{
-        public void syncTick(Block b, BlockMenu inv,SlimefunBlockData data,int synTickCount);
+    public interface SyncTickers {
+        public void syncTick(Block b, BlockMenu inv, SlimefunBlockData data, int synTickCount);
     }
-    protected int tickCount=0;
-    public SyncBlockTick(){
 
-    }
+    protected int tickCount = 0;
+
+    public SyncBlockTick() {}
+
     public boolean isSynchronized() {
         return false;
     }
+
     public void uniqueTick() {
         tickCount++;
     }
+
     public void tick(Block b, SlimefunItem item, SlimefunBlockData data) {
-       if(item instanceof SyncTickers){
-           ((SyncTickers)item).syncTick(b,data.getBlockMenu(),data,tickCount);
-       }
+        if (item instanceof SyncTickers) {
+            ((SyncTickers) item).syncTick(b, data.getBlockMenu(), data, tickCount);
+        }
     }
 }

@@ -13,21 +13,22 @@ import org.bukkit.inventory.ItemStack;
  * abstracts of weapons and armors
  */
 public class CustomItemNotPlaceable extends CustomSlimefunItem implements NotPlaceable {
-    public CustomItemNotPlaceable(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public CustomItemNotPlaceable(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
+
     @Override
-    public  void preRegister(){
+    public void preRegister() {
         super.preRegister();
-        if(WorldUtils.isBlock(getItem().getType())){
+        if (WorldUtils.isBlock(getItem().getType())) {
             addItemHandler(AddHandlers.stopPlacementHandler);
             addItemHandler(AddHandlers.stopPlaceerHandler);
         }
-
     }
 
-//    @Override
-//    public boolean canStack(@NotNull ItemMeta itemMeta, @NotNull ItemMeta itemMeta1) {
-//        return false;
-//    }
+    //    @Override
+    //    public boolean canStack(@NotNull ItemMeta itemMeta, @NotNull ItemMeta itemMeta1) {
+    //        return false;
+    //    }
 }

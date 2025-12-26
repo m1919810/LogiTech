@@ -1,116 +1,120 @@
 package me.matl114.logitech.utils.UtilClass.ItemClass;
 
+import javax.annotation.Nonnull;
 import me.matl114.logitech.utils.MenuUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
 
 /**
  * ItemPusher for menu slot
  * automatically replaceExistingItem when item=null at beginning
  */
 public class ItemSlotPusher extends ItemPusher {
-    //mark if it is null before last sync
+    // mark if it is null before last sync
     protected boolean wasNull;
     protected int slot;
-    private static ItemSlotPusher INSTANCE=new ItemSlotPusher(new ItemStack(Material.STONE),-1);
-    protected ItemSlotPusher(int slot){
+    private static ItemSlotPusher INSTANCE = new ItemSlotPusher(new ItemStack(Material.STONE), -1);
+
+    protected ItemSlotPusher(int slot) {
         super();
-        this.cnt=0;
-        this.wasNull=true;
-        this.item=null;
-        this.slot=slot;
+        this.cnt = 0;
+        this.wasNull = true;
+        this.item = null;
+        this.slot = slot;
     }
-    protected ItemSlotPusher(ItemStack item,int slot){
-        super(item,item.getMaxStackSize());
-        this.wasNull=false;
-        this.slot=slot;
+
+    protected ItemSlotPusher(ItemStack item, int slot) {
+        super(item, item.getMaxStackSize());
+        this.wasNull = false;
+        this.slot = slot;
     }
-    public static ItemSlotPusher get(ItemStack item,int slot){
-//        if(item==null){
-//            return new ItemSlotPusher(slot);
-//        }else {
-//            return new ItemSlotPusher(item,slot);
-//        }
-        ItemSlotPusher itp=INSTANCE.clone();
-        itp.init(item,slot);
+
+    public static ItemSlotPusher get(ItemStack item, int slot) {
+        //        if(item==null){
+        //            return new ItemSlotPusher(slot);
+        //        }else {
+        //            return new ItemSlotPusher(item,slot);
+        //        }
+        ItemSlotPusher itp = INSTANCE.clone();
+        itp.init(item, slot);
         return itp;
     }
-    protected void init(ItemStack item,int slot){
-        if(item!=null){
+
+    protected void init(ItemStack item, int slot) {
+        if (item != null) {
             super.init(item);
-            this.wasNull=false;
-        }else {
+            this.wasNull = false;
+        } else {
             super.init();
-            this.wasNull=true;
+            this.wasNull = true;
         }
-        this.slot=slot;
+        this.slot = slot;
     }
-    public boolean isNull(){
+
+    public boolean isNull() {
         return wasNull;
     }
 
-    //sync data need blockmenu
-    public void updateMenu(@Nonnull BlockMenu menu){
-        if(dirty&&getItem()!=null&&!getItem().getType().isAir()){
-            if(wasNull){//空
-                //从数据源clone一个 正式转变为有实体的ItemStack 因为consumer那边可能是sfItem MultiItem
-                if(getAmount()>0){//bugfix: do not replace a <=0 item here
-                    item= MenuUtils.getCraftCopyOf(item);
-                    //creating copy of source item
-                    wasNull=false;
+    // sync data need blockmenu
+    public void updateMenu(@Nonnull BlockMenu menu) {
+        if (dirty && getItem() != null && !getItem().getType().isAir()) {
+            if (wasNull) { // 空
+                // 从数据源clone一个 正式转变为有实体的ItemStack 因为consumer那边可能是sfItem MultiItem
+                if (getAmount() > 0) { // bugfix: do not replace a <=0 item here
+                    item = MenuUtils.getCraftCopyOf(item);
+                    // creating copy of source item
+                    wasNull = false;
                     super.updateMenu(menu);
-                    item =  MenuUtils.syncSlotNoCopy(menu, slot, item);
-                }//<=0 will be marked as still null
-            }
-            else{//不为空，同正常一样
-                //已经是之前有了的 可以直接修改
+                    item = MenuUtils.syncSlotNoCopy(menu, slot, item);
+                } // <=0 will be marked as still null
+            } else { // 不为空，同正常一样
+                // 已经是之前有了的 可以直接修改
                 super.updateMenu(menu);
             }
-
         }
     }
-    public void updateItemStack(){
-        if(getItem()!=null){
+
+    public void updateItemStack() {
+        if (getItem() != null) {
             super.updateItemStack();
         }
     }
-    public void syncData(){
-        if(!wasNull){
+
+    public void syncData() {
+        if (!wasNull) {
             super.syncData();
-        }else{
+        } else {
             toNull();
         }
     }
 
-    public void grab(ItemCounter source){
-        if(this.item==null){
-            if(source!=null&&source.getItem()!=null&&source.getAmount()>0)
-                setFrom(source);
+    public void grab(ItemCounter source) {
+        if (this.item == null) {
+            if (source != null && source.getItem() != null && source.getAmount() > 0) setFrom(source);
             else return;
         }
         super.grab(source);
     }
-    public int transportFrom(ItemCounter source,int limit){
-        if(this.item==null){
-            if(source!=null&&source.getItem()!=null){
+
+    public int transportFrom(ItemCounter source, int limit) {
+        if (this.item == null) {
+            if (source != null && source.getItem() != null) {
                 setFrom(source);
-            }
-            else return limit;
+            } else return limit;
         }
-        return super.transportFrom(source,limit);
-    }
-    public void setFrom(ItemCounter source){
-        //only when null AND source not null, can we setFrom
-        //we don't support cache change
-        if(wasNull&&(source!=null&&source.getItem()!=null)){
-            fromSource(source,true);
-        }
-    }
-    protected ItemSlotPusher clone(){
-        return (ItemSlotPusher) super.clone();
+        return super.transportFrom(source, limit);
     }
 
+    public void setFrom(ItemCounter source) {
+        // only when null AND source not null, can we setFrom
+        // we don't support cache change
+        if (wasNull && (source != null && source.getItem() != null)) {
+            fromSource(source, true);
+        }
+    }
+
+    protected ItemSlotPusher clone() {
+        return (ItemSlotPusher) super.clone();
+    }
 }

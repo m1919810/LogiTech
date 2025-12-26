@@ -6,23 +6,24 @@ import me.matl114.logitech.utils.DataCache;
 import org.bukkit.Location;
 
 public interface MultiCraftType extends RecipeLock {
-    static int getRecipeTypeIndex(Location loc){
-        try{
-            String a= StorageCacheUtils.getData(loc,"craftType");
+    static int getRecipeTypeIndex(Location loc) {
+        try {
+            String a = StorageCacheUtils.getData(loc, "craftType");
             return Integer.parseInt(a);
 
-        }   catch (NumberFormatException a){
-            setRecipeTypeIndex(loc,-1);
+        } catch (NumberFormatException a) {
+            setRecipeTypeIndex(loc, -1);
             return -1;
         }
     }
-    static int getRecipeTypeIndex(SlimefunBlockData data){
-        try{
-            String a= data.getData("craftType");
+
+    static int getRecipeTypeIndex(SlimefunBlockData data) {
+        try {
+            String a = data.getData("craftType");
             return Integer.parseInt(a);
 
-        }   catch (NumberFormatException a){
-            data.setData("craftType","-1");
+        } catch (NumberFormatException a) {
+            data.setData("craftType", "-1");
             return -1;
         }
     }
@@ -32,11 +33,12 @@ public interface MultiCraftType extends RecipeLock {
      * @param loc
      * @param val
      */
-    static void setRecipeTypeIndex(Location loc ,int val){
+    static void setRecipeTypeIndex(Location loc, int val) {
 
         StorageCacheUtils.setData(loc, "craftType", String.valueOf(val));
     }
-    static void setRecipeTypeIndex(SlimefunBlockData data ,int val){
+
+    static void setRecipeTypeIndex(SlimefunBlockData data, int val) {
         data.setData("craftType", String.valueOf(val));
     }
 
@@ -45,16 +47,17 @@ public interface MultiCraftType extends RecipeLock {
      * @param loc
      * @param val
      */
-    static void safeSetRecipeTypeIndex(Location loc, int val){
-        int index=getRecipeTypeIndex(loc);
-        if(index!=val){
-            forceSetRecipeTypeIndex(loc,val );
+    static void safeSetRecipeTypeIndex(Location loc, int val) {
+        int index = getRecipeTypeIndex(loc);
+        if (index != val) {
+            forceSetRecipeTypeIndex(loc, val);
         }
     }
-    static void safeSetRecipeTypeIndex(SlimefunBlockData data, int val){
-        int index=getRecipeTypeIndex(data);
-        if(index!=val){
-            forceSetRecipeTypeIndex(data,val );
+
+    static void safeSetRecipeTypeIndex(SlimefunBlockData data, int val) {
+        int index = getRecipeTypeIndex(data);
+        if (index != val) {
+            forceSetRecipeTypeIndex(data, val);
         }
     }
 
@@ -63,12 +66,13 @@ public interface MultiCraftType extends RecipeLock {
      * @param loc
      * @param val
      */
-    static void forceSetRecipeTypeIndex(Location loc, int val){
+    static void forceSetRecipeTypeIndex(Location loc, int val) {
         StorageCacheUtils.setData(loc, "craftType", String.valueOf(val));
-        DataCache.setLastRecipe(loc,-1);
+        DataCache.setLastRecipe(loc, -1);
     }
-    static void forceSetRecipeTypeIndex(SlimefunBlockData data, int val){
+
+    static void forceSetRecipeTypeIndex(SlimefunBlockData data, int val) {
         data.setData("craftType", String.valueOf(val));
-        DataCache.setLastRecipe(data,-1);
+        DataCache.setLastRecipe(data, -1);
     }
 }

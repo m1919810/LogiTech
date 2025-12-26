@@ -8,6 +8,5 @@ public interface RandOutItem {
      * read-only
      * @return
      */
-
-   public ItemStack getInstance();
+    public ItemStack getInstance();
 }

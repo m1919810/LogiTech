@@ -5,17 +5,16 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.commons.lang.Validate;
 import io.github.thebusybiscuit.slimefun4.utils.ChargeUtils;
-import me.matl114.matlib.algorithms.algorithm.Utils;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import me.matl114.matlib.algorithms.algorithm.Utils;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public interface LogiTechChargable extends Rechargeable {
     static void setCharge(ItemStack item, float charge, float maximum) {
@@ -77,86 +76,96 @@ public interface LogiTechChargable extends Rechargeable {
             throw new IllegalArgumentException("Cannot remove Item charge for null or AIR");
         }
     }
-    static List<Function<ItemMeta,Float>> moreCustomCharges = new ArrayList<>();
-    static AtomicReference<Function<ItemMeta,Float>[]> predicates = new AtomicReference<>(new Function[0]) ;
-    static void registerCustomChargables(Function<ItemMeta,Float> howToGetMaxCharge){
+
+    static List<Function<ItemMeta, Float>> moreCustomCharges = new ArrayList<>();
+    static AtomicReference<Function<ItemMeta, Float>[]> predicates = new AtomicReference<>(new Function[0]);
+
+    static void registerCustomChargables(Function<ItemMeta, Float> howToGetMaxCharge) {
         moreCustomCharges.add(howToGetMaxCharge);
         predicates.set(moreCustomCharges.toArray(Function[]::new));
     }
-    //返回溢出量,设置电力为max(charge,maxCharge),返回多余的
-    //不会考虑数量
+    // 返回溢出量,设置电力为max(charge,maxCharge),返回多余的
+    // 不会考虑数量
     static float setChargeSafe(ItemStack item, float charge) {
         ItemMeta meta = item.getItemMeta();
-        if(Slimefun.getItemDataService().getItemData(meta).map(SlimefunItem::getById).orElse(null) instanceof Rechargeable rechargeable ){
-            float outFlow ;
-            float newCharge ;
+        if (Slimefun.getItemDataService()
+                        .getItemData(meta)
+                        .map(SlimefunItem::getById)
+                        .orElse(null)
+                instanceof Rechargeable rechargeable) {
+            float outFlow;
+            float newCharge;
             float maxCharge = rechargeable.getMaxItemCharge(item);
-            if( charge > maxCharge){
+            if (charge > maxCharge) {
                 outFlow = charge - maxCharge;
                 newCharge = maxCharge;
-            }else{
+            } else {
                 outFlow = 0;
                 newCharge = charge;
             }
             rechargeable.setItemCharge(item, newCharge);
             return outFlow;
-        }else {
-            Float maxCharge = Utils.computeTilPresent(meta,predicates.get());
-            if(maxCharge!=null){
+        } else {
+            Float maxCharge = Utils.computeTilPresent(meta, predicates.get());
+            if (maxCharge != null) {
                 float outFlow;
-                float newCharge ;
-                if(charge > maxCharge){
-                    outFlow = charge -maxCharge;
+                float newCharge;
+                if (charge > maxCharge) {
+                    outFlow = charge - maxCharge;
                     newCharge = maxCharge;
-                }else {
+                } else {
                     outFlow = 0;
                     newCharge = charge;
                 }
-                setCharge(item,newCharge,maxCharge);
+                setCharge(item, newCharge, maxCharge);
                 return outFlow;
-            }else{
+            } else {
                 return -1;
             }
         }
     }
-    @Nullable
-    static Float getMaxItemChargeOrNull(@Nonnull ItemStack item) {
+
+    @Nullable static Float getMaxItemChargeOrNull(@Nonnull ItemStack item) {
         ItemMeta meta = item.getItemMeta();
-        if(meta!=null){
-            if(Slimefun.getItemDataService().getItemData(meta).map(SlimefunItem::getById).orElse(null) instanceof Rechargeable rechargeable ){
+        if (meta != null) {
+            if (Slimefun.getItemDataService()
+                            .getItemData(meta)
+                            .map(SlimefunItem::getById)
+                            .orElse(null)
+                    instanceof Rechargeable rechargeable) {
                 return rechargeable.getMaxItemCharge(item);
-            }else {
-                return Utils.computeTilPresent(meta,predicates.get());
+            } else {
+                return Utils.computeTilPresent(meta, predicates.get());
             }
         }
         return null;
     }
-    //尝试改变charge
-    //返回无法改变的量 例如change +3 实际+2 返回+1
-    //当无法充电时返回charge
-    //会考虑数量
-    static float changeChargeSafe(ItemStack item, float charge){
+    // 尝试改变charge
+    // 返回无法改变的量 例如change +3 实际+2 返回+1
+    // 当无法充电时返回charge
+    // 会考虑数量
+    static float changeChargeSafe(ItemStack item, float charge) {
         return changeChargeSafe(item, charge, null);
     }
 
-    static float changeChargeSafe(ItemStack item, float charge, ChargePredicate predicate){
+    static float changeChargeSafe(ItemStack item, float charge, ChargePredicate predicate) {
         ItemMeta meta = item.getItemMeta();
         Float maxCharge = getMaxItemChargeOrNull(item);
-        if(maxCharge == null){
+        if (maxCharge == null) {
             return charge;
         }
         int amount = item.getAmount();
-        float singleCharge = charge/amount;
+        float singleCharge = charge / amount;
         float nowCharge = ChargeUtils.getCharge(meta);
-        if(predicate != null && predicate.shouldCharge(meta, maxCharge, nowCharge, singleCharge)){
+        if (predicate != null && predicate.shouldCharge(meta, maxCharge, nowCharge, singleCharge)) {
             return charge;
         }
         float newCharge = singleCharge + nowCharge;
         float left = 0;
-        if( newCharge>maxCharge){
-            left = (newCharge - maxCharge )* amount;
+        if (newCharge > maxCharge) {
+            left = (newCharge - maxCharge) * amount;
             newCharge = maxCharge;
-        }else if(newCharge <0){
+        } else if (newCharge < 0) {
             left = newCharge * amount;
             newCharge = 0;
         }
@@ -165,7 +174,7 @@ public interface LogiTechChargable extends Rechargeable {
         return left;
     }
 
-    public static interface ChargePredicate{
+    public static interface ChargePredicate {
         public boolean shouldCharge(ItemMeta meta, float maxCharg, float charge, float deltaCharge);
     }
 }

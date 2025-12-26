@@ -1,6 +1,7 @@
 package me.matl114.logitech.listeners.Listeners;
 
 import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
+import java.util.List;
 import me.matl114.logitech.core.Machines.SpecialMachines.TimerBlockEntity;
 import me.matl114.logitech.core.Machines.SpecialMachines.TimerRandomtick;
 import org.bukkit.block.Block;
@@ -13,47 +14,52 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.world.StructureGrowEvent;
 
-import java.util.List;
-
 public class TickBlockListener implements Listener {
-    @EventHandler(ignoreCancelled = true,priority = EventPriority.MONITOR)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlace(BlockPlaceEvent event) {
         tryAddBlockEntity(event.getBlock());
         tryAddRandomTick(event.getBlock());
-
     }
-    @EventHandler(ignoreCancelled = true,priority = EventPriority.MONITOR)
-    public void onPlacerPlace(BlockPlacerPlaceEvent event){
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onPlacerPlace(BlockPlacerPlaceEvent event) {
         tryAddBlockEntity(event.getBlock());
         tryAddRandomTick(event.getBlock());
     }
-    public void tryAddBlockEntity(Block block){
-        if(TimerBlockEntity.isEnable()&& TimerBlockEntity.getInstance().blockPredicate(block)){
+
+    public void tryAddBlockEntity(Block block) {
+        if (TimerBlockEntity.isEnable() && TimerBlockEntity.getInstance().blockPredicate(block)) {
             TimerBlockEntity.getInstance().addLocation(block.getLocation());
         }
     }
-    public void tryAddRandomTick(Block block){
-        if(TimerRandomtick.isEnable()&& TimerRandomtick.getInstance().blockPredicate(block)){
+
+    public void tryAddRandomTick(Block block) {
+        if (TimerRandomtick.isEnable() && TimerRandomtick.getInstance().blockPredicate(block)) {
             TimerRandomtick.getInstance().addLocation(block.getLocation());
         }
     }
-    public void tryAddRandomTick(BlockState block){
-        //Debug.logger("new state at %s, new state type".formatted(DataCache.locationToDisplayString(block.getLocation())),block.getType());
-        if(TimerRandomtick.isEnable()&& TimerRandomtick.getInstance().typePredicate(block.getType())){
+
+    public void tryAddRandomTick(BlockState block) {
+        // Debug.logger("new state at %s, new state
+        // type".formatted(DataCache.locationToDisplayString(block.getLocation())),block.getType());
+        if (TimerRandomtick.isEnable() && TimerRandomtick.getInstance().typePredicate(block.getType())) {
             TimerRandomtick.getInstance().addLocation(block.getLocation());
         }
     }
-    @EventHandler(ignoreCancelled = true,priority = EventPriority.MONITOR)
-    public void onPlantGrow(StructureGrowEvent event){
-        List<BlockState> blocks=event.getBlocks();
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onPlantGrow(StructureGrowEvent event) {
+        List<BlockState> blocks = event.getBlocks();
         blocks.forEach(this::tryAddRandomTick);
     }
-    @EventHandler(ignoreCancelled = true,priority = EventPriority.MONITOR)
-    public void onPlantGrow(BlockGrowEvent event){
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onPlantGrow(BlockGrowEvent event) {
         tryAddRandomTick(event.getNewState());
     }
-    @EventHandler(ignoreCancelled = true,priority = EventPriority.MONITOR)
-    public void onPlantGrow(BlockSpreadEvent event){
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onPlantGrow(BlockSpreadEvent event) {
         tryAddRandomTick(event.getNewState());
     }
 }

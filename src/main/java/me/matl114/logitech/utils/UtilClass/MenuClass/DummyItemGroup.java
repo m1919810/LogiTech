@@ -1,11 +1,10 @@
 package me.matl114.logitech.utils.UtilClass.MenuClass;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.ParametersAreNonnullByDefault;
 
 public class DummyItemGroup extends ItemGroup {
 
@@ -19,5 +18,4 @@ public class DummyItemGroup extends ItemGroup {
     public boolean isHidden(Player p) {
         return true;
     }
-
 }

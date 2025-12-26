@@ -6,15 +6,17 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class ConstItemStack extends CleanItemStack {
     private ItemStack data;
+
     public ConstItemStack(ItemStack itemStack) {
         super(itemStack);
         this.data = itemStack;
     }
-    public boolean setItemMeta(ItemMeta meta){
+
+    public boolean setItemMeta(ItemMeta meta) {
         return true;
     }
-    public ItemStack clone(){
+
+    public ItemStack clone() {
         return data.clone();
     }
-
 }

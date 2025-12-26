@@ -1,5 +1,8 @@
 package me.matl114.logitech.utils.UtilClass.MultiBlockClass;
 
+import java.util.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import me.matl114.logitech.utils.AddUtils;
 import me.matl114.logitech.utils.DataCache;
 import me.matl114.logitech.utils.UtilClass.PdcClass.AbstractStringList;
@@ -11,16 +14,14 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Interaction;
 import org.bukkit.persistence.PersistentDataType;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.*;
-
 public class DisplayGroup {
-    private static final NamespacedKey KEY_LIST = AddUtils.getNameKey("child_display_list") ;
-    private static final NamespacedKey KEY_NAMES =AddUtils.getNameKey("child_display_names") ;
-    protected static NamespacedKey KEY_SOURCE= AddUtils.getNameKey("display-source");
+    private static final NamespacedKey KEY_LIST = AddUtils.getNameKey("child_display_list");
+    private static final NamespacedKey KEY_NAMES = AddUtils.getNameKey("child_display_names");
+    protected static NamespacedKey KEY_SOURCE = AddUtils.getNameKey("display-source");
+
     @Nonnull
     private final Interaction parentDisplay;
+
     private final Map<String, Display> displays;
 
     public DisplayGroup(@Nonnull Location location) {
@@ -29,37 +30,46 @@ public class DisplayGroup {
 
     public DisplayGroup(@Nonnull Location location, float height, float width) {
         this.displays = new HashMap();
-        this.parentDisplay = (Interaction)location.getWorld().spawnEntity(location, EntityType.INTERACTION);
+        this.parentDisplay = (Interaction) location.getWorld().spawnEntity(location, EntityType.INTERACTION);
         this.parentDisplay.setInteractionHeight(height);
         this.parentDisplay.setInteractionWidth(width);
-        this.parentDisplay.getPersistentDataContainer().set(KEY_SOURCE, PersistentDataType.STRING, DataCache.locationToString(new Location(location.getWorld(),location.getBlockX(),location.getBlockY(),location.getBlockZ())));
+        this.parentDisplay
+                .getPersistentDataContainer()
+                .set(
+                        KEY_SOURCE,
+                        PersistentDataType.STRING,
+                        DataCache.locationToString(new Location(
+                                location.getWorld(),
+                                location.getBlockX(),
+                                location.getBlockY(),
+                                location.getBlockZ())));
         this.applyLists(new ArrayList(), new ArrayList());
     }
 
-//    public DisplayGroup(@Nonnull Interaction textDisplay) {
-//        this.displays = new HashMap();
-//        this.parentDisplay = textDisplay;
-//        List<String> childList = this.getChildList();
-//        List<String> childNames = this.getChildNames();
-//        if (childList != null && childNames != null) {
-//            if (childList.size() != childNames.size()) {
-//                throw new IllegalStateException("This display's memory has been borked");
-//            } else {
-//                for(int i = 0; i < childList.size(); ++i) {
-//                    String s = (String)childList.get(i);
-//                    UUID uuid = UUID.fromString(s);
-//                    Entity entity = Bukkit.getEntity(uuid);
-//                    if (entity != null && !entity.isDead() && entity instanceof Display) {
-//                        Display display = (Display)entity;
-//                        this.displays.put((String)childNames.get(i), display);
-//                    }
-//                }
-//
-//            }
-//        } else {
-//            throw new IllegalArgumentException("This display was never part of a group");
-//        }
-//    }
+    //    public DisplayGroup(@Nonnull Interaction textDisplay) {
+    //        this.displays = new HashMap();
+    //        this.parentDisplay = textDisplay;
+    //        List<String> childList = this.getChildList();
+    //        List<String> childNames = this.getChildNames();
+    //        if (childList != null && childNames != null) {
+    //            if (childList.size() != childNames.size()) {
+    //                throw new IllegalStateException("This display's memory has been borked");
+    //            } else {
+    //                for(int i = 0; i < childList.size(); ++i) {
+    //                    String s = (String)childList.get(i);
+    //                    UUID uuid = UUID.fromString(s);
+    //                    Entity entity = Bukkit.getEntity(uuid);
+    //                    if (entity != null && !entity.isDead() && entity instanceof Display) {
+    //                        Display display = (Display)entity;
+    //                        this.displays.put((String)childNames.get(i), display);
+    //                    }
+    //                }
+    //
+    //            }
+    //        } else {
+    //            throw new IllegalArgumentException("This display was never part of a group");
+    //        }
+    //    }
 
     @Nonnull
     public Interaction getParentDisplay() {
@@ -91,9 +101,8 @@ public class DisplayGroup {
         }
     }
 
-    @Nullable
-    public Display removeDisplay(@Nonnull String name) {
-        Display display = (Display)this.displays.remove(name);
+    @Nullable public Display removeDisplay(@Nonnull String name) {
+        Display display = (Display) this.displays.remove(name);
         if (display == null) {
             return display;
         } else {
@@ -115,15 +124,14 @@ public class DisplayGroup {
         if (display != null) {
             display.remove();
         }
-
     }
 
     public void remove() {
         this.displays.forEach((s, display) -> {
-            WorldUtils.executeOnSameEntity(display,(entity -> entity.remove()));
+            WorldUtils.executeOnSameEntity(display, (entity -> entity.remove()));
             display.remove();
         });
-        WorldUtils.executeOnSameEntity(this.parentDisplay,(entity -> entity.remove()));
+        WorldUtils.executeOnSameEntity(this.parentDisplay, (entity -> entity.remove()));
         this.parentDisplay.remove();
     }
 
@@ -135,42 +143,42 @@ public class DisplayGroup {
         this.getParentDisplay().teleport(location);
     }
 
-    @Nullable
-    private List<String> getChildList() {
-        return (List<String>) this.parentDisplay.getPersistentDataContainer().get(KEY_LIST,AbstractStringList.TYPE);
+    @Nullable private List<String> getChildList() {
+        return (List<String>) this.parentDisplay.getPersistentDataContainer().get(KEY_LIST, AbstractStringList.TYPE);
         // return (List) PersistentDataAPI.get(this.parentDisplay, KEY_LIST, AbstractStringList.TYPE);
     }
 
-    @Nullable
-    private List<String> getChildNames() {
-        return (List<String>) this.parentDisplay.getPersistentDataContainer().get(KEY_NAMES,AbstractStringList.TYPE);
-        //return (List)PersistentDataAPI.get(this.parentDisplay, KEY_NAMES, AbstractStringList.TYPE);
+    @Nullable private List<String> getChildNames() {
+        return (List<String>) this.parentDisplay.getPersistentDataContainer().get(KEY_NAMES, AbstractStringList.TYPE);
+        // return (List)PersistentDataAPI.get(this.parentDisplay, KEY_NAMES, AbstractStringList.TYPE);
     }
 
     private void applyLists(@Nonnull List<String> childList, @Nonnull List<String> childNames) {
-        this.parentDisplay.getPersistentDataContainer().set( KEY_LIST, AbstractStringList.TYPE, childList);
-        this.parentDisplay.getPersistentDataContainer().set(  KEY_NAMES, AbstractStringList.TYPE, childNames);
+        this.parentDisplay.getPersistentDataContainer().set(KEY_LIST, AbstractStringList.TYPE, childList);
+        this.parentDisplay.getPersistentDataContainer().set(KEY_NAMES, AbstractStringList.TYPE, childNames);
     }
-    public Collection<Display> getDisplaySet(){
-        if(this.displays==null||this.displays.isEmpty()){
+
+    public Collection<Display> getDisplaySet() {
+        if (this.displays == null || this.displays.isEmpty()) {
             return new HashSet<>();
-        }else {
+        } else {
             return this.displays.values();
         }
     }
-//    @Nullable
-//    public static dev.sefiraat.sefilib.entity.display.DisplayGroup fromUUID(@Nonnull UUID uuid) {
-//        Entity entity = Bukkit.getEntity(uuid);
-//        if (entity != null && !entity.isDead() && entity instanceof Interaction display) {
-//            return fromInteraction(display);
-//        } else {
-//            return null;
-//        }
-//    }
-//
-//    @Nullable
-//    public static dev.sefiraat.sefilib.entity.display.DisplayGroup fromInteraction(@Nonnull Interaction interaction) {
-//        return PersistentDataAPI.has(interaction, KEY_LIST, AbstractStringList.TYPE) ? new dev.sefiraat.sefilib.entity.display.DisplayGroup(interaction) : null;
-//    }
+    //    @Nullable
+    //    public static dev.sefiraat.sefilib.entity.display.DisplayGroup fromUUID(@Nonnull UUID uuid) {
+    //        Entity entity = Bukkit.getEntity(uuid);
+    //        if (entity != null && !entity.isDead() && entity instanceof Interaction display) {
+    //            return fromInteraction(display);
+    //        } else {
+    //            return null;
+    //        }
+    //    }
+    //
+    //    @Nullable
+    //    public static dev.sefiraat.sefilib.entity.display.DisplayGroup fromInteraction(@Nonnull Interaction
+    // interaction) {
+    //        return PersistentDataAPI.has(interaction, KEY_LIST, AbstractStringList.TYPE) ? new
+    // dev.sefiraat.sefilib.entity.display.DisplayGroup(interaction) : null;
+    //    }
 }
-

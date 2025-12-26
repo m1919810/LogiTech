@@ -10,18 +10,19 @@ public final class TransformationBuilder {
     private Vector3f scaling = new Vector3f(1.0F, 1.0F, 1.0F);
     private Vector3f translation = new Vector3f(0.0F, 0.0F, 0.0F);
 
-    public TransformationBuilder() {
-    }
+    public TransformationBuilder() {}
 
-//    public TransformationBuilder firstRotation(RotationFace face, float angle) {
-//        this.firstRotation = new AxisAngle4f((float)Math.toRadians((double)angle), face.getX(), face.getY(), face.getZ());
-//        return this;
-//    }
-//
-//    public TransformationBuilder secondRotation(RotationFace face, float angle) {
-//        this.secondRotation = new AxisAngle4f((float)Math.toRadians((double)angle), face.getX(), face.getY(), face.getZ());
-//        return this;
-//    }
+    //    public TransformationBuilder firstRotation(RotationFace face, float angle) {
+    //        this.firstRotation = new AxisAngle4f((float)Math.toRadians((double)angle), face.getX(), face.getY(),
+    // face.getZ());
+    //        return this;
+    //    }
+    //
+    //    public TransformationBuilder secondRotation(RotationFace face, float angle) {
+    //        this.secondRotation = new AxisAngle4f((float)Math.toRadians((double)angle), face.getX(), face.getY(),
+    // face.getZ());
+    //        return this;
+    //    }
 
     public TransformationBuilder scale(float scaleX, float scaleY, float scaleZ) {
         this.scaling = new Vector3f(scaleX, scaleY, scaleZ);

@@ -11,19 +11,22 @@ import org.bukkit.inventory.InventoryHolder;
 public class BlockMenuClickProtectListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onBlockMenuClick(InventoryClickEvent e) {
-        InventoryHolder inv=e.getWhoClicked().getOpenInventory().getTopInventory().getHolder();
-        if(inv instanceof BlockMenu blockMenu){
-            if(blockMenu.getPreset() instanceof MenuBlock.AdvancedBlockMenuPreset abm){
-                abm.handleOriginClick(blockMenu,e);
+        InventoryHolder inv =
+                e.getWhoClicked().getOpenInventory().getTopInventory().getHolder();
+        if (inv instanceof BlockMenu blockMenu) {
+            if (blockMenu.getPreset() instanceof MenuBlock.AdvancedBlockMenuPreset abm) {
+                abm.handleOriginClick(blockMenu, e);
             }
         }
     }
+
     @EventHandler(ignoreCancelled = true)
     public void onBlockMenuDragClick(InventoryDragEvent e) {
-        InventoryHolder inv=e.getWhoClicked().getOpenInventory().getTopInventory().getHolder();
-        if(inv instanceof BlockMenu blockMenu){
-            if(blockMenu.getPreset() instanceof MenuBlock.AdvancedBlockMenuPreset abm){
-                abm.handleDragEvent(blockMenu,e);
+        InventoryHolder inv =
+                e.getWhoClicked().getOpenInventory().getTopInventory().getHolder();
+        if (inv instanceof BlockMenu blockMenu) {
+            if (blockMenu.getPreset() instanceof MenuBlock.AdvancedBlockMenuPreset abm) {
+                abm.handleDragEvent(blockMenu, e);
             }
         }
     }

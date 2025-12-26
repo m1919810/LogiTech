@@ -10,10 +10,13 @@ public interface CustomMenuHandler {
      * @return
      */
     public ChestMenu.MenuClickHandler getInstance(CustomMenu cm);
+
     public static CustomMenuHandler from(ChestMenu.MenuClickHandler handler) {
         return (cm -> handler);
     }
+
     public static ChestMenu.MenuClickHandler EMPTY = ChestMenuUtils.getEmptyClickHandler();
+
     public static CustomMenuHandler empty() {
         return (cm -> EMPTY);
     }

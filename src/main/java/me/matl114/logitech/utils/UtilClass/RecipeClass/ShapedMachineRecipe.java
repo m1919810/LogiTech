@@ -11,8 +11,9 @@ public class ShapedMachineRecipe extends MachineRecipe {
         super(0, inputs, outputs);
         this.setTicks(ticks);
     }
+
     public ShapedMachineRecipe(int ticks, ItemStack[] inputs, ItemStack outputs) {
-        super(0, inputs, new ItemStack[] { outputs });
+        super(0, inputs, new ItemStack[] {outputs});
         this.setTicks(ticks);
     }
 }

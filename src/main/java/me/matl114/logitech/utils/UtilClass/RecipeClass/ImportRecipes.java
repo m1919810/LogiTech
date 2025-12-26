@@ -6,7 +6,7 @@ public interface ImportRecipes {
      * if you are sure that no conflicts will occur, override this with false,and this will be read by recipesupporter
      * @return
      */
-    default boolean isConflict(){
+    default boolean isConflict() {
         return true;
     }
 }

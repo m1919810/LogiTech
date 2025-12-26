@@ -1,11 +1,10 @@
 package me.matl114.logitech.utils.UtilClass.MultiBlockClass;
 
+import java.util.List;
+import java.util.Map;
 import me.matl114.logitech.utils.UtilClass.FunctionalClass.OutputStream;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
-
-import java.util.List;
-import java.util.Map;
 
 public interface AbstractMultiBlockType {
     /**
@@ -33,7 +32,7 @@ public interface AbstractMultiBlockType {
      * @param id
      * @return
      */
-    //public MultiBlockType addBlock(int x, int y, int z,String id);
+    // public MultiBlockType addBlock(int x, int y, int z,String id);
 
     /**
      * get index th block,used in hologram type show
@@ -46,9 +45,9 @@ public interface AbstractMultiBlockType {
      * get structure id list
      * @return
      */
-//    public BlockVector[] getStructurePos();
-//
-//    public String[] getStructureIds();
+    //    public BlockVector[] getStructurePos();
+    //
+    //    public String[] getStructureIds();
 
     /**
      * get index th id,used in hologram type show
@@ -70,9 +69,11 @@ public interface AbstractMultiBlockType {
      * @param hasPrevRecord
      * @return
      */
-    public AbstractMultiBlock genMultiBlockFrom(Location loc, MultiBlockService.Direction dir, boolean hasPrevRecord, OutputStream errorStream);
+    public AbstractMultiBlock genMultiBlockFrom(
+            Location loc, MultiBlockService.Direction dir, boolean hasPrevRecord, OutputStream errorStream);
 
     public List<String> getRequiredArguments();
 
-    public Map<Vector,String> getMultiBlockSchemaFromArguments(MultiBlockService.Direction dir,Map<String,String> arguments);
+    public Map<Vector, String> getMultiBlockSchemaFromArguments(
+            MultiBlockService.Direction dir, Map<String, String> arguments);
 }

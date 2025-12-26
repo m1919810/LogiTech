@@ -14,14 +14,14 @@ public class LaserGunOnHeadListener implements Listener {
     @EventHandler
     public void onPlayerSneakWithLaser(PlayerSwapHandItemsEvent event) {
         Player player = event.getPlayer();
-        ItemStack stack=player.getInventory().getItem(EquipmentSlot.HEAD);
-        if(stack==null||stack.getType()!= Material.PLAYER_HEAD){
+        ItemStack stack = player.getInventory().getItem(EquipmentSlot.HEAD);
+        if (stack == null || stack.getType() != Material.PLAYER_HEAD) {
             return;
         }
-        SlimefunItem item=SlimefunItem.getByItem(stack);
-        if(item instanceof LaserGun lg){
+        SlimefunItem item = SlimefunItem.getByItem(stack);
+        if (item instanceof LaserGun lg) {
             event.setCancelled(true);
-            lg.onLaser(player,stack,true,false);
+            lg.onLaser(player, stack, true, false);
         }
     }
 }

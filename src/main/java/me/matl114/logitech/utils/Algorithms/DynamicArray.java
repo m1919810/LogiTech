@@ -10,34 +10,38 @@ public class DynamicArray<T> extends AbstractList<T> implements List<T> {
     private int size;
     private int maxinum;
     private IntFunction<T> func;
-    public DynamicArray(IntFunction<T[]> generator , int size,IntFunction<T> indexer) {
-        this.array=generator.apply(size);
-        this.size=size;
-        this.func=indexer;
-        this.maxinum=-1;
+
+    public DynamicArray(IntFunction<T[]> generator, int size, IntFunction<T> indexer) {
+        this.array = generator.apply(size);
+        this.size = size;
+        this.func = indexer;
+        this.maxinum = -1;
     }
-    public int size(){
+
+    public int size() {
         return size;
     }
-    public boolean isEmpty(){
-        return size==0;
-    }
-    public T get(int index){
-        if(index<0 || index>=size){
-            throw new IndexOutOfBoundsException(index+" is out of bounds "+size);
-        }
-        T a=array[index];
-        this.maxinum=Math.max(maxinum,index);
 
-        if(a!=null){
-            return a;
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public T get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException(index + " is out of bounds " + size);
         }
-        else {
-            array[index]=func.apply(index);
+        T a = array[index];
+        this.maxinum = Math.max(maxinum, index);
+
+        if (a != null) {
+            return a;
+        } else {
+            array[index] = func.apply(index);
             return array[index];
         }
     }
-    public T[] getResult(){
+
+    public T[] getResult() {
         return array;
     }
 
@@ -45,12 +49,13 @@ public class DynamicArray<T> extends AbstractList<T> implements List<T> {
      * used in array sequencial visiting
      * @return
      */
-    public int getMaxVisitedIndex(){
+    public int getMaxVisitedIndex() {
         return maxinum;
     }
-    public void applyPresent(Consumer<T> action){
-        for(int i=0;i<size;i++){
-            if(array[i]!=null){
+
+    public void applyPresent(Consumer<T> action) {
+        for (int i = 0; i < size; i++) {
+            if (array[i] != null) {
                 action.accept(array[i]);
             }
         }

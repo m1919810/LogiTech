@@ -7,23 +7,26 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public interface ChipControllable {
-    public  int getChipSlot();
-    static final String CCODEKEY="ccmd";
-    default String getKey(){
+    public int getChipSlot();
+
+    static final String CCODEKEY = "ccmd";
+
+    default String getKey() {
         return CCODEKEY;
     }
-    default void loadChipCommand(BlockMenu inv){
-        SlimefunBlockData data= DataCache.safeLoadBlock(inv.getLocation());
-        ItemStack it=inv.getItemInSlot(getChipSlot());
-        if(it!=null){
-            ItemMeta im=it.getItemMeta();
-            if(ChipCardCode.isConfig(im)){
-                int code=ChipCardCode.getConfig(im);
-                data.setData(CCODEKEY,String.valueOf(code));
+
+    default void loadChipCommand(BlockMenu inv) {
+        SlimefunBlockData data = DataCache.safeLoadBlock(inv.getLocation());
+        ItemStack it = inv.getItemInSlot(getChipSlot());
+        if (it != null) {
+            ItemMeta im = it.getItemMeta();
+            if (ChipCardCode.isConfig(im)) {
+                int code = ChipCardCode.getConfig(im);
+                data.setData(CCODEKEY, String.valueOf(code));
                 return;
             }
         }
-        data.setData(CCODEKEY,"n");
+        data.setData(CCODEKEY, "n");
         return;
     }
 }

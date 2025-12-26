@@ -11,16 +11,21 @@ import org.bukkit.inventory.meta.ItemMeta;
 public enum CustomFireworkStar {
     RTP_RUNE(AddUtils.START_CODE);
     ItemStack item;
-    CustomFireworkStar(int t){
-        item=new ItemStack(Material.FIREWORK_STAR);
-        ItemMeta meta=item.getItemMeta();
-        if(meta instanceof FireworkEffectMeta fem){
-            fem.setEffect(FireworkEffect.builder().with(FireworkEffect.Type.BURST).withColor(Color.fromRGB(t)).build());
+
+    CustomFireworkStar(int t) {
+        item = new ItemStack(Material.FIREWORK_STAR);
+        ItemMeta meta = item.getItemMeta();
+        if (meta instanceof FireworkEffectMeta fem) {
+            fem.setEffect(FireworkEffect.builder()
+                    .with(FireworkEffect.Type.BURST)
+                    .withColor(Color.fromRGB(t))
+                    .build());
         }
         item.setItemMeta(meta);
         AddUtils.hideAllFlags(item);
     }
-    public ItemStack getItem(){
+
+    public ItemStack getItem() {
         return item;
     }
 }

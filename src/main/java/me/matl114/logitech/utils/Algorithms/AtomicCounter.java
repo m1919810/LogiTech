@@ -3,14 +3,17 @@ package me.matl114.logitech.utils.Algorithms;
 public class AtomicCounter {
     private volatile int value;
     private final int maxinum;
-    public AtomicCounter(int value,int max) {
+
+    public AtomicCounter(int value, int max) {
         this.value = value;
         this.maxinum = max;
     }
-    public boolean enough(){
+
+    public boolean enough() {
         return this.value >= maxinum;
     }
-    public boolean empty(){
+
+    public boolean empty() {
         return this.value <= 0;
     }
 
@@ -19,13 +22,13 @@ public class AtomicCounter {
      * @param value
      * @return
      */
-    public int increment(int value){
-        int more=0;
+    public int increment(int value) {
+        int more = 0;
         synchronized (this) {
-            this.value+=value;
-            more=this.value-maxinum;
-            if(more>=0){
-                this.value=maxinum;
+            this.value += value;
+            more = this.value - maxinum;
+            if (more >= 0) {
+                this.value = maxinum;
             }
         }
         return Math.max(more, 0);
@@ -35,15 +38,15 @@ public class AtomicCounter {
      * @param value
      * @return
      */
-    public int safeIncrement(int value){
-        int expected=this.maxinum-value;
+    public int safeIncrement(int value) {
+        int expected = this.maxinum - value;
         synchronized (this) {
-            if(this.value<=expected){
-                this.value+=value;
+            if (this.value <= expected) {
+                this.value += value;
                 return 0;
-            }else{
-                expected-=this.value;
-                this.value=maxinum;
+            } else {
+                expected -= this.value;
+                this.value = maxinum;
             }
         }
         return -expected;
@@ -54,20 +57,20 @@ public class AtomicCounter {
      * @param value
      * @return
      */
-    public int required(int value){
+    public int required(int value) {
         synchronized (this) {
-            if(this.value>=value){
-                this.value-=value;
+            if (this.value >= value) {
+                this.value -= value;
                 return value;
-            }else {
-                value=this.value;
-                this.value=0;
+            } else {
+                value = this.value;
+                this.value = 0;
             }
         }
         return value;
     }
 
-    public int get(){
+    public int get() {
         return value;
     }
 }

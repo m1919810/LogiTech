@@ -1,6 +1,5 @@
 package me.matl114.logitech.core.Depends;
 
-
 import com.bgsoftware.wildstacker.api.WildStackerAPI;
 import com.google.common.base.Preconditions;
 import dev.rosewood.rosestacker.api.RoseStackerAPI;
@@ -14,14 +13,19 @@ public class SupportedPluginManager {
 
     @Getter
     private static SupportedPluginManager instance;
+
     @Getter
     private boolean roseStacker;
+
     @Getter
     private boolean wildStacker;
+
     @Getter
     private RoseStackerAPI roseStackerAPI;
+
     @Getter
     private boolean mcMMO;
+
     @Getter
     private boolean wildChests;
 
@@ -35,33 +39,33 @@ public class SupportedPluginManager {
     }
 
     public int getStackAmount(Item item) {
-        try{
+        try {
             if (isWildStacker()) {
                 return WildStackerAPI.getItemAmount(item);
-            } else if (getInstance().isRoseStacker()&&getRoseStackerAPI()!=null) {
+            } else if (getInstance().isRoseStacker() && getRoseStackerAPI() != null) {
                 StackedItem stackedItem = getRoseStackerAPI().getStackedItem(item);
                 return stackedItem == null ? item.getItemStack().getAmount() : stackedItem.getStackSize();
             } else {
                 return item.getItemStack().getAmount();
             }
-        }catch (Throwable e){
+        } catch (Throwable e) {
             return item.getItemStack().getAmount();
         }
     }
 
     public void setStackAmount(Item item, int amount) {
-        try{
+        try {
             if (isWildStacker()) {
                 WildStackerAPI.getStackedItem(item).setStackAmount(amount, true);
             } else if (isRoseStacker()) {
-                StackedItem stackedItem =getRoseStackerAPI().getStackedItem(item);
+                StackedItem stackedItem = getRoseStackerAPI().getStackedItem(item);
                 if (stackedItem != null) {
                     stackedItem.setStackSize(amount);
                 }
             } else {
                 item.getItemStack().setAmount(amount);
             }
-        }catch (Throwable e){
+        } catch (Throwable e) {
             item.getItemStack().setAmount(amount);
         }
     }

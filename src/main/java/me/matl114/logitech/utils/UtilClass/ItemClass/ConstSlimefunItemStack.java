@@ -1,45 +1,45 @@
 package me.matl114.logitech.utils.UtilClass.ItemClass;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import java.lang.reflect.Field;
 import me.matl114.logitech.utils.ReflectUtils;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import java.lang.reflect.Field;
 
 public class ConstSlimefunItemStack extends SlimefunItemStack {
     public SlimefunItemStack data;
     public ItemMeta thismeta;
     Field lockedField;
-    public ConstSlimefunItemStack(SlimefunItemStack stack){
-        super(stack.getItemId(),stack);
-        this.data =stack ;
+
+    public ConstSlimefunItemStack(SlimefunItemStack stack) {
+        super(stack.getItemId(), stack);
+        this.data = stack;
         this.thismeta = stack.getItemMeta();
-        this.lockedField=ReflectUtils.getDeclaredFieldsRecursively(this.getClass(),"locked").getFirstValue();
-        try{
-            Object locked=this.lockedField.get(this);
+        this.lockedField = ReflectUtils.getDeclaredFieldsRecursively(this.getClass(), "locked")
+                .getFirstValue();
+        try {
+            Object locked = this.lockedField.get(this);
             this.lockedField.set(this, Boolean.FALSE);
             this.setItemMeta(data.getItemMeta());
             this.lockedField.set(this, locked);
-        }catch (Throwable e){
+        } catch (Throwable e) {
 
         }
     }
+
     public ItemStack clone() {
-        ItemStack stack= super.clone();
-        if(stack instanceof SlimefunItemStack){
-            try{
-                Object locked=this.lockedField.get(stack);
+        ItemStack stack = super.clone();
+        if (stack instanceof SlimefunItemStack) {
+            try {
+                Object locked = this.lockedField.get(stack);
                 this.lockedField.set(stack, Boolean.FALSE);
                 stack.setItemMeta(thismeta);
                 this.lockedField.set(stack, locked);
-            }catch (Throwable ignored){
+            } catch (Throwable ignored) {
 
             }
         }
 
         return stack;
     }
-
-
 }

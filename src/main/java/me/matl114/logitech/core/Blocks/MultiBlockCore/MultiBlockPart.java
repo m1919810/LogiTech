@@ -3,6 +3,8 @@ package me.matl114.logitech.core.Blocks.MultiBlockCore;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.matl114.logitech.listeners.Listeners.BlockOpenListener;
 import me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiBlockService;
 import me.matl114.logitech.utils.UtilClass.TickerClass.Ticking;
@@ -11,17 +13,15 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
-
 public interface MultiBlockPart extends Ticking {
     public String getPartId();
-    default boolean redirectMenu(){
+
+    default boolean redirectMenu() {
         return true;
     }
-    //you must add handle menu to preRegister in order to handle MultiBlockPart
+    // you must add handle menu to preRegister in order to handle MultiBlockPart
     default void onMultiBlockBreak(BlockBreakEvent e) {
-        String uid= MultiBlockService.safeGetUUID(e.getBlock().getLocation());
+        String uid = MultiBlockService.safeGetUUID(e.getBlock().getLocation());
         MultiBlockService.deleteMultiBlock(uid, MultiBlockService.MultiBlockBreakCause.get(e.getBlock()));
     }
 
@@ -29,7 +29,7 @@ public interface MultiBlockPart extends Ticking {
      * we override the handleBlock in @MenuBlock ,invoke this method in preRegister!
      * @param it
      */
-    default void handleMultiBlockPart(SlimefunItem it){
+    default void handleMultiBlockPart(SlimefunItem it) {
         it.addItemHandler(new BlockBreakHandler(false, false) {
             @ParametersAreNonnullByDefault
             public void onPlayerBreak(BlockBreakEvent e, ItemStack itemStack, List<ItemStack> list) {
@@ -37,9 +37,9 @@ public interface MultiBlockPart extends Ticking {
             }
         });
     }
+
     default void onMenuRedirect(PlayerRightClickEvent event) {
         boolean itemUsed = event.getHand() == EquipmentSlot.OFF_HAND;
-
 
         if (!itemUsed && event.useBlock() != Event.Result.DENY && !BlockOpenListener.rightClickBlock(event)) {
             return;

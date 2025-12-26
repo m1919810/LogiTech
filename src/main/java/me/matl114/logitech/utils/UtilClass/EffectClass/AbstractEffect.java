@@ -7,32 +7,33 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 
 public abstract class AbstractEffect {
     String id;
+
     public AbstractEffect(String name) {
         this.id = AddUtils.idDecorator(name);
     }
-    public  void initEffect(Player p){
 
-        removeEffect(p,1);
+    public void initEffect(Player p) {
+
+        removeEffect(p, 1);
     }
 
-    public abstract void aquireEffect(Player p,int level);
+    public abstract void aquireEffect(Player p, int level);
 
-    public abstract void removeEffect(Player p,int level);
+    public abstract void removeEffect(Player p, int level);
 
-    public abstract void tickEffect(Player p,int level);
+    public abstract void tickEffect(Player p, int level);
 
     public String getEffectId() {
         return id;
     }
-    public AbstractEffect reigster(){
+
+    public AbstractEffect reigster() {
         return EffectTickManager.registerEffect(this);
     }
 
-    public boolean onDeathClear(){
+    public boolean onDeathClear() {
         return true;
     }
-    public void onDeathEvent(PlayerDeathEvent e,int level) {
 
-    }
-
+    public void onDeathEvent(PlayerDeathEvent e, int level) {}
 }

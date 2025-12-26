@@ -10,18 +10,20 @@ import org.bukkit.plugin.Plugin;
 
 public class StorageWorldProtection implements ProtectionModule {
     Plugin plugin;
-    public void load(){
-        //mamba out
-        this.plugin= MyAddon.getInstance();
+
+    public void load() {
+        // mamba out
+        this.plugin = MyAddon.getInstance();
     }
 
-    public Plugin getPlugin(){
+    public Plugin getPlugin() {
         return this.plugin;
     }
-    public boolean hasPermission(OfflinePlayer var1, Location var2, Interaction var3){
-        if(StorageSpace.ENABLED&& StorageSpace.STORAGE_WORLD==var2.getWorld()){
+
+    public boolean hasPermission(OfflinePlayer var1, Location var2, Interaction var3) {
+        if (StorageSpace.ENABLED && StorageSpace.STORAGE_WORLD == var2.getWorld()) {
             return false;
-        }else {
+        } else {
             return true;
         }
     }

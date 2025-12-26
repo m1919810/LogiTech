@@ -9,7 +9,7 @@ public class ScheduleSave {
     /**
      *
      */
-    public static void onFinalSave(){
+    public static void onFinalSave() {
         for (Runnable task : PERIODIC_SAVES) {
             task.run();
         }
@@ -18,11 +18,12 @@ public class ScheduleSave {
         }
         return;
     }
-    public static void onPeriodicSave(){
+
+    public static void onPeriodicSave() {
         for (Runnable task : PERIODIC_SAVES) {
             task.run();
         }
-        //Debug.logger("阶段性数据保存成功!");
+        // Debug.logger("阶段性数据保存成功!");
         return;
     }
 
@@ -30,7 +31,7 @@ public class ScheduleSave {
      * will periodically save every 5 miniuates and when server off
      * @param task
      */
-    public static void addPeriodicTask(Runnable task){
+    public static void addPeriodicTask(Runnable task) {
         PERIODIC_SAVES.add(task);
     }
 
@@ -38,7 +39,7 @@ public class ScheduleSave {
      * will save when server off, WARNING! NO SCHEDULE LAUNCHED IN THIS PART
      * @param task
      */
-    public static void addFinalTask(Runnable task){
+    public static void addFinalTask(Runnable task) {
         FINAL_SAVES.add(task);
     }
 }

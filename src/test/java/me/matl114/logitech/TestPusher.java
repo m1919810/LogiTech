@@ -1,22 +1,25 @@
 package me.matl114.logitech;
 
-public class TestPusher extends TestConsumer{
+public class TestPusher extends TestConsumer {
     public int maxCnt;
-    public TestPusher(TestStack stack){
-        super(stack);
-        this.maxCnt=stack.getMaxAmount();
-    }
-    public void init(TestStack stack){
-        super.init(stack);
-        this.maxCnt=stack.getMaxAmount();
-        Tests.log("TestPusher init");
 
+    public TestPusher(TestStack stack) {
+        super(stack);
+        this.maxCnt = stack.getMaxAmount();
     }
-    public void init(){
-       // super.init();
+
+    public void init(TestStack stack) {
+        super.init(stack);
+        this.maxCnt = stack.getMaxAmount();
+        Tests.log("TestPusher init");
+    }
+
+    public void init() {
+        // super.init();
         Tests.log("TestPusher empty init");
     }
-    public TestPusher clone(){
-        return (TestPusher)super.clone();
+
+    public TestPusher clone() {
+        return (TestPusher) super.clone();
     }
 }

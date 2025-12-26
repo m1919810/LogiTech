@@ -8,6 +8,9 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import me.matl114.logitech.core.AddSlimefunItems;
 import me.matl114.logitech.core.Interface.LogiTechChargable;
 import me.matl114.logitech.core.Interface.MenuTogglableBlock;
@@ -30,219 +33,273 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
 public class SmithInterfaceCharger extends SmithingInterface implements MenuTogglableBlock {
-    protected final int[] INPUT_SLOT = {19,20,21,22,23,28,29,30,31,32,37,38,39,40,41,46,47,48,49,50};
-    protected final int[] IDCARD_SLOT = {17, 26,35,44,53};
-    public int[] getInputSlots(){
+    protected final int[] INPUT_SLOT = {19, 20, 21, 22, 23, 28, 29, 30, 31, 32, 37, 38, 39, 40, 41, 46, 47, 48, 49, 50};
+    protected final int[] IDCARD_SLOT = {17, 26, 35, 44, 53};
+
+    public int[] getInputSlots() {
         return INPUT_SLOT;
     }
-    public int[] getExtraDropSlot(){
+
+    public int[] getExtraDropSlot() {
         return IDCARD_SLOT;
     }
-    protected final int[] CHARGER_BORDER = {9,10,11,12,13,14,15,18,24,27,33,36,42,45,51,6};
-    protected final int[] REMOTE_BORDER = {16,25,34,43,52,7};
+
+    protected final int[] CHARGER_BORDER = {9, 10, 11, 12, 13, 14, 15, 18, 24, 27, 33, 36, 42, 45, 51, 6};
+    protected final int[] REMOTE_BORDER = {16, 25, 34, 43, 52, 7};
     protected final int DISPLAY_SLOT = 0;
-    protected final int[] DISPLAY_CHARGE_SLOT = {1,2,3,4,5};
+    protected final int[] DISPLAY_CHARGE_SLOT = {1, 2, 3, 4, 5};
     protected final double SPEED_MULTIPLY;
-    protected final ItemStack CHARGER_DISPLAY = new CleanItemStack(ChestMenuUtils.getOutputSlotTexture(),"&6充电物品输入槽","&7放入可充电物品以充电","&7可以向本附属自定义的充电物品充电","&a充电速率 = <基础充电速率>* <速度增幅量>^(<速度增幅组件数量>)");
-    protected final ItemStack REMOTE_DISPLAY = new CleanItemStack(ChestMenuUtils.getInputSlotTexture(),"&6玩家ID卡插入槽","&7放入绑定玩家的玩家ID卡","&7可以对该玩家进行远程充电","&7充电范围包括玩家的盔甲槽和主手副手","&7可以向本附属自定义的充电物品充电","&a充电速率 = <远程充电速率>* <速度增幅量>^(<速度增幅组件数量>)","&a充电范围受<范围增幅组件>数量影响","&7分别为16格(0个),1600格(1个),同一世界(2个),任意位置(>2个)");
+    protected final ItemStack CHARGER_DISPLAY = new CleanItemStack(
+            ChestMenuUtils.getOutputSlotTexture(),
+            "&6充电物品输入槽",
+            "&7放入可充电物品以充电",
+            "&7可以向本附属自定义的充电物品充电",
+            "&a充电速率 = <基础充电速率>* <速度增幅量>^(<速度增幅组件数量>)");
+    protected final ItemStack REMOTE_DISPLAY = new CleanItemStack(
+            ChestMenuUtils.getInputSlotTexture(),
+            "&6玩家ID卡插入槽",
+            "&7放入绑定玩家的玩家ID卡",
+            "&7可以对该玩家进行远程充电",
+            "&7充电范围包括玩家的盔甲槽和主手副手",
+            "&7可以向本附属自定义的充电物品充电",
+            "&a充电速率 = <远程充电速率>* <速度增幅量>^(<速度增幅组件数量>)",
+            "&a充电范围受<范围增幅组件>数量影响",
+            "&7分别为16格(0个),1600格(1个),同一世界(2个),任意位置(>2个)");
     protected final int LV0_LEN_SQ = 256;
     protected final int LV1_LEN_SQ = 2560000;
     protected final int TOGGLE_LAZYMOD = 8;
     protected final int remoteSpeed;
-    protected final ItemStack TOGGLE_LAZYMOD_OFF = new CleanItemStack(Material.RED_STAINED_GLASS_PANE,"&6懒惰模式: &c关","&7懒惰模式开启时","&7仅装备电量过半才会进行远程充电");
-    protected final ItemStack TOGGLE_LAZYMOD_ON = new CleanItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6懒惰模式: &a开","&7懒惰模式开启时","&7仅装备电量过半才会进行远程充电");
-    protected final ItemStack FUNCTION_DISPLAY = new CleanItemStack(SlimefunItems.BATTERY,"&6充电台功能概述",
+    protected final ItemStack TOGGLE_LAZYMOD_OFF =
+            new CleanItemStack(Material.RED_STAINED_GLASS_PANE, "&6懒惰模式: &c关", "&7懒惰模式开启时", "&7仅装备电量过半才会进行远程充电");
+    protected final ItemStack TOGGLE_LAZYMOD_ON =
+            new CleanItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6懒惰模式: &a开", "&7懒惰模式开启时", "&7仅装备电量过半才会进行远程充电");
+    protected final ItemStack FUNCTION_DISPLAY = new CleanItemStack(
+            SlimefunItems.BATTERY,
+            "&6充电台功能概述",
             "&7充电台基础充电速率: %dJ".formatted(energyConsumption),
             "&7本充电台拥有三种充电方式,他们同时进行",
             "&71.将可充电物品放入下方槽位,对所有可充电物品进行充电",
             "&72.玩家打开界面时,将对玩家的盔甲槽和主副手进行充电",
             "&73.将绑定了玩家的玩家ID卡插入右侧槽位,会对玩家进行远程充电",
             "&7机器会尽可能尝试保证自身加载(暂未实现)",
-            "&a向锻铸工坊插入对应增幅组件可以提升充电台的相应功能"
-    );
+            "&a向锻铸工坊插入对应增幅组件可以提升充电台的相应功能");
     protected final ItemStack[] DISPLAY_CHARGE_LEVEL = {
-            new CleanItemStack(Material.RED_STAINED_GLASS_PANE,"&6电力显示: &c不足20%"),
-            new CleanItemStack(Material.YELLOW_STAINED_GLASS_PANE,"&6电力显示: &e20%~40%"),
-            new CleanItemStack(Material.ORANGE_STAINED_GLASS_PANE,"&6电力显示: &e40%~60%"),
-            new CleanItemStack(Material.GREEN_STAINED_GLASS_PANE,"&6电力显示: &b60%~80%"),
-            new CleanItemStack(Material.LIME_STAINED_GLASS_PANE,"&6电力显示: &a80%~100%")
+        new CleanItemStack(Material.RED_STAINED_GLASS_PANE, "&6电力显示: &c不足20%"),
+        new CleanItemStack(Material.YELLOW_STAINED_GLASS_PANE, "&6电力显示: &e20%~40%"),
+        new CleanItemStack(Material.ORANGE_STAINED_GLASS_PANE, "&6电力显示: &e40%~60%"),
+        new CleanItemStack(Material.GREEN_STAINED_GLASS_PANE, "&6电力显示: &b60%~80%"),
+        new CleanItemStack(Material.LIME_STAINED_GLASS_PANE, "&6电力显示: &a80%~100%")
     };
-    public Pair<ItemStack,Integer> getChargeDisplay(int charge) {
-        float per =( ((float)charge)/((float) this.energybuffer));
-        int level = Math.min(Math.max((int)(5.0f*per),0),4) ;
+
+    public Pair<ItemStack, Integer> getChargeDisplay(int charge) {
+        float per = (((float) charge) / ((float) this.energybuffer));
+        int level = Math.min(Math.max((int) (5.0f * per), 0), 4);
         ItemStack template = DISPLAY_CHARGE_LEVEL[level];
-        return Pair.of( AddUtils.addLore(template,"","&8⇨ &e⚡ &7%dJ/%dJ".formatted(charge,this.energybuffer)),level);
+        return Pair.of(AddUtils.addLore(template, "", "&8⇨ &e⚡ &7%dJ/%dJ".formatted(charge, this.energybuffer)), level);
     }
-    public SmithInterfaceCharger(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int energybuffer, int energyConsumption, int remoteSpeed, double multiplier) {
+
+    public SmithInterfaceCharger(
+            ItemGroup category,
+            SlimefunItemStack item,
+            RecipeType recipeType,
+            ItemStack[] recipe,
+            int energybuffer,
+            int energyConsumption,
+            int remoteSpeed,
+            double multiplier) {
         super(category, item, recipeType, recipe, energybuffer, energyConsumption, false);
         SPEED_MULTIPLY = multiplier;
         this.remoteSpeed = remoteSpeed;
     }
+
     public void processInterface(Block b, BlockMenu inv, SlimefunBlockData data, Location coreLocation, int speed) {
-        //implement logic here
-        int charge = getCharge(inv.getLocation(),data);
-        for (int slot:INPUT_SLOT){
+        // implement logic here
+        int charge = getCharge(inv.getLocation(), data);
+        for (int slot : INPUT_SLOT) {
             ItemStack stack = inv.getItemInSlot(slot);
-            charge = processCharge(stack, charge, energyConsumption, speed , false);
+            charge = processCharge(stack, charge, energyConsumption, speed, false);
         }
-        //process player charge
-        if(inv.hasViewer()){
-            updateMenu(inv,b,Settings.RUN);
-            for (var pl : inv.toInventory().getViewers()){
-                if(pl instanceof Player player){
-                    processCharge(player, charge, energyConsumption, speed , false);
+        // process player charge
+        if (inv.hasViewer()) {
+            updateMenu(inv, b, Settings.RUN);
+            for (var pl : inv.toInventory().getViewers()) {
+                if (pl instanceof Player player) {
+                    processCharge(player, charge, energyConsumption, speed, false);
                 }
             }
         }
         setCharge(inv.getLocation(), charge);
         Object uuidList = getDataHolder(inv).getObject(0);
 
-        if(uuidList instanceof Set<?>){
+        if (uuidList instanceof Set<?>) {
             Set<UUID> uidLists = (Set<UUID>) uuidList;
-            if(!uidLists.isEmpty()){
-                if(DataCache.getSfItem(coreLocation) instanceof SmithingWorkshop workshop){
-                    int rangeExpandingLevel = workshop.getAmplifyCompentLevel(coreLocation, AddSlimefunItems.SWAMP_RANGE);
-                    Predicate<Player> playerRangePredicate = switch (rangeExpandingLevel){
-                        case 0 -> (player -> player.getWorld() == coreLocation.getWorld() && player.getLocation().distanceSquared(coreLocation) < LV0_LEN_SQ);
-                        case 1 -> (player -> player.getWorld() == coreLocation.getWorld() && player.getLocation().distanceSquared(coreLocation) < LV1_LEN_SQ);
-                        case 2 -> (player -> player.getWorld() == coreLocation.getWorld());
-                        default -> player -> true;
-                    };
+            if (!uidLists.isEmpty()) {
+                if (DataCache.getSfItem(coreLocation) instanceof SmithingWorkshop workshop) {
+                    int rangeExpandingLevel =
+                            workshop.getAmplifyCompentLevel(coreLocation, AddSlimefunItems.SWAMP_RANGE);
+                    Predicate<Player> playerRangePredicate =
+                            switch (rangeExpandingLevel) {
+                                case 0 -> (player -> player.getWorld() == coreLocation.getWorld()
+                                        && player.getLocation().distanceSquared(coreLocation) < LV0_LEN_SQ);
+                                case 1 -> (player -> player.getWorld() == coreLocation.getWorld()
+                                        && player.getLocation().distanceSquared(coreLocation) < LV1_LEN_SQ);
+                                case 2 -> (player -> player.getWorld() == coreLocation.getWorld());
+                                default -> player -> true;
+                            };
                     boolean lazyMode = getStatus(inv)[0];
-                    Schedules.execute(()->{
-                        int energyCharge = getCharge(inv.getLocation(),data);
-                        for (var uid : uidLists){
-                            OfflinePlayer player = Bukkit.getOfflinePlayer(uid);
-                            if(player.isOnline() && player instanceof Player online && playerRangePredicate.test(online)){
-                                energyCharge =  processCharge(online, energyCharge, remoteSpeed, speed, lazyMode);
-                            }
-                        }
-                        setCharge(inv.getLocation(), energyCharge);
-                    }, true);
+                    Schedules.execute(
+                            () -> {
+                                int energyCharge = getCharge(inv.getLocation(), data);
+                                for (var uid : uidLists) {
+                                    OfflinePlayer player = Bukkit.getOfflinePlayer(uid);
+                                    if (player.isOnline()
+                                            && player instanceof Player online
+                                            && playerRangePredicate.test(online)) {
+                                        energyCharge =
+                                                processCharge(online, energyCharge, remoteSpeed, speed, lazyMode);
+                                    }
+                                }
+                                setCharge(inv.getLocation(), energyCharge);
+                            },
+                            true);
                 }
             }
-
         }
-
     }
-    public int processCharge(Player pl,int energyCharge, int base, int speed, boolean lazyMode){
-        if(pl.isValid() && pl.isOnline()){
+
+    public int processCharge(Player pl, int energyCharge, int base, int speed, boolean lazyMode) {
+        if (pl.isValid() && pl.isOnline()) {
             PlayerInventory inventory = pl.getInventory();
-            for (var it : inventory.getArmorContents()){
+            for (var it : inventory.getArmorContents()) {
                 energyCharge = processCharge(it, energyCharge, base, speed, lazyMode);
             }
-            energyCharge = processCharge(inventory.getItemInMainHand(),  energyCharge, base,speed, lazyMode);
+            energyCharge = processCharge(inventory.getItemInMainHand(), energyCharge, base, speed, lazyMode);
             energyCharge = processCharge(inventory.getItemInOffHand(), energyCharge, base, speed, lazyMode);
         }
         return energyCharge;
     }
-    public int processCharge(ItemStack item,int energyCharge, int base,int speed, boolean lazyMode){
-        if(energyCharge <= 0 ){
+
+    public int processCharge(ItemStack item, int energyCharge, int base, int speed, boolean lazyMode) {
+        if (energyCharge <= 0) {
             return 0;
         }
-        if(item == null || item.getType().isAir() || !item.hasItemMeta()){
+        if (item == null || item.getType().isAir() || !item.hasItemMeta()) {
             return energyCharge;
         }
-        int tobeCharge = Math.min( (int) MathUtils.clamp(base * Math.pow(SPEED_MULTIPLY, speed), 0.0D, Integer.MAX_VALUE) ,energyCharge);
+        int tobeCharge = Math.min(
+                (int) MathUtils.clamp(base * Math.pow(SPEED_MULTIPLY, speed), 0.0D, Integer.MAX_VALUE), energyCharge);
 
-        float left = LogiTechChargable.changeChargeSafe(item, tobeCharge, lazyMode ? ((meta, maxCharg, charge, deltaCharge) -> charge < maxCharg/2) : null);
-        return Math.max(0,energyCharge-tobeCharge+ (int)left );
+        float left = LogiTechChargable.changeChargeSafe(
+                item, tobeCharge, lazyMode ? ((meta, maxCharg, charge, deltaCharge) -> charge < maxCharg / 2) : null);
+        return Math.max(0, energyCharge - tobeCharge + (int) left);
     }
-    public void addInfo(ItemStack stack){
-        stack.setItemMeta(AddUtils.addLore(stack, LoreBuilder.powerBuffer(energybuffer), "&8⇨ &e⚡ &7" + energyConsumption + " J/次 基础充电速率", "&8⇨ &e⚡ &7" + remoteSpeed + " J/次 远程充电速率","&8⇨ &e⚡ &7" + SPEED_MULTIPLY + " 速度增幅量" ).getItemMeta());
+
+    public void addInfo(ItemStack stack) {
+        stack.setItemMeta(AddUtils.addLore(
+                        stack,
+                        LoreBuilder.powerBuffer(energybuffer),
+                        "&8⇨ &e⚡ &7" + energyConsumption + " J/次 基础充电速率",
+                        "&8⇨ &e⚡ &7" + remoteSpeed + " J/次 远程充电速率",
+                        "&8⇨ &e⚡ &7" + SPEED_MULTIPLY + " 速度增幅量")
+                .getItemMeta());
     }
 
     @Override
     public void constructMenu(BlockMenuPreset preset) {
-        for (int i :CHARGER_BORDER) {
-            preset.addItem(i,CHARGER_DISPLAY,ChestMenuUtils.getEmptyClickHandler());
+        for (int i : CHARGER_BORDER) {
+            preset.addItem(i, CHARGER_DISPLAY, ChestMenuUtils.getEmptyClickHandler());
         }
-        for (int i: REMOTE_BORDER) {
-            preset.addItem(i,REMOTE_DISPLAY,ChestMenuUtils.getEmptyClickHandler());
+        for (int i : REMOTE_BORDER) {
+            preset.addItem(i, REMOTE_DISPLAY, ChestMenuUtils.getEmptyClickHandler());
         }
-        preset.addItem(DISPLAY_SLOT, FUNCTION_DISPLAY,ChestMenuUtils.getEmptyClickHandler());
-        for (int i : DISPLAY_CHARGE_SLOT){
-            preset.addMenuClickHandler(i,ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(DISPLAY_SLOT, FUNCTION_DISPLAY, ChestMenuUtils.getEmptyClickHandler());
+        for (int i : DISPLAY_CHARGE_SLOT) {
+            preset.addMenuClickHandler(i, ChestMenuUtils.getEmptyClickHandler());
         }
     }
 
     @Override
     public void newMenuInstance(@NotNull BlockMenu blockMenu, @NotNull Block block) {
         toggleStatus(blockMenu, getStatus(blockMenu));
-//        blockMenu.addMenuClickHandler(TOGGLE_WHITELIST_SLOT,((player, i, itemStack, clickAction) -> {
-//            var re = getStatus(blockMenu);
-//            toggleStatus(blockMenu,new boolean[]{!re[0],re[1]});
-//            return false;
-//        }));
-        blockMenu.addMenuClickHandler(TOGGLE_LAZYMOD,((player, i, itemStack, clickAction) -> {
+        //        blockMenu.addMenuClickHandler(TOGGLE_WHITELIST_SLOT,((player, i, itemStack, clickAction) -> {
+        //            var re = getStatus(blockMenu);
+        //            toggleStatus(blockMenu,new boolean[]{!re[0],re[1]});
+        //            return false;
+        //        }));
+        blockMenu.addMenuClickHandler(TOGGLE_LAZYMOD, ((player, i, itemStack, clickAction) -> {
             var re = getStatus(blockMenu);
-            toggleStatus(blockMenu,new boolean[]{!re[0]});
+            toggleStatus(blockMenu, new boolean[] {!re[0]});
             return false;
         }));
-        updateMenu(blockMenu,block,Settings.INIT);
+        updateMenu(blockMenu, block, Settings.INIT);
     }
 
     @Override
     public void updateMenu(BlockMenu blockMenu, Block block, Settings mod) {
         int charge = getCharge(blockMenu.getLocation());
-        var result =getChargeDisplay(charge);
+        var result = getChargeDisplay(charge);
         var item = result.getA();
-        //be in 0~4
+        // be in 0~4
         var val = result.getB();
-        for (int i=0 ; i<= val ;++i){
-            blockMenu.replaceExistingItem(DISPLAY_CHARGE_SLOT[i],item);
+        for (int i = 0; i <= val; ++i) {
+            blockMenu.replaceExistingItem(DISPLAY_CHARGE_SLOT[i], item);
         }
-        for (int i = val+1 ;i<DISPLAY_CHARGE_SLOT.length;++i){
+        for (int i = val + 1; i < DISPLAY_CHARGE_SLOT.length; ++i) {
             blockMenu.replaceExistingItem(DISPLAY_CHARGE_SLOT[i], ChestMenuUtils.getBackground());
         }
         var dh = getDataHolder(blockMenu);
-        Set<UUID> Uids= Arrays.stream(IDCARD_SLOT).mapToObj(blockMenu::getItemInSlot).filter(Objects::nonNull).map(itemThis->{
-            if(SlimefunItem.getByItem(itemThis) instanceof PlayerIdCard card){
-                return card.getUid(itemThis);
-            }
-            return null;
-        }).filter(Objects::nonNull).collect(Collectors.toSet());
-        dh.setObject(0,Uids);
+        Set<UUID> Uids = Arrays.stream(IDCARD_SLOT)
+                .mapToObj(blockMenu::getItemInSlot)
+                .filter(Objects::nonNull)
+                .map(itemThis -> {
+                    if (SlimefunItem.getByItem(itemThis) instanceof PlayerIdCard card) {
+                        return card.getUid(itemThis);
+                    }
+                    return null;
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+        dh.setObject(0, Uids);
     }
-    public DataMenuClickHandler getDataHolder(BlockMenu inv){
-        if(inv.getMenuClickHandler(0) instanceof DataMenuClickHandler dh){
+
+    public DataMenuClickHandler getDataHolder(BlockMenu inv) {
+        if (inv.getMenuClickHandler(0) instanceof DataMenuClickHandler dh) {
             return dh;
-        }else {
-            var result = new DataMenuClickHandler(){
+        } else {
+            var result = new DataMenuClickHandler() {
                 Object uuidList;
+
                 @Override
                 public void setObject(int val, Object val2) {
-                   uuidList = val2;
+                    uuidList = val2;
                 }
+
                 @Override
                 public Object getObject(int val) {
                     return uuidList;
                 }
+
                 @Override
                 public boolean onClick(Player player, int i, ItemStack itemStack, ClickAction clickAction) {
                     return false;
                 }
             };
-            inv.addMenuClickHandler(0,result);
+            inv.addMenuClickHandler(0, result);
             return result;
         }
     }
 
     @Override
     public boolean[] getStatus(BlockMenu inv) {
-        ItemStack item =inv.getItemInSlot(TOGGLE_LAZYMOD);
-        boolean status2 = item!=null&&item.getType()==Material.GREEN_STAINED_GLASS_PANE;
-        return new boolean[]{status2};
+        ItemStack item = inv.getItemInSlot(TOGGLE_LAZYMOD);
+        boolean status2 = item != null && item.getType() == Material.GREEN_STAINED_GLASS_PANE;
+        return new boolean[] {status2};
     }
 
     @Override
     public void toggleStatus(BlockMenu inv, boolean... result) {
-        if(result.length>0)
-            inv.replaceExistingItem(TOGGLE_LAZYMOD,result[0]?TOGGLE_LAZYMOD_ON:TOGGLE_LAZYMOD_OFF);
+        if (result.length > 0)
+            inv.replaceExistingItem(TOGGLE_LAZYMOD, result[0] ? TOGGLE_LAZYMOD_ON : TOGGLE_LAZYMOD_OFF);
     }
 }

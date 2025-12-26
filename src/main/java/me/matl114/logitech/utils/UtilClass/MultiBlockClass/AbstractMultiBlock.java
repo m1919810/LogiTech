@@ -21,7 +21,7 @@ public interface AbstractMultiBlock {
      * get structure size
      * @return
      */
-    default int getStructureSize(){
+    default int getStructureSize() {
         return getType().getSchemaSize();
     }
 
@@ -30,7 +30,7 @@ public interface AbstractMultiBlock {
      * @param index
      * @return
      */
-    default Vector getStructurePart(int index){
+    default Vector getStructurePart(int index) {
         return getType().getSchemaPart(index);
     }
 
@@ -39,7 +39,7 @@ public interface AbstractMultiBlock {
      * @param index
      * @return
      */
-    default String getStructurePartId(int index){
+    default String getStructurePartId(int index) {
 
         return getType().getSchemaPartId(index);
     }

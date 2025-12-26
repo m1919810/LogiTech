@@ -11,24 +11,24 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 public class Capacitor extends AbstractMachine {
-    public int[] getInputSlots(){
-        return new int[0];
-    }
-    public int[] getOutputSlots(){
+    public int[] getInputSlots() {
         return new int[0];
     }
 
-    public Capacitor(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
-                     int energybuffer){
-        super(category,item,recipeType,recipe,energybuffer,0);
-    }
-    public void process(Block b, BlockMenu inv, SlimefunBlockData data){
+    public int[] getOutputSlots() {
+        return new int[0];
     }
 
-    public void constructMenu(BlockMenuPreset preset){
-
+    public Capacitor(
+            ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int energybuffer) {
+        super(category, item, recipeType, recipe, energybuffer, 0);
     }
-    public void preRegister(){
+
+    public void process(Block b, BlockMenu inv, SlimefunBlockData data) {}
+
+    public void constructMenu(BlockMenuPreset preset) {}
+
+    public void preRegister() {
         registerTick(this);
         addInfo(this.getItem());
     }

@@ -12,49 +12,52 @@ import me.matl114.logitech.utils.Settings;
 import org.bukkit.Bukkit;
 
 public class DependencyInfinity {
-    public static void  init(){
-        if(AddDepends.hasInfiniteExpansion){
+    public static void init() {
+        if (AddDepends.hasInfiniteExpansion) {
             Debug.logger("已检测到无尽附属");
         }
     }
+
     static {
         AddDepends.hasInfiniteExpansion = Bukkit.getPluginManager().isPluginEnabled("InfinityExpansion");
-        if(AddDepends.hasInfiniteExpansion){
-            boolean hasErr=false;
-            try{
-                AddDepends.MOBDATA_TYPE=(RecipeType) ReflectUtils.invokeGetRecursively(SlimefunItem.getByItem(MobData.INFUSER), Settings.FIELD,"TYPE");
-            }catch(Throwable e){
+        if (AddDepends.hasInfiniteExpansion) {
+            boolean hasErr = false;
+            try {
+                AddDepends.MOBDATA_TYPE = (RecipeType) ReflectUtils.invokeGetRecursively(
+                        SlimefunItem.getByItem(MobData.INFUSER), Settings.FIELD, "TYPE");
+            } catch (Throwable e) {
                 Debug.logger("generate an exception while loading softDepends , don't worry, that's not a big deal");
 
-                hasErr=true;
+                hasErr = true;
             }
-            try{
-                AddDepends.INFINITYWORKBENCH_TYPE=(RecipeType) ReflectUtils.invokeGetRecursively(SlimefunItem.getByItem(Blocks.INFINITY_FORGE), Settings.FIELD,"TYPE");
-            }catch(Throwable e){
+            try {
+                AddDepends.INFINITYWORKBENCH_TYPE = (RecipeType) ReflectUtils.invokeGetRecursively(
+                        SlimefunItem.getByItem(Blocks.INFINITY_FORGE), Settings.FIELD, "TYPE");
+            } catch (Throwable e) {
                 Debug.logger("generate an exception while loading softDepends, don't worry, that's not a big deal");
 
-                hasErr=true;
+                hasErr = true;
             }
-            try{
-                AddDepends.SINGULARITY_CONSTRUCTOR=(RecipeType) ReflectUtils.invokeGetRecursively(SlimefunItem.getByItem(Machines.SINGULARITY_CONSTRUCTOR), Settings.FIELD,"TYPE");
-            }catch(Throwable e){
+            try {
+                AddDepends.SINGULARITY_CONSTRUCTOR = (RecipeType) ReflectUtils.invokeGetRecursively(
+                        SlimefunItem.getByItem(Machines.SINGULARITY_CONSTRUCTOR), Settings.FIELD, "TYPE");
+            } catch (Throwable e) {
                 Debug.logger("generate an exception while loading softDepends, don't worry, that's not a big deal");
-                hasErr=true;
+                hasErr = true;
             }
-            if(hasErr){
-                AddDepends.hasInfiniteExpansion=false;
+            if (hasErr) {
+                AddDepends.hasInfiniteExpansion = false;
             }
-            try{
-                AddDepends.VOIDHARVEST=(RecipeType) ReflectUtils.invokeGetRecursively(SlimefunItem.getByItem(Machines.VOID_HARVESTER), Settings.FIELD,"TYPE");
-            }catch(Throwable e){
+            try {
+                AddDepends.VOIDHARVEST = (RecipeType) ReflectUtils.invokeGetRecursively(
+                        SlimefunItem.getByItem(Machines.VOID_HARVESTER), Settings.FIELD, "TYPE");
+            } catch (Throwable e) {
                 Debug.logger("generate an exception while loading softDepends, don't worry, that's not a big deal");
-                hasErr=true;
+                hasErr = true;
             }
-            if(hasErr){
-                AddDepends.hasInfiniteExpansion=false;
+            if (hasErr) {
+                AddDepends.hasInfiniteExpansion = false;
             }
         }
-
     }
-
 }

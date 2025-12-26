@@ -1,31 +1,34 @@
 package me.matl114.logitech.manager;
 
+import java.util.*;
+import java.util.function.Function;
+import me.matl114.logitech.core.Registries.CustomEffects;
 import me.matl114.logitech.utils.UtilClass.EffectClass.AbstractEffect;
 import me.matl114.logitech.utils.UtilClass.EffectClass.PlayerEffects;
-import me.matl114.logitech.core.Registries.CustomEffects;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
-
-import java.util.*;
-import java.util.function.Function;
 
 public class EffectTickManager {
     public static AbstractEffect registerEffect(AbstractEffect effect) {
         REGISTERED_EFFECTS.add(effect);
         return effect;
     }
-    public static final HashSet<AbstractEffect> REGISTERED_EFFECTS = new HashSet<>(){{
 
-    }};
+    public static final HashSet<AbstractEffect> REGISTERED_EFFECTS = new HashSet<>() {
+        {
+        }
+    };
+
     static {
         CustomEffects.registerEffect();
     }
-    private static final HashMap<UUID, HashMap<AbstractEffect,PlayerEffects>> EFFECTS = new HashMap<>();
-    //when player login after server start ,they may contains effect attributes
+
+    private static final HashMap<UUID, HashMap<AbstractEffect, PlayerEffects>> EFFECTS = new HashMap<>();
+    // when player login after server start ,they may contains effect attributes
     private static void initAllEffects(Player p) {
-        int len=REGISTERED_EFFECTS.size();
-        for(AbstractEffect effect : REGISTERED_EFFECTS) {
+        int len = REGISTERED_EFFECTS.size();
+        for (AbstractEffect effect : REGISTERED_EFFECTS) {
             effect.initEffect(p);
         }
     }
@@ -34,11 +37,16 @@ public class EffectTickManager {
      * @param p
      */
     public static void clearEffect(Player p, AbstractEffect effect) {
-        Schedules.launchSchedules(()->{
-         PlayerEffects eff= EFFECTS.get(p).get(effect);
-         if(eff != null) {
-             eff.finish();
-         }},0,true,0);
+        Schedules.launchSchedules(
+                () -> {
+                    PlayerEffects eff = EFFECTS.get(p).get(effect);
+                    if (eff != null) {
+                        eff.finish();
+                    }
+                },
+                0,
+                true,
+                0);
     }
 
     /**
@@ -46,12 +54,11 @@ public class EffectTickManager {
      * @param p
      */
     public static void clearAllEffects(Player p) {
-        HashMap<AbstractEffect,PlayerEffects> effects = EFFECTS.get(p.getUniqueId());
+        HashMap<AbstractEffect, PlayerEffects> effects = EFFECTS.get(p.getUniqueId());
         Set<AbstractEffect> effectSet = effects.keySet();
-        for(AbstractEffect effect : effectSet) {
-            PlayerEffects eff= effects.get(effect);
-            if(eff!=null)
-                eff.finish();
+        for (AbstractEffect effect : effectSet) {
+            PlayerEffects eff = effects.get(effect);
+            if (eff != null) eff.finish();
         }
     }
 
@@ -61,15 +68,15 @@ public class EffectTickManager {
      */
     public static void clearEffectsOnDeath(PlayerDeathEvent e) {
         Player p = e.getEntity();
-        synchronized (lock){
-            HashMap<AbstractEffect,PlayerEffects> effects = EFFECTS.get(p.getUniqueId());
-            if(effects==null)return;
+        synchronized (lock) {
+            HashMap<AbstractEffect, PlayerEffects> effects = EFFECTS.get(p.getUniqueId());
+            if (effects == null) return;
             Set<AbstractEffect> effectSet = effects.keySet();
-            for(AbstractEffect effect : effectSet) {
-                PlayerEffects eff= effects.get(effect);
-                if(eff!=null){
-                    eff.getType().onDeathEvent(e,eff.level);
-                    if(eff.getType().onDeathClear()){
+            for (AbstractEffect effect : effectSet) {
+                PlayerEffects eff = effects.get(effect);
+                if (eff != null) {
+                    eff.getType().onDeathEvent(e, eff.level);
+                    if (eff.getType().onDeathClear()) {
                         eff.halt();
                     }
                 }
@@ -77,10 +84,9 @@ public class EffectTickManager {
         }
     }
 
-    public static boolean hasEffects(Player p,AbstractEffect effect) {
+    public static boolean hasEffects(Player p, AbstractEffect effect) {
         return EFFECTS.get(p).containsKey(effect);
     }
-
 
     /**
      * 该操作只能在同步线程中调用!
@@ -88,8 +94,8 @@ public class EffectTickManager {
      * @param effect
      * @return
      */
-    public static void addEffect(Player player, PlayerEffects effect){
-        addEffect(player,effect,(player1 -> true));
+    public static void addEffect(Player player, PlayerEffects effect) {
+        addEffect(player, effect, (player1 -> true));
     }
     /**
      * 该操作只能在同步线程中调用!
@@ -98,32 +104,41 @@ public class EffectTickManager {
      * @return
      */
     private static byte[] lock = new byte[0];
-    public static void addEffect(Player player, PlayerEffects effect, Function<Player,Boolean> predicate) {
-        synchronized(lock){
+
+    public static void addEffect(Player player, PlayerEffects effect, Function<Player, Boolean> predicate) {
+        synchronized (lock) {
             if (EFFECTS.containsKey(player.getUniqueId())) {
-                HashMap<AbstractEffect,PlayerEffects> effects = EFFECTS.get(player.getUniqueId());
+                HashMap<AbstractEffect, PlayerEffects> effects = EFFECTS.get(player.getUniqueId());
                 PlayerEffects old = effects.get(effect.getType());
-                if(predicate.apply(player)){
-                    if(old==null) {
+                if (predicate.apply(player)) {
+                    if (old == null) {
                         effects.put(effect.getType(), effect);
-                    }else {
+                    } else {
                         old.extend(effect);
                     }
-                    Schedules.launchSchedules(()-> {
-                        effect.start(player);
-                    },0,true,0);
+                    Schedules.launchSchedules(
+                            () -> {
+                                effect.start(player);
+                            },
+                            0,
+                            true,
+                            0);
                 }
-            }else{
-                HashMap<AbstractEffect,PlayerEffects> effects = new HashMap<>();
-                if(predicate.apply(player)){
+            } else {
+                HashMap<AbstractEffect, PlayerEffects> effects = new HashMap<>();
+                if (predicate.apply(player)) {
                     effects.put(effect.getType(), effect);
-                    EFFECTS.put(player.getUniqueId(),effects);
-                    Schedules.launchSchedules(()-> {
-                        effect.start(player);
-                    },0,true,0);
+                    EFFECTS.put(player.getUniqueId(), effects);
+                    Schedules.launchSchedules(
+                            () -> {
+                                effect.start(player);
+                            },
+                            0,
+                            true,
+                            0);
                     return;
                 }
-                EFFECTS.put(player.getUniqueId(),effects);
+                EFFECTS.put(player.getUniqueId(), effects);
             }
         }
     }
@@ -131,31 +146,29 @@ public class EffectTickManager {
     /**
      * 该runnable只能在Schedules的effect线程运行
      */
+    public static void scheduleEffects() {
+        HashMap<AbstractEffect, PlayerEffects> effects;
 
-    public static void scheduleEffects(){
-    HashMap<AbstractEffect,PlayerEffects> effects;
-
-        for (Player player : Bukkit.getOnlinePlayers()){
-            synchronized(lock){
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            synchronized (lock) {
                 if (EFFECTS.containsKey(player.getUniqueId())) {
                     effects = EFFECTS.get(player.getUniqueId());
-                    if(effects.isEmpty())continue;
-                    for(Map.Entry<AbstractEffect,PlayerEffects> entry : effects.entrySet()){
+                    if (effects.isEmpty()) continue;
+                    for (Map.Entry<AbstractEffect, PlayerEffects> entry : effects.entrySet()) {
                         PlayerEffects effect = entry.getValue();
-                        if(effect.isFinished()){
+                        if (effect.isFinished()) {
                             effect.end(player);
                             effects.remove(entry.getKey());
 
-                        }else {
+                        } else {
                             effect.tick(player);
                         }
                     }
-                }else{
+                } else {
                     initAllEffects(player);
-                    EFFECTS.put(player.getUniqueId(),new HashMap<>());
+                    EFFECTS.put(player.getUniqueId(), new HashMap<>());
                 }
             }
         }
     }
-
 }

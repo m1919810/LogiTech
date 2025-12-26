@@ -1,5 +1,7 @@
 package me.matl114.logitech.utils.UtilClass.ItemClass;
 
+import java.util.Map;
+import javax.annotation.Nullable;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -7,23 +9,22 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
-import javax.annotation.Nullable;
-import java.util.Map;
-
 public class HandledItemStack extends ItemStack {
     public ItemStack handle;
     public ItemMeta handleMeta;
-    private ItemMeta createItemMeta(){
+
+    private ItemMeta createItemMeta() {
         handleMeta = handle.getItemMeta();
         return handleMeta;
     }
+
     public HandledItemStack(ItemStack itemStack) {
         super();
         this.handle = itemStack;
     }
-    @Nullable
-    public ItemMeta getItemMeta() {
-        return this.handleMeta==null?createItemMeta():this.handleMeta;
+
+    @Nullable public ItemMeta getItemMeta() {
+        return this.handleMeta == null ? createItemMeta() : this.handleMeta;
     }
 
     public boolean hasItemMeta() {
@@ -36,13 +37,11 @@ public class HandledItemStack extends ItemStack {
         return true;
     }
 
-
-
     public Material getType() {
         return this.handle.getType();
     }
 
-    public void setType( Material type) {
+    public void setType(Material type) {
         this.handle.setType(type);
     }
 
@@ -54,8 +53,7 @@ public class HandledItemStack extends ItemStack {
         this.handle.setAmount(amount);
     }
 
-    @Nullable
-    public MaterialData getData() {
+    @Nullable public MaterialData getData() {
         return this.handle.getData();
     }
 
@@ -66,21 +64,18 @@ public class HandledItemStack extends ItemStack {
     /** @deprecated */
     @Deprecated
     public void setDurability(short durability) {
-       this.handle.setDurability(durability);
-
+        this.handle.setDurability(durability);
     }
 
     /** @deprecated */
     @Deprecated
     public short getDurability() {
-        return   this.handle.getDurability();
+        return this.handle.getDurability();
     }
 
     public int getMaxStackSize() {
         return this.handle.getMaxStackSize();
     }
-
-
 
     public String toString() {
         return this.handle.toString();
@@ -102,38 +97,35 @@ public class HandledItemStack extends ItemStack {
         return this.handle.hashCode();
     }
 
-    public boolean containsEnchantment( Enchantment ench) {
+    public boolean containsEnchantment(Enchantment ench) {
         return this.handle.containsEnchantment(ench);
     }
 
-    public int getEnchantmentLevel( Enchantment ench) {
+    public int getEnchantmentLevel(Enchantment ench) {
         return this.handle.getEnchantmentLevel(ench);
     }
-
 
     public Map<Enchantment, Integer> getEnchantments() {
         return this.handle.getEnchantments();
     }
 
-    public void addEnchantments( Map<Enchantment, Integer> enchantments) {
+    public void addEnchantments(Map<Enchantment, Integer> enchantments) {
         this.handle.addEnchantments(enchantments);
-
     }
 
     public void addEnchantment(Enchantment ench, int level) {
         this.handle.addEnchantment(ench, level);
     }
 
-    public void addUnsafeEnchantments( Map<Enchantment, Integer> enchantments) {
+    public void addUnsafeEnchantments(Map<Enchantment, Integer> enchantments) {
         this.handle.addUnsafeEnchantments(enchantments);
-
     }
 
-    public void addUnsafeEnchantment( Enchantment ench, int level) {
+    public void addUnsafeEnchantment(Enchantment ench, int level) {
         this.handle.addUnsafeEnchantment(ench, level);
     }
 
-    public int removeEnchantment( Enchantment ench) {
+    public int removeEnchantment(Enchantment ench) {
         return this.handle.removeEnchantment(ench);
     }
 
@@ -144,10 +136,6 @@ public class HandledItemStack extends ItemStack {
     public Map<String, Object> serialize() {
         return this.handle.serialize();
     }
-
-
-
-
 
     public String getTranslationKey() {
         return Bukkit.getUnsafe().getTranslationKey(this);

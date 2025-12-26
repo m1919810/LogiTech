@@ -8,7 +8,7 @@ import org.bukkit.event.world.ChunkLoadEvent;
 public class ChunkTestListener implements Listener {
     @EventHandler
     public void onChunkLoad(ChunkLoadEvent event) {
-       // throw new NotImplementedException("nm");
-          Debug.logger("CHUNK LOAD: " + event.getChunk());
+        // throw new NotImplementedException("nm");
+        Debug.logger("CHUNK LOAD: " + event.getChunk());
     }
 }

@@ -7,22 +7,24 @@ public interface AbstractMultiBlockHandler {
      * location of core
      * @return
      */
-    public Location getCore() ;
+    public Location getCore();
+
     public MultiBlockService.Direction getDirection();
+
     public AbstractMultiBlock getMultiBlock();
     /**
      * is multiblock be build
      * @return
      */
     public boolean isActive();
-    //响应部件信号
+    // 响应部件信号
     public void toggleOff(MultiBlockService.DeleteCause cause);
     /**
      * accept in part ticks
      * @param loc
      */
     public void acceptPartRequest(Location loc);
-    //响应主核信号 返回是否还正常
+    // 响应主核信号 返回是否还正常
 
     /**
      * accept in core ticks,check if active and return boolean value,when active is down, return false,
@@ -54,7 +56,7 @@ public interface AbstractMultiBlockHandler {
      * random check if the multiblock matches,suggested in tickers
      * @return
      */
-    default int checkIfCompleteRandom(){
+    default int checkIfCompleteRandom() {
         return checkIfComplete();
     }
 

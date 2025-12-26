@@ -1,6 +1,7 @@
 package me.matl114.logitech.listeners.Listeners;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfContainment;
+import java.util.Random;
 import me.matl114.logitech.core.Blocks.AbstractSpawner;
 import me.matl114.logitech.core.Items.SpecialItems.EntityFeat;
 import me.matl114.logitech.utils.AddUtils;
@@ -15,36 +16,34 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
-import java.util.Random;
-
 public class SpawnerListener implements Listener {
-    private Random rand=new Random();
-    private final EntityType[] entityTypes=EntityType.values();
-    protected int chance=50;
-    //move priority to HIGH to avoid sf block break listener set Drop false
-    @EventHandler(priority = EventPriority.HIGH,ignoreCancelled = true)
+    private Random rand = new Random();
+    private final EntityType[] entityTypes = EntityType.values();
+    protected int chance = 50;
+    // move priority to HIGH to avoid sf block break listener set Drop false
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onSpawnerBreak(BlockBreakEvent event) {
-        //drop entity feat
-        Block b=event.getBlock();
-        //avoid fake event
-        if(event.isDropItems()&& b.getType()== Material.SPAWNER){
-            if(rand.nextInt(100)<=chance){
-
-                EntityType entityType=entityTypes[rand.nextInt(entityTypes.length)];
-                if(EntityFeat.isAvailableEntityType(entityType)){
-                    Location loc= event.getBlock().getLocation();
+        // drop entity feat
+        Block b = event.getBlock();
+        // do not check dropItem
+        if (b.getType() == Material.SPAWNER) {
+            if (rand.nextInt(100) <= chance) {
+                EntityType entityType = entityTypes[rand.nextInt(entityTypes.length)];
+                if (EntityFeat.isAvailableEntityType(entityType)) {
+                    Location loc = event.getBlock().getLocation();
                     loc.getWorld().dropItemNaturally(loc, EntityFeat.getItemFromEntityType(entityType));
                 }
-
             }
         }
     }
-    @EventHandler(priority = EventPriority.LOWEST,ignoreCancelled = false)
-    public void onStopSpawnerPickaxeBreak(BlockBreakEvent event){
-        Block b=event.getBlock();
-        if(b.getType()== Material.SPAWNER){
-            if(DataCache.getSfItem(b.getLocation()) instanceof AbstractSpawner as){
-                if(CraftUtils.parseSfItem( event.getPlayer().getInventory().getItemInMainHand()) instanceof PickaxeOfContainment){
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = false)
+    public void onStopSpawnerPickaxeBreak(BlockBreakEvent event) {
+        Block b = event.getBlock();
+        if (b.getType() == Material.SPAWNER) {
+            if (DataCache.getSfItem(b.getLocation()) instanceof AbstractSpawner as) {
+                if (CraftUtils.parseSfItem(event.getPlayer().getInventory().getItemInMainHand())
+                        instanceof PickaxeOfContainment) {
                     AddUtils.sendMessage(event.getPlayer(), "&c你不能使用刷怪笼之镐挖掘本附属的刷怪笼!");
                     event.setCancelled(true);
                 }

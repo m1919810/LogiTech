@@ -12,32 +12,39 @@ import org.bukkit.inventory.ItemStack;
 
 public class MultiPart extends AbstractBlock implements MultiBlockPart {
     public final String BLOCKID;
-    public MultiPart(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String blockId) {
+
+    public MultiPart(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String blockId) {
         super(itemGroup, item, recipeType, recipe);
         this.BLOCKID = blockId;
     }
-    public String getPartId(){
+
+    public String getPartId() {
         return BLOCKID;
     }
-    public boolean redirectMenu(){
+
+    public boolean redirectMenu() {
         return true;
     }
 
-    public void tick(Block b,BlockMenu menu,int tickCount) {
-        //donig nothing
+    public void tick(Block b, BlockMenu menu, int tickCount) {
+        // donig nothing
     }
-    public void processPart(Block b, BlockMenu menu,Location core){
-        //doing nothing
+
+    public void processPart(Block b, BlockMenu menu, Location core) {
+        // doing nothing
     }
-    public void process(Block b, BlockMenu menu, SlimefunBlockData data){
-        //doing nothing
+
+    public void process(Block b, BlockMenu menu, SlimefunBlockData data) {
+        // doing nothing
     }
-    public void preRegister(){
-//        if(redirectMenu()){
-//            this.addHandler((BlockUseHandler)this::onMenuRedirect);
-//        }
+
+    public void preRegister() {
+        //        if(redirectMenu()){
+        //            this.addHandler((BlockUseHandler)this::onMenuRedirect);
+        //        }
         super.preRegister();
         handleMultiBlockPart(this);
-       // registerTick(this);
+        // registerTick(this);
     }
 }

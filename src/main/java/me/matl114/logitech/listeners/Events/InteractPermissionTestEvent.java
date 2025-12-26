@@ -10,7 +10,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class InteractPermissionTestEvent extends PlayerInteractEvent {
-    public InteractPermissionTestEvent(@NotNull Player who, @NotNull Action action, @Nullable ItemStack item, @Nullable Block clickedBlock, @NotNull BlockFace clickedFace) {
+    public InteractPermissionTestEvent(
+            @NotNull Player who,
+            @NotNull Action action,
+            @Nullable ItemStack item,
+            @Nullable Block clickedBlock,
+            @NotNull BlockFace clickedFace) {
         super(who, action, item, clickedBlock, clickedFace);
     }
 }

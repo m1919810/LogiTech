@@ -7,10 +7,11 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.matl114.logitech.manager.Schedules;
+import javax.annotation.Nonnull;
 import me.matl114.logitech.core.AddSlimefunItems;
 import me.matl114.logitech.core.Items.SpecialItems.BNoiseHead;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractMachine;
+import me.matl114.logitech.manager.Schedules;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
@@ -22,8 +23,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-
 /**
  * Just a kidding lol
  * @author balugaq
@@ -31,19 +30,14 @@ import javax.annotation.Nonnull;
 public class BNoiseMaker extends AbstractMachine {
     private static final Sound[] SOUNDS = Sound.values();
     private static final int[] BACKGROUND_SLOTS = {
-            0,  1,  2,  3,  4,  5,  6,  7,  8,
-            9,  10, 11, 12,     14, 15, 16, 17,
-            18, 19, 20, 21,     23, 24, 25, 26
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26
     };
     private static final int HEAD_SLOT = 13;
     private static final int MAKE_NOISY_HEAD = 22;
 
     public BNoiseMaker(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe, 2500, 100);
-
     }
-
-
 
     @Override
     public void constructMenu(BlockMenuPreset preset) {
@@ -89,13 +83,15 @@ public class BNoiseMaker extends AbstractMachine {
                 return null;
             }
             Sound sound = SOUNDS[soundIndex];
-            Schedules.execute(()->{
-                for (Entity entity : world.getNearbyEntities(location, 16, 16, 16)) {
-                    if (entity instanceof Player player) {
-                        player.playSound(location, sound, 1, 1);
-                    }
-                }
-            },true);
+            Schedules.execute(
+                    () -> {
+                        for (Entity entity : world.getNearbyEntities(location, 16, 16, 16)) {
+                            if (entity instanceof Player player) {
+                                player.playSound(location, sound, 1, 1);
+                            }
+                        }
+                    },
+                    true);
 
             return sound;
         } catch (Throwable e) {

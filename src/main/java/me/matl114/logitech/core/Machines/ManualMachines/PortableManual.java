@@ -18,7 +18,7 @@ public class PortableManual extends CustomProps {
     public void onClickAction(PlayerRightClickEvent event) {
         event.cancel();
         Player player = event.getPlayer();
-        if(AddSlimefunItems.ADV_MANUAL instanceof AdvancedManual adv){
+        if (AddSlimefunItems.ADV_MANUAL instanceof AdvancedManual adv) {
             adv.openManualGui(player);
         }
     }

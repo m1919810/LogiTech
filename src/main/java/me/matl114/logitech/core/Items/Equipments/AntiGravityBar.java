@@ -14,12 +14,14 @@ public class AntiGravityBar extends FunctionalItem {
     public AntiGravityBar(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
-    public boolean onItemClick(PlayerRightClickEvent e){
 
-        PlayerEffects.grantEffect(CustomEffects.ANTI_GRAVITY,e.getPlayer(),1,10);
+    public boolean onItemClick(PlayerRightClickEvent e) {
+
+        PlayerEffects.grantEffect(CustomEffects.ANTI_GRAVITY, e.getPlayer(), 1, 10);
         return false;
     }
-    public void preRegister(){
-        this.addHandler((ItemUseHandler)this::onItemClick);
+
+    public void preRegister() {
+        this.addHandler((ItemUseHandler) this::onItemClick);
     }
 }

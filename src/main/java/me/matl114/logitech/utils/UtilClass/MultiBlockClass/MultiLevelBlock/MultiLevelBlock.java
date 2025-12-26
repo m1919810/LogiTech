@@ -1,10 +1,9 @@
 package me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiLevelBlock;
 
+import java.util.List;
 import me.matl114.logitech.utils.UtilClass.MultiBlockClass.AbstractMultiBlock;
 import me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiBlockService;
 import org.bukkit.util.Vector;
-
-import java.util.List;
 
 public class MultiLevelBlock implements AbstractMultiBlock {
     protected int level;
@@ -14,27 +13,35 @@ public class MultiLevelBlock implements AbstractMultiBlock {
     protected int[] SIZES;
     protected MultiLevelBlockType schema;
     protected MultiBlockService.Direction direction;
-    public MultiLevelBlock(MultiLevelBlockType type, int level, MultiBlockService.Direction direction, List< AbstractMultiBlock> multilist){
-        this.SUBPARTS=multilist.toArray(new AbstractMultiBlock[level]);
-        this.schema=type;
-        this.level=level;
-        this.maxLevel=type.SUB_NUM;
-        this.direction=direction;
-        this.INDEXS=new int[level+1];
-        this.INDEXS[0]=0;
-        this.SIZES=new int[level];
-        for (int i=0;i<level;++i){
-            this.SIZES[i]=this.SUBPARTS[i].getStructureSize();
-            this.INDEXS[i+1]=this.INDEXS[i]+this.SIZES[i];
+
+    public MultiLevelBlock(
+            MultiLevelBlockType type,
+            int level,
+            MultiBlockService.Direction direction,
+            List<AbstractMultiBlock> multilist) {
+        this.SUBPARTS = multilist.toArray(new AbstractMultiBlock[level]);
+        this.schema = type;
+        this.level = level;
+        this.maxLevel = type.SUB_NUM;
+        this.direction = direction;
+        this.INDEXS = new int[level + 1];
+        this.INDEXS[0] = 0;
+        this.SIZES = new int[level];
+        for (int i = 0; i < level; ++i) {
+            this.SIZES[i] = this.SUBPARTS[i].getStructureSize();
+            this.INDEXS[i + 1] = this.INDEXS[i] + this.SIZES[i];
         }
     }
-    public MultiLevelBlockType getType(){
+
+    public MultiLevelBlockType getType() {
         return this.schema;
     }
+
     public MultiBlockService.Direction getDirection() {
         return direction;
     }
-    public int getLevel(){
+
+    public int getLevel() {
         return level;
     }
 
@@ -42,7 +49,7 @@ public class MultiLevelBlock implements AbstractMultiBlock {
      * get structure size
      * @return
      */
-    public int getStructureSize(){
+    public int getStructureSize() {
         return INDEXS[level];
     }
 
@@ -51,13 +58,13 @@ public class MultiLevelBlock implements AbstractMultiBlock {
      * @param index
      * @return
      */
-   public Vector getStructurePart(int index){
-       for(int i=0;i<level;++i){
-           if(index<INDEXS[i+1]){
-               return SUBPARTS[i].getStructurePart(index-INDEXS[i]);
-           }
-       }
-       return null;
+    public Vector getStructurePart(int index) {
+        for (int i = 0; i < level; ++i) {
+            if (index < INDEXS[i + 1]) {
+                return SUBPARTS[i].getStructurePart(index - INDEXS[i]);
+            }
+        }
+        return null;
     }
 
     /**
@@ -65,10 +72,10 @@ public class MultiLevelBlock implements AbstractMultiBlock {
      * @param index
      * @return
      */
-    public String getStructurePartId(int index){
-        for(int i=0;i<level;++i){
-            if(index<INDEXS[i+1]){
-                return SUBPARTS[i].getStructurePartId(index-INDEXS[i]);
+    public String getStructurePartId(int index) {
+        for (int i = 0; i < level; ++i) {
+            if (index < INDEXS[i + 1]) {
+                return SUBPARTS[i].getStructurePartId(index - INDEXS[i]);
             }
         }
         return null;
