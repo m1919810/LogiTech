@@ -4,15 +4,11 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
-import java.util.*;
-import java.util.function.IntFunction;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.matl114.logitech.core.CustomSlimefunItem;
 import me.matl114.logitech.manager.Schedules;
 import me.matl114.logitech.utils.Algorithms.DynamicArray;
 import me.matl114.logitech.utils.UtilClass.ItemClass.*;
-import me.matl114.matlib.core.EnvironmentManager;
+import me.matl114.matlib.utils.version.VersionedMeta;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
@@ -23,86 +19,36 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
 import org.bukkit.potion.PotionEffectType;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.function.IntFunction;
+
 @SuppressWarnings("all")
 public class CraftUtils {
     public static final EnumSet<Material> COMPLEX_MATERIALS = EnumSet.noneOf(Material.class);
+
+    private static final HashSet<Material> INDISTINGUISHABLE_MATERIALS = new HashSet<Material>();
 
     static {
         ItemMeta sampleMeta = new ItemStack(Material.STONE).getItemMeta();
         for (Material mat : Material.values()) {
             if (mat.isItem() && !mat.isAir()) {
                 ItemMeta testMeta = new ItemStack(mat).getItemMeta();
-                if (testMeta != null && testMeta.getClass() != sampleMeta.getClass()) {
-                    COMPLEX_MATERIALS.add(mat);
+                if (testMeta != null) {
+                    if (testMeta.getClass() != sampleMeta.getClass()) {
+                        COMPLEX_MATERIALS.add(mat);
+                    }
+                    if (testMeta instanceof BundleMeta bundle) {
+                        INDISTINGUISHABLE_MATERIALS.add(mat);
+                    }
                 }
             }
         }
     }
 
-    private static final HashSet<Material> INDISTINGUISHABLE_MATERIALS = new HashSet<Material>() {
-        {
-            // add(Material.SHULKER_BOX);
-            add(Material.BUNDLE);
-        }
-    };
-    //    public static final ItemStack DEFAULT_ITEMSTACK=new ItemStack(Material.STONE);
-    //    public static final ItemMeta NULL_META=(DEFAULT_ITEMSTACK.getItemMeta());
-    //    public static final Class CRAFTMETAITEMCLASS=NULL_META.getClass();
-    //    // public static final Class ITEMSTACKCLASS=ItemStack.class;
-    //    public static Class CRAFTITEMSTACKCLASS;
-    //    public static ItemStack CRAFTITEMSTACK;
-    //    public static FieldAccess loreAccess;
-    //    public static FieldAccess displayNameAccess;
-    //    public static FieldAccess handledAccess;
-    //    // public static Field CRAFTHANDLER;
-    //    public static Class NMSITEMCLASS;
-    // public static Field ITEMSTACKMETA;
-
-    //    static{
-    //        Debug.logger("初始化配方合成方法库");
-    //        try{
-    //            var CRAFTLORE=CRAFTMETAITEMCLASS.getDeclaredField("lore");
-    //            CRAFTLORE.setAccessible(true);
-    //            loreAccess= FieldAccess.of(CRAFTLORE);
-    //            var CRAFTDISPLAYNAME=CRAFTMETAITEMCLASS.getDeclaredField("displayName");
-    //            CRAFTDISPLAYNAME.setAccessible(true);
-    //            displayNameAccess=FieldAccess.of(CRAFTDISPLAYNAME);
-    //
-    //        }catch (Throwable e){
-    //            Debug.logger("Stack reflection failed,please check the error");
-    //            Debug.logger(e);
-    //            Debug.logger("disabling the relavent features");
-    //
-    //        }
-    //        try{
-    //            ChestMenu a=new ChestMenu("byd");
-    //            a.addItem(0,DEFAULT_ITEMSTACK);
-    //            CRAFTITEMSTACK=a.getItemInSlot(0);
-    //            CRAFTITEMSTACKCLASS=CRAFTITEMSTACK.getClass();
-    //            var CRAFTHANDLER=CRAFTITEMSTACKCLASS.getDeclaredField("handle");
-    //            CRAFTHANDLER.setAccessible(true);
-    //            handledAccess=FieldAccess.of(CRAFTHANDLER);
-    //
-    //            Object handle=CRAFTHANDLER.get(CRAFTITEMSTACK);
-    //            //Debug.debug(handle.getClass());
-    //            NMSITEMCLASS=handle.getClass();
-    //            //CRAFTMETA=NMSITEMCLASS.getDeclaredField("meta");
-    ////            Field[] fields= NMSITEMCLASS.getDeclaredFields();
-    ////            for(int i=0;i<fields.length;++i){
-    ////            }
-    //            //ITEMSTACKMETA=DEFAULT_ITEMSTACK.getClass().getDeclaredField("meta");
-    //            //ITEMSTACKMETA.setAccessible(true);
-    //            //INVOKE_STACK_SUCCESS=true;
-    //            // INVOKE_STACK_SUCCESS=false;
-    //        }catch (Throwable e){
-    //            Debug.logger("Stack reflection failed,please check the error");
-    //            Debug.logger(e);
-    //            Debug.logger("disabling the relavent features");
-    //
-    //        }
-    //    }
     public static void setup() {
-        me.matl114.matlib.utils.CraftUtils.NULL_META.getPersistentDataContainer();
+
     }
 
     /**
@@ -113,13 +59,6 @@ public class CraftUtils {
      */
     public static boolean sameCraftItem(ItemStack a, ItemStack b) {
         return me.matl114.matlib.utils.CraftUtils.sameCraftItem(a, b);
-        //        if(CRAFTITEMSTACKCLASS.isInstance(a)&&CRAFTITEMSTACKCLASS.isInstance(b)){
-        //            try{
-        //                return  handledAccess.getValue(a)==handledAccess.getValue(b);
-        //            }catch (Throwable e){
-        //                return false;
-        //            }
-        //        }else return false;
     }
 
     @Nullable public static String parseSfId(ItemStack item) {
@@ -1886,7 +1825,7 @@ public class CraftUtils {
             return false;
         }
         if (COMPLEX_MATERIALS.contains(material)) {
-            if (EnvironmentManager.getManager().getVersioned().differentSpecialMeta(meta1, meta2)) {
+            if (VersionedMeta.getInstance().differentSpecialMeta(meta1, meta2)) {
                 return false;
             }
         }
@@ -1985,7 +1924,7 @@ public class CraftUtils {
     //    private static Class CraftMetaBlockState;
 
     public static boolean matchBlockStateMetaField(BlockStateMeta meta1, BlockStateMeta meta2) {
-        return EnvironmentManager.getManager().getVersioned().matchBlockStateMeta(meta1, meta2);
+        return VersionedMeta.getInstance().matchBlockStateMeta(meta1, meta2);
         //        return blockEntityTagAccess.ofAccess(meta1).computeIf((b)->{
         //            return Objects.equals(b, blockEntityTagAccess.ofAccess(meta2).getRawOrDefault(()->null));
         //        },()->meta1.equals(meta2));

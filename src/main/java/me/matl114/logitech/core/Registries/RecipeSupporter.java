@@ -31,8 +31,8 @@ import me.matl114.logitech.utils.Algorithms.PairList;
 import me.matl114.logitech.utils.UtilClass.ItemClass.ProbItemStack;
 import me.matl114.logitech.utils.UtilClass.RecipeClass.ImportRecipes;
 import me.matl114.logitech.utils.UtilClass.RecipeClass.MGeneratorRecipe;
-import me.matl114.matlib.core.EnvironmentManager;
 import me.matl114.matlib.implement.slimefun.core.CustomRecipeType;
+import me.matl114.matlib.utils.version.VersionedRegistry;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.*;
@@ -1438,7 +1438,7 @@ public class RecipeSupporter {
                 put(EntityType.PIG, Utils.recipe("PORKCHOP"));
                 put(EntityType.COW, Utils.recipe("BEEF", "LEATHER"));
                 put(
-                        EnvironmentManager.getManager().getVersioned().getEntityType("mooshroom"),
+                        VersionedRegistry.getInstance().getEntityType("mooshroom"),
                         Utils.recipe(
                                 "BEEF",
                                 "LEATHER",
@@ -1485,7 +1485,7 @@ public class RecipeSupporter {
                         EntityType.SALMON,
                         Utils.recipe("SALMON", AddUtils.probItemStackFactory(AddUtils.resolveItem("BONE_MEAL"), 5)));
                 put(EntityType.SKELETON_HORSE, Utils.recipe("BONE"));
-                put(EnvironmentManager.getManager().getVersioned().getEntityType("snowman"), Utils.recipe("SNOWBALL"));
+                put(VersionedRegistry.getInstance().getEntityType("snowman"), Utils.recipe("SNOWBALL"));
                 put(EntityType.SQUID, Utils.recipe("INK_SAC"));
                 put(EntityType.STRIDER, Utils.recipe("STRING"));
                 put(

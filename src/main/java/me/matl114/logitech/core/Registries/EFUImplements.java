@@ -1,7 +1,7 @@
 package me.matl114.logitech.core.Registries;
 
-import static me.matl114.logitech.core.AddItem.*;
-import static me.matl114.logitech.utils.AddUtils.*;
+import static me.matl114.logitech.core.AddItem.LSINGULARITY;
+import static me.matl114.logitech.utils.AddUtils.getNameKey;
 import static org.bukkit.inventory.EquipmentSlot.*;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import lombok.Getter;
 import me.matl114.logitech.utils.CraftUtils;
 import me.matl114.logitech.utils.UtilClass.EquipClass.EquipmentFU;
 import me.matl114.matlib.algorithms.dataStructures.struct.Triplet;
-import me.matl114.matlib.core.EnvironmentManager;
+import me.matl114.matlib.utils.version.VersionedRegistry;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
@@ -125,8 +125,7 @@ public class EFUImplements {
             private float amplifier;
 
             public static LevelPotionEffectProvider of(Triplet<String, Integer, Float> t) {
-                PotionEffectType type =
-                        EnvironmentManager.getManager().getVersioned().getPotionEffectType(t.getA());
+                PotionEffectType type = VersionedRegistry.getInstance().getPotionEffectType(t.getA());
                 return new LevelPotionEffectProvider(type, t.getB(), t.getC());
             }
 

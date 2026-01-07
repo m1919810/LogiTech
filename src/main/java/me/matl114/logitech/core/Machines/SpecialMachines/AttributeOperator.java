@@ -18,7 +18,7 @@ import me.matl114.logitech.manager.Schedules;
 import me.matl114.logitech.utils.*;
 import me.matl114.logitech.utils.UtilClass.MenuClass.DataMenuClickHandler;
 import me.matl114.logitech.utils.UtilClass.MultiBlockClass.MultiBlockService;
-import me.matl114.matlib.core.EnvironmentManager;
+import me.matl114.matlib.utils.version.VersionedAttribute;
 import me.matl114.matlib.utils.version.VersionedRegistry;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
@@ -796,22 +796,22 @@ public class AttributeOperator extends SmithingInterface {
     }
 
     public boolean equalsIgnoreAmount(AttributeModifier it, AttributeModifier mod) {
-        boolean slots = EnvironmentManager.getManager().getVersioned().getAttributeModifierSlot(it) != null
-                ? EnvironmentManager.getManager().getVersioned().getAttributeModifierSlot(it)
-                        == EnvironmentManager.getManager().getVersioned().getAttributeModifierSlot(mod)
-                : EnvironmentManager.getManager().getVersioned().getAttributeModifierSlot(mod) == null;
+        boolean slots = VersionedAttribute.getInstance().getAttributeModifierSlot(it) != null
+                ? VersionedAttribute.getInstance().getAttributeModifierSlot(it)
+                        == VersionedAttribute.getInstance().getAttributeModifierSlot(mod)
+                : VersionedAttribute.getInstance().getAttributeModifierSlot(mod) == null;
         if (!slots) {
             return false;
         }
-        UUID uid = EnvironmentManager.getManager().getVersioned().getAttributeModifierUid(it);
+        UUID uid = VersionedAttribute.getInstance().getAttributeModifierUid(it);
         if (uid != null) {
-            if (!uid.equals(EnvironmentManager.getManager().getVersioned().getAttributeModifierUid(mod))) {
+            if (!uid.equals(VersionedAttribute.getInstance().getAttributeModifierUid(mod))) {
                 return false;
             }
         }
         return Objects.equals(
-                        EnvironmentManager.getManager().getVersioned().getAttributeModifierName(it),
-                        EnvironmentManager.getManager().getVersioned().getAttributeModifierName(mod))
+                        VersionedAttribute.getInstance().getAttributeModifierName(it),
+                        VersionedAttribute.getInstance().getAttributeModifierName(mod))
                 && it.getOperation() == mod.getOperation();
     }
 

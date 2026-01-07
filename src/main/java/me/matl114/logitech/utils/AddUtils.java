@@ -25,8 +25,8 @@ import me.matl114.logitech.utils.Algorithms.PairList;
 import me.matl114.logitech.utils.UtilClass.FunctionalClass.LoreDecorator;
 import me.matl114.logitech.utils.UtilClass.FunctionalClass.StringDecorator;
 import me.matl114.logitech.utils.UtilClass.ItemClass.*;
-import me.matl114.matlib.core.EnvironmentManager;
 import me.matl114.matlib.utils.inventory.itemStacks.CleanItemStack;
+import me.matl114.matlib.utils.version.VersionedRegistry;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -557,8 +557,7 @@ public class AddUtils {
                 return b;
             } catch (Exception e) {
                 try {
-                    ItemStack b = new ItemStack(
-                            EnvironmentManager.getManager().getVersioned().getMaterial(id));
+                    ItemStack b = new ItemStack(VersionedRegistry.getInstance().getMaterial(id));
                     if (cnt > 0 && cnt != b.getAmount()) {
                         b.setAmount(cnt);
                     }

@@ -8,7 +8,10 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import me.matl114.logitech.core.AddSlimefunItems;
@@ -16,7 +19,10 @@ import me.matl114.logitech.core.Interface.LogiTechChargable;
 import me.matl114.logitech.core.Interface.MenuTogglableBlock;
 import me.matl114.logitech.core.Items.SpecialItems.PlayerIdCard;
 import me.matl114.logitech.manager.Schedules;
-import me.matl114.logitech.utils.*;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.DataCache;
+import me.matl114.logitech.utils.MathUtils;
+import me.matl114.logitech.utils.Settings;
 import me.matl114.logitech.utils.UtilClass.MenuClass.DataMenuClickHandler;
 import me.matl114.matlib.algorithms.dataStructures.struct.Pair;
 import me.matl114.matlib.utils.inventory.itemStacks.CleanItemStack;
@@ -84,6 +90,7 @@ public class SmithInterfaceCharger extends SmithingInterface implements MenuTogg
             "&73.将绑定了玩家的玩家ID卡插入右侧槽位,会对玩家进行远程充电",
             "&7机器会尽可能尝试保证自身加载(暂未实现)",
             "&a向锻铸工坊插入对应增幅组件可以提升充电台的相应功能");
+    // todo: 这个显示正确数值
     protected final ItemStack[] DISPLAY_CHARGE_LEVEL = {
         new CleanItemStack(Material.RED_STAINED_GLASS_PANE, "&6电力显示: &c不足20%"),
         new CleanItemStack(Material.YELLOW_STAINED_GLASS_PANE, "&6电力显示: &e20%~40%"),

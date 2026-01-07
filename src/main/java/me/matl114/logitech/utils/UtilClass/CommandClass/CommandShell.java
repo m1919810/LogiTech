@@ -3,7 +3,8 @@ package me.matl114.logitech.utils.UtilClass.CommandClass;
 import com.google.common.base.Preconditions;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -593,6 +594,7 @@ public class CommandShell {
 
         public int cmd(String[] argv, CommandShell shell) {
             boolean flag = Boolean.parseBoolean(argv[1]);
+
             switch (argv[0]) {
                 case "Async":
                     shell.async = flag;

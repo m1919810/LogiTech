@@ -17,8 +17,8 @@ import me.matl114.logitech.listeners.Events.AttackPermissionTestEvent;
 import me.matl114.logitech.manager.Schedules;
 import me.matl114.logitech.utils.UtilClass.ItemClass.ItemConsumer;
 import me.matl114.logitech.utils.UtilClass.ItemClass.ItemPusher;
-import me.matl114.matlib.core.EnvironmentManager;
 import me.matl114.matlib.utils.reflect.wrapper.FieldAccess;
+import me.matl114.matlib.utils.version.VersionedWorld;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -1571,6 +1571,6 @@ public class WorldUtils {
     }
 
     public static boolean copyBlockState(BlockState state, Block block2) {
-        return EnvironmentManager.getManager().getVersioned().copyBlockStateTo(state, block2) != null;
+        return VersionedWorld.getInstance().copyBlockStateTo(state, block2) != null;
     }
 }

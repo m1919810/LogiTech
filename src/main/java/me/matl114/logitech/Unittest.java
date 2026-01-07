@@ -90,4 +90,8 @@ public class Unittest {
     // todo 时运怎么办
     // todo 更多的发电机 核电 存电设备 感应电场
 
+    // todo: 发电机多方块设备 产出 逻辑核心 虚拟世界等
+    // todo: 锻造工坊体系
+
+    // todo 纸箱子
 }

@@ -6,15 +6,14 @@ import java.util.Arrays;
 import java.util.List;
 import me.matl114.logitech.core.Interface.LogiTechChargable;
 import me.matl114.logitech.utils.AddUtils;
-import me.matl114.logitech.utils.CraftUtils;
 import me.matl114.logitech.utils.Debug;
 import me.matl114.logitech.utils.UtilClass.TestItemStack;
 import me.matl114.logitech.utils.WorldUtils;
-import me.matl114.matlib.core.EnvironmentManager;
 import me.matl114.matlib.utils.command.commandGroup.AbstractMainCommand;
 import me.matl114.matlib.utils.command.commandGroup.SubCommand;
 import me.matl114.matlib.utils.command.params.SimpleCommandArgs;
 import me.matl114.matlib.utils.reflect.wrapper.FieldAccess;
+import me.matl114.matlib.utils.version.VersionedWorld;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import net.guizhanss.guizhanlib.minecraft.helper.potion.PotionEffectTypeHelper;
 import net.md_5.bungee.api.ChatColor;
@@ -152,13 +151,7 @@ public class LogitechMain extends AbstractMainCommand {
         Block b2 = world.getBlockAt(0, 1, 0);
         Debug.logger(b.getState(false));
         WorldUtils.copyBlockState(b.getState(false), b2);
-        EnvironmentManager.getManager().getVersioned().copyBlockStateTo(b.getState(false), b2);
-    }
-
-    private void test2() {
-        Debug.logger(CraftUtils.COMPLEX_MATERIALS);
-        Debug.logger(WorldUtils.LOOTTABLES_TYPES);
-        Debug.logger(EnvironmentManager.getManager().getVersioned());
+        VersionedWorld.getInstance().copyBlockStateTo(b.getState(false), b2);
     }
 
     private FieldAccess delegateAccess = FieldAccess.ofName(ItemStack.class, "craftDelegate");

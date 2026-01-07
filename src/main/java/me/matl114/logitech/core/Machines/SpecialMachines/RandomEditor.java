@@ -9,15 +9,19 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import java.util.*;
+import java.util.Collection;
+import java.util.Locale;
+import java.util.Random;
+import java.util.UUID;
 import javax.annotation.Nullable;
 import me.matl114.logitech.core.Blocks.Laser;
 import me.matl114.logitech.core.Blocks.MultiBlock.FinalAltarCore;
 import me.matl114.logitech.core.Machines.Abstracts.AbstractMachine;
 import me.matl114.logitech.core.Registries.FinalFeature;
 import me.matl114.logitech.manager.PostSetupTasks;
-import me.matl114.logitech.utils.*;
-import me.matl114.matlib.core.EnvironmentManager;
+import me.matl114.logitech.utils.AddUtils;
+import me.matl114.logitech.utils.Utils;
+import me.matl114.matlib.utils.version.VersionedAttribute;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
@@ -94,8 +98,7 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
                 for (var slot : new EquipmentSlot[] {EquipmentSlot.HAND, EquipmentSlot.OFF_HAND})
                     meta.addAttributeModifier(
                             attribute,
-                            EnvironmentManager.getManager()
-                                    .getVersioned()
+                            VersionedAttribute.getInstance()
                                     .createAttributeModifier(
                                             UUID.randomUUID(),
                                             AddUtils.concat(
@@ -232,9 +235,8 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
             boolean hasFind = false;
             if (modifiers != null) {
                 for (AttributeModifier mod : modifiers) {
-                    if (EnvironmentManager.getManager().getVersioned().getAttributeModifierSlot(mod) == slot
-                            && EnvironmentManager.getManager()
-                                    .getVersioned()
+                    if (VersionedAttribute.getInstance().getAttributeModifierSlot(mod) == slot
+                            && VersionedAttribute.getInstance()
                                     .getAttributeModifierName(mod)
                                     .startsWith(PREFIX)) {
                         hasFind = true;
@@ -242,8 +244,7 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
                         if (amount >= MAX_ATTRIBUTE) {
                             break;
                         }
-                        if (EnvironmentManager.getManager()
-                                .getVersioned()
+                        if (VersionedAttribute.getInstance()
                                 .setAttributeModifierValue(mod, Math.min(mod.getAmount() + upgrade, MAX_ATTRIBUTE))) {
                             break;
                         }
@@ -251,12 +252,9 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
                         meta.removeAttributeModifier(att, mod);
                         meta.addAttributeModifier(
                                 att,
-                                EnvironmentManager.getManager()
-                                        .getVersioned()
+                                VersionedAttribute.getInstance()
                                         .createAttributeModifier(
-                                                EnvironmentManager.getManager()
-                                                        .getVersioned()
-                                                        .getAttributeModifierUid(mod),
+                                                VersionedAttribute.getInstance().getAttributeModifierUid(mod),
                                                 AddUtils.concat(
                                                         PREFIX,
                                                         "_",
@@ -273,8 +271,7 @@ public class RandomEditor extends AbstractMachine implements FinalAltarCore.Fina
             if (!hasFind) {
                 meta.addAttributeModifier(
                         att,
-                        EnvironmentManager.getManager()
-                                .getVersioned()
+                        VersionedAttribute.getInstance()
                                 .createAttributeModifier(
                                         UUID.randomUUID(),
                                         AddUtils.concat(

@@ -1,6 +1,13 @@
 package me.matl114.logitech.manager;
 
 import com.google.common.base.Preconditions;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import javax.annotation.Nonnull;
 import lombok.Getter;
 import me.matl114.logitech.MyAddon;
 import me.matl114.logitech.core.Interface.LogiTechChargable;
@@ -27,14 +34,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-
-import javax.annotation.Nonnull;
-import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class EquipmentFUManager implements Manager, Listener {
     private Plugin plugin;
